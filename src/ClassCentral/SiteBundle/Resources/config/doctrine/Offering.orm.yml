@@ -35,6 +35,7 @@ ClassCentral\SiteBundle\Entity\Offering:
       column: video_intro  
     length:
       type: integer
+      nullable: true
   manyToOne:
     course:
       targetEntity: Course
