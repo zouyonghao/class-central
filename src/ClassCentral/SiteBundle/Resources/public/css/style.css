@@ -14,3 +14,7 @@ div.addthis_toolbox addthis_default_style {
 #addThisButton{
      margin-top: 10px;
 }
+
+.external{
+    padding-right: 5px;    
+}

@@ -21,7 +21,7 @@
                 </a>              
                 {% endif %}
             </td>
-            <td><a href="{{ offering.getUrl() }}">{{ offering.getCourse().getName()}}</a></td>
+            <td><a href="{{ offering.getUrl() }}" target="_blank" title="{{ offering.getCourse().getName()}}"><img src="{{ asset('bundles/classcentralsite/images/external.png') }}" class="external"/>{{ offering.getCourse().getName()}}</a></td>
            
             <td>
                     {% set i = 0 %}   
