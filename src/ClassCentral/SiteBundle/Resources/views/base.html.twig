@@ -55,9 +55,9 @@
         <div class="topbar">
             <div class="fill">
                 <div class="container">
-                    <a class="brand" href="#">Class Central</a>
+                    <a class="brand" href="{{ path('ClassCentralSiteBundle_homepage')}}">Class Central</a>
                     <ul class="nav">
-                        <li class="active"><a href="#">Home</a></li>           
+                        <li class="active"><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li>                           
                     </ul>
                     {% if home is defined %}
                     <ul class="nav secondary-nav">
