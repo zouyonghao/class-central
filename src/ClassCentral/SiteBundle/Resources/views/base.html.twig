@@ -58,6 +58,7 @@
                     <a class="brand" href="{{ path('ClassCentralSiteBundle_homepage')}}">Class Central</a>
                     <ul class="nav">
                         <li class="active"><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li>                           
+                        <li><a href="https://plus.google.com/107809899089663019971/" target="_blank">News</a></li>
                     </ul>
                     {% if home is defined %}
                     <ul class="nav secondary-nav">
@@ -65,7 +66,7 @@
                             <div id='addThisButton'>
                                 <!-- AddThis Button BEGIN -->
                                 <div class="addthis_toolbox addthis_default_style ">
-                                    <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+                                    <a class="addthis_button_facebook_like" fb:like:layout="button_count" fb:like:action="recommend"></a>
                                     <a class="addthis_button_tweet"></a>
                                     <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
                                 </div>
