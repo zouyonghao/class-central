@@ -18,3 +18,8 @@ div.addthis_toolbox addthis_default_style {
 .external{
     padding-right: 5px;    
 }
+
+.logo{
+    margin-right: 15px;
+    float: left;
+}
