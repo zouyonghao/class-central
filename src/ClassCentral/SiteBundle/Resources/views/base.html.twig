@@ -33,7 +33,7 @@
         </script>
 
 
-        {% if app.environment == 'prod' and home is defined %}
+        {% if app.environment == 'prod' and page is defined %}
         <!-- Including google analytics. The parameter ganalytics_id must be set in parameters.ini -->
         <script type="text/javascript">
 
@@ -53,46 +53,24 @@
     </head>
 
     <body>        
-        <div class="topbar">
-            <div class="fill">
-                <div class="container">
-                    <a class="brand" href="{{ path('ClassCentralSiteBundle_homepage')}}">Class Central</a>
-                    <ul class="nav">
-                        <li class="active"><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li>                           
-                        <li><a href="https://plus.google.com/107809899089663019971/" target="_blank">News</a></li>
-                    </ul>
-                    {% if home is defined %}
-                    <ul class="nav secondary-nav">
-                        <li>
-                            <div id='addThisButton'>
-                                <!-- AddThis Button BEGIN -->
-                                <div class="addthis_toolbox addthis_default_style ">
-                                    <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-                                    <a class="addthis_button_tweet"></a>
-                                    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-                                </div>
-                                <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid={{ addthis_pubid }}"></script>
-                                <!-- AddThis Button END -->
-                            </div>                          
-                        </li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        {% include 'ClassCentralSiteBundle:Helpers:navbar.html.twig' %}
 
         <div class="container">
 
             {%  block content %}   
-            <hr /><hr />
+            <br /><br />
             {% endblock %}  
             <footer>
                 {% block footer %}
-                <p><a href="mailto:contact@class-central.com">contact@class-central.com</a> |                                        
-                    <a href="https://github.com/dhawalhshah/class-central"
-                       class="gitforked-button gitforked-forks gitforked-watchers">Fork</a>
-
-                </p>
+                    
+                    <p><a href="mailto:contact@class-central.com">contact@class-central.com</a>                                        
+                        {% if app.environment == 'prod' and page is defined %}
+                         | 
+                        <a href="https://github.com/dhawalhshah/class-central"
+                           class="gitforked-button gitforked-forks gitforked-watchers">Fork</a>
+                         {% endif %}
+                    </p>
+                    
                 {% endblock %}
             </footer>
 

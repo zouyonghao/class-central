@@ -34,7 +34,11 @@ class DefaultController extends Controller {
         $stats['courses'] = $this->getDoctrine()->getEntityManager()->createQuery('SELECT COUNT(c.id) FROM ClassCentralSiteBundle:Course c')->getSingleScalarResult();
         $stats['instructors'] = $this->getDoctrine()->getEntityManager()->createQuery('SELECT COUNT(i.id) FROM ClassCentralSiteBundle:Instructor i')->getSingleScalarResult();
                 
-        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array('ongoing' => $ongoing,'upcoming'=>$upcoming, 'stats' => $stats,'home'=>true));
+        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array('ongoing' => $ongoing,'upcoming'=>$upcoming, 'stats' => $stats,'page'=>'home'));
+    }
+    
+    public function faqAction(){
+        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page'=>'faq'));
     }
 
 }

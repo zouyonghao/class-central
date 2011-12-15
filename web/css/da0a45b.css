@@ -2650,9 +2650,28 @@ div.addthis_toolbox addthis_default_style {
 }
 
 #addThisButton{
-     margin-top: 10px;
+    margin-top: 10px;
 }
 
 .external{
     padding-right: 5px;    
+}
+
+.logo{
+    margin-right: 15px;
+    float: left;
+}
+
+/* FAQ Styles */
+.faq-qa-block{
+
+}
+
+.faq-question{
+    font-weight: bold;
+    padding: 10px 0px;
+}
+
+.faq-answer{
+    margin-left: 20px;
 }
