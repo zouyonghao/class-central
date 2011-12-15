@@ -38,7 +38,8 @@ class DefaultController extends Controller {
     }
     
     public function faqAction(){
-        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page'=>'faq'));
+        $page_title = "Class Central - Frequently Asked Questions";
+        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page'=>'faq','page_title'=>$page_title));
     }
 
 }
