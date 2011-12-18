@@ -9,7 +9,7 @@
               Class Central - Summary of Stanford's free online courses
             {% endif %}
         </title>
-        <meta name="description" content="Stanford is offering more than a dozen free online courses in fields like Computer Science, Anatomy, Medicine, Civil and Electrical engineering. Class Central provides a single page summary of all these courses."/>
+        <meta name="description" content="Summary of Standford's free online courses belonging to the following fields of study: Civil Engineering, Complex Systems, Computer Science, Electrical Engineering, Entrepreneurship and Medicine"/>
         <meta name="author" content="Dhawal Shah">
         <link rel="icon"  type="image/png" href="{{ asset('bundles/classcentralsite/images/icon.png') }}">
 
@@ -40,6 +40,9 @@
 
 
         {% if app.environment == 'prod' and page is defined %}
+        <!-- Facebook opengraph tag -->
+        {% include 'ClassCentralSiteBundle:Helpers:fb_opengraph.html.twig' %}
+        
         <!-- Including google analytics. The parameter ganalytics_id must be set in parameters.ini -->
         <script type="text/javascript">
 

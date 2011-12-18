@@ -23,6 +23,7 @@ twig:
     globals:
       addthis_pubid : %addthis_pubid%
       ganalytics_id : %ganalytics_id%
+      fb_admins     : %fb_admins%
 
 # Assetic Configuration
 assetic:
