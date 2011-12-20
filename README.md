@@ -8,3 +8,7 @@ Stanford has started offering a bunch of free online courses starting October 20
 * [Symfony 2](http://www.symfony.com)
 * [Doctrine](http://www.doctrine-project.org/)
 * [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+
+Extras
+------
+The [extras](https://github.com/dhawalhshah/class-central/tree/master/extras) folder in the repository contains the complete dump of the database as well as the schema. Everything you see on the site can be found in the dump.
