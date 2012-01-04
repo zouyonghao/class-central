@@ -3,8 +3,8 @@
         <div class="container">
             <a class="brand" href="{{ path('ClassCentralSiteBundle_homepage')}}">Class Central</a>
             <ul class="nav">
-                <li {% if page=='home' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li>                           
-                <li {% if page=='faq' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_faq')}}">FAQ</a></li>                           
+                <li {% if page is defined and page=='home' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li>                           
+                <li {% if page is defined and page=='faq' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_faq')}}">FAQ</a></li>                           
                 <li><a href="https://plus.google.com/{{plusPageUrl}}/" target="_blank">News</a></li>
             </ul>
             {% if app.environment == 'prod' and page is defined %}
