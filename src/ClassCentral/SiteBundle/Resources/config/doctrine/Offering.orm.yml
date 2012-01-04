@@ -39,6 +39,7 @@ ClassCentral\SiteBundle\Entity\Offering:
   manyToOne:
     course:
       targetEntity: Course
+      fetch: EAGER
       cascade: {  }
       mappedBy: null
       inversedBy: offerings      

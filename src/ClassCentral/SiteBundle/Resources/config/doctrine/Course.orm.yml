@@ -17,6 +17,7 @@ ClassCentral\SiteBundle\Entity\Course:
   manyToOne:
     stream:
       targetEntity: Stream
+      fetch: EAGER
       cascade: {  }      
       inversedBy: courses
       joinColumns:
@@ -26,7 +27,7 @@ ClassCentral\SiteBundle\Entity\Course:
   manyToMany:
     instructors:
       targetEntity: Instructor
-      inversedBy: courses
+      inversedBy: courses      
       joinTable: 
         name: courses_instructors 
         joinColumns:
