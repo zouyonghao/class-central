@@ -2,15 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">        
-        <title>
-            {% if page_title is defined %}
-                {{ page_title }}
-            {% else %}
-              Class Central - Summary of Stanford's free online courses
-            {% endif %}
-        </title>
-        <meta name="description" content="Summary of Standford's free online courses belonging to the following fields of study: Civil Engineering, Complex Systems, Computer Science, Electrical Engineering, Entrepreneurship and Medicine"/>
-        <meta name="author" content="Dhawal Shah">
+        
+        {%  block headmeta %}               
+        {% endblock %}  
+               
         <link rel="icon"  type="image/png" href="{{ asset('bundles/classcentralsite/images/icon.png') }}">
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
