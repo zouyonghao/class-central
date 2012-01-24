@@ -14,7 +14,8 @@ class Version20120119010131 extends AbstractMigration {
         // Create table universities
         $this->addSql("CREATE  TABLE IF NOT EXISTS universities (
                         id INT NOT NULL AUTO_INCREMENT ,
-                        name VARCHAR(255) NOT NULL ,
+                        name VARCHAR(255) NOT NULL , 
+                        url  TEXT NULL,
                          PRIMARY KEY (id) )
                          ENGINE = InnoDB;");
 
@@ -22,6 +23,8 @@ class Version20120119010131 extends AbstractMigration {
         $this->addSql("CREATE  TABLE IF NOT EXISTS initiatives (
                        id INT NOT NULL AUTO_INCREMENT ,
                        name VARCHAR(50) NOT NULL ,
+                       url  TEXT NULL,
+                       desc  TEXT NULL,
                         PRIMARY KEY (id) )
                         ENGINE = InnoDB;");
         
@@ -47,8 +50,9 @@ class Version20120119010131 extends AbstractMigration {
         // Add data to intiatives table
         $this->addSql("INSERT INTO initiatives(name) VALUES('Coursera'),('MITx'),('Udacity')");
         
-        // Set initiative to
+        // Set initiative ids for exisiting courses
         $this->addSql("UPDATE offerings SET initiative_id = (SELECT id FROM initiatives WHERE name='Coursera') WHERE url != 'https://www.ai-class.com/'");
+        $this->addSql("UPDATE offerings SET initiative_id = (SELECT id FROM initiatives WHERE name='Udacity') WHERE url = 'https://www.ai-class.com/'");
         
         
     }
