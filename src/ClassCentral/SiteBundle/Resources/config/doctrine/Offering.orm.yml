@@ -36,6 +36,10 @@ ClassCentral\SiteBundle\Entity\Offering:
     length:
       type: integer
       nullable: true
+    name:
+      type: string
+      length: 255
+      nullable: true
   manyToOne:
     course:
       targetEntity: Course
@@ -43,5 +47,12 @@ ClassCentral\SiteBundle\Entity\Offering:
       cascade: {  }
       mappedBy: null
       inversedBy: offerings      
+      orphanRemoval: false
+    initiative:
+      targetEntity: Initiative
+      fetch: EAGER
+      cascade: {}
+      mappedBy: null
+      inversedBy: offerings
       orphanRemoval: false
   lifecycleCallbacks: {  }

@@ -1,0 +1,25 @@
+ClassCentral\SiteBundle\Entity\University:
+  type: entity
+  table: universities
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: AUTO
+    name:
+      type: string
+      length: 255     
+      nullable: false
+    url:
+      type: string
+      nullable: true
+  oneToMany:
+    instructors:
+      targetEntity: Instructor
+      cascade: {}
+      mappedBy: instructor
+      inversiedBy: null
+      orphanRemoval: false

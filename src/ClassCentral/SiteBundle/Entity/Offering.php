@@ -44,25 +44,39 @@ class Offering {
      * @var ClassCentral\SiteBundle\Entity\Course
      */
     private $course;
-    
+
+    /**
+     * @var ClassCentral\SiteBundle\Entity\Initiative
+     */
+    private $initiative;
+
     /**
      *
      * @var string $url
      */
     private $url;
-    
-    
+
+    /**
+     * If this field is null then the course name will be displayed
+     * @var string $name
+     */
+    private $name;
+
     /**
      *
      * @var string $videoIntro
      */
     private $videoIntro;
-    
+
     /**
      * 
      * @var integer length
      */
     private $length;
+
+    public function __construct() {
+        $this->instructors = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -88,10 +102,10 @@ class Offering {
      * @return date 
      */
     public function getStartDate() {
-        return $this->startDate ;
+        return $this->startDate;
     }
-    
-    public function getStartTimestamp(){
+
+    public function getStartTimestamp() {
         return strval($this->startDate->getTimestamp());
     }
 
@@ -185,8 +199,34 @@ class Offering {
         return $this->course;
     }
 
-    public function __construct() {
-        $this->instructors = new ArrayCollection();
+    /**
+     * Set initiative
+     * 
+     * @param ClassCEntral\SiteBundle\Entitiy\Offering $offering
+     */
+    public function setInitiative(\ClassCentral\SiteBundle\Entitiy\Initiative $initiative) {
+        $this->initiative = $initiative;
+    }
+
+    /**
+     * Get Initative
+     * 
+     * @return ClassCentral\SiteBundle\Entity\Initiative
+     */
+    public function getInitiative() {
+        return $this->initiative;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function getName() {
+        if (empty($this->name)) {
+            $this->course->getName();
+        }
+        
+        return $this->name;
     }
 
     public function getFormattedStartDate() {
@@ -195,34 +235,32 @@ class Offering {
         } else {
             $format = 'M, Y';
         }
-        
+
         return $this->getStartDate()->format($format);
     }
-    
-    public function getUrl(){
-        return $this->url;        
+
+    public function getUrl() {
+        return $this->url;
     }
-    
-    public function setUrl($url){
+
+    public function setUrl($url) {
         $this->url = $url;
     }
-    
-    public function getVideoIntro(){
+
+    public function getVideoIntro() {
         return $this->videoIntro;
     }
-    
-    public function setVideoIntro($videoIntro){
+
+    public function setVideoIntro($videoIntro) {
         $this->videoIntro = $videoIntro;
     }
-    
-    public function getLength(){
-        return $this->length;                
+
+    public function getLength() {
+        return $this->length;
     }
-    
-    public function setLength($length){
+
+    public function setLength($length) {
         $this->length = $length;
     }
-    
-    
 
 }

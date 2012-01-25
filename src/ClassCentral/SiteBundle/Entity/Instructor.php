@@ -7,23 +7,22 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ClassCentral\SiteBundle\Entity\Instructor
  */
-class Instructor
-{
+class Instructor {
+
     /**
      * @var integer $id
      */
     private $id;
-
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
+
     /**
      * @var string $name
      */
@@ -33,20 +32,24 @@ class Instructor
      * @var string $homepage
      */
     private $homepage;
-    
     private $courses;
-    
-    
-    public function __construct() {        
+
+    /**
+     *
+     * @var ClassCentral\SiteBundle\Entity\University
+     */
+    private $university;
+
+    public function __construct() {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
     /**
      * Set name
      *
      * @param string $name
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
     }
 
@@ -55,8 +58,7 @@ class Instructor
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -65,8 +67,7 @@ class Instructor
      *
      * @param string $homepage
      */
-    public function setHomepage($homepage)
-    {
+    public function setHomepage($homepage) {
         $this->homepage = $homepage;
     }
 
@@ -75,18 +76,34 @@ class Instructor
      *
      * @return string 
      */
-    public function getHomepage()
-    {
+    public function getHomepage() {
         return $this->homepage;
     }
-    
-    public function getCourses(){
-        return $this->getCourses();                
+
+    public function getCourses() {
+        return $this->getCourses();
     }
-    
-     public function __toString() {
+
+    /**
+     * Set university
+     * 
+     * @param ClassCentral\SiteBundle\Entity\University $university
+     */
+    public function setUniversity(\ClassCentral\SiteBundle\Entity\University $university) {
+        $this->university = $university;
+    }
+
+    /**
+     * Get university
+     * 
+     * @return ClassCentral\SiteBundle\Entity\University
+     */
+    public function getUniversity() {
+        return $this->getUniversity;
+    }
+
+    public function __toString() {
         return $this->getName();
     }
-            
-    
+
 }

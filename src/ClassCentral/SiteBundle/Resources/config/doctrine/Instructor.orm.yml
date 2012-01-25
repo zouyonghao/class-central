@@ -20,5 +20,13 @@ ClassCentral\SiteBundle\Entity\Instructor:
   manyToMany:
     courses:
       targetEntity: Course
-      mappedBy: instructors           
+      mappedBy: instructors  
+  manyToOne:
+    university:
+      targetEntity: University
+      fetch: EAGER
+      cascade: {}
+      mappedBy: null
+      inversedBy: instructors
+      orphanRemoval: false  
   lifecycleCallbacks: {  }
