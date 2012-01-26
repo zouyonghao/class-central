@@ -19,6 +19,7 @@ class OfferingType extends AbstractType
             ->add('url')    
             ->add('videoIntro')    
             ->add('length')
+            ->add('instructors') 
         ;
     }
 

@@ -18,8 +18,8 @@ ClassCentral\SiteBundle\Entity\Instructor:
       type: text
       nullable: true  
   manyToMany:
-    courses:
-      targetEntity: Course
+    offerings:
+      targetEntity: Offering
       mappedBy: instructors  
   manyToOne:
     university:

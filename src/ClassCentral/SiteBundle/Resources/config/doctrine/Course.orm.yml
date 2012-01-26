@@ -23,19 +23,7 @@ ClassCentral\SiteBundle\Entity\Course:
       joinColumns:
         stream_id:
           referencedColumnName: id
-      orphanRemoval: false
-  manyToMany:
-    instructors:
-      targetEntity: Instructor
-      inversedBy: courses      
-      joinTable: 
-        name: courses_instructors 
-        joinColumns:
-          course_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          instructor_id:
-            referencedColumnName: id
+      orphanRemoval: false  
   oneToMany:
     offerings:
       targetEntity: Offering

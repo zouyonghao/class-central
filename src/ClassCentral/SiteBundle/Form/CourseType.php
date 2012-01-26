@@ -10,8 +10,7 @@ class CourseType extends AbstractType {
     public function buildForm(FormBuilder $builder, array $options) {
         $builder
             ->add('name')
-            ->add('stream')
-            ->add('instructors')    
+            ->add('stream')               
         ;
        
       

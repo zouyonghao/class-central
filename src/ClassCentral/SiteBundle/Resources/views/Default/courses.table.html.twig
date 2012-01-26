@@ -27,7 +27,7 @@
             
             <td>
                     {% set i = 0 %}   
-                    {% for instructor in offering.getCourse().getInstructors() %}
+                    {% for instructor in offering.getInstructors() %}
                     {% if i > 0 %}
                         <br />{{ instructor.getName() }}
                     {% else %}

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * ClassCentral\SiteBundle\Entity\Offering
  */
-class Offering {
+class Offering {   
 
     /**
      * @var integer $id
@@ -73,6 +73,9 @@ class Offering {
      * @var integer length
      */
     private $length;
+    
+    
+    private $instructors;
 
     public function __construct() {
         $this->instructors = new ArrayCollection();
@@ -222,7 +225,7 @@ class Offering {
     }
 
     public function getName() {
-        if (empty($this->name)) {
+        if (empty($this->name) && isset ($this->course)) {
             return $this->course->getName();
         }
         
@@ -262,5 +265,11 @@ class Offering {
     public function setLength($length) {
         $this->length = $length;
     }
+    
+
+    public function getInstructors() {
+        return $this->instructors;
+    }
+
 
 }

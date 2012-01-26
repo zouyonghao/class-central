@@ -32,7 +32,8 @@ class Instructor {
      * @var string $homepage
      */
     private $homepage;
-    private $courses;
+    
+    private $offerings;
 
     /**
      *
@@ -41,7 +42,7 @@ class Instructor {
     private $university;
 
     public function __construct() {
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -80,8 +81,8 @@ class Instructor {
         return $this->homepage;
     }
 
-    public function getCourses() {
-        return $this->getCourses();
+    public function getOfferings() {
+        return $this->offerings();
     }
 
     /**

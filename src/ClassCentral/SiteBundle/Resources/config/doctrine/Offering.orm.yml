@@ -55,4 +55,16 @@ ClassCentral\SiteBundle\Entity\Offering:
       mappedBy: null
       inversedBy: offerings
       orphanRemoval: false
+  manyToMany:
+    instructors:
+      targetEntity: Instructor
+      inversedBy: offerings      
+      joinTable: 
+        name: offerings_instructors 
+        joinColumns:
+          offering_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          instructor_id:
+            referencedColumnName: id
   lifecycleCallbacks: {  }

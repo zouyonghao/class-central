@@ -11,9 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Course {
 
     public function __construct() {
-
-        $this->offerings = new ArrayCollection();
-        $this->instructors = new ArrayCollection();
+        $this->offerings = new ArrayCollection();        
     }
 
     /**
@@ -128,13 +126,7 @@ class Course {
     public function getStream() {
         return $this->stream;
     }
-
-    private $instructors;
-
-    public function getInstructors() {
-        return $this->instructors;
-    }
-
+   
     public function getOfferings() {
         return $this->offerings;
     }
