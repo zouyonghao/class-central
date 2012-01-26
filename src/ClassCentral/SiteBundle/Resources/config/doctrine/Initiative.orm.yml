@@ -23,6 +23,10 @@ ClassCentral\SiteBundle\Entity\Initiative:
       type: string
       length: 20
       nullable: false
+    tooltip:
+      type: string
+      length: 255
+      nullable: true
   oneToMany:
      offerings:
        targetEntity: Offering

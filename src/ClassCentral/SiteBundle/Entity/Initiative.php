@@ -33,6 +33,12 @@ class Initiative
      * @var string $code
      */
     private $code;
+    
+    /**
+     * @var string $tooltip
+     */
+    private $tooltip;
+
 
     /**
      * @var ClassCentral\SiteBundle\Entity\Offering
@@ -152,5 +158,29 @@ class Initiative
     public function getOfferings()
     {
         return $this->offerings;
+    }
+    
+    public function __toString() {
+        return $this->getName();
+    }
+    
+    /**
+     * Set tooltip
+     *
+     * @param string $tooltip
+     */
+    public function setTooltip($tooltip)
+    {
+        $this->tooltip = $tooltip;
+    }
+
+    /**
+     * Get tooltip
+     *
+     * @return string 
+     */
+    public function getTooltip()
+    {
+        return $this->tooltip;
     }
 }

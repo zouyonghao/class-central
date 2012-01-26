@@ -25,6 +25,7 @@ class Version20120119010131 extends AbstractMigration {
                        name VARCHAR(50) NOT NULL ,
                        url  TEXT NULL ,
                        description TEXT NULL ,
+                       tooltip VARCHAR(255) NULL,
                        code VARCHAR(20) NOT NULL ,
                         PRIMARY KEY (id) )
                         ENGINE = InnoDB;");
@@ -49,10 +50,10 @@ class Version20120119010131 extends AbstractMigration {
                         ON UPDATE NO ACTION");
         
         // Add data to intiatives table
-        $this->addSql("INSERT INTO initiatives(name,url,code) 
-                       VALUES('Coursera', 'http://www.coursera.org','COURSERA'),
-                             ('MITx', 'http://mitx.mit.edu/', 'MITX'),
-                             ('Udacity','http://www.udacity.com/','UDACITY')");
+        $this->addSql("INSERT INTO initiatives(name,url,code,tooltip) 
+                       VALUES('Coursera', 'http://www.coursera.org','COURSERA','Coursera by Stanford University'),
+                             ('MITx', 'http://mitx.mit.edu/', 'MITX','MITX by MIT'),
+                             ('Udacity','http://www.udacity.com/','UDACITY','Udacity by Know Labs')");
         
         // Set initiative ids for exisiting courses
         $this->addSql("UPDATE offerings SET initiative_id = (SELECT id FROM initiatives WHERE code='COURSERA') WHERE url != 'https://www.ai-class.com/'");

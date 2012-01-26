@@ -204,7 +204,7 @@ class Offering {
      * 
      * @param ClassCEntral\SiteBundle\Entitiy\Offering $offering
      */
-    public function setInitiative(\ClassCentral\SiteBundle\Entitiy\Initiative $initiative) {
+    public function setInitiative(\ClassCentral\SiteBundle\Entity\Initiative $initiative) {
         $this->initiative = $initiative;
     }
 
@@ -223,7 +223,7 @@ class Offering {
 
     public function getName() {
         if (empty($this->name)) {
-            $this->course->getName();
+            return $this->course->getName();
         }
         
         return $this->name;
