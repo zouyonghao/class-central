@@ -2,12 +2,12 @@
     <thead>
         <tr>
              <th></th>
-            <th>Course Name</th>
-           
+            <th>Course Name</th>            
             <th>Instructor(s)</th>
             <th>Stream</th>
             <th>Start Date</th>	
             <th>Length</th>
+            <th>Initiative</th>
             
         </tr>
     </thead>
@@ -21,8 +21,10 @@
                 </a>              
                 {% endif %}
             </td>
-            <td><a href="{{ offering.getUrl() }}" target="_blank" title="{{ offering.getCourse().getName()}}"><img src="{{ asset('bundles/classcentralsite/images/external.png') }}" class="external"/>{{ offering.getCourse().getName()}}</a></td>
-           
+            <td><a href="{{ offering.getUrl() }}" target="_blank" title="{{ offering.getCourse().getName()}}"><img src="{{ asset('bundles/classcentralsite/images/external.png') }}" class="external"/>{{ offering.getName()}}</a></td>
+            
+            
+            
             <td>
                     {% set i = 0 %}   
                     {% for instructor in offering.getCourse().getInstructors() %}
@@ -44,7 +46,7 @@
                     NA
                 {% endif %}
             </td>
-            
+            <td><a href="{{ offering.getInitiative.getUrl() }}" target="_blank" title="{{ offering.getInitiative().getTooltip() }}"><img src="{{ asset('bundles/classcentralsite/images/external.png') }}" /> {{ offering.getInitiative() }}</a></td>
         </tr>
         {% endfor %}
 
