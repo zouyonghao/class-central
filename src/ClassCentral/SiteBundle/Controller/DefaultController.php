@@ -9,10 +9,12 @@ class DefaultController extends Controller {
 
     public function indexAction() {
 
-        $now = new \DateTime;   
-        
+        $now = new \DateTime;
+
+        $em = $this->getDoctrine()->getEntityManager();
+
         // Ongoing
-        $query = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
+        $query = $em->createQueryBuilder();
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
                 ->add('where', 'o.startDate < :datetime')
@@ -20,9 +22,9 @@ class DefaultController extends Controller {
         ;
         $ongoing = $query->getQuery()->getResult();
 
-        
+
         // Upcoming
-        $query = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
+        $query = $em->createQueryBuilder();
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
                 ->add('where', 'o.startDate > :datetime')
@@ -31,14 +33,25 @@ class DefaultController extends Controller {
         $upcoming = $query->getQuery()->getResult();
 
         // Get some stats
-        $stats['courses'] = $this->getDoctrine()->getEntityManager()->createQuery('SELECT COUNT(c.id) FROM ClassCentralSiteBundle:Course c')->getSingleScalarResult();
-        $stats['instructors'] = $this->getDoctrine()->getEntityManager()->createQuery('SELECT COUNT(i.id) FROM ClassCentralSiteBundle:Instructor i')->getSingleScalarResult();
+        $stats['courses'] = $em->createQuery('SELECT COUNT(c.id) FROM ClassCentralSiteBundle:Course c')->getSingleScalarResult();
+        $stats['instructors'] = $em->createQuery('SELECT COUNT(i.id) FROM ClassCentralSiteBundle:Instructor i')->getSingleScalarResult();
+
+        // Get course counts by initiative
+        $initiatives = $em->createQueryBuilder()->addSelect('ini.name, count(o) AS offerings')
+                        ->from('ClassCentralSiteBundle:Initiative', 'ini')
+                        ->leftjoin('ini.offerings', 'o')
+                        ->where('o.startDate > :datetime')
+                        ->addGroupBy('ini.id')
+                        ->setParameter('datetime', $now->format("Y-m-d"))
+                        ->getQuery()->getArrayResult();   
                 
-        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array('ongoing' => $ongoing,'upcoming'=>$upcoming, 'stats' => $stats,'page'=>'home'));
+
+        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', 
+                            array('ongoing' => $ongoing, 'upcoming' => $upcoming, 'stats' => $stats, 'page' => 'home', 'initiatives' => $initiatives));
     }
-    
-    public function faqAction(){       
-        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page'=>'faq'));
+
+    public function faqAction() {
+        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
     }
 
 }

@@ -35,10 +35,11 @@
      <h1>Class Central</h1>
      <p>Summary of free online courses from Stanford's <a href="http://www.coursera.org" target="_blank" title="Coursera by Stanford University"/>Coursera</a>, MIT's <a href="http://mitx.mit.edu/" target="_blank" title="MITx by MIT">MITx</a>, and <a href="http://www.udacity.com/	" target="_blank" title="Udacity by Know Labs">Udacity</a></p>    
         <p>
-            <span class="label notice">Quick Stats</span> <span class="label success">{{stats.courses }} Courses</span>  <span class="label success">{{stats.instructors }} Faculty/Instructors</span> 
-            
-        </p>
-        
+            <span class="label notice">Upcoming</span> 
+            {% for initiative in initiatives %}
+            <span class="label success">{{ initiative.offerings }} {{ initiative.name }} course(s)</span>
+            {% endfor %}                         
+        </p>        
     </div>       
 
 </div>
