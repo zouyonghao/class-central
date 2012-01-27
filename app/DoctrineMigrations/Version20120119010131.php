@@ -52,7 +52,7 @@ class Version20120119010131 extends AbstractMigration {
         // Add data to intiatives table
         $this->addSql("INSERT INTO initiatives(name,url,code,tooltip) 
                        VALUES('Coursera', 'http://www.coursera.org','COURSERA','Coursera by Stanford University'),
-                             ('MITx', 'http://mitx.mit.edu/', 'MITX','MITX by MIT'),
+                             ('MITx', 'http://mitx.mit.edu/', 'MITX','MITx by MIT'),
                              ('Udacity','http://www.udacity.com/','UDACITY','Udacity by Know Labs')");
         
         // Set initiative ids for exisiting courses
