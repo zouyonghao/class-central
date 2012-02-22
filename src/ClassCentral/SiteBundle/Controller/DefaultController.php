@@ -17,7 +17,7 @@ class DefaultController extends Controller {
         $query = $em->createQueryBuilder();
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
-                ->add('where', 'o.startDate < :datetime AND o.exactDatesKnow = 1')
+                ->add('where', 'o.startDate <= :datetime AND o.exactDatesKnow = 1')
                 ->setParameter('datetime', $now->format("Y-m-d"))
         ;
         $ongoing = $query->getQuery()->getResult();
