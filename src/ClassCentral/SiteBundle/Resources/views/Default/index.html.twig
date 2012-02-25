@@ -23,36 +23,43 @@
 
 {%  block content %}
 <div class="hero-unit">
-   
-    <div class="logo">               
-        <img src="{{ asset('bundles/classcentralsite/images/logo.png') }}" title="Class Central logo"/>  
-        <div style="text-align: center">
-           {% include 'ClassCentralSiteBundle:Helpers:social_buttons.html.twig' with{} %}
-        </div>
-    </div>  
-    
-    <div>
-     <h1>Class Central</h1>
-     <p>Summary of free online courses from Stanford's <a href="http://www.coursera.org" target="_blank" title="Coursera by Stanford University"/>Coursera</a>, MIT's <a href="http://mitx.mit.edu/" target="_blank" title="MITx by MIT">MITx</a>, and <a href="http://www.udacity.com/	" target="_blank" title="Udacity by Know Labs">Udacity</a></p>    
-        <p>
-            <span class="label notice">Upcoming</span> 
-            {% for initiative in initiatives %}
-            <span class="label success">{{ initiative.offerings }} {{ initiative.name }} course(s)</span>
-            {% endfor %}                         
-        </p>        
-    </div>       
+          <a href="#"><img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/></a>
+          <h1>A complete list of free online courses offered by Stanford's Coursera, MIT's MITx, and Udacity &nbsp;<a data-toggle="modal"  class="btn" href="#learnmore" style="font-weight:normal;">Learn more</a></h1>
+          
+          <ul class="nav nav-pills">             
+            <li><a href="#ongoing">Ongoing Courses (3)</a></li>
+            <li><a href="#upcoming">Upcoming Courses (18)</a></li>
+            <li><a href="#past">Finished Courses (3)</a></li>
+          </ul>
 
-</div>
+            <div class="news">
+                    <div class="row-fluid">
+                      <div class="span3">
+                        <p class="newstitle">Get the latest updates</p>
+                            {% include 'ClassCentralSiteBundle:Helpers:social_buttons.html.twig' with{} %}
+                      </div>
+                      <div class="span9">
+                        <ul class="newsitems nav nav-pills nav-stacked">
+                          <li>
+                              <a href="http://bit.ly/Aby2MK">Udacity platform goes live with CS 101: BUILDING A SEARCH ENGINE and CS 373: PROGRAMMING A ROBOTIC CAR!</a>
+                          </li>
+                          <li>
+                              <a href="http://bit.ly/zYXA7x">Coursera platform goes live with Model Thinking and Software Engineering for Software as a Service courses</a>
+                          </li>
+                      </div>
+                    </div>
+            </div>
+        </div>
 
     
 {% if ongoing|length > 0 %}
-    <h1>Ongoing courses ({{ ongoing|length }})</h1> 	  
+    <h1 class="tabletitle" >Ongoing courses ({{ ongoing|length }})</h1> 	  
     {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':ongoing,'tableId':'ongoing'} %}
 {% endif %}
-<h1>Upcoming courses ({{ upcoming|length }})</h1> 	  
+<h1 class="tabletitle">Upcoming courses ({{ upcoming|length }})</h1> 	  
 {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':upcoming, 'tableId':'upcoming'} %}
 
-<h1>Finished courses ({{ past|length }})</h1> 	  
+<h1 class="tabletitle">Finished courses ({{ past|length }})</h1> 	  
 {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':past,'tableId':'past'} %}
 
 
