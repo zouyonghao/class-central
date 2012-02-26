@@ -170,3 +170,8 @@ a.social4:hover {
 .classcentralfooter .social{
     padding-top: 6px;
 }
+
+.pp_default{
+    display: block;
+    position: absolute;
+}
