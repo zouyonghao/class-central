@@ -202,3 +202,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 /* Fix for tables not showing up in IE 8*/
 .table {background-color:#ffffff;}
+
+.introcolumn{
+    width: 40px;
+}
