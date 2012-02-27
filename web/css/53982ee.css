@@ -4269,3 +4269,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 .initiativelinks{ 
     color:#000000;
 }
+
+.coursenametd{
+    cursor: pointer;
+}
