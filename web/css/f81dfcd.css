@@ -4274,7 +4274,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     cursor: pointer;
 }
 /* Fix for tables not showing up in IE 8*/
-.table {background-color:#fffff;}
+.table {background-color:#ffffff;}
 div.pp_default .pp_top,div.pp_default .pp_top .pp_middle,div.pp_default .pp_top .pp_left,div.pp_default .pp_top .pp_right,div.pp_default .pp_bottom,div.pp_default .pp_bottom .pp_left,div.pp_default .pp_bottom .pp_middle,div.pp_default .pp_bottom .pp_right{height:13px}
 div.pp_default .pp_top .pp_left{background:url(/bundles/classcentralsite/slashpixel/prettyPhoto/images/default/sprite.png) -78px -93px no-repeat}
 div.pp_default .pp_top .pp_middle{background:url(/bundles/classcentralsite/slashpixel/prettyPhoto/images/default/sprite_x.png) top left repeat-x}
