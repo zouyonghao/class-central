@@ -1,7 +1,7 @@
 <table class="table table-striped table-bordered" id='{{ tableId}}list'>	 
     <thead>
         <tr>
-             <th></th>
+            <th>Intro</th>
             <th class="sorting">Course Name</th>            
             <th class="sorting">Instructor(s)</th>
             <th class="sorting">Stream</th>
@@ -21,7 +21,7 @@
                 </a>              
                 {% endif %}
             </td>
-            <td><a href="{{ offering.getUrl() }}" target="_blank" title="{{ offering.getCourse().getName()}}">{{ offering.getName()}}</a></td>
+            <td onclick="DoNav('{{ offering.getUrl() }}');"><a href="{{ offering.getUrl() }}" target="_blank" title="{{ offering.getCourse().getName()}}">{{ offering.getName()}}</a></td>
             
             
             
@@ -46,7 +46,7 @@
                     NA
                 {% endif %}
             </td>
-            <td><a href="{{ offering.getInitiative.getUrl() }}" target="_blank" title="{{ offering.getInitiative().getTooltip() }}"> {{ offering.getInitiative() }}</a></td>
+            <td><a href="{{ offering.getInitiative.getUrl() }}" target="_blank" class="initiativelinks" title="{{ offering.getInitiative().getTooltip() }}"> {{ offering.getInitiative() }}</a></td>
         </tr>
         {% endfor %}
 
