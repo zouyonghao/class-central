@@ -194,3 +194,5 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 .coursenametd{
     cursor: pointer;
 }
+/* Fix for tables not showing up in IE 8*/
+.table {background-color:#fffff;}
