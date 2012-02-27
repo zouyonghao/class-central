@@ -4091,8 +4091,13 @@ a.thumbnail:hover {
   opacity: .75; 
   filter:alpha(opacity=75);
   margin-top:40px;
-  padding:40px;
+  padding:40px;  
 }
+
+:root .hero-unit {
+ padding-bottom: 0px\9;
+}
+
 .hero-unit h1{
     font-family: 'Nixie One', cursive;
     color:#222222;
@@ -4159,7 +4164,7 @@ thead {
   margin:-40px;
   padding:20px 50px 10px 50px;
   margin-top:20px;
-  margin-bottom:-60px;
+  margin-bottom:-60px;  
 }
 p.newstitle {
   color: white;
