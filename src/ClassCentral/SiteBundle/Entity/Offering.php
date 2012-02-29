@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * ClassCentral\SiteBundle\Entity\Offering
  */
-class Offering {   
+class Offering {
 
     /**
      * @var integer $id
@@ -73,8 +73,15 @@ class Offering {
      * @var integer length
      */
     private $length;
-    
-    
+
+    /**
+     * This fields holds the status of the course. The values map as follows
+     * 0 - Exact dates not know. Should show something like NA
+     * 1 - Exact dates known
+     * 2 - Exact dates not known, but month is availaible
+     * @var status
+     */
+    private $status;
     private $instructors;
 
     public function __construct() {
@@ -225,21 +232,28 @@ class Offering {
     }
 
     public function getName() {
-        if (empty($this->name) && isset ($this->course)) {
+        if (empty($this->name) && isset($this->course)) {
             return $this->course->getName();
         }
-        
+
         return $this->name;
     }
 
-    public function getFormattedStartDate() {
-        if ($this->getExactDatesKnow()) {
-            $format = 'jS M, Y';
-        } else {
-            $format = 'M, Y';
+    public function getDisplayDate() {
+        switch ($this->status) {
+            case 0:
+                return "NA";
+                break;
+            case 1:
+                return $this->getStartDate()->format('jS M, Y');
+                break;
+            case 2:
+                return $this->getStartDate()->format('M, Y');
+                break;
+            default:
+                return '';
         }
-
-        return $this->getStartDate()->format($format);
+       
     }
 
     public function getUrl() {
@@ -265,11 +279,17 @@ class Offering {
     public function setLength($length) {
         $this->length = $length;
     }
-    
 
     public function getInstructors() {
         return $this->instructors;
     }
 
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
 
 }

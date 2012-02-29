@@ -40,6 +40,8 @@ ClassCentral\SiteBundle\Entity\Offering:
       type: string
       length: 255
       nullable: true
+    status:
+      type: integer
   manyToOne:
     course:
       targetEntity: Course

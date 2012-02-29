@@ -38,7 +38,7 @@
               
             </td>
             <td> {{ offering.getCourse().getStream().getName() }} </td>
-            <td data-timestamp="{{ offering.getStartTimestamp }}">{{ offering.getFormattedStartDate() }}</td>
+            <td data-timestamp="{{ offering.getStartTimestamp }}">{{ offering.getDisplayDate() }}</td>
             <td> 
                 {% if offering.getLength() is not null %}
                     {{ offering.getLength() }} weeks

@@ -12,7 +12,7 @@ class OfferingType extends AbstractType
         $builder
             ->add('startDate')
             ->add('endDate')
-            ->add('exactDatesKnow')
+            ->add('status','choice', array('choices'=>array('Start Date Unknown','Start Date Known', 'Start Month Known')))
             ->add('course',null,array('property'=>'name'))
             ->add('name')    
             ->add('initiative')    
