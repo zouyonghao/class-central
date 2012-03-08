@@ -8,11 +8,11 @@ use Symfony\Component\Form\FormBuilder;
 class OfferingType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
-    {
+    {               
         $builder
             ->add('startDate')
             ->add('endDate')
-            ->add('status','choice', array('choices'=>array('Start Date Unknown','Start Date Known', 'Start Month Known')))
+            ->add('status','choice', array('choices'=> \ClassCentral\SiteBundle\Entity\Offering::getStatuses() ))
             ->add('course',null,array('property'=>'name'))
             ->add('name')    
             ->add('initiative')    

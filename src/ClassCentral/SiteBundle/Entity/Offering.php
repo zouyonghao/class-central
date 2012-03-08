@@ -241,13 +241,13 @@ class Offering {
 
     public function getDisplayDate() {
         switch ($this->status) {
-            case 0:
+            case self::START_DATES_UNKNOWN:
                 return "NA";
                 break;
-            case 1:
+            case self::START_DATES_KNOWN:
                 return $this->getStartDate()->format('jS M, Y');
                 break;
-            case 2:
+            case self::START_MONTH_KNOW:
                 return $this->getStartDate()->format('M, Y');
                 break;
             default:
@@ -256,7 +256,7 @@ class Offering {
        
     }
 
-    public function getUrl() {
+    public function getUrl() {        
         return $this->url;
     }
 
@@ -290,6 +290,26 @@ class Offering {
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+
+    /**
+    * Value that the status for offering can take
+    *
+    */
+    const START_DATES_UNKNOWN = 0;
+    const START_DATES_KNOWN = 1;
+    const START_MONTH_KNOW = 2;
+  
+    /**
+    * Returns a list of statuses
+    * @return array
+    */
+    public static function getStatuses(){
+        return array(
+            self::START_DATES_UNKNOWN => 'Start Dates Unknown',
+            self::START_DATES_KNOWN => 'Start Dates Known',
+            self::START_MONTH_KNOW => 'Start Month Known'
+        );
     }
 
 }

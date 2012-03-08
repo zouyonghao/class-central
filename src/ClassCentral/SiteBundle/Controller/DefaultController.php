@@ -13,12 +13,14 @@ class DefaultController extends Controller {
         
         $em = $this->getDoctrine()->getEntityManager();
 
+        //$offering = new \ClassCentral\SiteBundle\Entity\Offering();
         // Ongoing
         $query = $em->createQueryBuilder();
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
-                ->add('where', 'o.startDate <= :datetime AND o.exactDatesKnow = 1')
+                ->add('where', 'o.startDate <= :datetime AND o.status = :status')
                 ->setParameter('datetime', $now->format("Y-m-d"))
+                ->setParameter('status',\ClassCentral\SiteBundle\Entity\Offering::START_DATES_KNOWN)
         ;
         $ongoing = $query->getQuery()->getResult();
         
