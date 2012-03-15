@@ -13,3 +13,7 @@ ClassCentralSiteBundle_course:
 ClassCentralSiteBundle_offering:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/offering.yml"
     prefix: /offering       
+
+ClassCentralSiteBundle_initiative:
+    resource: "@ClassCentralSiteBundle/Resources/config/routing/initiative.yml"
+    prefix: /initiative      
