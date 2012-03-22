@@ -46,7 +46,11 @@
                     NA
                 {% endif %}
             </td>
-            <td><a href="{{ offering.getInitiative.getUrl() }}" target="_blank" class="initiativelinks" title="{{ offering.getInitiative().getTooltip() }}"> {{ offering.getInitiative() }}</a></td>
+            <td>
+                {% if offering.getInitiative() is not null %}                
+            <a href="{{ offering.getInitiative.getUrl() }}" target="_blank" class="initiativelinks" title="{{ offering.getInitiative().getTooltip() }}"> {{ offering.getInitiative() }}</a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
 

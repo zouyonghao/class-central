@@ -57,6 +57,7 @@ ClassCentral\SiteBundle\Entity\Offering:
       mappedBy: null
       inversedBy: offerings
       orphanRemoval: false
+      nullable: true
   manyToMany:
     instructors:
       targetEntity: Instructor
@@ -69,4 +70,5 @@ ClassCentral\SiteBundle\Entity\Offering:
         inverseJoinColumns:
           instructor_id:
             referencedColumnName: id
+      nullable: true      
   lifecycleCallbacks: {  }

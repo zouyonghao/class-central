@@ -18,7 +18,7 @@ class DefaultController extends Controller {
         $query = $em->createQueryBuilder();
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
-                ->add('where', 'o.startDate <= :datetime AND o.status = :status')
+                ->add('where', 'o.startDate <= :datetime AND o.status = :status AND (o.endDate >= :datetime OR o.endDate IS NULL)' )
                 ->setParameter('datetime', $now->format("Y-m-d"))
                 ->setParameter('status',\ClassCentral\SiteBundle\Entity\Offering::START_DATES_KNOWN)
         ;

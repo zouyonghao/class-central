@@ -214,7 +214,7 @@ class Offering {
      * 
      * @param ClassCEntral\SiteBundle\Entitiy\Offering $offering
      */
-    public function setInitiative(\ClassCentral\SiteBundle\Entity\Initiative $initiative) {
+    public function setInitiative(\ClassCentral\SiteBundle\Entity\Initiative $initiative = null) {
         $this->initiative = $initiative;
     }
 
