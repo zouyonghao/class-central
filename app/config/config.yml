@@ -25,7 +25,7 @@ twig:
       ganalytics_id : %ganalytics_id%
       fb_admins     : %fb_admins%
       plusPageUrl   : %plusPageurl%
-
+      baseurl       : %baseurl%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
