@@ -19,6 +19,7 @@ class DefaultController extends Controller {
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
                 ->add('where', 'o.startDate <= :datetime AND o.status = :status AND (o.endDate >= :datetime OR o.endDate IS NULL)' )
+		->add('orderBy','o.startDate DESC')
                 ->setParameter('datetime', $now->format("Y-m-d"))
                 ->setParameter('status',\ClassCentral\SiteBundle\Entity\Offering::START_DATES_KNOWN)
         ;
@@ -38,6 +39,7 @@ class DefaultController extends Controller {
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
                 ->add('where', 'o.startDate > :datetime')
+		->add('orderBy','o.startDate')
                 ->setParameter('datetime', $now->format("Y-m-d"))
         ;
         $upcoming = $query->getQuery()->getResult();
