@@ -34,14 +34,14 @@
 {% endblock %}
    
  {% block headmeta %}               
-    <title>Class Central  •  A complete list of free online courses offered by Stanford's Coursera, MIT's MITx, and Udacity</title>
-    <meta name="description" content="Summary of free online courses from Stanford's Coursera, MIT's MITx, and Udacity"/>
+    <title>Class Central  •  A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity</title>
+    <meta name="description" content="Summary of free online courses from Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity"/>
  {% endblock %}  
 
 {%  block content %}
 <div class="hero-unit">
           <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/></a>
-          <h1>A complete list of free online courses offered by Stanford's Coursera, MIT's MITx, and Udacity</h1>
+          <h1>A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx + Harvardx), and Udacity</h1>
           
           <ul class="nav nav-pills">             
             <li><a href="#ongoing">Ongoing Courses ({{ ongoing|length }})</a></li>
