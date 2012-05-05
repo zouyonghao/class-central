@@ -73,5 +73,8 @@
 <h1 class="tabletitle" id="finished">Finished courses ({{ past|length }})</h1> 	  
 {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':past,'tableId':'past'} %}
 
+{# Include the learn more model box #}
+{% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{} %}
+
 
 {% endblock %}  
