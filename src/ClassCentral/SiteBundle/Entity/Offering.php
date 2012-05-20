@@ -79,6 +79,7 @@ class Offering {
      * 0 - Exact dates not know. Should show something like NA
      * 1 - Exact dates known
      * 2 - Exact dates not known, but month is availaible
+     * 3 - Course is unavailaible and should not be shown anywhere
      * @var status
      */
     private $status;
@@ -299,6 +300,7 @@ class Offering {
     const START_DATES_UNKNOWN = 0;
     const START_DATES_KNOWN = 1;
     const START_MONTH_KNOW = 2;
+    const COURSE_NA = 3;
   
     /**
     * Returns a list of statuses
@@ -308,7 +310,8 @@ class Offering {
         return array(
             self::START_DATES_UNKNOWN => 'Start Dates Unknown',
             self::START_DATES_KNOWN => 'Start Dates Known',
-            self::START_MONTH_KNOW => 'Start Month Known'
+            self::START_MONTH_KNOW => 'Start Month Known',
+            self::COURSE_NA => 'Course not available',
         );
     }
 
