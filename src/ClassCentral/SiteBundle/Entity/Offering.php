@@ -248,7 +248,7 @@ class Offering {
             case self::START_DATES_KNOWN:
                 return $this->getStartDate()->format('jS M, Y');
                 break;
-            case self::START_MONTH_KNOW:
+            case self::START_MONTH_KNOWN:
                 return $this->getStartDate()->format('M, Y');
                 break;
             default:
@@ -299,7 +299,7 @@ class Offering {
     */
     const START_DATES_UNKNOWN = 0;
     const START_DATES_KNOWN = 1;
-    const START_MONTH_KNOW = 2;
+    const START_MONTH_KNOWN = 2;
     const COURSE_NA = 3;
   
     /**
@@ -310,7 +310,7 @@ class Offering {
         return array(
             self::START_DATES_UNKNOWN => 'Start Dates Unknown',
             self::START_DATES_KNOWN => 'Start Dates Known',
-            self::START_MONTH_KNOW => 'Start Month Known',
+            self::START_MONTH_KNOWN => 'Start Month Known',
             self::COURSE_NA => 'Course not available',
         );
     }

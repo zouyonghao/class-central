@@ -1,5 +1,6 @@
 ClassCentral\SiteBundle\Entity\Offering:
   type: entity
+  repositoryClass: ClassCentral\SiteBundle\Repository\OfferingRepository
   table: offerings
   fields:
     id:
