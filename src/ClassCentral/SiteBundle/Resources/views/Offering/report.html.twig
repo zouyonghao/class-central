@@ -1,0 +1,10 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+
+{% block content %}
+    <h1 class="tabletitle" id="starting">Starting courses ({{ starting|length }})</h1> 	  
+    {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':starting,'tableId':'starting'} %}
+
+    <h1 class="tabletitle" id="ending">Ending courses ({{ ending|length }})</h1> 	  
+    {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':ending,'tableId':'ending'} %}
+{% endblock %}  

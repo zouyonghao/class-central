@@ -87,5 +87,44 @@ class OfferingRepository extends EntityRepository{
          return compact( "ongoing","past","upcoming", "recent");
         
     }
+    
+    /**
+     * Builds a list of courses starting or finishing in the current month
+     *
+     */
+    public function findAllInCurrentMonth()
+    {
+        $starting = array();
+        $finishing = array();
+        $now = new \DateTime;
+        $currentMonth = $now->format('m');
+        $em = $this->getEntityManager();
+
+        $query = $em->createQueryBuilder();
+        
+        $query->add('select', 'o')
+            ->add('from', 'ClassCentralSiteBundle:Offering o')
+            ->add('orderBy','o.startDate ASC')
+            ->add('where', 'o.status != :status' )
+            ->setParameter('status',Offering::COURSE_NA);
+
+        $allOfferings = $query->getQuery()->getResult(); 
+
+        foreach ( $allOfferings as $offering )
+        {
+            if ( $offering->getStartDate()->format('m') == $currentMonth )
+            {
+                $starting[] = $offering;
+            }
+         
+            if ( $offering->getEndDate() != null && $offering->getEndDate()->format('m') == $currentMonth )
+            {
+                $ending[] = $offering;
+            }
+        }
+
+        return compact( 'starting', 'ending');
+        
+    }
 }
 
