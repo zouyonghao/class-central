@@ -251,6 +251,8 @@ class Offering {
             case self::START_MONTH_KNOWN:
                 return $this->getStartDate()->format('M, Y');
                 break;
+            case self::COURSE_OPEN:
+                return "Open Enrollment";    
             default:
                 return '';
         }
@@ -301,6 +303,7 @@ class Offering {
     const START_DATES_KNOWN = 1;
     const START_MONTH_KNOWN = 2;
     const COURSE_NA = 3;
+    const COURSE_OPEN = 4; // Implies open registration
   
     /**
     * Returns a list of statuses
@@ -312,6 +315,7 @@ class Offering {
             self::START_DATES_KNOWN => 'Start Dates Known',
             self::START_MONTH_KNOWN => 'Start Month Known',
             self::COURSE_NA => 'Course not available',
+            self::COURSE_OPEN => 'Open Enrollment'
         );
     }
 

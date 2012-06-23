@@ -67,7 +67,7 @@ class OfferingRepository extends EntityRepository{
             }
 
             // Check if its in the past
-            if ( $endDate != null && $endDate < $now )
+            if ( $endDate != null && $endDate < $now && $offering->getStatus() != Offering::COURSE_OPEN )
             {
                 $past[] = $offering;
                 continue;
@@ -75,7 +75,7 @@ class OfferingRepository extends EntityRepository{
 
 
             // Check if it belongs to ongoing
-            if( $offering->getStatus() == Offering::START_DATES_KNOWN)
+            if( ($offering->getStatus() == Offering::START_DATES_KNOWN) || ($offering->getStatus() == Offering::COURSE_OPEN) )
             {
                 $ongoing[] = $offering;
             }
