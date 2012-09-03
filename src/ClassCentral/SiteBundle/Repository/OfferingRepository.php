@@ -126,5 +126,58 @@ class OfferingRepository extends EntityRepository{
         return compact( 'starting', 'ending');
         
     }
+    
+    /*
+     * Generates a list of courses that can be registered for in a particular month
+     *
+     * @month Number between 0 - 12. Defaults to currenth month
+     * @year Defaults to current year
+     */
+    public function courseReport( $month = null, $year = null )
+    {
+        $dt = new \DateTime;
+        if(!$month)
+        {
+            $month = $dt->format('m');
+        }
+        if(!$year)
+        {
+            $year = $dt->format('Y');
+        }
+        
+        $allOfferings = $this->getAllCourses();
+
+        // filter the courses
+        $offerings = array();
+        foreach($allOfferings as $offering)
+        {
+            if( $offering->getStatus() == Offering::COURSE_OPEN)
+            {
+                $offerings[] = $offering;
+                continue;
+            }
+            $startDate = $offering->getStartDate();
+            if ( $startDate->format('m') == $month && $startDate->format('Y') == $year)
+            {
+                $offerings[] = $offering;
+            }
+        }
+
+        return $offerings;
+    }
+
+    public function getAllCourses()
+    {
+        $query = $this->getEntityManager()->createQueryBuilder();
+
+        $query->add('select', 'o')
+            ->add('from', 'ClassCentralSiteBundle:Offering o')
+            ->add('orderBy','o.startDate ASC')
+            ->add('where', 'o.status != :status' )
+            ->setParameter('status',Offering::COURSE_NA);
+
+        return  $query->getQuery()->getResult(); 
+
+    }
 }
 
