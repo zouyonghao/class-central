@@ -78,6 +78,7 @@ class OfferingController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {                      
+            $entity->setCreated(new \DateTime);
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();

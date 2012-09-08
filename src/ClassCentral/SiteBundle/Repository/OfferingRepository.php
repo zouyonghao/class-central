@@ -18,6 +18,7 @@ class OfferingRepository extends EntityRepository{
         $past = array();
         $upcoming = array();
         $recent = array();
+        $recentlyAdded = array();
 
         $now = new \DateTime;
         $twoWeeksAgo = new \DateTime(); 
@@ -59,6 +60,11 @@ class OfferingRepository extends EntityRepository{
                 $recent[] = $offering;
             }
 
+            // Check if its recntly added
+            if ( ($offering->getStatus() != Offering::COURSE_NA ) && $offering->getCreated() >= $twoWeeksAgo)
+            {
+                $recentlyAdded[] = $offering;
+            }
             // Check if its upcoming
             if( $startDate > $now )
             {
@@ -84,7 +90,7 @@ class OfferingRepository extends EntityRepository{
 
         }
 
-         return compact( "ongoing","past","upcoming", "recent");
+         return compact( "ongoing","past","upcoming", "recent", "recentlyAdded");
         
     }
     
