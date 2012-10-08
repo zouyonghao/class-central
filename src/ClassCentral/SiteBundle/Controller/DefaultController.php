@@ -7,11 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller {
     
     private $offeringTypes = array(
-        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recent courses'),
-        'recentlyAdded' => array('desc' => 'Recently added courses','nav'=>'Recently added courses'),
-        'ongoing' => array('desc' => 'Ongoing courses', 'nav'=>'Ongoing courses'),
-        'upcoming' => array('desc' => 'Upcoming courses', 'nav'=>'Upcoming courses'),
-        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
+        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
+        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),
+        'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
+        'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
+        'past' => array('desc' => 'Courses finished', 'nav'=>'Courses finished')
     );
 
     public function indexAction() {
