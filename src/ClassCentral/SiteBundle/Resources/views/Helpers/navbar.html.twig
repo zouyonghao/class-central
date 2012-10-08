@@ -9,12 +9,22 @@
         <span class="icon-bar"></span>
       </a>
 	    <div class="nav-collapse">
-            <ul class="nav">
-                <!-- 
-		<li {% if page is defined and page=='home' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li> 
-		-->                          
+            <ul class="nav">                
+		<li {% if page is defined and page=='home' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li> 		                 
                 <li {% if page is defined and page=='faq' %}class="active"{% endif %}><a data-toggle="modal" href="#learnmore">Learn More</a></li>                           
                 <li><a href="https://plus.google.com/{{plusPageUrl}}/" target="_blank">News</a></li>
+                {% if offerings is not null %}
+                <li class="dropdown">  
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Courses<b class="caret"></b></a>  
+                    <ul class="dropdown-menu">  
+                    {% for offeringType, offeringDetails in offeringTypes %}
+                            {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}">{{offeringDetails.nav}} ({{ offerings[offeringType]|length }})</a></li>
+                            {% endif %}
+                    {% endfor %}                            
+                    </ul>
+                </li>
+                {% endif %}
             </ul>
             {% if app.environment == 'prod' and page is defined %}
 		    <ul class="nav pull-right">

@@ -5,6 +5,10 @@ ClassCentralSiteBundle_homepage:
 ClassCentralSiteBundle_faq:
     pattern:  /faq
     defaults: { _controller: ClassCentralSiteBundle:Default:faq }
+
+ClassCentralSiteBundle_courses:
+    pattern:  /courses/{type}
+    defaults: { _controller: ClassCentralSiteBundle:Default:courses }
     
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"

@@ -5,6 +5,14 @@ namespace ClassCentral\SiteBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller {
+    
+    private $offeringTypes = array(
+        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recent courses'),
+        'recentlyAdded' => array('desc' => 'Recently added courses','nav'=>'Recently added courses'),
+        'ongoing' => array('desc' => 'Ongoing courses', 'nav'=>'Ongoing courses'),
+        'upcoming' => array('desc' => 'Upcoming courses', 'nav'=>'Upcoming courses'),
+        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
+    );
 
     public function indexAction() {
 
@@ -27,7 +35,24 @@ class DefaultController extends Controller {
         $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
 
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', 
-                            array_merge( $offerings, array( 'page' => 'home' )));
+                            array( 'offerings' => $offerings, 'page' => 'home', 'offeringTypes'=> $this->offeringTypes ));
+    }
+    
+    public function coursesAction($type = 'upcoming'){
+        if(!in_array($type, array_keys($this->offeringTypes))){
+            // TODO: render an error page
+            return false;
+        }
+        
+            
+        $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
+        return $this->render('ClassCentralSiteBundle:Default:courses.html.twig', 
+                array(
+                    'offeringType' => $type,
+                    'offerings' => $offerings,
+                    'page'=>'courses',
+                    'offeringTypes'=> $this->offeringTypes
+                ));
     }
 
     public function faqAction() {

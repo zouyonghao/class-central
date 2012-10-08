@@ -1,0 +1,8 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{%  block content %}    
+    {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+        <h1 class="tabletitle" id="{{offeringType}}">{{offeringTypes[offeringType]['desc']}} ({{ offerings[offeringType]|length }})</h1> 	  
+        {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
+    {% endif %}
+{% endblock %}
