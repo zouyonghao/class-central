@@ -11,7 +11,7 @@ class DefaultController extends Controller {
         'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),
         'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
         'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
-        'past' => array('desc' => 'Courses finished', 'nav'=>'Courses finished')
+        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
     );
 
     public function indexAction() {
