@@ -57,7 +57,7 @@
 
     <body>        
 
-            {% include 'ClassCentralSiteBundle:Helpers:navbar.html.twig' with{} %}
+            {% render 'ClassCentralSiteBundle:Navigation:index' with{'page': page} %}
         <div class="container">
             
             {# Content pages go here #}

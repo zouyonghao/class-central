@@ -1,0 +1,31 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block headmeta %} 
+    {% if keywords is not null and keywords|length %}
+        <title> {{keywords}} - Search results | Class Central</title>
+    {% else %}
+        <title> MOOC Search | Class Central</title>
+    {% endif %}
+    <meta name="description" content="Search page for MOOC courses"/>
+{% endblock %}  
+
+{%  block content %}
+    <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get">
+            <input type="text" name="q" value="{{keywords}}">
+            <button type="submit">Search</button>
+    </form>
+    
+    {% if keywords is not null and keywords|length %}
+     <h1>Search Results</h1>
+     <div>{{total}} results found for {{keywords}}</div>
+     {% if total != 0 %}   
+        {% for offeringType, offeringDetails in offeringTypes %}
+            {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+                <h1 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h1> 	  
+                {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
+            {% endif %}    
+        {% endfor %}
+    {% endif %}
+   {% endif %}             
+{% endblock %}  
+        

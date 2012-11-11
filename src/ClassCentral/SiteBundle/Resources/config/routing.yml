@@ -9,7 +9,11 @@ ClassCentralSiteBundle_faq:
 ClassCentralSiteBundle_courses:
     pattern:  /courses/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:courses }
-    
+
+ClassCentralSiteBundle_search:
+  pattern: /search
+  defaults: { _controller: ClassCentralSiteBundle:Search:index}  
+  
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
     prefix: /admin    
