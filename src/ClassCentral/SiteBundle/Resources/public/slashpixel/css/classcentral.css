@@ -231,6 +231,18 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 .cc-search-form{
     margin-top:60px;
 }
+
+.cc-search-form-home{
+   margin-top:5px;
+}
+
+cc-search-form-home-btn{
+    height: 70px;
+}
+.cc-search-form-home-input{ 
+    height: 55px;
+}
+
 @media (max-width: 980px) {
 	.hero-unit{
 		margin-top: 10px;

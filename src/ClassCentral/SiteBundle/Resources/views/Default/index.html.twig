@@ -1,68 +1,80 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 {% block customJS %}  
- <!-- Jquery Lightbox plugin -->
- $(document).ready(function(){
-                $("a[rel^='intro']").prettyPhoto({
-                    social_tools : false,
-                    show_title: false,                    
-                    default_width: 640,
-                    default_height:480
-                });
-            });
-            
-            
-     var textExtractor = function(node){ 
-        timestamp = node.getAttributeNode("data-timestamp");
-        if( timestamp != undefined ){  
-            return timestamp.value;
-        } else {
-            return $(node).text()
-        }        
-     }
-     $(document).ready(function() 
-    {                 
-        $("#recentlist").tablesorter( {textExtraction: textExtractor}); 
-        $("#recentlyAddedlist").tablesorter( {textExtraction: textExtractor}); 
-        $("#ongoinglist").tablesorter( {textExtraction: textExtractor}); 
-        $("#upcominglist").tablesorter({textExtraction: textExtractor} );
-        $("#pastlist").tablesorter({textExtraction: textExtractor} );        
-    } 
-    ); 
-    
-    function DoNav(theUrl)
-    {
-        window.open(theUrl);
-    }
+<!-- Jquery Lightbox plugin -->
+$(document).ready(function(){
+$("a[rel^='intro']").prettyPhoto({
+social_tools : false,
+show_title: false,                    
+default_width: 640,
+default_height:480
+});
+});
+
+
+var textExtractor = function(node){ 
+timestamp = node.getAttributeNode("data-timestamp");
+if( timestamp != undefined ){  
+return timestamp.value;
+} else {
+return $(node).text()
+}        
+}
+$(document).ready(function() 
+{                 
+$("#recentlist").tablesorter( {textExtraction: textExtractor}); 
+$("#recentlyAddedlist").tablesorter( {textExtraction: textExtractor}); 
+$("#ongoinglist").tablesorter( {textExtraction: textExtractor}); 
+$("#upcominglist").tablesorter({textExtraction: textExtractor} );
+$("#pastlist").tablesorter({textExtraction: textExtractor} );        
+} 
+); 
+
+function DoNav(theUrl)
+{
+window.open(theUrl);
+}
 {% endblock %}
-   
+
  {% block headmeta %}               
-    <title>Class Central  •  A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity</title>
-    <meta name="description" content="Summary of free online courses from Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity"/>
+<title>Class Central  •  A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity</title>
+<meta name="description" content="Summary of free online courses from Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity"/>
  {% endblock %}  
 
 {%  block content %}
-<div class="hero-unit">
-          <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/></a>
-          <h1>A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx + Harvardx), and Udacity</h1>
-          
-          <ul class="nav nav-pills">  
+<div class="hero-unit ">
+    <div class="row">
+        <div class="span4">
+            <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/></a>
+        </div>
+            <div class="span7 cc-search-form-home">
+                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" class="form-search">
+                    <div class="input-prepend">
+                        <button type="submit" class="btn btn-success">Search</button>
+                        <input type="text" name="q" placeholder="search for courses" class="search-query input-xxlarge cc-search-form-home-input">            
+                    </div>
+                </form>
+            </div>    
+    </div>
+    <h1>A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx + Harvardx), and Udacity</h1>
+
+    <ul class="nav nav-pills">  
               {% for offeringType, offeringDetails in offeringTypes %}
                   {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-                    <li><a href="#{{offeringType}}list">{{offeringDetails.nav}} ({{ offerings[offeringType]|length }})</a></li>
+            <li><a href="#{{offeringType}}list">{{offeringDetails.nav}} ({{ offerings[offeringType]|length }})</a></li>
                   {% endif %}
               {% endfor %}                          
-          </ul>
+        </ul>
 
-            <div class="news">
-                    <div class="row-fluid">
-                      <div class="span3">
-                        <p class="newstitle">Get the latest updates</p>
+        <div class="news">
+            <div class="row-fluid">
+                <div class="span3">
+                    <p class="newstitle">Get the latest updates</p>
                             {% include 'ClassCentralSiteBundle:Helpers:social_buttons.html.twig' with{} %}
-                      </div>
-                      <div class="span9">
+                </div>
+                <div class="span9">
                            {% include 'ClassCentralSiteBundle:Helpers:news.html.twig' with{} %}
-                      </div>
                     </div>
+                </div>
             </div>
         </div>
 {% for offeringType, offeringDetails in offeringTypes %}
