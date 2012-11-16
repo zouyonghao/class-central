@@ -211,6 +211,26 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     width: 40px;
 }
 
+.searchresultsheader{
+    font-family: 'Nixie One', cursive;
+    color:#ffffff;      
+}
+
+.searchresultsheader h1{
+    color:#ffffff;
+    font-size:30px;
+    font-weight: bold;
+    line-height:1.5;
+    padding-top:10px;    
+}
+
+.searchresultsheader div{
+    font-size:15px;   
+}
+
+.cc-search-form{
+    margin-top:60px;
+}
 @media (max-width: 980px) {
 	.hero-unit{
 		margin-top: 10px;

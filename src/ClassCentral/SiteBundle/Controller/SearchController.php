@@ -23,6 +23,7 @@ class SearchController extends Controller{
         if  (!empty($keywords)) {
             // Perform the search
             $search = $this->get('search');
+            $search->setMatchMode(SPH_MATCH_BOOLEAN);
             $results = $search->Query($keywords, 'test1');
             $total= $results['total_found'];
             if($total != 0){

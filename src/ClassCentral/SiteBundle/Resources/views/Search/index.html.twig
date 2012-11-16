@@ -9,15 +9,19 @@
     <meta name="description" content="Search page for MOOC courses"/>
 {% endblock %}  
 
-{%  block content %}
-    <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get">
-            <input type="text" name="q" value="{{keywords}}">
-            <button type="submit">Search</button>
+{% block content %}
+    <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" class="cc-search-form form-search">
+        <div class="input-prepend">
+            <button type="submit" class="btn btn-success">Search</button>
+            <input type="text" name="q" value="{{keywords}}" placeholder="search for courses" class="search-query input-xxlarge">            
+        </div>
     </form>
     
     {% if keywords is not null and keywords|length %}
-     <h1>Search Results</h1>
-     <div>{{total}} results found for {{keywords}}</div>
+    <div class="searchresultsheader">
+        <h1>Search Results</h1>
+        <div><b>{{total}}</b> results found for <b>{{keywords}}</b></div>
+     </div>
      {% if total != 0 %}   
         {% for offeringType, offeringDetails in offeringTypes %}
             {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
