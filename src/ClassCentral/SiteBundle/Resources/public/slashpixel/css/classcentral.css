@@ -247,6 +247,10 @@ cc-search-form-home-btn{
     float: left;
 }
 
+.input-append button.add-on {
+    height: inherit !important;
+}
+
 .cc-home-form input{    
     margin-left: -10px;
     height: 69px;    
@@ -262,6 +266,11 @@ cc-search-form-home-btn{
 
 .input-xxxlarge{
     width: 700px;        
+}
+
+.cc-home-form button{    
+    margin-left: -70px;
+    margin-bottom: 10px;    
 }
 
 @media (max-width: 1025px) {
@@ -286,8 +295,15 @@ cc-search-form-home-btn{
           width: 100%;          
             -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
-                    box-sizing: border-box;
+                    box-sizing: border-box;                    
      }
+          
+
+    .cc-home-form button{    
+        margin-left: 0px;
+        margin-bottom: 0px;            
+    }
+
      
      .cc-home-form input{                  
          height: 30px;

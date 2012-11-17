@@ -62,8 +62,13 @@ window.open(theUrl);
                 <img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/>
             </div>
             <div class='cc-home-form'>
-                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">                                            
-                        <input type="text" name="q" placeholder="search for courses" class="input-xxxlarge">                                
+                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">          
+                    <div class="cc-search-elements">
+                        <input type="text" name="q" placeholder="search for courses" class="input-xxxlarge">   
+                        <button class='btn btn-search'>
+                            <i class="icon-search"></i>
+                        </button> 
+                    </div>     
                 </form>
             </div>
         </div>
