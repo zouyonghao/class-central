@@ -243,11 +243,54 @@ cc-search-form-home-btn{
     height: 55px;
 }
 
+.cc-home-logo{
+    float: left;
+}
+
+.cc-home-form input{    
+    margin-left: -10px;
+    height: 69px;    
+    font-size: 20px;
+    background-color: #EEDFF0;
+    -moz-border-top-left-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    border-top-left-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.input-xxxlarge{
+    width: 700px;        
+}
+
+@media (max-width: 1025px) {
+        .cc-home-form input{
+           margin-left: 0px; 
+           margin-top: 10px;
+        }
+}
+
 @media (max-width: 980px) {
 	.hero-unit{
 		margin-top: 10px;
 	}
 	.hero-unit h1{
 		font-size:24px;
-		}
+	}
+    
+ }
+ 
+ @media (max-width: 767px) {
+     .input-xxxlarge{          
+          width: 100%;          
+            -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+     }
+     
+     .cc-home-form input{                  
+         height: 30px;
+         font-size: 14px;         
+     }
  }

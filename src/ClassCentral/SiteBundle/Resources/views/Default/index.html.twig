@@ -42,6 +42,7 @@ window.open(theUrl);
 
 {%  block content %}
 <div class="hero-unit ">
+    <!--
     <div class="row">
         <div class="span4">
             <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/></a>
@@ -53,8 +54,19 @@ window.open(theUrl);
                         <input type="text" name="q" placeholder="search for courses" class="search-query input-xxlarge cc-search-form-home-input">            
                     </div>
                 </form>
-            </div>    
+            </div>                
     </div>
+    !-->
+        <div>
+            <div class='cc-home-logo'>
+                <img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/>
+            </div>
+            <div class='cc-home-form'>
+                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">                                            
+                        <input type="text" name="q" placeholder="search for courses" class="input-xxxlarge">                                
+                </form>
+            </div>
+        </div>
     <h1>A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx + Harvardx), and Udacity</h1>
 
     <ul class="nav nav-pills">  
