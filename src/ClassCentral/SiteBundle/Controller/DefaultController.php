@@ -3,17 +3,13 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use ClassCentral\SiteBundle\Entity\Initiative;
+use ClassCentral\SiteBundle\Entity\Offering;
 
 class DefaultController extends Controller {
+        
+    private $cacheKeyPrefix ='defaultController';
     
-    private $offeringTypes = array(
-        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
-        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),
-        'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
-        'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
-        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
-    );
-
     public function indexAction() {
 
         // Not being shown currently
@@ -35,11 +31,11 @@ class DefaultController extends Controller {
         $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
 
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', 
-                            array( 'offerings' => $offerings, 'page' => 'home', 'offeringTypes'=> $this->offeringTypes ));
+                            array( 'offerings' => $offerings, 'page' => 'home', 'offeringTypes'=> Offering::$types ));
     }
     
     public function coursesAction($type = 'upcoming'){
-        if(!in_array($type, array_keys($this->offeringTypes))){
+        if(!in_array($type, array_keys(Offering::$types))){
             // TODO: render an error page
             return false;
         }
@@ -51,8 +47,46 @@ class DefaultController extends Controller {
                     'offeringType' => $type,
                     'offerings' => $offerings,
                     'page'=>'courses',
-                    'offeringTypes'=> $this->offeringTypes
+                    'offeringTypes'=> Offering::$types
                 ));
+    }
+    
+    public function initiativeAction($type='coursera') {
+        $initiativeTypes = Initiative::$types;
+        
+        if(!in_array($type, array_keys($initiativeTypes))){
+            // TODO: render an error page
+            return false;
+        }
+        
+        // Get the initative id
+        $initiativeIds = array();        
+        if( $type != 'others'){
+            $initiative = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')
+                    ->findOneByCode($initiativeTypes[$type]);
+            $initiativeName = $initiative->getName();
+            $initiativeIds[] = $initiative->getId();
+        } else {
+            $initiativeName = 'Others';
+            $em = $this->getDoctrine()->getEntityManager();
+            $initiatives = implode("','", array_values($initiativeTypes));
+            $query = $em->createQuery("SELECT i FROM ClassCentralSiteBundle:Initiative i WHERE i.code NOT IN ('$initiatives')");
+            foreach($query->getResult() as $initiative){
+                $initiativeIds[] = $initiative->getId();
+            }
+        }
+        
+              
+        $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative($initiativeIds);
+        return $this->render('ClassCentralSiteBundle:Default:initiative.html.twig', 
+                array(
+                    'initiative' => $initiativeName,
+                    'offerings' => $offerings,
+                    'page'=>'initative',
+                    'offeringTypes'=> Offering::$types
+                ));
+        
+        
     }
 
     public function faqAction() {

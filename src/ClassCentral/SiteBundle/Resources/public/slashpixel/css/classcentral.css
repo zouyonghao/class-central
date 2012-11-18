@@ -228,19 +228,12 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     font-size:15px;   
 }
 
-.cc-search-form{
-    margin-top:60px;
-}
-
-.cc-search-form-home{
-   margin-top:5px;
-}
-
-cc-search-form-home-btn{
-    height: 70px;
-}
-.cc-search-form-home-input{ 
-    height: 55px;
+.cc-page-header{
+    color:#ffffff;
+    font-size:30px;
+    font-weight: bold;
+    line-height:1.5;
+    padding-top:10px; 
 }
 
 .cc-home-logo{

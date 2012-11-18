@@ -84,6 +84,14 @@ class Offering {
      */
     private $status;
     private $instructors;
+    
+    public static $types = array(
+        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
+        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),
+        'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
+        'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
+        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
+    );
 
     public function __construct() {
         $this->instructors = new ArrayCollection();

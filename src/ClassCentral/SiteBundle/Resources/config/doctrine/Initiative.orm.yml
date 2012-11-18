@@ -1,5 +1,6 @@
 ClassCentral\SiteBundle\Entity\Initiative:
   type: entity
+  repositoryClass: ClassCentral\SiteBundle\Repository\InitiativeRepository
   table: initiatives
   fields:
     id:

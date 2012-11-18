@@ -10,6 +10,10 @@ ClassCentralSiteBundle_courses:
     pattern:  /courses/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:courses }
 
+ClassCentralSiteBundle_initiative:
+    pattern:  /initiative/{type}
+    defaults: { _controller: ClassCentralSiteBundle:Default:initiative }
+    
 ClassCentralSiteBundle_search:
   pattern: /search
   defaults: { _controller: ClassCentralSiteBundle:Search:index}  

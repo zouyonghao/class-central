@@ -9,17 +9,20 @@ class OfferingRepository extends EntityRepository {
 
     /**
      * Returns courses categoried as recent, ongoing, past and upcoming.
-     * If no initiative is provided then its retunrs all the courses
+     * If no initiative is provided then its returns all the courses
      *
      */
     public function findAllByInitiative($initiative = null) {
    
+        
         $em = $this->getEntityManager();
         $query = $em->createQueryBuilder();
 
         $where = 'o.status != :status';
         if ($initiative != null) {
-            $query->add('where', "$where AND o.initiative = :initiative")->setParameter('initiative', $initiative);
+            // initiative is an array of ids
+            $initiativeIds = implode(',', $initiative);
+            $query->add('where', "$where AND o.initiative IN($initiativeIds)");
         } else {
             $query->add('where', $where);
         }
@@ -49,6 +52,7 @@ class OfferingRepository extends EntityRepository {
         
         return $this->categorizeOfferings($offerings);
     }
+        
 
     /**
      * Returns courses categoried as recent, ongoing, past and upcoming.

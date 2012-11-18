@@ -38,6 +38,18 @@ class Initiative
      * @var string $tooltip
      */
     private $tooltip;
+    
+    /**
+     * List of initiative name to => CODE used for navigation
+     * @var array type
+     */
+    public static $types = array(
+        'coursera' => 'COURSERA',
+        'udacity' => 'UDACITY',
+        'edx' => 'EDX',
+        'canvas' => 'CANVAS',
+        'others' => 'OTHERS'
+    );
 
 
     /**
