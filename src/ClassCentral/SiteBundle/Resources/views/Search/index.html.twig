@@ -4,19 +4,24 @@
     {% if keywords is not null and keywords|length %}
         <title> {{keywords}} - Search results | Class Central</title>
     {% else %}
-        <title> MOOC Search | Class Central</title>
+        <title> Free MOOC (Massive Open Online Course) Search | Class Central</title>
     {% endif %}
-    <meta name="description" content="Search page for MOOC courses"/>
+    <meta name="description" content="Free MOOC (Massive Open Online Course) Search"/>
 {% endblock %}  
 
 {% block content %}
-    <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" class="cc-search-form form-search">
-        <div class="input-prepend">
-            <button type="submit" class="btn btn-success">Search</button>
-            <input type="text" name="q" value="{{keywords}}" placeholder="search for courses" class="search-query input-xxlarge">            
-        </div>
-    </form>
-    
+     <div>            
+            <div class='cc-home-form cc-search-form'>
+                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">          
+                    <div class="cc-search-elements">
+                        <input type="text" name="q" placeholder="search for courses" value="{{keywords}}" class="input-xxxlarge">   
+                        <button class='btn btn-search'>
+                            <i class="icon-search"></i>
+                        </button> 
+                    </div>     
+                </form>
+            </div>
+     </div>
     {% if keywords is not null and keywords|length %}
     <div class="searchresultsheader">
         <h1>Search Results</h1>
