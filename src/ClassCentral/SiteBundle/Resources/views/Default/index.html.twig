@@ -1,39 +1,4 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
-{% block customJS %}  
-<!-- Jquery Lightbox plugin -->
-$(document).ready(function(){
-$("a[rel^='intro']").prettyPhoto({
-social_tools : false,
-show_title: false,                    
-default_width: 640,
-default_height:480
-});
-});
-
-
-var textExtractor = function(node){ 
-timestamp = node.getAttributeNode("data-timestamp");
-if( timestamp != undefined ){  
-return timestamp.value;
-} else {
-return $(node).text()
-}        
-}
-$(document).ready(function() 
-{                 
-$("#recentlist").tablesorter( {textExtraction: textExtractor}); 
-$("#recentlyAddedlist").tablesorter( {textExtraction: textExtractor}); 
-$("#ongoinglist").tablesorter( {textExtraction: textExtractor}); 
-$("#upcominglist").tablesorter({textExtraction: textExtractor} );
-$("#pastlist").tablesorter({textExtraction: textExtractor} );        
-} 
-); 
-
-function DoNav(theUrl)
-{
-window.open(theUrl);
-}
-{% endblock %}
 
  {% block headmeta %}               
 <title>Class Central  •  A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity</title>
