@@ -65,6 +65,7 @@ class OfferingRepository extends EntityRepository {
         $upcoming = array();
         $recent = array();
         $recentlyAdded = array();
+        $selfpaced = array();
 
         $now = new \DateTime;
         $twoWeeksAgo = new \DateTime();
@@ -82,11 +83,19 @@ class OfferingRepository extends EntityRepository {
             if (($offering->getStatus() == Offering::START_DATES_KNOWN ) && $startDate >= $twoWeeksAgo && $startDate <= $twoWeeksLater) {
                 $recent[] = $offering;
             }
+                        
 
             // Check if its recntly added
             if (($offering->getStatus() != Offering::COURSE_NA ) && $offering->getCreated() >= $twoWeeksAgo) {
                 $recentlyAdded[] = $offering;
             }
+            
+            // Check if its self paced
+            if($offering->getStatus() == Offering::COURSE_OPEN) {
+                $selfpaced[] = $offering;
+                continue;
+            }
+            
             // Check if its upcoming
             if ($startDate > $now) {
                 $upcoming[] = $offering;
@@ -108,7 +117,7 @@ class OfferingRepository extends EntityRepository {
             // ERROR: Should not come here
         }
 
-        return compact("ongoing", "past", "upcoming", "recent", "recentlyAdded");
+        return compact("ongoing", "past", "upcoming", "recent", "recentlyAdded", "selfpaced");
     }
 
     /**

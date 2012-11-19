@@ -24,9 +24,7 @@
             <td onclick="recordOutboundLink('{{ offering.getUrl() }}','{{offering.getInitiative()}}','{{offering.getName()}}','{{tableId}}');" class="coursenametd">
                 <a href="{{ offering.getUrl() }}" onclick="return false" target="_blank" title="{{ offering.getName()}}">{{ offering.getName()}}</a>
             </td>
-            
-            
-            
+                                    
             <td>
                     {% set i = 0 %}   
                     {% for instructor in offering.getInstructors() %}

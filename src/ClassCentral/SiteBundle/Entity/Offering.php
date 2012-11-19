@@ -2,7 +2,6 @@
 
 namespace ClassCentral\SiteBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -87,9 +86,10 @@ class Offering {
     
     public static $types = array(
         'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
-        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),
+        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),        
         'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
         'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
+        'selfpaced' => array('desc' => 'Self Paced', 'nav'=>'Self Paced'),
         'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
     );
 
@@ -260,7 +260,7 @@ class Offering {
                 return $this->getStartDate()->format('M, Y');
                 break;
             case self::COURSE_OPEN:
-                return "Open Enrollment";    
+                return "Self paced";    
             case self::START_YEAR_KNOWN:
                 return $this->getStartDate()->format('Y');    
             default:
@@ -326,7 +326,7 @@ class Offering {
             self::START_DATES_KNOWN => 'Start Dates Known',
             self::START_MONTH_KNOWN => 'Start Month Known',
             self::COURSE_NA => 'Course not available',
-            self::COURSE_OPEN => 'Open Enrollment',
+            self::COURSE_OPEN => 'Self paced',
             self::START_YEAR_KNOWN => 'Start Year Known'
         );
     }
