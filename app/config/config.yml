@@ -68,7 +68,7 @@ services:
   search:
     class: SphinxClient
     calls:
-      - [setArrayResult,[true]]
-      - [setLimits, [0,500,1000]]
+      - [SetArrayResult,[true]]
+      - [SetLimits, [0,500,1000]]
   cache:
     class: Doctrine\Common\Cache\ApcCache

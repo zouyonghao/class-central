@@ -3,18 +3,10 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use ClassCentral\SiteBundle\Entity\Offering;
 
 class SearchController extends Controller{
-    
-    private $offeringTypes = array(
-        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
-        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),
-        'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
-        'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
-        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
-    );
-
-    
+       
     public function indexAction() {
         $request = $this->getRequest();
         $keywords = $request->get('q');
@@ -23,8 +15,8 @@ class SearchController extends Controller{
         if  (!empty($keywords)) {
             // Perform the search
             $search = $this->get('search');
-            $search->setMatchMode(SPH_MATCH_BOOLEAN);
-            $results = $search->Query($keywords, 'test1');
+            $search->setMatchMode(SPH_MATCH_BOOLEAN);            
+            $results = $search->Query($keywords, $this->container->getParameter('sphinx_index'));
             $total= $results['total_found'];
             if($total != 0){
                  // Get all the document ids i.e offering ids
@@ -42,7 +34,7 @@ class SearchController extends Controller{
             'page' => 'search', 
             'total' => $total,
             'keywords' => $keywords,
-            'offeringTypes' => $this->offeringTypes,            
+            'offeringTypes' => Offering::$types,            
         ));        
     }
 }
