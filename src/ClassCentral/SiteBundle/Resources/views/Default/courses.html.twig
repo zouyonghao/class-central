@@ -1,5 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+{% block headmeta %}        
+    <title> {{offeringTypes[offeringType]['desc']}} | Directory of free online courses - MOOCs | Class Central</title>
+    <meta name="description" content="{{offeringTypes[offeringType]['desc']}} | Directory of free online courses - MOOCs"/>
+{% endblock %}  
+
 {%  block content %}    
     {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
         <h1 class="cc-page-header" id="{{offeringType}}">{{offeringTypes[offeringType]['desc']}} ({{ offerings[offeringType]|length }})</h1> 	  

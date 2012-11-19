@@ -22,7 +22,8 @@
                 </form>
             </div>
         </div>
-    <h1>A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx + Harvardx), and Udacity</h1>
+        <h1>A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx + Harvardx), and Udacity <a data-toggle="modal" href="#learnmore" class="btn btn-inverse">Learn More</a></h1>
+        
 
     <ul class="nav nav-pills">  
               {% for offeringType, offeringDetails in offeringTypes %}
@@ -51,4 +52,7 @@
     {% endif %}    
 {% endfor %}
 
+{# Include the learn more model box #}
+{% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{} %}       
+        
 {% endblock %}  

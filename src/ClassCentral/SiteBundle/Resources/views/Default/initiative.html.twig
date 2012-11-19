@@ -1,5 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+{% block headmeta %}        
+    <title> {{initiative}} | Directory of free online courses - MOOCs | Class Central</title>
+    <meta name="description" content="{{initiative}} | Directory of free online courses - MOOCs"/>
+{% endblock %} 
+
 {%  block content %}    
     
     <h1 class='cc-page-header'>{{initiative}}</h1>

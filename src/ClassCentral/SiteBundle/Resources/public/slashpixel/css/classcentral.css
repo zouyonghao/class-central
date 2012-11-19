@@ -276,7 +276,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin-bottom: 10px;    
 }
 
-@media (max-width: 1025px) {
+@media (max-width: 1201px) {
         .cc-home-form input{
            margin-left: 0px; 
            margin-top: 10px;
