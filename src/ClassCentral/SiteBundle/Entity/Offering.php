@@ -327,7 +327,7 @@ class Offering {
             self::START_MONTH_KNOWN => 'Start Month Known',
             self::COURSE_NA => 'Course not available',
             self::COURSE_OPEN => 'Open Enrollment',
-            self::START_YEAR_KNOW => 'Start Year Known'
+            self::START_YEAR_KNOWN => 'Start Year Known'
         );
     }
 

@@ -48,9 +48,9 @@ class CourseReportCommand extends ContainerAwareCommand
         {
             $count = count($offerings);
             $network->outInitiative($initiative, $count);
+            $network->beforeOffering();
             foreach($offerings as $offering)
-            {
-                $network->beforeOffering();
+            {               
                 $network->outOffering( $offering );
             } 
         }
