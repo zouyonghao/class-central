@@ -52,7 +52,7 @@ class OfferingRepository extends EntityRepository {
         
         return $this->categorizeOfferings($offerings);
     }
-        
+               
 
     /**
      * Returns courses categoried as recent, ongoing, past and upcoming.
@@ -74,50 +74,96 @@ class OfferingRepository extends EntityRepository {
         $twoWeeksLater->add(new \DateInterval('P14D'));
         
         // Iterate through the offerings and  categorize each one as upcoming, ongoing or past
+        $offeringIds = array(); // Use this to get instructors
         foreach ($offerings as $offering) {
             $startDate = $offering->getStartDate();
             $endDate = $offering->getEndDate();
-
-
+            
+            $offeringArray = $this->getOfferingArray($offering);
+            $offeringIds[] = $offeringArray['id'];
+            
             // Check if its recent
             if (($offering->getStatus() == Offering::START_DATES_KNOWN ) && $startDate >= $twoWeeksAgo && $startDate <= $twoWeeksLater) {
-                $recent[] = $offering;
+                $recent[] = $offeringArray;
             }
                         
 
             // Check if its recntly added
             if (($offering->getStatus() != Offering::COURSE_NA ) && $offering->getCreated() >= $twoWeeksAgo) {
-                $recentlyAdded[] = $offering;
+                $recentlyAdded[] = $offeringArray;
             }
             
             // Check if its self paced
             if($offering->getStatus() == Offering::COURSE_OPEN) {
-                $selfpaced[] = $offering;
+                $selfpaced[] = $offeringArray;
                 continue;
             }
             
             // Check if its upcoming
             if ($startDate > $now) {
-                $upcoming[] = $offering;
+                $upcoming[] = $offeringArray;
                 continue;
             }
 
             // Check if its in the past
             if ($endDate != null && $endDate < $now && $offering->getStatus() != Offering::COURSE_OPEN) {
-                $past[] = $offering;
+                $past[] = $offeringArray;
                 continue;
             }
 
 
             // Check if it belongs to ongoing
             if (($offering->getStatus() == Offering::START_DATES_KNOWN) || ($offering->getStatus() == Offering::COURSE_OPEN)) {
-                $ongoing[] = $offering;
+                $ongoing[] = $offeringArray;
             }
 
             // ERROR: Should not come here
         }
-
+        
+        // Get all the instructors
+        $instructors = $this->getEntityManager()->getRepository('ClassCentralSiteBundle:Instructor')->getInstructorsByOffering($offeringIds);
+       
+        $types = array_keys(Offering::$types);    
+        foreach ($types as $type)
+        {            
+            foreach ($$type as &$offering)
+            {               
+                $offering['instructors'] = $instructors[$offering['id']];
+            }
+        }
+        
         return compact("ongoing", "past", "upcoming", "recent", "recentlyAdded", "selfpaced");
+    }
+    
+    /**
+     * Returns an array of values for a particular display
+     * @param \ClassCentral\SiteBundle\Entity\Offering $offering
+     * @return Array
+     */
+    private function getOfferingArray(Offering $offering) {
+        $offeringArray = array();
+
+        $offeringArray['id'] = $offering->getId();
+        $offeringArray['name'] = $offering->getName();
+        $offeringArray['url'] = $offering->getUrl();
+        $offeringArray['videoIntro'] = $offering->getVideoIntro();
+        $offeringArray['stream'] = $offering->getCourse()->getStream()->getName();
+        $offeringArray['length'] = $offering->getLength();
+        $offeringArray['startTimeStamp'] = $offering->getStartTimestamp();
+        $offeringArray['displayDate'] = $offering->getDisplayDate();
+        $offeringArray['length'] = $offering->getLength();
+
+        $initiative = $offering->getInitiative();
+        $offeringArray['initiative']['name'] = '';
+        if ($initiative != null) {
+            $offeringArray['initiative']['name'] = $initiative->getName();
+            $offeringArray['initiative']['url'] = $initiative->getUrl();
+            $offeringArray['initiative']['tooltip'] = $initiative->getTooltip();
+        }
+        
+        $offeringArray['instructors'] = array();
+
+        return $offeringArray;
     }
 
     /**

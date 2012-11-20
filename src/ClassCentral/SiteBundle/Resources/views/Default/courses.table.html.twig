@@ -15,40 +15,40 @@
         {% for offering in offerings %}
         <tr>
             <td style="padding: 5px 0px 0px 5px">
-                 {% if offering.getVideoIntro() is not null %}
-                 <a href="{{ offering.getVideoIntro() }}" rel="intro" title=" {{ offering.getName()}}">
+                 {% if offering['videoIntro'] is not null %}
+                 <a href="{{ offering['videoIntro'] }}" rel="intro" title=" {{ offering['name'] }}">
                 <img src="{{ asset('bundles/classcentralsite/images/youtube.png') }}" alt="" height="32" width="32"/>
                 </a>              
                 {% endif %}
             </td>
-            <td onclick="recordOutboundLink('{{ offering.getUrl() }}','{{offering.getInitiative()}}','{{offering.getName()}}','{{tableId}}');" class="coursenametd">
-                <a href="{{ offering.getUrl() }}" onclick="return false" target="_blank" title="{{ offering.getName()}}">{{ offering.getName()}}</a>
+            <td onclick="recordOutboundLink('{{ offering['url'] }}','{{offering['initiative']['name']}}','{{offering['name']}}','{{tableId}}');" class="coursenametd">
+                <a href="{{ offering['url'] }}" onclick="return false" target="_blank" title="{{ offering['name']}}">{{ offering['name']}}</a>
             </td>
                                     
             <td>
                     {% set i = 0 %}   
-                    {% for instructor in offering.getInstructors() %}
+                    {% for instructor in offering['instructors'] %}
                     {% if i > 0 %}
-                        <br />{{ instructor.getName() }}
+                        <br />{{ instructor }}
                     {% else %}
-                        {{ instructor.getName() }}
+                        {{ instructor }}
                     {% endif %}
                     {% set i = i + 1 %}
                     {% endfor %}
               
             </td>
-            <td> {{ offering.getCourse().getStream().getName() }} </td>
-            <td data-timestamp="{{ offering.getStartTimestamp }}">{{ offering.getDisplayDate() }}</td>
+            <td> {{ offering['stream'] }} </td>
+            <td data-timestamp="{{ offering['startTimeStamp'] }}">{{ offering['displayDate'] }}</td>
             <td> 
-                {% if offering.getLength() is not null %}
-                    {{ offering.getLength() }} weeks
+                {% if offering['length'] is not null %}
+                    {{ offering['length'] }} weeks
                 {% else %}
                     NA
                 {% endif %}
             </td>
             <td>
-                {% if offering.getInitiative() is not null %}                
-            <a href="{{ offering.getInitiative.getUrl() }}" target="_blank" class="initiativelinks" title="{{ offering.getInitiative().getTooltip() }}"> {{ offering.getInitiative() }}</a>
+                {% if offering['initiative']['name']|length > 0%}                
+                    <a href="{{ offering['initiative']['url'] }}" target="_blank" class="initiativelinks" title="{{ offering['initiative']['tooltip'] }}"> {{ offering['initiative']['name'] }}</a>
                 {% endif %}
             </td>
         </tr>
