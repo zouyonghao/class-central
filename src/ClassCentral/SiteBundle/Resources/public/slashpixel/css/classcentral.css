@@ -228,6 +228,11 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     font-size:15px;   
 }
 
+.icon-link:hover{
+    cursor: hand;
+    cursor: pointer;
+}
+
 .cc-page-header{
     color:#ffffff;
     font-size:30px;

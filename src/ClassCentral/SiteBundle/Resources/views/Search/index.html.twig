@@ -9,6 +9,14 @@
     <meta name="description" content="Free MOOC (Massive Open Online Course) Search"/>
 {% endblock %}  
 
+{% block customJS %}
+    $('.icon-link').click(function(){        
+        var feedback = $(this).attr("value");
+        $('#search-feedback').slideUp();
+        _gaq.push(['_trackEvent', 'Search Feedback' , feedback, {{keywords}} ]);
+    });
+{% endblock %}
+    
 {% block content %}
      <div>            
             <div class='cc-home-form cc-search-form'>
@@ -26,6 +34,7 @@
     <div class="searchresultsheader">
         <h1>Search Results</h1>
         <div><b>{{total}}</b> results found for <b>{{keywords}}</b></div>
+        <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-white icon-link" value="YES"></i> <i class="icon-remove icon-white icon-link" value="NO"></i></div>
      </div>
      {% if total != 0 %}   
         {% for offeringType, offeringDetails in offeringTypes %}
