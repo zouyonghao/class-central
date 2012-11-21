@@ -1,13 +1,17 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
-{% block headmeta %}        
-    <title> {{initiative}} | Directory of free online courses - MOOCs | Class Central</title>
-    <meta name="description" content="{{initiative}} | Directory of free online courses - MOOCs"/>
+{% block headmeta %}            
+        <title> List of {{initiative}} courses | Directory of free online courses/MOOCs - Class Central</title>
+        <meta name="description" content="List of {{initiative}} courses | Directory of free online courses/MOOCs - Class Central"/>   
 {% endblock %} 
 
 {%  block content %}    
     
-    <h1 class='cc-page-header'>{{initiative}}</h1>
+    {% if initiative == 'Others' %}
+        <h1 class='cc-page-header'>{{initiative}}</h1>
+    {% else %}
+        <h1 class='cc-page-header'>List of {{initiative}} courses </h1>
+    {% endif %}
 
     {% for offeringType, offeringDetails in offeringTypes %}
     {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
