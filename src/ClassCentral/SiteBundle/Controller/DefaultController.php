@@ -27,12 +27,15 @@ class DefaultController extends Controller {
                         ->setParameter('datetime', $now->format("Y-m-d"))
                         ->getQuery()->getArrayResult();   
          */
-
-        $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
+        $cache = $this->get('Cache');
+        $offerings = $cache->get('default_index_offerings',
+                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));                
 
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', 
                             array( 'offerings' => $offerings, 'page' => 'home', 'offeringTypes'=> Offering::$types ));
     }
+    
+    
     
     public function coursesAction($type = 'upcoming'){
         if(!in_array($type, array_keys(Offering::$types))){
@@ -41,7 +44,10 @@ class DefaultController extends Controller {
         }
         
             
-        $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
+        $cache = $this->get('Cache');
+        $offerings = $cache->get('default_courses_offerings_' . $type,
+                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));   
+        
         return $this->render('ClassCentralSiteBundle:Default:courses.html.twig', 
                 array(
                     'offeringType' => $type,
@@ -58,6 +64,26 @@ class DefaultController extends Controller {
             // TODO: render an error page
             return false;
         }
+        
+        $cache = $this->get('Cache');        
+        $initiative = $cache->get('default_initative_ids_'. $type, array($this, 'getInitiativeIds'), array($type));
+        $offerings = $cache->get('default_initiative_offerings_' . $type,
+                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiative['ids']));  
+                      
+        return $this->render('ClassCentralSiteBundle:Default:initiative.html.twig', 
+                array(
+                    'initiative' => $initiative['name'],
+                    'offerings' => $offerings,
+                    'page'=>'initative',
+                    'offeringTypes'=> Offering::$types
+                ));
+        
+        
+    }
+    
+    public function getInitiativeIds($type)
+    {
+        $initiativeTypes = Initiative::$types;
         
         // Get the initative id
         $initiativeIds = array();        
@@ -76,20 +102,20 @@ class DefaultController extends Controller {
             }
         }
         
-              
-        $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative($initiativeIds);
-        return $this->render('ClassCentralSiteBundle:Default:initiative.html.twig', 
-                array(
-                    'initiative' => $initiativeName,
-                    'offerings' => $offerings,
-                    'page'=>'initative',
-                    'offeringTypes'=> Offering::$types
-                ));
-        
-        
+        return array('name' => $initiativeName, 'ids' => $initiativeIds);
     }
 
     public function faqAction() {
+        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
+    }
+    
+    /**
+     * 
+     * Cache cant be cleared from the command line. So creating an action
+     */
+    public function clearCacheAction(){
+        $this->get('cache')->clear();
+        // Just adding a dummy page
         return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
     }
     

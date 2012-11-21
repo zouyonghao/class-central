@@ -11,15 +11,16 @@ use ClassCentral\SiteBundle\Entity\Offering;
  */
 class NavigationController extends Controller{
     
-     private $offeringCountCacheKey = 'cc_offerings_count';
-     private $initiativeCountCacheKey ='cc_initiatives_count';
+     private $offeringCountCacheKey = 'navigation_offerings_count';
+     private $initiativeCountCacheKey ='navigation_initiatives_count';
          
     
     public function indexAction($page){
-                
-        $offeringCount = $this->getFromCacheIfExists($this->offeringCountCacheKey, 'getOfferingCount');
-        $initiativeCount = $this->getFromCacheIfExists($this->initiativeCountCacheKey, 'getInitiativeCount');
                         
+        $cache = $this->get('cache');        
+        $offeringCount = $cache->get($this->offeringCountCacheKey, array($this,'getOfferingCount'));
+        $initiativeCount = $cache->get($this->initiativeCountCacheKey, array($this,'getInitiativeCount'));
+        
         return $this->render('ClassCentralSiteBundle:Helpers:navbar.html.twig', 
                             array( 'offeringCount' => $offeringCount,'initiativeCount'=>$initiativeCount, 
                                    'page' => $page, 'offeringTypes'=> Offering::$types, 
@@ -27,7 +28,7 @@ class NavigationController extends Controller{
                                 ));  
     }
     
-    private function getInitiativeCount(){
+    public function getInitiativeCount(){
         $results = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')->getOfferingCountByInitative();
         $initiativeCount = array();
         $othersCode = Initiative::$types['others'];
@@ -52,7 +53,7 @@ class NavigationController extends Controller{
         return $initiativeCount;
     }
 
-    private function getOfferingCount(){
+    public function getOfferingCount(){
         $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
         $offeringCount = array();
         foreach (array_keys(Offering::$types) as $type) {

@@ -70,5 +70,10 @@ services:
     calls:
       - [SetArrayResult,[true]]
       - [SetLimits, [0,500,1000]]
-  cache:
+  doctrine_cache:
     class: Doctrine\Common\Cache\ApcCache
+  cache:
+    class: ClassCentral\SiteBundle\Services\Cache
+    calls:
+      - [setCache,[ @doctrine_cache ] ]
+      - [setCacheKeyPrefix, [%baseurl%] ]
