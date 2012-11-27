@@ -65,6 +65,8 @@ class SphinxSearchTableBuilderCommand extends ContainerAwareCommand {
             }
             $sphinx->setSearch($this->search);
             
+            $this->buildSearchString($offering->getSearchDesc());
+            
             $em->persist($sphinx);
            
         }
