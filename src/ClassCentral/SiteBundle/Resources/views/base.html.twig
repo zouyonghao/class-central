@@ -67,8 +67,11 @@
     </head>
 
     <body>        
-
-            {% render 'ClassCentralSiteBundle:Navigation:index' with{'page': page} %}
+            {% if page is defined %}
+                {% render 'ClassCentralSiteBundle:Navigation:index' with{'page': page} %}
+            {% else %}
+                {% render 'ClassCentralSiteBundle:Navigation:index' with{'page':'admin'} %}
+            {% endif %}
         <div class="container">
             
             {# Content pages go here #}

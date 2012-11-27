@@ -20,6 +20,7 @@ class OfferingType extends AbstractType
             ->add('videoIntro')    
             ->add('length')
             ->add('instructors', null, array('required'=>false, 'empty_value'=>true)) 
+            ->add('searchDesc')    
         ;
     }
 

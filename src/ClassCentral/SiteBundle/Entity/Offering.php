@@ -72,6 +72,8 @@ class Offering {
      * @var integer length
      */
     private $length;
+    
+    private $searchDesc;
 
     /**
      * This fields holds the status of the course. The values map as follows
@@ -303,6 +305,13 @@ class Offering {
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+    
+    public function getSearchDesc() {
+        return $this->searchDesc;
+    }
+    public function setSearchDesc($desc) {
+        $this->searchDesc = $desc;
     }
 
     /**
