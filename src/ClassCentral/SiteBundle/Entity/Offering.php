@@ -89,7 +89,7 @@ class Offering {
     public static $types = array(
         'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
         'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),        
-        'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
+        'ongoing' => array('desc' => 'Courses in Progress', 'nav'=>'Courses in Progress'),
         'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
         'selfpaced' => array('desc' => 'Self Paced', 'nav'=>'Self Paced'),
         'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
