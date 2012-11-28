@@ -4,7 +4,7 @@
     {% if keywords is not null and keywords|length %}
         <title> {{keywords}} - MOOC search results | Class Central</title>
     {% else %}
-        <title>Search for free online coures/MOOCs | Class Central</title>
+        <title>Search for free online courses AKA MOOCs | Class Central</title>
     {% endif %}
     <meta name="description" content="Free MOOC (Massive Open Online Course) Search"/>
 {% endblock %}  
@@ -38,7 +38,7 @@
     {% if keywords is not null and keywords|length %}
     <div class="searchresultsheader">
         <h1>Search Results</h1>
-        <div><b>{{total}}</b> results found for <b>{{keywords}}</b></div>
+        <div><b>{{total}}</b> result(s) found for <b>{{keywords}}</b></div>
         <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-white icon-link" value="YES"></i> <i class="icon-remove icon-white icon-link" value="NO"></i></div>
      </div>
      {% if total != 0 %}   
