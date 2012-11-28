@@ -1,0 +1,13 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block headmeta %}        
+    <title> {{offeringTypes[offeringType]['desc']}} | Free online courses AKA MOOC aggregator - Class Central</title>
+    <meta name="description" content="{{offeringTypes[offeringType]['desc']}} | Free online courses AKA MOOC aggregator - Class Central"/>
+{% endblock %}  
+
+{%  block content %}    
+    {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+        <h1 class="cc-page-header" id="{{offeringType}}">{{offeringTypes[offeringType]['desc']}} ({{ offerings[offeringType]|length }})</h1> 	  
+        {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
+    {% endif %}
+{% endblock %}

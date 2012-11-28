@@ -1,93 +1,59 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
-{% block customJS %}  
- <!-- Jquery Lightbox plugin -->
- $(document).ready(function(){
-                $("a[rel^='intro']").prettyPhoto({
-                    social_tools : false,
-                    show_title: false,                    
-                    default_width: 640,
-                    default_height:480
-                });
-            });
-            
-            
-     var textExtractor = function(node){ 
-        timestamp = node.getAttributeNode("data-timestamp");
-        if( timestamp != undefined ){  
-            return timestamp.value;
-        } else {
-            return $(node).text()
-        }        
-     }
-     $(document).ready(function() 
-    {                 
-        $("#recentlist").tablesorter( {textExtraction: textExtractor}); 
-        $("#recentlyAddedlist").tablesorter( {textExtraction: textExtractor}); 
-        $("#ongoinglist").tablesorter( {textExtraction: textExtractor}); 
-        $("#upcominglist").tablesorter({textExtraction: textExtractor} );
-        $("#pastlist").tablesorter({textExtraction: textExtractor} );        
-    } 
-    ); 
-    
-    function DoNav(theUrl)
-    {
-        window.open(theUrl);
-    }
-{% endblock %}
-   
+
  {% block headmeta %}               
-    <title>Class Central  •  A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity</title>
-    <meta name="description" content="Summary of free online courses from Stanford's Coursera, MIT and Harvard led edX (MITx and Hardvardx), and Udacity"/>
+<title>Class Central  • Free online courses AKA MOOC aggregator</title>
+<meta name="description" 
+      content="Class Central is an aggregator of free online courses also known as MOOCs. We track courses from top universites like Stanford, MIT, Harvard, etc. offered via Coursera, Udacity, edX, and others."/>
  {% endblock %}  
 
 {%  block content %}
-<div class="hero-unit">
-          <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/></a>
-          <h1>A complete list of free online courses offered by Stanford's Coursera, MIT and Harvard led edX (MITx + Harvardx), and Udacity</h1>
-          
-          <ul class="nav nav-pills">             
-            <li><a href="#recent">Recent Courses ({{ recent|length }})</a></li>
-            {% if recentlyAdded|length > 0 %}
-                <li><a href="#recentlyAdded">Recently Added Courses ({{ recentlyAdded|length }})</a></li>
-            {% endif %}
-            <li><a href="#ongoing">Ongoing Courses ({{ ongoing|length }})</a></li>
-            <li><a href="#upcoming">Upcoming Courses ({{ upcoming|length }})</a></li>
-            <li><a href="#finished">Finished Courses ({{ past|length }})</a></li>
-          </ul>
-
-            <div class="news">
-                    <div class="row-fluid">
-                      <div class="span3">
-                        <p class="newstitle">Get the latest updates</p>
-                            {% include 'ClassCentralSiteBundle:Helpers:social_buttons.html.twig' with{} %}
-                      </div>
-                      <div class="span9">
-                           {% include 'ClassCentralSiteBundle:Helpers:news.html.twig' with{} %}
-                      </div>
-                    </div>
+<div class="hero-unit ">    
+        <div>
+            <div class='cc-home-logo'>
+                <img src="{{ asset('bundles/classcentralsite/slashpixel/images/classcentral_logo.png') }}" title="Class Central logo"/>
+            </div>
+            <div class='cc-home-form'>
+                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">          
+                    <div class="cc-search-elements">
+                        <input type="text" name="q" placeholder="search for courses" class="input-xxxlarge">   
+                        <button class='btn btn-search'>
+                            <i class="icon-search"></i>
+                        </button> 
+                    </div>     
+                </form>
             </div>
         </div>
+        <h1>Class Central is an aggregator of free online courses also known as MOOCs. We track courses from top universites like Stanford, MIT, Harvard, etc. offered via Coursera, Udacity, edX, and others  <a data-toggle="modal" href="#learnmore" class="btn btn-inverse btn-small">Learn More</a></h1>
+        
 
-<h1 class="tabletitle" id="recent">Recently started or starting soon ({{ recent|length }})</h1> 	  
-{% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':recent,'tableId':'recent'} %}
+    <ul class="nav nav-pills">  
+              {% for offeringType, offeringDetails in offeringTypes %}
+                  {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+            <li><a href="#{{offeringType}}list">{{offeringDetails.nav}} ({{ offerings[offeringType]|length }})</a></li>
+                  {% endif %}
+              {% endfor %}                          
+        </ul>
 
-{% if recentlyAdded|length > 0 %}
-    <h1 class="tabletitle" id="recentlyAdded">Recently Added courses ({{ recentlyAdded|length }})</h1> 	  
-    {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':recentlyAdded,'tableId':'recentlyAdded'} %}
-{% endif %}
-
-{% if ongoing|length > 0 %}
-    <h1 class="tabletitle" id="ongoing">Ongoing courses ({{ ongoing|length }})</h1> 	  
-    {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':ongoing,'tableId':'ongoing'} %}
-{% endif %}
-<h1 class="tabletitle" id="upcoming">Upcoming courses ({{ upcoming|length }})</h1> 	  
-{% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':upcoming, 'tableId':'upcoming'} %}
-
-<h1 class="tabletitle" id="finished">Finished courses ({{ past|length }})</h1> 	  
-{% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':past,'tableId':'past'} %}
+        <div class="news">
+            <div class="row-fluid">
+                <div class="span3">
+                    <p class="newstitle">Get the latest updates</p>
+                            {% include 'ClassCentralSiteBundle:Helpers:social_buttons.html.twig' with{} %}
+                </div>
+                <div class="span9">
+                           {% include 'ClassCentralSiteBundle:Helpers:news.html.twig' with{} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% for offeringType, offeringDetails in offeringTypes %}
+    {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+        <h1 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h1> 	  
+        {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
+    {% endif %}    
+{% endfor %}
 
 {# Include the learn more model box #}
-{% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{} %}
-
-
+{% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{} %}       
+        
 {% endblock %}  

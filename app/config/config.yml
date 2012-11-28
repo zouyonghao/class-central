@@ -63,3 +63,17 @@ swiftmailer:
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
+
+services:
+  search:
+    class: SphinxClient
+    calls:
+      - [SetArrayResult,[true]]
+      - [SetLimits, [0,500,1000]]
+  doctrine_cache:
+    class: Doctrine\Common\Cache\ApcCache
+  cache:
+    class: ClassCentral\SiteBundle\Services\Cache
+    calls:
+      - [setCache,[ @doctrine_cache ] ]
+      - [setCacheKeyPrefix, [%baseurl%] ]

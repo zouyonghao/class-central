@@ -2,7 +2,6 @@
 
 namespace ClassCentral\SiteBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -73,6 +72,8 @@ class Offering {
      * @var integer length
      */
     private $length;
+    
+    private $searchDesc;
 
     /**
      * This fields holds the status of the course. The values map as follows
@@ -84,6 +85,15 @@ class Offering {
      */
     private $status;
     private $instructors;
+    
+    public static $types = array(
+        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
+        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),        
+        'ongoing' => array('desc' => 'Courses in Progess', 'nav'=>'Courses in Progess'),
+        'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
+        'selfpaced' => array('desc' => 'Self Paced', 'nav'=>'Self Paced'),
+        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
+    );
 
     public function __construct() {
         $this->instructors = new ArrayCollection();
@@ -252,7 +262,7 @@ class Offering {
                 return $this->getStartDate()->format('M, Y');
                 break;
             case self::COURSE_OPEN:
-                return "Open Enrollment";    
+                return "Self paced";    
             case self::START_YEAR_KNOWN:
                 return $this->getStartDate()->format('Y');    
             default:
@@ -296,6 +306,13 @@ class Offering {
     public function setStatus($status) {
         $this->status = $status;
     }
+    
+    public function getSearchDesc() {
+        return $this->searchDesc;
+    }
+    public function setSearchDesc($desc) {
+        $this->searchDesc = $desc;
+    }
 
     /**
     * Value that the status for offering can take
@@ -318,8 +335,8 @@ class Offering {
             self::START_DATES_KNOWN => 'Start Dates Known',
             self::START_MONTH_KNOWN => 'Start Month Known',
             self::COURSE_NA => 'Course not available',
-            self::COURSE_OPEN => 'Open Enrollment',
-            self::START_YEAR_KNOW => 'Start Year Known'
+            self::COURSE_OPEN => 'Self paced',
+            self::START_YEAR_KNOWN => 'Start Year Known'
         );
     }
 

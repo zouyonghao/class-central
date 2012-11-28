@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Network\NetworkFactory;
 
 class CourseReportCommand extends ContainerAwareCommand
@@ -48,9 +47,9 @@ class CourseReportCommand extends ContainerAwareCommand
         {
             $count = count($offerings);
             $network->outInitiative($initiative, $count);
+            $network->beforeOffering();
             foreach($offerings as $offering)
-            {
-                $network->beforeOffering();
+            {               
                 $network->outOffering( $offering );
             } 
         }

@@ -22,9 +22,9 @@
 .hero-unit h1{
     font-family: 'Nixie One', cursive;
     color:#222222;
-    font-size:30px;
+    font-size:24px;
     line-height:1.5;
-    padding-top:10px;
+    padding-top:0px;
     padding-bottom:20px;
     padding-left:10px;
 }
@@ -211,11 +211,110 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     width: 40px;
 }
 
+.searchresultsheader{
+    font-family: 'Nixie One', cursive;
+    color:#ffffff;      
+}
+
+.searchresultsheader h1{
+    color:#ffffff;
+    font-size:30px;
+    font-weight: bold;
+    line-height:1.5;
+    padding-top:10px;    
+}
+
+.searchresultsheader div{
+    font-size:15px;   
+}
+
+.icon-link:hover{
+    cursor: hand;
+    cursor: pointer;
+}
+
+.cc-page-header{
+    color:#ffffff;
+    font-size:30px;
+    font-weight: bold;
+    line-height:1.5;
+    padding-top:40px; 
+}
+
+.cc-home-logo{
+    float: left;
+}
+
+.input-append button.add-on {
+    height: inherit !important;
+}
+
+
+
+.cc-home-form input{    
+    margin-left: -10px;
+    height: 69px;    
+    font-size: 20px;
+    background-color: #EEDFF0;
+    -moz-border-top-left-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    border-top-left-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.cc-search-form{    
+    margin-top: 60px;
+}
+.cc-search-form input{
+    margin-left: 0px;    
+    height: 50px;
+}
+
+.input-xxxlarge{
+    width: 700px;        
+}
+
+.cc-home-form button{    
+    margin-left: -70px;
+    margin-bottom: 10px;    
+}
+
+@media (max-width: 1201px) {
+        .cc-home-form input{
+           margin-left: 0px; 
+           margin-top: 10px;
+        }
+}
+
 @media (max-width: 980px) {
 	.hero-unit{
 		margin-top: 10px;
 	}
 	.hero-unit h1{
 		font-size:24px;
-		}
+	}
+    
+ }
+ 
+ @media (max-width: 767px) {
+     .input-xxxlarge{          
+          width: 80%;          
+            -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                    box-sizing: border-box;                    
+     }
+          
+
+    .cc-home-form button{    
+        margin-left: 0px;
+        margin-bottom: 0px;            
+    }
+
+     
+     .cc-home-form input{                  
+         height: 30px;
+         font-size: 14px;         
+     }
  }

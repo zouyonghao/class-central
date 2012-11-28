@@ -1,0 +1,54 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block headmeta %} 
+    {% if keywords is not null and keywords|length %}
+        <title> {{keywords}} - MOOC search results | Class Central</title>
+    {% else %}
+        <title>Search for free online courses AKA MOOCs | Class Central</title>
+    {% endif %}
+    <meta name="description" content="Free MOOC (Massive Open Online Course) Search"/>
+{% endblock %}  
+
+{% block customJS %}
+    $(document).ready(function(){
+        $('.icon-link').click(function(){        
+            var feedback = $(this).attr("value");
+            var _gaq = _gaq || [];
+            $('#search-feedback').slideUp();
+            try{
+                 _gaq.push(['_trackEvent', 'Search Feedback' , feedback, '{{keywords}}' ]);                        
+            } catch(err){}
+        });
+     });    
+{% endblock %}
+    
+{% block content %}
+     <div>            
+            <div class='cc-home-form cc-search-form'>
+                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">          
+                    <div class="cc-search-elements">
+                        <input type="text" name="q" placeholder="search for courses" value="{{keywords}}" class="input-xxxlarge">   
+                        <button class='btn btn-search'>
+                            <i class="icon-search"></i>
+                        </button> 
+                    </div>     
+                </form>
+            </div>
+     </div>
+    {% if keywords is not null and keywords|length %}
+    <div class="searchresultsheader">
+        <h1>Search Results</h1>
+        <div><b>{{total}}</b> result(s) found for <b>{{keywords}}</b></div>
+        <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-white icon-link" value="YES"></i> <i class="icon-remove icon-white icon-link" value="NO"></i></div>
+     </div>
+     {% if total != 0 %}   
+        {% for offeringType, offeringDetails in offeringTypes %}
+            {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+                <h1 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h1> 	  
+                {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
+            {% endif %}    
+        {% endfor %}
+    {% endif %}
+   {% endif %}             
+{% endblock %}  
+        
