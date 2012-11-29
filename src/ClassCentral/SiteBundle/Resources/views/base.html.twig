@@ -14,7 +14,7 @@
         <![endif]-->
 
         <!-- Le styles -->  
-        {% stylesheets
+        {% stylesheets filter='yui_css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-responsive.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
@@ -95,7 +95,7 @@
 
         {# All the javascript goes in here #}
         
-        {% javascripts
+        {% javascripts filter='yui_js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.7.1.min.js'        
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.backstretch.min.js' 
