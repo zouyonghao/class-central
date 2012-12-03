@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<url>
+  <loc>http://www.class-central.com/</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/initiative/coursera</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/initiative/udacity</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/initiative/edx</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/initiative/canvas</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/initiative/others</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/courses/recent</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/courses/recentlyAdded</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/courses/ongoing</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/courses/upcoming</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/courses/selfpaced</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/courses/past</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/search</loc>
+</url>
+</urlset>
