@@ -8,7 +8,7 @@ class RedditNetwork extends NetworkAbstractInterface
 {
     public function outInitiative( $initiative , $offeringCount)
     {
-        $this->output->writeln( strtoupper($initiative) . "({$offeringCount})");
+        $this->output->writeln( strtoupper($initiative->getName()) . "({$offeringCount})");
         $this->output->writeln('');
                
     }

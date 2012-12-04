@@ -9,7 +9,7 @@ class GoogleplusNetwork extends NetworkAbstractInterface
 {
     public function outInitiative( $initiative , $offeringCount)
     {
-        $this->output->writeln( $this->getBold(strtoupper($initiative) . "({$offeringCount})"));
+        $this->output->writeln( $this->getBold(strtoupper($initiative->getName()) . "({$offeringCount})"));
     }
 
     public function beforeOffering()
