@@ -38,7 +38,15 @@ class CourseReportCommand extends ContainerAwareCommand
         $offeringsByInitiative = array();
         foreach($offerings as $offering)
         {
-            $initiative = $offering->getInitiative()->getName();
+            if($offering->getInitiative() == null) 
+            {
+                $initiative = 'Others';
+            }
+            else
+            {
+                $initiative = $offering->getInitiative()->getName();
+            }
+
             $offeringsByInitiative[$initiative][] = $offering;
         }
 

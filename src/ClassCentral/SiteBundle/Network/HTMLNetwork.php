@@ -9,8 +9,18 @@ class HTMLNetwork extends NetworkAbstractInterface
 {
     public function outInitiative( $initiative , $offeringCount)
     {        
-        $name = $initiative->getName();
-        $url = $initiative->getUrl();
+        if($initiative == null) 
+        {
+            $name = 'Others';
+            $url = '';
+        }
+        else
+        {
+            $name = $initiative->getName(); 
+            $url = $initiative->getUrl();
+        }
+
+
         $this->output->writeln("<h1><a href='$url'>$name ($offeringCount)</a></h1> ");
     }
 
@@ -33,7 +43,7 @@ class HTMLNetwork extends NetworkAbstractInterface
         }
 
         // Print out the course length. Exclude Udacity because course length is same
-        if ($offering->getInitiative()->getCode() != 'UDACITY' && $offering->getLength() != 0)
+        if ($offering->getInitiative() != null && $offering->getInitiative()->getCode() != 'UDACITY' && $offering->getLength() != 0)
         {
             $secondLine[] = $offering->getLength() . " weeks long";
         }

@@ -8,7 +8,16 @@ class RedditNetwork extends NetworkAbstractInterface
 {
     public function outInitiative( $initiative , $offeringCount)
     {
-        $this->output->writeln( strtoupper($initiative->getName()) . "({$offeringCount})");
+        if($initiative == null) 
+        {
+            $name = 'Others';
+        }
+        else
+        {
+            $name = $initiative->getName(); 
+        }
+
+        $this->output->writeln( strtoupper($name) . "({$offeringCount})");
         $this->output->writeln('');
                
     }
