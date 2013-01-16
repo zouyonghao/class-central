@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         {% for offering in offerings %}
-        <tr>
+        <tr itemscope itemtype="http://schema.org/Event">
             <td style="padding: 5px 0px 0px 5px">
                  {% if offering['videoIntro'] is not null %}
                  <a href="{{ offering['videoIntro'] }}" rel="intro" title=" {{ offering['name'] }}">
@@ -23,7 +23,7 @@
             </td>
 
             <td onclick="recordOutboundLink('{{ offering['url'] }}','{{offering['initiative']['name']}}','{{offering['name']}}','{{tableId}}');" class="coursenametd">
-                <a href="{{ offering['url'] }}" onclick="return false" target="_blank" title="{{ offering['name']}}">{{ offering['name']}}</a>
+                <a itemprop='url' href="{{ offering['url'] }}" onclick="return false" target="_blank" title="{{ offering['name']}}"><span itemprop="name">{{ offering['name']}}</span></a>
             </td>
 
             <td>
@@ -39,7 +39,8 @@
               
             </td>
             <td> {{ offering['stream'] }} </td>
-            <td data-timestamp="{{ offering['startTimeStamp'] }}">{{ offering['displayDate'] }}</td>
+            
+            <td {% if offering['status'] == 1 %} itemprop="startDate" content="{{ offering['microdataDate'] }}" {% endif %} data-timestamp="{{ offering['startTimeStamp'] }}">{{ offering['displayDate'] }}</td>
             <td> 
                 {% if offering['length'] is not null %}
                     {{ offering['length'] }} weeks

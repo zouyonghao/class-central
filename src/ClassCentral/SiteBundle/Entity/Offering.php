@@ -85,6 +85,7 @@ class Offering {
      */
     private $status;
     private $instructors;
+    private $microdataDate;
     
     public static $types = array(
         'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
@@ -270,7 +271,10 @@ class Offering {
         }
        
     }
-
+    
+    public function getMicrodataDate() {
+        return $this->getStartDate()->format('Y-m-d');
+    }
     public function getUrl() {        
         return $this->url;
     }

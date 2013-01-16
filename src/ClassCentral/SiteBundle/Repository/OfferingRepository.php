@@ -152,6 +152,8 @@ class OfferingRepository extends EntityRepository {
         $offeringArray['startTimeStamp'] = $offering->getStartTimestamp();
         $offeringArray['displayDate'] = $offering->getDisplayDate();
         $offeringArray['length'] = $offering->getLength();
+        $offeringArray['microdataDate'] = $offering->getMicrodataDate();
+        $offeringArray['status'] = $offering->getStatus();
 
         $initiative = $offering->getInitiative();
         $offeringArray['initiative']['name'] = '';
