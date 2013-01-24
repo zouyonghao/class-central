@@ -245,10 +245,10 @@ class Offering {
 
     public function getName() {
         if (empty($this->name) && isset($this->course)) {
-            return $this->course->getName();
+            return utf8_decode($this->course->getName());
         }
 
-        return $this->name;
+        return utf8_decode($this->name);
     }
 
     public function getDisplayDate() {
