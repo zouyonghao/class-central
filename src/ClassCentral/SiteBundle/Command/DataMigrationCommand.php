@@ -25,7 +25,12 @@ class DataMigrationCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $version = DataMigrationFactory::get($input->getArgument('version'), $this->getContainer(), $output);
-        $version->migrate();
+        if( !$version->isExecuted() ) {
+            $version->migrate();
+            $version->hasBeenExecuted();
+        } else {
+            $output->writeln("Migration has already been executed");
+        }
     }
 
 }

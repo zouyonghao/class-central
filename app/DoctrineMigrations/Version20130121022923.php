@@ -12,21 +12,20 @@ class Version20130121022923 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
-                        
-        
-//        $coursesTable = $schema->getTable('courses');
-//        $coursesTable->addColumn('initiative_id', "integer");
-//        $coursesTable->addForeignKeyConstraint('initiatives', array('initiative_id'), array('id'),array('NULL'));
-        
+                                      
         // Create a fake initative
         $this->addSql("INSERT INTO initiatives(id, name,code) VALUES (100,'Dummy Initiative','DUMMY')");
         // Update the schema
         $this->addSql( "ALTER TABLE courses ADD COLUMN initiative_id INT(11) DEFAULT NULL");
         $this->addSql( "UPDATE courses SET initiative_id = 100");
-                                
-        
-        // Delete old courses
-        //$this->addSql("DELETE FROM courses WHERE initative_id = -1");
+                                      
+        // Add a table to keep track of custom data migrations                
+        $this->addSql("CREATE  TABLE IF NOT EXISTS `datamigrations` (
+                      `id` INT NOT NULL AUTO_INCREMENT ,
+                      `version` INT NOT NULL ,
+                      `executed` BOOLEAN NOT NULL DEFAULT 0,
+                      PRIMARY KEY (`id`)  )              
+                      ENGINE = InnoDB;");
         
         // Add the foreign key at the end
         $this->addSql("ALTER TABLE courses ADD FOREIGN KEY (initiative_id) REFERENCES initiatives(id)");

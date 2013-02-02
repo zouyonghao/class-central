@@ -22,8 +22,7 @@ class Version1 extends VersionAbstractInterface {
             ->findAll();
         
         foreach ($offerings as $offering) {
-            $name = $offering->getName();
-            $this->output->writeln($name);
+            $name = $offering->getName();            
             $initiative = null;
             if ($offering->getInitiative()) {
                 $initiative = $offering->getInitiative();
@@ -31,8 +30,9 @@ class Version1 extends VersionAbstractInterface {
             $stream = $offering->getCourse()->getStream();
 
             // Check if the course name and initiative exist
+            $initiative_id = ($initiative) ? $initiative->getID() : null;
             $course = $em->getRepository('ClassCentralSiteBundle:Course')
-                ->findOneBy(array('name' => $name, 'initiative' => $initiative));
+                ->findOneBy(array('name' => $name, 'initiative' => $initiative_id));
             if (!$course) {
                 // Course does not exist. Create the course
                 //$this->output->writeln("NOT FOUND");
@@ -43,7 +43,9 @@ class Version1 extends VersionAbstractInterface {
                 $em->persist($course);
                 $em->flush();
 
-                $this->output->writeln($course->getName() . ' ' . $course->getId());
+                $this->output->writeln("Course '" . $course->getName() . "' created with  " . $course->getId());
+            } else {
+                $this->output->writeln("Course '" . $course->getName() . " already exists with   " . $course->getId());
             }
 
             // Update the course id in offering

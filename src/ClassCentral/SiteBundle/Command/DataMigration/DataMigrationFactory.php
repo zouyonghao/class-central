@@ -17,6 +17,7 @@ class DataMigrationFactory
         
         $class = "ClassCentral\\SiteBundle\\Command\\DataMigration\\"  . "Version" . $version;
         $obj = new $class($container, $output);
+        $obj->setVersion($version);
         return $obj;
     }
 }
