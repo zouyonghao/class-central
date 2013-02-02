@@ -24,6 +24,14 @@ ClassCentral\SiteBundle\Entity\Course:
         stream_id:
           referencedColumnName: id
       orphanRemoval: false  
+    initiative:
+      targetEntity: Initiative
+      fetch: EAGER
+      cascade: {}
+      mappedBy: null
+      inversedBy: courses
+      orphanRemoval: false
+      nullable: true
   oneToMany:
     offerings:
       targetEntity: Offering

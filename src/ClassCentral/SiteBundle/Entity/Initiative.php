@@ -56,10 +56,16 @@ class Initiative
      * @var ClassCentral\SiteBundle\Entity\Offering
      */
     private $offerings;
+    
+    /**
+     * @var ClassCentral\SiteBundle\Entity\Course
+     */
+    private $courses;
 
     public function __construct()
     {
         $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -170,6 +176,26 @@ class Initiative
     public function getOfferings()
     {
         return $this->offerings;
+    }
+    
+    /**
+     * Add courses
+     *
+     * @param ClassCentral\SiteBundle\Entity\Course $courses
+     */
+    public function addCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    {
+        $this->courses[] = $courses;
+    }
+
+    /**
+     * Get course
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCourses()
+    {
+        return $this->courses;
     }
     
     public function __toString() {

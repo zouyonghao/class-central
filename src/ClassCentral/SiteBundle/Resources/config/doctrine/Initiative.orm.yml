@@ -35,3 +35,9 @@ ClassCentral\SiteBundle\Entity\Initiative:
        mappedBy: initiative
        inversedBy: null
        orphanRemoval: false
+     courses:
+       targetEntity: Course
+       cascade: {}
+       mappedBy: initiative
+       inversedBy: null
+       orphanRemoval: false
