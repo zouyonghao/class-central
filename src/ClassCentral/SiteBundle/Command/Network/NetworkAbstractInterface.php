@@ -1,6 +1,6 @@
 <?php
 
-namespace ClassCentral\SiteBundle\Network;
+namespace ClassCentral\SiteBundle\Command\Network;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use ClassCentral\SiteBundle\Entity\Offering;

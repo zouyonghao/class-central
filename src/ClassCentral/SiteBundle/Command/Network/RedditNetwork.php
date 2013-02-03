@@ -1,7 +1,7 @@
 <?php
-namespace ClassCentral\SiteBundle\Network;
+namespace ClassCentral\SiteBundle\Command\Network;
 
-use ClassCentral\SiteBundle\Network\NetworkAbstractInterface;
+use ClassCentral\SiteBundle\Command\Network\NetworkAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Offering;
 
 class RedditNetwork extends NetworkAbstractInterface

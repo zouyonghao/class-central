@@ -1,6 +1,6 @@
 <?php
 
-namespace ClassCentral\SiteBundle\Network;
+namespace ClassCentral\SiteBundle\Command\Network;
  
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -14,7 +14,7 @@ class NetworkFactory
             $network = 'Default';
         }
         $network = ucwords( $network );
-        $class = "ClassCentral\\SiteBundle\\Network\\" . $network . "Network";
+        $class = "ClassCentral\\SiteBundle\\Command\\Network\\" . $network . "Network";        
         $obj = new $class($output);
         return $obj;
     }
