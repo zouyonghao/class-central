@@ -15,7 +15,7 @@ class OfferingType extends AbstractType
             ->add('status','choice', array('choices'=> \ClassCentral\SiteBundle\Entity\Offering::getStatuses() ))
             ->add('course',null,array('property'=>'name'))
             ->add('name')    
-            ->add('initiative', null, array('required'=>false, 'empty_value' => true))    
+            //->add('initiative', null, array('required'=>false, 'empty_value' => true))    
             ->add('url')    
             ->add('videoIntro')    
             ->add('length')

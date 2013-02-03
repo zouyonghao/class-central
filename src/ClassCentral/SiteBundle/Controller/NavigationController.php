@@ -29,7 +29,7 @@ class NavigationController extends Controller{
     }
     
     public function getInitiativeCount(){
-        $results = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')->getOfferingCountByInitative();
+        $results = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')->getCourseCountByInitative();
         $initiativeCount = array();
         $othersCode = Initiative::$types['others'];
         $initiativeCount[$othersCode]['count'] = 0;
@@ -63,19 +63,4 @@ class NavigationController extends Controller{
         return $offeringCount;
     }
     
-    private function getFromCacheIfExists($key, $function){
-        $cache = $this->get('cache');
-        
-        if($cache->contains($key))
-        {
-            return unserialize($cache->fetch($key));
-        } 
-        else 
-        {
-            $data = $this->$function();
-            $cache->save($key, serialize($data), 3600);
-            return $data;
-        }
-        
-    }
 }

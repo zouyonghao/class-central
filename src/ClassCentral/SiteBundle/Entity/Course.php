@@ -53,6 +53,11 @@ class Course {
      */
     private $stream;
     protected $offerings;    
+    
+     /**
+     * @var ClassCentral\SiteBundle\Entity\Initiative
+     */
+    private $initiative;
 
     /**
      * Set name
@@ -129,6 +134,25 @@ class Course {
    
     public function getOfferings() {
         return $this->offerings;
+    }
+    
+    
+    /**
+     * Set initiative
+     * 
+     * @param ClassCEntral\SiteBundle\Entitiy\Offering $offering
+     */
+    public function setInitiative(\ClassCentral\SiteBundle\Entity\Initiative $initiative = null) {
+        $this->initiative = $initiative;
+    }
+
+    /**
+     * Get Initative
+     * 
+     * @return ClassCentral\SiteBundle\Entity\Initiative
+     */
+    public function getInitiative() {
+        return $this->initiative;
     }
 
 }

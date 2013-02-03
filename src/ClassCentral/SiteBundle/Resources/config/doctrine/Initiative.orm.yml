@@ -28,9 +28,9 @@ ClassCentral\SiteBundle\Entity\Initiative:
       type: string
       length: 255
       nullable: true
-  oneToMany:
-     offerings:
-       targetEntity: Offering
+  oneToMany:  
+     courses:
+       targetEntity: Course
        cascade: {}
        mappedBy: initiative
        inversedBy: null
