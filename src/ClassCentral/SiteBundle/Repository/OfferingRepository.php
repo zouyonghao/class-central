@@ -13,22 +13,22 @@ class OfferingRepository extends EntityRepository {
      *
      */
     public function findAllByInitiative($initiative = null) {
-   
-        
+           
         $em = $this->getEntityManager();
         $query = $em->createQueryBuilder();
 
         $where = 'o.status != :status';
         if ($initiative != null) {
             // initiative is an array of ids
-            $initiativeIds = implode(',', $initiative);
-            $query->add('where', "$where AND o.initiative IN($initiativeIds)");
+            $initiativeIds = implode(',', $initiative);            
+            $query->add('where', "$where AND c.initiative IN ($initiativeIds)");
         } else {
             $query->add('where', $where);
         }
 
         $query->add('select', 'o')
                 ->add('from', 'ClassCentralSiteBundle:Offering o')
+                ->join("o.course", "c")
                 ->add('orderBy', 'o.startDate ASC')
                 ->setParameter('status', Offering::COURSE_NA);
         $allOfferings = $query->getQuery()->getResult();
@@ -155,7 +155,7 @@ class OfferingRepository extends EntityRepository {
         $offeringArray['microdataDate'] = $offering->getMicrodataDate();
         $offeringArray['status'] = $offering->getStatus();
 
-        $initiative = $offering->getInitiative();
+        $initiative = $offering->getCourse()->getInitiative();
         $offeringArray['initiative']['name'] = '';
         if ($initiative != null) {
             $offeringArray['initiative']['name'] = $initiative->getName();

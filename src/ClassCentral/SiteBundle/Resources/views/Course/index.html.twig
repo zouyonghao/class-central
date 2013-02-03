@@ -8,6 +8,7 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Initiative</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -16,11 +17,13 @@
         <tr>
             <td><a href="{{ path('course_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.name }}</td>
+            {% if entity.getInitiative() is not null %}
+            <td>{{ entity.getInitiative().getName() }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('course_show', { 'id': entity.id }) }}">show</a>
-                    </li>
+                <ul>                   
                     <li>
                         <a href="{{ path('course_edit', { 'id': entity.id }) }}">edit</a>
                     </li>

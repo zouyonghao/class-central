@@ -45,11 +45,6 @@ class Offering {
     private $course;
 
     /**
-     * @var ClassCentral\SiteBundle\Entity\Initiative
-     */
-    private $initiative;
-
-    /**
      *
      * @var string $url
      */
@@ -221,24 +216,6 @@ class Offering {
         return $this->course;
     }
 
-    /**
-     * Set initiative
-     * 
-     * @param ClassCEntral\SiteBundle\Entitiy\Offering $offering
-     */
-    public function setInitiative(\ClassCentral\SiteBundle\Entity\Initiative $initiative = null) {
-        $this->initiative = $initiative;
-    }
-
-    /**
-     * Get Initative
-     * 
-     * @return ClassCentral\SiteBundle\Entity\Initiative
-     */
-    public function getInitiative() {
-        return $this->initiative;
-    }
-
     public function setName($name) {
         $this->name = $name;
     }
@@ -316,6 +293,10 @@ class Offering {
     }
     public function setSearchDesc($desc) {
         $this->searchDesc = $desc;
+    }
+    
+    public function getInitiative() {
+        return $this->course->getInitiative();
     }
 
     /**

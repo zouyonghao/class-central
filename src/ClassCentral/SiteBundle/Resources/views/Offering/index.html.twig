@@ -3,15 +3,14 @@
 {% block content %}
 <h1>Offering list</h1>
 
-<table class="records_list">
+<table class="records_list" align="middle">
     <thead>
         <tr>
             <th>Id</th>
+            <th>Initiative</th>
             <th>Course</th>
             <th>Startdate</th>
-            <th>Enddate</th>
-            <th>Exactdatesknow</th>
-            <th>Initiative</th>
+            <th>Enddate</th>                        
             <th>Modified</th>
             <th>Actions</th>
         </tr>
@@ -20,17 +19,13 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('offering_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.course.name }}</td>
-            <td>{% if entity.startDate %}{{ entity.startDate|date('Y-m-d H:i:s') }}{% endif%}</td>
-            <td>{% if entity.endDate %}{{ entity.endDate|date('Y-m-d H:i:s') }}{% endif%}</td>
-            <td>{{ entity.exactDatesKnow }}</td>
-            <td>{{ entity.initiative }}</td>
+            <td>{{ entity.course.initiative }}</td>
+            <td align="center">{{ entity.course.name }}</td>
+            <td>{% if entity.startDate %}{{ entity.startDate|date('dS M, Y') }}{% endif%}</td>
+            <td>{% if entity.endDate %}{{ entity.endDate|date('dS M, Y') }}{% endif%}</td>                        
             <td>{% if entity.modified %}{{ entity.modified|date('Y-m-d H:i:s') }}{% endif%}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('offering_show', { 'id': entity.id }) }}">show</a>
-                    </li>
+                <ul>                    
                     <li>
                         <a href="{{ path('offering_edit', { 'id': entity.id }) }}">edit</a>
                     </li>

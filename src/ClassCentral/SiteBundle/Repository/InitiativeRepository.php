@@ -21,5 +21,18 @@ class InitiativeRepository extends EntityRepository{
         return $result;
     }
     
+        public function getCourseCountByInitative(){
+        
+        $em = $this->getEntityManager();
+        
+        $result = $em->createQuery(
+                        'SELECT i.name, COUNT(c.id) AS total, i.code  FROM ClassCentralSiteBundle:Course c JOIN  
+                         c.initiative i  GROUP BY c.initiative ORDER BY total')                  
+                    ->getArrayResult();
+        
+        
+        return $result;
+    }
+    
 }
 

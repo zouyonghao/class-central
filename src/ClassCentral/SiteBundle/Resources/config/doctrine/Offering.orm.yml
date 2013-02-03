@@ -54,15 +54,7 @@ ClassCentral\SiteBundle\Entity\Offering:
       cascade: {  }
       mappedBy: null
       inversedBy: offerings      
-      orphanRemoval: false
-    initiative:
-      targetEntity: Initiative
-      fetch: EAGER
-      cascade: {}
-      mappedBy: null
-      inversedBy: offerings
-      orphanRemoval: false
-      nullable: true
+      orphanRemoval: false   
   manyToMany:
     instructors:
       targetEntity: Instructor
