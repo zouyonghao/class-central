@@ -7,8 +7,8 @@ offering_show:
     defaults: { _controller: "ClassCentralSiteBundle:Offering:show" }
 
 offering_new:
-    pattern:  /new
-    defaults: { _controller: "ClassCentralSiteBundle:Offering:new" }
+    pattern:  /new/{id}
+    defaults: { _controller: "ClassCentralSiteBundle:Offering:new", id:0 }
 
 offering_create:
     pattern:  /create

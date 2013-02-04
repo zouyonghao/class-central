@@ -55,9 +55,14 @@ class OfferingController extends Controller
      * Displays a form to create a new Offering entity.
      *
      */
-    public function newAction()
+    public function newAction($id)
     {
         $entity = new Offering();
+        // Cloning the entity
+        if($id) {
+             $em = $this->getDoctrine()->getEntityManager();
+             $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
+        }
         $form   = $this->createForm(new OfferingType(), $entity);
 
         return $this->render('ClassCentralSiteBundle:Offering:new.html.twig', array(
