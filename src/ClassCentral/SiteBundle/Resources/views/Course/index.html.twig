@@ -9,6 +9,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Initiative</th>
+            <th>Offerings</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -22,6 +23,7 @@
             {% else %}
             <td></td>
             {% endif %}
+            <td>{{entity.offerings|length}}</td>
             <td>
                 <ul>                   
                     <li>

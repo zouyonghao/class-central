@@ -41,11 +41,14 @@ class CourseController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
+        
+        $offerings = $em->getRepository('ClassCentralSiteBundle:Offering')->findByCourse($id);
 
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ClassCentralSiteBundle:Course:show.html.twig', array(
             'entity'      => $entity,
+            'offerings' => $offerings,
             'delete_form' => $deleteForm->createView(),
 
         ));
