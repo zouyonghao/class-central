@@ -41,7 +41,7 @@ class RedditNetwork extends NetworkAbstractInterface
         }
         else if ( $offering->getStatus() == Offering::COURSE_OPEN)
         {
-            $startDate = 'Open Entrollment';
+            $startDate = 'Self Paced';
         }
 
         $length = 'NA';
