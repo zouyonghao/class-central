@@ -14,6 +14,14 @@ ClassCentralSiteBundle_initiative:
     pattern:  /initiative/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:initiative }
     
+ClassCentralSiteBundle_university:
+    pattern:  /university/{slug}
+    defaults: { _controller: ClassCentralSiteBundle:Institution:view }    
+
+ClassCentralSiteBundle_institution:
+    pattern:  /institution/{slug}
+    defaults: { _controller: ClassCentralSiteBundle:Institution:view }    
+    
 ClassCentralSiteBundle_search:
   pattern: /search
   defaults: { _controller: ClassCentralSiteBundle:Search:index}  

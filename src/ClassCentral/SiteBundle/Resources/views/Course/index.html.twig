@@ -9,6 +9,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Initiative</th>
+            <th>Institutions</th>
             <th>Offerings</th>
             <th>Actions</th>
         </tr>
@@ -23,6 +24,14 @@
             {% else %}
             <td></td>
             {% endif %}
+            
+            <td>
+                <ul>
+                    {% for institution in entity.institutions %}
+                        <li><a href="{{ path('institution_edit', {'id': institution.id}) }}">{{institution.name}}</a></li>
+                    {% endfor %}                
+                </ul>
+            </td>
             <td>{{entity.offerings|length}}</td>
             <td>
                 <ul>                   

@@ -11,7 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Course {
 
     public function __construct() {
-        $this->offerings = new ArrayCollection();        
+        $this->offerings = new ArrayCollection();   
+        $this->institutions = new ArrayCollection();
     }
 
     /**
@@ -58,6 +59,11 @@ class Course {
      * @var ClassCentral\SiteBundle\Entity\Initiative
      */
     private $initiative;
+    
+    /**
+     * @var ClassCentral\SiteBundle\Entity\Institution
+     */
+    private $institutions;
 
     /**
      * Set name
@@ -153,6 +159,26 @@ class Course {
      */
     public function getInitiative() {
         return $this->initiative;
+    }
+    
+     /**
+     * Add instiution
+     *
+     * @param ClassCentral\SiteBundle\Entity\Institution $institutions
+     */
+    public function addInstitution(\ClassCentral\SiteBundle\Entity\Institution $institutions)
+    {
+        $this->institutions[] = $institutions;
+    }
+
+    /**
+     * Get institutions
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getInstitutions()
+    {
+        return $this->institutions;
     }
 
 }

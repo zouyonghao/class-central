@@ -16,7 +16,11 @@ ClassCentralSiteBundle_offering:
 
 ClassCentralSiteBundle_initiative:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/initiative.yml"
-    prefix: /initiative      
+    prefix: /initiative
+ 
+ClassCentralSiteBundle_initiative:
+    resource: "@ClassCentralSiteBundle/Resources/config/routing/institution.yml"
+    prefix: /institution
 
 ClassCentralSiteBundle_clearcache:
   pattern: /clearcache

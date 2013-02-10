@@ -1,0 +1,33 @@
+ClassCentral\SiteBundle\Entity\Institution:
+  type: entity
+  table: institutions
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    name:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    url:
+      type: text
+      nullable: true
+    slug:
+      type: string
+      length: 255
+      fixed: false
+      nullable: false
+    isUniversity:
+      type: boolean
+      nullable: false
+      column: is_university
+  manyToMany:         
+    courses:
+      targetEntity: Course
+      mappedBy: institutions       
+  lifecycleCallbacks: {  }

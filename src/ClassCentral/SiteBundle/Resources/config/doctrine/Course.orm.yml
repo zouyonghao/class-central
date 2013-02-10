@@ -38,5 +38,18 @@ ClassCentral\SiteBundle\Entity\Course:
       cascade: {  }
       mappedBy: course
       inversedBy: null    
-      orphanRemoval: false         
+      orphanRemoval: false
+  manyToMany:    
+    institutions:
+      targetEntity: Institution
+      inversedBy: courses      
+      joinTable: 
+        name: courses_institutions 
+        joinColumns:
+          course_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          institution_id:
+            referencedColumnName: id
+      nullable: true        
   lifecycleCallbacks: {  }

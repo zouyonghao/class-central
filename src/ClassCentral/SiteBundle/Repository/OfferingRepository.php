@@ -52,6 +52,18 @@ class OfferingRepository extends EntityRepository {
         
         return $this->categorizeOfferings($offerings);
     }
+    
+    public function findAllByCourseIds($courseIds = array()) {
+        $em = $this->getEntityManager();
+        $str = implode(',', $courseIds);
+        $offerings = $em->createQuery(
+                        "   SELECT o FROM ClassCentralSiteBundle:Offering o JOIN  
+                         o.course c WHERE o.status != :status  AND c.id IN ($str)"   )
+                    ->setParameter('status', Offering::COURSE_NA)                    
+                    ->getResult();
+        
+        return $this->categorizeOfferings($offerings);
+    }
                
 
     /**
@@ -163,6 +175,17 @@ class OfferingRepository extends EntityRepository {
             $offeringArray['initiative']['name'] = $initiative->getName();
             $offeringArray['initiative']['url'] = $initiative->getUrl();
             $offeringArray['initiative']['tooltip'] = $initiative->getTooltip();
+        }
+        
+        // Add Institutions
+        $offeringArray['institutions'] = array();
+        foreach($offering->getCourse()->getInstitutions() as $institution) {
+            $offeringArray['institutions'][] = array(
+                'name' => $institution->getName(),
+                'url' => $institution->getUrl(),
+                'slug' => $institution->getSlug(),
+                'isUniversity' => $institution->getIsUniversity(),
+            );
         }
         
         $offeringArray['instructors'] = array();

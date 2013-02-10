@@ -12,6 +12,7 @@ class CourseType extends AbstractType {
             ->add('name')
             ->add('stream') 
             ->add('initiative', null, array('required'=>false, 'empty_value' => true))  
+            ->add('institutions', null, array('required'=>false, 'empty_value'=>true)) 
         ;
        
       

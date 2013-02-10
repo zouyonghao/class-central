@@ -21,9 +21,21 @@
                 </a>              
                 {% endif %}
             </td>
-
-            <td onclick="recordOutboundLink('{{ offering['url'] }}','{{offering['initiative']['name']}}','{{offering['name']}}','{{tableId}}');" class="coursenametd">
-                <a itemprop='url' href="{{ offering['url'] }}" onclick="return false" target="_blank" title="{{ offering['name']}}"><span itemprop="name">{{ offering['name']}}</span></a>
+            
+            <td>
+                <a itemprop='url' href="{{ offering['url'] }}" onclick="recordOutboundLink('{{ offering['url'] }}','{{offering['initiative']['name']}}','{{offering['name']}}','{{tableId}}');" target="_blank" title="{{ offering['name']}}"><span itemprop="name">{{ offering['name']}}</span></a>                
+                {% if offering['institutions']|length > 0 and showInstitution is not defined  %}
+                    <br />                
+                    {% for institution in offering['institutions'] %}
+                        {% set route = 'ClassCentralSiteBundle_university' %}
+                        {% if not institution['isUniversity'] %}
+                            {% set route = 'ClassCentralSiteBundle_institution' %}
+                        {% endif %}
+                       <span class="label label-inverse">
+                           <a href="{{ path(route,{'slug' : institution['slug']})}}" style="color: white">{{institution['name']}}</a>
+                       </span>
+                    {% endfor %} 
+                {% endif %}
             </td>
 
             <td>
