@@ -123,7 +123,11 @@ class Offering {
     }
 
     public function getStartTimestamp() {
-        return strval($this->startDate->getTimestamp());
+        if($this->startDate) {
+            return strval($this->startDate->getTimestamp());
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -250,7 +254,11 @@ class Offering {
     }
     
     public function getMicrodataDate() {
-        return $this->getStartDate()->format('Y-m-d');
+        if($this->startDate) {
+            return $this->getStartDate()->format('Y-m-d');
+        } else {
+            return "";
+        }
     }
     public function getUrl() {        
         return $this->url;

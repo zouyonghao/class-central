@@ -121,14 +121,16 @@ class OfferingRepository extends EntityRepository {
         }
         
         // Get all the instructors
-        $instructors = $this->getEntityManager()->getRepository('ClassCentralSiteBundle:Instructor')->getInstructorsByOffering($offeringIds);
+        $instructors = $this->getEntityManager()->getRepository('ClassCentralSiteBundle:Instructor')->getInstructorsByOffering($offeringIds);        
        
         $types = array_keys(Offering::$types);    
         foreach ($types as $type)
         {            
             foreach ($$type as &$offering)
             {               
-                $offering['instructors'] = $instructors[$offering['id']];
+                if(isset($instructors[$offering['id']])) {
+                    $offering['instructors'] = $instructors[$offering['id']];
+                }
             }
         }
         
