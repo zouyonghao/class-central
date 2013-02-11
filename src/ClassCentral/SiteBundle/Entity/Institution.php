@@ -71,7 +71,7 @@ class Institution
      */
     public function getName()
     {
-        return $this->name;
+        return utf8_decode($this->name);
     }
 
     /**
