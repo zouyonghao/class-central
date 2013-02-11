@@ -27,6 +27,23 @@ class CourseController extends Controller
             'entities' => $entities
         ));
     }
+    
+    /**
+     *  List all Course entities filtered by intiative
+     */
+    
+    public function initiativeAction($initiative)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $initiative = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneByCode($initiative);
+        
+        $entities = $em->getRepository('ClassCentralSiteBundle:Course')->findByInitiative($initiative->getId());
+
+        return $this->render('ClassCentralSiteBundle:Course:index.html.twig', array(
+            'entities' => $entities
+        ));
+        
+    }
 
     /**
      * Finds and displays a Course entity.

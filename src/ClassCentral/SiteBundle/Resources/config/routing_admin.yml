@@ -18,7 +18,7 @@ ClassCentralSiteBundle_initiative:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/initiative.yml"
     prefix: /initiative
  
-ClassCentralSiteBundle_initiative:
+ClassCentralSiteBundle_institution:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/institution.yml"
     prefix: /institution
 

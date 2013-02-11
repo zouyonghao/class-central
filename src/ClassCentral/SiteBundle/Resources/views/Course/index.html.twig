@@ -20,7 +20,7 @@
             <td><a href="{{ path('course_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.name }}</td>
             {% if entity.getInitiative() is not null %}
-            <td>{{ entity.getInitiative().getName() }}</td>
+            <td><a href="{{ path('course_initiative',{'initiative': entity.initiative.code}) }}">{{ entity.getInitiative().getName() }}</a></td>
             {% else %}
             <td></td>
             {% endif %}

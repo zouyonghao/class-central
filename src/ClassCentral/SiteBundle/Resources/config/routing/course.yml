@@ -2,6 +2,10 @@ course:
     pattern:  /
     defaults: { _controller: "ClassCentralSiteBundle:Course:index" }
 
+course_initiative:
+    pattern:  /{initiative}
+    defaults: { _controller: "ClassCentralSiteBundle:Course:initiative" }
+
 course_show:
     pattern:  /{id}/show
     defaults: { _controller: "ClassCentralSiteBundle:Course:show" }
