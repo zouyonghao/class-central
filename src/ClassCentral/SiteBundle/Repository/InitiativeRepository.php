@@ -26,8 +26,8 @@ class InitiativeRepository extends EntityRepository{
         $em = $this->getEntityManager();
         
         $result = $em->createQuery(
-                        'SELECT i.name, COUNT(c.id) AS total, i.code  FROM ClassCentralSiteBundle:Course c JOIN  
-                         c.initiative i  GROUP BY c.initiative ORDER BY total')                  
+                        'SELECT i.name, COUNT(DISTINCT c.id) AS total, i.code  FROM ClassCentralSiteBundle:Course c JOIN  
+                         c.initiative i  JOIN c.offerings o WHERE o.status != ' .Offering::COURSE_NA. ' GROUP BY c.initiative ORDER BY total')                  
                     ->getArrayResult();
         
         
