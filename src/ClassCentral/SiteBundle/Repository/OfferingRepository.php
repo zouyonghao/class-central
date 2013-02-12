@@ -21,7 +21,7 @@ class OfferingRepository extends EntityRepository {
         if ($initiative != null) {
             // initiative is an array of ids
             $initiativeIds = implode(',', $initiative);            
-            $query->add('where', "$where AND c.initiative IN ($initiativeIds)");
+            $query->add('where', "$where AND (c.initiative IN ($initiativeIds) OR c.initiative is NULL)");
         } else {
             $query->add('where', $where);
         }
