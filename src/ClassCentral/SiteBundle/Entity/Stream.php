@@ -29,7 +29,12 @@ class Stream
      */
     private $name;
     
+    private $slug;
     
+      /**
+     * @var boolean $showInNav
+     */
+    private $showInNav;
     private $courses = null;
 
     public function __construct() {
@@ -66,5 +71,20 @@ class Stream
     public function setCourses($course){
         $this->courses[] = $course;           
     }
-      
+     
+    public function getSlug() {
+        return $this->slug;
+    }
+    
+    public function setSlug($slug) {
+        $this->slug = $slug;
+    }
+    
+    public function getShowInNav(){
+        return $this->showInNav;
+    }
+    
+    public function setShowInNav($showInNav){
+        $this->showInNav = $showInNav;
+    }
 }

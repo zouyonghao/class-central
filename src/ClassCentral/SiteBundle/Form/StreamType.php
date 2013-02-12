@@ -11,6 +11,8 @@ class StreamType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('slug')
+            ->add('showInNav',null,array('required'=>false))
         ;
     }
 
