@@ -50,8 +50,13 @@
                     {% endfor %}
               
             </td>
-            <td> {{ offering['stream'] }} </td>
             
+            {% if offering['stream']['showInNav'] %}
+                <td> <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="{{ offering['stream']['name'] }} MOOCs">{{ offering['stream']['name'] }}</a> </td>                
+            {% else %}
+                <td> {{ offering['stream']['name'] }} </td>
+            {% endif %}
+                
             <td {% if offering['status'] == 1 %} itemprop="startDate" content="{{ offering['microdataDate'] }}" {% endif %} data-timestamp="{{ offering['startTimeStamp'] }}">{{ offering['displayDate'] }}</td>
             <td> 
                 {% if offering['length'] is not null %}

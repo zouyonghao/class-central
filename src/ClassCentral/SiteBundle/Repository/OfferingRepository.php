@@ -160,14 +160,19 @@ class OfferingRepository extends EntityRepository {
         $offeringArray['id'] = $offering->getId();
         $offeringArray['name'] = $offering->getName();
         $offeringArray['url'] = $offering->getUrl();
-        $offeringArray['videoIntro'] = $offering->getVideoIntro();
-        $offeringArray['stream'] = $offering->getCourse()->getStream()->getName();
+        $offeringArray['videoIntro'] = $offering->getVideoIntro();       
         $offeringArray['length'] = $offering->getLength();
         $offeringArray['startTimeStamp'] = $offering->getStartTimestamp();
         $offeringArray['displayDate'] = $offering->getDisplayDate();
         $offeringArray['length'] = $offering->getLength();
         $offeringArray['microdataDate'] = $offering->getMicrodataDate();
         $offeringArray['status'] = $offering->getStatus();
+        
+        // Stream
+        $stream = $offering->getCourse()->getStream();
+        $offeringArray['stream']['name'] = $stream->getName();
+        $offeringArray['stream']['slug'] = $stream->getSlug();
+        $offeringArray['stream']['showInNav'] = $stream->getShowInNav();
 
         $initiative = $offering->getCourse()->getInitiative();
         $offeringArray['initiative']['name'] = '';

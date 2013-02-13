@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Form\StreamType;
+use ClassCentral\SiteBundle\Entity\Offering;
 
 /**
  * Stream controller.
@@ -183,5 +184,38 @@ class StreamController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    public function viewAction($slug) 
+    {
+          $em = $this->getDoctrine()->getEntityManager();
+          $stream = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBySlug($slug);
+          
+          if(!$stream || !$stream->getShowInNav())
+          {
+              // TODO: Show an error page
+              return;
+          }
+          
+        $cache = $this->get('Cache');
+        $offerings = $cache->get('stream_offerings_' . $slug, array($this, 'getOfferingsByStream'), array($stream));
+
+        return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
+                'stream' => $stream->getName(),
+                'offerings' => $offerings,
+                'page' => 'stream',
+                'offeringTypes' => Offering::$types                
+            ));
+    }
+    
+    public function getOfferingsByStream(\ClassCentral\SiteBundle\Entity\Stream $stream) {
+        $courses = $stream->getCourses();
+
+        $courseIds = array();
+        foreach ($courses as $course) {
+            $courseIds[] = $course->getId();
+        }
+
+        return $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds($courseIds);
     }
 }

@@ -20,8 +20,12 @@ ClassCentralSiteBundle_university:
 
 ClassCentralSiteBundle_institution:
     pattern:  /institution/{slug}
-    defaults: { _controller: ClassCentralSiteBundle:Institution:view }    
-    
+    defaults: { _controller: ClassCentralSiteBundle:Institution:view }
+
+ClassCentralSiteBundle_stream:
+    pattern:  /stream/{slug}
+    defaults: { _controller: ClassCentralSiteBundle:Stream:view }  
+        
 ClassCentralSiteBundle_search:
   pattern: /search
   defaults: { _controller: ClassCentralSiteBundle:Search:index}  
