@@ -60,7 +60,7 @@ class Instructor {
      * @return string 
      */
     public function getName() {
-        return utf8_decode($this->name);
+        return $this->name;
     }
 
     /**

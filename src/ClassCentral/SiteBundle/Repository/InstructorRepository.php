@@ -20,7 +20,7 @@ class InstructorRepository extends EntityRepository {
         $instructors = array();
         foreach ($result as $instructor)
         {
-            $instructors[$instructor['id']][] = utf8_decode($instructor['name']);
+            $instructors[$instructor['id']][] = $instructor['name'];
         }
         
         return $instructors;
