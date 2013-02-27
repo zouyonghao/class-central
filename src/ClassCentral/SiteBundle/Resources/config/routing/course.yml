@@ -3,7 +3,7 @@ course:
     defaults: { _controller: "ClassCentralSiteBundle:Course:index" }
 
 course_initiative:
-    pattern:  /{initiative}
+    pattern:  /initiative/{initiative}
     defaults: { _controller: "ClassCentralSiteBundle:Course:initiative" }
 
 course_show:
