@@ -58,7 +58,7 @@
             {% endif %}
                 
             <td {% if offering['status'] == 1 %} itemprop="startDate" content="{{ offering['microdataDate'] }}" {% endif %} data-timestamp="{{ offering['startTimeStamp'] }}">{{ offering['displayDate'] }}</td>
-            <td> 
+            <td data-timestamp = {% if offering['length'] is null %} 100 {% else %} {{ offering['length'] }} {% endif %}}>
                 {% if offering['length'] is not null %}
                     {{ offering['length'] }} weeks
                 {% else %}
