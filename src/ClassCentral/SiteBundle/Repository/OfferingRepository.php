@@ -92,12 +92,22 @@ class OfferingRepository extends EntityRepository {
         
         // Iterate through the offerings and  categorize each one as upcoming, ongoing or past
         $offeringIds = array(); // Use this to get instructors
+
+        // Hack to keep track of finished and unfinished courses to avoid showing duplicate results
+        // TODO: Handle showing of finished courses correctly. Still has some bugs
+        $notFinishedCourses = array();
+        $finishedCourses = array();
         foreach ($offerings as $offering) {
             $startDate = $offering->getStartDate();
             $endDate = $offering->getEndDate();
             
             $offeringArray = $this->getOfferingArray($offering);
             $offeringIds[] = $offeringArray['id'];
+            //$courseKey = str_replace(' ', '_',$offering->getCourse()->getName()) . '_';
+            if($initiative = $offering->getInitiative()) {
+                ///$courseKey .= $initiative->getName();
+            }
+            $courseKey = $offering->getCourse()->getId();;
             
             // Check if its recent
             if (($offering->getStatus() == Offering::START_DATES_KNOWN ) && $startDate >= $twoWeeksAgo && $startDate <= $twoWeeksLater) {
@@ -105,7 +115,7 @@ class OfferingRepository extends EntityRepository {
             }
                         
 
-            // Check if its recntly added
+            // Check if its recently added
             if (($offering->getStatus() != Offering::COURSE_NA ) && $offering->getCreated() >= $twoWeeksAgo) {
                 $recentlyAdded[] = $offeringArray;
             }
@@ -113,25 +123,32 @@ class OfferingRepository extends EntityRepository {
             // Check if its self paced
             if($offering->getStatus() == Offering::COURSE_OPEN) {
                 $selfpaced[] = $offeringArray;
+                $notFinishedCourses[$courseKey] = 1;
                 continue;
             }
             
             // Check if its upcoming
             if ($startDate > $now) {
                 $upcoming[] = $offeringArray;
+                $notFinishedCourses[$courseKey] = 1;
                 continue;
             }
 
-            // Check if its in the past
+            // Check if its in the past. Also don't show these courses if either of these 2 things happen
+            // 1. A previous offering of this course has already been shown in finished courses
+            // 2. A new offering of this is either running or scheduled sometime in the future
             if ($endDate != null && $endDate < $now && $offering->getStatus() != Offering::COURSE_OPEN) {
-                $past[] = $offeringArray;
+                if(!isset($notFinishedCourses[$courseKey]) && !isset($finishedCourses[$courseKey])) {
+                    $past[] = $offeringArray;
+                    $finishedCourses[$courseKey] = 1;
+                }
                 continue;
             }
-
 
             // Check if it belongs to ongoing
             if (($offering->getStatus() == Offering::START_DATES_KNOWN) || ($offering->getStatus() == Offering::COURSE_OPEN)) {
                 $ongoing[] = $offeringArray;
+                $notFinishedCourses[$courseKey] = 1;
             }
 
             // ERROR: Should not come here
