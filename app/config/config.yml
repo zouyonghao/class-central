@@ -73,6 +73,8 @@ services:
     calls:
       - [SetArrayResult,[true]]
       - [SetLimits, [0,500,1000]]
+  dom_parser:
+    class: SimplehtmldomClient
   doctrine_cache:
     class: Doctrine\Common\Cache\ApcCache
   cache:

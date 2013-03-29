@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new ClassCentral\StaticBundle\ClassCentralStaticBundle(),
             new ClassCentral\SiteBundle\ClassCentralSiteBundle(),
             new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
+            new ClassCentral\ScraperBundle\ClassCentralScraperBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {          
