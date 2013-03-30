@@ -24,14 +24,16 @@ class Scraper extends ScraperAbstractInterface
         // Array of offerings created or updated
         $offerings = array();
 
-        $this->output->writeln("Scraping " . $this->initiative->getName());
+        $this->out("Scraping " . $this->initiative->getName());
 
         // Step 1: Getting a list of course URLs
-        $this->output->writeln("Getting a list of course pages");
+        $this->out("Getting a list of course pages");
         $urls = $this->getListOfCoursePages();
+        $urlsCount = count($urls);
 
         // Step 2: Go through the page and create/update offering
-        $this->output->writeln("Gather details about the course");
+        $this->out("Number of courses found: $urlsCount");
+        $this->out("Gathering details about each course");
 
         $courseDetails = array();
         foreach($urls as $url)

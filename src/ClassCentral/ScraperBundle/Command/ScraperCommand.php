@@ -65,7 +65,13 @@ class ScraperCommand extends ContainerAwareCommand
         $scraperFactory->setDomParser($this->getContainer()->get('dom_parser'));
 
         $scraper = $scraperFactory->getScraper();
-        $scraper->scrape();
+        $offerings = $scraper->scrape();
+        $offeringCount = count($offerings);
+        $output->writeln("<info>{$type} {$offeringCount} courses for {$initiative->getName()}</info>");
+        foreach($offerings as $offering)
+        {
+            $output->writeln($offering->getName());
+        }
 
     }
 
