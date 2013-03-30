@@ -11,6 +11,7 @@ namespace ClassCentral\ScraperBundle\Scraper;
 
 use ClassCentral\SiteBundle\Entity\Initiative;
 use Symfony\Component\Console\Output\OutputInterface;
+use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 
 class ScraperFactory {
 
@@ -18,8 +19,10 @@ class ScraperFactory {
     private $type = 'updated';
     private $simulate = 'Y';
     private $output;
+    private $domParser;
+    private $container;
 
-    public function _construct(Initiative $initiative)
+    public function __construct(Initiative $initiative)
     {
         $this->initiative = $initiative;
     }
@@ -39,9 +42,35 @@ class ScraperFactory {
         $this->output = $output;
     }
 
+    public function setDomParser($domParser)
+    {
+        $this->domParser = $domParser;
+    }
+
     public function getScraper()
     {
-        $code = ucwords($this->initiative->getCode());
+        $code = ucwords(strtolower($this->initiative->getCode()));
+        $class = "ClassCentral\\ScraperBundle\\Scraper\\$code\\Scraper";
+        $obj = new $class();
+        $this->initiativeScraper($obj);
+
+        return $obj;
+    }
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    private function initiativeScraper(ScraperAbstractInterface $obj)
+    {
+        $obj->setType($this->type);
+        $obj->setSimulate($this->simulate);
+        $obj->setOutputInterface($this->output);
+        $obj->setInitiative($this->initiative);
+        $obj->setDomParser($this->domParser);
+        $obj->setContainer($this->container);
+        $obj->init();
     }
 
 

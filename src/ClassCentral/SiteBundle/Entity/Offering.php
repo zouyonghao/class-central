@@ -81,6 +81,8 @@ class Offering {
     private $status;
     private $instructors;
     private $microdataDate;
+
+    private $shortName;
     
     public static $types = array(
         'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
@@ -288,6 +290,10 @@ class Offering {
         return $this->instructors;
     }
 
+    public function addInstructor(Instructor $instructor) {
+        $this->instructors[] = $instructor;
+    }
+
     public function getStatus() {
         return $this->status;
     }
@@ -305,6 +311,14 @@ class Offering {
     
     public function getInitiative() {
         return $this->course->getInitiative();
+    }
+
+    public function setShortName($shortName) {
+        $this->shortName = $shortName;
+    }
+
+    public function getShortName() {
+        return $this->shortName;
     }
 
     /**

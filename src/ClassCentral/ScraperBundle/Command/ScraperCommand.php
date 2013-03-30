@@ -41,6 +41,7 @@ class ScraperCommand extends ContainerAwareCommand
         if($initiative == null)
         {
             $output->writeln("Invalid initiative code $initiativeCode");
+            return;
         }
 
         $simulate = $input->getOption("simulate");
@@ -54,11 +55,17 @@ class ScraperCommand extends ContainerAwareCommand
         {
             $type = 'update';
         }
-      
+
         // Initiate the factory
         $scraperFactory = new ScraperFactory($initiative);
         $scraperFactory->setSimulate($simulate);
         $scraperFactory->setType($type);
+        $scraperFactory->setOutputInterface($output);
+        $scraperFactory->setContainer($this->getContainer());
+        $scraperFactory->setDomParser($this->getContainer()->get('dom_parser'));
+
+        $scraper = $scraperFactory->getScraper();
+        $scraper->scrape();
 
     }
 

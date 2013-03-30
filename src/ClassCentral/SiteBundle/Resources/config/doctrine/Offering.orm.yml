@@ -18,6 +18,10 @@ ClassCentral\SiteBundle\Entity\Offering:
       type: date
       nullable: true
       column: end_date
+    shortName:
+      type: string
+      length: 255
+      column: short_name
     exactDatesKnow:
       type: boolean
       nullable: true
