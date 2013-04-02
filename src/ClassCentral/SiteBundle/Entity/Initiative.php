@@ -47,6 +47,7 @@ class Initiative
         'coursera' => 'COURSERA',
         'udacity' => 'UDACITY',
         'edx' => 'EDX',
+        'venture-lab' => 'VLAB',
         'canvas' => 'CANVAS',
         'others' => 'OTHERS'
     );
