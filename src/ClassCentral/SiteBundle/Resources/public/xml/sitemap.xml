@@ -19,6 +19,9 @@
   <loc>http://www.class-central.com/initiative/edx</loc>
 </url>
 <url>
+  <loc>http://www.class-central.com/initiative/venture-lab</loc>
+</url>
+<url>
   <loc>http://www.class-central.com/initiative/canvas</loc>
 </url>
 <url>
@@ -46,40 +49,136 @@
   <loc>http://www.class-central.com/search</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/sjsu</loc>
-</url>
-<url>
   <loc>http://www.class-central.com/university/princeton</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/mit</loc>
+  <loc>http://www.class-central.com/stream/cs</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/institution/nvidia</loc>
+  <loc>http://www.class-central.com/university/utoronto</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/ucdavis</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/wesleyan</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/duke</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/berkeley</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/stanford</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/ucsf</loc>
+  <loc>http://www.class-central.com/university/gatech</loc>
 </url>
 <url>
   <loc>http://www.class-central.com/university/epfl</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/gatech</loc>
+  <loc>http://www.class-central.com/university/stanford</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/uw</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/wesleyan</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/stream/maths</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/penn</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/stream/business</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/duke</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/umd</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/taylor-my</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/stream/humanities</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/stream/science</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/umb</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/arizona</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/unimelb</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/huji</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/tri-c</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ersuraco</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/caltech</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/institution/fr-mines-telecom</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/hkust</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/stream/health</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/illinois</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/rice</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/mit</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/jhu</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/uwa-au</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ucsd</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/fiu</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/umich</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/shef</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/utexas</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/harvard</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/uva</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/osu</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/stream/engineering</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/cmu</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/uci</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/uab</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/berkeley</loc>
 </url>
 <url>
   <loc>http://www.class-central.com/university/columbia</loc>
@@ -88,61 +187,16 @@
   <loc>http://www.class-central.com/university/emory</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/utoronto</loc>
+  <loc>http://www.class-central.com/university/berklee</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/umd</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/cmu</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/uw</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/penn</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/harvard</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/ubc</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/caltech</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/osu</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/uci</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/uva</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/rice</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/umich</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/jhu</loc>
+  <loc>http://www.class-central.com/university/vanderbilt</loc>
 </url>
 <url>
   <loc>http://www.class-central.com/university/ufl</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/edinburgh</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/illinois</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/berklee</loc>
-</url>
-<url>
-  <loc>http://www.class-central.com/university/vanderbilt</loc>
+  <loc>http://www.class-central.com/university/ec-lille-fr</loc>
 </url>
 <url>
   <loc>http://www.class-central.com/university/iitd</loc>
@@ -151,27 +205,126 @@
   <loc>http://www.class-central.com/university/iiitd</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/unimelb</loc>
+  <loc>http://www.class-central.com/university/casewestern</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/hkust</loc>
+  <loc>http://www.class-central.com/university/ubc</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/huji</loc>
+  <loc>http://www.class-central.com/university/minnesota</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/london</loc>
+  <loc>http://www.class-central.com/university/tecdemonterrey</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/pitt</loc>
+  <loc>http://www.class-central.com/university/unam</loc>
 </url>
 <url>
-  <loc>http://www.class-central.com/university/brown</loc>
+  <loc>http://www.class-central.com/university/rochester</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/msjc</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/psu</loc>
 </url>
 <url>
   <loc>http://www.class-central.com/university/mssm</loc>
 </url>
 <url>
+  <loc>http://www.class-central.com/university/ou</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/pitt</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/dtu</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/brown</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/london</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/lmu</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/taiwan</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/unc</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/cuhk</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ucph</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/todai</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ep</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/rutgers</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/calarts</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/unige</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ie</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/edinburgh</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/wisconsin</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/nus</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ucsc</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/boulder</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/northwestern</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/tum</loc>
+</url>
+<url>
   <loc>http://www.class-central.com/university/leiden</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/sapienza</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/curtis</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/utah</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/saarland</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/sjsu</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/institution/nvidia</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ucdavis</loc>
+</url>
+<url>
+  <loc>http://www.class-central.com/university/ucsf</loc>
 </url>
 </urlset>
