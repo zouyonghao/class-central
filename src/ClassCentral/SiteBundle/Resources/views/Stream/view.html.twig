@@ -2,12 +2,12 @@
 
 {% block headmeta %}            
         <title> List of {{stream}} courses | Free online courses AKA MOOC aggregator - Class Central</title>
-        <meta name="description" content="List of {{stream}} courses | Free online courses AKA MOOC aggregator - Class Central"/>   
+        <meta name="description" content="List of {{stream}} MOOCs | Free online courses AKA MOOC aggregator - Class Central"/>
 {% endblock %} 
 
 {%  block content %}    
                 
-    <h1 class='cc-page-header'>List of {{stream}} courses </h1>    
+    <h1 class='cc-page-header'>List of {{stream}} MOOCs </h1>
 
     {% for offeringType, offeringDetails in offeringTypes %}
         {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
