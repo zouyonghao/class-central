@@ -55,6 +55,13 @@
                     }catch(err){}
                  }
 
+                function recordTaglineClicks(link, initiative) {
+                    try {
+                        _gaq.push(['_trackEvent', 'Tagline Clicks' , initiative ]);
+                        window.open(link);
+                    }catch(err){}
+                }
+
             </script>
         
         {% endif %}
