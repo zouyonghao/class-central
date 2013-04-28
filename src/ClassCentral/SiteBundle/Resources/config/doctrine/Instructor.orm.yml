@@ -21,7 +21,10 @@ ClassCentral\SiteBundle\Entity\Instructor:
   manyToMany:
     offerings:
       targetEntity: Offering
-      mappedBy: instructors  
+      mappedBy: instructors
+    courses:
+        targetEntity: Course
+        mappedBy: instructors
   manyToOne:
     university:
       targetEntity: University

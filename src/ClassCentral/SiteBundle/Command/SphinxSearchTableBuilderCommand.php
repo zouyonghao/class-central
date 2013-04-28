@@ -40,7 +40,7 @@ class SphinxSearchTableBuilderCommand extends ContainerAwareCommand {
             if($offering->getStatus() == Offering::COURSE_NA) {
                 continue;
             }
-            
+            $course = $offering->getCourse();
             $this->search = '';
             $sphinx = new Sphinxsearch();
             
@@ -49,22 +49,22 @@ class SphinxSearchTableBuilderCommand extends ContainerAwareCommand {
             $this->buildSearchString( $offering->getName() );
             $sphinx->setName( $offering->getName() );
             
-            $initiative = $offering->getInitiative();
+            $initiative = $course->getInitiative();
             if(!empty($initiative))
             {
-                $this->buildSearchString( $offering->getInitiative()->getName() );
-                $sphinx->setInitiative( $offering->getInitiative()->getName() );
+                $this->buildSearchString( $course->getInitiative()->getName() );
+                $sphinx->setInitiative( $course->getInitiative()->getName() );
             }
             
             $this->buildSearchString( $offering->getCourse()->getStream()->getName() );
-            $sphinx->setStream( $offering->getCourse()->getStream()->getName() );
+            $sphinx->setStream( $course->getStream()->getName() );
             
             foreach($offering->getInstructors() as $instructor)
             {
                 $this->buildSearchString( $instructor->getName() );
             }
            
-            $this->buildSearchString($offering->getSearchDesc());
+            $this->buildSearchString($course->getSearchDesc());
             
             $sphinx->setSearch($this->search);           
             

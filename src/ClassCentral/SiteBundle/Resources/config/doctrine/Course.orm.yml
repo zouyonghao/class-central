@@ -13,7 +13,32 @@ ClassCentral\SiteBundle\Entity\Course:
       type: string
       length: 255
       fixed: false
-      nullable: false   
+      nullable: false
+    created:
+      type: datetime
+      nullable: true
+    modified:
+      type: datetime
+      nullable: false
+    shortName:
+      type: string
+      length: 50
+      column: short_name
+    url:
+     type: text
+    description:
+      type: text
+    videoIntro:
+     type: text
+     nullable: true
+     column: video_intro
+    length:
+     type: integer
+     nullable: true
+    searchDesc:
+     type: text
+     nullable: true
+     column: search_desc
   manyToOne:
     stream:
       targetEntity: Stream
@@ -51,5 +76,17 @@ ClassCentral\SiteBundle\Entity\Course:
         inverseJoinColumns:
           institution_id:
             referencedColumnName: id
-      nullable: true        
-  lifecycleCallbacks: {  }
+      nullable: true
+    instructors:
+      targetEntity: Instructor
+      inversedBy: courses
+      joinTable:
+        name: courses_instructors
+        joinColumns:
+          course_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          instructor_id:
+            referencedColumnName: id
+      nullable: true
+lifecycleCallbacks: {  }

@@ -17,10 +17,10 @@ class OfferingType extends AbstractType
             ->add('name')    
             //->add('initiative', null, array('required'=>false, 'empty_value' => true))    
             ->add('url')    
-            ->add('videoIntro')    
-            ->add('length')
-            ->add('instructors', null, array('required'=>false, 'empty_value'=>true)) 
-            ->add('searchDesc')    
+//            ->add('videoIntro')
+//            ->add('length')
+//            ->add('instructors', null, array('required'=>false, 'empty_value'=>true))
+//            ->add('searchDesc')
         ;
     }
 

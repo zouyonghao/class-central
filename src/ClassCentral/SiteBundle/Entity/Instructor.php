@@ -37,12 +37,19 @@ class Instructor {
 
     /**
      *
+     * @var ClassCentral\SiteBundle\Entity\Course
+     */
+    private $courses;
+
+    /**
+     *
      * @var ClassCentral\SiteBundle\Entity\University
      */
     private $university;
 
     public function __construct() {
         $this->offerings = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -83,6 +90,10 @@ class Instructor {
 
     public function getOfferings() {
         return $this->offerings();
+    }
+
+    public function getCourses() {
+        return $this->courses();
     }
 
     /**

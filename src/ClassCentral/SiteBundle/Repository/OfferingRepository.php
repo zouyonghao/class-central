@@ -153,7 +153,8 @@ class OfferingRepository extends EntityRepository {
 
             // ERROR: Should not come here
         }
-        
+
+        /*
         // Get all the instructors
         $instructors = $this->getEntityManager()->getRepository('ClassCentralSiteBundle:Instructor')->getInstructorsByOffering($offeringIds);        
        
@@ -167,6 +168,7 @@ class OfferingRepository extends EntityRepository {
                 }
             }
         }
+        */
         
         return compact("ongoing", "past", "upcoming", "recent", "recentlyAdded", "selfpaced");
     }
@@ -178,25 +180,26 @@ class OfferingRepository extends EntityRepository {
      */
     private function getOfferingArray(Offering $offering) {
         $offeringArray = array();
+        $course = $offering->getCourse();
 
         $offeringArray['id'] = $offering->getId();
         $offeringArray['name'] = $offering->getName();
         $offeringArray['url'] = $offering->getUrl();
-        $offeringArray['videoIntro'] = $offering->getVideoIntro();       
-        $offeringArray['length'] = $offering->getLength();
+        $offeringArray['videoIntro'] = $course->getVideoIntro();
+        $offeringArray['length'] = $course->getLength();
         $offeringArray['startTimeStamp'] = $offering->getStartTimestamp();
         $offeringArray['displayDate'] = $offering->getDisplayDate();
-        $offeringArray['length'] = $offering->getLength();
+        $offeringArray['length'] = $course->getLength();
         $offeringArray['microdataDate'] = $offering->getMicrodataDate();
         $offeringArray['status'] = $offering->getStatus();
         
         // Stream
-        $stream = $offering->getCourse()->getStream();
+        $stream = $course->getStream();
         $offeringArray['stream']['name'] = $stream->getName();
         $offeringArray['stream']['slug'] = $stream->getSlug();
         $offeringArray['stream']['showInNav'] = $stream->getShowInNav();
 
-        $initiative = $offering->getCourse()->getInitiative();
+        $initiative = $course->getInitiative();
         $offeringArray['initiative']['name'] = '';
         if ($initiative != null) {
             $offeringArray['initiative']['name'] = $initiative->getName();
@@ -206,7 +209,7 @@ class OfferingRepository extends EntityRepository {
         
         // Add Institutions
         $offeringArray['institutions'] = array();
-        foreach($offering->getCourse()->getInstitutions() as $institution) {
+        foreach($course->getInstitutions() as $institution) {
             $offeringArray['institutions'][] = array(
                 'name' => $institution->getName(),
                 'url' => $institution->getUrl(),
@@ -216,6 +219,10 @@ class OfferingRepository extends EntityRepository {
         }
         
         $offeringArray['instructors'] = array();
+        foreach($course->getInstructors() as $instructor)
+        {
+            $offeringArray['instructors'][] = $instructor->getName();
+        }
 
         return $offeringArray;
     }

@@ -13,6 +13,7 @@ class Course {
     public function __construct() {
         $this->offerings = new ArrayCollection();   
         $this->institutions = new ArrayCollection();
+        $this->instructors = new ArrayCollection();
     }
 
     /**
@@ -64,6 +65,51 @@ class Course {
      * @var ClassCentral\SiteBundle\Entity\Institution
      */
     private $institutions;
+
+    /**
+     *
+     * @var integer length
+     */
+    private $length;
+
+    private $searchDesc;
+
+    /**
+     *
+     * @var status
+     */
+    private $status;
+
+    /**
+     * @var ClassCentral\SiteBundle\Entity\Instructor
+     */
+    private $instructors;
+
+    private $shortName;
+
+    private $description;
+
+    /**
+     * @var datetime $created
+     */
+    private $created;
+
+    /**
+     * @var datetime $modified
+     */
+    private $modified;
+
+    /**
+     *
+     * @var string $url
+     */
+    private $url;
+
+    /**
+     *
+     * @var string $videoIntro
+     */
+    private $videoIntro;
 
     /**
      * Set name
@@ -162,7 +208,7 @@ class Course {
     }
     
      /**
-     * Add instiution
+     * Add institution
      *
      * @param ClassCentral\SiteBundle\Entity\Institution $institutions
      */
@@ -180,5 +226,106 @@ class Course {
     {
         return $this->institutions;
     }
+
+    /**
+     * Set created
+     *
+     * @param datetime $created
+     */
+    public function setCreated($created) {
+        $this->created = $created;
+    }
+
+    /**
+     * Get created
+     *
+     * @return datetime
+     */
+    public function getCreated() {
+        return $this->created;
+    }
+
+    /**
+     * Set modified
+     *
+     * @param datetime $modified
+     */
+    public function setModified($modified) {
+        $this->modified = $modified;
+    }
+
+    /**
+     * Get modified
+     *
+     * @return datetime
+     */
+    public function getModified() {
+        return $this->modified;
+    }
+
+    public function getUrl() {
+        return $this->url;
+    }
+
+    public function setUrl($url) {
+        $this->url = $url;
+    }
+
+    public function getVideoIntro() {
+        return $this->videoIntro;
+    }
+
+    public function setVideoIntro($videoIntro) {
+        $this->videoIntro = $videoIntro;
+    }
+
+    public function getLength() {
+        return $this->length;
+    }
+
+    public function setLength($length) {
+        $this->length = $length;
+    }
+
+    public function getInstructors() {
+        return $this->instructors;
+    }
+
+    public function addInstructor(Instructor $instructor) {
+        $this->instructors[] = $instructor;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function setDescription($desc) {
+        $this->description = $desc;
+    }
+
+    public function setShortName($shortName) {
+        $this->shortName = $shortName;
+    }
+
+    public function getShortName() {
+        return $this->shortName;
+    }
+
+    public function getSearchDesc() {
+        return $this->searchDesc;
+    }
+    public function setSearchDesc($desc) {
+        $this->searchDesc = $desc;
+    }
+
+
 
 }
