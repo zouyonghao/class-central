@@ -14,6 +14,7 @@ class Course {
         $this->offerings = new ArrayCollection();   
         $this->institutions = new ArrayCollection();
         $this->instructors = new ArrayCollection();
+        $this->setCreated(new \DateTime());
     }
 
     /**

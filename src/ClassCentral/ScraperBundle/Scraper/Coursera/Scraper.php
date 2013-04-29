@@ -14,7 +14,7 @@ class Scraper extends ScraperAbstractInterface {
     const BASE_URL = 'https://www.coursera.org/course/';
 
     private $courseFields = array(
-        'Url', 'VideoIntro', 'SearchDesc', 'Description', 'Length',
+        'Url', 'VideoIntro', 'SearchDesc', 'Description', 'Length', 'Name'
     );
 
     private $offeringFields = array(
@@ -45,17 +45,6 @@ class Scraper extends ScraperAbstractInterface {
             $course->setVideoIntro($this->getYoutubeVideoUrl($courseraCourse['video']));
             $course->setUrl($courseUrl);
 
-            // Only get the instructors when creating courses
-            if($this->doCreate())
-            {
-                // Get the instructors using the coursera instructor api
-                $courseraInstructors = $this->getInstructorsArray($courseraCourseShortName);
-                foreach ($courseraInstructors as $courseraInstructor)
-                {
-                    $insName = $courseraInstructor['first_name'] . ' ' . $courseraInstructor['last_name'];
-                    $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
-                }
-            }
 
             // Add the university
             foreach ($courseraCourse['universities'] as $university)
@@ -96,6 +85,15 @@ class Scraper extends ScraperAbstractInterface {
                     $this->out("NEW COURSE - " . $course->getName());
                     if ($this->doModify())
                     {
+                       // Get the instructors using the coursera instructor api
+                        $courseraInstructors = $this->getInstructorsArray($courseraCourseShortName);
+                        foreach ($courseraInstructors as $courseraInstructor)
+                        {
+                            $insName = $courseraInstructor['first_name'] . ' ' . $courseraInstructor['last_name'];
+                            $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+                        }
+
+
                         $em->persist($course);
                         $em->flush();
                     }

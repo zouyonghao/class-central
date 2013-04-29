@@ -8,7 +8,7 @@ use ClassCentral\SiteBundle\Entity\Offering;
 class OfferingRepository extends EntityRepository {
 
     /**
-     * Returns courses categoried as recent, ongoing, past and upcoming.
+     * Returns courses categorized as recent, ongoing, past and upcoming.
      * If no initiative is provided then its returns all the courses
      *
      */

@@ -84,12 +84,14 @@ class DBHelper
 
         $instructor = new Instructor();
         $instructor->setName($name);
-        if ($this->scraper->doModify() && $this->scraper->doCreate())
+        if($this->scraper->doCreate())
         {
-            $em->persist($instructor);
-            $em->flush();
-
-            $this->scraper->out("Instructor $name created for initiative " . $this->scraper->getInitiative()->getName());
+            $this->scraper->out("NEW INSTRUCTOR $name");
+            if ($this->scraper->doModify())
+            {
+                $em->persist($instructor);
+                $em->flush();
+            }
         }
 
         return $instructor;
@@ -108,11 +110,15 @@ class DBHelper
             return $ins;
         }
 
-        if ($this->scraper->doModify() && $this->scraper->doCreate())
+        if ($this->scraper->doCreate())
         {
-            $em->persist($institution);
-            $em->flush();
+            $this->scraper->out("NEW INSTITUTION:  {$institution->getName()}");
+            if ($this->scraper->doModify() )
+            {
+                $em->persist($institution);
+                $em->flush();
 
+            }
         }
         return $institution;
     }

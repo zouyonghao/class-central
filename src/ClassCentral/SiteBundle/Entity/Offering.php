@@ -95,6 +95,7 @@ class Offering {
 
     public function __construct() {
         $this->instructors = new ArrayCollection();
+        $this->setCreated(new \DateTime());
     }
 
     /**
