@@ -95,6 +95,28 @@ class DBHelper
         return $instructor;
     }
 
+    public function createInstitutionIfNotExists(Institution $institution)
+    {
+        $em = $this->scraper->getEntityManager();
+        $ins = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy(array(
+            'slug' => $institution->getSlug(),
+        ));
+
+        if($ins)
+        {
+            // Institution exists
+            return $ins;
+        }
+
+        if ($this->scraper->doModify() && $this->scraper->doCreate())
+        {
+            $em->persist($institution);
+            $em->flush();
+
+        }
+        return $institution;
+    }
+
     public function getStreamBySlug($slug = 'cs')
     {
         $em = $this->scraper->getEntityManager();
@@ -111,6 +133,15 @@ class DBHelper
                         'shortName' => $shortName
                     ));
         return $offering;
+    }
+
+    public function getCourseByShortName($shortName)
+    {
+        $em = $this->scraper->getEntityManager();
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->findOneBy(array(
+            'shortName' => $shortName
+        ));
+        return $course;
     }
 
 }

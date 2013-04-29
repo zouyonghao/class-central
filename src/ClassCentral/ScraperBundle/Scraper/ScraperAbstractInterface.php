@@ -79,7 +79,7 @@ abstract class ScraperAbstractInterface
     public function init()
     {
         $this->created = ($this->type == 'add'); // Courses are to be created
-        $this->updated = ($this->type == 'updated'); // Courses are to be updated
+        $this->updated = ($this->type == 'update'); // Courses are to be updated
         $this->modify = ($this->simulate == 'N') ; // Database is to be modified
         $this->dbHelper = new DBHelper();
         $this->dbHelper->setScraper($this);
