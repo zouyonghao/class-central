@@ -19,7 +19,7 @@ class Version2 extends VersionAbstractInterface {
 
     public function migrate()
     {
-        $this->output->writeln("Starting data migration version 1");
+        $this->output->writeln("Starting data migration version 2");
 
         // Get all offerings
         $em = $this->container->get('Doctrine')->getEntityManager();
