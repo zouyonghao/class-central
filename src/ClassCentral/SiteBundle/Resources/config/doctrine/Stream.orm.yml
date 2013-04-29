@@ -26,7 +26,7 @@ ClassCentral\SiteBundle\Entity\Stream:
   oneToMany:
     courses:
       targetEntity: Course
-      cascade: ["persist"]
+      cascade: { }
       mappedBy: stream      
       orphanRemoval: false    
   lifecycleCallbacks: {  }
