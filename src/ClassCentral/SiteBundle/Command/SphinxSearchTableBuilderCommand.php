@@ -59,9 +59,14 @@ class SphinxSearchTableBuilderCommand extends ContainerAwareCommand {
             $this->buildSearchString( $offering->getCourse()->getStream()->getName() );
             $sphinx->setStream( $course->getStream()->getName() );
             
-            foreach($offering->getInstructors() as $instructor)
+            foreach($course->getInstructors() as $instructor)
             {
                 $this->buildSearchString( $instructor->getName() );
+            }
+
+            foreach($course->getInstitutions() as $institution)
+            {
+                $this->buildSearchString( $institution->getName() );
             }
            
             $this->buildSearchString($course->getSearchDesc());
