@@ -68,10 +68,10 @@ class Stream
         return $this->courses;
     }
     
-    public function setCourses($course){
+    public function addCourses($course){
         $this->courses[] = $course;           
     }
-     
+
     public function getSlug() {
         return $this->slug;
     }

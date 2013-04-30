@@ -173,7 +173,6 @@ class Course {
      */
     public function setStream(\ClassCentral\SiteBundle\Entity\Stream $stream) {
         $this->stream = $stream;
-        $stream->setCourses($this);
     }
 
     /**

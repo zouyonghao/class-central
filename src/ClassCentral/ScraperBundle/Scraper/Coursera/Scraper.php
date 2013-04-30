@@ -26,6 +26,7 @@ class Scraper extends ScraperAbstractInterface {
         $em = $this->getEntityManager();
         $offerings = array();
         $courseraCourses = $this->getCoursesArray();
+        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
         foreach($courseraCourses as $courseraCourse)
         {
             $selfServingId = $courseraCourse['self_service_course_id'];
@@ -41,7 +42,7 @@ class Scraper extends ScraperAbstractInterface {
             $course->setInitiative($this->initiative);
             $course->setName($courseraCourse['name']);
             $course->setDescription($courseraCourse['short_description']);
-            $course->setStream($this->dbHelper->getStreamBySlug('cs')); // Default to Computer Science
+            $course->setStream($defaultStream); // Default to Computer Science
             $course->setVideoIntro($this->getYoutubeVideoUrl($courseraCourse['video']));
             $course->setUrl($courseUrl);
 
