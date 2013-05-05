@@ -67,3 +67,7 @@
     git=http://github.com/doctrine/DoctrineMigrationsBundle.git
     target=/bundles/Symfony/Bundle/DoctrineMigrationsBundle
 	
+[PHPExcel]
+    git=http://github.com/PHPOffice/PHPExcel.git
+    target=/phpexcel
+    version=origin/master

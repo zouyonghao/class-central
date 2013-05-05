@@ -20,7 +20,8 @@ $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
     'Twig_'            => __DIR__.'/../vendor/twig/lib',
     'Sphinx'           => __DIR__.'/../vendor/sphinx-client',
-    'Simplehtmldom'       => __DIR__.'/../vendor/simplehtmldom-client',
+    'Simplehtmldom'    => __DIR__.'/../vendor/simplehtmldom-client',
+    'PHPExcel'         => __DIR__.'/../vendor/phpexcel/Classes',
 ));
 
 // intl
