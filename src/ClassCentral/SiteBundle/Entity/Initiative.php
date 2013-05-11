@@ -49,6 +49,7 @@ class Initiative
         'edx' => 'EDX',
         'venture-lab' => 'VLAB',
         'canvas' => 'CANVAS',
+        'open2study' => 'OPEN2STUDY',
         'others' => 'OTHERS'
     );
 
