@@ -48,6 +48,11 @@ class Scraper extends ScraperAbstractInterface
             $courseDetail['name'] = substr($nameString, 0, $openBracketPosition - 1);
             $courseDetail['shortName'] =substr($nameString,$openBracketPosition + 1,$closeBracketPosition - $openBracketPosition - 1) ;
 
+            if($courseDetail['name'] == 'Introduction to Nursing in Healthcar')
+            {
+                $courseDetail['name'] = 'Introduction to Nursing in Healthcare';
+                $courseDetail['shortName'] = 'IntroNur';
+            }
             // Get the video id from the url
             // eg. www.youtube.com/embed/Bw8HkjGQb3U?wmode=opaque&rel=0&showinfo=0
             $youtubeIdPosition = 31;
@@ -66,6 +71,8 @@ class Scraper extends ScraperAbstractInterface
             $courseDetail['end_date'] = $this->domParser->find('h2.offering_dates_date', 1)->plaintext;
             $courseDetail['url'] = $url;
 
+            print_r($courseDetail);
+
             $courseDetails[] = $courseDetail;
             $this->domParser->clear();
         }
@@ -82,44 +89,55 @@ class Scraper extends ScraperAbstractInterface
              * TODO: Not take a shortcut
              */
 
-            // Step 1: Get the course
-            $course = $this->dbHelper->createCourseIfNotExists($courseDetail['name'], $this->initiative, null, $stream);
-            $courseId = $course->getId();
-            // Check if course exists or was created successfully
-            if($this->doModify() && empty($courseId))
+            // Build a course object
+            $course = new Course();
+            $courseShortName = 'open2study_' . $courseDetail['shortName'];
+            $course->setShortName($courseShortName);
+            $course->setInitiative($this->initiative);
+            $course->setName($courseDetail['name']);
+            $course->setDescription($courseDetail['desc']);
+            $course->setStream($stream); // Default to Business
+            $course->setVideoIntro($courseDetail['video']);
+            $course->setUrl(self::BASE_URL . $courseDetail['url']);
+
+            $dbCourse = $this->dbHelper->getCourseByShortName($courseShortName);
+            if(!$dbCourse)
             {
-                $this->out("ERROR: COURSE {$courseDetail['name']} could not be created for initiative " . $this->initiative->getName());
-                continue;
+                if($this->doCreate())
+                {
+                    // New course
+                    $this->out("NEW COURSE - " . $course->getName());
+                    if ($this->doModify())
+                    {
+                        foreach($courseDetail['instructors'] as $instructor)
+                        {
+                            $course->addInstructor($this->dbHelper->createInstructorIfNotExists($instructor));
+                        }
+
+                        $em->persist($course);
+                        $em->flush();
+                    }
+                }
             }
 
-            //Step 2: Get the instructors
-            $instructors = array();
-            foreach($courseDetail['instructors'] as $instructor)
-            {
-                $instructors[] = $this->dbHelper->createInstructorIfNotExists($instructor);
-            }
 
             // Check if offering exists
             $shortName = $this->getOfferingShortName($courseDetail);
             $offering = $this->dbHelper->getOfferingByShortName($shortName);
             if($offering)
             {
-                // TODO: Check if the offerings needs to be updated
                 continue;
             }
 
-            // Create the offering
+            // Check if create offering is oon
             if(!$this->doCreate())
             {
+                $offerings[] = $offering; // Add it to the offerings table
                 continue;
             }
 
             $offering = new Offering();
             $offering->setCourse($course);
-            foreach($instructors as $instructor)
-            {
-                $offering->addInstructor($instructor);
-            }
             $offering->setStartDate( \DateTime::createFromFormat("d/m/Y",$courseDetail['start_date']) );
             $offering->setEndDate( \DateTime::createFromFormat("d/m/Y",$courseDetail['end_date']) );
             $offering->setStatus(Offering::START_DATES_KNOWN);
@@ -130,7 +148,7 @@ class Scraper extends ScraperAbstractInterface
             $offering->setSearchDesc($courseDetail['desc']);
             $offering->setCreated(new \DateTime());
 
-            if($this->doCreate() && $this->doModify())
+            if($this->doModify())
             {
                 $em->persist($offering);
                 $em->flush();
