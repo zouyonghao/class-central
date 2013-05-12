@@ -1,0 +1,31 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+
+ {% block headmeta %}
+     <title>{{ course['name'] }}</title>
+     <meta name="description"
+           content="{{ course['desc'] }}"/>
+ {% endblock %}
+
+{% block content %}
+    <div class="course-block">
+        <div class="course-meta row" >
+            <div class='course-info span6'>
+                <h1 course-title>{{ course['name'] }}</h1>
+                <ul course-instructors>
+                    {% for instructor in course['instructors'] %}
+                        <li>{{ instructor }}</li>
+                    {% endfor %}
+                </ul>
+                <p course-desc>{{ course['desc'] }}</p>
+            </div>
+            <div class="course-video span5">
+                {% if course['videoEmbedUrl'] is not null %}
+                    <iframe width="450" height="250" src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen></iframe>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

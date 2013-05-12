@@ -197,6 +197,8 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     color:#000000;
 }
 
+.tagline-initiative-links{color:#222}
+
 .coursenametd{
     cursor: pointer;
 }
@@ -249,12 +251,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     height: inherit !important;
 }
 
-/* MOOC/Course pages */
-.course-block {
-    margin-top: 60px;
-    background-color: #ffffff;
-    padding: 20px 20px;
-}
 
 .cc-home-form input{    
     margin-left: -10px;
@@ -287,6 +283,26 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 
 
+/* MOOC/Course pages */
+.course-block {
+    margin-top: 60px;
+    background-color: #ffffff;
+    padding: 20px 20px;
+    filter:alpha(opacity=75);
+}
+
+.h1 {
+    font-family: 'Nixie One', cursive;
+    color:#222222;
+}
+
+.course-desc {
+
+}
+
+.course-desc {
+
+}
 
 @media (max-width: 1201px) {
         .cc-home-form input{
