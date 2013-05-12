@@ -58,11 +58,14 @@ class CourseRepository extends EntityRepository{
         {
             $courseDetails['instructors'][] = $instructor->getName();
         }
+        $courseDetails['instructorsSingleLineDisplay'] = $this->getInstructorsSingleLineDisplay($courseDetails['instructors']);
+
         return $courseDetails;
     }
 
     /**
      * Generates the url to embed video for youtube videos
+     * TODO: Should not be here. Move to an appropriate place
      * @param $videoIntro
      * @return null
      */
@@ -81,5 +84,27 @@ class CourseRepository extends EntityRepository{
         }
 
         return null;
+    }
+
+    /**
+     * Formats the instructors so that it can be displayed in a single line display
+     * TODO: Should not be here. Move to an appropriate place
+     *
+     */
+    private function getInstructorsSingleLineDisplay($instructors)
+    {
+        if(empty($instructors) || count($instructors) == 1)
+        {
+            return $instructors;
+        }
+        if(count($instructors) == 2)
+        {
+            implode('&',$instructors);
+        }
+        // More than 2 elements
+        $last = array_pop($instructors);
+        $str = implode($instructors, ', ');
+
+        return $str. ' and ' . $last;
     }
 }
