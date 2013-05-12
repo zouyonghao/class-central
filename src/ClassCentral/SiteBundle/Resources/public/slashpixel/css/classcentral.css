@@ -249,7 +249,12 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     height: inherit !important;
 }
 
-
+/* MOOC/Course pages */
+.course-block {
+    margin-top: 60px;
+    background-color: #ffffff;
+    padding: 20px 20px;
+}
 
 .cc-home-form input{    
     margin-left: -10px;
@@ -280,6 +285,8 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin-left: -70px;
     margin-bottom: 10px;    
 }
+
+
 
 @media (max-width: 1201px) {
         .cc-home-form input{

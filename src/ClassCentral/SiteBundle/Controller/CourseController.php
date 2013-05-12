@@ -203,4 +203,46 @@ class CourseController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     *
+     * @param $id Row id for the course
+     * @param $slug decsecriptive url for the course
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function moocAction($id, $slug)
+    {
+
+       $em = $this->getDoctrine()->getEntityManager();
+       $courseId = intval($id);
+       $course = $this->get('Cache')->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
+       if(!$course)
+       {
+           // render a error page
+           return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
+       }
+
+
+       return $this->render('ClassCentralSiteBundle:Course:mooc.html.twig', array('page' => 'home', 'course'=>$course));
+    }
+
+    /**
+     * Retrieves the course details and offerings
+     * @param $courseId
+     */
+    public function getCourseDetails($courseId, $em)
+    {
+        // Get the course first
+        $courseEntity = $em->getRepository('ClassCentralSiteBundle:Course')->findOneById($courseId);
+        if(!$courseEntity)
+        {
+            // Invalid course
+            return null;
+        }
+        $courseDetails = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray($courseEntity);
+        // Course exists get all the offerings
+        $courseDetails['offerings'] = $em->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds(array($courseId));
+
+        return $courseDetails;
+    }
 }
