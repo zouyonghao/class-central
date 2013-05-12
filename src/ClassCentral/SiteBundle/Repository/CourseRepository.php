@@ -20,6 +20,7 @@ class CourseRepository extends EntityRepository{
         $courseDetails['id'] = $course->getId();
         $courseDetails['name'] = $course->getName();
         $courseDetails['videoIntro'] = $course->getVideoIntro();
+        $courseDetails['videoEmbedUrl'] = $this->getVideoEmbedUrl($course->getVideoIntro());
         $courseDetails['length'] = $course->getLength();
         $courseDetails['desc'] = $course->getDescription();
 
@@ -58,5 +59,27 @@ class CourseRepository extends EntityRepository{
             $courseDetails['instructors'][] = $instructor->getName();
         }
         return $courseDetails;
+    }
+
+    /**
+     * Generates the url to embed video for youtube videos
+     * @param $videoIntro
+     * @return null
+     */
+    private function  getVideoEmbedUrl($videoIntro)
+    {
+        if(empty($videoIntro))
+        {
+            return null;
+        }
+
+        $parsedUrl = parse_url($videoIntro);
+        parse_str($parsedUrl['query'], $getParams);
+        if($getParams['v'])
+        {
+            return 'http://www.youtube.com/embed/' .  $getParams['v'];
+        }
+
+        return null;
     }
 }

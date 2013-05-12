@@ -224,7 +224,29 @@ class OfferingRepository extends EntityRepository {
             $offeringArray['instructors'][] = $instructor->getName();
         }
 
+        // Generate the course url
+        $offeringArray['courseSlug'] = $this->getCourseSlug($offeringArray['initiative']['name'], $course->getName());
+        $offeringArray['courseId'] = $course->getId();
+
         return $offeringArray;
+    }
+
+    /**
+     * http://stackoverflow.com/questions/7568231/php-remove-url-not-allowed-characters-from-string
+     * @param $initiative
+     * @param $name
+     * @return mixed
+     */
+    private function getCourseSlug($initiative, $name)
+    {
+
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $initiative . ' ' . $name);
+        $url = trim($url, "-");
+        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+
+        return $url;
     }
 
     /**

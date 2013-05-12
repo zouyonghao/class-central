@@ -23,7 +23,7 @@
             </td>
             
             <td>
-                <a itemprop='url' href="{{ offering['url'] }}" onclick="recordOutboundLink('{{ offering['url'] }}','{{offering['initiative']['name']}}','{{offering['name']}}','{{tableId}}');return false" target="_blank" title="{{ offering['name']}}"><span itemprop="name">{{ offering['name']}}</span></a>                
+                <a itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': offering['courseId'], 'slug': offering['courseSlug']} ) }}"  title="{{ offering['name']}}"><span itemprop="name">{{ offering['name']}}</span></a>
                 {% if offering['institutions']|length > 0 and showInstitution is not defined  %}
                     <br />                
                     {% for institution in offering['institutions'] %}
