@@ -1,5 +1,6 @@
 ClassCentral\SiteBundle\Entity\Course:
   type: entity
+  repositoryClass: ClassCentral\SiteBundle\Repository\CourseRepository
   table: courses
   fields:
     id:

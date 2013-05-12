@@ -28,7 +28,11 @@ ClassCentralSiteBundle_stream:
         
 ClassCentralSiteBundle_search:
   pattern: /search
-  defaults: { _controller: ClassCentralSiteBundle:Search:index}  
+  defaults: { _controller: ClassCentralSiteBundle:Search:index}
+
+ClassCentralSiteBundle_mooc:
+  pattern: /mooc/{id}/{slug}
+  defaults: { _controller: ClassCentralSiteBundle:Course:mooc}
   
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
