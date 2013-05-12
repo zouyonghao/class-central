@@ -288,16 +288,13 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin-top: 60px;
     background-color: #ffffff;
     padding: 20px 20px;
-    filter:alpha(opacity=75);
+    opacity: .50;
+    filter:alpha(opacity=50);
 }
 
 .h1 {
     font-family: 'Nixie One', cursive;
     color:#222222;
-}
-
-.course-desc {
-
 }
 
 .course-desc {
