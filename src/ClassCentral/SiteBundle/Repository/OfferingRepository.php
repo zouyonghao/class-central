@@ -123,14 +123,14 @@ class OfferingRepository extends EntityRepository {
             // Check if its self paced
             if($offering->getStatus() == Offering::COURSE_OPEN) {
                 $selfpaced[] = $offeringArray;
-                $notFinishedCourses[$courseKey] = 1;
+                //$notFinishedCourses[$courseKey] = 1;
                 continue;
             }
             
             // Check if its upcoming
             if ($startDate > $now) {
                 $upcoming[] = $offeringArray;
-                $notFinishedCourses[$courseKey] = 1;
+                //$notFinishedCourses[$courseKey] = 1;
                 continue;
             }
 
@@ -140,7 +140,7 @@ class OfferingRepository extends EntityRepository {
             if ($endDate != null && $endDate < $now && $offering->getStatus() != Offering::COURSE_OPEN) {
                 if(!isset($notFinishedCourses[$courseKey]) && !isset($finishedCourses[$courseKey])) {
                     $past[] = $offeringArray;
-                    $finishedCourses[$courseKey] = 1;
+                    //$finishedCourses[$courseKey] = 1;
                 }
                 continue;
             }
@@ -148,7 +148,7 @@ class OfferingRepository extends EntityRepository {
             // Check if it belongs to ongoing
             if (($offering->getStatus() == Offering::START_DATES_KNOWN) || ($offering->getStatus() == Offering::COURSE_OPEN)) {
                 $ongoing[] = $offeringArray;
-                $notFinishedCourses[$courseKey] = 1;
+                //$notFinishedCourses[$courseKey] = 1;
             }
 
             // ERROR: Should not come here

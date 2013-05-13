@@ -91,20 +91,28 @@ class CourseRepository extends EntityRepository{
      * TODO: Should not be here. Move to an appropriate place
      *
      */
-    private function getInstructorsSingleLineDisplay($instructors)
+    private function getInstructorsSingleLineDisplay($instructors = array())
     {
-        if(empty($instructors) || count($instructors) == 1)
-        {
-            return $instructors;
-        }
-        if(count($instructors) == 2)
-        {
-            implode('&',$instructors);
-        }
-        // More than 2 elements
-        $last = array_pop($instructors);
-        $str = implode($instructors, ', ');
 
-        return $str. ' and ' . $last;
+        switch(count($instructors))
+        {
+            case 0:
+                return '';
+                break;
+            case 1:
+                return array_pop($instructors);
+                break;
+            case 2:
+                return  implode(' and ',$instructors);
+                break;
+            default:
+                // More than 2 elements
+                $last = array_pop($instructors);
+                $str = implode($instructors, ', ');
+
+                return $str. ' and ' . $last;
+                break;
+
+        }
     }
 }
