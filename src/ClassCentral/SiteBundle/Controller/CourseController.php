@@ -229,7 +229,7 @@ class CourseController extends Controller
            array('page' => 'home',
                  'course'=>$course,
                  'offeringTypes' => Offering::$types,
-                 'offeringTypesOrder' => array('upcoming','ongoing','selfstudy','past')
+                 'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past')
        ));
     }
 
