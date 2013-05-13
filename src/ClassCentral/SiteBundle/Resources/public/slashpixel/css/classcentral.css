@@ -288,8 +288,9 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin-top: 60px;
     background-color: #ffffff;
     padding: 20px 20px;
-    opacity: .50;
-    filter:alpha(opacity=50);
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    box-shadow: inset 0 0 10px rgb(0,136,204);
 }
 
 .h1 {
@@ -299,6 +300,11 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 .course-desc {
 
+}
+
+.course-share .share-button {
+    display: inline;
+    margin: 0px 10px 10px;
 }
 
 @media (max-width: 1201px) {

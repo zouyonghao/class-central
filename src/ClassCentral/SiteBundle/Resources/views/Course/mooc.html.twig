@@ -9,18 +9,50 @@
 
 {% block content %}
     <div class="course-block">
-        <div class="course-meta row" >
+        <div class="course-meta-top row" >
             <div class='course-info span6'>
-                <h1 course-title>{{ course['name'] }}</h1>
-                <p course-instructors>{{ course['instructorsSingleLineDisplay'] }}</p>
-                <p course-desc>{{ course['desc'] }}</p>
+                <h1 class="course-title">{{ course['name'] }}</h1>
+                <p class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</p>
+                <p class="course-desc">{{ course['desc'] }}</p>
             </div>
             <div class="course-video span5">
                 {% if course['videoEmbedUrl'] is not null %}
                     <iframe width="450" height="250" src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen></iframe>
                 {% endif %}
             </div>
+        </div>
 
+        <div class ="course-meta-bottom row">
+            <div class="course-meta-bottom-left span6">
+                {% for offeringType in offeringTypesOrder %}
+                    {% if course['offerings'][offeringType]|length > 0 %}
+                          <div class='course-offeringtype-block'>
+                            <h4>{{ offeringTypes[offeringType]['desc'] }}</h4>
+                            <ul>
+                            {% for offering in course['offerings'][offeringType]%}
+                                <li>{{ offering['displayDate'] }} <a href="{{ offering['url'] }}" class="btn btn-primary">Go to class</a> </li>
+                            {% endfor %}
+                            </ul>
+                          </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="course-meta-bottom-right span5">
+                <div class= "row">
+                    <div class ="span2">
+                        <p>Initiative: Coursera</p>
+                        <p>Stanford University</p>
+                    </div>
+                    <div class="course-share span3">
+                        <div class="fb-like share-button" data-href="http://www.class-central.com/" data-send="false" data-layout="box_count" data-width="450" data-show-faces="true"></div>
+                        <div class="share-button">
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-count="vertical" data-hashtags="mooc">Tweet</a>
+                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                        </div>
+                        <div class="g-plusone share-button" data-size="tall" ></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
@@ -223,7 +224,13 @@ class CourseController extends Controller
        }
 
 
-       return $this->render('ClassCentralSiteBundle:Course:mooc.html.twig', array('page' => 'home', 'course'=>$course));
+       return $this->render(
+           'ClassCentralSiteBundle:Course:mooc.html.twig',
+           array('page' => 'home',
+                 'course'=>$course,
+                 'offeringTypes' => Offering::$types,
+                 'offeringTypesOrder' => array('upcoming','ongoing','selfstudy','past')
+       ));
     }
 
     /**
