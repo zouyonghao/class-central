@@ -1,6 +1,7 @@
 ClassCentral\SiteBundle\Entity\Stream:
   type: entity
   table: streams
+  repositoryClass: ClassCentral\SiteBundle\Repository\StreamRepository
   fields:
     id:
       id: true

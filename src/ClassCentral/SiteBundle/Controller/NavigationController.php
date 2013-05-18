@@ -13,22 +13,25 @@ class NavigationController extends Controller{
     
      private $offeringCountCacheKey = 'navigation_offerings_count';
      private $initiativeCountCacheKey ='navigation_initiatives_count';
+     private $streamCountCacheKey = 'navigation_stream_count';
          
     
-    public function indexAction($page){
-                        
+    public function indexAction($page)
+    {
         $cache = $this->get('cache');        
         $offeringCount = $cache->get($this->offeringCountCacheKey, array($this,'getOfferingCount'));
         $initiativeCount = $cache->get($this->initiativeCountCacheKey, array($this,'getInitiativeCount'));
+        $streamCount = $cache->get($this->streamCountCacheKey, array($this,'getStreamCount'));
         
         return $this->render('ClassCentralSiteBundle:Helpers:navbar.html.twig', 
                             array( 'offeringCount' => $offeringCount,'initiativeCount'=>$initiativeCount, 
                                    'page' => $page, 'offeringTypes'=> Offering::$types, 
-                                    'initiativeTypes' => Initiative::$types
+                                    'initiativeTypes' => Initiative::$types, 'streams' => $streamCount
                                 ));  
     }
     
-    public function getInitiativeCount(){
+    public function getInitiativeCount()
+    {
         $results = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')->getCourseCountByInitative();
         $initiativeCount = array();
         $othersCode = Initiative::$types['others'];
@@ -36,15 +39,18 @@ class NavigationController extends Controller{
         $initiativeCount[$othersCode]['name'] = 'Others';
         $initiativeCodes = array_values(Initiative::$types);
         
-        foreach ($results as $result){            
+        foreach ($results as $result)
+        {
             $name = $result['name'];
             $code = $result['code'];
             $count = $result['total']; // accessing the count
             
-            if(in_array($code, $initiativeCodes)) {
+            if(in_array($code, $initiativeCodes))
+            {
                 $initiativeCount[$code]['count'] = $count;
                 $initiativeCount[$code]['name'] = $name;
-            } else{
+            } else
+            {
                $initiativeCount[$othersCode]['count'] += $count; 
             }
             
@@ -53,7 +59,8 @@ class NavigationController extends Controller{
         return $initiativeCount;
     }
 
-    public function getOfferingCount(){
+    public function getOfferingCount()
+    {
         $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
         $offeringCount = array();
         foreach (array_keys(Offering::$types) as $type) {
@@ -61,6 +68,12 @@ class NavigationController extends Controller{
         }
         
         return $offeringCount;
+    }
+
+    public function getStreamCount()
+    {
+        $streams = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Stream')->getCourseCountByStream();
+        return $streams;
     }
     
 }

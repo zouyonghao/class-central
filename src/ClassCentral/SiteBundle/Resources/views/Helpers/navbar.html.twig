@@ -39,7 +39,19 @@
                         </li>                            
                     {% endfor %}                            
                     </ul>
-                </li>  
+                </li>
+                <!-- streams !-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stream<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for stream in streams %}
+                            <li>
+                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}">{{ stream['name'] }} ({{ stream['total'] }})</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
                 <li class="dropdown">  
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Courses<b class="caret"></b></a>  
                     <ul class="dropdown-menu">  
