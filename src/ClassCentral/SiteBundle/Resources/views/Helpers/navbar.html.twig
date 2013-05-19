@@ -35,8 +35,8 @@
                     <ul class="dropdown-menu">  
                     {% for initiative, code in initiativeTypes %}                            
                         <li>
-                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
-                        </li>                            
+                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
+                        </li>
                     {% endfor %}                            
                     </ul>
                 </li>
@@ -46,7 +46,7 @@
                     <ul class="dropdown-menu">
                         {% for stream in streams %}
                             <li>
-                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}">{{ stream['name'] }} ({{ stream['total'] }})</a>
+                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -57,14 +57,14 @@
                     <ul class="dropdown-menu">  
                     {% for offeringType, offeringDetails in offeringTypes %}
                             {% if offeringCount[offeringType] > 0 %}
-                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
+                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
                             {% endif %}
                     {% endfor %}                            
                     </ul>
                 </li> 
-                 <li><a href="https://plus.google.com/{{plusPageUrl}}/" target="_blank">News</a></li>
-                 <li><a href="http://www.blog.class-central.com" target="_blank">Blog</a></li>
-                 <li {% if page is defined and page=='search' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_search')}}">Search</a></li> 		                 
+                 <li><a href="https://plus.google.com/{{plusPageUrl}}/" target="_blank" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
+                 <li><a href="http://www.blog.class-central.com" target="_blank" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Blog'])">Blog</a></li>
+                 <li {% if page is defined and page=='search' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_search')}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])">Search</a></li>
             </ul>
             {% if app.environment == 'prod' and page is defined %}
 		    <ul class="nav pull-right">

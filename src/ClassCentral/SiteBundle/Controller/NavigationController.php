@@ -14,6 +14,7 @@ class NavigationController extends Controller{
      private $offeringCountCacheKey = 'navigation_offerings_count';
      private $initiativeCountCacheKey ='navigation_initiatives_count';
      private $streamCountCacheKey = 'navigation_stream_count';
+     private $navEventName = 'navbar-clicks';
          
     
     public function indexAction($page)
@@ -26,7 +27,8 @@ class NavigationController extends Controller{
         return $this->render('ClassCentralSiteBundle:Helpers:navbar.html.twig', 
                             array( 'offeringCount' => $offeringCount,'initiativeCount'=>$initiativeCount, 
                                    'page' => $page, 'offeringTypes'=> Offering::$types, 
-                                    'initiativeTypes' => Initiative::$types, 'streams' => $streamCount
+                                    'initiativeTypes' => Initiative::$types, 'streams' => $streamCount,
+                                    'navEventName' => $this->navEventName
                                 ));  
     }
     
