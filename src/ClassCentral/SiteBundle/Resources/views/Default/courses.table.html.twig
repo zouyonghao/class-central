@@ -32,7 +32,7 @@
                             {% set route = 'ClassCentralSiteBundle_institution' %}
                         {% endif %}
                        <span class="label label-inverse">
-                           <a href="{{ path(route,{'slug' : institution['slug']})}}" style="color: white">{{institution['name']}}</a>
+                           <a href="{{ path(route,{'slug' : institution['slug']})}}" style="color: white"  onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{offering['name']}}'])">{{institution['name']}}</a>
                        </span>
                     {% endfor %} 
                 {% endif %}
@@ -52,7 +52,7 @@
             </td>
             
             {% if offering['stream']['showInNav'] %}
-                <td> <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="{{ offering['stream']['name'] }} MOOCs">{{ offering['stream']['name'] }}</a> </td>                
+                <td> <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="{{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])">{{ offering['stream']['name'] }}</a> </td>
             {% else %}
                 <td> {{ offering['stream']['name'] }} </td>
             {% endif %}
