@@ -13,7 +13,6 @@
     $(document).ready(function(){
         $('.icon-link').click(function(){        
             var feedback = $(this).attr("value");
-            var _gaq = _gaq || [];
             $('#search-feedback').slideUp();
             try{
                  _gaq.push(['_trackEvent', 'Search Feedback' , feedback, '{{keywords}}' ]);                        
