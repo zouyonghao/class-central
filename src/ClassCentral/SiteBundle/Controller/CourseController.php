@@ -219,10 +219,20 @@ class CourseController extends Controller
        $course = $this->get('Cache')->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
        if(!$course)
        {
-           // render a error page
-           return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
+           // TODO: render a error page
+          return;
        }
 
+       // URL of the current page
+       $course['pageUrl'] = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
+
+       // Page Title/Twitter card title
+        $titleSuffix = '';
+        if(!empty($course['initiative']['name']))
+        {
+            $titleSuffix = $course['initiative']['name'] . ' | ';
+        }
+        $course['pageTitle'] = $titleSuffix . $course['name'];
 
        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',

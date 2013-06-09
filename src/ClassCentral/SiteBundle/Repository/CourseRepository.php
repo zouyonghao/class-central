@@ -23,6 +23,7 @@ class CourseRepository extends EntityRepository{
         $courseDetails['videoEmbedUrl'] = $this->getVideoEmbedUrl($course->getVideoIntro());
         $courseDetails['length'] = $course->getLength();
         $courseDetails['desc'] = $course->getDescription();
+        $courseDetails['slug'] = $course->getSlug();
 
         // Stream
         $stream = $course->getStream();

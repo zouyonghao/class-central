@@ -106,6 +106,11 @@ class Course {
      */
     private $url;
 
+    /*
+     * Generated url for the course page
+     */
+    private $slug;
+
     /**
      *
      * @var string $videoIntro
@@ -326,6 +331,22 @@ class Course {
         $this->searchDesc = $desc;
     }
 
+    /**
+     * http://stackoverflow.com/questions/7568231/php-remove-url-not-allowed-characters-from-string
+     * @return mixed
+     */
+    public function getSlug(){
+        $initiative = '';
+        if($this->getInitiative() != null ) {
+            $initiative = $this->getInitiative()->getName();
+        }
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $initiative . ' ' . $this->getName());
+        $url = trim($url, "-");
+        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
 
+        return $url;
+    }
 
 }
