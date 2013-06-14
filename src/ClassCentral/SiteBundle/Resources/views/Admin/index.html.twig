@@ -1,0 +1,53 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+    <div style="margin-top: 50px">
+        <div>
+            <h2>Instructors</h2>
+            <ul>
+                <li><a href="{{ path('instructor_new') }}">New</a></li>
+                <li><a href="{{ path('instructor') }}">List</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Universities/Institution(s)</h2>
+            <ul>
+                <li><a href="{{ path('institution_new') }}">New</a></li>
+                <li><a href="{{ path('institution') }}">List</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Courses</h2>
+            <ul>
+                <li><a href="{{ path('course_new') }}">New</a></li>
+                <li><a href="{{ path('course') }}">List</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Offerings</h2>
+            <ul>
+                <li><a href="{{ path('offering_new') }}">New</a></li>
+                <li><a href="{{ path('offering') }}">List</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Stream</h2>
+            <ul>
+                <li><a href="{{ path('stream_new') }}">New</a></li>
+                <li><a href="{{ path('stream') }}">List</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Initiative</h2>
+            <ul>
+                <li><a href="{{ path('initiative_new') }}">New</a></li>
+                <li><a href="{{ path('initiative') }}">List</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

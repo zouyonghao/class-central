@@ -25,3 +25,7 @@ ClassCentralSiteBundle_institution:
 ClassCentralSiteBundle_clearcache:
   pattern: /clearcache
   defaults: { _controller: ClassCentralSiteBundle:Default:clearCache}
+
+ClassCentralSiteBundle_admin:
+  pattern: /
+  defaults: { _controller: ClassCentralSiteBundle:Admin:index}
