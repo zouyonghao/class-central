@@ -15,7 +15,8 @@ class DefaultController extends Controller {
                     array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));                
 
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', 
-                            array( 'offerings' => $offerings, 'page' => 'home', 'offeringTypes'=> Offering::$types ));
+                            array( 'offerings' => $offerings, 'page' => 'home',
+                                  'offeringTypes'=> array_intersect_key( Offering::$types, array_flip(array('recent','recentlyAdded')))));
     }
     
     
