@@ -6,13 +6,26 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
 */
+.main-background {
+    background: url("/bundles/classcentralsite/slashpixel/images/background.jpg") no-repeat scroll 0 0 transparent;
+    height: 500px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+    background-size: 100%;
+}
+
 .hero-unit {
   font-family: 'Nixie One', cursive;
-  background-color: rgb(0,136,204);
-  opacity: .75; 
-  filter:alpha(opacity=75);
+  color: #ffffff;
+  background: none;
   margin-top:60px;
-  padding:40px;  
+  padding-left: 0;
+  margin-left: 0;
+  margin-bottom: 20px;
+  padding-bottom: 0;
 }
 
 :root .hero-unit {
@@ -21,13 +34,16 @@
 
 .hero-unit h1{
     font-family: 'Nixie One', cursive;
-    color:#222222;
     font-size:24px;
     line-height:1.5;
     padding-top:0px;
     padding-bottom:20px;
-    padding-left:10px;
 }
+
+.hero-unit a {
+    color: #FFFFFF;
+}
+
 a {
   color: #0088cc;
   text-decoration: none;
@@ -63,7 +79,7 @@ a.learnmorelink:hover {
 }
 .tabletitle {
   font-family: 'Nixie One', cursive;
-  color:#ffffff;
+  color:#006e6e;
   font-weight:normal;
   padding-bottom:10px;
   font-size:24px;
@@ -171,15 +187,33 @@ a.social4:hover {
 .classcentralfooter {
   margin:40px 0 80px 0;
   text-align:center;
+  list-style: none;
+}
+
+.classcentralfooter.nav-pills > li > a, .classcentralfooter.nav-pills > li > a:hover {
+    color: #0662a1;
+    background: none;
 }
 
 .classcentralfooter .social{
     padding-top: 6px;
 }
 
+footer {
+    background-color: #e6e7e8;
+    height: 80px;
+}
+
 .pp_default{
     display: block;
     position: absolute;
+}
+
+.course-table-wrapper {
+    float: left;
+    overflow: auto;
+    width: auto;
+    background-color: #FFFFFF;
 }
 
 table.table thead .sorting,
@@ -203,9 +237,39 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     cursor: pointer;
 }
 
-.social-btn-nav{
-	margin-top: 10px;
+.social-btn-nav {
+    margin: 0;
 }
+
+.social-btn-nav li{
+	float: left;
+    width: auto;
+    list-style: none;
+    margin: 0;
+}
+
+
+/*Top navigation */
+.navbar-inner {
+    background: none;
+    border: none;
+}
+
+.cc-navbar {
+    background-color: #0662a1;
+    height: 80px;
+    color: #FFFFFF;
+}
+
+.navbar .nav > li > a {
+    color: #FFFFFF;
+    height: 100%;
+}
+
+.navbar .nav > li > a:focus, .navbar .nav > li > a:hover {
+    color: #FFFFFF;
+}
+
 /* Fix for tables not showing up in IE 8*/
 .table {background-color:#ffffff;}
 
@@ -251,13 +315,14 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     height: inherit !important;
 }
 
+.add-on {
+    border-radius: none;
+}
 
-.cc-home-form input{    
-    margin-left: -10px;
-    height: 69px;    
+
+.cc-home-form input{
     font-size: 20px;
-    background-color: #EEDFF0;
-    -moz-border-top-left-radius: 10px;
+    -moz-border-top-left-radius: 0px;
     -webkit-border-top-left-radius: 10px;
     border-top-left-radius: 0px;
     -moz-border-radius-bottomleft: 0px;
@@ -273,8 +338,8 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     height: 50px;
 }
 
-.input-xxxlarge{
-    width: 700px;        
+.input-xxxlarge.input-large {
+    width: 500px;
 }
 
 .cc-home-form button{    
