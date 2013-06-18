@@ -22,6 +22,10 @@ ClassCentralSiteBundle_institution:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/institution.yml"
     prefix: /institution
 
+ClassCentralSiteBundle_news:
+    resource: "@ClassCentralSiteBundle/Resources/config/routing/news.yml"
+    prefix: /news
+
 ClassCentralSiteBundle_clearcache:
   pattern: /clearcache
   defaults: { _controller: ClassCentralSiteBundle:Default:clearCache}
