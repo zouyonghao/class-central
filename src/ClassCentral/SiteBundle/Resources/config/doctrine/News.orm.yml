@@ -1,0 +1,19 @@
+ClassCentral\SiteBundle\Entity\News:
+  type: entity
+  table: news
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: AUTO
+    title:
+        type: text
+    url:
+        type: text
+    created:
+      type: datetime
+    modified:
+      type: datetime

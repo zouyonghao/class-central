@@ -16,6 +16,7 @@ class Version20130617204940 extends AbstractMigration
             CREATE TABLE IF NOT EXISTS news(
                  id INT NOT NULL AUTO_INCREMENT ,
                  title TEXT,
+                 url TEXT,
                  created timestamp NULL DEFAULT NULL,
                  modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                  PRIMARY KEY (id))
