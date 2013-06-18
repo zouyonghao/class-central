@@ -14,6 +14,34 @@ use ClassCentral\SiteBundle\Form\NewsType;
 class NewsController extends Controller
 {
     /**
+     * Shows the recent news item on /news
+     */
+    public function homeAction()
+    {
+        $cache = $this->get('Cache');
+        $news = $cache->get('recent_news',array($this,'getRecentNews'));
+        return $this->render('ClassCentralSiteBundle:News:home.html.twig', array(
+            'news' => $news
+        ));
+    }
+
+    public function getRecentNews()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $news = $em->getRepository('ClassCentralSiteBundle:News')->findAll();
+        $newsArray = array();
+        foreach($news as $newsItem)
+        {
+            $item = array();
+            $item['title'] = $newsItem->getTitle();
+            $item['url'] = $newsItem->getUrl();
+            $newsArray[] = $item;
+        }
+
+        return $newsArray;
+    }
+
+    /**
      * Lists all News entities.
      *
      */

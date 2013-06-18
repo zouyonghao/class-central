@@ -33,6 +33,10 @@ ClassCentralSiteBundle_search:
 ClassCentralSiteBundle_mooc:
   pattern: /mooc/{id}/{slug}
   defaults: { _controller: ClassCentralSiteBundle:Course:mooc}
+
+ClassCentralSiteBundle_news:
+  pattern: /news
+  defaults: {_controller: ClassCentralSiteBundle:News:home}
   
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"

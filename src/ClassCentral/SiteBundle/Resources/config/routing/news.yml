@@ -1,5 +1,5 @@
 news:
-    pattern:  /
+    pattern:  /index
     defaults: { _controller: "ClassCentralSiteBundle:News:index" }
 
 news_show:

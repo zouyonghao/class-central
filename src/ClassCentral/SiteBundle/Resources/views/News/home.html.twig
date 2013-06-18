@@ -1,0 +1,12 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+<div id='mooc-news' style="margin-top:100px">
+    <ul>
+        {% for newsItem in news %}
+            <li><a href="{{ newsItem.url }}">{{ newsItem.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
