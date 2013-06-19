@@ -1,0 +1,15 @@
+ClassCentral\SiteBundle\Entity\Language:
+  type: entity
+  table: languages
+  fields:
+      id:
+        id: true
+        type: integer
+        unsigned: false
+        nullable: false
+        generator:
+          strategy: AUTO
+      name:
+        type: string
+        length: 255
+        nullable: false
