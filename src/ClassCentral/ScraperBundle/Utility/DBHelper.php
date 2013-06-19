@@ -132,6 +132,22 @@ class DBHelper
         return $stream;
     }
 
+    /**
+     * A map between language_name => ClassCentralSiteBundle:Language
+     */
+    public function getLanguageMap()
+    {
+        $em = $this->scraper->getEntityManager();
+        $languages = $em->getRepository('ClassCentralSiteBundle:Language')->findAll();
+        $languageMap = array();
+        foreach($languages as $language)
+        {
+            $languageMap[$language->getName()] = $language;
+        }
+
+        return $languageMap;
+    }
+
     public function getOfferingByShortName($shortName)
     {
         $em = $this->scraper->getEntityManager();

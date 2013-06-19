@@ -13,8 +13,18 @@ class Scraper extends ScraperAbstractInterface {
     const INSTRUCTOR_URL = 'https://www.coursera.org/maestro/api/user/instructorprofile?topic_short_name=%s&exclude_topics=1';
     const BASE_URL = 'https://www.coursera.org/course/';
 
+    protected static $languageMap = array(
+        'en' => "English",
+        'fr' => "French",
+        "de" => "German",
+        "es" => "Spanish",
+        "it" => "Italian",
+        "zh-Hant" => "Chinese",
+        "zh-Hans" => "Chinese",
+    );
+
     private $courseFields = array(
-        'Url', 'VideoIntro', 'SearchDesc', 'Description', 'Length', 'Name'
+        'Url', 'VideoIntro', 'SearchDesc', 'Description', 'Length', 'Name', 'Language'
     );
 
     private $offeringFields = array(
@@ -27,6 +37,8 @@ class Scraper extends ScraperAbstractInterface {
         $offerings = array();
         $courseraCourses = $this->getCoursesArray();
         $defaultStream = $this->dbHelper->getStreamBySlug('cs');
+        $dbLanguageMap = $this->dbHelper->getLanguageMap();
+
         foreach($courseraCourses as $courseraCourse)
         {
             $selfServingId = $courseraCourse['self_service_course_id'];
@@ -34,6 +46,7 @@ class Scraper extends ScraperAbstractInterface {
             $courseraCourseShortName = $courseraCourse['short_name'];
             $courseShortName = 'coursera_' .$courseraCourseShortName;
             $courseUrl = $this->getCourseLink($courseraCourse);
+            $courseLang = isset(self::$languageMap[$courseraCourse['language']]) ? self::$languageMap[$courseraCourse['language']] : null ;
 
 
             // Create a course object
@@ -45,6 +58,11 @@ class Scraper extends ScraperAbstractInterface {
             $course->setStream($defaultStream); // Default to Computer Science
             $course->setVideoIntro($this->getYoutubeVideoUrl($courseraCourse['video']));
             $course->setUrl($courseUrl);
+            if(isset($dbLanguageMap[$courseLang])) {
+                $course->setLanguage($dbLanguageMap[$courseLang]);
+            } else {
+                $this->out("Language not found " . $courseraCourse['language']);
+            }
 
 
             // Add the university
