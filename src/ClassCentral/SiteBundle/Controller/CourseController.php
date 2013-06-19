@@ -213,7 +213,6 @@ class CourseController extends Controller
      */
     public function moocAction($id, $slug)
     {
-
        $em = $this->getDoctrine()->getEntityManager();
        $courseId = intval($id);
        $course = $this->get('Cache')->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
@@ -222,6 +221,11 @@ class CourseController extends Controller
            // TODO: render a error page
           return;
        }
+
+       // Save the course and user tracking
+       $sessionId = $this->getRequest()->getSession()->getId();
+       $em->getConnection()->executeUpdate("INSERT INTO user_courses_tracking(user_identifier,course_id)
+                                VALUES ('$sessionId', $courseId)");
 
        // URL of the current page
        $course['pageUrl'] = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
