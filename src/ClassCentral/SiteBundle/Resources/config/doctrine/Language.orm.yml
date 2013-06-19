@@ -13,3 +13,10 @@ ClassCentral\SiteBundle\Entity\Language:
         type: string
         length: 255
         nullable: false
+  oneToMany:
+       courses:
+         targetEntity: Course
+         cascade: {}
+         mappedBy: language
+         inversedBy: null
+         orphanRemoval: false

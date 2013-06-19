@@ -58,6 +58,14 @@ ClassCentral\SiteBundle\Entity\Course:
       inversedBy: courses
       orphanRemoval: false
       nullable: true
+    language:
+      targetEntity: Language
+      fetch: EAGER
+      cascade: {}
+      mappedBy: null
+      inversedBy: courses
+      orphanRemoval: false
+      nullable: true
   oneToMany:
     offerings:
       targetEntity: Offering

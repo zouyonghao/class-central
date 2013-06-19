@@ -61,6 +61,11 @@ class Course {
      * @var ClassCentral\SiteBundle\Entity\Initiative
      */
     private $initiative;
+
+    /**
+     * @var ClassCentral\SiteBundle\Entity\Language
+     */
+    private $language;
     
     /**
      * @var ClassCentral\SiteBundle\Entity\Institution
@@ -210,6 +215,20 @@ class Course {
      */
     public function getInitiative() {
         return $this->initiative;
+    }
+
+    /**
+     * @param Language $lang
+     */
+    public function setLanguage(\ClassCentral\SiteBundle\Entity\Language $lang) {
+        $this->language = $lang;
+    }
+
+    /**
+     * @return ClassCentral\SiteBundle\Entity\Language
+     */
+    public  function getLanguage() {
+        return $this->language;
     }
     
      /**
