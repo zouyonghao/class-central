@@ -27,7 +27,7 @@ class Version20130618203040 extends AbstractMigration
                        FOREIGN KEY (language_id)
                        REFERENCES languages(id)
                      ");
-        $this->addSql("INSERT INTO languages VALUES ('English','French','Spanish','Italian','Chinese','German')");
+        $this->addSql("INSERT INTO languages(name) VALUES ('English'),('French'),('Spanish'),('Italian'),('Chinese'),('German')");
 
     }
 
