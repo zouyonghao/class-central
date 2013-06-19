@@ -26,6 +26,10 @@ ClassCentralSiteBundle_news:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/news.yml"
     prefix: /news
 
+ClassCentralSiteBundle_language:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/language.yml"
+  prefix: /language
+
 ClassCentralSiteBundle_clearcache:
   pattern: /clearcache
   defaults: { _controller: ClassCentralSiteBundle:Default:clearCache}
