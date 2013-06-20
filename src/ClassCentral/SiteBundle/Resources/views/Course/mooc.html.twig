@@ -45,7 +45,7 @@
                 {% for offeringType in offeringTypesOrder %}
                     {% if course['offerings'][offeringType]|length > 0 %}
                           <div class='course-offeringtype-block'>
-                            <h4>{{ offeringTypes[offeringType]['desc'] }}</h4>
+                            <h4 >{{ offeringTypes[offeringType]['desc'] }}</h4>
                             <ul>
                             {% for offering in course['offerings'][offeringType]%}
                                 <li>{{ offering['displayDate'] }} <a href="{{ offering['url'] }}" class="btn btn-primary">Go to class</a> </li>
