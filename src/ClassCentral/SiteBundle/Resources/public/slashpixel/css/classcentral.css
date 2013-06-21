@@ -21,11 +21,8 @@
   font-family: 'Nixie One', cursive;
   color: #ffffff;
   background: none;
-  margin-top:60px;
-  padding-left: 0;
-  margin-left: 0;
-  margin-bottom: 20px;
-  padding-bottom: 0;
+  padding: 0;
+  margin: 0 0 20px 0;
 }
 
 :root .hero-unit {
@@ -33,8 +30,8 @@
 }
 
 .hero-unit h1{
-    font-family: 'Nixie One', cursive;
-    font-size:24px;
+    font-family: 'Open Sans', bold;
+    font-size:20px;
     line-height:1.5;
     padding-top:0px;
     padding-bottom:20px;
@@ -81,9 +78,8 @@ a.learnmorelink:hover {
   font-family: 'Nixie One', cursive;
   color:#006e6e;
   font-weight:normal;
-  padding-bottom:10px;
   font-size:24px;
-  padding-top: 20px;
+  padding: 20px 0 10px 20px;
 }
 thead {
   background-color:white;
@@ -141,6 +137,25 @@ p.newstitle {
   color:#ffffff;
   background-color:#0088cc;
 }
+
+.navbar .nav-right-list > li {
+  margin-top: 20px;
+}
+
+.navbar .nav-right-list li.dropdown.open > .dropdown-toggle {
+  background: none;
+  color: #FFFFFF;
+}
+
+.navbar .nav-right-list > li > form {
+  margin-top: 5px;
+}
+
+.navbar .nav li.dropdown > .dropdown-toggle .caret, .navbar .nav li.dropdown.open > .dropdown-toggle .caret {
+  border-top-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+}
+
 .socialmedia.nav-pills > li > a {
   width:30px;
   height:30px;
@@ -185,12 +200,21 @@ a.social4:hover {
   background-position: -90px -30px;
 }
 .classcentralfooter {
-  margin:40px 0 80px 0;
   text-align:center;
   list-style: none;
 }
 
-.classcentralfooter.nav-pills > li > a, .classcentralfooter.nav-pills > li > a:hover {
+.classcentralfooter {
+  margin-bottom: 0;
+  padding-top: 30px;
+}
+
+.classcentralfooter li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.classcentralfooter a, .classcentralfooter a:hover {
     color: #0662a1;
     background: none;
 }
