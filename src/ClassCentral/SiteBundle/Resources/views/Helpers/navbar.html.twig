@@ -17,8 +17,8 @@
   })();
 </script>
 
-<div class="navbar {% if page is defined %} navbar-fixed-top {% endif %} navbar-inverse">
-    <div class="navbar-inner">
+<div class="navbar">
+    <div class="navbar-inner cc-navbar">
         <div class="container">
             
 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -28,8 +28,12 @@
         <span class="icon-bar"></span>
       </a>
 	    <div class="nav-collapse">
-            <ul class="nav">                
-		<li {% if page is defined and page=='home' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_homepage')}}">Home</a></li> 		                              
+            <ul class="nav pull-left">
+                <li>
+                    <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><h1>Class Central</h1></a>
+                </ul>
+            </ul>
+            <ul class="nav pull-right nav-right-list">
                  <li class="dropdown">  
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Initiatives<b class="caret"></b></a>  
                     <ul class="dropdown-menu">  
@@ -62,28 +66,18 @@
                     {% endfor %}                            
                     </ul>
                 </li> 
-                 <li><a href="https://plus.google.com/{{plusPageUrl}}/" target="_blank" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
-                 <li><a href="http://www.blog.class-central.com" target="_blank" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Blog'])">Blog</a></li>
-                 <li {% if page is defined and page=='search' %}class="active"{% endif %}><a href="{{ path('ClassCentralSiteBundle_search')}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])">Search</a></li>
+                 <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" target="_blank" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
+                 <li>
+                     <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">
+                         <div class="input-append">
+                             <input class="span2" id="prependedInput" type="text" name="q">
+                             <span class="add-on"><i class="icon-search"></i></span>
+                         </div>
+                     </form>
+                 </li>
             </ul>
-            {% if app.environment == 'prod' and page is defined %}
-		    <ul class="nav pull-right">
-                        <li class="social-btn-nav">
-                            <a href="https://twitter.com/classcentral" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @classcentral</a>
-                           <!-- <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.class-central.com" data-text="Free online courses from Stanford,MIT,Harvard etc offered via Coursera,Udacity,edX &amp; others" data-via="classcentral" data-hashtags="mooc">Tweet</a> -->
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-                        </li>
-                        <li class="social-btn-nav">
-                            <div class="fb-like" data-href="https://www.facebook.com/classcentral" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
-                        </li>
-                        <li class="social-btn-nav" style="margin-left: 10px;">
-                            <div class="g-plusone" data-size="medium" data-href="http://www.class-central.com"></div>
-			</li>
-			<li class="social-btn-nav"><iframe src="http://ghbtns.com/github-btn.html?user=dhawalhshah&repo=class-central&type=watch&count=true"
-				  allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe></li>
-		    </ul>
 	    </div>
-            {% endif %}
+
         </div>
     </div>
 </div>
