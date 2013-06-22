@@ -6,6 +6,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
 */
+
+body {
+    background-color:#f9f9f9;
+}
+
 .main-background {
     background: url("/bundles/classcentralsite/slashpixel/images/bkg_img_02.jpg") no-repeat scroll 0 0 transparent;
     height: 500px;
@@ -413,6 +418,11 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 .course-desc {
 
+}
+
+/* News page */
+.mooc-news {
+    background-color: #ffffff;
 }
 
 .course-share .share-button {
