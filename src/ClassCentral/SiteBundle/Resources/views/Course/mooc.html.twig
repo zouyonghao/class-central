@@ -48,7 +48,7 @@
                             <h4 >{{ offeringTypes[offeringType]['desc'] }}</h4>
                             <ul>
                             {% for offering in course['offerings'][offeringType]%}
-                                <li>{{ offering['displayDate'] }} <a href="{{ offering['url'] }}" class="btn btn-primary">Go to class</a> </li>
+                                <li>{{ offering['displayDate'] }} <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go">Go to class</a> </li>
                             {% endfor %}
                             </ul>
                           </div>

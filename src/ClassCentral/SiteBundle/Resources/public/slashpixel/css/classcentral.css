@@ -413,13 +413,11 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 /* MOOC/Course pages */
 .course-block {
-    margin-top: 100px;
-    background-color: #ffffff;
     padding: 20px 20px;
 }
 
 .course-block .course-title {
-    font-family: 'Nixie One';
+    font-family: 'Nixie One',sans-serif;
     font-size: 36px;
     color: #0662a1;
 }
@@ -443,6 +441,14 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     font-size: 14px;
     color: #066666;
     font-weight: 400;
+}
+
+.btn-course-go {
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    background-image: none;
+    background-color: #0662a1;
 }
 
 .h1 {
