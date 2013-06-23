@@ -12,7 +12,6 @@
 
     {% for newsItem in news %}
         <div class='mooc-news-item'>
-            <img />
             <p class="mooc-news-title"><a href="{{ newsItem.url }}" target="_blank" onClick="_gaq.push(['_trackEvent', 'Outbound Clicks - News','{{  newsItem.title }}'])">{{ newsItem.title }}</p></a>
             <p class="mooc-news-description">{{ newsItem.description }} <span><a href="{{ newsItem.url }}" target="_blank" onClick="_gaq.push(['_trackEvent', 'Outbound Clicks - News','{{  newsItem.title }}'])">Read More></span></a></p>
         </div>
