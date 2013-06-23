@@ -458,6 +458,13 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     font-weight: 400;
 }
 
+.mooc-news-description span {
+    font-family: 'Nixie One';
+    font-size: 14px;
+    font-weight: bold;
+    color: #0662a1;
+}
+
 .course-share .share-button {
     display: inline;
     margin: 0px 10px 10px;

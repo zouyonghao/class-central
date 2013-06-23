@@ -1,34 +1,22 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+{% block headmeta %}
+    <title> MOOC news</title>
+    <meta name="description" content="News from the world of Massive Open Online Courses i.e MOOCs"/>
+{% endblock %}
+
+
 {% block content %}
 <div class='mooc-news'>
-    <h1>News</h1>
-    <ul>
-        {% for newsItem in news %}
-            <li><a href="{{ newsItem.url }}">{{ newsItem.title }}</a></li>
-        {% endfor %}
-    </ul>
+    <h1>MOOC news</h1>
 
-    <div class='mooc-news-item'>
-        <img />
-        <p class="mooc-news-title">Loren Ipsum dolum</p>
-        <p class="mooc-news-description">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        </p>
-    </div>
-
-    <div class='mooc-news-item'>
-        <img />
-        <p class="mooc-news-title">Loren Ipsum dolum</p>
-        <p class="mooc-news-description">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        </p>
-    </div>
-
-    <div class='mooc-news-item'>
-        <img />
-        <p class="mooc-news-title">Loren Ipsum dolum</p>
-        <p class="mooc-news-description">"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        </p>
-    </div>
+    {% for newsItem in news %}
+        <div class='mooc-news-item'>
+            <img />
+            <p class="mooc-news-title"><a href="{{ newsItem.url }}">{{ newsItem.title }}</p></a>
+            <p class="mooc-news-description">{{ newsItem.description }} <span><a href="{{ newsItem.url }}">Read More></span></a></p>
+        </div>
+    {% endfor %}
 </div>
 
 {% endblock %}

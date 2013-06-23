@@ -28,13 +28,25 @@ class NewsController extends Controller
     public function getRecentNews()
     {
         $em = $this->getDoctrine()->getEntityManager();
+
         $news = $em->getRepository('ClassCentralSiteBundle:News')->findAll();
+
+        $query = $em->createQueryBuilder();
+        $query->add('select', 'n')
+            ->add('from', 'ClassCentralSiteBundle:News n')
+            ->add('orderBy', 'n.id DESC')
+            ->add('limit', 5);
+        $news = $query->getQuery()->getResult();
+
         $newsArray = array();
         foreach($news as $newsItem)
         {
             $item = array();
             $item['title'] = $newsItem->getTitle();
             $item['url'] = $newsItem->getUrl();
+            $item['description'] = $newsItem->getDescription();
+            $item['localImageUrl'] = $newsItem->getLocalImageUrl();
+            $item['remoteImageUrl'] = $newsItem->getRemoteImageUrl();
             $newsArray[] = $item;
         }
 
