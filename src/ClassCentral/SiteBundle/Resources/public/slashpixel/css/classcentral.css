@@ -441,7 +441,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 /* News page */
 
 .mooc-news {
-    padding-left: 40px;
+    padding: 50px;
 }
 
 .mooc-news-title {

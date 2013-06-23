@@ -34,6 +34,11 @@ class News
      */
     private $modified;
 
+    private $description;
+
+    private $localImageUrl;
+
+    private $remoteImageUrl;
 
     /**
      * Set id
@@ -125,5 +130,35 @@ class News
     public function getModified()
     {
         return $this->modified;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($desc)
+    {
+        $this->description = $desc;
+    }
+
+    public function getLocalImageUrl()
+    {
+        return $this->localImageUrl;
+    }
+
+    public function setLocalImageUrl($imageUrl)
+    {
+        $this->localImageUrl = $imageUrl;
+    }
+
+    public function getRemoteImageUrl()
+    {
+        return $this->remoteImageUrl;
+    }
+
+    public function setRemoteImageUrl($imageUrl)
+    {
+        $this->remoteImageUrl = $imageUrl;
     }
 }

@@ -17,3 +17,14 @@ ClassCentral\SiteBundle\Entity\News:
       type: datetime
     modified:
       type: datetime
+    description:
+      type: text
+      nullable: true
+    localImageUrl:
+      type: text
+      nullable: true
+      column: local_image_url
+    remoteImageUrl:
+      type: text
+      nullable: true
+      column: remote_image_url

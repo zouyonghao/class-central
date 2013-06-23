@@ -12,6 +12,9 @@ class NewsType extends AbstractType
         $builder
             ->add('title')
             ->add('url')
+            ->add('description')
+            ->add('localImageUrl')
+            ->add('remoteImageUrl')
         ;
     }
 
