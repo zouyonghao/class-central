@@ -21,7 +21,7 @@ class NewsController extends Controller
         $cache = $this->get('Cache');
         $news = $cache->get('recent_news',array($this,'getRecentNews'));
         return $this->render('ClassCentralSiteBundle:News:home.html.twig', array(
-            'news' => $news
+            'news' => $news, 'page' => 'news'
         ));
     }
 
