@@ -81,11 +81,13 @@
             {% endif %}
 
         <div class="container">
-            
-            {# Content pages go here #}
-            {%  block content %}               
+            {%  block contentheader %}
             {% endblock %}
-
+            <div class="cc-page">
+                {# Content pages go here #}
+                {%  block content %}
+                {% endblock %}
+            </div>
         </div> <!-- /container -->
 
         <footer>

@@ -11,6 +11,17 @@ body {
     background-color:#f9f9f9;
 }
 
+.cc-page {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.cc-page h1 {
+    font-family: 'Nixie One';
+    font-size: 36px;
+    color: #0662a1;
+}
 /* Remove rounded corners */
 .table {
     -moz-border-radius: 0px;
@@ -38,7 +49,7 @@ body {
 }
 
 :root .hero-unit {
- padding-bottom: 0px\9;
+ padding-bottom: 0px;
 }
 
 .hero-unit h1{
@@ -87,10 +98,10 @@ a.learnmorelink:hover {
   background-color: #ffffff;
 }
 .tabletitle {
-  font-family: 'Nixie One', cursive;
-  color:#006e6e;
-  font-weight:normal;
   font-size:24px;
+  font-family: "Open Sans",sans-serif;
+  color: #066666;
+  font-weight: 600;
   padding: 20px 0 10px 20px;
 }
 thead {
@@ -428,8 +439,23 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 
 /* News page */
+
 .mooc-news {
-    background-color: #ffffff;
+    padding-left: 40px;
+}
+
+.mooc-news-title {
+    font-family: "Open Sans",sans-serif;
+    font-size: 15px;
+    color: #066666;
+    font-weight: 600;
+}
+
+.mooc-news-description {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
+    font-weight: 400;
 }
 
 .course-share .share-button {

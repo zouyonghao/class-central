@@ -8,7 +8,7 @@
 {% include 'ClassCentralSiteBundle:Helpers:fb_opengraph.html.twig' %}
 {% endblock %}
 
-{%  block content %}
+{% block contentheader %}
 <div class="main-background"></div>
 <div class="hero-unit span6">
         <h1>Class Central is a free online course aka MOOC aggregator from top universities like Stanford, MIT, Harvard, etc. offered via
@@ -44,10 +44,13 @@
         </ul>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block content %}
 <div class="course-table-wrapper">
     {% for offeringType, offeringDetails in offeringTypes %}
         {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-                <h1 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h1>
+                <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h1>
                 {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
         {% endif %}
     {% endfor %}
