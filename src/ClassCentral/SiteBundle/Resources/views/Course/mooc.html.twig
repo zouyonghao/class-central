@@ -35,20 +35,23 @@
             </div>
             <div class="course-video span5">
                 {% if course['videoEmbedUrl'] is not null %}
-                    <iframe width="450" height="250" src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen></iframe>
+                    <div class="video-container">
+                        <iframe src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
                 {% endif %}
             </div>
         </div>
 
         <div class ="course-meta-bottom row">
             <div class="course-meta-bottom-left span6">
+                <p class="course-sessions">Session(s):</p>
                 {% for offeringType in offeringTypesOrder %}
                     {% if course['offerings'][offeringType]|length > 0 %}
                           <div class='course-offeringtype-block'>
-                            <h4 >{{ offeringTypes[offeringType]['desc'] }}</h4>
+                            <h4 >{{ offeringTypes[offeringType]['sessionDesc'] }}</h4>
                             <ul>
                             {% for offering in course['offerings'][offeringType]%}
-                                <li>{{ offering['displayDate'] }} <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go">Go to class</a> </li>
+                                <li><span>{{ offering['displayDate'] }}</span> <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go">Go to class</a> </li>
                             {% endfor %}
                             </ul>
                           </div>
