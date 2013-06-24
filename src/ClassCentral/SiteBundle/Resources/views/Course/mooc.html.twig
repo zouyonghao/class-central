@@ -26,10 +26,10 @@
  {% endblock %}
 
 {% block content %}
-    <div class="course-block">
+    <div class="course-block" itemscope itemtype="http://schema.org/Event">
         <div class="course-meta-top row" >
             <div class='course-info span6'>
-                <h1 class="course-title">{{ course['name'] }}</h1>
+                <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
                 <div class="course-secondline">
                     {% if course['institutions']|length > 0 %}
                         {# Output the institutions with links #}
@@ -46,7 +46,7 @@
                     {% endif %}
                     <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                 </div>
-                <p class="course-desc">{{ course['desc'] }}</p>
+                <p class="course-desc" itemprop="description">{{ course['desc'] }}</p>
             </div>
             <div class="course-video span5">
                 {% if course['videoEmbedUrl'] is not null %}
@@ -66,7 +66,7 @@
                             <h4 >{{ offeringTypes[offeringType]['sessionDesc'] }}</h4>
                             <ul>
                             {% for offering in course['offerings'][offeringType]%}
-                                <li><span>{{ offering['displayDate'] }}</span> <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go">Go to class</a> </li>
+                                <li><span itemprop="startDate" content="{{ offering['microdataDate'] }}">{{ offering['displayDate'] }}</span> <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go">Go to class</a> </li>
                             {% endfor %}
                             </ul>
                           </div>
