@@ -264,6 +264,13 @@ class CourseController extends Controller
         // Course exists get all the offerings
         $courseDetails['offerings'] = $em->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds(array($courseId));
 
+        // Flip the past courses to show the newest ones first
+        // TODO: Sort these courses correctly
+        foreach($courseDetails['offerings'] as $type => $courses)
+        {
+            $courseDetails['offerings'][$type] =  array_reverse($courses);
+        }
+
         return $courseDetails;
     }
 }

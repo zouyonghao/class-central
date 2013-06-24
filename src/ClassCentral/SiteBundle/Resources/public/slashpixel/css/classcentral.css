@@ -426,8 +426,42 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     font-family: "Open Sans",sans-serif;
     font-size: 14px;
     color: #066666;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.course-secondline {
+    margin-bottom: 20px;
+}
+
+.course-secondline ul{
+    display: inline;
+    list-style-type: none;
+    margin-left: 0px;
+}
+.course-secondline ul:after {
+    content: ' - ';
+}
+
+.course-secondline ul li {
+    display: inline;
+}
+
+.course-secondline li:after {
+    content: ', ';
+}
+
+.course-secondline li:last-child:after {
+    content: "";
+}
+
+.course-secondline ul li a {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
     font-weight: 600;
 }
+
 
 .course-block .course-desc {
     font-family: "Open Sans",sans-serif;
@@ -492,9 +526,8 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     border: 0px;
 }
 
-.h1 {
-    font-family: 'Nixie One', cursive;
-    color:#222222;
+.btn-course-go:hover {
+    background-color: #0662a1;
 }
 
 

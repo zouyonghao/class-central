@@ -30,7 +30,22 @@
         <div class="course-meta-top row" >
             <div class='course-info span6'>
                 <h1 class="course-title">{{ course['name'] }}</h1>
-                <p class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</p>
+                <div class="course-secondline">
+                    {% if course['institutions']|length > 0 %}
+                        {# Output the institutions with links #}
+                        <ul>
+                            {% for institution in course['institutions'] %}
+
+                                {% set route = 'ClassCentralSiteBundle_university' %}
+                                {% if not institution['isUniversity'] %}
+                                    {% set route = 'ClassCentralSiteBundle_institution' %}
+                                {% endif %}
+                                <li><a href="{{ path(route,{'slug' : institution['slug']})}}" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
+                </div>
                 <p class="course-desc">{{ course['desc'] }}</p>
             </div>
             <div class="course-video span5">
