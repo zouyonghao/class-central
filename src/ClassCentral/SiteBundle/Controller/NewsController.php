@@ -35,7 +35,7 @@ class NewsController extends Controller
         $query->add('select', 'n')
             ->add('from', 'ClassCentralSiteBundle:News n')
             ->add('orderBy', 'n.id DESC')
-            ->add('limit', 5);
+            ->setMaxResults(5);
         $news = $query->getQuery()->getResult();
 
         $newsArray = array();
