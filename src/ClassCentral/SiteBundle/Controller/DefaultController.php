@@ -43,14 +43,12 @@ class DefaultController extends Controller {
     
     public function initiativeAction($type='coursera') {
         $initiativeTypes = Initiative::$types;
-        
-        if(!in_array($type, array_keys($initiativeTypes))){
-            // TODO: render an error page
-            return false;
-        }
-        
+
         $cache = $this->get('Cache');        
         $initiative = $cache->get('default_initative_ids_'. $type, array($this, 'getInitiativeIds'), array($type));
+        if(empty($initiative)) {
+            return;
+        }
         $offerings = $cache->get('default_initiative_offerings_' . $type,
                     array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiative['ids']));  
                       
@@ -73,7 +71,11 @@ class DefaultController extends Controller {
         $initiativeIds = array();        
         if( $type != 'others'){
             $initiative = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')
-                    ->findOneByCode($initiativeTypes[$type]);
+                    ->findOneByCode(strtoupper($type));
+            if(!$initiative)
+            {
+                return null;
+            }
             $initiativeName = $initiative->getName();
             $initiativeIds[] = $initiative->getId();
         } else {

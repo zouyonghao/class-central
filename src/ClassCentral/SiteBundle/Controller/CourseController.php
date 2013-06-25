@@ -238,6 +238,11 @@ class CourseController extends Controller
         }
         $course['pageTitle'] = $titleSuffix . $course['name'];
 
+        if(strlen($course['desc']) > 500)
+        {
+            $course['desc'] = substr($course['desc'],0,497) . '...';
+        }
+
        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'home',

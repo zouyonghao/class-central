@@ -39,6 +39,7 @@ class CourseRepository extends EntityRepository{
             $courseDetails['initiative']['name'] = $initiative->getName();
             $courseDetails['initiative']['url'] = $initiative->getUrl();
             $courseDetails['initiative']['tooltip'] = $initiative->getTooltip();
+            $courseDetails['initiative']['code'] = strtolower($initiative->getCode());
         }
 
         // Institutions

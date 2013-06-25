@@ -8,7 +8,7 @@
 */
 
 body {
-    background-color:#f9f9f9;
+    background-color:#efeff0;
 }
 
 .cc-page {
@@ -19,9 +19,13 @@ body {
 
 .cc-page h1 {
     font-family: 'Nixie One';
-    font-size: 36px;
     color: #0662a1;
+    font-weight: normal;
+    line-height:1.5;
+    padding-top: 40px;
+    margin-left: 20px;
 }
+
 /* Remove rounded corners */
 .table {
     -moz-border-radius: 0px;
@@ -362,13 +366,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     cursor: pointer;
 }
 
-.cc-page-header{
-    color:#ffffff;
-    font-size:30px;
-    font-weight: bold;
-    line-height:1.5;
-    padding-top:40px; 
-}
+
 
 .cc-home-logo{
     float: left;
@@ -418,8 +416,10 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 .course-block .course-title {
     font-family: 'Nixie One',sans-serif;
-    font-size: 36px;
     color: #0662a1;
+    font-weight: normal;
+    margin-left: 0px;
+    padding-top: 0px;
 }
 
 .course-block .course-instructors {
@@ -431,7 +431,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 
 .course-secondline {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .course-secondline ul{
@@ -462,6 +462,22 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     font-weight: 600;
 }
 
+.course-initiative {
+    margin-bottom: 10px;
+}
+.course-initiative span {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #0662a1;
+    font-weight: 600;
+}
+
+.course-initiative a {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
+    font-weight: 400;
+}
 
 .course-block .course-desc {
     font-family: "Open Sans",sans-serif;
@@ -571,12 +587,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 
 @media (max-width: 980px) {
-	.hero-unit{
-		margin-top: 10px;
-	}
-	.hero-unit h1{
-		font-size:24px;
-	}
     
  }
  

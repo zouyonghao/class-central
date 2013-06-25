@@ -7,7 +7,7 @@
            content="{{ course['desc'] }}"/>
      <meta property="og:title" content="{{ course['name'] }}" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
-     <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+     <!--<meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">-->
      <meta property="og:site_name" content="Class Central"/>
      <meta property="og:description" content="{{ course['desc'] }}" />
      <meta property="og:type" content="website" />
@@ -28,6 +28,7 @@
 {% block content %}
     <div class="course-block" itemscope itemtype="http://schema.org/Event">
         <div class="course-meta-top row" >
+
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
                 <div class="course-secondline">
@@ -35,7 +36,6 @@
                         {# Output the institutions with links #}
                         <ul>
                             {% for institution in course['institutions'] %}
-
                                 {% set route = 'ClassCentralSiteBundle_university' %}
                                 {% if not institution['isUniversity'] %}
                                     {% set route = 'ClassCentralSiteBundle_institution' %}
@@ -46,8 +46,18 @@
                     {% endif %}
                     <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                 </div>
-                <p class="course-desc" itemprop="description">{{ course['desc'] }}</p>
+
+                {% if course['initiative']['name']|length > 0%}
+                    <div class="course-initiative">
+                        <span>Initiative:</span> <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" target="_blank" title="{{ course['initiative']['tooltip'] }}"> {{ course['initiative']['name'] }}</a>
+                    </div>
+                {% endif %}
+
+                <p class="course-desc" itemprop="description">
+                    {{ course['desc'] }}
+                </p>
             </div>
+
             <div class="course-video span5">
                 {% if course['videoEmbedUrl'] is not null %}
                     <div class="video-container">
@@ -75,11 +85,7 @@
             </div>
             <div class="course-meta-bottom-right span5">
                 <div class= "row">
-                    <div class ="span2">
-                        <p>Initiative: Coursera</p>
-                        <p>Stanford University</p>
-                    </div>
-                    <div class="course-share span3">
+                    <div class="course-share span6">
                         <div class="fb-like share-button" data-href={{ course['pageUrl'] }} data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
                         <div class="share-button">
                             <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-url={{ course['pageUrl'] }} data-count="vertical" data-hashtags="mooc">Tweet</a>
