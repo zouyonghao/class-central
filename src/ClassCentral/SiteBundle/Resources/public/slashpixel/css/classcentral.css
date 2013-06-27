@@ -12,7 +12,6 @@ body {
 }
 
 .cc-page {
-    background-color: #ffffff;
     margin-bottom: 20px;
     padding-bottom: 10px;
 }
@@ -324,8 +323,12 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 .cc-navbar {
     background-color: #0662a1;
-    height: 80px;
+    min-height: 80px;
     color: #FFFFFF;
+}
+
+.navbar {
+  position: relative;
 }
 
 .navbar .nav > li > a {
@@ -335,6 +338,17 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 .navbar .nav > li > a:focus, .navbar .nav > li > a:hover {
     color: #FFFFFF;
+}
+
+@media (max-width: 970px) {
+    .nav-collapse .pull-right > .dropdown > a:hover,
+    .nav-collapse .pull-right > li > a:hover {
+        background-color: black;
+    }
+
+    .nav-collapse .pull-left > li > a:hover {
+        background: none;
+    }
 }
 
 /* Fix for tables not showing up in IE 8*/
@@ -582,7 +596,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 @media (max-width: 1201px) {
         .cc-home-form input{
            margin-left: 0px; 
-           margin-top: 10px;
         }
 }
 
