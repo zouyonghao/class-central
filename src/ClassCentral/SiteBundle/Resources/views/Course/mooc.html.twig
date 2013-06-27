@@ -7,7 +7,7 @@
            content="{{ course['desc'] }}"/>
      <meta property="og:title" content="{{ course['name'] }}" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
-     <!--<meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">-->
+     {#<meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg"> #}
      <meta property="og:site_name" content="Class Central"/>
      <meta property="og:description" content="{{ course['desc'] }}" />
      <meta property="og:type" content="website" />
@@ -23,6 +23,8 @@
      <meta name="twitter:description" content="{{ course['desc'] }}">
      <!-- <meta name="twitter:image:src" content="http://placekitten.com/250/250"> -->
      <meta name="twitter:domain" content="class-central.com">
+
+     <script type="text/javascript" src="http://js.addthisevent.com/atemay.js"></script>
  {% endblock %}
 
 {% block content %}
@@ -47,7 +49,7 @@
                     <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                 </div>
 
-                {% if course['initiative']['name']|length > 0%}
+                {% if course['initiative']['name']|length > 0 %}
                     <div class="course-initiative">
                         <span>Initiative:</span> <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" target="_blank" title="{{ course['initiative']['tooltip'] }}"> {{ course['initiative']['name'] }}</a>
                     </div>
@@ -76,7 +78,24 @@
                             <h4 >{{ offeringTypes[offeringType]['sessionDesc'] }}</h4>
                             <ul>
                             {% for offering in course['offerings'][offeringType]%}
-                                <li><span itemprop="startDate" content="{{ offering['microdataDate'] }}">{{ offering['displayDate'] }}</span> <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go">Go to class</a> </li>
+                                <li><span class='offering-start-date' itemprop="startDate" content="{{ offering['microdataDate'] }}">{{ offering['displayDate'] }}</span>
+                                    <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go">Go to class</a>
+                                    {% if offeringType == 'upcoming' and offering.status == 1 %}
+                                        <a href="{{ course.pageUrl }}" title="Add to Calendar" class="addthisevent">
+                                            Add to Calendar
+                                            <span class="_start">{{ offering.startDate }}</span>
+                                            <span class="_end">{{ offering.startDate }}</span>
+                                            <span class="_zonecode">35</span>
+                                            <span class="_summary">{{ course['name'] }} {% if course['initiative']['name']|length > 0 and course['initiative']['name'] != 'Others' %} from {{ course['initiative']['name'] }} {% endif %}</span>
+                                            <span class="_description">{{ course['desc'] }}<br>Find out more at {{ course.pageUrl }}
+                                            </span>
+                                            <span class="_all_day_event">true</span>
+                                            <span class="_date_format">DD/MM/YYYY</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+
+
                             {% endfor %}
                             </ul>
                           </div>

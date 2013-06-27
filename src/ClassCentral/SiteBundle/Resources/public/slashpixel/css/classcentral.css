@@ -515,7 +515,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin-bottom: 5px;
 }
 
-.course-offeringtype-block li span {
+.offering-start-date {
     font-family: "Open Sans",sans-serif;
     font-size: 12px;
     color: #066666;
@@ -559,6 +559,9 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 .btn-course-go:hover {
     background-color: #0662a1;
 }
+
+/* calendar button */
+
 
 
 /* News page */
