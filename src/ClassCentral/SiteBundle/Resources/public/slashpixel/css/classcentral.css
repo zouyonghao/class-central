@@ -348,16 +348,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     color: #FFFFFF;
 }
 
-@media (max-width: 970px) {
-    .nav-collapse .pull-right > .dropdown > a:hover,
-    .nav-collapse .pull-right > li > a:hover {
-        background-color: black;
-    }
-
-    .nav-collapse .pull-left > li > a:hover {
-        background: none;
-    }
-}
 
 /* Fix for tables not showing up in IE 8*/
 .table {background-color:#ffffff;}
@@ -611,8 +601,29 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 
 @media (max-width: 980px) {
-    
+    .nav-collapse .pull-right > .dropdown > a:hover,
+    .nav-collapse .pull-right > li > a:hover {
+        background-color: black;
+    }
+
+    .cc-navbar {
+        min-height: 20px;
+    }
+
+    .main-background {
+        background-image: none;
+    }
+
+    .hero-unit h1 {
+        color: #0662a1;
+    }
+
+    .hero-unit h1 a{
+        color: #0662a1;
+    }
+
  }
+
  
  @media (max-width: 767px) {
      .input-xxxlarge{          
