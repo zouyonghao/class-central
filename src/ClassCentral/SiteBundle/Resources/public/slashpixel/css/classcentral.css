@@ -14,6 +14,9 @@ body {
 .cc-page {
     margin-bottom: 20px;
     padding-bottom: 10px;
+    background-color: #ffffff;
+    margin-top: 20px;
+    clear: both;
 }
 
 .cc-page h1 {
@@ -177,6 +180,11 @@ p.newstitle {
   color: #FFFFFF;
 }
 
+.dropdown-toggle {
+    font-family: "Open Sans";
+    font-weight: 600;
+}
+
 .navbar .nav-right-list > li > form {
   margin-top: 5px;
 }
@@ -247,7 +255,7 @@ a.social4:hover {
 
 .classcentralfooter li:after {
     content: " | ";
-    font-family: "Open Sans";
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     font-size: 12px;
     color: #0662a1;
