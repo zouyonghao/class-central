@@ -50,6 +50,7 @@ body {
   background: none;
   padding: 0;
   margin: 0 0 20px 0;
+  padding-top: 20px;
 }
 
 :root .hero-unit {
@@ -180,18 +181,26 @@ p.newstitle {
   color: #FFFFFF;
 }
 
-.dropdown-toggle {
+.nav-title {
     font-family: "Open Sans";
-    font-weight: 600;
+    font-weight: 300;
+    font-size: 14;
 }
 
 .navbar .nav-right-list > li > form {
   margin-top: 5px;
 }
 
+
 .navbar .nav li.dropdown > .dropdown-toggle .caret, .navbar .nav li.dropdown.open > .dropdown-toggle .caret {
   border-top-color: #FFFFFF;
   border-bottom-color: #FFFFFF;
+}
+
+.navbar h1 {
+    font-family: 'Bree Serif';
+    font-style: normal;
+    font-weight: 400;
 }
 
 .socialmedia.nav-pills > li > a {
@@ -632,7 +641,10 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
                 -moz-box-sizing: border-box;
                     box-sizing: border-box;                    
      }
-          
+
+     .cc-page h1 {
+         font-size: 20px;
+     }
 
     .cc-home-form button{    
         margin-left: 0px;
