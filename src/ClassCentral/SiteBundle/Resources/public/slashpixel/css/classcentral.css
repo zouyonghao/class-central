@@ -185,6 +185,7 @@ p.newstitle {
     font-family: "Open Sans";
     font-weight: 300;
     font-size: 14;
+    -webkit-font-smoothing: antialiased;
 }
 
 .navbar .nav-right-list > li > form {
@@ -201,6 +202,7 @@ p.newstitle {
     font-family: 'Bree Serif';
     font-style: normal;
     font-weight: 400;
+    -webkit-font-smoothing: antialiased;
 }
 
 .socialmedia.nav-pills > li > a {
