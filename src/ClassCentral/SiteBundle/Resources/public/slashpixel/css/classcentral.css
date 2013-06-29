@@ -624,7 +624,7 @@ input::-webkit-input-placeholder {
 /* News page */
 
 .mooc-news {
-    padding: 50px;
+    padding: 0px 50px 50px;
 }
 
 .mooc-news-title a{
@@ -634,11 +634,16 @@ input::-webkit-input-placeholder {
     font-weight: 600;
 }
 
+
 .mooc-news-description {
     font-family: "Open Sans",sans-serif;
     font-size: 14px;
     color: #066666;
     font-weight: 400;
+}
+
+.mooc-news-item {
+    margin-bottom: 20px
 }
 
 .mooc-news-description span {
@@ -695,6 +700,11 @@ input::-webkit-input-placeholder {
      .cc-page h1 {
          font-size: 20px;
      }
+
+     .mooc-news h1 {
+         font-size: 30px;
+     }
+
 
     .cc-home-form button{    
         margin-left: 0px;
