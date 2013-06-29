@@ -60,11 +60,12 @@ body {
 .hero-unit h1{
     font-family: 'Open Sans';
     color: #ffffff;
-    font-size:16px;
+    font-size:18px;
     font-weight: 600;
     line-height:1.5;
     padding-top:0px;
     padding-bottom:20px;
+    -webkit-font-smoothing: antialiased;
 }
 
 .hero-unit h1 span{
@@ -184,8 +185,9 @@ p.newstitle {
 .nav-title {
     font-family: "Open Sans";
     font-weight: 300;
-    font-size: 14;
+    font-size: 14px;
     -webkit-font-smoothing: antialiased;
+    text-shadow: 0.5px 0.866px 1px rgb( 6, 102, 102 );
 }
 
 .navbar .nav-right-list > li > form {
@@ -202,6 +204,8 @@ p.newstitle {
     font-family: 'Bree Serif';
     font-style: normal;
     font-weight: 400;
+    font-size: 35px;
+    text-shadow: 0.5px 0.866px 1px rgb( 6, 102, 102 );
     -webkit-font-smoothing: antialiased;
 }
 
@@ -403,19 +407,35 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     border-radius: none;
 }
 
-
-.cc-home-form input{
+/* Search form */
+.cc-home-form input[type="text"]{
     font-size: 20px;
     -moz-border-top-left-radius: 0px;
-    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-left-radius: 0px;
     border-top-left-radius: 0px;
     -moz-border-radius-bottomleft: 0px;
     -webkit-border-bottom-left-radius: 0px;
     border-bottom-left-radius: 0px;
+    height: 38px;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
 }
 
-.cc-search-form{    
+.cc-home-form .input-append .add-on:last-child{
+    height: 38px;
+    width: 60px;
+    border-radius: 0px;
+    background-color: #ffffff;
+    border-left-color:#066666 ;
+}
+
+.cc-search-form{
     margin-top: 60px;
+    font-family: 'Open Sans';
+    color: #066666;
+    font-style: italic;
+    font-size: 17px;
 }
 .cc-search-form input{
     margin-left: 0px;    
@@ -429,6 +449,34 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 .cc-home-form button{    
     margin-left: -70px;
     margin-bottom: 10px;    
+}
+
+input::-webkit-input-placeholder {
+    font-family: 'Open Sans';
+    color:  #066666;
+    font-style: italic;
+    font-size: 17px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    font-family: 'Open Sans';
+    color: #066666;
+    font-style: italic;
+    font-size: 17px;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    font-family: 'Open Sans';
+    color: #066666;
+    font-style: italic;
+    font-size: 17px;
+}
+
+:-ms-input-placeholder {
+    font-family: 'Open Sans';
+    color: #066666;
+    font-style: italic;
+    font-size: 17px;
 }
 
 
