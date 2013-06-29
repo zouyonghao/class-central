@@ -63,7 +63,7 @@
             <div class="course-video span5">
                 {% if course['videoEmbedUrl'] is not null %}
                     <div class="video-container">
-                        <iframe src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
                     </div>
                 {% endif %}
             </div>
