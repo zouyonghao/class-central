@@ -74,6 +74,7 @@ body {
     padding-top:0px;
     padding-bottom:20px;
     -webkit-font-smoothing: antialiased;
+    max-width: 570px;
 }
 
 .hero-unit h1 span{
@@ -446,6 +447,10 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
 }
 
+.cc-home-form .input-append button:hover {
+    opacity: 0.75;
+}
+
 .cc-home-form .input-append .add-on .icon-search {
     background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon-big.png");
     background-position: 0px 0px;
@@ -527,6 +532,10 @@ input::-webkit-input-placeholder {
     -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
     -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
     box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+}
+
+#nav-search-form .input-append button:hover {
+    opacity: 0.75;
 }
 
 #nav-search-form .input-append .add-on .icon-search {
@@ -677,7 +686,7 @@ input::-webkit-input-placeholder {
 }
 
 .btn-course-go:hover {
-    background-color: #0662a1;
+    background-color: #666666;
 }
 
 /* News page */
@@ -786,6 +795,11 @@ input::-webkit-input-placeholder {
             -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
                     box-sizing: border-box;                    
+     }
+
+     .hero-unit h1 {
+         max-width: 300px;
+         font-size: 14px;
      }
 
      input::-webkit-input-placeholder {
