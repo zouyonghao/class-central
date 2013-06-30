@@ -181,6 +181,19 @@ p.newstitle {
   background-color:#0088cc;
 }
 
+.navbar .btn {
+    background-image: none;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+.navbar .btn:hover {
+    background-image: none;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+
 .navbar .nav-right-list > li {
   margin-top: 20px;
 }
@@ -773,6 +786,22 @@ input::-webkit-input-placeholder {
             -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
                     box-sizing: border-box;                    
+     }
+
+     input::-webkit-input-placeholder {
+         font-size: 14px;
+     }
+
+     :-moz-placeholder { /* Firefox 18- */
+         font-size: 14px;
+     }
+
+     ::-moz-placeholder {  /* Firefox 19+ */
+         font-size: 14px;
+     }
+
+     :-ms-input-placeholder {
+         font-size: 14px;
      }
 
      .cc-home-form .input-append .add-on .icon-search {
