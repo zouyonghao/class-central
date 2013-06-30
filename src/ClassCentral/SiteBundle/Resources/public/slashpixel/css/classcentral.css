@@ -725,6 +725,10 @@ input::-webkit-input-placeholder {
         margin-left: 15px;
     }
 
+    .navbar .nav>li>a {
+        padding-left: 15px;
+    }
+
     .cc-navbar {
         min-height: 20px;
     }
