@@ -12,10 +12,10 @@ body {
 }
 
 .cc-page {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     padding-bottom: 10px;
     background-color: #ffffff;
-    margin-top: 20px;
+    margin-top: 50px;
     clear: both;
 }
 
@@ -748,6 +748,10 @@ input::-webkit-input-placeholder {
         background-image: none;
     }
 
+    .cc-page {
+        margin-top: 40px;
+    }
+
     .cc-page h1 {
         font-size: 28px;
     }
@@ -778,6 +782,10 @@ input::-webkit-input-placeholder {
      .cc-home-form .input-append .add-on:last-child {
          height: 28px;
          width: 40px;
+     }
+
+     .cc-page {
+         margin-top: 30px;
      }
 
      .cc-page h1 {
