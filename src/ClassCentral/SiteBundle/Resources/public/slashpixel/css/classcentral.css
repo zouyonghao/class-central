@@ -187,12 +187,12 @@ p.newstitle {
     background-color: transparent;
 }
 
-.navbar .btn:hover {
+.navbar .btn:hover,
+.navbar .btn:active {
     background-image: none;
     border-radius: 0px;
     background-color: transparent;
 }
-
 
 .navbar .nav-right-list > li {
   margin-top: 20px;
