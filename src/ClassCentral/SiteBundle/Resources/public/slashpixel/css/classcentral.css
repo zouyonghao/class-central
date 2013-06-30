@@ -190,6 +190,11 @@ p.newstitle {
   color: #FFFFFF;
 }
 
+.navbar .nav>li>a {
+    padding-left: 0px;
+    padding-right: 40px;
+}
+
 .nav-title {
     font-family: "Open Sans";
     font-weight: 300;
@@ -475,6 +480,45 @@ input::-webkit-input-placeholder {
     border-radius: none;
 }
 
+
+/* Nav search form */
+#nav-search-form input[type="text"]{
+    font-size: 20px;
+    -moz-border-top-left-radius: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    width: 110px;
+}
+
+#nav-search-form .input-append .add-on:last-child{
+    border-radius: 0px;
+    background-color: #ffffff;
+    border-left-color:#066666 ;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+}
+
+#nav-search-form .input-append .add-on .icon-search {
+    background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon-navbar.png");
+    background-position: 0px 0px;
+    height: 15px;
+    width: 15px;
+    margin: 0px;
+}
+
+#nav-search-form button{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
 /* MOOC/Course pages */
 .course-block {
     padding: 20px 20px;
@@ -656,9 +700,29 @@ input::-webkit-input-placeholder {
 }
 
 @media (max-width: 980px) {
+
+    nav-collapse .pull-right > .dropdown > a,
+   .nav-collapse .pull-right > li > a {
+        font-weight: 300;
+        color: #ffffff;
+    }
+
+    .nav-collapse .nav>li>a, .nav-collapse .dropdown-menu a {
+        color: #ffffff;
+    }
+
     .nav-collapse .pull-right > .dropdown > a:hover,
     .nav-collapse .pull-right > li > a:hover {
-        background-color: black;
+        background-color: #0662a1;
+    }
+
+    /* "Class Central" in the navbar */
+    .nav-collapse .nav>li>a:hover, .nav-collapse .dropdown-menu a:hover {
+        background-color: #0662a1;
+    }
+
+    #nav-search-form {
+        margin-left: 15px;
     }
 
     .cc-navbar {

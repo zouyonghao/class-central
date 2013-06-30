@@ -68,10 +68,10 @@
                 </li> 
                  <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
                  <li>
-                     <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">
+                     <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id='nav-search-form'>
                          <div class="input-append">
-                             <input class="span2" id="prependedInput" type="text" name="q">
-                             <span class="add-on"><i class="icon-search"></i></span>
+                             <input  id="prependedInput" type="text" name="q">
+                             <button><span class="add-on"><i class="icon-search"></i></span></button>
                          </div>
                      </form>
                  </li>
