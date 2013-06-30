@@ -22,18 +22,13 @@
 {% endblock %}
     
 {% block content %}
-     <div>            
-            <div class='cc-home-form cc-search-form'>
-                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">          
-                    <div class="cc-search-elements">
-                        <input type="text" name="q" placeholder="search for courses" value="{{keywords}}" class="input-xxxlarge">   
-                        <button class='btn btn-search'>
-                            <i class="icon-search"></i>
-                        </button> 
-                    </div>     
-                </form>
-            </div>
-     </div>
+
+    <h1>MOOC search</h1>
+
+    <div class="search-wrapper">
+        {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' %}
+    </div>
+
     {% if keywords is not null and keywords|length %}
     <div class="searchresultsheader">
         <h1>Search Results</h1>

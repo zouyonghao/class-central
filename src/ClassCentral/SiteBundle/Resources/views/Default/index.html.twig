@@ -18,14 +18,9 @@
             <a href="https://venture-lab.org/" title="Venture Lab" class="tagline-initiative-links" onclick="recordTaglineClicks('https://venture-lab.org/','Venture Lab');return false" target="_blank" >Venture Lab</a>, &
             <a href="http://www.class-central.com/initiative/others" title="Other MOOC initiatives" class="tagline-initiative-links" onclick="recordTaglineClicks('http://www.class-central.com/initiative/others','Others');return false" target="_blank" >others</a>. <span><a data-toggle="modal" href="#learnmore">Learn More ></a></span>
         </h1>
-            <div class='cc-home-form'>
-                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">
-                    <div class="input-append">
-                        <input class="span2 input-xxxlarge input-large" placeholder="What do you want to learn?" id="prependedInput" type="text" name="q">
-                        <button><span class="add-on"><i class="icon-search"></i></span></button>
-                    </div>
-                </form>
-            </div>
+
+    {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} %}
+
     {% if app.environment == 'prod' and page is defined %}
         <ul class="social-btn-nav">
             <li>

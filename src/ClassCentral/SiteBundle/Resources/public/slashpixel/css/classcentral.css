@@ -427,16 +427,8 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin: 8px 19px;
 }
 
-.cc-search-form{
-    margin-top: 60px;
-    font-family: 'Open Sans';
-    color: #066666;
-    font-style: italic;
-    font-size: 17px;
-}
-.cc-search-form input{
-    margin-left: 0px;    
-    height: 50px;
+.search-wrapper {
+    margin-left: 20px;
 }
 
 .input-xxxlarge.input-large {
