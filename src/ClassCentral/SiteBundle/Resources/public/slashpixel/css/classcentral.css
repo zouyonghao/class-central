@@ -28,6 +28,14 @@ body {
     margin-left: 20px;
 }
 
+.cc-page h2 {
+    font-size:24px;
+    font-family: "Open Sans",sans-serif;
+    color: #066666;
+    font-weight: 600;
+    padding: 20px 0 10px 20px;
+}
+
 /* Remove rounded corners */
 .table {
     -moz-border-radius: 0px;
@@ -371,21 +379,11 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     width: 40px;
 }
 
-.searchresultsheader{
-    font-family: 'Nixie One', cursive;
-    color:#ffffff;      
-}
-
-.searchresultsheader h1{
-    color:#ffffff;
-    font-size:30px;
-    font-weight: bold;
-    line-height:1.5;
-    padding-top:10px;    
-}
-
 .searchresultsheader div{
-    font-size:15px;   
+    font-family: 'Nixie One', cursive;
+    color:#000000;
+    font-size:15px;
+    margin-left: 20px;
 }
 
 .icon-link:hover{

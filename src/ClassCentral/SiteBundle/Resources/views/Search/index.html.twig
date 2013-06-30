@@ -31,9 +31,9 @@
 
     {% if keywords is not null and keywords|length %}
     <div class="searchresultsheader">
-        <h1>Search Results</h1>
+        <h2>Search Results</h2>
         <div><b>{{total}}</b> result(s) found for <b>{{keywords}}</b></div>
-        <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-white icon-link" value="YES"></i> <i class="icon-remove icon-white icon-link" value="NO"></i></div>
+        <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-black icon-link" value="YES"></i> <i class="icon-remove icon-black icon-link" value="NO"></i></div>
      </div>
      {% if total != 0 %}   
         {% for offeringType, offeringDetails in offeringTypes %}
