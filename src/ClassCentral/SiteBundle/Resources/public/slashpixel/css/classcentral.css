@@ -393,20 +393,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     cursor: pointer;
 }
 
-
-
-.cc-home-logo{
-    float: left;
-}
-
-.input-append button.add-on {
-    height: inherit !important;
-}
-
-.add-on {
-    border-radius: none;
-}
-
 /* Search form */
 .cc-home-form input[type="text"]{
     font-size: 20px;
@@ -428,6 +414,17 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     border-radius: 0px;
     background-color: #ffffff;
     border-left-color:#066666 ;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+}
+
+.cc-home-form .input-append .add-on .icon-search {
+    background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon-big.png");
+    background-position: 0px 0px;
+    height: 22px;
+    width: 22px;
+    margin: 8px 19px;
 }
 
 .cc-search-form{
@@ -446,9 +443,10 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     width: 500px;
 }
 
-.cc-home-form button{    
-    margin-left: -70px;
-    margin-bottom: 10px;    
+.cc-home-form button{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
 }
 
 input::-webkit-input-placeholder {
@@ -479,6 +477,13 @@ input::-webkit-input-placeholder {
     font-size: 17px;
 }
 
+.input-append button.add-on {
+    height: inherit !important;
+}
+
+.add-on {
+    border-radius: none;
+}
 
 /* MOOC/Course pages */
 .course-block {
