@@ -669,6 +669,10 @@ input::-webkit-input-placeholder {
         background-image: none;
     }
 
+    .cc-page h1 {
+        font-size: 28px;
+    }
+
     .hero-unit h1 {
         color: #0662a1;
     }
