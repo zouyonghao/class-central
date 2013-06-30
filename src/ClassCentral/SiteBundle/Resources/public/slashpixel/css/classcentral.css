@@ -698,6 +698,15 @@ input::-webkit-input-placeholder {
                     box-sizing: border-box;                    
      }
 
+     .cc-home-form .input-append .add-on .icon-search {
+         margin: 0px;
+     }
+
+     .cc-home-form .input-append .add-on:last-child {
+         height: 28px;
+         width: 40px;
+     }
+
      .cc-page h1 {
          font-size: 20px;
      }
