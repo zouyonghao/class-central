@@ -36,40 +36,40 @@
             <ul class="nav pull-right {% if page is defined %} navbar-fixed-top {% endif %} nav-right-list">
 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle nav-title" data-toggle="dropdown">Courses<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by their Start date" data-toggle="dropdown">Courses<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         {% for offeringType, offeringDetails in offeringTypes %}
                             {% if offeringCount[offeringType] > 0 %}
-                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
+                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" title="{{offeringDetails.nav}} - MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
                 </li>
 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle nav-title" data-toggle="dropdown">Initiatives<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle nav-title" title="Browser MOOCs by Initiatives" data-toggle="dropdown">Initiatives<b class="caret"></b></a>
                     <ul class="dropdown-menu">  
                     {% for initiative, code in initiativeTypes %}                            
                         <li>
-                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
+                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" title="{{ initiativeCount[code]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
                         </li>
                     {% endfor %}                            
                     </ul>
                 </li>
                 <!-- streams !-->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle nav-title" data-toggle="dropdown">Stream<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by Streams" data-toggle="dropdown">Stream<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         {% for stream in streams %}
                             <li>
-                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
+                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" title="{{ stream['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
                             </li>
                         {% endfor %}
                     </ul>
                 </li>
 
 
-                 <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
+                 <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
                  <li>
                      <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id='nav-search-form'>
                          <div class="input-append">
