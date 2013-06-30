@@ -30,7 +30,7 @@
 	    <div class="nav-collapse">
             <ul class="nav pull-left">
                 <li>
-                    <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><h1>Class Central</h1></a>
+                    <a href="{{ path('ClassCentralSiteBundle_homepage')}}" title="MOOC aggregator"><h1>Class Central</h1></a>
                 </ul>
             </ul>
             <ul class="nav pull-right {% if page is defined %} navbar-fixed-top {% endif %} nav-right-list">
@@ -51,7 +51,7 @@
                     <ul class="dropdown-menu">  
                     {% for initiative, code in initiativeTypes %}                            
                         <li>
-                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" title="{{ initiativeCount[code]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
+                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" title="List of {{ initiativeCount[code]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
                         </li>
                     {% endfor %}                            
                     </ul>
@@ -62,7 +62,7 @@
                     <ul class="dropdown-menu">
                         {% for stream in streams %}
                             <li>
-                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" title="{{ stream['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
+                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" title="List of {{ stream['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
                             </li>
                         {% endfor %}
                     </ul>

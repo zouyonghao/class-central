@@ -46,13 +46,21 @@
                     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
                 })();
                                 
-                function recordOutboundLink(link, initiative, coursename, section) {
+                function recordOutboundLink(link, initiative, coursename, stream) {
                     try {                        
-                        _gaq.push(['_trackEvent', 'Outbound Clicks - Initiative' , initiative, coursename ]);                        
-                        _gaq.push(['_trackEvent', 'Outbound Clicks - Section' , section, coursename ]);   
+                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
+                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
                         window.open(link);
                     }catch(err){}
                  }
+
+                function recordInboundLink(link, initiative, coursename, section) {
+                    try {
+                        _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Initiative' , initiative, coursename ]);
+                        _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Section' , section, coursename ]);
+                        window.open(link);
+                    }catch(err){}
+                }
 
                 function recordTaglineClicks(link, initiative) {
                     try {

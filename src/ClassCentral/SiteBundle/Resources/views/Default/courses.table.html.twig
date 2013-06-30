@@ -23,7 +23,14 @@
             </td>
             
             <td>
-                <a itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': offering['courseId'], 'slug': offering['courseSlug']} ) }}"  title="{{ offering['name']}}"><span itemprop="name">{{ offering['name']}}</span></a>
+                <a itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': offering['courseId'], 'slug': offering['courseSlug']} ) }}"
+                   onclick='recordInboundLink(
+                              "{{ path('ClassCentralSiteBundle_mooc',{'id': offering['courseId'], 'slug': offering['courseSlug']} ) }}",
+                              "{{offering['initiative']['name']}}","{{offering['name']}}","{{ tableId }}");return false'
+
+                    title="{{ offering['name'] }} - MOOC"><span itemprop="name">{{ offering['name'] }}</span></a>
+
+                {# showing institutions and universities #}
                 {% if offering['institutions']|length > 0 and showInstitution is not defined  %}
                     <br />                
                     {% for institution in offering['institutions'] %}
@@ -32,10 +39,11 @@
                             {% set route = 'ClassCentralSiteBundle_institution' %}
                         {% endif %}
                        <span class="label label-inverse">
-                           <a href="{{ path(route,{'slug' : institution['slug']})}}" style="color: white"  onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{offering['name']}}'])">{{institution['name']}}</a>
+                           <a href="{{ path(route,{'slug' : institution['slug']})}}" style="color: white"  title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{offering['name']}}'])">{{institution['name']}}</a>
                        </span>
                     {% endfor %} 
                 {% endif %}
+
             </td>
 
             <td>
@@ -52,7 +60,7 @@
             </td>
             
             {% if offering['stream']['showInNav'] %}
-                <td> <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="{{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])">{{ offering['stream']['name'] }}</a> </td>
+                <td> <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="List of {{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])">{{ offering['stream']['name'] }}</a> </td>
             {% else %}
                 <td> {{ offering['stream']['name'] }} </td>
             {% endif %}
@@ -67,7 +75,7 @@
             </td>
             <td>
                 {% if offering['initiative']['name']|length > 0%}                
-                    <a href="{{ offering['initiative']['url'] }}" target="_blank" class="initiativelinks" title="{{ offering['initiative']['tooltip'] }}"> {{ offering['initiative']['name'] }}</a>
+                    <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': offering['initiative']['code'] }) }}"  class="initiativelinks" title="List of {{ offering['initiative']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ offering['initiative']['name'] }}', '{{offering['name']}}'])"> {{ offering['initiative']['name'] }}</a>
                 {% endif %}
             </td>
         </tr>
