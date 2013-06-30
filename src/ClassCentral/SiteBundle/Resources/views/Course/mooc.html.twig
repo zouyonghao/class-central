@@ -81,7 +81,7 @@
                             {% for offering in course['offerings'][offeringType]%}
                                 <li><span class='offering-start-date' itemprop="startDate" content="{{ offering['microdataDate'] }}">{{ offering['displayDate'] }}</span>
                                     <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go" target="_blank"
-                                           onclick="recordOutboundLink('{{ offering['url'] }}','{{course['initiative']['name']}}','{{ course['stream']['name'] }}','{{ course['name'] }}');return false"
+                                           onclick="recordOutboundLink('{{ offering['url'] }}','{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');return false"
                                             >Go to class</a>
                                     {% if offeringType == 'upcoming' and offering.status == 1 %}
                                         <a href="{{ course.pageUrl }}" title="Add to Calendar" class="addthisevent">
