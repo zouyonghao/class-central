@@ -34,7 +34,19 @@
                 </ul>
             </ul>
             <ul class="nav pull-right {% if page is defined %} navbar-fixed-top {% endif %} nav-right-list">
-                 <li class="dropdown">  
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav-title" data-toggle="dropdown">Courses<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for offeringType, offeringDetails in offeringTypes %}
+                            {% if offeringCount[offeringType] > 0 %}
+                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle nav-title" data-toggle="dropdown">Initiatives<b class="caret"></b></a>
                     <ul class="dropdown-menu">  
                     {% for initiative, code in initiativeTypes %}                            
@@ -56,16 +68,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">  
-                    <a href="#" class="dropdown-toggle nav-title" data-toggle="dropdown">Courses<b class="caret"></b></a>
-                    <ul class="dropdown-menu">  
-                    {% for offeringType, offeringDetails in offeringTypes %}
-                            {% if offeringCount[offeringType] > 0 %}
-                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
-                            {% endif %}
-                    {% endfor %}                            
-                    </ul>
-                </li> 
+
                  <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
                  <li>
                      <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id='nav-search-form'>

@@ -222,6 +222,16 @@ p.newstitle {
     -webkit-font-smoothing: antialiased;
 }
 
+.dropdown-menu {
+    border-radius: 0px;
+    font-family: 'Open Sans';
+}
+
+/* align the dropdown menu in the navbar with arrows*/
+.navbar .pull-right>li>.dropdown-menu, .navbar .nav>li>.dropdown-menu.pull-right {
+    right: 20px;
+}
+
 .socialmedia.nav-pills > li > a {
   width:30px;
   height:30px;
@@ -316,6 +326,7 @@ footer {
     overflow: auto;
     width: auto;
     background-color: #FFFFFF;
+    margin-bottom: 20px;
 }
 
 table.table thead .sorting,
