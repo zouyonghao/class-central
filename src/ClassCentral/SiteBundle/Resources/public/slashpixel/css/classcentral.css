@@ -85,6 +85,13 @@ body {
     color: #FFFFFF;
 }
 
+.hero-unit .free-online-ed {
+    font-family: "Nixie One";
+    font-size: 50px;
+    color: #ffffff;
+    margin: 10px 0px 30px 0px;
+}
+
 a {
   color: #0088cc;
   text-decoration: none;
@@ -786,6 +793,10 @@ input::-webkit-input-placeholder {
         color: #0662a1;
     }
 
+    .hero-unit .free-online-ed {
+        color: #000000;
+    }
+
  }
 
  
@@ -800,6 +811,12 @@ input::-webkit-input-placeholder {
      .hero-unit h1 {
          max-width: 300px;
          font-size: 14px;
+     }
+
+     .hero-unit .free-online-ed {
+         font-size: 30px;
+         margin-bottom: 10px;
+         margin-top: 0px;
      }
 
      input::-webkit-input-placeholder {
