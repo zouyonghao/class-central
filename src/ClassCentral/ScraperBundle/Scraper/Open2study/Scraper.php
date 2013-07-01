@@ -118,6 +118,8 @@ class Scraper extends ScraperAbstractInterface
                         $em->flush();
                     }
                 }
+            } else {
+                $course = $dbCourse;
             }
 
 
