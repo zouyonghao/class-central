@@ -49,10 +49,10 @@
                 </div>
 
                 {% if course['initiative']['name']|length > 0 %}
-                    <div class="course-initiative">
-                        <span>Initiative:</span> <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
+                    <div class="course-info-row">
+                        <span>Initiative:</span><a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
                                                     onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
-                                                    title="{{ course['initiative']['tooltip'] }}"> {{ course['initiative']['name'] }}</a>
+                                                    title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
                     </div>
                 {% endif %}
 
@@ -80,7 +80,7 @@
                             <ul>
                             {% for offering in course['offerings'][offeringType]%}
                                 <li><span class='offering-start-date' itemprop="startDate" content="{{ offering['microdataDate'] }}">{{ offering['displayDate'] }}</span>
-                                    <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-go" target="_blank"
+                                    <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-cc" target="_blank"
                                            onclick="recordOutboundLink('{{ offering['url'] }}','{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');return false"
                                             >Go to class</a>
                                     {% if offeringType == 'upcoming' and offering.status == 1 %}
@@ -106,19 +106,29 @@
                 {% endfor %}
             </div>
             <div class="course-meta-bottom-right span5">
-                <div class= "row">
-                    <div class="course-share span6">
-                        <div class="fb-like share-button" data-href={{ course['pageUrl'] }} data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
-                        <div class="share-button">
-                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-url={{ course['pageUrl'] }} data-count="vertical" data-hashtags="mooc">Tweet</a>
-                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                        </div>
-                        <div class="g-plusone share-button" data-size="tall" href="{{course['pageUrl']}}" ></div>
+                <div class="course-share">
+                    <div class="fb-like share-button" data-href={{ course['pageUrl'] }} data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
+                    <div class="share-button">
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-url={{ course['pageUrl'] }} data-count="vertical" data-hashtags="mooc">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
                     </div>
+                    <div class="g-plusone share-button" data-size="tall" href="{{course['pageUrl']}}" ></div>
                 </div>
             </div>
         </div>
     </div>
+
+    {% if course['stream']['showInNav'] %}
+        <div class="row">
+            <div class ="span12" style="text-align: center; margin-top: 25px">
+                <a class="btn btn-primary btn-course-cc"
+                   href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
+                   title="List of {{ course['stream']['name'] }} MOOCs"
+                   onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+                   >Browse more {{ course['stream']['name'] }} courses</a>
+            </div>
+        </div>
+    {% endif %}
 
     <script type="text/javascript">
         addthisevent.settings({

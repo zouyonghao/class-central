@@ -612,17 +612,19 @@ input::-webkit-input-placeholder {
     font-weight: 600;
 }
 
-.course-initiative {
+.course-info-row {
     margin-bottom: 10px;
 }
-.course-initiative span {
+.course-info-row span {
     font-family: "Open Sans",sans-serif;
     font-size: 14px;
     color: #0662a1;
     font-weight: 600;
+    display: inline-block;
+    width: 80px;
 }
 
-.course-initiative a {
+.course-info-row a {
     font-family: "Open Sans",sans-serif;
     font-size: 14px;
     color: #066666;
@@ -682,8 +684,7 @@ input::-webkit-input-placeholder {
     height: 100%;
 }
 
-
-.btn-course-go {
+.btn-course-cc {
     border-radius: 0px;
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
@@ -692,7 +693,7 @@ input::-webkit-input-placeholder {
     border: 0px;
 }
 
-.btn-course-go:hover {
+.btn-course-cc:hover {
     background-color: #666666;
 }
 
@@ -761,6 +762,10 @@ input::-webkit-input-placeholder {
         background-color: #0662a1;
     }
 
+    .tabletitle {
+        font-size: 16px;
+    }
+
     #nav-search-form {
         margin-left: 15px;
     }
@@ -783,6 +788,10 @@ input::-webkit-input-placeholder {
 
     .cc-page h1 {
         font-size: 28px;
+    }
+
+    .cc-page h2 {
+        font-size: 24px;
     }
 
     .hero-unit h1 {
@@ -852,6 +861,9 @@ input::-webkit-input-placeholder {
          font-size: 20px;
      }
 
+     .cc-page h2 {
+         font-size: 16px;
+     }
      .mooc-news h1 {
          font-size: 30px;
      }
@@ -866,5 +878,10 @@ input::-webkit-input-placeholder {
      .cc-home-form input{                  
          height: 30px;
          font-size: 14px;         
+     }
+
+     .course-share {
+         margin-top: 25px;
+         text-align: center;
      }
  }
