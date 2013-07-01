@@ -132,8 +132,8 @@
     {% endif %}
 
     <script type="text/javascript">
-        addthisevent.settings({
-            license   : {{ addthisevent }},
+        window.addthisevent_settings = {
+            license   : '{{ addthisevent }}',
             mouse     : false,
             css       : false,
             outlook   : {show:true, text:"Outlook Calendar"},
@@ -142,14 +142,13 @@
             hotmail   : {show:true, text:"Hotmail Calendar"},
             ical      : {show:true, text:"iCal Calendar"},
             facebook  : {show:true, text:"Facebook Event"},
-            callback  : ""
-        });
-
-
+            callback  : ['_gaq.push(["_trackEvent","Outbound Click - Calendar","{{ course['name'] }}"])']
+        };
     </script>
 
     <style type="text/css">
             /* AddThisEvent */
+        .addthisevent {visibility:hidden;}
         .addthisevent-drop 						{display:inline-block;position:relative;z-index:999998;background:#0662a1;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: normal;color:#fff!important;text-decoration:none;font-size:14px; font-weight:normal;text-decoration:none;padding:4px 5px 5px 8px;}
         .addthisevent-drop:hover 				{background-color:#666666;font-size: inherit;font-family: inherit; font-weight: inherit}
         .addthisevent-drop:active 				{top:1px;}
