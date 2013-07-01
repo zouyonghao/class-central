@@ -222,7 +222,7 @@ class CourseController extends Controller
           return;
        }
 
-       // Save the course and user tracking
+       // Save the course and user tracking for generating recommendations later on
        $sessionId = $this->getRequest()->getSession()->getId();
        $em->getConnection()->executeUpdate("INSERT INTO user_courses_tracking(user_identifier,course_id)
                                 VALUES ('$sessionId', $courseId)");
@@ -231,16 +231,25 @@ class CourseController extends Controller
        $course['pageUrl'] = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
 
        // Page Title/Twitter card title
-        $titleSuffix = '';
+        $titlePrefix = '';
         if(!empty($course['initiative']['name']))
         {
-            $titleSuffix = $course['initiative']['name'] . ' | ';
+            $titlePrefix = ' from ' . $course['initiative']['name'];
         }
-        $course['pageTitle'] = $titleSuffix . $course['name'];
+        $course['pageTitle'] = $course['name'] . $titlePrefix;
 
         if(strlen($course['desc']) > 500)
         {
             $course['desc'] = substr($course['desc'],0,497) . '...';
+        }
+
+        // Figure out if there is course in the future.
+        $nextSession = null;
+        $nextSessionStart ='';
+        if(isset($course['offerings']['upcoming']))
+        {
+            $nextSession = $course['offerings']['upcoming'][0];
+            $nextSessionStart = $nextSession['displayDate'];
         }
 
        return $this->render(
@@ -248,7 +257,9 @@ class CourseController extends Controller
            array('page' => 'home',
                  'course'=>$course,
                  'offeringTypes' => Offering::$types,
-                 'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past')
+                 'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past'),
+                 'nextSession' => $nextSession,
+                 'nextSessionStart' => $nextSessionStart
        ));
     }
 

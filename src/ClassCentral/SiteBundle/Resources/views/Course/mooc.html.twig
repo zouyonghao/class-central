@@ -5,7 +5,7 @@
      <title>{{ course['pageTitle'] }}</title>
      <meta name="description"
            content="{{ course['desc'] }}"/>
-     <meta property="og:title" content="{{ course['name'] }}" />
+     <meta property="og:title" content="{{ course['pageTitle'] }}" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
      <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
      <meta property="og:site_name" content="Class Central"/>
@@ -19,7 +19,7 @@
      <!-- Twitter card integration -->
      <meta name="twitter:card" content="summary">
      <meta name="twitter:site" content="@classcentral">
-     <meta name="twitter:title" content="{{ course['pageTitle'] }}">
+     <meta name="twitter:title" content="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %}">
      <meta name="twitter:description" content="{{ course['desc'] }}">
      <meta name="twitter:domain" content="www.class-central.com">
 
@@ -89,7 +89,7 @@
                                             <span class="_start">{{ offering.startDate }}</span>
                                             <span class="_end">{{ offering.startDate }}</span>
                                             <span class="_zonecode">35</span>
-                                            <span class="_summary">{{ course['name'] }} {% if course['initiative']['name']|length > 0 and course['initiative']['name'] != 'Others' %} from {{ course['initiative']['name'] }} {% endif %}</span>
+                                            <span class="_summary">{{ course['name'] }} {% if course['initiative']['name']|length > 0 and course['initiative']['name'] != 'Others' %} from {{ course['initiative']['name'] }} {% endif %} | Class Central</span>
                                             <span class="_description">{{ course['desc'] }}<br>Find out more at {{ course.pageUrl }}
                                             </span>
                                             <span class="_all_day_event">true</span>
@@ -109,7 +109,8 @@
                 <div class="course-share">
                     <div class="fb-like share-button" data-href={{ course['pageUrl'] }} data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
                     <div class="share-button">
-                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-url={{ course['pageUrl'] }} data-count="vertical" data-hashtags="mooc">Tweet</a>
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-url="{{ course['pageUrl'] }}" data-count="vertical"
+                           data-hashtags="mooc" data-text="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %} {{ course['pageUrl'] }}">Tweet</a>
                         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
                     </div>
                     <div class="g-plusone share-button" data-size="tall" href="{{course['pageUrl']}}" ></div>
