@@ -85,12 +85,12 @@ class Offering {
     private $shortName;
     
     public static $types = array(
-        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon'),
-        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced'),        
-        'ongoing' => array('desc' => 'Courses in Progress', 'nav'=>'Courses in Progress'),
-        'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses'),
-        'selfpaced' => array('desc' => 'Self Paced', 'nav'=>'Self Paced'),
-        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses')
+        'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon','sessionDesc' => 'Recently started or starting soon'),
+        'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced','sessionDesc' => 'Just Announced'),
+        'ongoing' => array('desc' => 'Courses in Progress', 'nav'=>'Courses in Progress', 'sessionDesc' => 'In progress'),
+        'upcoming' => array('desc' => 'Future courses', 'nav'=>'Future courses', 'sessionDesc' => 'Next'),
+        'selfpaced' => array('desc' => 'Self Paced', 'nav'=>'Self Paced', 'sessionDesc' => 'Self Paced'),
+        'past' => array('desc' => 'Finished courses', 'nav'=>'Finished courses', 'sessionDesc' =>'Finished')
     );
 
     public function __construct() {

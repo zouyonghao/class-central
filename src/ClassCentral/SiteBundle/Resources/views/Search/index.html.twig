@@ -22,28 +22,23 @@
 {% endblock %}
     
 {% block content %}
-     <div>            
-            <div class='cc-home-form cc-search-form'>
-                <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">          
-                    <div class="cc-search-elements">
-                        <input type="text" name="q" placeholder="search for courses" value="{{keywords}}" class="input-xxxlarge">   
-                        <button class='btn btn-search'>
-                            <i class="icon-search"></i>
-                        </button> 
-                    </div>     
-                </form>
-            </div>
-     </div>
+
+    <h1>MOOC search</h1>
+
+    <div class="search-wrapper">
+        {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' %}
+    </div>
+
     {% if keywords is not null and keywords|length %}
     <div class="searchresultsheader">
-        <h1>Search Results</h1>
+        <h2>Search Results</h2>
         <div><b>{{total}}</b> result(s) found for <b>{{keywords}}</b></div>
-        <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-white icon-link" value="YES"></i> <i class="icon-remove icon-white icon-link" value="NO"></i></div>
+        <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-black icon-link" value="YES"></i> <i class="icon-remove icon-black icon-link" value="NO"></i></div>
      </div>
      {% if total != 0 %}   
         {% for offeringType, offeringDetails in offeringTypes %}
             {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-                <h1 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h1> 	  
+                <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h2>
                 {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
             {% endif %}    
         {% endfor %}

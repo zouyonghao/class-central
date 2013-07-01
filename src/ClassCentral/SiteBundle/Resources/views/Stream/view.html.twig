@@ -11,7 +11,7 @@
 
     {% for offeringType, offeringDetails in offeringTypes %}
         {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-            <h1 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h1> 	  
+            <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h2>
             {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
         {% endif %}    
     {% endfor %}

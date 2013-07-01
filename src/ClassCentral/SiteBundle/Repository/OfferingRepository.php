@@ -72,7 +72,7 @@ class OfferingRepository extends EntityRepository {
                
 
     /**
-     * Returns courses categoried as recent, ongoing, past and upcoming.
+     * Returns courses categorized as recent, ongoing, past and upcoming.
      */
     private function categorizeOfferings($offerings) {
         
@@ -123,14 +123,14 @@ class OfferingRepository extends EntityRepository {
             // Check if its self paced
             if($offering->getStatus() == Offering::COURSE_OPEN) {
                 $selfpaced[] = $offeringArray;
-                $notFinishedCourses[$courseKey] = 1;
+                //$notFinishedCourses[$courseKey] = 1;
                 continue;
             }
             
             // Check if its upcoming
             if ($startDate > $now) {
                 $upcoming[] = $offeringArray;
-                $notFinishedCourses[$courseKey] = 1;
+                //$notFinishedCourses[$courseKey] = 1;
                 continue;
             }
 
@@ -140,7 +140,7 @@ class OfferingRepository extends EntityRepository {
             if ($endDate != null && $endDate < $now && $offering->getStatus() != Offering::COURSE_OPEN) {
                 if(!isset($notFinishedCourses[$courseKey]) && !isset($finishedCourses[$courseKey])) {
                     $past[] = $offeringArray;
-                    $finishedCourses[$courseKey] = 1;
+                    //$finishedCourses[$courseKey] = 1;
                 }
                 continue;
             }
@@ -148,7 +148,7 @@ class OfferingRepository extends EntityRepository {
             // Check if it belongs to ongoing
             if (($offering->getStatus() == Offering::START_DATES_KNOWN) || ($offering->getStatus() == Offering::COURSE_OPEN)) {
                 $ongoing[] = $offeringArray;
-                $notFinishedCourses[$courseKey] = 1;
+                //$notFinishedCourses[$courseKey] = 1;
             }
 
             // ERROR: Should not come here
@@ -189,6 +189,7 @@ class OfferingRepository extends EntityRepository {
         $offeringArray['length'] = $course->getLength();
         $offeringArray['startTimeStamp'] = $offering->getStartTimestamp();
         $offeringArray['displayDate'] = $offering->getDisplayDate();
+        $offeringArray['startDate'] = $offering->getStartDate()->format('d-m-Y');
         $offeringArray['length'] = $course->getLength();
         $offeringArray['microdataDate'] = $offering->getMicrodataDate();
         $offeringArray['status'] = $offering->getStatus();
@@ -205,6 +206,7 @@ class OfferingRepository extends EntityRepository {
             $offeringArray['initiative']['name'] = $initiative->getName();
             $offeringArray['initiative']['url'] = $initiative->getUrl();
             $offeringArray['initiative']['tooltip'] = $initiative->getTooltip();
+            $offeringArray['initiative']['code'] = $initiative->getCode();
         }
         
         // Add Institutions
@@ -224,8 +226,13 @@ class OfferingRepository extends EntityRepository {
             $offeringArray['instructors'][] = $instructor->getName();
         }
 
+        // Generate the course url
+        $offeringArray['courseSlug'] = $course->getSlug();
+        $offeringArray['courseId'] = $course->getId();
+
         return $offeringArray;
     }
+
 
     /**
      * Builds a list of courses starting or finishing in the current month

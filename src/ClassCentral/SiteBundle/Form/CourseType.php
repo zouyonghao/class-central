@@ -15,6 +15,7 @@ class CourseType extends AbstractType {
             ->add('stream') 
             ->add('initiative', null, array('required'=>false, 'empty_value' => true))  
             ->add('institutions', null, array('required'=>false, 'empty_value'=>true))
+            ->add('language',null,array('required'=>false,'empty_value' => true))
             ->add('url')
             ->add('videoIntro')
             ->add('length')

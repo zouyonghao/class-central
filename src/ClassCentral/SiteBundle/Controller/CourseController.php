@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
@@ -202,5 +203,90 @@ class CourseController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    /**
+     *
+     * @param $id Row id for the course
+     * @param $slug decsecriptive url for the course
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function moocAction($id, $slug)
+    {
+       $em = $this->getDoctrine()->getEntityManager();
+       $courseId = intval($id);
+       $course = $this->get('Cache')->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
+       if(!$course)
+       {
+           // TODO: render a error page
+          return;
+       }
+
+       // Save the course and user tracking for generating recommendations later on
+       $sessionId = $this->getRequest()->getSession()->getId();
+       $em->getConnection()->executeUpdate("INSERT INTO user_courses_tracking(user_identifier,course_id)
+                                VALUES ('$sessionId', $courseId)");
+
+       // URL of the current page
+       $course['pageUrl'] = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
+
+       // Page Title/Twitter card title
+        $titlePrefix = '';
+        if(!empty($course['initiative']['name']))
+        {
+            $titlePrefix = ' from ' . $course['initiative']['name'];
+        }
+        $course['pageTitle'] = $course['name'] . $titlePrefix;
+
+        if(strlen($course['desc']) > 500)
+        {
+            $course['desc'] = substr($course['desc'],0,497) . '...';
+        }
+
+        // Figure out if there is course in the future.
+        $nextSession = null;
+        $nextSessionStart ='';
+        if(count($course['offerings']['upcoming']) > 0)
+        {
+            $nextSession = $course['offerings']['upcoming'][0];
+            $nextSessionStart = $nextSession['displayDate'];
+        }
+
+       return $this->render(
+           'ClassCentralSiteBundle:Course:mooc.html.twig',
+           array('page' => 'home',
+                 'course'=>$course,
+                 'offeringTypes' => Offering::$types,
+                 'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past'),
+                 'nextSession' => $nextSession,
+                 'nextSessionStart' => $nextSessionStart
+       ));
+    }
+
+    /**
+     * Retrieves the course details and offerings
+     * @param $courseId
+     */
+    public function getCourseDetails($courseId, $em)
+    {
+        // Get the course first
+        $courseEntity = $em->getRepository('ClassCentralSiteBundle:Course')->findOneById($courseId);
+        if(!$courseEntity)
+        {
+            // Invalid course
+            return null;
+        }
+        $courseDetails = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray($courseEntity);
+        // Course exists get all the offerings
+        $courseDetails['offerings'] = $em->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds(array($courseId));
+
+        // Flip the past courses to show the newest ones first
+        // TODO: Sort these courses correctly
+        foreach($courseDetails['offerings'] as $type => $courses)
+        {
+            $courseDetails['offerings'][$type] =  array_reverse($courses);
+        }
+
+        return $courseDetails;
     }
 }

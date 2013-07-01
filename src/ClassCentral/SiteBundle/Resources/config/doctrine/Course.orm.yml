@@ -1,5 +1,6 @@
 ClassCentral\SiteBundle\Entity\Course:
   type: entity
+  repositoryClass: ClassCentral\SiteBundle\Repository\CourseRepository
   table: courses
   fields:
     id:
@@ -51,6 +52,14 @@ ClassCentral\SiteBundle\Entity\Course:
       orphanRemoval: false  
     initiative:
       targetEntity: Initiative
+      fetch: EAGER
+      cascade: {}
+      mappedBy: null
+      inversedBy: courses
+      orphanRemoval: false
+      nullable: true
+    language:
+      targetEntity: Language
       fetch: EAGER
       cascade: {}
       mappedBy: null

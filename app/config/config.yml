@@ -26,6 +26,7 @@ twig:
       fb_admins     : %fb_admins%
       plusPageUrl   : %plusPageurl%
       baseurl       : %baseurl%
+      addthisevent  : %addthisevent%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

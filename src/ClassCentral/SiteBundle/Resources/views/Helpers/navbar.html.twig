@@ -17,7 +17,7 @@
   })();
 </script>
 
-<div class="navbar">
+<div class="navbar navbar-fixed-top">
     <div class="navbar-inner cc-navbar">
         <div class="container">
             
@@ -30,48 +30,51 @@
 	    <div class="nav-collapse">
             <ul class="nav pull-left">
                 <li>
-                    <a href="{{ path('ClassCentralSiteBundle_homepage')}}"><h1>Class Central</h1></a>
+                    <a href="{{ path('ClassCentralSiteBundle_homepage')}}" title="MOOC aggregator"><h1>Class Central</h1></a>
                 </ul>
             </ul>
-            <ul class="nav pull-right nav-right-list">
-                 <li class="dropdown">  
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Initiatives<b class="caret"></b></a>  
+            <ul class="nav pull-right {% if page is defined %} navbar-fixed-top {% endif %} nav-right-list">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by their Start date" data-toggle="dropdown">Courses<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for offeringType, offeringDetails in offeringTypes %}
+                            {% if offeringCount[offeringType] > 0 %}
+                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" title="{{offeringDetails.nav}} - MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav-title" title="Browser MOOCs by Initiatives" data-toggle="dropdown">Initiatives<b class="caret"></b></a>
                     <ul class="dropdown-menu">  
                     {% for initiative, code in initiativeTypes %}                            
                         <li>
-                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
+                            <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" title="List of {{ initiativeCount[code]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
                         </li>
                     {% endfor %}                            
                     </ul>
                 </li>
                 <!-- streams !-->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stream<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by Streams" data-toggle="dropdown">Stream<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         {% for stream in streams %}
                             <li>
-                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
+                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" title="List of {{ stream['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
                             </li>
                         {% endfor %}
                     </ul>
                 </li>
 
-                <li class="dropdown">  
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Courses<b class="caret"></b></a>  
-                    <ul class="dropdown-menu">  
-                    {% for offeringType, offeringDetails in offeringTypes %}
-                            {% if offeringCount[offeringType] > 0 %}
-                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
-                            {% endif %}
-                    {% endfor %}                            
-                    </ul>
-                </li> 
-                 <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" target="_blank" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
+
+                 <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
                  <li>
-                     <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search">
+                     <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id='nav-search-form'>
                          <div class="input-append">
-                             <input class="span2" id="prependedInput" type="text" name="q">
-                             <span class="add-on"><i class="icon-search"></i></span>
+                             <input  id="prependedInput" type="text" name="q">
+                             <button><span class="add-on"><i class="icon-search"></i></span></button>
                          </div>
                      </form>
                  </li>

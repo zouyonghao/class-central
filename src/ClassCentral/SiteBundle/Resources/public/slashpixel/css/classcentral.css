@@ -6,6 +6,43 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
 */
+
+body {
+    background-color:#efeff0;
+}
+
+.cc-page {
+    margin-bottom: 50px;
+    padding-bottom: 10px;
+    background-color: #ffffff;
+    margin-top: 50px;
+    clear: both;
+}
+
+.cc-page h1 {
+    font-family: 'Nixie One';
+    color: #0662a1;
+    font-weight: normal;
+    line-height:1.5;
+    padding-top: 40px;
+    margin-left: 20px;
+}
+
+.cc-page h2 {
+    font-size:24px;
+    font-family: "Open Sans",sans-serif;
+    color: #066666;
+    font-weight: 600;
+    padding: 20px 0 10px 20px;
+}
+
+/* Remove rounded corners */
+.table {
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
 .main-background {
     background: url("/bundles/classcentralsite/slashpixel/images/bkg_img_02.jpg") no-repeat scroll 0 0 transparent;
     height: 500px;
@@ -18,27 +55,41 @@
 }
 
 .hero-unit {
-  font-family: 'Nixie One', cursive;
-  color: #ffffff;
   background: none;
   padding: 0;
   margin: 0 0 20px 0;
+  padding-top: 20px;
 }
 
 :root .hero-unit {
- padding-bottom: 0px\9;
+ padding-bottom: 0px;
 }
 
 .hero-unit h1{
-    font-family: 'Open Sans', bold;
-    font-size:20px;
+    font-family: 'Open Sans';
+    color: #ffffff;
+    font-size:18px;
+    font-weight: 600;
     line-height:1.5;
     padding-top:0px;
     padding-bottom:20px;
+    -webkit-font-smoothing: antialiased;
+    max-width: 570px;
+}
+
+.hero-unit h1 span{
+    text-decoration: underline;
 }
 
 .hero-unit a {
     color: #FFFFFF;
+}
+
+.hero-unit .free-online-ed {
+    font-family: "Nixie One";
+    font-size: 50px;
+    color: #ffffff;
+    margin: 10px 0px 30px 0px;
 }
 
 a {
@@ -75,10 +126,9 @@ a.learnmorelink:hover {
   background-color: #ffffff;
 }
 .tabletitle {
-  font-family: 'Nixie One', cursive;
-  color:#006e6e;
-  font-weight:normal;
-  font-size:24px;
+  font-family: "Open Sans",sans-serif;
+  color: #066666;
+  font-weight: 600;
   padding: 20px 0 10px 20px;
 }
 thead {
@@ -138,6 +188,19 @@ p.newstitle {
   background-color:#0088cc;
 }
 
+.navbar .btn {
+    background-image: none;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+.navbar .btn:hover,
+.navbar .btn:active {
+    background-image: none;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
 .navbar .nav-right-list > li {
   margin-top: 20px;
 }
@@ -147,6 +210,19 @@ p.newstitle {
   color: #FFFFFF;
 }
 
+.navbar .nav>li>a {
+    padding-left: 0px;
+    padding-right: 40px;
+}
+
+.nav-title {
+    font-family: "Open Sans";
+    font-weight: 300;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 0.5px 0.866px 1px rgb( 6, 102, 102 );
+}
+
 .navbar .nav-right-list > li > form {
   margin-top: 5px;
 }
@@ -154,6 +230,25 @@ p.newstitle {
 .navbar .nav li.dropdown > .dropdown-toggle .caret, .navbar .nav li.dropdown.open > .dropdown-toggle .caret {
   border-top-color: #FFFFFF;
   border-bottom-color: #FFFFFF;
+}
+
+.navbar h1 {
+    font-family: 'Bree Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    text-shadow: 0.5px 0.866px 1px rgb( 6, 102, 102 );
+    -webkit-font-smoothing: antialiased;
+}
+
+.dropdown-menu {
+    border-radius: 0px;
+    font-family: 'Open Sans';
+}
+
+/* align the dropdown menu in the navbar with arrows*/
+.navbar .pull-right>li>.dropdown-menu, .navbar .nav>li>.dropdown-menu.pull-right {
+    right: 20px;
 }
 
 .socialmedia.nav-pills > li > a {
@@ -199,21 +294,32 @@ a.social4 {
 a.social4:hover {
   background-position: -90px -30px;
 }
-.classcentralfooter {
-  text-align:center;
-  list-style: none;
-}
 
 .classcentralfooter {
   margin-bottom: 0;
   padding-top: 30px;
+  text-align:center;
+  list-style: none;
 }
 
 .classcentralfooter li {
   display: inline;
-  margin-right: 20px;
+  font-family: "Open Sans";
+  font-weight: 600;
+  font-size: 12px;
 }
 
+.classcentralfooter li:after {
+    content: " | ";
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: #0662a1;
+}
+
+.classcentralfooter li:last-child:after {
+    content: "";
+}
 .classcentralfooter a, .classcentralfooter a:hover {
     color: #0662a1;
     background: none;
@@ -224,7 +330,7 @@ a.social4:hover {
 }
 
 footer {
-    background-color: #e6e7e8;
+    background-color: #ffffff;
     height: 80px;
 }
 
@@ -238,6 +344,7 @@ footer {
     overflow: auto;
     width: auto;
     background-color: #FFFFFF;
+    margin-bottom: 20px;
 }
 
 table.table thead .sorting,
@@ -281,8 +388,12 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 .cc-navbar {
     background-color: #0662a1;
-    height: 80px;
+    min-height: 80px;
     color: #FFFFFF;
+}
+
+.navbar {
+  position: relative;
 }
 
 .navbar .nav > li > a {
@@ -294,6 +405,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     color: #FFFFFF;
 }
 
+
 /* Fix for tables not showing up in IE 8*/
 .table {background-color:#ffffff;}
 
@@ -301,21 +413,11 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     width: 40px;
 }
 
-.searchresultsheader{
-    font-family: 'Nixie One', cursive;
-    color:#ffffff;      
-}
-
-.searchresultsheader h1{
-    color:#ffffff;
-    font-size:30px;
-    font-weight: bold;
-    line-height:1.5;
-    padding-top:10px;    
-}
-
 .searchresultsheader div{
-    font-size:15px;   
+    font-family: 'Nixie One', cursive;
+    color:#000000;
+    font-size:15px;
+    margin-left: 20px;
 }
 
 .icon-link:hover{
@@ -323,16 +425,84 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     cursor: pointer;
 }
 
-.cc-page-header{
-    color:#ffffff;
-    font-size:30px;
-    font-weight: bold;
-    line-height:1.5;
-    padding-top:40px; 
+/* Search form */
+.cc-home-form input[type="text"]{
+    font-size: 20px;
+    -moz-border-top-left-radius: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    height: 38px;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
 }
 
-.cc-home-logo{
-    float: left;
+.cc-home-form .input-append .add-on:last-child{
+    height: 38px;
+    width: 60px;
+    border-radius: 0px;
+    background-color: #ffffff;
+    border-left-color:#066666 ;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+}
+
+.cc-home-form .input-append button:hover {
+    opacity: 0.75;
+}
+
+.cc-home-form .input-append .add-on .icon-search {
+    background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon-big.png");
+    background-position: 0px 0px;
+    height: 22px;
+    width: 22px;
+    margin: 8px 19px;
+}
+
+.search-wrapper {
+    margin-left: 20px;
+}
+
+.input-xxxlarge.input-large {
+    width: 500px;
+}
+
+.cc-home-form button{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+input::-webkit-input-placeholder {
+    font-family: 'Open Sans';
+    color:  #066666;
+    font-style: italic;
+    font-size: 17px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    font-family: 'Open Sans';
+    color: #066666;
+    font-style: italic;
+    font-size: 17px;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    font-family: 'Open Sans';
+    color: #066666;
+    font-style: italic;
+    font-size: 17px;
+}
+
+:-ms-input-placeholder {
+    font-family: 'Open Sans';
+    color: #066666;
+    font-style: italic;
+    font-size: 17px;
 }
 
 .input-append button.add-on {
@@ -344,31 +514,221 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 
 
-.cc-home-form input{
+/* Nav search form */
+#nav-search-form input[type="text"]{
     font-size: 20px;
     -moz-border-top-left-radius: 0px;
-    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-left-radius: 0px;
     border-top-left-radius: 0px;
     -moz-border-radius-bottomleft: 0px;
     -webkit-border-bottom-left-radius: 0px;
     border-bottom-left-radius: 0px;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    width: 110px;
 }
 
-.cc-search-form{    
-    margin-top: 60px;
-}
-.cc-search-form input{
-    margin-left: 0px;    
-    height: 50px;
-}
-
-.input-xxxlarge.input-large {
-    width: 500px;
+#nav-search-form .input-append .add-on:last-child{
+    border-radius: 0px;
+    background-color: #ffffff;
+    border-left-color:#066666 ;
+    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
+    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
+    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
 }
 
-.cc-home-form button{    
-    margin-left: -70px;
-    margin-bottom: 10px;    
+#nav-search-form .input-append button:hover {
+    opacity: 0.75;
+}
+
+#nav-search-form .input-append .add-on .icon-search {
+    background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon-navbar.png");
+    background-position: 0px 0px;
+    height: 15px;
+    width: 15px;
+    margin: 0px;
+}
+
+#nav-search-form button{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+/* MOOC/Course pages */
+.course-block {
+    padding: 20px 20px;
+}
+
+.course-block .course-title {
+    font-family: 'Nixie One',sans-serif;
+    color: #0662a1;
+    font-weight: normal;
+    margin-left: 0px;
+    padding-top: 0px;
+}
+
+.course-block .course-instructors {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.course-secondline {
+    margin-bottom: 5px;
+}
+
+.course-secondline ul{
+    display: inline;
+    list-style-type: none;
+    margin-left: 0px;
+}
+.course-secondline ul:after {
+    content: ' - ';
+}
+
+.course-secondline ul li {
+    display: inline;
+}
+
+.course-secondline li:after {
+    content: ', ';
+}
+
+.course-secondline li:last-child:after {
+    content: "";
+}
+
+.course-secondline ul li a {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
+    font-weight: 600;
+}
+
+.course-info-row {
+    margin-bottom: 10px;
+}
+.course-info-row span {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #0662a1;
+    font-weight: 600;
+    display: inline-block;
+    width: 80px;
+}
+
+.course-info-row a {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
+    font-weight: 400;
+}
+
+.course-block .course-desc {
+    font-family: "Open Sans",sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: #000000;
+}
+
+.course-offeringtype-block h4 {
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    color: #066666;
+    font-weight: 600;
+}
+
+.course-offeringtype-block ul {
+    list-style-type: none;
+}
+
+.course-offeringtype-block li {
+    margin-bottom: 5px;
+}
+
+.offering-start-date {
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    color: #066666;
+    font-weight: 400;
+    display: inline-block;
+    width: 100px;
+}
+
+.course-sessions {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #0662a1;
+    font-weight: 600;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.video-container iframe, .video-container object, .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.btn-course-cc {
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    background-image: none;
+    background-color: #0662a1;
+    border: 0px;
+}
+
+.btn-course-cc:hover {
+    background-color: #666666;
+}
+
+/* News page */
+
+.mooc-news {
+    padding: 0px 50px 50px;
+}
+
+.mooc-news-title a{
+    font-family: "Open Sans",sans-serif;
+    font-size: 15px;
+    color: #066666;
+    font-weight: 600;
+}
+
+
+.mooc-news-description {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
+    font-weight: 400;
+}
+
+.mooc-news-item {
+    margin-bottom: 20px
+}
+
+.mooc-news-description span {
+    font-family: 'Nixie One';
+    font-size: 14px;
+    font-weight: bold;
+    color: #0662a1;
+}
+
+.course-share .share-button {
+    display: inline;
+    margin: 0px 10px 10px;
 }
 
 
@@ -423,19 +783,77 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 @media (max-width: 1201px) {
         .cc-home-form input{
            margin-left: 0px; 
-           margin-top: 10px;
         }
 }
 
 @media (max-width: 980px) {
-	.hero-unit{
-		margin-top: 10px;
-	}
-	.hero-unit h1{
-		font-size:24px;
-	}
-    
+
+    nav-collapse .pull-right > .dropdown > a,
+   .nav-collapse .pull-right > li > a {
+        font-weight: 300;
+        color: #ffffff;
+    }
+
+    .nav-collapse .nav>li>a, .nav-collapse .dropdown-menu a {
+        color: #ffffff;
+    }
+
+    .nav-collapse .pull-right > .dropdown > a:hover,
+    .nav-collapse .pull-right > li > a:hover {
+        background-color: #0662a1;
+    }
+
+    /* "Class Central" in the navbar */
+    .nav-collapse .nav>li>a:hover, .nav-collapse .dropdown-menu a:hover {
+        background-color: #0662a1;
+    }
+
+    .tabletitle {
+        font-size: 16px;
+    }
+
+    #nav-search-form {
+        margin-left: 15px;
+    }
+
+    .navbar .nav>li>a {
+        padding-left: 15px;
+    }
+
+    .cc-navbar {
+        min-height: 20px;
+    }
+
+    .main-background {
+        background-image: none;
+    }
+
+    .cc-page {
+        margin-top: 40px;
+    }
+
+    .cc-page h1 {
+        font-size: 28px;
+    }
+
+    .cc-page h2 {
+        font-size: 24px;
+    }
+
+    .hero-unit h1 {
+        color: #0662a1;
+    }
+
+    .hero-unit h1 a{
+        color: #0662a1;
+    }
+
+    .hero-unit .free-online-ed {
+        color: #000000;
+    }
+
  }
+
  
  @media (max-width: 767px) {
      .input-xxxlarge{          
@@ -444,7 +862,58 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
                 -moz-box-sizing: border-box;
                     box-sizing: border-box;                    
      }
-          
+
+     .hero-unit h1 {
+         max-width: 300px;
+         font-size: 14px;
+     }
+
+     .hero-unit .free-online-ed {
+         font-size: 30px;
+         margin-bottom: 10px;
+         margin-top: 0px;
+     }
+
+     input::-webkit-input-placeholder {
+         font-size: 14px;
+     }
+
+     :-moz-placeholder { /* Firefox 18- */
+         font-size: 14px;
+     }
+
+     ::-moz-placeholder {  /* Firefox 19+ */
+         font-size: 14px;
+     }
+
+     :-ms-input-placeholder {
+         font-size: 14px;
+     }
+
+     .cc-home-form .input-append .add-on .icon-search {
+         margin: 0px;
+     }
+
+     .cc-home-form .input-append .add-on:last-child {
+         height: 28px;
+         width: 40px;
+     }
+
+     .cc-page {
+         margin-top: 30px;
+     }
+
+     .cc-page h1 {
+         font-size: 20px;
+     }
+
+     .cc-page h2 {
+         font-size: 16px;
+     }
+     .mooc-news h1 {
+         font-size: 30px;
+     }
+
 
     .cc-home-form button{    
         margin-left: 0px;
@@ -455,5 +924,10 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
      .cc-home-form input{                  
          height: 30px;
          font-size: 14px;         
+     }
+
+     .course-share {
+         margin-top: 25px;
+         text-align: center;
      }
  }

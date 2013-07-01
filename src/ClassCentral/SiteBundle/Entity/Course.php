@@ -61,6 +61,11 @@ class Course {
      * @var ClassCentral\SiteBundle\Entity\Initiative
      */
     private $initiative;
+
+    /**
+     * @var ClassCentral\SiteBundle\Entity\Language
+     */
+    private $language;
     
     /**
      * @var ClassCentral\SiteBundle\Entity\Institution
@@ -105,6 +110,11 @@ class Course {
      * @var string $url
      */
     private $url;
+
+    /*
+     * Generated url for the course page
+     */
+    private $slug;
 
     /**
      *
@@ -205,6 +215,20 @@ class Course {
      */
     public function getInitiative() {
         return $this->initiative;
+    }
+
+    /**
+     * @param Language $lang
+     */
+    public function setLanguage(\ClassCentral\SiteBundle\Entity\Language $lang) {
+        $this->language = $lang;
+    }
+
+    /**
+     * @return ClassCentral\SiteBundle\Entity\Language
+     */
+    public  function getLanguage() {
+        return $this->language;
     }
     
      /**
@@ -326,6 +350,22 @@ class Course {
         $this->searchDesc = $desc;
     }
 
+    /**
+     * http://stackoverflow.com/questions/7568231/php-remove-url-not-allowed-characters-from-string
+     * @return mixed
+     */
+    public function getSlug(){
+        $initiative = '';
+        if($this->getInitiative() != null ) {
+            $initiative = $this->getInitiative()->getName();
+        }
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $initiative . ' ' . $this->getName());
+        $url = trim($url, "-");
+        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
 
+        return $url;
+    }
 
 }

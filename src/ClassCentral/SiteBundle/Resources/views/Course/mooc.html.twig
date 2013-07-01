@@ -1,0 +1,177 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+
+ {% block headmeta %}
+     <title>{{ course['pageTitle'] }}</title>
+     <meta name="description"
+           content="{{ course['desc'] }}"/>
+     <meta property="og:title" content="{{ course['pageTitle'] }}" />
+     <meta property="og:url" content="{{ course['pageUrl'] }}" />
+     <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+     <meta property="og:site_name" content="Class Central"/>
+     <meta property="og:description" content="{{ course['desc'] }}" />
+     <meta property="og:type" content="website" />
+     {% if course['videoIntro'] is not null %}
+        <meta property="og:video" content="{{  course['videoIntro'] }}" />
+     {% endif %}
+     <meta property="fb:admins" content="{{ fb_admins }}" />
+
+     <!-- Twitter card integration -->
+     <meta name="twitter:card" content="summary">
+     <meta name="twitter:site" content="@classcentral">
+     <meta name="twitter:title" content="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %}">
+     <meta name="twitter:description" content="{{ course['desc'] }}">
+     <meta name="twitter:domain" content="www.class-central.com">
+
+ {% endblock %}
+
+{% block content %}
+    <div class="course-block" itemscope itemtype="http://schema.org/Event">
+        <div class="course-meta-top row" >
+
+            <div class='course-info span6'>
+                <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
+                <div class="course-secondline">
+                    {% if course['institutions']|length > 0 %}
+                        {# Output the institutions with links #}
+                        <ul>
+                            {% for institution in course['institutions'] %}
+                                {% set route = 'ClassCentralSiteBundle_university' %}
+                                {% if not institution['isUniversity'] %}
+                                    {% set route = 'ClassCentralSiteBundle_institution' %}
+                                {% endif %}
+                                <li><a href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs"
+                                       onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
+                </div>
+
+                {% if course['initiative']['name']|length > 0 %}
+                    <div class="course-info-row">
+                        <span>Initiative:</span><a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
+                                                    onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
+                                                    title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
+                    </div>
+                {% endif %}
+
+                <p class="course-desc" itemprop="description">
+                    {{ course['desc'] }}
+                </p>
+            </div>
+
+            <div class="course-video span5">
+                {% if course['videoEmbedUrl'] is not null %}
+                    <div class="video-container">
+                        <iframe src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class ="course-meta-bottom row">
+            <div class="course-meta-bottom-left span6">
+                <p class="course-sessions">Sessions {% if course.length > 0 %}({{ course.length }} weeks long){% endif %} :</p>
+                {% for offeringType in offeringTypesOrder %}
+                    {% if course['offerings'][offeringType]|length > 0 %}
+                          <div class='course-offeringtype-block'>
+                            <h4 >{{ offeringTypes[offeringType]['sessionDesc'] }}</h4>
+                            <ul>
+                            {% for offering in course['offerings'][offeringType]%}
+                                <li><span class='offering-start-date' itemprop="startDate" content="{{ offering['microdataDate'] }}">{{ offering['displayDate'] }}</span>
+                                    <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-cc" target="_blank"
+                                           onclick="recordOutboundLink('{{ offering['url'] }}','{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');return false"
+                                            >Go to class</a>
+                                    {% if offeringType == 'upcoming' and offering.status == 1 %}
+                                        <a href="{{ course.pageUrl }}" title="Add to Calendar" class="addthisevent">
+                                            Add to Calendar
+                                            <span class="_start">{{ offering.startDate }}</span>
+                                            <span class="_end">{{ offering.startDate }}</span>
+                                            <span class="_zonecode">35</span>
+                                            <span class="_summary">{{ course['name'] }} {% if course['initiative']['name']|length > 0 and course['initiative']['name'] != 'Others' %} from {{ course['initiative']['name'] }} {% endif %} | Class Central</span>
+                                            <span class="_description">{{ course['desc'] }}<br>Find out more at {{ course.pageUrl }}
+                                            </span>
+                                            <span class="_all_day_event">true</span>
+                                            <span class="_date_format">DD/MM/YYYY</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+
+
+                            {% endfor %}
+                            </ul>
+                          </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="course-meta-bottom-right span5">
+                <div class="course-share">
+                    <div class="fb-like share-button" data-href={{ course['pageUrl'] }} data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
+                    <div class="share-button">
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-url="{{ course['pageUrl'] }}" data-count="vertical"
+                           data-hashtags="mooc" data-text="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %} {{ course['pageUrl'] }}">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    </div>
+                    <div class="g-plusone share-button" data-size="tall" href="{{course['pageUrl']}}" ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if course['stream']['showInNav'] %}
+        <div class="row">
+            <div class ="span12" style="text-align: center; margin-top: 25px">
+                <a class="btn btn-primary btn-course-cc"
+                   href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
+                   title="List of {{ course['stream']['name'] }} MOOCs"
+                   onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+                   >Browse more {{ course['stream']['name'] }} courses</a>
+            </div>
+        </div>
+    {% endif %}
+
+    <script type="text/javascript">
+        window.addthisevent_settings = {
+            license   : '{{ addthisevent }}',
+            mouse     : false,
+            css       : false,
+            outlook   : {show:true, text:"Outlook Calendar"},
+            google    : {show:true, text:"Google Calendar"},
+            yahoo     : {show:true, text:"Yahoo Calendar"},
+            hotmail   : {show:true, text:"Hotmail Calendar"},
+            ical      : {show:true, text:"iCal Calendar"},
+            facebook  : {show:true, text:"Facebook Event"},
+            callback  : ['_gaq.push(["_trackEvent","Outbound Click - Calendar","{{ course['name'] }}"])']
+        };
+    </script>
+
+    <style type="text/css">
+            /* AddThisEvent */
+        .addthisevent {visibility:hidden;}
+        .addthisevent-drop 						{display:inline-block;position:relative;z-index:999998;background:#0662a1;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: normal;color:#fff!important;text-decoration:none;font-size:14px; font-weight:normal;text-decoration:none;padding:4px 5px 5px 8px;}
+        .addthisevent-drop:hover 				{background-color:#666666;font-size: inherit;font-family: inherit; font-weight: inherit}
+        .addthisevent-drop:active 				{top:1px;}
+        .addthisevent-drop .arrow 				{width:15px;height:10px;position:absolute;top:50%;right:15px;margin-top:-5px;background:url("/bundles/classcentralsite/slashpixel/images/addthis-arrow.png") no-repeat;}
+        .addthisevent-selected 					{}
+        .addthisevent_dropdown 					{width:215px;position:absolute;z-index:99999;padding:6px 0px 0px 0px;background:#fff;text-align:left;display:none;margin-top:2px;margin-left:-1px;border-top:1px solid #c8c8c8;border-right:1px solid #bebebe;border-bottom:1px solid #a8a8a8;border-left:1px solid #bebebe;-webkit-box-shadow:1px 3px 6px rgba(0,0,0,0.15);-moz-box-shadow:1px 3px 6px rgba(0,0,0,0.15);box-shadow:1px 3px 6px rgba(0,0,0,0.15);}
+        .addthisevent_dropdown span 			{display:block;line-height:110%;background:#fff;text-decoration:none;font-size:14px;color:#6d84b4;padding:8px 10px 9px 15px;}
+        .addthisevent_dropdown span:hover 		{background:#f4f4f4;color:#6d84b4;text-decoration:none}
+        .addthisevent span 						{display:none!important;}
+        .addthisevent-drop ._url,.addthisevent-drop ._start,.addthisevent-drop ._end,.addthisevent-drop ._summary,.addthisevent-drop ._description,.addthisevent-drop ._location,.addthisevent-drop ._organizer,.addthisevent-drop ._organizer_email,.addthisevent-drop ._facebook_event,.addthisevent-drop ._all_day_event {display:none!important;}
+        .addthisevent_dropdown .copyx 			{height:21px;display:block;position:relative;cursor:default;}
+        .addthisevent_dropdown .brx 			{width:180px;height:1px;overflow:hidden;background:#e0e0e0;position:absolute;z-index:100;left:10px;top:9px;}
+        .addthisevent_dropdown .frs 			{position:absolute;top:3px;cursor:pointer;right:10px;padding-left:10px;font-style:normal;font-weight:normal;text-align:right;z-index:101;line-height:110%;background:#fff;text-decoration:none;font-size:10px;color:#cacaca;}
+        .addthisevent_dropdown .frs:hover 		{color:#6d84b4;}
+        .addthisevent 							{visibility:hidden;}
+
+        @media (max-width: 767px) {
+            .addthisevent-drop {
+                display: block;
+                margin-left: 102px;
+                margin-top: 10px;
+                width: 120px;
+            }
+        }
+    </style>
+{% endblock %}
