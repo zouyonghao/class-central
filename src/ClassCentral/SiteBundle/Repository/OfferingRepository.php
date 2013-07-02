@@ -206,7 +206,7 @@ class OfferingRepository extends EntityRepository {
             $offeringArray['initiative']['name'] = $initiative->getName();
             $offeringArray['initiative']['url'] = $initiative->getUrl();
             $offeringArray['initiative']['tooltip'] = $initiative->getTooltip();
-            $offeringArray['initiative']['code'] = $initiative->getCode();
+            $offeringArray['initiative']['code'] = strtolower($initiative->getCode());
         }
         
         // Add Institutions
