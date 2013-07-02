@@ -51,7 +51,7 @@
                 {% if course['initiative']['name']|length > 0 %}
                     <div class="course-info-row">
                         <span>Initiative:</span><a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
-                                                    onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
+                                                    onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
                                                     title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
                     </div>
                 {% endif %}
@@ -110,7 +110,7 @@
                     <div class="fb-like share-button" data-href={{ course['pageUrl'] }} data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
                     <div class="share-button">
                         <a href="https://twitter.com/share" class="twitter-share-button" data-via="classcentral" data-url="{{ course['pageUrl'] }}" data-count="vertical"
-                           data-hashtags="mooc" data-text="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %} {{ course['pageUrl'] }}">Tweet</a>
+                           data-hashtags="mooc" data-text="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %}">Tweet</a>
                         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
                     </div>
                     <div class="g-plusone share-button" data-size="tall" href="{{course['pageUrl']}}" ></div>
