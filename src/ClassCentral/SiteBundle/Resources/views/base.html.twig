@@ -83,9 +83,9 @@
 
     <body>
             {% if page is defined %}
-                {% render 'ClassCentralSiteBundle:Navigation:index' with{'page': page} %}
+                {% render controller('ClassCentralSiteBundle:Navigation:index', {'page': page}) %}
             {% else %}
-                {% render 'ClassCentralSiteBundle:Navigation:index' with{'page':'admin'} %}
+                {% render controller('ClassCentralSiteBundle:Navigation:index', {'page':'admin'}) %}
             {% endif %}
 
         <div class="container">

@@ -10,7 +10,7 @@ use ClassCentral\SiteBundle\Form\CourseType;
 
 /**
  * Course controller.
- *  @Secure(roles="ROLE_ADMIN")
+ *  
  */
 class CourseController extends Controller
 {
