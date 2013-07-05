@@ -13,3 +13,13 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    adminpass: Test1234
+
+    addthis_pubid: ~
+    ganalytics_id: ~
+    fb_admins: ~
+    plusPageUrl: ~
+    baseurl: ~
+    sphinx_index: ~
+    addthisevent: ~
