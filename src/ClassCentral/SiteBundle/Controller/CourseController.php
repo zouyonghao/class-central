@@ -10,7 +10,7 @@ use ClassCentral\SiteBundle\Form\CourseType;
 
 /**
  * Course controller.
- *  @Secure(roles="ROLE_ADMIN")
+ *
  */
 class CourseController extends Controller
 {
@@ -96,7 +96,7 @@ class CourseController extends Controller
         $entity  = new Course();        
         $request = $this->getRequest();
         $form    = $this->createForm(new CourseType(), $entity);
-        $form->bindRequest($request);      
+        $form->handleRequest($request);
         if ($form->isValid()) {                                  
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
@@ -155,7 +155,7 @@ class CourseController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -180,7 +180,7 @@ class CourseController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();

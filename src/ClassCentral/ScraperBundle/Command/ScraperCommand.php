@@ -35,7 +35,7 @@ class ScraperCommand extends ContainerAwareCommand
         // Check if initiative exists
         $initiative = $this->getContainer()
                         ->get('doctrine')
-                        ->getEntityManager()
+                        ->getManager()
                         ->getRepository('ClassCentralSiteBundle:Initiative')
                         ->findOneBy(array('code' => $initiativeCode));
         if($initiative == null)

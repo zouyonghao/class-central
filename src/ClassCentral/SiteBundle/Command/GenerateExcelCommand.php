@@ -21,7 +21,7 @@ class GenerateExcelCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Initialization
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $phpExcel = $this->getPHPExcel();
         $now = new \DateTime();
 
@@ -78,6 +78,8 @@ class GenerateExcelCommand extends ContainerAwareCommand {
      */
     private function getPHPExcel()
     {
+        // TODO: Load the excel library correctly
+        require_once(dirname(__FILE__) . "//..//..//..//..//vendor//phpexcel//Classes//PHPExcel.php" );
         $phpExcel = new \PHPExcel();
         $now = new \DateTime();
 

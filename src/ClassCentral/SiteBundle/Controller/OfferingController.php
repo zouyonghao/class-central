@@ -80,7 +80,7 @@ class OfferingController extends Controller
         $entity  = new Offering();
         $request = $this->getRequest();
         $form    = $this->createForm(new OfferingType(), $entity);
-        $form->bindRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {                      
             $entity->setCreated(new \DateTime);
@@ -141,7 +141,7 @@ class OfferingController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -172,7 +172,7 @@ class OfferingController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();

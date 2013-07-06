@@ -75,7 +75,7 @@ class InitiativeController extends Controller
         $entity  = new Initiative();
         $request = $this->getRequest();
         $form    = $this->createForm(new InitiativeType(), $entity);
-        $form->bindRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
@@ -135,7 +135,7 @@ class InitiativeController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -160,7 +160,7 @@ class InitiativeController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
