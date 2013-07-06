@@ -4,7 +4,11 @@
     "type": "project",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": {
+            "": "src/",
+            "SphinxClient" :"vendor//sphinx-client//",
+            "SimplehtmldomClient":"vendor//simplehtmldom-client//"
+        }
     },
     "require": {
         "php": ">=5.3.3",
