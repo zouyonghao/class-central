@@ -731,41 +731,6 @@ input::-webkit-input-placeholder {
     margin: 0px 10px 10px;
 }
 
-
-/* MOOC/Course pages */
-.course-block {
-    margin-top: 100px;
-    background-color: #ffffff;
-    padding: 20px 20px;
-}
-
-.course-block .course-title {
-    font-family: 'Nixie One';
-    font-size: 36px;
-    color: #0662a1;
-}
-
-.course-block .course-instructors {
-    font-family: "Open Sans",sans-serif;
-    font-size: 15px;
-    color: #066666;
-    font-weight: 600;
-}
-
-.course-block .course-desc {
-    font-family: "Open Sans",sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    color: #000000;
-}
-
-.course-offeringtype-block h4 {
-    font-family: "Open Sans",sans-serif;
-    font-size: 14px;
-    color: #066666;
-    font-weight: 400;
-}
-
 .h1 {
     font-family: 'Nixie One', cursive;
     color:#222222;
