@@ -56,7 +56,7 @@ class DefaultController extends Controller {
                 array(
                     'initiative' => $initiative['name'],
                     'offerings' => $offerings,
-                    'page'=>'initative',
+                    'page'=>'initiative',
                     'offeringTypes'=> Offering::$types
                 ));
         
