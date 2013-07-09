@@ -1,13 +1,19 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}            
-        <title> List of {{stream}} MOOCs | Free online courses AKA MOOC aggregator - Class Central</title>
-        <meta name="description" content="List of {{stream}} MOOCs | Free online courses AKA MOOC aggregator - Class Central"/>
+        <title>List of {{stream}} free online courses/MOOCs | Class Central</title>
+        <meta name="description" content="List of {{stream}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
+
+        <meta property="og:title" content="List of {{stream}} free online courses/MOOCs | Class Central" />
+        <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_stream',{'slug': slug}) }}" />
+        <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+        <meta property="og:description" content="List of {{stream}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished" />
+        <meta property="og:type" content="website" />
 {% endblock %} 
 
 {%  block content %}    
                 
-    <h1 class='cc-page-header'>List of {{stream}} MOOCs </h1>
+    <h1 class='cc-page-header'>List of {{stream}} free online courses/MOOCs </h1>
 
     {% for offeringType, offeringDetails in offeringTypes %}
         {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}

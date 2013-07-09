@@ -204,6 +204,7 @@ class StreamController extends Controller
                 'stream' => $stream->getName(),
                 'offerings' => $offerings,
                 'page' => 'stream',
+                'slug' => $slug,
                 'offeringTypes' => Offering::$types                
             ));
     }

@@ -1,13 +1,19 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}        
-    <title> {{offeringTypes[offeringType]['desc']}} | Free online courses AKA MOOC aggregator - Class Central</title>
-    <meta name="description" content="{{offeringTypes[offeringType]['desc']}} | Free online courses AKA MOOC aggregator - Class Central"/>
+    <title>List of {{offeringTypes[offeringType]['desc']}} free online courses/MOOCs | Class Central</title>
+    <meta name="description" content="List of {{offeringTypes[offeringType]['desc']}} free online courses/MOOCs aggregated by Class Central"/>
+
+    <meta property="og:title" content="List of {{offeringTypes[offeringType]['desc']}} free online courses/MOOCs | Class Central" />
+    <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_courses',{'type': offeringType}) }}" />
+    <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+    <meta property="og:description" content="List of {{offeringTypes[offeringType]['desc']}} free online courses/MOOCs aggregated by Class Central." />
+    <meta property="og:type" content="website" />
 {% endblock %}  
 
 {%  block content %}    
     {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-        <h1 id="{{offeringType}}">{{offeringTypes[offeringType]['desc']}} ({{ offerings[offeringType]|length }})</h1>
+        <h1 id="{{offeringType}}">{{offeringTypes[offeringType]['nav']}} ({{ offerings[offeringType]|length }})</h1>
         {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
     {% endif %}
 {% endblock %}

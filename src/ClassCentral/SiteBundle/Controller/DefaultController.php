@@ -57,6 +57,7 @@ class DefaultController extends Controller {
                     'initiative' => $initiative['name'],
                     'offerings' => $offerings,
                     'page'=>'initiative',
+                    'initiativeType' => $type,
                     'offeringTypes'=> Offering::$types
                 ));
         

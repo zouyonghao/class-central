@@ -206,6 +206,7 @@ class InstitutionController extends Controller
                     'page'=>'institution',
                     'offeringTypes'=> Offering::$types,
                     'isUniversity' => $institution->getIsUniversity(),
+                    'slug' => $slug
                 ));                
     }
     
