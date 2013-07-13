@@ -81,3 +81,8 @@ services:
     calls:
       - [setCache,[ @doctrine_cache ] ]
       - [setCacheKeyPrefix, [%baseurl%] ]
+  mailgun:
+    class: ClassCentral\SiteBundle\Services\Mailgun
+    calls:
+      - [setApiKey,[%mailgun_api_key%]]
+      - [setDomain,[%mailgun_domain_name%]]

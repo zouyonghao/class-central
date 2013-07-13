@@ -23,3 +23,6 @@ parameters:
     baseurl: ~
     sphinx_index: ~
     addthisevent: ~
+
+    mailgun_api_key = ~
+    mailgun_domain_name = ~
