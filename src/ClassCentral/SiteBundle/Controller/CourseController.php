@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Form\CourseType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * Course controller.
@@ -263,7 +265,99 @@ class CourseController extends Controller
        ));
     }
 
-    /**
+    public function shareAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mailgun = $this->get('mailgun');
+        $validator = $this->get('validator');
+        $request = $this->getRequest();
+
+        // Get the request params
+        $to = $request->request->get('to');
+        $name = $request->request->get('name');
+        $from = $request->request->get('from');
+
+        $courseId = intval($id);
+        $course = $this->get('Cache')->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
+
+        $errors = array();
+        if(!$course)
+        {
+            $errors[] = 'Course does not exist';
+        }
+
+        // Check if $from, $to fields are valid
+        $emailConstraint = new Email();
+        $emailConstraint->message = 'Invalid email address';
+        $toErrorList = $validator->validateValue($to,$emailConstraint);
+        $fromErrorList = $validator->validateValue($from,$emailConstraint);
+        if(count($toErrorList) != 0 )
+        {
+            $errors[] = 'Invalid TO email address';
+        }
+        if(count($fromErrorList) != 0) {
+            $errors[] = 'Invalid FROM email address';
+        }
+
+        if(empty($name))
+        {
+            $errors[] = 'Name is a required field';
+        }
+
+        if(!empty($errors))
+        {
+            $response = new Response(json_encode(array('errors' => $errors)));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
+        $subject = $course['name'];
+        if(!empty($course['initiative']) && !empty($course['initiative']['name']))
+        {
+            $subject = $course['initiative']['name'] . ' - ' .  $course['name'];
+        }
+
+        $mailgunResponse = $mailgun->sendSimpleText($to,"{$name}<{$from}>", $subject,$this->formatCourseEmailMessage($course,$name));
+
+        $response = new Response($mailgunResponse);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+    private function formatCourseEmailMessage($course, $name)
+    {
+        $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
+
+        $text = <<< EOD
+$name shared this free online course/MOOC "{$course['name']}" with you via Class Central.
+
+COURSE DESCRIPTION:
+{$course['desc']}
+
+
+EOD;
+        if(count($course['offerings']['upcoming']) > 0)
+        {
+            $nextSession = $course['offerings']['upcoming'][0];
+            $nextSessionStart = $nextSession['displayDate'];
+            $text = $text . 'Next session start date: '. $nextSession['displayDate'];
+
+        }
+
+        $text = <<< EOD
+$text
+
+Find more details about the course at $url
+
+---
+For a complete list of courses please visit Class Central at http://www.class-central.com.
+EOD;
+
+        return $text;
+    }
+
+        /**
      * Retrieves the course details and offerings
      * @param $courseId
      */

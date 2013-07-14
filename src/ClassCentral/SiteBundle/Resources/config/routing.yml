@@ -30,6 +30,10 @@ ClassCentralSiteBundle_search:
   pattern: /search
   defaults: { _controller: ClassCentralSiteBundle:Search:index}
 
+ClassCentralSiteBundle_mooc_share:
+  pattern: /mooc/{id}/share
+  defaults: { _controller: ClassCentralSiteBundle:Course:share}
+
 ClassCentralSiteBundle_mooc:
   pattern: /mooc/{id}/{slug}
   defaults: { _controller: ClassCentralSiteBundle:Course:mooc}
