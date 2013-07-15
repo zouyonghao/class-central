@@ -695,6 +695,31 @@ input::-webkit-input-placeholder {
     background-color: #666666;
 }
 
+.course-share a.twitter, .course-share a.facebook, .course-share a.gplus, .course-share a.mail {
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    padding: 5px;
+}
+
+
+.course-share a.twitter{
+    background: transparent url('/bundles/classcentralsite/images/share_twitter.png') no-repeat;
+
+}
+
+.course-share a.facebook{
+    background: transparent url('/bundles/classcentralsite/images/share_facebook.png') no-repeat;
+}
+
+.course-share a.gplus{
+    background: transparent url('/bundles/classcentralsite/images/share_gplus.png') no-repeat;
+}
+
+.course-share a.mail{
+    background: transparent url('/bundles/classcentralsite/images/share_mail.png') no-repeat;
+}
+
 /* News page */
 
 .mooc-news {
@@ -727,10 +752,6 @@ input::-webkit-input-placeholder {
     color: #0662a1;
 }
 
-.course-share .share-button {
-    display: inline;
-    margin: 0px 10px 10px;
-}
 
 .h1 {
     font-family: 'Nixie One', cursive;
@@ -741,10 +762,6 @@ input::-webkit-input-placeholder {
 
 }
 
-.course-share .share-button {
-    display: inline;
-    margin: 0px 10px 10px;
-}
 
 @media (max-width: 1201px) {
         .cc-home-form input{

@@ -306,7 +306,7 @@ class CourseController extends Controller
 
         if(!empty($errors))
         {
-            $response = new Response(json_encode(array('errors' => $errors)));
+            $response = new Response(json_encode(array('errors' => $errors,'success'=>false)));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -318,8 +318,18 @@ class CourseController extends Controller
         }
 
         $mailgunResponse = $mailgun->sendSimpleText($to,"{$name}<{$from}>", $subject,$this->formatCourseEmailMessage($course,$name));
+        $mailgunResponseArray = json_decode($mailgunResponse,true);
 
-        $response = new Response($mailgunResponse);
+        $responseArray = array();
+        if(!isset($mailgunResponse['id']))
+        {
+           $responseArray['errors'][] = "Some error occurred. Please try again";
+           $responseArray['success'] = false;
+        } else {
+            $responseArray['success'] = true;
+        }
+
+        $response = new Response(json_encode($responseArray));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
