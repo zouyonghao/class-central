@@ -115,7 +115,7 @@
                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank"></a>
                    <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="javascript:window.open(this.href,
   '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
-                   <a data-toggle="modal" class="mail" data-target="#sendMailModal"></a>
+                   <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal"></a>
 
                 </div>
             </div>
@@ -152,7 +152,7 @@
     <style type="text/css">
             /* AddThisEvent */
         .addthisevent {visibility:hidden;}
-        .addthisevent-drop 						{display:inline-block;position:relative;z-index:999998;background:#0662a1;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: normal;color:#fff!important;text-decoration:none;font-size:14px; font-weight:normal;text-decoration:none;padding:4px 5px 5px 8px;}
+        .addthisevent-drop 						{display:inline-block;position:relative;z-index:998;background:#0662a1;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: normal;color:#fff!important;text-decoration:none;font-size:14px; font-weight:normal;text-decoration:none;padding:4px 5px 5px 8px;}
         .addthisevent-drop:hover 				{background-color:#666666;font-size: inherit;font-family: inherit; font-weight: inherit}
         .addthisevent-drop:active 				{top:1px;}
         .addthisevent-drop .arrow 				{width:15px;height:10px;position:absolute;top:50%;right:15px;margin-top:-5px;background:url("/bundles/classcentralsite/slashpixel/images/addthis-arrow.png") no-repeat;}
@@ -209,6 +209,7 @@
 {% block customJS %}
       $( document ).ready(function() {
 
+          addthisevent.settings(window.addthisevent_settings);
 
           $("#share-course-form-submit").click(function(){
 
