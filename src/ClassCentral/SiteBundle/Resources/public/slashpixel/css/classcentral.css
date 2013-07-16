@@ -727,7 +727,11 @@ input::-webkit-input-placeholder {
     background-color: #666666;
 }
 
-.course-share a.twitter, .course-share a.facebook, .course-share a.gplus, .course-share a.mail {
+.course-share a.twitter,
+.course-share a.facebook,
+.course-share a.gplus,
+.course-share a.mail,
+.course-share a.linkedin {
     display: inline-block;
     height: 18px;
     width: 18px;
@@ -749,6 +753,10 @@ input::-webkit-input-placeholder {
 }
 
 .course-share a.mail{
+    background: transparent url('/bundles/classcentralsite/images/share_mail.png') no-repeat;
+}
+
+.course-share a.linkedin{
     background: transparent url('/bundles/classcentralsite/images/share_mail.png') no-repeat;
 }
 
