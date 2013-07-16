@@ -41,7 +41,7 @@
                                     {% set route = 'ClassCentralSiteBundle_institution' %}
                                 {% endif %}
                                 <li><a href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs"
-                                       onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a></li>
+                                       onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
@@ -51,7 +51,7 @@
                 {% if course['initiative']['name']|length > 0 %}
                     <div class="course-info-row">
                         <span>Initiative:</span><a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
-                                                    onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
+                                                    onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
                                                     title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
                     </div>
                 {% endif %}
@@ -111,11 +111,11 @@
                     {% set nextSessionStr = '' %}
                     {% if nextSessionStart != '' %} {% set nextSessionStr = " starts "~ nextSessionStart %} {% endif %}
                     {% set twitter_text = course['pageTitle'] ~ nextSessionStr %}
-                   <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" ></a>
-                   <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank"></a>
-                   <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="javascript:window.open(this.href,
+                   <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Twitter', '{{ course['name'] }}']);"></a>
+                   <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Facebook', '{{ course['name'] }}']);"></a>
+                   <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="_gaq.push(['_trackEvent', 'Course - Share', 'Google+', '{{ course['name'] }}']);javascript:window.open(this.href,
   '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
-                   <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal"></a>
+                   <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}']);"></a>
 
                 </div>
             </div>
@@ -128,7 +128,7 @@
                 <a class="btn btn-primary btn-course-cc"
                    href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
                    title="List of {{ course['stream']['name'] }} MOOCs"
-                   onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+                   onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
                    >Browse more {{ course['stream']['name'] }} courses</a>
             </div>
         </div>
@@ -212,6 +212,8 @@
           addthisevent.settings(window.addthisevent_settings);
 
           $("#share-course-form-submit").click(function(){
+
+            _gaq.push(['_trackEvent', 'Course - Share', 'Mail Sent', '{{ course['name'] }}'])
 
             var to = $("input[name='toEmail']").val();
             var from = $("input[name='fromEmail']").val();
