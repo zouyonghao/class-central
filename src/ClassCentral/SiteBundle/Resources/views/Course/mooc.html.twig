@@ -115,7 +115,7 @@
                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank"></a>
                    <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="javascript:window.open(this.href,
   '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
-                   <a href="#" data-toggle="modal" class="mail" data-target="#sendMailModal"></a>
+                   <a data-toggle="modal" class="mail" data-target="#sendMailModal"></a>
 
                 </div>
             </div>
@@ -178,28 +178,28 @@
         }
     </style>
     <!-- Form for Sending email -->
-    <div class="modal hide fade" id="sendMailModal">
+    <div class="modal hide fade cc-modal" id="sendMailModal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Share this course via Email</h3>
+            <h3>Email course details</h3>
         </div>
         <div class="modal-body">
-            <form method="post" action="{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}" id="share-course-form">
-                <p>To</p>
-                <label for="toEmail">Email*</label>
+            <form method="post" class="cc-form" action="{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}" id="share-course-form">
+                <h4>To</h4>
+                <label for="toEmail">Email<span class="label-req">*</span></label>
                 <input type="text" name="toEmail"/>
 
-                <p>From</p>
-                <label for="fromEmail">Email*</label>
+                <h4>From</h4>
+                <label for="fromEmail">Email<span class="label-req">*</span></label>
                 <input type="text" name="fromEmail"/>
 
-                <label for="nameEmail">Name*</label>
+                <label for="nameEmail">Name<span class="label-req">*</span></label>
                 <input type="text" name="fromName"/>
             </form>
             <div id="share-course-form-error"></div>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary btn-course-cc" id="share-course-form-submit">Send Email</a>
+            <a href="#" class="btn btn-primary btn-course-cc" id="share-course-form-submit">Send email</a>
         </div>
     </div>
 

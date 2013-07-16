@@ -1,14 +1,46 @@
-/*!
- * ClassCentral v1
- *
- * Copyright 2012 Abhishek Gupta @uxabhishek
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
-*/
 
 body {
     background-color:#efeff0;
+}
+
+/** Class Central styles for modal */
+.cc-modal {
+    border-radius: 0px;
+}
+
+.cc-modal .modal-header {
+    border-bottom: 0px;
+}
+
+.cc-modal .modal-header h3 {
+    color: #0662a1;
+    font-weight: normal;
+}
+
+.cc-modal .modal-footer {
+    background-color: #ffffff;
+    border-top: 0px;
+}
+
+/** Class Central styles for form **/
+.cc-form {
+
+}
+
+.cc-form input[type=text]{
+    border-radius: 0px;
+}
+
+.cc-form label {
+    color: #066666;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.cc-form label .label-req {
+    color: red;
+    margin-left: 5px;
 }
 
 .cc-page {
@@ -720,6 +752,17 @@ input::-webkit-input-placeholder {
     background: transparent url('/bundles/classcentralsite/images/share_mail.png') no-repeat;
 }
 
+#sendMailModal {
+    max-width: 400px;
+}
+
+#sendMailModal .modal-body h4 {
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #066666;
+    font-weight: 600;
+}
+
 /* News page */
 
 .mooc-news {
@@ -753,14 +796,6 @@ input::-webkit-input-placeholder {
 }
 
 
-.h1 {
-    font-family: 'Nixie One', cursive;
-    color:#222222;
-}
-
-.course-desc {
-
-}
 
 
 @media (max-width: 1201px) {
