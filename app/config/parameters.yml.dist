@@ -24,5 +24,5 @@ parameters:
     sphinx_index: ~
     addthisevent: ~
 
-    mailgun_api_key = ~
-    mailgun_domain_name = ~
+    mailgun_api_key: ~
+    mailgun_domain_name: ~
