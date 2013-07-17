@@ -12,12 +12,6 @@ body {
     border-bottom: 0px;
 }
 
-.cc-modal .modal-header h3 {
-    color: #0662a1;
-    font-family: "Nixie One";
-    font-weight: normal;
-}
-
 .cc-modal .modal-footer {
     background-color: #ffffff;
     border-top: 0px;
@@ -733,36 +727,37 @@ input::-webkit-input-placeholder {
 .course-share a.gplus,
 .course-share a.mail,
 .course-share a.linkedin {
+    background-image: url('/bundles/classcentralsite/images/social-share.png');
     display: inline-block;
-    height: 18px;
-    width: 18px;
-    padding: 5px;
+    height: 28px;
+    width: 30px;
 }
 
 
 .course-share a.twitter{
-    background: transparent url('/bundles/classcentralsite/images/share_twitter.png') no-repeat;
-
-}
-
-.course-share a.facebook{
-    background: transparent url('/bundles/classcentralsite/images/share_facebook.png') no-repeat;
+    background-position: 0px 0px;
 }
 
 .course-share a.gplus{
-    background: transparent url('/bundles/classcentralsite/images/share_gplus.png') no-repeat;
+    background-position: -28px 0px;
 }
 
-.course-share a.mail{
-    background: transparent url('/bundles/classcentralsite/images/share_mail.png') no-repeat;
+.course-share a.facebook{
+    background-position: -56px 0px;
 }
 
 .course-share a.linkedin{
-    background: transparent url('/bundles/classcentralsite/images/share_mail.png') no-repeat;
+    background-position: 60px;
 }
 
+.course-share a.mail{
+    background-position: 30px 0px;
+}
+
+
+
 #sendMailModal {
-    max-width: 350px;
+    max-width: 315px;
 }
 
 #sendMailModal .modal-body h4 {
@@ -771,6 +766,12 @@ input::-webkit-input-placeholder {
     color: #0662a1;
     font-weight: bold;
     line-height: 0.5;
+}
+
+#sendMailModal .modal-body h3 {
+    color: #0662a1;
+    font-family: "Nixie One";
+    font-weight: normal;
 }
 
 #sendMailModal input {

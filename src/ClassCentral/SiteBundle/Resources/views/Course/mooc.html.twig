@@ -31,6 +31,20 @@
 
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
+
+                <div class="course-share">
+                    {% set nextSessionStr = '' %}
+                    {% if nextSessionStart != '' %} {% set nextSessionStr = " starts "~ nextSessionStart %} {% endif %}
+                    {% set twitter_text = course['pageTitle'] ~ nextSessionStr %}
+                    <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Twitter', '{{ course['name'] }}']);"></a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Facebook', '{{ course['name'] }}']);"></a>
+                    <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="_gaq.push(['_trackEvent', 'Course - Share', 'Google+', '{{ course['name'] }}']);javascript:window.open(this.href,
+                            '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
+                    <a href="https://www.linkedin.com/cws/share?url={{ course['pageUrl']|url_encode }}" class="linkedin" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Linkedin', '{{ course['name'] }}']);"></a>
+                    <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}']);"></a>
+
+                </div>
+
                 <div class="course-secondline">
                     {% if course['institutions']|length > 0 %}
                         {# Output the institutions with links #}
@@ -106,19 +120,7 @@
                 {% endfor %}
             </div>
             <div class="course-meta-bottom-right span5">
-                <div class="course-share">
-                   <span>Share: </span>
-                    {% set nextSessionStr = '' %}
-                    {% if nextSessionStart != '' %} {% set nextSessionStr = " starts "~ nextSessionStart %} {% endif %}
-                    {% set twitter_text = course['pageTitle'] ~ nextSessionStr %}
-                   <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Twitter', '{{ course['name'] }}']);"></a>
-                   <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Facebook', '{{ course['name'] }}']);"></a>
-                   <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="_gaq.push(['_trackEvent', 'Course - Share', 'Google+', '{{ course['name'] }}']);javascript:window.open(this.href,
-  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
-                    <a href="https://www.linkedin.com/cws/share?url={{ course['pageUrl']|url_encode }}" class="linkedin" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Linkedin', '{{ course['name'] }}']);"></a>
-                   <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}']);"></a>
 
-                </div>
             </div>
         </div>
     </div>
@@ -182,9 +184,9 @@
     <div class="modal hide fade cc-modal" id="sendMailModal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3>Email course details</h3>
         </div>
         <div class="modal-body">
+            <h3>Email course details</h3>
             <form method="post" class="cc-form" action="{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}" id="share-course-form">
                 <h4>To</h4>
                 <hr/>
