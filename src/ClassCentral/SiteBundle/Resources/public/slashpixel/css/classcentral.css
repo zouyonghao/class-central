@@ -826,8 +826,29 @@ input::-webkit-input-placeholder {
     color: #0662a1;
 }
 
+.table-uni-list {
+    margin-left: 0px;
+}
 
+.table-uni-list li {
+    display: inline;
+}
 
+.table-uni-list li:after {
+    content: ', ';
+}
+
+.table-uni-list li:last-child:after {
+    content: "";
+}
+
+.table-uni-list li a {
+    color: #333333;
+}
+
+table .course-name {
+    font-weight: bold;
+}
 
 @media (max-width: 1201px) {
         .cc-home-form input{
