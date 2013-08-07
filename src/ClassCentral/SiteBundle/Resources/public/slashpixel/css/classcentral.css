@@ -42,7 +42,7 @@ body {
     margin-bottom: 50px;
     padding-bottom: 10px;
     background-color: #ffffff;
-    margin-top: 50px;
+    margin-top: 120px;
     clear: both;
 }
 
@@ -418,10 +418,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     background-color: #0662a1;
     min-height: 80px;
     color: #FFFFFF;
-}
-
-.navbar {
-  position: relative;
 }
 
 .navbar .nav > li > a {
