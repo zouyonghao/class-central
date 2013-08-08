@@ -157,7 +157,8 @@
                 $("#pastlist").tablesorter({textExtraction: textExtractor} ); 
                 $("#selfpaced").tablesorter({textExtraction: textExtractor} );
             } 
-            ); 
+            );
+            $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
             
             {% block customJS %}
             {% endblock %}
