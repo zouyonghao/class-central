@@ -10,10 +10,19 @@ ClassCentralSiteBundle_courses:
     pattern:  /courses/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:courses }
 
+ClassCentralSiteBundle_initiative_novoed:
+    pattern:  /initiative/vlab
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_initiative
+          permanent: true # this is for 301
+          type: novoed
+
 ClassCentralSiteBundle_initiative:
     pattern:  /initiative/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:initiative }
-    
+
+
 ClassCentralSiteBundle_university:
     pattern:  /university/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Institution:view }    
@@ -45,3 +54,4 @@ ClassCentralSiteBundle_news:
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
     prefix: /admin    
+
