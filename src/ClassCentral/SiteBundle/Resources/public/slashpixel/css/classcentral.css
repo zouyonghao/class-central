@@ -38,11 +38,15 @@ body {
     margin-left: 5px;
 }
 
+.cc-body-content {
+    margin-top: 80px;
+}
+
 .cc-page {
     margin-bottom: 50px;
     padding-bottom: 10px;
     background-color: #ffffff;
-    margin-top: 120px;
+    margin-top: 50px;
     clear: both;
 }
 
