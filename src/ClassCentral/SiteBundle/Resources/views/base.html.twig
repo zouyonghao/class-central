@@ -59,7 +59,6 @@
                     try {
                         _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Initiative' , initiative, coursename ]);
                         _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Section' , section, coursename ]);
-                        window.open(link,"_self");
                     }catch(err){}
                 }
 
@@ -89,7 +88,7 @@
                 {% render controller('ClassCentralSiteBundle:Navigation:index', {'page':'admin'}) %}
             {% endif %}
 
-        <div class="container">
+        <div class="container cc-body-content">
             {%  block contentheader %}
             {% endblock %}
             <div class="cc-page">
@@ -158,7 +157,8 @@
                 $("#pastlist").tablesorter({textExtraction: textExtractor} ); 
                 $("#selfpaced").tablesorter({textExtraction: textExtractor} );
             } 
-            ); 
+            );
+            $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
             
             {% block customJS %}
             {% endblock %}

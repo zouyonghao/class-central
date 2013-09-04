@@ -38,8 +38,15 @@ class Scraper extends ScraperAbstractInterface
         $courseDetails = array();
         foreach($urls as $url)
         {
+
             $courseDetail = array();
             $this->domParser->load_file(self::BASE_URL.$url);
+
+            // Ignore self paced
+            if(!$this->domParser->find('h2.offering_dates_date', 0)) {
+                continue;
+            }
+
 
             // Get Name and shortName
             $nameString = $this->domParser->find('h1.page-title', 0)->plaintext;

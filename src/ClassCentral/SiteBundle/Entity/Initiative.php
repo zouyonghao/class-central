@@ -47,7 +47,7 @@ class Initiative
         'coursera' => 'COURSERA',
         'udacity' => 'UDACITY',
         'edx' => 'EDX',
-        'vlab' => 'VLAB',
+        'novoed' => 'NOVOED',
         'canvas' => 'CANVAS',
         'open2study' => 'OPEN2STUDY',
         'others' => 'OTHERS'

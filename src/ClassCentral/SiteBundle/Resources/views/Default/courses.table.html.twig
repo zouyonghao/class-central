@@ -26,7 +26,7 @@
             
             <td>
                 <a itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': offering['courseId'], 'slug': offering['courseSlug']} ) }}"
-                   onclick='recordInboundLink(
+                   onmousedown='recordInboundLink(
                               "{{ path('ClassCentralSiteBundle_mooc',{'id': offering['courseId'], 'slug': offering['courseSlug']} ) }}",
                               "{{offering['initiative']['name']}}","{{offering['name']}}","{{ tableId }}");return false'
 

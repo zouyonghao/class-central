@@ -22,7 +22,7 @@ class CourseController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
 
@@ -37,7 +37,7 @@ class CourseController extends Controller
     
     public function initiativeAction($initiative)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $initiative = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneByCode($initiative);
         
         $entities = $em->getRepository('ClassCentralSiteBundle:Course')->findByInitiative($initiative->getId());
@@ -54,7 +54,7 @@ class CourseController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
 
@@ -120,7 +120,7 @@ class CourseController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
 
@@ -144,7 +144,7 @@ class CourseController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
 
@@ -185,7 +185,7 @@ class CourseController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
 
             if (!$entity) {
@@ -210,12 +210,12 @@ class CourseController extends Controller
     /**
      *
      * @param $id Row id for the course
-     * @param $slug decsecriptive url for the course
+     * @param $slug descriptive url for the course
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function moocAction($id, $slug)
     {
-       $em = $this->getDoctrine()->getEntityManager();
+       $em = $this->getDoctrine()->getManager();
        $courseId = intval($id);
        $course = $this->get('Cache')->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
        if(!$course)
@@ -223,6 +223,14 @@ class CourseController extends Controller
            // TODO: render a error page
           return;
        }
+
+       // If the slug is not the same, then redirect to the correct url
+
+        if( $course['slug'] !== $slug)
+        {
+            $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
+            return $this->redirect($url,301);
+        }
 
        // Save the course and user tracking for generating recommendations later on
        $sessionId = $this->getRequest()->getSession()->getId();

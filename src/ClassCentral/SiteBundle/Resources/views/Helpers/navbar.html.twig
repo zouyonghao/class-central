@@ -1,6 +1,6 @@
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-static-top">
     <div class="navbar-inner cc-navbar">
-        <div class="container">
+        <div class="container" style="width: none">
             
 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -8,13 +8,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-	    <div class="nav-collapse">
+	    <div class="nav-collapse collapse">
             <ul class="nav pull-left">
                 <li>
                     <a href="{{ path('ClassCentralSiteBundle_homepage')}}" title="MOOC aggregator"><h1>Class Central</h1></a>
                 </ul>
             </ul>
-            <ul class="nav pull-right {% if page is defined %} navbar-fixed-top {% endif %} nav-right-list">
+            <ul class="nav pull-right nav-right-list navbar-fixed-top">
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by their Start date" data-toggle="dropdown">Courses<b class="caret"></b></a>

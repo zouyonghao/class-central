@@ -420,10 +420,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     color: #FFFFFF;
 }
 
-.navbar {
-  position: relative;
-}
-
 .navbar .nav > li > a {
     color: #FFFFFF;
     height: 100%;
