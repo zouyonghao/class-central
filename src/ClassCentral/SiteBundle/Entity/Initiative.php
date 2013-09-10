@@ -50,7 +50,8 @@ class Initiative
         'novoed' => 'NOVOED',
         'canvas' => 'CANVAS',
         'open2study' => 'OPEN2STUDY',
-        'others' => 'OTHERS'
+        'iversity' => 'IVERSITY',
+        'others' => 'OTHERS',
     );
 
 
