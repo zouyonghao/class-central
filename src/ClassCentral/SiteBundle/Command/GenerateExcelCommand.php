@@ -98,12 +98,11 @@ class GenerateExcelCommand extends ContainerAwareCommand {
     {
         $column = 0;
         $activeSheet->setCellValueByColumnAndRow($column++,$row,$offering['name']);
+
+        $url = "http://www.class-central.com" . $this->getContainer()->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $offering['courseId'],'slug' => $offering['courseSlug']));
         // Set a hyper link for the name column
-        if($offering['url'] != null)
-        {
-            $link = new \PHPExcel_Cell_Hyperlink($offering['url'], $offering['name']);
-            $activeSheet->setHyperlink('A'.$row, $link);
-        }
+        $link = new \PHPExcel_Cell_Hyperlink($url, $offering['name']);
+        $activeSheet->setHyperlink('A'.$row, $link);
 
         $activeSheet->setCellValueByColumnAndRow($column++,$row, is_null($offering['length']) ? "NA" : $offering['length'] . ' weeks');
         $activeSheet->setCellValueByColumnAndRow($column++,$row, $offering['displayDate']);
