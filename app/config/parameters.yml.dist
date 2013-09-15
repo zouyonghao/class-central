@@ -26,3 +26,11 @@ parameters:
 
     mailgun_api_key: ~
     mailgun_domain_name: ~
+
+    #test configuration
+    test_database_driver:   pdo_mysql
+    test_database_host:     127.0.0.1
+    test_database_port:     ~
+    test_database_name:     symfony
+    test_database_user:     root
+    test_database_password: ~
