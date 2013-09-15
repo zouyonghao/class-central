@@ -31,8 +31,16 @@ ClassCentralSiteBundle_institution:
     pattern:  /institution/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Institution:view }
 
-ClassCentralSiteBundle_stream:
+# redirect /stream to /subject
+ClassCentralSiteBundle_stream_redirect:
     pattern:  /stream/{slug}
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+
+ClassCentralSiteBundle_stream:
+    pattern:  /subject/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Stream:view }  
         
 ClassCentralSiteBundle_search:
