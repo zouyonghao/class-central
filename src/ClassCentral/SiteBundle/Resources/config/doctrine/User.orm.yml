@@ -1,0 +1,29 @@
+ClassCentral\SiteBundle\Entity\Users:
+    type: entity
+    table: users
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        email:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        password:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+        roles:
+            type: text
+            nullable: true
+        isActive:
+            type: boolean
+            nullable: true
+            column: is_active
+    lifecycleCallbacks: {  }
