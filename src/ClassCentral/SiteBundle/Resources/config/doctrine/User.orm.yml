@@ -1,4 +1,4 @@
-ClassCentral\SiteBundle\Entity\Users:
+ClassCentral\SiteBundle\Entity\User:
     type: entity
     table: users
     fields:
