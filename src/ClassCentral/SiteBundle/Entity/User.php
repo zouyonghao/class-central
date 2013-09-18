@@ -25,7 +25,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      */
-    private $roles;
+    private $role;
 
     /**
      * @var boolean
@@ -35,6 +35,11 @@ class User implements UserInterface, \Serializable
     private $salt;
 
 
+    public function  __construct()
+    {
+        $this->role = "ROLE_STUDENT";
+        $this->isActive = true;
+    }
     /**
      * Get id
      *
@@ -97,9 +102,9 @@ class User implements UserInterface, \Serializable
      * @param string $roles
      * @return Users
      */
-    public function setRole($roles)
+    public function setRole($role)
     {
-        $this->roles = $roles;
+        $this->role = $role;
     
         return $this;
     }
@@ -109,9 +114,9 @@ class User implements UserInterface, \Serializable
      *
      * @return string 
      */
-    public function getRoles()
+    public function getRole()
     {
-        return $this->roles;
+        return $this->role;
     }
 
     /**
@@ -164,9 +169,9 @@ class User implements UserInterface, \Serializable
      */
     public function unserialize($serialized)
     {
-        return serialize(array(
+        list (
             $this->id,
-        ));
+            ) = unserialize($serialized);
     }
 
     /**
@@ -202,5 +207,26 @@ class User implements UserInterface, \Serializable
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return Role[] The user roles
+     */
+    public function getRoles()
+    {
+        return array($this->getRole());
     }
 }

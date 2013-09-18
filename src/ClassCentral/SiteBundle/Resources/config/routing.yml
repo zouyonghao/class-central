@@ -63,3 +63,18 @@ ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
     prefix: /admin    
 
+login:
+  pattern: /login
+  defaults: {_controller: ClassCentralSiteBundle:Login:login }
+
+login_check:
+  pattern: /login_check
+
+signup:
+  pattern: /signup
+  defaults: {_controller: ClassCentralSiteBundle:User:signup }
+
+signup_create_user:
+  pattern: /create_user
+  defaults: {_controller: ClassCentralSiteBundle:User:createUser}
+  methods: [POST]

@@ -19,9 +19,11 @@ ClassCentral\SiteBundle\Entity\User:
             length: 255
             fixed: false
             nullable: true
-        roles:
-            type: text
-            nullable: true
+        role:
+            type: string
+            length: 50
+            fixed: true
+            nullable: false
         isActive:
             type: boolean
             nullable: true

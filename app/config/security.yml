@@ -1,17 +1,19 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        ClassCentral\SiteBundle\Entity\User:
+          algorithm: bcrypt
+          cost: 15
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN:       ROLE_STUDENT
+        ROLE_SUPER_ADMIN: [ROLE_STUDENT, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        in_memory:
-          memory:
-            users:
-#                user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                admin: { password: %adminpass%, roles: [ 'ROLE_ADMIN' ] }
+        user_provider:
+          entity:
+            class:  ClassCentralSiteBundle:User
+            property: email
 
     firewalls:
         dev:
@@ -20,9 +22,10 @@ security:
         secured_area:
             pattern:    ^/
             anonymous: ~
-            http_basic:
-                realm: "Secured Demo Area"
-            security: true   
+            security: true
+            form_login:
+              login_path: login
+              check_path: login_check
             
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }       
