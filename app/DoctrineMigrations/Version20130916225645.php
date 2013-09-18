@@ -14,10 +14,14 @@ class Version20130916225645 extends AbstractMigration
     {
         $this->addSql("CREATE TABLE IF NOT EXISTS `users`(
             `id` INT NOT NULL AUTO_INCREMENT,
-            `email` VARCHAR(255) NOT NULL,
+            `email` VARCHAR(255) NOT NULL UNIQUE,
+            `name` VARCHAR(255) NULL,
             `password` VARCHAR(255),
             `role` VARCHAR(50) NOT NULL,
             `is_active` BOOLEAN DEFAULT TRUE,
+            `created` timestamp NULL DEFAULT NULL,
+            `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            `last_login` timestamp NULL,
             PRIMARY KEY (`id`)
             )
             ENGINE=InnoDB");

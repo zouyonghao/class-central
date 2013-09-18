@@ -14,6 +14,11 @@ ClassCentral\SiteBundle\Entity\User:
             length: 255
             fixed: false
             nullable: false
+        name:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
         password:
             type: string
             length: 255
@@ -22,10 +27,20 @@ ClassCentral\SiteBundle\Entity\User:
         role:
             type: string
             length: 50
-            fixed: true
+            fixed: false
             nullable: false
         isActive:
             type: boolean
             nullable: true
             column: is_active
+        created:
+            type: datetime
+            nullable: true
+        modified:
+            type: datetime
+            nullable: false
+        lastLogin:
+            type: datetime
+            nullable: true
+            column: last_login
     lifecycleCallbacks: {  }
