@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Form\SignupType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -186,10 +187,18 @@ class UserController extends Controller
     /**
      * Shows the signup form
      */
-    public function signUpAction()
+    public function signUpAction($form = null)
     {
+        if(!$form)
+        {
+            $form   = $this->createForm(new SignupType(), new User(),array(
+                'action' => $this->generateUrl('signup_create_user')
+            ));
+        }
+
         return $this->render('ClassCentralSiteBundle:User:signup.html.twig', array(
-            'page' => 'signup'
+            'page' => 'signup',
+            'form' => $form->createView()
         ));
     }
 
@@ -200,17 +209,22 @@ class UserController extends Controller
     public function createUserAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $email = $request->request->get('email');
-        $password = $request->request->get('password');
+        $form   = $this->createForm(new SignupType(), new User(),array(
+            'action' => $this->generateUrl('signup_create_user')
+        ));
+        $form->handleRequest($request);
 
-        $user = new User();
-        $user->setEmail($email);
-        $user->setPassword(password_hash($password,PASSWORD_BCRYPT,array("cost" => 10)));
+        if($form->isValid())
+        {
+            $user = $form->getData();
+            $user->setPassword(password_hash($user->getPassword(),PASSWORD_BCRYPT,array("cost" => 10)));
+            $em->persist($user);
+            $em->flush();
+            return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
+        }
 
-        $em->persist($user);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
+        // Form is not valid
+        return $this->signUpAction($form);
     }
 
 }

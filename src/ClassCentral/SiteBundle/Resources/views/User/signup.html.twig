@@ -2,15 +2,7 @@
 
 
 {% block content %}
-
-    <form action="{{  path('signup_create_user') }}" method="post">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email"/>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" />
-
-        <button type="submit">Sign Up!</button>
-    </form>
+    
+    {{ form(form) }}
 
 {% endblock %}
