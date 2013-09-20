@@ -4,9 +4,15 @@ namespace ClassCentral\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Users
+ * @UniqueEntity(
+ *  fields = "email",
+ *  message = "An account with this email address already exists"
+ * )
  */
 class User implements UserInterface, \Serializable
 {
@@ -15,6 +21,9 @@ class User implements UserInterface, \Serializable
      */
     private $id;
 
+    /**
+     * @var email
+     */
     private $email;
 
     /**

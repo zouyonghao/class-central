@@ -13,13 +13,15 @@ class SignupType extends AbstractType{
     {
         $builder
             ->add('email','email')
-
         ;
 
          $builder->add('password', 'repeated', array(
              'first_name'  => 'password',
-             'second_name' => 'confirm',
+             'second_name' => 'confirm_password',
              'type'        => 'password',
+             'invalid_message' => "The password fields must match",
+             "first_options" => array('label' => 'Password'),
+             "second_options" => array('label' => 'Confirm Password')
          ));
         $builder->add('save', 'submit');
         ;
@@ -30,6 +32,7 @@ class SignupType extends AbstractType{
         $resolver->setDefaults(array(
             'data_class' => 'ClassCentral\SiteBundle\Entity\User'
         ));
+
     }
 
 
