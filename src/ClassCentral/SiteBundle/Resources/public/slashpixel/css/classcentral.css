@@ -790,6 +790,56 @@ input::-webkit-input-placeholder {
     width: 90%;
 }
 
+
+/**
+CC form box - for signup, login, forgot password
+**/
+.cc-form-box {
+    padding: 20px;
+    margin-top: 50px;
+    background-color: #ffffff;
+    width: 350px;
+    margin: 50px auto;
+    padding-bottom: 50px;
+}
+
+.cc-form-box h3 {
+    color: #0662a1;
+    font-family: "Nixie One";
+    font-weight: normal;
+}
+
+.cc-form-box form input {
+    width: 90%;
+}
+.cc-form-box form input {
+    margin-top: 10px ;
+}
+.cc-form-box form input[type=text],
+.cc-form-box form input[type=email],
+.cc-form-box form input[type=password] {
+    border-radius: 0px;
+
+}
+
+.cc-form-box form label {
+    color: #066666;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.cc-form-box form label .label-req {
+    color: red;
+    margin-left: 5px;
+}
+
+.cc-form-box form .btn-course-cc{
+    float: left;
+    width: 95%;
+    margin-top: 20px;
+}
+
 /* News page */
 
 .mooc-news {

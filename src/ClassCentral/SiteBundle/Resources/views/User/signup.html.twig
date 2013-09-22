@@ -1,8 +1,17 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 
-{% block content %}
+{% block contentheader %}
 
+<div class="cc-form-box">
+    <h3>MOOC tracker registration</h3>
     {{ form(form) }}
 
+</div>
+
+<style type="text/css">
+    .cc-page {
+        display: none;
+    }
+</style>
 {% endblock %}

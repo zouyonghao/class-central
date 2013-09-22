@@ -23,7 +23,12 @@ class SignupType extends AbstractType{
              "first_options" => array('label' => 'Password'),
              "second_options" => array('label' => 'Confirm Password')
          ));
-        $builder->add('save', 'submit');
+        $builder->add('save', 'submit',array(
+            'label' => 'Sign up',
+            'attr' => array(
+                'class' => 'btn btn-primary btn-course-cc'
+            )
+        ));
         ;
     }
 
