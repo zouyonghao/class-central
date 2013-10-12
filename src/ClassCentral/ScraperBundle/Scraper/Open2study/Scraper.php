@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class Scraper extends ScraperAbstractInterface
 {
-    const COURSE_CATALOGUE = 'https://www.open2study.com/subjects';
+    const COURSE_CATALOGUE = 'https://www.open2study.com/courses';
     const BASE_URL = 'https://www.open2study.com/';
 
     public function scrape()
