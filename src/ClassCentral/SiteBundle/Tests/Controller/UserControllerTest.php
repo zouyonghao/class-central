@@ -6,52 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserControllerTest extends WebTestCase
 {
-    /*
-    public function testCompleteScenario()
+    private static $email;
+    private static $password ='Test1234';
+
+    public static function setUpBeforeClass()
     {
-        // Create a new client to browse the application
-        $client = static::createClient();
-
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/user/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /user/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
-
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            'classcentral_sitebundle_usertype[field_name]'  => 'Test',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check data in the show view
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
-
-        // Edit the entity
-        $crawler = $client->click($crawler->selectLink('Edit')->link());
-
-        $form = $crawler->selectButton('Edit')->form(array(
-            'classcentral_sitebundle_usertype[field_name]'  => 'Foo',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check the element contains an attribute with value equals "Foo"
-        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
-
-        // Delete the entity
-        $client->submit($crawler->selectButton('Delete')->form());
-        $crawler = $client->followRedirect();
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        self::$email = sprintf("dhawal+%s@class-central.com",time());
     }
-
-    */
 
     public function testSignupForm()
     {
@@ -59,5 +20,59 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/signup');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /signup");
+
+        // Fill the signup form
+        $form = $crawler->selectButton('Sign up')->form(array(
+            'classcentral_sitebundle_signuptype[email]' => self::$email,
+            'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
+            'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
+        ));
+
+        $client->submit($form);
+
+        $crawler = $client->followRedirect();
+
+        // Should be in homepage.
+        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+
+
+        // Check that the user is logged by going to the login page
+        $client->request('GET', '/login');
+        // Should redirect to the homepage
+        $client->followRedirect();
+        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+
+
+        // Logout
+        $client->request('GET','/logout');
+        // Assert following
+        $client->followRedirect();
+        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+
     }
+
+    public function testLoginForm()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/login');
+
+        $form = $crawler->selectButton('Login')->form(array(
+            '_username' => self::$email,
+            '_password' => self::$password
+        ));
+
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+
+        // Should be the homepage
+        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+
+        // Check that the user is logged by going to the login page
+        $client->request('GET', '/login');
+        // Should redirect to the homepage
+        $client->followRedirect();
+        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+
+    }
+
 }

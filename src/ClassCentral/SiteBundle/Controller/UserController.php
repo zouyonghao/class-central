@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Form\UserType;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * User controller.
@@ -223,9 +224,15 @@ class UserController extends Controller
         if($form->isValid())
         {
             $user = $form->getData();
-            $user->setPassword(password_hash($user->getPassword(),PASSWORD_BCRYPT,array("cost" => 10)));
+            $password = $user->getPassword();
+            $user->setPassword(password_hash($password,PASSWORD_BCRYPT,array("cost" => 10)));
             $em->persist($user);
             $em->flush();
+
+            // Login the user
+            $token = new UsernamePasswordToken($user->getUsername(), $password,'user_provider',$user->getRoles());
+            $this->get('security.context')->setToken($token);
+
             return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
         }
 
