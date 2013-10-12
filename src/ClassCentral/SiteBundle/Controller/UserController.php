@@ -189,6 +189,12 @@ class UserController extends Controller
      */
     public function signUpAction($form = null)
     {
+        // Redirect user if already logged in
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
+        }
+
         if(!$form)
         {
             $form   = $this->createForm(new SignupType(), new User(),array(

@@ -18,6 +18,13 @@ class LoginController extends Controller{
 
     public function loginAction(Request $request)
     {
+        // Check if user is not already logged in.
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
+        }
+
+
         $session = $request->getSession();
 
         // get the login error if there is one
