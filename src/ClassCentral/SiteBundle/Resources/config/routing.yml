@@ -70,6 +70,9 @@ login:
 login_check:
   pattern: /login_check
 
+logout:
+  path: /logout
+
 signup:
   pattern: /signup
   defaults: {_controller: ClassCentralSiteBundle:User:signup }
