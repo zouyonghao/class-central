@@ -7,21 +7,23 @@ use ClassCentral\SiteBundle\Entity\Offering;
 
 class HTMLNetwork extends NetworkAbstractInterface
 {
-    public function outInitiative( $initiative , $offeringCount)
-    {        
-        if($initiative == null) 
-        {
-            $name = 'Others';
-            $url = '';
-        }
-        else
-        {
-            $name = $initiative->getName(); 
-            $url = $initiative->getUrl();
-        }
+    public function outInitiative( $stream , $offeringCount)
+    {
+//        if($initiative == null)
+//        {
+//            $name = 'Others';
+//            $url = '';
+//        }
+//        else
+//        {
+//            $name = $initiative->getName();
+//            $url = $initiative->getUrl();
+//        }
+          $name   = $stream->getName();
+          $url = "http://www.class-central.com/stream/". $stream->getSlug();
 
 
-        $this->output->writeln("<h1><a href='$url'>$name ($offeringCount)</a></h1> ");
+        $this->output->writeln("<h1><h1><a href='$url'>$name ($offeringCount)</a></h1></h1>");
     }
 
     public function beforeOffering()
@@ -34,6 +36,7 @@ class HTMLNetwork extends NetworkAbstractInterface
         // Print the title line
         $titleLine = $offering->getName();
         $url = $offering->getUrl();
+        $url = 'http://www.class-central.com'. $this->router->generate('ClassCentralSiteBundle_mooc', array('id' => $offering->getCourse()->getId(), 'slug' => $offering->getCourse()->getSlug()));
         $this->output->writeln("<a href='$url'>$titleLine</a>");
 
         $secondLine = array();
@@ -42,12 +45,25 @@ class HTMLNetwork extends NetworkAbstractInterface
             $secondLine[] = $offering->getStartDate()->format('M jS');
         }
 
+        $initiative = $offering->getInitiative();
+        if($initiative == null)
+        {
+            $name = 'Others';
+            $url = '';
+        }
+        else
+        {
+            $name = $initiative->getName();
+            $url = $initiative->getUrl();
+        }
+
         // Print out the course length. Exclude Udacity because course length is same
-        if ($offering->getInitiative() != null && $offering->getInitiative()->getCode() != 'UDACITY' && $offering->getLength() != 0)
+        if (  $initiative != 'UDACITY' && $offering->getLength() != 0)
         {
             $secondLine[] = $offering->getLength() . " weeks long";
         }
 
+        $secondLine[] = $name;
         if (!empty($secondLine))
         {
             $this->output->writeln("<i>" . implode(' | ', $secondLine) . "</i>");

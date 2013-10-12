@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Command;
 
+use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,9 +37,10 @@ class CourseReportCommand extends ContainerAwareCommand
         
         // Segreagate by Initiative 
         $offeringsByInitiative = array();
+        $offeringsByStream = array();
         foreach($offerings as $offering)
         {
-            if($offering->getInitiative() == null) 
+            if($offering->getInitiative() == null)
             {
                 $initiative = 'Others';
             }
@@ -47,14 +49,28 @@ class CourseReportCommand extends ContainerAwareCommand
                 $initiative = $offering->getInitiative()->getName();
             }
 
+            // Skip self paced courses
+            if($offering->getStatus() == Offering::COURSE_OPEN)
+            {
+                //continue;
+            }
+
+
             $offeringsByInitiative[$initiative][] = $offering;
+
+            $stream = $offering->getCourse()->getStream()->getName();
+            $offeringsByStream[$stream][] = $offering;
         }
 
+        // Segregate by Stream
+
+
         $network = NetworkFactory::get( $input->getOption('network'),$output);
-        foreach($offeringsByInitiative as $initiative => $offerings)
+        $network->setRouter($this->getContainer()->get('router'));
+        foreach($offeringsByStream as $stream => $offerings)
         {
             $count = count($offerings);
-            $network->outInitiative($offerings[0]->getInitiative(), $count);
+            $network->outInitiative($offerings[0]->getCourse()->getStream(), $count);
             $network->beforeOffering();
             foreach($offerings as $offering)
             {               

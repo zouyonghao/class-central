@@ -314,5 +314,109 @@ class OfferingRepository extends EntityRepository {
         return $query->getQuery()->getResult();
     }
 
+    public function courseStats() {
+       // Get all courses by start dates
+        $em = $this->getEntityManager();
+        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
+        $stats = array();
+        $count = 0;
+        // Iterate through the courses
+        foreach($courses as $course )
+        {
+            // Determine the first run of the course
+            $firstRun = null;
+            $offerings = $course->getOfferings();
+            foreach($offerings as $offering)
+            {
+                if($offering->getStatus() == Offering::COURSE_NA)
+                {
+                    // Skip the offering
+                    continue;
+                }
+
+
+                // If there is no first run then use this as the first run
+                if(!$firstRun)
+                {
+                    $firstRun = $offering;
+                    continue;
+                }
+
+                // More that one offering, figure out which one is the earliest
+                if($offering->getStartDate() < $firstRun->getStartDate())
+                {
+                    $firstRun = $offering;
+                }
+            }
+
+            // get the start year and month for the first run if it exists
+            if($firstRun)
+            {
+                $year = $firstRun->getStartDate()->format('Y');
+                $month = $firstRun->getStartDate()->format('m');
+                $stats[$year][$month]++;
+                $count++;
+            }
+        }
+
+        echo $count++;
+        return $stats;
+
+    }
+
+    public function getAllLiveCourses() {
+        $em = $this->getEntityManager();
+        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
+        $stats = array();
+        $count = 0;
+        $liveCourses = array();
+        // Iterate through the courses
+        foreach($courses as $course)
+        {
+            // Determine the first run of the course
+            $firstRun = null;
+            $offerings = $course->getOfferings();
+            foreach($offerings as $offering)
+            {
+                if($offering->getStatus() == Offering::COURSE_NA)
+                {
+                    // Skip the offering
+                    continue;
+                }
+
+                if($offering->getStatus() == Offering::COURSE_OPEN)
+                {
+                    // Skip the offering
+                    continue;
+                }
+
+
+                // If there is no first run then use this as the first run
+                if(!$firstRun)
+                {
+                    $firstRun = $offering;
+                    continue;
+                }
+
+                // More that one offering, figure out which one is the earliest
+                if($offering->getStartDate() < $firstRun->getStartDate())
+                {
+                    $firstRun = $offering;
+                }
+            }
+
+            // get the start year and month for the first run if it exists
+            if($firstRun)
+            {
+               $liveCourses[] = $course;
+            }
+
+        }
+
+        return $liveCourses;
+    }
+
+
+
 }
 

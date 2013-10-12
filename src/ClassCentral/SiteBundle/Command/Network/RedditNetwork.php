@@ -6,16 +6,21 @@ use ClassCentral\SiteBundle\Entity\Offering;
 
 class RedditNetwork extends NetworkAbstractInterface
 {
-    public function outInitiative( $initiative , $offeringCount)
+    public function outInitiative( $stream , $offeringCount)
     {
-        if($initiative == null) 
-        {
-            $name = 'Others';
-        }
-        else
-        {
-            $name = $initiative->getName(); 
-        }
+//        if($initiative == null)
+//        {
+//            $name = 'Others';
+//        }
+//        else
+//        {
+//            $name = $initiative->getName();
+//        }
+        $name   = $stream->getName();
+        $url = "http://www.class-central.com/stream/". $stream->getSlug();
+
+
+
 
         $this->output->writeln( strtoupper($name) . "({$offeringCount})");
         $this->output->writeln('');
@@ -32,7 +37,16 @@ class RedditNetwork extends NetworkAbstractInterface
 
     public function outOffering(Offering $offering)
     {
-        $name = '[' . $offering->getName(). ']' . '(' . $offering->getUrl() . ')'; 
+        $name = '[' . $offering->getName(). ']' . '(' . $offering->getUrl() . ')';
+
+        if($offering->getInitiative() == null)
+        {
+            $initiative = 'Others';
+        }
+        else
+        {
+            $initiative = $offering->getInitiative()->getName();
+        }
 
         $startDate = 'NA';
         if($offering->getStatus() == Offering::START_DATES_KNOWN)
@@ -50,7 +64,7 @@ class RedditNetwork extends NetworkAbstractInterface
             $length = $offering->getLength() . ' weeks';
         }
 
-        $this->output->writeln("$name|$startDate|$length");
+        $this->output->writeln("$name|$startDate|$length|$initiative");
     } 
 
 }
