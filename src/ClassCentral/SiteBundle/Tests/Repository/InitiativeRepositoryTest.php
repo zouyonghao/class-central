@@ -30,7 +30,7 @@ class InitiativeRepositoryTest extends WebTestCase
             ->getRepository('ClassCentralSiteBundle:Initiative')
             ->findAll();
 
-        $this->assertCount(31, $initiatives);
+        $this->assertTrue(count($initiatives) > 0);
     }
 
     /**

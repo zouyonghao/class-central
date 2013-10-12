@@ -52,4 +52,12 @@ class UserControllerTest extends WebTestCase
     }
 
     */
+
+    public function testSignupForm()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/signup');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /signup");
+    }
 }

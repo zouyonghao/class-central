@@ -10,8 +10,8 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/hello/Fabien');
-
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $crawler = $client->request('GET', '/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /");
+        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
     }
 }
