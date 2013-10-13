@@ -1,0 +1,39 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+ {% block headmeta %}
+
+ {% endblock %}
+
+{%  block content %}
+
+    <h1>MOOC Tracker</h1>
+
+    <h2>Courses</h2>
+    {% if courses|length > 0 %}
+        {% for course in courses %}
+            <ul>
+                <li>
+                    <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}">{{ course.name }}</a>
+                </li>
+            </ul>
+        {% endfor %}
+    {% else %}
+        {# no courses added to MOOC tracker #}
+        <i>No search terms added to MOOC tracker</i>
+    {% endif %}
+
+    <h2>Search Terms</h2>
+    {% if searchTerms|length > 0 %}
+        <ul>
+            {% for searchTerm in searchTerms %}
+                <li>
+                    <a href="{{ path("ClassCentralSiteBundle_search", {'q' : searchTerm }) }}" >{{ searchTerm }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {# no search terms found #}
+        <i>No search terms added to MOOC tracker</i>
+    {% endif %}
+
+{% endblock %}

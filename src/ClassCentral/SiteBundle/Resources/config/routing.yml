@@ -83,6 +83,9 @@ signup_create_user:
   methods: [POST]
 
 #mooc tracker
+mooctracker:
+  pattern: /mooc-tracker
+  defaults: { _controller: ClassCentralSiteBundle:User:moocTracker}
 mooctracker_add_course:
   pattern: /user/tracker/course/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:User:addCourseToMOOCTracker }

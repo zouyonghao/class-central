@@ -325,4 +325,48 @@ class UserController extends Controller
 
     }
 
+    /***
+     * For logged in users renders their mooc tracker page
+     * For logged out users renders the signup page
+     * @param Request $request
+     */
+    public function moocTrackerAction(Request $request)
+    {
+        // Redirect user if already logged in
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->moocTrackerProfilePage($request);
+        }
+        else
+        {
+            return $this->signUpAction();
+        }
+
+    }
+
+    public function moocTrackerProfilePage(Request $request)
+    {
+        $userSession = $this->get('user_session');
+
+        // Search Terms
+        $searchTerms = $userSession->getMTSearchTerms();
+
+        // Courses
+        $courseIds = $userSession->getMTCourses();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $courses = array();
+        foreach($user->getMoocTrackerCourses() as $moocTrackerCourse)
+        {
+            $courses[] = $moocTrackerCourse->getCourse();
+        }
+
+        return $this->render('ClassCentralSiteBundle:User:mooc-tracker-user.html.twig', array(
+            'page' => 'mooc-tracker',
+            'searchTerms' => $searchTerms,
+            'courses' => $courses
+        ));
+
+
+    }
+
 }

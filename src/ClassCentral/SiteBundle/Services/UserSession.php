@@ -96,4 +96,15 @@ class UserSession
         return in_array($searchTerm,$searchTerms);
     }
 
+    public function getMTCourses()
+    {
+        return $this->session->get(self::MT_COURSE_KEY);
+    }
+
+    public function getMTSearchTerms()
+    {
+        return $this->session->get(self::MT_SEARCH_TERM_KEY);
+    }
+
+
 }
