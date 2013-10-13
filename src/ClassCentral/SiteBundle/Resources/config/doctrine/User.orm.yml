@@ -44,4 +44,11 @@ ClassCentral\SiteBundle\Entity\User:
             type: datetime
             nullable: true
             column: last_login
+    oneToMany:
+        moocTrackerSearchTerms:
+          targetEntity: MoocTrackerSearchTerm
+          mappedBy: user
+        moocTrackerCourses:
+          targetEntity: MoocTrackerCourse
+          mappedBy: user
     lifecycleCallbacks: {  }
