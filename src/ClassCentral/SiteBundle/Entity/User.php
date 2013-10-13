@@ -63,6 +63,17 @@ class User implements UserInterface, \Serializable
      */
     private $lastLogin;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $moocTrackerSearchTerms;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $moocTrackerCourses;
+
+
     public function  __construct()
     {
         $this->role = "ROLE_STUDENT";
@@ -350,5 +361,72 @@ class User implements UserInterface, \Serializable
     public function getLastLogin()
     {
         return $this->lastLogin;
+    }
+
+
+    /**
+     * Add moocTrackerSearchTerms
+     *
+     * @param \ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm $moocTrackerSearchTerms
+     * @return User
+     */
+    public function addMoocTrackerSearchTerm(\ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm $moocTrackerSearchTerms)
+    {
+        $this->moocTrackerSearchTerms[] = $moocTrackerSearchTerms;
+    
+        return $this;
+    }
+
+    /**
+     * Remove moocTrackerSearchTerms
+     *
+     * @param \ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm $moocTrackerSearchTerms
+     */
+    public function removeMoocTrackerSearchTerm(\ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm $moocTrackerSearchTerms)
+    {
+        $this->moocTrackerSearchTerms->removeElement($moocTrackerSearchTerms);
+    }
+
+    /**
+     * Get moocTrackerSearchTerms
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMoocTrackerSearchTerms()
+    {
+        return $this->moocTrackerSearchTerms;
+    }
+
+    /**
+     * Add moocTrackerCourses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\MoocTrackerCourse $moocTrackerCourses
+     * @return User
+     */
+    public function addMoocTrackerCourse(\ClassCentral\SiteBundle\Entity\MoocTrackerCourse $moocTrackerCourses)
+    {
+        $this->moocTrackerCourses[] = $moocTrackerCourses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove moocTrackerCourses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\MoocTrackerCourse $moocTrackerCourses
+     */
+    public function removeMoocTrackerCourse(\ClassCentral\SiteBundle\Entity\MoocTrackerCourse $moocTrackerCourses)
+    {
+        $this->moocTrackerCourses->removeElement($moocTrackerCourses);
+    }
+
+    /**
+     * Get moocTrackerCourses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMoocTrackerCourses()
+    {
+        return $this->moocTrackerCourses;
     }
 }
