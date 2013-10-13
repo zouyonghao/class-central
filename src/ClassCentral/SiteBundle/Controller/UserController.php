@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\MoocTrackerCourse;
 use ClassCentral\SiteBundle\Form\SignupType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Form\UserType;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
+
 
 /**
  * User controller.
@@ -238,6 +241,61 @@ class UserController extends Controller
 
         // Form is not valid
         return $this->signUpAction($form);
+    }
+
+
+    /**
+     * Add course to MOOC tracker
+     */
+    public function addCourseToMOOCTrackerAction(Request $request, $courseId)
+    {
+        $userSession = $this->get('user_session');
+        // Check if the user is logged in
+        // Firewall should take care of this
+
+        // Check if course exists
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+        if(!$course)
+        {
+            // invalid course
+            //TODO: Return error
+            return;
+        }
+
+        // Check if the user is already tracking this course
+        // TODO: Do a db check
+        if (!$userSession->isCourseAddedToMT($courseId))
+        {
+            $user = $this->get('security.context')->getToken()->getUser();
+
+            // Add the course to MOOC tracker
+            $moocTrackerCourse = new MoocTrackerCourse();
+            $moocTrackerCourse->setUser($user);
+            $moocTrackerCourse->setCourse($course);
+            $em->persist($moocTrackerCourse);
+            $em->flush();
+
+            $userSession->saveUserInformationInSession();
+        }
+
+        // redirect the user to course page
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_mooc',array(
+            'id' => $courseId,
+            'slug' => $course->getSlug()
+        )));
+
+
+    }
+
+    /**
+     * Add search term to MOOC Tracker
+     * @param Request $request
+     * @param $id
+     */
+    public function addSearchTermToMOOCTracker(Request $request, $searchTerm)
+    {
+
     }
 
 }

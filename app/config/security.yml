@@ -31,7 +31,8 @@ security:
               target: /
             
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }       
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/user,  roles: ROLE_STUDENT }
 #        login:
 #            pattern:  ^/demo/secured/login$
 #            security: false
