@@ -80,6 +80,11 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         $this->setCreated(new \DateTime());
     }
+
+    public function __toString()
+    {
+        return $this->email;
+    }
     /**
      * Get id
      *

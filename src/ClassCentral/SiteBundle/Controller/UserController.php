@@ -234,7 +234,7 @@ class UserController extends Controller
             $em->flush();
 
             // Login the user
-            $token = new UsernamePasswordToken($user->getUsername(), $password,'user_provider',$user->getRoles());
+            $token = new UsernamePasswordToken($user, $password,'secured_area',$user->getRoles());
             $this->get('security.context')->setToken($token);
 
             return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
