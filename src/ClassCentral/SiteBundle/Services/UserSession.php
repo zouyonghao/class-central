@@ -58,6 +58,14 @@ class UserSession
         }
         $this->session->set(self::MT_COURSE_KEY,$courseIds);
 
+        // Search terms from MOOC tracker
+        $searchTerms = array();
+        foreach($user->getMoocTrackerSearchTerms() as $moocTrackerSearchTerm)
+        {
+            $searchTerms[] = $moocTrackerSearchTerm->getSearchTerm();
+        }
+        $this->session->set(self::MT_SEARCH_TERM_KEY, $searchTerms);
+
     }
 
     /**
@@ -73,5 +81,19 @@ class UserSession
         return in_array($courseId, $courseIds);
     }
 
+    /**
+     * Checks whether the search term has been added to MOOC tracker
+     * @param $searchTerm
+     * @return bool
+     */
+    public function isSearchTermAddedToMT($searchTerm)
+    {
+        $searchTerms = $this->session->get(self::MT_SEARCH_TERM_KEY);
+        if(empty($searchTerms))
+        {
+            return false;
+        }
+        return in_array($searchTerm,$searchTerms);
+    }
 
 }

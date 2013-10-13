@@ -87,3 +87,6 @@ mooctracker_add_course:
   pattern: /user/tracker/course/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:User:addCourseToMOOCTracker }
 
+mooctracker_add_search_term:
+  pattern: /user/tracker/searchTerm/{searchTerm}
+  defaults: {_controller: ClassCentralSiteBundle:User:addSearchTermToMOOCTracker }

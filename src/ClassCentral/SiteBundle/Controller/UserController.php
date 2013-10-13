@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\MoocTrackerCourse;
+use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
 use ClassCentral\SiteBundle\Form\SignupType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -249,9 +250,11 @@ class UserController extends Controller
      */
     public function addCourseToMOOCTrackerAction(Request $request, $courseId)
     {
-        $userSession = $this->get('user_session');
         // Check if the user is logged in
         // Firewall should take care of this
+
+        $userSession = $this->get('user_session');
+
 
         // Check if course exists
         $em = $this->getDoctrine()->getManager();
@@ -293,8 +296,32 @@ class UserController extends Controller
      * @param Request $request
      * @param $id
      */
-    public function addSearchTermToMOOCTracker(Request $request, $searchTerm)
+    public function addSearchTermToMOOCTrackerAction(Request $request, $searchTerm)
     {
+        // Check if the user is logged in
+        // Firewall should take care of this
+
+        // TODO: Validate the search term
+
+        $userSession = $this->get('user_session');
+        $em = $this->getDoctrine()->getManager();
+
+        if(!$userSession->isSearchTermAddedToMT($searchTerm))
+        {
+            $user = $this->get('security.context')->getToken()->getUser();
+
+            $mtSearchTerm = new MoocTrackerSearchTerm();
+            $mtSearchTerm->setUser($user);
+            $mtSearchTerm->setSearchTerm($searchTerm);
+            $em->persist($mtSearchTerm);
+            $em->flush();
+
+            $userSession->saveUserInformationInSession();
+        }
+
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_search',array(
+            'q' => $searchTerm
+        )));
 
     }
 
