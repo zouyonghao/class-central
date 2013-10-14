@@ -14,7 +14,7 @@
                     <a href="{{ path('ClassCentralSiteBundle_homepage')}}" title="MOOC aggregator"><h1>Class Central</h1></a>
                 </ul>
             </ul>
-            <ul class="nav pull-right nav-right-list navbar-fixed-top">
+            <ul class="nav nav-right-list navbar-fixed-top">
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by their Start date" data-toggle="dropdown">Courses<b class="caret"></b></a>
@@ -51,15 +51,39 @@
 
 
                  <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
-                 <li>
-                     <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id='nav-search-form'>
-                         <div class="input-append">
-                             <input  id="prependedInput" type="text" name="q">
-                             <button><span class="add-on"><i class="icon-search"></i></span></button>
-                         </div>
-                     </form>
-                 </li>
+
             </ul>
+
+            <ul class="nav pull-right nav-right-list navbar-fixed-top">
+                {# MOOC Tracker/ Signup #}
+                <li>
+                        <a href="{{ path('mooctracker') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker'])">
+                            {% if app.user %}
+                                MOOC Tracker
+                            {% else %}
+                                Signup for MOOC Tracker
+                            {% endif %}
+                        </a>
+                </li>
+
+                {# Login/Logout #}
+                <li>
+                    {% if app.user %}
+                        <a href="{{ path('logout') }}" class="nav-title">Logout</a>
+                    {% else %}
+                        <a href="{{ path('login') }}" class="nav-title">Login</a>
+                    {% endif %}
+                </li>
+                <li>
+                    <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id='nav-search-form'>
+                        <div class="input-append">
+                             {# <input  id="prependedInput" type="text" name="q"> #}
+                            <button><span class="add-on"><i class="icon-search"></i></span></button>
+                        </div>
+                    </form>
+                </li>
+             </ul>
+
 	    </div>
 
         </div>

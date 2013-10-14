@@ -240,7 +240,7 @@ p.newstitle {
 
 .navbar .nav>li>a {
     padding-left: 0px;
-    padding-right: 40px;
+    padding-right: 30px;
 }
 
 .nav-title {
@@ -572,6 +572,10 @@ input::-webkit-input-placeholder {
     height: 15px;
     width: 15px;
     margin: 0px;
+}
+
+#nav-search-form #prependedInput {
+    display: none;
 }
 
 #nav-search-form button{
