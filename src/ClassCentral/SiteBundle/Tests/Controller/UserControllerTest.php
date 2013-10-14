@@ -20,6 +20,7 @@ class UserControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/signup');
+        $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /signup");
 
         // Fill the signup form
@@ -64,6 +65,9 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
+
+        // Follow redirect due to https?
+        $crawler = $client->followRedirect();       
 
         $form = $crawler->selectButton('Login')->form(array(
             '_username' => self::$email,

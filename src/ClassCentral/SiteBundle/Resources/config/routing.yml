@@ -66,16 +66,20 @@ ClassCentralSiteBundle_admin:
 login:
   pattern: /login
   defaults: {_controller: ClassCentralSiteBundle:Login:login }
+  schemes:  [https]
 
 login_check:
   pattern: /login_check
+  schemes:  [https]
 
 logout:
   path: /logout
+  schemes:  [https]
 
 signup:
   pattern: /signup
   defaults: {_controller: ClassCentralSiteBundle:User:signup }
+  schemes:  [https]
 
 signup_create_user:
   pattern: /create_user
