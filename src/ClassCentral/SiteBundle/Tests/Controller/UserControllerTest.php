@@ -26,6 +26,7 @@ class UserControllerTest extends WebTestCase
         // Fill the signup form
         $form = $crawler->selectButton('Sign up')->form(array(
             'classcentral_sitebundle_signuptype[email]' => self::$email,
+            'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
             'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
             'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
         ));
@@ -130,18 +131,18 @@ class UserControllerTest extends WebTestCase
         // Machine Learning course
         $crawler = $client->request('GET', '/mooc/835/coursera-machine-learning');
         // Add to MOOC tracker
-        $client->click( $crawler->selectLink('Add to MOOC tracker')->link() );
+        $client->click( $crawler->selectLink('add to MOOC tracker')->link() );
         $crawler = $client->followRedirect();
-        $this->assertGreaterThan(0, $crawler->filter('a:contains("Added to MOOC tracker")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('a:contains("added to MOOC tracker")')->count());
     }
 
     private function addSearchTermToMOOCTracker($client)
     {
         $crawler = $client->request('GET', '/search?q=machine+learning');
         // Add to MOOC tracker
-        $client->click($crawler->selectLink('Add search term to MOOC tracker')->link());
+        $client->click($crawler->selectLink('add "machine learning" to MOOC tracker')->link());
         $crawler = $client->followRedirect();
-        $this->assertGreaterThan(0, $crawler->filter('a:contains("Added search term to MOOC tracker")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('a:contains("added "machine learning" to MOOC tracker")')->count());
     }
 
 }

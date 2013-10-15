@@ -13,6 +13,7 @@ class SignupType extends AbstractType{
     {
         $builder
             ->add('email','email')
+            ->add('name', null, array('required' => true))
         ;
 
          $builder->add('password', 'repeated', array(

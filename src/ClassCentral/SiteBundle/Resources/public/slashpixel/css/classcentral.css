@@ -811,6 +811,73 @@ input::-webkit-input-placeholder {
     width: 90%;
 }
 
+/**
+* MOOC tracker course box
+*/
+#mooc-tracker-courses-grid {
+    overflow: hidden;
+}
+#mooc-tracker-course-box {
+    width: 25%;
+    padding-bottom: 25%;
+    position: relative;
+    float: left;
+    background: #ffffff;
+}
+#mooc-tracker-course-box-inner {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    top:10px;
+    background: #3a759a;
+    color: #ffffff;
+}
+
+#mooc-tracker-course-box-content {
+    padding: 20px;
+}
+#mooc-tracker-course-box-content-title {
+    font-size: 20px;
+    font-family: "Open Sans";
+    margin-top: 30px;
+    line-height: 2;
+}
+
+.btn-mooc-tracker-box {
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    background-image: none;
+    background-color: #3a759a;
+    color: inherit;
+    border: 0px;
+    border-color: #ffffff;
+    font-family: "Open Sans";
+    font-weight: bold;
+}
+
+@media only screen and (max-width : 480px) {
+    /* Smartphone view: 1 tile */
+    #mooc-tracker-course-box {
+        width: 100%;
+        padding-bottom: 100%;
+    }
+}
+@media only screen and (max-width : 650px) and (min-width : 481px) {
+    /* Tablet view: 2 tiles */
+    #mooc-tracker-course-box {
+        width: 50%;
+        padding-bottom: 50%;
+    }
+}
+@media only screen and (max-width : 1050px) and (min-width : 651px) {
+    /* Small desktop / ipad view: 3 tiles */
+    #mooc-tracker-course-box {
+        width: 33.3%;
+        padding-bottom: 33.3%;
+    }
+}
 
 /**
 CC form box - for signup, login, forgot password
