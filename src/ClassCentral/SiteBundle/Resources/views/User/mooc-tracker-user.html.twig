@@ -9,14 +9,22 @@
     <h1>MOOC Tracker</h1>
 
     <h2>Courses</h2>
+
     {% if courses|length > 0 %}
+        <div id='mooc-tracker-courses-grid'>
         {% for course in courses %}
-            <ul>
-                <li>
-                    <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}">{{ course.name }}</a>
-                </li>
-            </ul>
+                <div id="mooc-tracker-course-box">
+                    <div id="mooc-tracker-course-box-inner">
+                        <div id="mooc-tracker-course-box-content">
+                            <div id="mooc-tracker-course-box-content-title">
+                                {{ course.name }}
+                            </div>
+                            <a class="btn btn-primary btn-mooc-tracker-box" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}">VIEW COURSE</a>
+                        </div>
+                    </div>
+                </div>
         {% endfor %}
+        </div>
     {% else %}
         {# no courses added to MOOC tracker #}
         <i>No search terms added to MOOC tracker</i>
@@ -37,3 +45,5 @@
     {% endif %}
 
 {% endblock %}
+
+
