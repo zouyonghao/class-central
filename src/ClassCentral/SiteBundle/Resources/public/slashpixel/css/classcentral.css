@@ -240,7 +240,7 @@ p.newstitle {
 
 .navbar .nav>li>a {
     padding-left: 0px;
-    padding-right: 30px;
+    padding-right: 25px;
 }
 
 .nav-title {
@@ -720,6 +720,23 @@ input::-webkit-input-placeholder {
 
 .btn-course-cc:hover {
     background-color: #666666;
+}
+
+.btn-mooc-tracker-add {
+    background-color: #cd2127;
+}
+
+.btn-mooc-tracker-added {
+    background-color: #5ca8a3;
+}
+
+.btn-mooc-tracker-added:hover {
+    background-color: #5ca8a3;
+}
+
+/* Positioning for MOOC tracker button */
+.btn-mooc-tracker-course-page {
+    margin-left: -20px;
 }
 
 .course-block .course-share {

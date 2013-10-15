@@ -27,19 +27,20 @@
 
 {% block content %}
     <div class="course-block" itemscope itemtype="http://schema.org/Event">
+
+        {% if app.user and user_session.isCourseAddedToMT(course['id']) %}
+            <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added btn-mooc-tracker-course-page"
+               title="Add to MOOC tracker"])">added to MOOC tracker</a>
+        {% else %}
+            <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
+               href="{{ path('mooctracker_add_course',{'courseId' : course['id'] }) }}"
+               title="Added to MOOC tracker"])">add to MOOC tracker</a>
+        {% endif %}
+
         <div class="course-meta-top row" >
 
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
-
-                {% if app.user and user_session.isCourseAddedToMT(course['id']) %}
-                    <a class="btn btn-primary btn-course-cc"
-                       title="Add to MOOC tracker"])">Added to MOOC tracker</a>
-                {% else %}
-                    <a class="btn btn-primary btn-course-cc"
-                       href="{{ path('mooctracker_add_course',{'courseId' : course['id'] }) }}"
-                       title="Add to MOOC tracker"])">Add to MOOC tracker</a>
-                {% endif %}
 
                 <div class="course-share">
                     {% set nextSessionStr = '' %}
