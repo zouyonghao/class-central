@@ -32,14 +32,23 @@
 
     {% if keywords is not null and keywords|length %}
 
-        {% if app.user and user_session.isSearchTermAddedToMT(keywords) %}
-            <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added"
-               title="Added to MOOC tracker"])">added "{{ keywords }}" to MOOC tracker</a>
+        {% if app.user %}
+            {# user is logged in #}
+            {% if user_session.isSearchTermAddedToMT(keywords) %}
+                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added"
+                   title="Added to MOOC tracker">added "{{ keywords }}" to MOOC tracker</a>
+            {% else %}
+                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
+                   href="{{ path('mooctracker_add_search_term',{'searchTerm' : keywords }) }}"
+                   title="Add to MOOC tracker" rel="nofollow">add "{{  keywords }}" to MOOC tracker</a>
+            {% endif %}
         {% else %}
+            {# user has not signed up #}
             <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
-               href="{{ path('mooctracker_add_search_term',{'searchTerm' : keywords }) }}"
-               title="Add to MOOC tracker"])">add "{{  keywords }}" to MOOC tracker</a>
+               href="{{ path('signup_search_term',{'searchTerm' : keywords }) }}"
+               title="Add to MOOC tracker" rel="nofollow">add "{{  keywords }}" to MOOC tracker</a>
         {% endif %}
+
 
 
     <div class="searchresultsheader">

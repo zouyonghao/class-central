@@ -79,6 +79,8 @@ class User implements UserInterface, \Serializable
         $this->role = "ROLE_STUDENT";
         $this->isActive = true;
         $this->setCreated(new \DateTime());
+        $this->moocTrackerCourses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->moocTrackerSearchTerms = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()

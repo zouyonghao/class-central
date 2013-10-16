@@ -214,6 +214,28 @@ class UserController extends Controller
     }
 
     /**
+     * Saves the course id in session before redirecting the user to signup page
+     * @param Request $request
+     * @param $courseId
+     */
+    public function signUpMoocAction(Request $request, $courseId)
+    {
+        $this->get('user_session')->saveSignupReferralDetails(array('mooc' => $courseId));
+        return $this->redirect($this->generateUrl('signup'));
+    }
+
+    /**
+     * Saves the search term in session before redirecting the user to signup page
+     * @param Request $request
+     * @param $searchTerm
+     */
+    public function signUpSearchTermAction(Request $request, $searchTerm)
+    {
+        $this->get('user_session')->saveSignupReferralDetails(array('searchTerm' => $searchTerm));
+        return $this->redirect($this->generateUrl('signup'));
+    }
+
+    /**
      * Create and save the user
      * @param Request $request
      */
@@ -237,7 +259,24 @@ class UserController extends Controller
             $token = new UsernamePasswordToken($user, $password,'secured_area',$user->getRoles());
             $this->get('security.context')->setToken($token);
 
-            return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
+            // Check where the user reached the signed in page
+            $userSession = $this->get('user_session');
+            $referralDetails = $userSession->getSignupReferralDetails();
+            if(!empty($referralDetails))
+            {
+                if(array_key_exists('mooc',$referralDetails))
+                {
+                    $this->saveCourseInMoocTracker($user,$referralDetails['mooc']);
+                }
+                else if (array_key_exists('searchTerm',$referralDetails))
+                {
+                    $this->saveSearchTermInMoocTracker($user,$referralDetails['searchTerm']);
+                }
+
+                $userSession->clearSignupReferralDetails();
+            }
+
+            return $this->redirect($this->generateUrl('mooctracker'));
         }
 
         // Form is not valid
@@ -253,12 +292,10 @@ class UserController extends Controller
         // Check if the user is logged in
         // Firewall should take care of this
 
-        $userSession = $this->get('user_session');
-
-
-        // Check if course exists
-        $em = $this->getDoctrine()->getManager();
-        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+        // Save the course in MOOC tracker
+        $course = $this->saveCourseInMoocTracker(
+            $this->get('security.context')->getToken()->getUser(),
+            $courseId);
         if(!$course)
         {
             // invalid course
@@ -266,12 +303,35 @@ class UserController extends Controller
             return;
         }
 
+        // redirect the user to course page
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_mooc',array(
+            'id' => $courseId,
+            'slug' => $course->getSlug()
+        )));
+
+
+    }
+
+    /**
+     * Saves the course in MOOC tracker
+     * @param $user
+     * @param $courseId
+     */
+    private function saveCourseInMoocTracker($user, $courseId)
+    {
+        $userSession = $this->get('user_session');
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+        if(!$course)
+        {
+
+            return false;
+        }
+
         // Check if the user is already tracking this course
         // TODO: Do a db check
         if (!$userSession->isCourseAddedToMT($courseId))
         {
-            $user = $this->get('security.context')->getToken()->getUser();
-
             // Add the course to MOOC tracker
             $moocTrackerCourse = new MoocTrackerCourse();
             $moocTrackerCourse->setUser($user);
@@ -282,13 +342,7 @@ class UserController extends Controller
             $userSession->saveUserInformationInSession();
         }
 
-        // redirect the user to course page
-        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_mooc',array(
-            'id' => $courseId,
-            'slug' => $course->getSlug()
-        )));
-
-
+        return $course;
     }
 
     /**
@@ -303,13 +357,22 @@ class UserController extends Controller
 
         // TODO: Validate the search term
 
+        $user = $this->get('security.context')->getToken()->getUser();
+        $this->saveSearchTermInMoocTracker($user,$searchTerm);
+
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_search',array(
+            'q' => $searchTerm
+        )));
+
+    }
+
+    private function saveSearchTermInMoocTracker($user,$searchTerm)
+    {
         $userSession = $this->get('user_session');
         $em = $this->getDoctrine()->getManager();
 
         if(!$userSession->isSearchTermAddedToMT($searchTerm))
         {
-            $user = $this->get('security.context')->getToken()->getUser();
-
             $mtSearchTerm = new MoocTrackerSearchTerm();
             $mtSearchTerm->setUser($user);
             $mtSearchTerm->setSearchTerm($searchTerm);
@@ -318,11 +381,6 @@ class UserController extends Controller
 
             $userSession->saveUserInformationInSession();
         }
-
-        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_search',array(
-            'q' => $searchTerm
-        )));
-
     }
 
     /***

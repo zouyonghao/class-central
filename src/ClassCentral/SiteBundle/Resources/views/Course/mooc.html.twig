@@ -28,13 +28,28 @@
 {% block content %}
     <div class="course-block" itemscope itemtype="http://schema.org/Event">
 
-        {% if app.user and user_session.isCourseAddedToMT(course['id']) %}
-            <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added btn-mooc-tracker-course-page"
-               title="Add to MOOC tracker"])">added to MOOC tracker</a>
+        {% if app.user %}
+            {% if user_session.isCourseAddedToMT(course['id']) %}
+                {# added to mooc tracker #}
+                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added btn-mooc-tracker-course-page"
+                   title="Add to MOOC tracker" rel="nofollow">added to MOOC tracker</a>
+            {% else %}
+                {# add to mooc tracker #}
+                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
+                   href="{{ path('mooctracker_add_course',{'courseId' : course['id'] }) }}"
+                   title="Added to MOOC tracker" rel="nofollow">add to MOOC tracker</a>
+            {% endif %}
         {% else %}
+            {# sends to signup page#}
             <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
-               href="{{ path('mooctracker_add_course',{'courseId' : course['id'] }) }}"
-               title="Added to MOOC tracker"])">add to MOOC tracker</a>
+               href="{{ path('signup_mooc',{'courseId' : course['id'] }) }}"
+               title="add to MOOC tracker" rel="nofollow">add to MOOC tracker</a>
+        {% endif %}
+
+        {% if app.user and user_session.isCourseAddedToMT(course['id']) %}
+
+        {% else %}
+
         {% endif %}
 
         <div class="course-meta-top row" >

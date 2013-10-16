@@ -17,6 +17,7 @@ class UserSession
 
     const MT_COURSE_KEY = 'mooc_tracker_courses';
     const MT_SEARCH_TERM_KEY = 'mooc_tracker_search_terms';
+    const MT_REFERRAL_KEY = 'mooc_tracker_referral';
 
 
     public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session)
@@ -106,5 +107,19 @@ class UserSession
         return $this->session->get(self::MT_SEARCH_TERM_KEY);
     }
 
+    public function saveSignupReferralDetails($details)
+    {
+         $this->session->set(self::MT_REFERRAL_KEY,$details);
+    }
+
+    public function getSignupReferralDetails()
+    {
+        return $this->session->get(self::MT_REFERRAL_KEY);
+    }
+
+    public function clearSignupReferralDetails()
+    {
+        return $this->session->remove(self::MT_REFERRAL_KEY);
+    }
 
 }

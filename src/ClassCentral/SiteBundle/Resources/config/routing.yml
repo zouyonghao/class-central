@@ -81,6 +81,17 @@ signup:
   defaults: {_controller: ClassCentralSiteBundle:User:signup }
   schemes:  [https]
 
+signup_mooc:
+  pattern: /signup/mooc/{courseId}
+  defaults: {_controller: ClassCentralSiteBundle:User:signupMooc }
+  schemes:  [https]
+
+signup_search_term:
+  pattern: /signup/q/{searchTerm}
+  defaults: {_controller: ClassCentralSiteBundle:User:signupSearchTerm }
+  schemes:  [https]
+
+
 signup_create_user:
   pattern: /create_user
   defaults: {_controller: ClassCentralSiteBundle:User:createUser}
