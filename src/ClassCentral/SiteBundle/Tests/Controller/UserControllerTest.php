@@ -34,17 +34,7 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
 
         $crawler = $client->followRedirect();
-
-        // Should be in homepage.
-        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
-
-
-        // Check that the user is logged by going to the login page
-        $client->request('GET', '/login');
-        // Should redirect to the homepage
-        $client->followRedirect();
-        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
-
+        $this->isSignedIn($crawler);
 
         // Add course to MOOC Tracker
         $this->addCourseToMOOCTracker($client);
@@ -52,12 +42,11 @@ class UserControllerTest extends WebTestCase
         // Add search term to MOOC tracker
         $this->addSearchTermToMOOCTracker($client);
 
-
         // Logout
         $client->request('GET','/logout');
         // Assert following
-        $client->followRedirect();
-        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+        $crawler = $client->followRedirect();
+        $this->isSignedOut($crawler);
 
     }
 
@@ -89,20 +78,67 @@ class UserControllerTest extends WebTestCase
 
     }
 
-    /*
-    public function testAddCourseToMOOCTracker()
+    /**
+     * User hits a page -> /signup/mooc/622
+     * User Signsup
+     * User is redirected to the MOOC tracker page
+     * The course gets added to the mooc tracker page
+     */
+    public function testCourseReferralSignupFlow()
     {
-        $this->addCourseToMOOCTracker($this->login());
+         $client = self::createClient();
+         $client->request('GET','/signup/mooc/622');
+         $crawler = $client->followRedirect();
+         $crawler = $client->followRedirect();
 
+        // Fill the signup form
+        $form = $crawler->selectButton('Sign up')->form(array(
+            'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",time()),
+            'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
+            'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
+            'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
+        ));
+
+        $client->submit($form);
+
+        $crawler = $client->followRedirect();
+        $this->isSignedIn($crawler);
+        // Check if course is added to mooc tracker
+        $this->assertCount(1,
+            $crawler->filter("div#mooc-tracker-course-box-content-title")
+        );
     }
 
-    public function testAddSearchTermToMOOCTracker()
+    /**
+     * User hits a page -> /search?q=machine+learning
+     * User Signsup
+     * User is redirected to the MOOC tracker page
+     * The course gets added to the mooc tracker page
+     */
+    public function testSearchTermReferralSignupFlow()
     {
-        $this->addSearchTermToMOOCTracker($this->login());
+        $client = self::createClient();
+        $client->request('GET','/signup/q/machine%20learning');
+        $crawler = $client->followRedirect();
+        $crawler = $client->followRedirect();
+
+        // Fill the signup form
+        $form = $crawler->selectButton('Sign up')->form(array(
+            'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",time()),
+            'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
+            'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
+            'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
+        ));
+
+        $client->submit($form);
+
+        $crawler = $client->followRedirect();
+        $this->isSignedIn($crawler);
+        // Check if course is added to mooc tracker
+        $this->assertGreaterThan(0,
+            $crawler->filter("a:contains('machine learning')")->count()
+        );
     }
-    */
-
-
 
     private function login()
     {
@@ -133,7 +169,7 @@ class UserControllerTest extends WebTestCase
         // Add to MOOC tracker
         $client->click( $crawler->selectLink('add to MOOC tracker')->link() );
         $crawler = $client->followRedirect();
-        $this->assertGreaterThan(0, $crawler->filter('a:contains("added to MOOC tracker")')->count());
+        $this->assertGreaterThan(0, $crawler->filter(':contains("added to MOOC tracker")')->count());
     }
 
     private function addSearchTermToMOOCTracker($client)
@@ -145,4 +181,16 @@ class UserControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('a:contains("added "machine learning" to MOOC tracker")')->count());
     }
 
+
+    private function isSignedOut($crawler)
+    {
+        $this->assertGreaterThan(0, $crawler->filter("a:contains('Signup for MOOC Tracker')")->count());
+        ;
+    }
+
+    private function isSignedIn($crawler)
+    {
+        $this->assertGreaterThan(0, $crawler->filter("a:contains('MOOC Tracker')")->count());
+        ;
+    }
 }
