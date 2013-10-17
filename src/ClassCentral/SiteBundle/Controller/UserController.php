@@ -377,6 +377,8 @@ class UserController extends Controller
             $mtSearchTerm->setUser($user);
             $mtSearchTerm->setSearchTerm($searchTerm);
             $em->persist($mtSearchTerm);
+            // Add the searchterm to user
+            $user->addMoocTrackerSearchTerm($mtSearchTerm);
             $em->flush();
 
             $userSession->saveUserInformationInSession();
