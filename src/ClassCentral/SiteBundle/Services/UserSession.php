@@ -34,6 +34,11 @@ class UserSession
             // user has just logged in. Update the session
             $this->saveUserInformationInSession();
 
+            // Update the last login time stamp
+            $user = $event->getAuthenticationToken()->getUser();
+            $user->setLastLogin(new \DateTime());
+            $this->em->persist($user);
+            $this->em->flush();
         }
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
