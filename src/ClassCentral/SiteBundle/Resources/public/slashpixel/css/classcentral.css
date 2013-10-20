@@ -1033,6 +1033,16 @@ CC form box - for signup, login, forgot password
     margin-top: 20px;
 }
 
+#cc-form-box-additional-link {
+    color: #066666;
+    padding-top: 50px;
+}
+
+#cc-form-box-additional-link a{
+    color: #f38574;
+    text-decoration: underline;
+}
+
 /* News page */
 
 .mooc-news {
