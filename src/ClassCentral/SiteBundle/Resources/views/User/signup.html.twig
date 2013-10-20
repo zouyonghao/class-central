@@ -2,13 +2,37 @@
 
 
 {% block contentheader %}
+<div class="signup-box">
+    <div class="signup-copy">
+        <p class="signup-copy-line1">
+            Stay updated on courses that match your interests
+        </p>
 
-<div class="cc-form-box">
-    <h3>Sign Up for MOOC tracker</h3>
-    {{ form(form) }}
+        <p class="signup-copy-line2">
+            MOOC Tracker is a service from Class Central that sends you email notifications based on your interests.
+        </p>
+        <p class="signup-copy-line2">
+            Some handy uses of MOOC Tracker include:
+            <ul>
+                <li>
+                    Get a monthly report of courses starting in that month
+                </li>
+                <li>
+                    Track a course and get notified when a course is offered again or its about to start.
+                </li>
+                <li>
+                    Track a search term and get notified whenever new courses matching the search term are added. eg. <b>python</b>, <b>java</b>, <b>music</b>
+                </li>
+            </ul>
+        </p>
 
+    </div>
+    <div class="cc-form-box">
+        <h3>Sign Up for MOOC tracker</h3>
+        {{ form(form) }}
+
+    </div>
 </div>
-
 <style type="text/css">
     .cc-page {
         display: none;
