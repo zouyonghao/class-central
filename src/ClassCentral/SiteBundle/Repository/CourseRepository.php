@@ -82,7 +82,7 @@ class CourseRepository extends EntityRepository{
         parse_str($parsedUrl['query'], $getParams);
         if($getParams['v'])
         {
-            return 'http://www.youtube.com/embed/' .  $getParams['v'] . '?wmode=transparent';
+            return 'https://www.youtube.com/embed/' .  $getParams['v'] . '?wmode=transparent';
         }
 
         return null;

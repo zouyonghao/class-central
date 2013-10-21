@@ -63,3 +63,48 @@ ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
     prefix: /admin    
 
+login:
+  pattern: /login
+  defaults: {_controller: ClassCentralSiteBundle:Login:login }
+  schemes:  [https]
+
+login_check:
+  pattern: /login_check
+  schemes:  [https]
+
+logout:
+  path: /logout
+  schemes:  [https]
+
+signup:
+  pattern: /signup
+  defaults: {_controller: ClassCentralSiteBundle:User:signup }
+  schemes:  [https]
+
+signup_mooc:
+  pattern: /signup/mooc/{courseId}
+  defaults: {_controller: ClassCentralSiteBundle:User:signupMooc }
+  schemes:  [https]
+
+signup_search_term:
+  pattern: /signup/q/{searchTerm}
+  defaults: {_controller: ClassCentralSiteBundle:User:signupSearchTerm }
+  schemes:  [https]
+
+
+signup_create_user:
+  pattern: /create_user
+  defaults: {_controller: ClassCentralSiteBundle:User:createUser}
+  methods: [POST]
+
+#mooc tracker
+mooctracker:
+  pattern: /mooc-tracker
+  defaults: { _controller: ClassCentralSiteBundle:User:moocTracker}
+mooctracker_add_course:
+  pattern: /user/tracker/course/{courseId}
+  defaults: {_controller: ClassCentralSiteBundle:User:addCourseToMOOCTracker }
+
+mooctracker_add_search_term:
+  pattern: /user/tracker/searchTerm/{searchTerm}
+  defaults: {_controller: ClassCentralSiteBundle:User:addSearchTermToMOOCTracker }

@@ -29,7 +29,28 @@
         {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' %}
     </div>
 
+
     {% if keywords is not null and keywords|length %}
+
+        {% if app.user %}
+            {# user is logged in #}
+            {% if user_session.isSearchTermAddedToMT(keywords) %}
+                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added"
+                   title="Added to MOOC tracker">added "{{ keywords }}" to MOOC tracker</a>
+            {% else %}
+                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
+                   href="{{ path('mooctracker_add_search_term',{'searchTerm' : keywords }) }}"
+                   title="Receive email notifications when new courses matching {{ keywords }} are added or about to start" rel="nofollow">add "{{  keywords }}" to MOOC tracker</a>
+            {% endif %}
+        {% else %}
+            {# user has not signed up #}
+            <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
+               href="{{ path('signup_search_term',{'searchTerm' : keywords }) }}"
+               title="Receive email notifications when new courses matching '{{ keywords }}' are added or about to start" rel="nofollow">add "{{  keywords }}" to MOOC tracker</a>
+        {% endif %}
+
+
+
     <div class="searchresultsheader">
         <h2>Search Results</h2>
         <div><b>{{total}}</b> result(s) found for <b>{{keywords}}</b></div>

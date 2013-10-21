@@ -37,3 +37,7 @@ ClassCentralSiteBundle_clearcache:
 ClassCentralSiteBundle_admin:
   pattern: /
   defaults: { _controller: ClassCentralSiteBundle:Admin:index}
+
+ClassCentralSiteBundle_user:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/user.yml"
+  prefix:   /user

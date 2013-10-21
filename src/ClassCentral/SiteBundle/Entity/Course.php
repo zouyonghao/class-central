@@ -368,6 +368,41 @@ class Course {
         return $url;
     }
 
+    /**
+     * Get the next offering for this course
+     */
+    public function getNextOffering()
+    {
+        /**
+         * Filter out offerings which are not available
+         */
+
+        $this->getOfferings()->filter(
+            function($offering)
+            {
+                return $offering->getStatus() == Offering::COURSE_NA;
+            }
+        );
+
+        $offerings = $this->getOfferings();
+        if(empty($offerings))
+        {
+            //TODO: Handle it correctly
+            return;
+        }
+
+        $nextOffering = $offerings->first();
+        foreach($offerings as $offering)
+        {
+            if($offering->getStartDate() > $nextOffering->getStartDate())
+            {
+                $nextOffering = $offering;
+            }
+        }
+
+        return $nextOffering;
+    }
+
     public function __toString() {
         return $this->getName();
     }

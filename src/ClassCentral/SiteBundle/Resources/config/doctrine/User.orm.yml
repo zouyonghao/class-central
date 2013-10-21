@@ -1,0 +1,54 @@
+ClassCentral\SiteBundle\Entity\User:
+    type: entity
+    table: users
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigndsdasded: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        email:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+            unique: true
+        name:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+        password:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+        role:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+        isActive:
+            type: boolean
+            nullable: true
+            column: is_active
+        created:
+            type: datetime
+            nullable: true
+        modified:
+            type: datetime
+            nullable: false
+        lastLogin:
+            type: datetime
+            nullable: true
+            column: last_login
+    oneToMany:
+        moocTrackerSearchTerms:
+          targetEntity: MoocTrackerSearchTerm
+          mappedBy: user
+        moocTrackerCourses:
+          targetEntity: MoocTrackerCourse
+          mappedBy: user
+    lifecycleCallbacks: {  }
