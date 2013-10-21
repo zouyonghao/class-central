@@ -923,6 +923,11 @@ input::-webkit-input-placeholder {
     background-color: #666666;
 }
 
+.mt-info-text {
+    margin-left: 20px;
+    font-style: italic;
+}
+
 /*
 * Signup form page styling
 */
@@ -961,6 +966,25 @@ input::-webkit-input-placeholder {
 .signup-copy ul li{
     color: #5ca8a3;
 }
+
+.signup-copy-desc {
+    margin-top: 20px;
+}
+
+.signup-copy-desc span {
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    line-height: 0;
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+.signup-copy-desc ul {
+    margin-left: 40px;
+}
+
 /*
 @media only screen and (max-width : 480px) {
     /* Smartphone view: 1 tile
