@@ -58,16 +58,18 @@
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
 
                 <div class="course-share">
-                    {% set nextSessionStr = '' %}
-                    {% if nextSessionStart != '' %} {% set nextSessionStr = " starts "~ nextSessionStart %} {% endif %}
-                    {% set twitter_text = course['pageTitle'] ~ nextSessionStr %}
-                    <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Twitter', '{{ course['name'] }}']);"></a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Facebook', '{{ course['name'] }}']);"></a>
-                    <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="_gaq.push(['_trackEvent', 'Course - Share', 'Google+', '{{ course['name'] }}']);javascript:window.open(this.href,
-                            '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
-                    <a href="https://www.linkedin.com/cws/share?url={{ course['pageUrl']|url_encode }}" class="linkedin" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Linkedin', '{{ course['name'] }}']);"></a>
-                    <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}']);"></a>
-
+                    <div class="course-share-text">Tell your friends:</div>
+                    <div class="course-share-button">
+                        {% set nextSessionStr = '' %}
+                        {% if nextSessionStart != '' %} {% set nextSessionStr = " starts "~ nextSessionStart %} {% endif %}
+                        {% set twitter_text = course['pageTitle'] ~ nextSessionStr %}
+                        <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Twitter', '{{ course['name'] }}']);"></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Facebook', '{{ course['name'] }}']);"></a>
+                        <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="_gaq.push(['_trackEvent', 'Course - Share', 'Google+', '{{ course['name'] }}']);javascript:window.open(this.href,
+                                '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
+                        <a href="https://www.linkedin.com/cws/share?url={{ course['pageUrl']|url_encode }}" class="linkedin" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Linkedin', '{{ course['name'] }}']);"></a>
+                        <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}']);"></a>
+                    </div>
                 </div>
 
                 <div class="course-secondline">

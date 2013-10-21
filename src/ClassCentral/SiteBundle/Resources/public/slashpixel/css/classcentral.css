@@ -754,6 +754,20 @@ input::-webkit-input-placeholder {
     width: 30px;
 }
 
+.course-share-text {
+    font-weight: bold;
+    color: #0662a1;
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 5px;
+    padding-right: 10px;
+    font-family: "Open Sans",sans-serif;
+ }
+
+.course-share-button {
+    display: inline-block;
+}
+
 
 .course-share a.twitter{
     background-position: 0px 0px;
