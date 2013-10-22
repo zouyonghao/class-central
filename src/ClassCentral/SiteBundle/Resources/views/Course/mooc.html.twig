@@ -37,13 +37,13 @@
                 {# add to mooc tracker #}
                 <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
                    href="{{ path('mooctracker_add_course',{'courseId' : course['id'] }) }}"
-                   title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow">add to MOOC tracker</a>
+                   title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow" id="btn-mooc-tracker-add">add to MOOC tracker</a>
             {% endif %}
         {% else %}
             {# sends to signup page#}
             <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
                href="{{ path('signup_mooc',{'courseId' : course['id'] }) }}"
-               title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow">add to MOOC tracker</a>
+               title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow" id="btn-mooc-tracker-signup">add to MOOC tracker</a>
         {% endif %}
 
         {% if app.user and user_session.isCourseAddedToMT(course['id']) %}
