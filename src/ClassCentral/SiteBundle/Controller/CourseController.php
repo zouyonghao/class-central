@@ -232,8 +232,24 @@ class CourseController extends Controller
             return $this->redirect($url,301);
         }
 
-       // Save the course and user tracking for generating recommendations later on
-       $sessionId = $this->getRequest()->getSession()->getId();
+
+        // Save the course and user tracking for generating recommendations later on
+       if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+       {
+           $user = $this->get('security.context')->getToken()->getUser();
+           $sessionId = $user->getId();
+       }
+       else
+       {
+
+           $session = $this->getRequest()->getSession();
+           if(!$session->isStarted())
+           {
+               // Start the session if its not already started
+               $session->start();
+           }
+           $sessionId = $session->getId();
+       }
        $em->getConnection()->executeUpdate("INSERT INTO user_courses_tracking(user_identifier,course_id)
                                 VALUES ('$sessionId', $courseId)");
 
