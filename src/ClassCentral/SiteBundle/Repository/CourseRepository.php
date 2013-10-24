@@ -117,4 +117,20 @@ class CourseRepository extends EntityRepository{
 
         }
     }
+
+    /**
+     * Retrieves new courses since the given date
+     * @param \DateTime $dt
+     */
+    public function getNewCourses(\DateTime $dt)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder();
+        $query
+            ->add('select','c')
+            ->add('from','ClassCentralSiteBundle:Course c')
+            ->add('where','c.created >= :date')
+            ->setParameter('date', $dt->format("Y-m-d"));
+
+        return $query->getQuery()->getResult();
+    }
 }
