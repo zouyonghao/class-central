@@ -29,7 +29,10 @@ class MoocTrackerCourse
      */
     private $course;
 
-
+    public function __construct()
+    {
+        $this->setCreated(new \DateTime());
+    }
     /**
      * Get id
      *

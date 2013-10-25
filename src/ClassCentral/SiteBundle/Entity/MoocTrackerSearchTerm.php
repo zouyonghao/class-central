@@ -30,6 +30,11 @@ class MoocTrackerSearchTerm
     private $user;
 
 
+    public function __construct()
+    {
+        $this->setCreated(new \DateTime());
+    }
+
     /**
      * Get id
      *
