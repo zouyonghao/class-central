@@ -250,6 +250,7 @@ class UserController extends Controller
         if($form->isValid())
         {
             $user = $form->getData();
+            $user->setEmail(strtolower($user->getEmail())); // Normalize the email
             $password = $user->getPassword();
             $user->setPassword(password_hash($password,PASSWORD_BCRYPT,array("cost" => 10)));
             $em->persist($user);
