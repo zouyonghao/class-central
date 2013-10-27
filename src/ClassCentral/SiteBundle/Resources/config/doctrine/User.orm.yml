@@ -51,4 +51,16 @@ ClassCentral\SiteBundle\Entity\User:
         moocTrackerCourses:
           targetEntity: MoocTrackerCourse
           mappedBy: user
+    manyToMany:
+      newsletters:
+        targetEntity: Newsletter
+        joinTable:
+          name: newsletters_subscriptions
+          joinColumns:
+            user_id:
+              referencedColumnName: id
+          inverseJoinColumns:
+            newsletter_id:
+              referencedColumnName: id
+
     lifecycleCallbacks: {  }
