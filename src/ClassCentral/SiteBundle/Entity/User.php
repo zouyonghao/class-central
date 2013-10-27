@@ -73,6 +73,10 @@ class User implements UserInterface, \Serializable
      */
     private $moocTrackerCourses;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $newsletters;
 
     public function  __construct()
     {
@@ -81,6 +85,7 @@ class User implements UserInterface, \Serializable
         $this->setCreated(new \DateTime());
         $this->moocTrackerCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->moocTrackerSearchTerms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()
@@ -435,5 +440,38 @@ class User implements UserInterface, \Serializable
     public function getMoocTrackerCourses()
     {
         return $this->moocTrackerCourses;
+    }
+
+    /**
+     * Add newsletters
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Newsletter $newsletters
+     * @return User
+     */
+    public function addNewsletter(\ClassCentral\SiteBundle\Entity\Newsletter $newsletters)
+    {
+        $this->newsletters[] = $newsletters;
+    
+        return $this;
+    }
+
+    /**
+     * Remove newsletters
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Newsletter $newsletters
+     */
+    public function removeNewsletter(\ClassCentral\SiteBundle\Entity\Newsletter $newsletters)
+    {
+        $this->newsletters->removeElement($newsletters);
+    }
+
+    /**
+     * Get newsletters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNewsletters()
+    {
+        return $this->newsletters;
     }
 }
