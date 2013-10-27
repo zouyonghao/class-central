@@ -167,7 +167,7 @@ class UserControllerTest extends WebTestCase
         // Machine Learning course
         $crawler = $client->request('GET', '/mooc/835/coursera-machine-learning');
         // Add to MOOC tracker
-        $client->click( $crawler->selectLink('add to MOOC tracker')->link() );
+        $client->click( $crawler->selectLink('track this course')->link() );
         $crawler = $client->followRedirect();
         $this->assertGreaterThan(0, $crawler->filter(':contains("added to MOOC tracker")')->count());
     }
@@ -191,6 +191,5 @@ class UserControllerTest extends WebTestCase
     private function isSignedIn($crawler)
     {
         $this->assertGreaterThan(0, $crawler->filter("a:contains('MOOC Tracker')")->count());
-        ;
     }
 }

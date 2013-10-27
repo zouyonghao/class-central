@@ -25,11 +25,15 @@
                                 <span>Starts: </span>{{ course.nextOffering.displayDate }}
                             </div>
                         {% endif %}
-
+                        {% if course.initiative is not null %}
+                            {% set initiative=course.initiative.name %}
+                        {% else %}
+                            {% set initiative='Others' %}
+                        {% endif %}
                         <a class="btn btn-primary btn-mooc-tracker-box" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
                            onmousedown='recordInboundLink(
                                    "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
-                                   "{{course.initiative.name}}","{{course.name}}","{{ courseGridId }}");return false'>VIEW COURSE</a>
+                                   "{{initiative}}","{{course.name}}","{{ courseGridId }}");return false'>VIEW COURSE</a>
                     </div>
                 </div>
             </div>
