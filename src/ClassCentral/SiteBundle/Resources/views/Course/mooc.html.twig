@@ -279,3 +279,12 @@
 
       });
 {% endblock %}
+
+{% block contentfooter %}
+    {% if recentlyViewedCourses|length > 0 %}
+        <div id="recentlyViewed">
+            <h1>Recently Viewed</h1>
+            {% include 'ClassCentralSiteBundle:Helpers:courses-grid.html.twig' with {'courses' : recentlyViewedCourses, 'courseGridId':'recentlyViewed'} %}
+        </div>
+    {% endif %}
+{% endblock %}

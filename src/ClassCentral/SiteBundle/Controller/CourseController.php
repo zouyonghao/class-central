@@ -241,7 +241,6 @@ class CourseController extends Controller
        }
        else
        {
-
            $session = $this->getRequest()->getSession();
            if(!$session->isStarted())
            {
@@ -252,6 +251,19 @@ class CourseController extends Controller
        }
        $em->getConnection()->executeUpdate("INSERT INTO user_courses_tracking(user_identifier,course_id)
                                 VALUES ('$sessionId', $courseId)");
+
+       // Recently viewed
+       $userSession = $this->get('user_session');
+       $recentlyViewedCourseIds = $userSession->getRecentlyViewed();
+       $recentlyViewedCourses = array();
+       if(!empty($recentlyViewedCourseIds))
+       {
+           foreach($recentlyViewedCourseIds as $id)
+           {
+               $recentlyViewedCourses[] = $this->get('Cache')->get( 'course_' . $id, array($this,'getCourseDetails'), array($id,$em) );
+           }
+       }
+       $userSession->saveRecentlyViewed($courseId);
 
        // URL of the current page
        $course['pageUrl'] = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
@@ -285,7 +297,8 @@ class CourseController extends Controller
                  'offeringTypes' => Offering::$types,
                  'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past'),
                  'nextSession' => $nextSession,
-                 'nextSessionStart' => $nextSessionStart
+                 'nextSessionStart' => $nextSessionStart,
+                 'recentlyViewedCourses' => $recentlyViewedCourses
        ));
     }
 
@@ -391,7 +404,7 @@ EOD;
         return $text;
     }
 
-        /**
+     /**
      * Retrieves the course details and offerings
      * @param $courseId
      */

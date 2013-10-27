@@ -838,7 +838,6 @@ input::-webkit-input-placeholder {
     height: 290px;
     position: relative;
     float: left;
-    background: #ffffff;
 }
 #mooc-tracker-course-box-inner {
     position: absolute;
@@ -927,6 +926,25 @@ input::-webkit-input-placeholder {
     margin-left: 20px;
     font-style: italic;
 }
+
+/**
+* Recently Viewed
+*/
+
+#recentlyViewed {
+    margin-bottom: 20px;
+}
+
+#recentlyViewed h1 {
+    font-family: 'Nixie One';
+    font-weight: bold;
+    line-height:1.5;
+    font-size: 30px;
+}
+#recentlyViewed #mooc-tracker-course-box-inner {
+    left: 0px;
+}
+
 
 /*
 * Signup form page styling

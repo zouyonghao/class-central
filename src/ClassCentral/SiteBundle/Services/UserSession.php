@@ -18,6 +18,7 @@ class UserSession
     const MT_COURSE_KEY = 'mooc_tracker_courses';
     const MT_SEARCH_TERM_KEY = 'mooc_tracker_search_terms';
     const MT_REFERRAL_KEY = 'mooc_tracker_referral';
+    const USER_RECENTLY_VIEWED = 'user_recently_view';
 
 
     public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session)
@@ -125,6 +126,42 @@ class UserSession
     public function clearSignupReferralDetails()
     {
         return $this->session->remove(self::MT_REFERRAL_KEY);
+    }
+
+    /**
+     * Saves recently viewed courses in session
+     * @param $courseId
+     */
+    public function saveRecentlyViewed($courseId)
+    {
+        $courses = $this->getRecentlyViewed();
+        if(empty($courses))
+        {
+            $courses = array();
+            $courses[] = $courseId;
+        }
+        else
+        {
+            // Remove the course is it already exists
+            $pos = array_search($courseId,$courses);
+            if(is_numeric($pos))
+            {
+                unset($courses[$pos]);
+            }
+
+            // Push the course at the head
+            array_unshift($courses, $courseId);
+
+            // Save 5 courses
+            $courses = array_slice($courses,0,8);
+        }
+
+        $this->session->set(self::USER_RECENTLY_VIEWED,$courses);
+    }
+
+    public function getRecentlyViewed()
+    {
+        return $this->session->get(self::USER_RECENTLY_VIEWED);
     }
 
 }

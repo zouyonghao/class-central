@@ -24,6 +24,12 @@ class CourseRepository extends EntityRepository{
         $courseDetails['length'] = $course->getLength();
         $courseDetails['desc'] = $course->getDescription();
         $courseDetails['slug'] = $course->getSlug();
+        $courseDetails['nextOffering'] = null;
+        $nextOffering = $course->getNextOffering();
+        if($nextOffering) {
+            $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
+        }
+
 
         // Stream
         $stream = $course->getStream();

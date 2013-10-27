@@ -23,7 +23,15 @@ class NavigationController extends Controller{
         $offeringCount = $cache->get($this->offeringCountCacheKey, array($this,'getOfferingCount'));
         $initiativeCount = $cache->get($this->initiativeCountCacheKey, array($this,'getInitiativeCount'));
         $streamCount = $cache->get($this->streamCountCacheKey, array($this,'getStreamCount'));
-        
+
+        // Start the session for every user
+        $session = $this->getRequest()->getSession();
+        if(!$session->isStarted())
+        {
+            // Start the session if its not already started
+            $session->start();
+        }
+
         return $this->render('ClassCentralSiteBundle:Helpers:navbar.html.twig', 
                             array( 'offeringCount' => $offeringCount,'initiativeCount'=>$initiativeCount, 
                                    'page' => $page, 'offeringTypes'=> Offering::$types, 
