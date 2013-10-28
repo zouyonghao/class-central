@@ -41,3 +41,7 @@ ClassCentralSiteBundle_admin:
 ClassCentralSiteBundle_user:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/user.yml"
   prefix:   /user
+
+ClassCentralSiteBundle_user:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/newsletter.yml"
+  prefix:   /newsletter

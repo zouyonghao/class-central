@@ -13,12 +13,17 @@ class Version20131026175807 extends AbstractMigration
     public function up(Schema $schema)
     {
         // Create newsletters table
-        $this->addSql(
-            "CREATE  TABLE IF NOT EXISTS `newsletters` (
-            `id` INT NOT NULL AUTO_INCREMENT ,
-            `name` VARCHAR(255) NOT NULL ,
-            PRIMARY KEY (`id`) )
-            ENGINE = InnoDB;"
+        $this->addSql("
+          CREATE  TABLE IF NOT EXISTS `newsletters` (
+          `id` INT NOT NULL AUTO_INCREMENT ,
+          `name` VARCHAR(255) NOT NULL ,
+          `code` VARCHAR(45) NOT NULL ,
+          `title` TEXT NULL ,
+          `description` TEXT NULL ,
+          PRIMARY KEY (`id`) ,
+          UNIQUE INDEX `code_UNIQUE` (`code` ASC) )
+          ENGINE = InnoDB;
+          "
         );
 
         // Create emails table
