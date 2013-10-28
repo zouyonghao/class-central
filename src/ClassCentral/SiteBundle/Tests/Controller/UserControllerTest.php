@@ -140,6 +140,15 @@ class UserControllerTest extends WebTestCase
         );
     }
 
+    public function testMOOCTrackerRedirectToLoginPageForLoggedOutUser()
+    {
+        $client = self::createClient();
+        $client->request('GET','/mooc-tracker');
+        $crawler = $client->followRedirect();
+
+        $this->isLoginPage($crawler);
+    }
+
     private function login()
     {
         if($this->loggedInClient)
@@ -185,11 +194,15 @@ class UserControllerTest extends WebTestCase
     private function isSignedOut($crawler)
     {
         $this->assertGreaterThan(0, $crawler->filter("a:contains('Signup for MOOC Tracker')")->count());
-        ;
     }
 
     private function isSignedIn($crawler)
     {
         $this->assertGreaterThan(0, $crawler->filter("a:contains('MOOC Tracker')")->count());
+    }
+
+    private function isLoginPage($crawler)
+    {
+        $this->assertGreaterThan(0, $crawler->filter("html:contains('MOOC Tracker login')")->count());
     }
 }

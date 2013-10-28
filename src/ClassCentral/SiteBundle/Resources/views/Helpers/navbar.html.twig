@@ -57,13 +57,15 @@
             <ul class="nav pull-right nav-right-list navbar-fixed-top">
                 {# MOOC Tracker/ Signup #}
                 <li>
+                    {% if app.user %}
                         <a href="{{ path('mooctracker') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker'])" title="MOOC Tracker">
-                            {% if app.user %}
-                                MOOC Tracker
-                            {% else %}
-                                Signup for MOOC Tracker
-                            {% endif %}
+                            MOOC Tracker
                         </a>
+                    {% else %}
+                        <a href="{{ path('mooctracker_signup') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker Signup'])" title="MOOC Tracker Signup">
+                            Signup for MOOC Tracker
+                        </a>
+                    {% endif %}
                 </li>
 
                 {# Login/Logout #}

@@ -33,6 +33,7 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user,  roles: ROLE_STUDENT }
+        - { path: ^/mooc-tracker$,  roles: ROLE_STUDENT }
 #        login:
 #            pattern:  ^/demo/secured/login$
 #            security: false
