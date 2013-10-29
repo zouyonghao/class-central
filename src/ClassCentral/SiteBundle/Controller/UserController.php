@@ -242,6 +242,7 @@ class UserController extends Controller
     public function createUserAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $mailgun = $this->get('mailgun');
         $form   = $this->createForm(new SignupType(), new User(),array(
             'action' => $this->generateUrl('signup_create_user')
         ));
@@ -260,6 +261,12 @@ class UserController extends Controller
             $token = new UsernamePasswordToken($user, $password,'secured_area',$user->getRoles());
             $this->get('security.context')->setToken($token);
 
+            // Send a welcome email but not in the test environment
+            if ($this->container->getParameter('kernel.environment') != 'test')
+            {
+                $html = $this->render('ClassCentralSiteBundle:Mail:welcome.html.twig')->getContent();
+                $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central's MOOC Tracker",$html);
+            }
             // Check where the user reached the signed in page
             $userSession = $this->get('user_session');
             $referralDetails = $userSession->getSignupReferralDetails();

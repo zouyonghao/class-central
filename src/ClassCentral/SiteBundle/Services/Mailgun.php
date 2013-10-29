@@ -54,4 +54,26 @@ class Mailgun {
         return $result;
     }
 
+    public function sendIntroEmail($to, $from, $subject, $html)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch,CURLOPT_USERPWD,"api:{$this->apiKey}");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_URL, "https://api.mailgun.net/v2/{$this->mailDomain}/messages");
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => $from,
+                'to' => $to,
+                'subject' => $subject,
+                'html' => $html,
+         ));
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return $result;
+    }
+
 }
