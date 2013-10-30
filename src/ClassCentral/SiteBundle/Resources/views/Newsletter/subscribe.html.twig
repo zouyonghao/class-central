@@ -1,0 +1,28 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block headmeta %}
+{% endblock %}
+
+{% block contentheader %}
+    <div class="signup-box" id="newsletter-subscribe">
+        <div class="signup-copy">
+            <p class="signup-copy-line1">
+                {{ newsletter.title }}
+            </p>
+            <p class="signup-copy-line2">
+                {{ newsletter.description }}
+            </p>
+
+            <form action="{{ path('login_check') }}" method="post">
+                <input type="email" id="email" name="email" value="" class="cc-form-input" placeholder="Type your email"/>
+                <br/>
+                <button class="btn btn-primary btn-course-cc" type="submit" id="newsletter-subscribe-button">Subscribe</button>
+            </form>
+        </div>
+    </div>
+    <style type="text/css">
+        .cc-page {
+            display: none;
+        }
+    </style>
+{% endblock %}

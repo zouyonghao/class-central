@@ -1003,46 +1003,53 @@ input::-webkit-input-placeholder {
     margin-left: 40px;
 }
 
-/*
-@media only screen and (max-width : 480px) {
-    /* Smartphone view: 1 tile
-    #mooc-tracker-course-box {
-        width: 100%;
-        padding-bottom: 100%;
-    }
+/**
+Newsletter subscribe pages
+**/
 
-    #mooc-tracker-course-box-content-title {
-        font-size: 20px;
-        margin-top: 20px;
-        line-height: 1.5;
-    }
+#newsletter-subscribe .signup-copy {
+    width: inherit;
 }
-@media only screen and (max-width : 650px) and (min-width : 481px) {
-    /* Tablet view: 2 tiles
-    #mooc-tracker-course-box {
-        width: 50%;
-        padding-bottom: 50%;
-    }
 
-    #mooc-tracker-course-box-content-title {
-        font-size: 15px;
-        margin-top: 0px;
-        line-height: 1.5;
-    }
+#newsletter-subscribe-button {
+    padding-left: 30px;
+    padding-right: 30px;
 }
-@media only screen and (max-width : 1200px) and (min-width : 651px) {
-    /* Small desktop / ipad view: 3 tiles
-    #mooc-tracker-course-box {
-        width: 33.3%;
-        padding-bottom: 33.3%;
-    }
 
+#newsletter-subscribe .cc-form-input {
+    width: 300px;
 }
-*/
+
+#newsletter-subscribe .cc-form-input::-webkit-input-placeholder {
+    color: #dce1e7;
+    font-size: 14px;
+}
+
+#newsletter-subscribe .cc-form-input:-moz-placeholder { /* Firefox 18- */
+    color: #dce1e7;
+    font-size: 14px;
+}
+
+#newsletter-subscribe .cc-form-input::-moz-placeholder {  /* Firefox 19+ */
+    color: #dce1e7;
+    font-size: 14px;
+}
+
+#newsletter-subscribe .cc-form-input:-ms-input-placeholder {
+    color: #dce1e7;
+    font-size: 14px;
+}
+
+
 
 /**
 CC form box - for signup, login, forgot password
 **/
+
+.cc-form-input {
+    border-radius: 0px !important;
+}
+
 .cc-form-box {
     padding: 20px;
     margin-top: 50px;

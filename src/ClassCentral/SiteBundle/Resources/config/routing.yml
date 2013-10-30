@@ -113,3 +113,7 @@ mooctracker_add_course:
 mooctracker_add_search_term:
   pattern: /user/tracker/searchTerm/{searchTerm}
   defaults: {_controller: ClassCentralSiteBundle:User:addSearchTermToMOOCTracker }
+
+newsletter_subscribe:
+  pattern: /newsletters/subscribe/{code}
+  defaults: {_controller: ClassCentralSiteBundle:Newsletter:subscribe}

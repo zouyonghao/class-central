@@ -182,4 +182,23 @@ class NewsletterController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Renders the subscribe newsletter page
+     * @param $code
+     */
+    public function subscribeAction($code)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode($code);
+        if(!$newsletter)
+        {
+            // TODO: Show error
+            return null;
+        }
+
+        return $this->render('ClassCentralSiteBundle:Newsletter:subscribe.html.twig',array(
+                'newsletter' => $newsletter
+            ));
+    }
 }
