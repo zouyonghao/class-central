@@ -126,3 +126,6 @@ newsletter_subscribe_to:
 newsletter_subscribed:
   pattern: /newsletters/subscribed/
   defaults: {_controller: ClassCentralSiteBundle:Newsletter:subscribed}
+newsletter_mooc_tracker_signup:
+  pattern: /newsletters/mooc-tracker-save-user
+  defaults: {_controller: ClassCentralSiteBundle:Newsletter:moocTrackerSignup}

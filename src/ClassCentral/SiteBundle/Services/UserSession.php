@@ -163,6 +163,8 @@ class UserSession
     public function getRecentlyViewed()
     {
         return $this->session->get(self::USER_RECENTLY_VIEWED);
+    }
+
     public function setNewsletterUserEmail($email)
     {
         $this->session->set(self::NEWSLETTER_USER_EMAIL, $email);

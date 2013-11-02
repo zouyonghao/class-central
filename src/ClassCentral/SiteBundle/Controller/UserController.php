@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Form\UserType;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 
 
@@ -197,7 +196,7 @@ class UserController extends Controller
         // Redirect user if already logged in
         if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            return $this->redirect($this->generateUrl('ClassCentralSiteBundle_homepage'));
+            return $this->redirect($this->generateUrl('mooctracker'));
         }
 
         if(!$form)
@@ -241,8 +240,9 @@ class UserController extends Controller
      */
     public function createUserAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $mailgun = $this->get('mailgun');
+        $userService = $this->get('user_service');
+        $userSession = $this->get('user_session');
+
         $form   = $this->createForm(new SignupType(), new User(),array(
             'action' => $this->generateUrl('signup_create_user')
         ));
@@ -251,24 +251,9 @@ class UserController extends Controller
         if($form->isValid())
         {
             $user = $form->getData();
-            $user->setEmail(strtolower($user->getEmail())); // Normalize the email
-            $password = $user->getPassword();
-            $user->setPassword(password_hash($password,PASSWORD_BCRYPT,array("cost" => 10)));
-            $em->persist($user);
-            $em->flush();
+            $user = $userService->signup($user);
 
-            // Login the user
-            $token = new UsernamePasswordToken($user, $password,'secured_area',$user->getRoles());
-            $this->get('security.context')->setToken($token);
-
-            // Send a welcome email but not in the test environment
-            if ($this->container->getParameter('kernel.environment') != 'test')
-            {
-                $html = $this->render('ClassCentralSiteBundle:Mail:welcome.html.twig')->getContent();
-                $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central's MOOC Tracker",$html);
-            }
             // Check where the user reached the signed in page
-            $userSession = $this->get('user_session');
             $referralDetails = $userSession->getSignupReferralDetails();
             if(!empty($referralDetails))
             {

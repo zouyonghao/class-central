@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -282,12 +283,60 @@ class NewsletterController extends Controller
      * Shows the subscribed page
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function subscribedAction()
+    public function subscribedAction(Request $request)
     {
         $userSession = $this->get('user_session');
         $email = $userSession->getNewsletterUserEmail();
         return $this->render('ClassCentralSiteBundle:Newsletter:subscribed.html.twig',array(
                 'newsletterEmail' => $email
             ));
+    }
+
+    public function moocTrackerSignupAction(Request $request)
+    {
+        $userSession = $this->get('user_session');
+        $userService = $this->get('user_service');
+        $session = $this->get('session');
+        $em = $this->get('doctrine')->getManager();
+
+        // Redirect user if already logged in
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('mooctracker'));
+        }
+
+
+        $email = $userSession->getNewsletterUserEmail();
+        $emailEntity = $em->getRepository('ClassCentralSiteBundle:Email')->findOneByEmail($email);
+        if(empty($emailEntity))
+        {
+            // Redirect to signup page
+            $this->redirect($this->generateUrl('mooctracker_signup'));
+        }
+        $password = $request->request->get('password');
+        if(empty($password))
+        {
+            $session->getFlashBag()->add('newsletter_signup_invalid_password',"Please enter a password");
+            return $this->redirect($this->generateUrl('newsletter_subscribed'));
+        }
+
+        // Password-Email are accurate. Create a user
+        $user = new User();
+        $user->setEmail($email);
+        $user->setPassword($password);
+        foreach($emailEntity->getNewsletters() as $newsletter)
+        {
+            $user->addNewsletter($newsletter);
+        }
+        $user = $userService->signup($user);
+
+        // Clean the email entities subscriptions
+        $newsletters = $emailEntity->getNewsletters();
+        $newsletters->clear();
+        $em->persist($emailEntity);
+        $em->flush();
+
+        // Redirect to MOOC Tracker page
+        return $this->redirect($this->generateUrl('mooctracker'));
     }
 }

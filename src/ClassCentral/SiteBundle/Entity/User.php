@@ -494,4 +494,12 @@ class User implements UserInterface, \Serializable
             $this->addNewsletter($newsletter);
         }
     }
+
+    /**
+     * Given a password generates the hash out of it
+     */
+    public function getHashedPassword($password)
+    {
+        return password_hash($password,PASSWORD_BCRYPT,array("cost" => 10));
+    }
 }
