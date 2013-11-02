@@ -125,4 +125,24 @@ class Email
     {
         return $this->newsletters;
     }
+
+    /**
+     * Signs up for a newsletter
+     */
+    public function subscribe(\ClassCentral\SiteBundle\Entity\Newsletter $newsletter)
+    {
+        $signedUp = false;
+        foreach($this->getNewsletters() as $ns)
+        {
+            if($ns->getCode() == $newsletter->getCode())
+            {
+                $signedUp = true;
+                break;
+            }
+        }
+        if(!$signedUp)
+        {
+            $this->addNewsletter($newsletter);
+        }
+    }
 }

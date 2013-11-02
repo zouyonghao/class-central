@@ -12,10 +12,17 @@
             <p class="signup-copy-line2">
                 {{ newsletter.description }}
             </p>
-
-            <form action="{{ path('login_check') }}" method="post">
-                <input type="email" id="email" name="email" value="" class="cc-form-input" placeholder="Type your email"/>
+            {% for flashMessage in  app.session.flashbag.get('newsletter_invalid_email') %}
+                <div>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            <form action="{{ path('newsletter_subscribe_to',{code: newsletter.code}) }}" method="post">
+                {# Don't show the form to signed in usser #}
+                {% if not app.user %}
+                    <input type="email" id="email" name="email" value="" class="cc-form-input" placeholder="Type your email"/>
                 <br/>
+                {% endif %}
                 <button class="btn btn-primary btn-course-cc" type="submit" id="newsletter-subscribe-button">Subscribe</button>
             </form>
         </div>

@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Newsletter;
 use ClassCentral\SiteBundle\Form\NewsletterType;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * Newsletter controller.
@@ -187,7 +189,7 @@ class NewsletterController extends Controller
      * Renders the subscribe newsletter page
      * @param $code
      */
-    public function subscribeAction($code)
+    public function subscribeAction(Request $request, $code)
     {
         $em = $this->getDoctrine()->getManager();
         $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode($code);
@@ -199,6 +201,93 @@ class NewsletterController extends Controller
 
         return $this->render('ClassCentralSiteBundle:Newsletter:subscribe.html.twig',array(
                 'newsletter' => $newsletter
+            ));
+    }
+
+    /**
+     * Saves the users subscrption for the newsletter
+     * @param Request $request
+     * @param $code
+     */
+    public function subscribeToAction(Request $request, $code)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $userSession = $this->get('user_session');
+
+        $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode($code);
+        if(!$newsletter)
+        {
+            // TODO: Show error
+            return null;
+        }
+
+        $user = null;
+        $email = null;
+        // Check if the user is signed in
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $user = $this->get('security.context')->getToken()->getUser();
+        }
+        else
+        {
+            // Get the email for the user
+            $email = $request->request->get('email');
+            $email = strtolower($email);
+
+            // Validate it
+            $emailConstraint = new Email();
+            $emailConstraint->message = "Invalid email address";
+            $errorList = $this->get('validator')->validateValue($email,$emailConstraint);
+            if(count($errorList) > 0)
+            {
+                // Invalid email
+                $errorMessage = $errorList[0]->getMessage();
+                $session->getFlashBag()->add('newsletter_invalid_email',$errorMessage);
+                return $this->redirect($this->generateUrl('newsletter_subscribe',array('code' => $code)));
+            }
+
+            // email exists. Check if the user has an account
+            $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail($email);
+            if(!$user)
+            {
+                // Check if the email is the database
+                $emailEntity = $em->getRepository('ClassCentralSiteBundle:Email')->findOneByEmail($email);
+                if(!$emailEntity)
+                {
+                    $emailEntity = new \ClassCentral\SiteBundle\Entity\Email();
+                    $emailEntity->setEmail($email);
+                }
+            }
+        }
+
+        if($user)
+        {
+            $user->subscribe($newsletter);
+            $em->persist($user);
+        }
+        else
+        {
+            $emailEntity->subscribe($newsletter);
+            $em->persist($emailEntity);
+            $userSession->setNewsletterUserEmail($emailEntity->getEmail());
+        }
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('newsletter_subscribed'));
+    }
+
+    /**
+     * Shows the subscribed page
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function subscribedAction()
+    {
+        $userSession = $this->get('user_session');
+        $email = $userSession->getNewsletterUserEmail();
+        return $this->render('ClassCentralSiteBundle:Newsletter:subscribed.html.twig',array(
+                'newsletterEmail' => $email
             ));
     }
 }

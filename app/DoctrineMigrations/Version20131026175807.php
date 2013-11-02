@@ -58,7 +58,7 @@ class Version20131026175807 extends AbstractMigration
             ON UPDATE NO ACTION,
           CONSTRAINT `fk_newsletters_subscriptions_newsletter_id`
             FOREIGN KEY (`newsletter_id` )
-            REFERENCES `newsletters_subscriptions` (`id` )
+            REFERENCES `newsletters` (`id` )
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
           CONSTRAINT `fk_newsletters_subscriptions_email_id`

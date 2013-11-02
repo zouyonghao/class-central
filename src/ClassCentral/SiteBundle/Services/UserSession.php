@@ -19,6 +19,7 @@ class UserSession
     const MT_SEARCH_TERM_KEY = 'mooc_tracker_search_terms';
     const MT_REFERRAL_KEY = 'mooc_tracker_referral';
     const USER_RECENTLY_VIEWED = 'user_recently_view';
+    const NEWSLETTER_USER_EMAIL = 'newsletter_user_email';
 
 
     public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session)
@@ -162,6 +163,14 @@ class UserSession
     public function getRecentlyViewed()
     {
         return $this->session->get(self::USER_RECENTLY_VIEWED);
+    public function setNewsletterUserEmail($email)
+    {
+        $this->session->set(self::NEWSLETTER_USER_EMAIL, $email);
+    }
+
+    public function getNewsletterUserEmail()
+    {
+        return $this->session->get(self::NEWSLETTER_USER_EMAIL);
     }
 
 }

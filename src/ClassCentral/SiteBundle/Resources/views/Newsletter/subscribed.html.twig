@@ -1,0 +1,33 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block headmeta %}
+{% endblock %}
+
+{% block contentheader %}
+    <div class="signup-box" id="newsletter-subscribe">
+        <div class="signup-copy">
+            <p class="signup-copy-line1">
+                Thank you for subscribing
+            </p>
+            {% if newsletterEmail is not null %}
+            <p class="signup-copy-line2">
+                If you would like to track courses that match your interests <br>
+                Sign up for MOOC Tracker
+            </p>
+                <form action="" method="post">
+                    {# Don't show the form to signed in usser #}
+                    {% if not app.user %}
+                        <input type="password" id="password" name="password" value="" class="cc-form-input" placeholder="Type your email"/>
+                        <br/>
+                        <button class="btn btn-primary btn-course-cc" type="submit" id="newsletter-subscribe-button">Signup for MOOC Tracker</button>
+                    {% endif %}
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <style type="text/css">
+        .cc-page {
+            display: none;
+        }
+    </style>
+{% endblock %}

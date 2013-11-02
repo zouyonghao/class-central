@@ -23,7 +23,7 @@ ClassCentral\SiteBundle\Entity\Email:
         joinTable:
           name: newsletters_subscriptions
           joinColumns:
-            user_id:
+            email_id:
               referencedColumnName: id
           inverseJoinColumns:
             newsletter_id:
