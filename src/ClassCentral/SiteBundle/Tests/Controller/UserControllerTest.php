@@ -191,12 +191,12 @@ class UserControllerTest extends WebTestCase
     }
 
 
-    private function isSignedOut($crawler)
+    public function isSignedOut($crawler)
     {
         $this->assertGreaterThan(0, $crawler->filter("a:contains('Signup for MOOC Tracker')")->count());
     }
 
-    private function isSignedIn($crawler)
+    public function isSignedIn($crawler)
     {
         $this->assertGreaterThan(0, $crawler->filter("a:contains('MOOC Tracker')")->count());
     }
