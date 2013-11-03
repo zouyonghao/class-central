@@ -95,3 +95,6 @@ services:
   user_service:
     class: ClassCentral\SiteBundle\Services\User
     arguments: ['@service_container']
+  verification_token:
+    class: ClassCentral\SiteBundle\Services\VerificationToken
+    arguments: ['@doctrine']
