@@ -97,6 +97,24 @@ signup_create_user:
   defaults: {_controller: ClassCentralSiteBundle:User:createUser}
   methods: [POST]
 
+forgotpassword:
+  pattern: /forgotpassword
+  defaults: {_controller: ClassCentralSiteBundle:User:forgotPassword}
+
+forgotpassword_sendemail:
+  pattern: /forgotpasswordSendEmail
+  defaults: {_controller: ClassCentralSiteBundle:User:forgotPasswordSendEmail}
+  methods: [POST]
+
+resetPassword:
+  pattern: /resetPassword/{token}
+  defaults: {_controller: ClassCentralSiteBundle:User:resetPassword }
+
+resetPassword_save:
+  pattern: /resetPassword
+  defaults: {_controller: ClassCentralSiteBundle:User:resetPasswordSave }
+  methods: [POST]
+
 #mooc tracker
 mooctracker:
   pattern: /mooc-tracker

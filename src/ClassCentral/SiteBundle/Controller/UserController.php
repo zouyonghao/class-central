@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\MoocTrackerCourse;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
+use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Form\SignupType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -418,8 +419,95 @@ class UserController extends Controller
             'searchTerms' => $searchTerms,
             'courses' => $courses
         ));
+    }
+
+    public function forgotPasswordAction(Request $request)
+    {
+        // Redirect user if already logged in
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('mooctracker'));
+        }
+
+        return $this->render('ClassCentralSiteBundle:User:forgotPassword.html.twig');
+    }
+
+    public function forgotPasswordSendEmailAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tokenService = $this->get('verification_token');
+        $mailgun = $this->get('mailgun');
+        $templating = $this->get('templating');
+        $session = $this->get('session');
+
+        $email = $request->request->get('email');
+        if($email)
+        {
+            $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail($email);
+            if($user)
+            {
+                $token = $tokenService->create("forgot_password=1&user_id=" . $user->getId(), VerificationToken::EXPIRY_1_DAY);
+                if ($this->container->getParameter('kernel.environment') != 'test')
+                {
+                    $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:forgotpassword.html.twig', array('token' => $token->getToken()))->getContent();
+                    $mailgunResponse = $mailgun->sendSimpleText($user->getEmail(),"no-reply@class-central.com>","Reset your Class Central password",$html);
+                }
+            }
+
+        }
+
+        $session->set('fpSendEmail',true);
+        return $this->redirect($this->generateUrl('forgotpassword'));
+    }
+
+    public function resetPasswordAction(Request $request, $token)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tokenService = $this->get('verification_token');
+        $session = $this->get('session');
+
+        $tokenEntity = $tokenService->get($token);
+        $tokenValid = false;
+        if($tokenEntity)
+        {
+            parse_str($tokenEntity->getValue(), $tokenValue);
+            if(isset($tokenValue['forgot_password']))
+            {
+                $session->set('reset_user_id', $tokenValue['user_id']); // Save the user_id in session
+                $tokenService->delete($tokenEntity); // delete the token since its one time use
+                $tokenValid = true;
+            }
+        }
+
+        return $this->render('ClassCentralSiteBundle:User:resetPassword.html.twig',array('tokenValid' => $tokenValid));
+    }
 
 
+    public function resetPasswordSaveAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $userId = $session->get('reset_user_id');
+        $password = $request->request->get('password');
+        $token = 'failed';
+        if(!empty($password) && !empty($userId) )
+        {
+            $user = $em->getRepository('ClassCentralSiteBundle:User')->find($userId);
+            if($user)
+            {
+                // Reset password
+                $user->setPassword($user->getHashedPassword($password));
+                $em->persist($user);
+                $em->flush();
+
+                $token = 'succeeded';
+                $session->set('fpResetPassword',true);
+                $session->remove('reset_user_id');
+            }
+        }
+
+
+        return $this->redirect($this->generateUrl('resetPassword', array('token' => $token)));
     }
 
 }
