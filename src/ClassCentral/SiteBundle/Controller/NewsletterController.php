@@ -297,6 +297,12 @@ class NewsletterController extends Controller
 
     private function sendEmailVerification($email)
     {
+        if ($this->container->getParameter('kernel.environment') == 'test')
+        {
+            // Don't send emails in the test environment
+            return;
+        }
+
         $verifyTokenService = $this->get('verification_token');
         $templating = $this->get('templating');
         $mailgun = $this->get('mailgun');
