@@ -78,6 +78,12 @@ class User implements UserInterface, \Serializable
      */
     private $newsletters;
 
+    /**
+     * @var boolean
+     */
+    private $isverified;
+
+
     public function  __construct()
     {
         $this->role = "ROLE_STUDENT";
@@ -86,6 +92,7 @@ class User implements UserInterface, \Serializable
         $this->moocTrackerCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->moocTrackerSearchTerms = new \Doctrine\Common\Collections\ArrayCollection();
         $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isverified = 0;
     }
 
     public function __toString()
@@ -501,5 +508,29 @@ class User implements UserInterface, \Serializable
     public function getHashedPassword($password)
     {
         return password_hash($password,PASSWORD_BCRYPT,array("cost" => 10));
+    }
+
+
+    /**
+     * Set isverified
+     *
+     * @param boolean $isverified
+     * @return User
+     */
+    public function setIsverified($isverified)
+    {
+        $this->isverified = $isverified;
+    
+        return $this;
+    }
+
+    /**
+     * Get isverified
+     *
+     * @return boolean 
+     */
+    public function getIsverified()
+    {
+        return $this->isverified;
     }
 }

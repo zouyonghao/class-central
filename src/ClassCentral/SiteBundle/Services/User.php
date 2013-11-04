@@ -2,7 +2,6 @@
 
 namespace ClassCentral\SiteBundle\Services;
 
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -15,11 +14,12 @@ class User {
         $this->container = $container;
     }
 
-    public function signup(\ClassCentral\SiteBundle\Entity\User $user)
+    public function signup(\ClassCentral\SiteBundle\Entity\User $user, $emailVerification = true)
     {
         $em = $this->container->get('doctrine')->getManager();
         $templating = $this->container->get('templating');
         $mailgun = $this->container->get('mailgun');
+        $verifyTokenService = $this->container->get('verification_token');
 
         $user->setEmail(strtolower($user->getEmail())); // Normalize the email
         $password = $user->getPassword();
@@ -36,8 +36,21 @@ class User {
         {
             $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig')->getContent();
             $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central's MOOC Tracker",$html);
+
+            if($emailVerification)
+            {
+               // Send an email for verification
+                $value = array(
+                    'verify' => 1,
+                    'email' => $user->getEmail()
+                );
+                $tokenEntity = $verifyTokenService->create($value,\ClassCentral\SiteBundle\Entity\VerificationToken::EXPIRY_1_YEAR);
+                $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:confirm.email.html.twig',array('token' => $tokenEntity->getToken()))->getContent();
+                $mailgunResponse = $mailgun->sendSimpleText($user->getEmail(),"no-reply@class-central.com","Please confirm your email",$html);
+            }
         }
 
         return $user;
     }
+
 } 

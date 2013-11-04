@@ -44,6 +44,10 @@ ClassCentral\SiteBundle\Entity\User:
             type: datetime
             nullable: true
             column: last_login
+        isverified:
+            type: boolean
+            nullable: false
+            column: isVerified
     oneToMany:
         moocTrackerSearchTerms:
           targetEntity: MoocTrackerSearchTerm

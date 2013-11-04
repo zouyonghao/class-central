@@ -38,6 +38,7 @@ class VerificationToken
     const EXPIRY_1_HOUR = 60;
     const EXPIRY_1_DAY = 1440;
     const EXPIRY_1_WEEK = 10080;
+    const EXPIRY_1_YEAR = 525949;
 
     public function __construct()
     {
@@ -149,5 +150,15 @@ class VerificationToken
     public function getExpiry()
     {
         return $this->expiry;
+    }
+
+    public function setTokenValueArray($array)
+    {
+        $this->setValue(json_encode($array));
+    }
+
+    public function getTokenValueArray()
+    {
+        return json_decode($this->value,true);
     }
 }

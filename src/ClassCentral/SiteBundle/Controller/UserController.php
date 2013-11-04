@@ -252,7 +252,7 @@ class UserController extends Controller
         if($form->isValid())
         {
             $user = $form->getData();
-            $user = $userService->signup($user);
+            $user = $userService->signup($user, true); // true - verification email
 
             // Check where the user reached the signed in page
             $referralDetails = $userSession->getSignupReferralDetails();
@@ -509,5 +509,48 @@ class UserController extends Controller
 
         return $this->redirect($this->generateUrl('resetPassword', array('token' => $token)));
     }
+
+    public function verifyEmailAction(Request $request, $token)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $verifyTokenService = $this->get('verification_token');
+
+        $tokenEntity = $verifyTokenService->get($token);
+        $tokenValid = false;
+        if($tokenEntity)
+        {
+            $tokenValue = $tokenEntity->getTokenValueArray();
+            if($tokenValue['verify'] && $tokenValue['email'])
+            {
+                $email = $tokenValue['email'];
+                $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail($email);
+                if($user)
+                {
+                    $user->setIsverified(1);
+                    $em->persist($user);
+                    $em->flush();
+
+                    $tokenValid = true;
+                }
+
+                $emailEntity = $em->getRepository('ClassCentralSiteBundle:Email')->findOneByEmail($email);
+                if($emailEntity)
+                {
+                    $emailEntity->setIsverified(1);
+                    $em->persist($emailEntity);
+                    $em->flush();
+
+                    $tokenValid = true;
+                }
+
+                $verifyTokenService->delete($tokenEntity);
+            }
+        }
+
+        return $this->render('ClassCentralSiteBundle:User:verifyEmail.html.twig',array(
+                'tokenValid' => $tokenValid
+            ));
+    }
+
 
 }

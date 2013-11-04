@@ -30,11 +30,17 @@ class Email
     private $newsletters;
 
     /**
+     * @var boolean
+     */
+    private $isverified;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isverified = 0;
     }
     
     /**
@@ -144,5 +150,29 @@ class Email
         {
             $this->addNewsletter($newsletter);
         }
+    }
+
+
+    /**
+     * Set isverified
+     *
+     * @param boolean $isverified
+     * @return Email
+     */
+    public function setIsverified($isverified)
+    {
+        $this->isverified = $isverified;
+    
+        return $this;
+    }
+
+    /**
+     * Get isverified
+     *
+     * @return boolean 
+     */
+    public function getIsverified()
+    {
+        return $this->isverified;
     }
 }

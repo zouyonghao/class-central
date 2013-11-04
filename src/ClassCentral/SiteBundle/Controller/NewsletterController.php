@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use ClassCentral\SiteBundle\Entity\VerificationToken;
 
 use ClassCentral\SiteBundle\Entity\Newsletter;
 use ClassCentral\SiteBundle\Form\NewsletterType;
@@ -216,6 +217,7 @@ class NewsletterController extends Controller
         $session = $this->get('session');
         $userSession = $this->get('user_session');
 
+
         $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode($code);
         if(!$newsletter)
         {
@@ -266,17 +268,46 @@ class NewsletterController extends Controller
         {
             $user->subscribe($newsletter);
             $em->persist($user);
+
+            if(!$user->getIsverified())
+            {
+                // Send a email verification message
+                $this->sendEmailVerification($user->getEmail());
+            }
         }
         else
         {
+            if(!$emailEntity->getId() || !$emailEntity->getIsverified())
+            {
+                // Send a email verification message
+                $this->sendEmailVerification($emailEntity->getEmail());
+            }
+
             $emailEntity->subscribe($newsletter);
             $em->persist($emailEntity);
             $userSession->setNewsletterUserEmail($emailEntity->getEmail());
+
+
         }
 
         $em->flush();
 
         return $this->redirect($this->generateUrl('newsletter_subscribed'));
+    }
+
+    private function sendEmailVerification($email)
+    {
+        $verifyTokenService = $this->get('verification_token');
+        $templating = $this->get('templating');
+        $mailgun = $this->get('mailgun');
+
+        $value = array(
+            'verify' => 1,
+            'email' => $email
+        );
+        $tokenEntity = $verifyTokenService->create($value,VerificationToken::EXPIRY_1_YEAR);
+        $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:confirm.email.html.twig',array('token' => $tokenEntity->getToken()))->getContent();
+        $mailgunResponse = $mailgun->sendSimpleText($email,"no-reply@class-central.com","Please confirm your email",$html);
     }
 
     /**
@@ -328,7 +359,7 @@ class NewsletterController extends Controller
         {
             $user->addNewsletter($newsletter);
         }
-        $user = $userService->signup($user);
+        $user = $userService->signup($user, false); // don't send an email verification.
 
         // Clean the email entities subscriptions
         $newsletters = $emailEntity->getNewsletters();

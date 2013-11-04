@@ -115,6 +115,10 @@ resetPassword_save:
   defaults: {_controller: ClassCentralSiteBundle:User:resetPasswordSave }
   methods: [POST]
 
+email_verify:
+  pattern: /verify/{token}
+  defaults: {_controller: ClassCentralSiteBundle:User:verifyEmail}
+
 #mooc tracker
 mooctracker:
   pattern: /mooc-tracker

@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 
 
+
 class VerificationToken {
 
     private $em;
@@ -29,11 +30,18 @@ class VerificationToken {
         {
             $vToken->setExpiry($expiry);
         }
-        if(!is_string($value))
+
+        if(is_array($value))
         {
-            throw new \Exception("VerificationToken 'value' should be a string");
+            $vToken->setTokenValueArray($value);
         }
-        $vToken->setValue($value);
+        elseif(is_string($value))
+        {
+            $vToken->setValue($value);
+        } else
+        {
+            throw new \Exception("VerificationToken: Token value should be an array or string");
+        }
 
         $this->em->persist($vToken);
         $this->em->flush();

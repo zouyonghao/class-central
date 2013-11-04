@@ -17,6 +17,10 @@ ClassCentral\SiteBundle\Entity\Email:
         created:
             type: datetime
             nullable: true
+        isverified:
+            type: boolean
+            nullable: false
+            column: isVerified
     manyToMany:
       newsletters:
         targetEntity: Newsletter
