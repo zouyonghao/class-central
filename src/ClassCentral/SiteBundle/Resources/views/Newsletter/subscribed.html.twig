@@ -1,6 +1,23 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
+    <title>Newsletter subscription confirmed</title>
+    <meta name="description"
+          content="Newsletter subscription confirmed"/>
+    <meta property="og:title" content="Newsletter subscription confirmed" />
+    <meta property="og:url" content="{{ baseurl }}{{ path('newsletter_subscribed') }}" />
+    <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+    <meta property="og:site_name" content="Class Central"/>
+    <meta property="og:description" content="Newsletter subscription confirmed" />
+    <meta property="og:type" content="website" />
+    <meta property="fb:admins" content="{{ fb_admins }}" />
+
+    <!-- Twitter card integration -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@classcentral">
+    <meta name="twitter:title" content="Newsletter subscription confirmed">
+    <meta name="twitter:description" content="Newsletter subscription confirmed">
+    <meta name="twitter:domain" content="www.class-central.com">
 {% endblock %}
 
 {% block contentheader %}
@@ -9,24 +26,24 @@
             <p class="signup-copy-line1">
                 Thank you for subscribing
             </p>
-            {% if newsletterEmail is not null %}
-            <p class="signup-copy-line2">
-                If you would like to track courses that match your interests <br>
-                Sign up for MOOC Tracker
-            </p>
-            {% for flashMessage in  app.session.flashbag.get('newsletter_signup_invalid_password') %}
-                <div>
-                    {{ flashMessage }}
-                </div>
-            {% endfor %}
-            <form action="{{ path('newsletter_mooc_tracker_signup') }}" method="post">
-                {# Don't show the form to signed in user #}
-                {% if not app.user %}
-                    <input type="password" id="password" name="password" value="" class="cc-form-input" placeholder="Set your password"/>
-                    <br/>
-                    <button class="btn btn-primary btn-course-cc" type="submit" id="newsletter-subscribe-button">Signup for MOOC Tracker</button>
-                {% endif %}
-            </form>
+            {% if newsletterEmail is not null and  not app.user %}
+                <p class="signup-copy-line2">
+                    If you would like to track courses that match your interests, <br/>
+                    sign up for MOOC Tracker. <br/><br/>
+                </p>
+                {% for flashMessage in  app.session.flashbag.get('newsletter_signup_invalid_password') %}
+                    <div>
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                <form action="{{ path('newsletter_mooc_tracker_signup') }}" method="post">
+                        <label for="email">Email:</label>
+                        <input type="email" readonly value="{{ newsletterEmail }}" class="cc-form-input"/>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" value="" class="cc-form-input" placeholder="Set your password"/>
+                        <br/>
+                        <button class="btn btn-primary btn-course-cc" type="submit" id="newsletter-subscribe-button">Sign up</button>
+                </form>
             {% endif %}
         </div>
     </div>

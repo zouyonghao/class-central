@@ -1,6 +1,23 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
+    <title>{{ newsletter.name }} - Newsletter by Class Central</title>
+    <meta name="description"
+          content="{{ newsletter.title }}. {{ newsletter.description }}"/>
+    <meta property="og:title" content="{{ newsletter.name }} | Newsletter by Class Central" />
+    <meta property="og:url" content="{{ baseurl }}{{ path('newsletter_subscribe',{'code':newsletter.code}) }}" />
+    <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+    <meta property="og:site_name" content="Class Central"/>
+    <meta property="og:description" content="{{ newsletter.title }}. {{ newsletter.description }}" />
+    <meta property="og:type" content="website" />
+    <meta property="fb:admins" content="{{ fb_admins }}" />
+
+    <!-- Twitter card integration -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@classcentral">
+    <meta name="twitter:title" content="Signup for {{ newsletter.name }} - Newsletter by Class Central">
+    <meta name="twitter:description" content="{{ newsletter.title }}. {{ newsletter.description }}">
+    <meta name="twitter:domain" content="www.class-central.com">
 {% endblock %}
 
 {% block contentheader %}
@@ -18,9 +35,10 @@
                 </div>
             {% endfor %}
             <form action="{{ path('newsletter_subscribe_to',{code: newsletter.code}) }}" method="post">
-                {# Don't show the form to signed in usser #}
+                {# Don't show the form to signed in user #}
                 {% if not app.user %}
-                    <input type="email" id="email" name="email" value="" class="cc-form-input" placeholder="Type your email"/>
+                    <label for="password">Email:</label>
+                    <input type="email" id="email" name="email" value="" class="cc-form-input" placeholder="Your email"/>
                 <br/>
                 {% endif %}
                 <button class="btn btn-primary btn-course-cc" type="submit" id="newsletter-subscribe-button">Subscribe</button>

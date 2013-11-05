@@ -981,6 +981,13 @@ input::-webkit-input-placeholder {
     vertical-align: top;
 }
 
+.signup-box label {
+    color: #066666;
+    font-family: "Open Sans",sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+}
+
 .signup-copy ul li{
     color: #5ca8a3;
 }
