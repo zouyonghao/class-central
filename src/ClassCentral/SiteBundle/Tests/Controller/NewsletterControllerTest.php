@@ -27,10 +27,10 @@ class NewsletterControllerTest extends WebTestCase {
         $client->submit($newsletterForm);
         $crawler = $client->followRedirect();
 
-        $this->assertGreaterThan(0, $crawler->filter("button:contains('Signup for MOOC Tracker')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("button:contains('Sign up')")->count());
 
         // Subscribed. Now it should ask for a password
-        $mtSignupForm = $crawler->selectButton('Signup for MOOC Tracker')->form(array(
+        $mtSignupForm = $crawler->selectButton('Sign up')->form(array(
                 'password' => 'Test1234'
         ));
         $client->submit($mtSignupForm);
