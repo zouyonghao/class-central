@@ -48,14 +48,32 @@ class NewCoursesCommand extends ContainerAwareCommand {
             ->getRepository('ClassCentralSiteBundle:Course')
             ->getNewCourses($dt);
 
+
+
+        $groups = array();
         foreach($courses as $course)
         {
-            $path = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug'=>$course->getSlug()));
-            $output->writeln($course->getName());
+            $ins = $course->getInstitutions();
+            $group = 'Others';
+            if($ins[0])
+            {
+                $group = $ins[0]->getName();
+            }
+            $groups[$group][] = $course;
 
-            $output->writeln('https://www.class-central.com'. $path);
-            $output->writeln('');
         }
 
-    }
+        foreach($groups as $insName => $insCourses)
+        {
+            $output->writeln(strtoupper($insName));
+            foreach($insCourses as $course)
+            {
+                $path = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug'=>$course->getSlug()));
+                $output->writeln($course->getName());
+
+                $output->writeln('https://www.class-central.com'. $path);
+                $output->writeln('');
+            }
+        }
+}
 }
