@@ -34,3 +34,6 @@ parameters:
     test_database_name:     symfony
     test_database_user:     root
     test_database_password: ~
+
+    test_mailgun_api_key: ~
+    test_mailgun_domain_name: ~

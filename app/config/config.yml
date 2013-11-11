@@ -87,6 +87,9 @@ services:
     calls:
       - [setApiKey,[%mailgun_api_key%]]
       - [setDomain,[%mailgun_domain_name%]]
+  newsletter:
+    class: ClassCentral\SiteBundle\Services\Newsletter
+    arguments: ['%mailgun_api_key%', '%mailgun_domain_name%']
   user_session:
     class: ClassCentral\SiteBundle\Services\UserSession
     arguments: ['@security.context', '@doctrine', '@session']
