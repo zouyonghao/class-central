@@ -24,6 +24,17 @@ class User {
         $user->setEmail(strtolower($user->getEmail())); // Normalize the email
         $password = $user->getPassword();
         $user->setPassword($user->getHashedPassword($password));
+
+        // If the email has subscriptions to different newsletters, transfer it over to this user
+        $emailEntity = $em->getRepository('ClassCentralSiteBundle:Email')->findOneByEmail($user->getEmail());
+        if($emailEntity)
+        {
+            foreach($emailEntity->getNewsletters() as $newsletter)
+            {
+                $user->addNewsletter($newsletter);
+            }
+        }
+
         $em->persist($user);
         $em->flush();
 

@@ -216,7 +216,8 @@ class NewsletterController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
         $userSession = $this->get('user_session');
-
+        $newsletterService = $this->get('newsletter');
+        $logger = $this->get('logger');
 
         $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode($code);
         if(!$newsletter)
@@ -266,6 +267,7 @@ class NewsletterController extends Controller
 
         if($user)
         {
+            // Save the subscription prefrences
             $user->subscribe($newsletter);
             $em->persist($user);
 
@@ -274,20 +276,48 @@ class NewsletterController extends Controller
                 // Send a email verification message
                 $this->sendEmailVerification($user->getEmail());
             }
+            else
+            {
+                // Subscribe
+                if ($this->container->getParameter('kernel.environment') != 'test')
+                {
+                    $subscribed = $newsletterService->subscribeUser($newsletter, $user);
+                    $logger->info("subscribeToAction : user newsletter subscription", array(
+                            'user' => $user->getId(),
+                            'newsletter' => $newsletter->getCode(),
+                            'subscribed' => $subscribed
+                        ));
+                }
+            }
         }
         else
         {
+            // Not a new email or is not verified
             if(!$emailEntity->getId() || !$emailEntity->getIsverified())
             {
                 // Send a email verification message
                 $this->sendEmailVerification($emailEntity->getEmail());
             }
 
+            // Save the subscription preferences
             $emailEntity->subscribe($newsletter);
             $em->persist($emailEntity);
             $userSession->setNewsletterUserEmail($emailEntity->getEmail());
 
-
+            // If verified add the user to the mailing list
+            if($emailEntity->getIsverified())
+            {
+                // Subscribe
+                if ($this->container->getParameter('kernel.environment') != 'test')
+                {
+                    $subscribed = $newsletterService->subscribeEmail($newsletter, $emailEntity);
+                    $logger->info("subscribeToAction : email newsletter subscription", array(
+                            'email' => $emailEntity->getId(),
+                            'newsletter' => $newsletter->getCode(),
+                            'subscribed' => $subscribed
+                        ));
+                }
+            }
         }
 
         $em->flush();

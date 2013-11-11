@@ -243,6 +243,8 @@ class UserController extends Controller
     {
         $userService = $this->get('user_service');
         $userSession = $this->get('user_session');
+        $em = $this->getDoctrine()->getManager();
+        $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode("mooc-report");
 
         $form   = $this->createForm(new SignupType(), new User(),array(
             'action' => $this->generateUrl('signup_create_user')
@@ -253,6 +255,15 @@ class UserController extends Controller
         {
             $user = $form->getData();
             $user = $userService->signup($user, true); // true - verification email
+
+            // Normal flow. Subscribe the user to a mooc report newsletter
+            if($newsletter)
+            {
+                // Save the user preferences
+                $user->subscribe($newsletter);
+                $em->persist($user);
+                $em->flush();
+            }
 
             // Check where the user reached the signed in page
             $referralDetails = $userSession->getSignupReferralDetails();
@@ -510,10 +521,18 @@ class UserController extends Controller
         return $this->redirect($this->generateUrl('resetPassword', array('token' => $token)));
     }
 
+    /**
+     * Verifies the email
+     * @param Request $request
+     * @param $token
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function verifyEmailAction(Request $request, $token)
     {
         $em = $this->getDoctrine()->getManager();
         $verifyTokenService = $this->get('verification_token');
+        $newsletterService = $this->get('newsletter');
+        $logger = $this->get('logger');
 
         $tokenEntity = $verifyTokenService->get($token);
         $tokenValid = false;
@@ -531,6 +550,20 @@ class UserController extends Controller
                     $em->flush();
 
                     $tokenValid = true;
+
+                    // Subscribe the user to different mailing lists
+                    foreach($user->getNewsletters() as $newsletter)
+                    {
+                        if ($this->container->getParameter('kernel.environment') != 'test')
+                        {
+                            $subscribed = $newsletterService->subscribeUser($newsletter, $user);
+                            $logger->info("verifyEmailAction : user newsletter subscription", array(
+                                    'user' => $user->getId(),
+                                    'newsletter' => $newsletter->getCode(),
+                                    'subscribed' => $subscribed
+                             ));
+                        }
+                    }
                 }
 
                 $emailEntity = $em->getRepository('ClassCentralSiteBundle:Email')->findOneByEmail($email);
@@ -541,6 +574,20 @@ class UserController extends Controller
                     $em->flush();
 
                     $tokenValid = true;
+
+                    // Subscribe the user to different mailing lists
+                    foreach($emailEntity->getNewsletters() as $newsletter)
+                    {
+                        if ($this->container->getParameter('kernel.environment') != 'test')
+                        {
+                            $subscribed = $newsletterService->subscribeEmail($newsletter, $emailEntity);
+                            $logger->info("verifyEmailAction : email newsletter subscription", array(
+                                    'email' => $emailEntity->getId(),
+                                    'newsletter' => $newsletter->getCode(),
+                                    'subscribed' => $subscribed
+                                ));
+                        }
+                    }
                 }
 
                 $verifyTokenService->delete($tokenEntity);
@@ -549,8 +596,6 @@ class UserController extends Controller
 
         return $this->render('ClassCentralSiteBundle:User:verifyEmail.html.twig',array(
                 'tokenValid' => $tokenValid
-            ));
+        ));
     }
-
-
 }
