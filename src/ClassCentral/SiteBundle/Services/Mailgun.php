@@ -46,7 +46,9 @@ class Mailgun {
         curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => $from,
             'to' => $to,
             'subject' => $subject,
-            'text' => $text));
+            'text' => $text,
+            'o:tracking-clicks' => 'htmlonly'
+            ));
 
         $result = curl_exec($ch);
         curl_close($ch);
