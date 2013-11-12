@@ -41,7 +41,7 @@ class NewsletterCommand extends ContainerAwareCommand {
         }
         $html = $templating->renderResponse(sprintf('ClassCentralSiteBundle:Mail:%s/%s.html.twig',$code,$template));
 
-        $result = $ns->sendNewsletter($newsletter,$html, $subject);
+        $result = $ns->sendNewsletter($newsletter,$html->getContent(), $subject);
         if($result)
         {
             $output->writeln("Newsletter successfully sent");
