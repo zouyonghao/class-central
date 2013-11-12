@@ -101,7 +101,8 @@ class Newsletter {
                 'from' => 'Class Central <newsletter@'. $this->mailDomain . '>',
                 'to' => $listAddress,
                 'subject' =>$subject,
-                'html' => $html
+                'html' => $html,
+                'o:campaign' => $newsLetter->getCode()
             );
             if($date)
             {
