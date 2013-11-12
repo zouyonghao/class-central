@@ -15,6 +15,8 @@ class NewsletterType extends AbstractType
             ->add('code')
             ->add('title')
             ->add('description')
+            ->add('subject')
+            ->add('frequency')
         ;
     }
 

@@ -85,8 +85,37 @@ class Newsletter {
             // Log the error
             return false;
         }
+    }
 
+    /**
+     * If date is specified, the it sent at that time
+     * @param \ClassCentral\SiteBundle\Entity\Newsletter $newsLetter
+     * @param $html
+     * @param $date
+     */
+    public function sendNewsletter(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, $html,  $subject, \DateTime $date = null)
+    {
+        $listAddress = $this->getListAddress($newsLetter->getCode());
+        try {
+            $params = array(
+                'from' => 'Class Central <newsletter@'. $this->mailDomain . '>',
+                'to' => $listAddress,
+                'subject' =>$subject,
+                'html' => $html
+            );
+            if($date)
+            {
+                // TODO: Add date to params
+            }
 
+            $result = $this->mailgun->sendMessage($this->mailDomain,$params);
+            return $result->http_response_code == 200;
+        }
+        catch (\Exception $e)
+        {
+            // Log the error
+            return false;
+        }
     }
 
     protected  function getListAddress($newsLetterName)

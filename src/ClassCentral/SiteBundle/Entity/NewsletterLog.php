@@ -25,11 +25,15 @@ class NewsletterLog
     private $created;
 
     /**
-     * @var \ClassCentral\SiteBundle\Entity\Newsletters
+     * @var \ClassCentral\SiteBundle\Entity\Newsletter
      */
     private $newsletter;
 
-
+    public function __construct()
+    {
+        $this->sent = new \DateTime();
+        $this->created = new \DateTime();
+    }
     /**
      * Get id
      *
