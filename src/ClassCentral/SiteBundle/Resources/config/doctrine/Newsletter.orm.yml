@@ -25,4 +25,13 @@ ClassCentral\SiteBundle\Entity\Newsletter:
         description:
             type: text
             nullable: true
+        subject:
+          type: string
+          length: 100
+          fixed: false
+          nullable: false
+        frequency:
+          type: integer
+          unsigned: false
+          nullable: false
     lifecycleCallbacks: {  }

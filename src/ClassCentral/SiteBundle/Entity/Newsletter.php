@@ -67,6 +67,17 @@ class Newsletter
      */
     private $description;
 
+    /**
+     * @var string
+     */
+    private $subject;
+
+    /**
+     * @var integer
+     */
+    private $frequency;
+
+
 
     /**
      * Set code
@@ -135,5 +146,52 @@ class Newsletter
     public function getDescription()
     {
         return $this->description;
+    }
+
+
+    /**
+     * Set subject
+     *
+     * @param string $subject
+     * @return Newsletter
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+    
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string 
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * Set frequency
+     *
+     * @param integer $frequency
+     * @return Newsletter
+     */
+    public function setFrequency($frequency)
+    {
+        $this->frequency = $frequency;
+    
+        return $this;
+    }
+
+    /**
+     * Get frequency
+     *
+     * @return integer 
+     */
+    public function getFrequency()
+    {
+        return $this->frequency;
     }
 }
