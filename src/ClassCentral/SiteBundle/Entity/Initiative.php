@@ -51,6 +51,7 @@ class Initiative
         'canvas' => 'CANVAS',
         'open2study' => 'OPEN2STUDY',
         'iversity' => 'IVERSITY',
+        'futurelearn' => 'FUTURELEARN',
         'others' => 'OTHERS',
     );
 
