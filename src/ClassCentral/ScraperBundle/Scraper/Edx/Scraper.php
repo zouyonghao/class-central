@@ -4,17 +4,17 @@ namespace ClassCentral\ScraperBundle\Scraper\Edx;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Offering;
 
 class Scraper extends ScraperAbstractInterface
 {
-    const BASE_URL = "https://www.edx.org/";
+    const BASE_URL = "https://www.edx.org";
     const COURSE_CATALOGUE = "https://www.edx.org/course-list/allschools/allsubjects/allcourses";
     const COURSES_PER_PAGE = 7;
 
     public function scrape()
     {
         $numberOfCourses = $this->getNumberOfPages();
-        $this->out("Number of courses calculated - " . $numberOfCourses);
         $numberOfPages = floor($numberOfCourses/self::COURSES_PER_PAGE);
 
         // Build a list of all course pages
@@ -29,7 +29,7 @@ class Scraper extends ScraperAbstractInterface
 
         }
 
-        $this->out("Number of courses found - " . count($coursePageUrls) + 1);
+        $this->out("Number of courses found - " . count($coursePageUrls));
 
         $defaultStream = $this->dbHelper->getStreamBySlug('cs');
         foreach( $coursePageUrls as $coursePageUrl)
@@ -46,7 +46,44 @@ class Scraper extends ScraperAbstractInterface
             $offering = $this->dbHelper->getOfferingByShortName("edx_" . $edXCourseId);
             if(!$offering)
             {
+                $this->out("NOT FOUND");
                 $this->out("$courseName - $startDate");
+                $this->out($url);
+                $this->out("");
+                continue;
+            }
+
+            // Check if the date and url match
+            if($offering->getUrl() != $url)
+            {
+                $this->out("INCORRECT URL");
+                $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
+                $this->out($url);
+                $this->out("");
+                continue;
+            }
+
+            if($offering->getStatus() == Offering::START_DATES_KNOWN)
+            {
+                $offeringStartDate = new \DateTime($startDate);
+                if($offeringStartDate != $offering->getStartDate() )
+                {
+                    $this->out("INCORRECT START DATE");
+                    $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
+                    $this->out("Offering Date - {$offering->getDisplayDate()}");
+                    $this->out($url);
+                    $this->out("");
+                }
+
+            }
+
+            if($offering->getStatus() == Offering::START_MONTH_KNOWN && $startDate != $offering->getStartDate()->format("F Y"))
+            {
+                $this->out("INCORRECT START MONTH");
+                $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
+                $this->out("Offering Date - {$offering->getDisplayDate()}");
+                $this->out($url);
+                $this->out("");
             }
 
         }
