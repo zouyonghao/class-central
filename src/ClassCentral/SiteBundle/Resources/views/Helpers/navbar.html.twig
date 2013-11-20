@@ -9,11 +9,45 @@
         <span class="icon-bar"></span>
       </a>
 	    <div class="nav-collapse collapse">
-            <ul class="nav pull-left">
+            <ul class="nav pull-left logo">
                 <li>
                     <a href="{{ path('ClassCentralSiteBundle_homepage')}}" title="MOOC aggregator"><h1>Class Central</h1></a>
                 </ul>
             </ul>
+
+            <ul class="nav pull-right nav-right-list navbar-fixed-top">
+                <li class="search-form">
+                    <div id='nav-search-form'>
+                        <div class="input-append search-button">
+                            {# <input  id="prependedInput" type="text" name="q"> #}
+                            <button><a href="/search" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])"><span class="add-on"><i class="icon-search"></i></span></a></button>
+                        </div>
+                    </div>
+                    {# include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} #}
+                </li>
+                {# Login/Logout #}
+                <li class="logreg dropdown">
+                    <a href="#" class="dropdown-toggle"  data-toggle="dropdown">User Menu</a>
+                    <ul class="dropdown-menu user-menu">
+                        <li>
+                            {% if app.user %}
+                                <a href="{{ path('mooctracker') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker User Menu'])" title="MOOC Tracker">
+                                    MOOC Tracker
+                                </a>
+                                <a href="{{ path('logout') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Logout'])" >Logout</a>
+
+
+                            {% else %}
+                                <a href="{{ path('login') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Login'])">Login</a>
+                                <a href="{{ path('mooctracker_signup') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker Signup User Menu'])" title="MOOC Tracker Signup">
+                                    Signup for MOOC Tracker
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
             <ul class="nav nav-right-list navbar-fixed-top">
 
                 <li class="dropdown">
@@ -49,14 +83,10 @@
                     </ul>
                 </li>
 
-
                  <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
 
-            </ul>
-
-            <ul class="nav pull-right nav-right-list navbar-fixed-top">
                 {# MOOC Tracker/ Signup #}
-                <li>
+                <li class="mooc-tracker">
                     {% if app.user %}
                         <a href="{{ path('mooctracker') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker'])" title="MOOC Tracker">
                             MOOC Tracker
@@ -67,25 +97,7 @@
                         </a>
                     {% endif %}
                 </li>
-
-                {# Login/Logout #}
-                <li>
-                    {% if app.user %}
-                        <a href="{{ path('logout') }}" class="nav-title">Logout</a>
-                    {% else %}
-                        <a href="{{ path('login') }}" class="nav-title">Login</a>
-                    {% endif %}
-                </li>
-                <li>
-                    <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id='nav-search-form'>
-                        <div class="input-append">
-                             {# <input  id="prependedInput" type="text" name="q"> #}
-                            <button><span class="add-on"><i class="icon-search"></i></span></button>
-                        </div>
-                    </form>
-                </li>
-             </ul>
-
+            </ul>
 	    </div>
 
         </div>
