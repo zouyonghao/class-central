@@ -52,7 +52,7 @@ class CourseReportCommand extends ContainerAwareCommand
             // Skip self paced courses
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
-                //continue;
+                continue;
             }
 
 

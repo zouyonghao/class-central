@@ -23,7 +23,7 @@ class HTMLNetwork extends NetworkAbstractInterface
           $url = "http://www.class-central.com/stream/". $stream->getSlug();
 
 
-        $this->output->writeln("<h1><h1><a href='$url'>$name ($offeringCount)</a></h1></h1>");
+        $this->output->writeln("<h1><a href='$url'>$name ($offeringCount)</a></h1>");
     }
 
     public function beforeOffering()
