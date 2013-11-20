@@ -1,15 +1,15 @@
 <table class="table table-striped table-bordered" id='{{ tableId}}list'>
     <thead>
         <tr>
-            <th class="introcolumn">Intro</th>
-            <th class="sorting">Course Name</th>
-            <th class="sorting">Instructor(s)</th>
+            <th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro</th>
+            <th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])">Course Name</th>
+            <th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>
             {# hide the stream column on stream pages #}
-            {% if page is defined and page != 'stream' %}<th class="sorting">Subject</th> {% endif %}
-            <th class="sorting">Start Date</th>	
-            <th class="sorting">Length</th>
+            {% if page is defined and page != 'stream' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])">Subject</th> {% endif %}
+            <th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])">Start Date</th>
+            <th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Length'])">Length</th>
             {# hide the initiative column on initiative pages #}
-            {% if page is defined and page != 'initiative' %}<th class="sorting">Initiative</th> {% endif %}
+            {% if page is defined and page != 'initiative' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])">Initiative</th> {% endif %}
             
         </tr>
     </thead>
