@@ -428,7 +428,11 @@ p.newstitle {
     margin-top: 0;
 }
 
-.navbar .nav-right-list .logreg a {
+.navbar .nav>li.logreg>a:focus {
+    background-color: #2a85ac;
+}
+
+.navbar .nav-right-list .logreg > a {
     height: 80px;
     padding: 0;
     background-color: #2a85ac;
@@ -438,6 +442,21 @@ p.newstitle {
     background-image: url("/bundles/classcentralsite/slashpixel/images/user-icon.png");
     background-position: center center;
     background-repeat: no-repeat;
+}
+
+.navbar .nav-right-list li.dropdown.open.logreg>.dropdown-toggle {
+    background-color: #2a85ac;
+    background-image: url("/bundles/classcentralsite/slashpixel/images/user-icon.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.dropdown-menu.user-menu {
+    top: 90%;
+}
+
+.navbar .pull-right>li>.dropdown-menu.user-menu {
+    right: -1px;
 }
 
 .navbar .nav-right-list .logreg a:hover {
@@ -1686,6 +1705,28 @@ table .course-name {
         height: auto;
         width: auto;
     }
+
+    .dropdown-menu.user-menu {
+        top: 100%;
+    }
+
+    .navbar .pull-right>li>.dropdown-menu.user-menu {
+        right: 20px;
+    }
+
+    .dropdown-menu li>a.nav-title {
+        color: #fff;
+        text-align: left;
+    }
+
+    .navbar .nav>li.logreg>a:focus {
+        background-color: transparent;
+    }
+
+    .navbar .nav-right-list li.dropdown.open.logreg>.dropdown-toggle {
+        background: none;
+    }
+
 
     .navbar .nav-right-list {
         float: left;

@@ -26,12 +26,25 @@
                     {# include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} #}
                 </li>
                 {# Login/Logout #}
-                <li class="logreg">
-                    {% if app.user %}
-                        <a href="{{ path('logout') }}" class="nav-title">Logout</a>
-                    {% else %}
-                        <a href="{{ path('login') }}" class="nav-title">Login</a>
-                    {% endif %}
+                <li class="logreg dropdown">
+                    <a href="#" class="dropdown-toggle"  data-toggle="dropdown">User Menu</a>
+                    <ul class="dropdown-menu user-menu">
+                        <li>
+                            {% if app.user %}
+                                <a href="{{ path('mooctracker') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker User Menu'])" title="MOOC Tracker">
+                                    MOOC Tracker
+                                </a>
+                                <a href="{{ path('logout') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Logout'])" >Logout</a>
+
+
+                            {% else %}
+                                <a href="{{ path('login') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Login'])">Login</a>
+                                <a href="{{ path('mooctracker_signup') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker Signup User Menu'])" title="MOOC Tracker Signup">
+                                    Signup for MOOC Tracker
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
                 </li>
             </ul>
 
