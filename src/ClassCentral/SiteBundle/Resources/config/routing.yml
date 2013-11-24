@@ -19,9 +19,15 @@ ClassCentralSiteBundle_initiative_novoed:
           type: novoed
 
 ClassCentralSiteBundle_initiative:
-    pattern:  /initiative/{type}
+    pattern:  /provider/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:initiative }
 
+ClassCentralSiteBundle_initiative_redirect:
+  pattern: /initiative/{type}
+  defaults:
+    _controller: FrameworkBundle:Redirect:redirect
+    route: ClassCentralSiteBundle_initiative
+    permanent: true
 
 ClassCentralSiteBundle_university:
     pattern:  /university/{slug}
