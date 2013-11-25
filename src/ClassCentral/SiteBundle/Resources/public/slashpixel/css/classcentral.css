@@ -556,7 +556,15 @@ p.newstitle {
     font-weight: 400;
     font-size: 14px;
     -webkit-font-smoothing: antialiased;
-    text-shadow: 0.5px 0.866px 1px rgb( 6, 102, 102 );
+}
+
+.dropdown-menu li>a.nav-title {
+    color: #1663a3;
+    text-align: right;
+}
+
+.dropdown-menu li>a.nav-title:hover {
+    color: #fff;
 }
 
 .navbar .nav-right-list > li > form {
