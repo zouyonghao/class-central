@@ -20,7 +20,7 @@
                     <div id='nav-search-form'>
                         <div class="input-append search-button">
                             {# <input  id="prependedInput" type="text" name="q"> #}
-                            <button><a href="/search" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])"><span class="add-on"><i class="icon-search"></i></span></a></button>
+                            <a href="/search" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])"><button><span class="add-on"><i class="icon-search"></i></span></button></a>
                         </div>
                     </div>
                     {# include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} #}
