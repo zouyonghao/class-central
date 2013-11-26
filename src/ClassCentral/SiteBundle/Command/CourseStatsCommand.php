@@ -19,7 +19,7 @@ class CourseStatsCommand extends ContainerAwareCommand{
     protected function execute(InputInterface $input, OutputInterface $output){
         $offerings = $this
             ->getContainer()->get('doctrine')
-            ->getEntityManager()
+            ->getManager()
             ->getRepository('ClassCentralSiteBundle:Offering')
             ->courseStats();
         

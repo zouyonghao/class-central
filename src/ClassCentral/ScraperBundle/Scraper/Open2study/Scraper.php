@@ -20,7 +20,7 @@ class Scraper extends ScraperAbstractInterface
 
     public function scrape()
     {
-        $em = $this->getEntityManager();
+        $em = $this->getManager();
         // Array of offerings created or updated
         $offerings = array();
 

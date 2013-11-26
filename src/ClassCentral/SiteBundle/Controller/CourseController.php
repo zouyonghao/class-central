@@ -100,7 +100,7 @@ class CourseController extends Controller
         $form    = $this->createForm(new CourseType(), $entity);
         $form->handleRequest($request);
         if ($form->isValid()) {                                  
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 

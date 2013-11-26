@@ -35,7 +35,7 @@ class DBHelper
     public function createCourseIfNotExists($name, Initiative $initiative, Institution $ins = null, Stream $stream)
     {
         // Check if course exists
-        $em = $this->scraper->getEntityManager();
+        $em = $this->scraper->getManager();
         $courseRepository = $em->getRepository('ClassCentralSiteBundle:Course');
         $course = $courseRepository->findOneBy(array(
             'name' => $name,
@@ -73,7 +73,7 @@ class DBHelper
 
     public function createInstructorIfNotExists($name)
     {
-        $em = $this->scraper->getEntityManager();
+        $em = $this->scraper->getManager();
         $instructor = $em->getRepository('ClassCentralSiteBundle:Instructor')->findOneBy(
             array('name' => $name)
         );
@@ -99,7 +99,7 @@ class DBHelper
 
     public function createInstitutionIfNotExists(Institution $institution)
     {
-        $em = $this->scraper->getEntityManager();
+        $em = $this->scraper->getManager();
         $ins = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy(array(
             'slug' => $institution->getSlug(),
         ));
@@ -125,7 +125,7 @@ class DBHelper
 
     public function getStreamBySlug($slug = 'cs')
     {
-        $em = $this->scraper->getEntityManager();
+        $em = $this->scraper->getManager();
         $stream = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array(
             'slug' => $slug,
         ));
@@ -137,7 +137,7 @@ class DBHelper
      */
     public function getLanguageMap()
     {
-        $em = $this->scraper->getEntityManager();
+        $em = $this->scraper->getManager();
         $languages = $em->getRepository('ClassCentralSiteBundle:Language')->findAll();
         $languageMap = array();
         foreach($languages as $language)
@@ -150,7 +150,7 @@ class DBHelper
 
     public function getOfferingByShortName($shortName)
     {
-        $em = $this->scraper->getEntityManager();
+        $em = $this->scraper->getManager();
         $offering = $em->getRepository('ClassCentralSiteBundle:Offering')->findOneBy(array(
                         'shortName' => $shortName
                     ));
@@ -159,7 +159,7 @@ class DBHelper
 
     public function getCourseByShortName($shortName)
     {
-        $em = $this->scraper->getEntityManager();
+        $em = $this->scraper->getManager();
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->findOneBy(array(
             'shortName' => $shortName
         ));

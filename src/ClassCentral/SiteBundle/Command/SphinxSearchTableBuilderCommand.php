@@ -28,7 +28,7 @@ class SphinxSearchTableBuilderCommand extends ContainerAwareCommand {
           get('database_connection')->
           query("TRUNCATE sphinxsearch");
         
-        $em = $this->getContainer()->get('Doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('Doctrine')->getManager();
         $offeringRepository = 
                 $this->getContainer()->get('Doctrine')
                      ->getRepository('ClassCentralSiteBundle:Offering');

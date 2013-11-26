@@ -20,7 +20,7 @@ class StreamController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
 
@@ -35,7 +35,7 @@ class StreamController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Stream')->find($id);
 
@@ -79,7 +79,7 @@ class StreamController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -99,7 +99,7 @@ class StreamController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Stream')->find($id);
 
@@ -123,7 +123,7 @@ class StreamController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Stream')->find($id);
 
@@ -164,7 +164,7 @@ class StreamController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ClassCentralSiteBundle:Stream')->find($id);
 
             if (!$entity) {
@@ -188,7 +188,7 @@ class StreamController extends Controller
     
     public function viewAction($slug) 
     {
-          $em = $this->getDoctrine()->getEntityManager();
+          $em = $this->getDoctrine()->getManager();
           $stream = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBySlug($slug);
           
           if(!$stream || !$stream->getShowInNav())

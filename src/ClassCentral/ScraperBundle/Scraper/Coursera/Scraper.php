@@ -36,7 +36,7 @@ class Scraper extends ScraperAbstractInterface {
 
     public function scrape()
     {
-        $em = $this->getEntityManager();
+        $em = $this->getManager();
         $offerings = array();
         $courseraCourses = $this->getCoursesArray();
         $defaultStream = $this->dbHelper->getStreamBySlug('cs');

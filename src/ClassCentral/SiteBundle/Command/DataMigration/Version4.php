@@ -15,7 +15,7 @@ class Version4 extends VersionAbstractInterface{
     {
         $this->output->writeln("Starting data migration version 4");
 
-        $em = $this->container->get('Doctrine')->getEntityManager();
+        $em = $this->container->get('Doctrine')->getManager();
         $newsletterService = $this->container->get('newsletter');
         $mrNewsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode("mooc-report");
 

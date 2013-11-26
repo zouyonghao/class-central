@@ -29,7 +29,7 @@ class CourseReportCommand extends ContainerAwareCommand
 
         $offerings = $this
             ->getContainer()->get('doctrine')
-            ->getEntityManager()
+            ->getManager()
             ->getRepository('ClassCentralSiteBundle:Offering')
             ->courseReport($month, $year);
         

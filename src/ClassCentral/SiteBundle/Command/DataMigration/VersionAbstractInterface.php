@@ -34,7 +34,7 @@ abstract class VersionAbstractInterface
      * Checks whether the migration has been run before
      */
     public function isExecuted() {
-         $em = $this->container->get('Doctrine')->getEntityManager();
+         $em = $this->container->get('Doctrine')->getManager();
          $rsm = new ResultSetMapping();
          $rsm->addScalarResult('executed', 'executed');
          $query = $em->createNativeQuery("SELECT executed FROM datamigrations WHERE version=?",$rsm);
@@ -47,7 +47,7 @@ abstract class VersionAbstractInterface
     }
     
     public function hasBeenExecuted() {
-        $conn= $this->container->get('Doctrine')->getEntityManager()->getConnection();
+        $conn= $this->container->get('Doctrine')->getManager()->getConnection();
         $conn->executeQuery("INSERT INTO datamigrations(version, executed) VALUES({$this->version},1)");
         
     }

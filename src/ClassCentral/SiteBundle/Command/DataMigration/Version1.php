@@ -16,7 +16,7 @@ class Version1 extends VersionAbstractInterface {
         $this->output->writeln("Getting Started with migration version 1");
         
         // Get all offerings
-        $em = $this->container->get('Doctrine')->getEntityManager();
+        $em = $this->container->get('Doctrine')->getManager();
         $offerings = $em
             ->getRepository('ClassCentralSiteBundle:Offering')
             ->findAll();

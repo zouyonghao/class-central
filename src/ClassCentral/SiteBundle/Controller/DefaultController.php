@@ -81,7 +81,7 @@ class DefaultController extends Controller {
             $initiativeIds[] = $initiative->getId();
         } else {
             $initiativeName = 'Others';
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $initiatives = implode("','", array_values($initiativeTypes));
             $query = $em->createQuery("SELECT i FROM ClassCentralSiteBundle:Initiative i WHERE i.code NOT IN ('$initiatives')");
             foreach($query->getResult() as $initiative){

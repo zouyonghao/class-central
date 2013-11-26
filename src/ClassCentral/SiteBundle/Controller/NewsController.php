@@ -27,7 +27,7 @@ class NewsController extends Controller
 
     public function getRecentNews()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $news = $em->getRepository('ClassCentralSiteBundle:News')->findAll();
 
@@ -59,7 +59,7 @@ class NewsController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ClassCentralSiteBundle:News')->findAll();
 
@@ -74,7 +74,7 @@ class NewsController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:News')->find($id);
 
@@ -118,7 +118,7 @@ class NewsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -138,7 +138,7 @@ class NewsController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:News')->find($id);
 
@@ -162,7 +162,7 @@ class NewsController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:News')->find($id);
 
@@ -203,7 +203,7 @@ class NewsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ClassCentralSiteBundle:News')->find($id);
 
             if (!$entity) {

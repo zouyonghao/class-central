@@ -19,7 +19,7 @@ class OfferingController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('ClassCentralSiteBundle:Offering')->findAll();
 
@@ -34,7 +34,7 @@ class OfferingController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
 
@@ -60,7 +60,7 @@ class OfferingController extends Controller
         $entity = new Offering();
         // Cloning the entity
         if($id) {
-             $em = $this->getDoctrine()->getEntityManager();
+             $em = $this->getDoctrine()->getManager();
              $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
         }
         $form   = $this->createForm(new OfferingType(), $entity);
@@ -84,7 +84,7 @@ class OfferingController extends Controller
 
         if ($form->isValid()) {                      
             $entity->setCreated(new \DateTime);
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -104,7 +104,7 @@ class OfferingController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
 
@@ -128,7 +128,7 @@ class OfferingController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
 
@@ -175,7 +175,7 @@ class OfferingController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
 
             if (!$entity) {

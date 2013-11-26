@@ -18,7 +18,7 @@ class Version3 extends VersionAbstractInterface {
         $courseraCourses = $this->getCoursesArray();
         foreach($courseraCourses as $courseraCourse)
         {
-            $em = $this->container->get('Doctrine')->getEntityManager();
+            $em = $this->container->get('Doctrine')->getManager();
 
             $course = $em->getRepository('ClassCentralSiteBundle:Course')
                          ->findOneBy(array('name' => $courseraCourse['name']));

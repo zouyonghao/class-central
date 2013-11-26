@@ -85,7 +85,7 @@ abstract class ScraperAbstractInterface
         $this->dbHelper->setScraper($this);
     }
 
-    public function getEntityManager()
+    public function getManager()
     {
        return $this->container->get('doctrine')->getManager();
     }
