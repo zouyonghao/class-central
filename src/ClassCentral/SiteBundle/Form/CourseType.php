@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Form;
 
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,11 +10,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 class CourseType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+
         $builder
             ->add('name')
             ->add('description', null, array('required'=>false))
             ->add('shortName',null, array('required'=>false))
-
+            ->add('status','choice',array('choices' => CourseStatus::getStatuses()))
             ->add('stream', 'entity', array(
                 'class' => 'ClassCentralSiteBundle:Stream',
                 'query_builder' => function(EntityRepository $er) {

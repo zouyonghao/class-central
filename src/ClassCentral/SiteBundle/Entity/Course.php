@@ -15,6 +15,7 @@ class Course {
         $this->institutions = new ArrayCollection();
         $this->instructors = new ArrayCollection();
         $this->setCreated(new \DateTime());
+        $this->setStatus(CourseStatus::TO_BE_REVIEWED);
     }
 
     /**
@@ -407,4 +408,32 @@ class Course {
         return $this->getName();
     }
 
+}
+
+/**
+ * Represents the different statuses a course can be
+ * Any status 100 or above does not make it the
+ * Class CourseStatus
+ * @package ClassCentral\SiteBundle\Entity
+ */
+abstract class CourseStatus
+{
+    private final function  __construct(){}
+
+    // Any course above this status will not be shown to the user
+    const COURSE_NOT_SHOWN_LOWER_BOUND = 100;
+
+    // Statuses
+    const AVAILABLE = 0;
+    const NOT_AVAILABLE = 100;
+    const TO_BE_REVIEWED = 101; // To be reviewed by someone before it us displayed
+
+    public static function getStatuses()
+    {
+        return array(
+            self::AVAILABLE => 'Available',
+            self::NOT_AVAILABLE => 'Not Available',
+            self::TO_BE_REVIEWED => 'To Be Reviewed'
+        );
+    }
 }
