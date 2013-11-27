@@ -1,24 +1,20 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}            
-        <title>List of {{initiative}} free online courses/MOOCs | Class Central</title>
+        <title>{{initiative}} - MOOCs/free online courses list | Class Central</title>
         <meta name="description"
-              content="List of {{initiative}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
+              content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
 
-        <meta property="og:title" content="List of {{initiative}} free online courses/MOOCs | Class Central" />
+        <meta property="og:title" content="List of {{initiative.name}} free online courses/MOOCs | Class Central" />
         <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': initiativeType}) }}" />
         <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
-        <meta property="og:description" content="List of {{initiative}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished" />
+        <meta property="og:description" content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished" />
         <meta property="og:type" content="website" />
 {% endblock %} 
 
-{%  block content %}    
-    
-    {% if initiative == 'Others' %}
-        <h1 class='cc-page-header'>{{initiative}}</h1>
-    {% else %}
-        <h1 class='cc-page-header'>List of {{initiative}} free online courses/MOOCs </h1>
-    {% endif %}
+{%  block content %}
+
+    {% include 'ClassCentralSiteBundle:Helpers:pageHeader.html.twig' with {'info':pageInfo} %}
 
     {% for offeringType, offeringDetails in offeringTypes %}
     {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}

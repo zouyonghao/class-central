@@ -1,0 +1,27 @@
+<div class="intro-wrap">
+    {% if info.url and info.imageUrl %}
+    <div class="image-wrap">
+        <div class="illustrative-image">
+            <img src="#" alt="#">
+        </div>
+        <div class="learn-more-wrap">
+            <a href="{{ info.url }}" class="learn-more-link" target="_blank">Learn More</a>
+        </div>
+    </div>
+    {% endif %}
+    <div class="description-wrap">
+        <div class="description">
+            <h1 class='cc-page-header'>{{info.name}}</h1>
+            {% if info.description %}
+                <p>{{ info.description  }}</p>
+            {% endif %}
+        </div>
+        <div class="social-media-wrap">
+            <a class="twitter-icon" href="#"></a>
+            <a class="google-icon" href="#"></a>
+            <a class="facebook-icon" href="#"></a>
+            <a class="in-icon" href="#"></a>
+            <a class="mail-icon" href="#"></a>
+        </div>
+    </div>
+</div>

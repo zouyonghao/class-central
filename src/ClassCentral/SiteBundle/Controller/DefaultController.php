@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Offering;
@@ -40,22 +41,30 @@ class DefaultController extends Controller {
                     'offeringTypes'=> Offering::$types
                 ));
     }
-    
-    public function initiativeAction($type='coursera') {
+
+    /**
+     * Initiative is now referred to as provider
+     * @param string $type
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function initiativeAction($type='coursera')
+    {
         $initiativeTypes = Initiative::$types;
 
         $cache = $this->get('Cache');        
-        $initiative = $cache->get('default_initative_ids_'. $type, array($this, 'getInitiativeIds'), array($type));
-        if(empty($initiative)) {
+        $initiativeInfo = $cache->get('default_initative_ids_'. $type, array($this, 'getInitiativeIds'), array($type));
+        if(empty($initiativeInfo)) {
             return;
         }
+
         $offerings = $cache->get('default_initiative_offerings_' . $type,
-                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiative['ids']));  
-                      
+                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiativeInfo['ids']));
+        $pageInfo =  PageHeaderFactory::get($initiativeInfo['initiative']);
         return $this->render('ClassCentralSiteBundle:Default:initiative.html.twig', 
                 array(
-                    'initiative' => $initiative['name'],
+                    'initiative' =>$initiativeInfo['initiative'],
                     'offerings' => $offerings,
+                    'pageInfo' => $pageInfo,
                     'page'=>'initiative',
                     'initiativeType' => $type,
                     'offeringTypes'=> Offering::$types
@@ -67,8 +76,9 @@ class DefaultController extends Controller {
     public function getInitiativeIds($type)
     {
         $initiativeTypes = Initiative::$types;
-        
-        // Get the initative id
+        $em = $this->getDoctrine()->getManager();
+
+        // Get the initiative id
         $initiativeIds = array();        
         if( $type != 'others'){
             $initiative = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')
@@ -77,19 +87,21 @@ class DefaultController extends Controller {
             {
                 return null;
             }
+            $em->detach($initiative);
             $initiativeName = $initiative->getName();
             $initiativeIds[] = $initiative->getId();
         } else {
             $initiativeName = 'Others';
-            $em = $this->getDoctrine()->getManager();
             $initiatives = implode("','", array_values($initiativeTypes));
             $query = $em->createQuery("SELECT i FROM ClassCentralSiteBundle:Initiative i WHERE i.code NOT IN ('$initiatives')");
             foreach($query->getResult() as $initiative){
                 $initiativeIds[] = $initiative->getId();
             }
+            $initiative = new Initiative();
+            $initiative->setName($initiativeName);
         }
         
-        return array('name' => $initiativeName, 'ids' => $initiativeIds);
+        return array('initiative' => $initiative, 'ids' =>$initiativeIds);
     }
 
     public function faqAction() {

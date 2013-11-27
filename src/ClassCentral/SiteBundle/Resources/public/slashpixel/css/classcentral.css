@@ -1538,15 +1538,12 @@ table .course-name {
 .image-wrap {
     position: relative;
     text-align: center;
+    margin-right: 20px;
 }
 
 .description,
 .description-wrap {
     width: auto;
-}
-
-.description-wrap {
-    margin-left: 20px;
 }
 
 .description-wrap h1 {
