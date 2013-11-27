@@ -10,21 +10,19 @@ class Scraper extends ScraperAbstractInterface
 {
     const BASE_URL = "https://www.edx.org";
     const COURSE_CATALOGUE = "https://www.edx.org/course-list/allschools/allsubjects/allcourses";
-    const COURSES_PER_PAGE = 7;
 
     public function scrape()
     {
-        $numberOfCourses = $this->getNumberOfPages();
-        $numberOfPages = floor($numberOfCourses/self::COURSES_PER_PAGE);
+        $numberOfPages = $this->getNumberOfPages();
 
         // Build a list of all course pages
         $coursePageUrls = array();
         for($page = 0; $page <= $numberOfPages; $page++)
         {
             $cataloguePage = file_get_html(self::COURSE_CATALOGUE . "?page=" . $page);
-            foreach($cataloguePage->find('article.course-tile') as $courseDiv)
+            foreach($cataloguePage->find('div.course-tile') as $courseDiv)
             {
-                $coursePageUrls[] = $courseDiv->find('div.course-link',0)->href;
+                $coursePageUrls[] = $courseDiv->find('h2.course-title a',0)->href;
             }
 
         }
@@ -34,13 +32,13 @@ class Scraper extends ScraperAbstractInterface
         $defaultStream = $this->dbHelper->getStreamBySlug('cs');
         foreach( $coursePageUrls as $coursePageUrl)
         {
-            $url = self::BASE_URL . $coursePageUrl;
+            $url =  $coursePageUrl;
             $coursePage = file_get_html( $url );
 
             // Get the course code
             $courseShortName = $this->parseCourseCode($coursePageUrl);
-            $courseName =  $coursePage->find('section.course-detail div.title', 0)->plaintext;
-            $startDate = $coursePage->find("section.course-detail div.startdate",0)->plaintext;
+            $courseName =  $coursePage->find('h2.course-detail-title', 0)->plaintext;
+            $startDate = $coursePage->find("div.course-detail-start",0)->plaintext;
             $startDate = $this->getStartDate($coursePage);
             $edXCourseId = $this->getEdxCourseId($coursePageUrl);
             $offering = $this->dbHelper->getOfferingByShortName("edx_" . $edXCourseId);
@@ -106,12 +104,12 @@ class Scraper extends ScraperAbstractInterface
      */
     private function getEdxCourseId($url)
     {
-        return substr($url, strrpos($url,'/')+1);
+        return substr($url, strrpos($url,'-')+1);
     }
 
     private function getStartDate($html)
     {
-        $dateStr = $html->find("section.course-detail div.startdate",0)->plaintext;
+        $dateStr = $html->find("div.course-detail-start",0)->plaintext;
         return substr($dateStr,strrpos($dateStr,':')+1);
     }
 
@@ -122,7 +120,7 @@ class Scraper extends ScraperAbstractInterface
     {
         // Get the first page and then extract the total number of courses
         $this->domParser->load_file(self::COURSE_CATALOGUE);
-        $countString = $this->domParser->find('div.counter',0)->plaintext;
-        return (int)substr($countString,1,count($countString) - 2);
+        $lastPageUrl = $this->domParser->find('li[class="pager-last"] a',0)->href;
+        return (int)substr($lastPageUrl,strrpos($lastPageUrl,'=')+1);
     }
 }
