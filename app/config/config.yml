@@ -27,6 +27,7 @@ twig:
       plusPageUrl   : %plusPageurl%
       baseurl       : %baseurl%
       addthisevent  : %addthisevent%
+      rackspace_cdn_base_url: %rackspace_cdn_base_url%
       user_session  : @user_session
 # Assetic Configuration
 assetic:

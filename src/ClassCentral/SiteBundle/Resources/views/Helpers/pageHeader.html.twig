@@ -2,7 +2,7 @@
     {% if info.imageUrl %}
         <div class="image-wrap">
             <div class="illustrative-image">
-                <img src="{{ info.imageUrl }}">
+                <img src="{{ rackspace_cdn_base_url }}{{ info.imageUrl }}">
             </div>
             {% if info.url %}
                 <div class="learn-more-wrap">

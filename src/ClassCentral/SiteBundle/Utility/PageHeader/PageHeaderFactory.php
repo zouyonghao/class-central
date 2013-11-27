@@ -42,7 +42,7 @@ class PageHeaderFactory {
         $info->setName($entity->getName());
         $info->setUrl($entity->getUrl());
         $info->setDescription($entity->getDescription());
-        $info->setImageUrl($entity->getImageUrl());
+        $info->setImageUrl("providers/". $entity->getImageUrl());
         return $info;
     }
 
@@ -51,7 +51,7 @@ class PageHeaderFactory {
         $info = new PageHeaderInfo("Stream");
         $info->setName($entity->getName());
         $info->setDescription($entity->getDescription());
-        $info->setImageUrl($entity->getImageUrl());
+        $info->setImageUrl("subjects/".$entity->getImageUrl());
         return $info;
     }
 
@@ -61,7 +61,7 @@ class PageHeaderFactory {
         $info->setName($entity->getName());
         $info->setUrl($entity->getUrl());
         $info->setDescription($entity->getDescription());
-        $info->setImageUrl($entity->getImageUrl());
+        $info->setImageUrl("institutions/".$entity->getImageUrl());
         return $info;
     }
 

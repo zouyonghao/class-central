@@ -27,6 +27,8 @@ parameters:
     mailgun_api_key: ~
     mailgun_domain_name: ~
 
+    rackspace_cdn_base_url: https://55139331861ea7bae64a-6ce72092dadc665ec81e45fed9e98c91.ssl.cf2.rackcdn.com/assets/
+
     #test configuration
     test_database_driver:   pdo_mysql
     test_database_host:     127.0.0.1
