@@ -129,4 +129,13 @@ class Stream
     {
         return $this->imageUrl;
     }
+
+    /**
+     * Gets the name of the directory on the cdn.
+     * i.e subjects/computerscience.jpg
+     */
+    public function getImageDir()
+    {
+        return "subjects";
+    }
 }

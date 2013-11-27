@@ -202,5 +202,14 @@ class Institution
         return $this->imageUrl;
     }
 
+    /**
+     * Gets the name of the directory on the cdn.
+     * i.e institutions/stanford.jpg
+     */
+    public function getImageDir()
+    {
+        return "institutions";
+    }
+
 
 }

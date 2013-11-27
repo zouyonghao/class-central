@@ -222,4 +222,13 @@ class Initiative
     {
         return $this->imageUrl;
     }
+
+    /**
+     * Gets the name of the directory on the cdn.
+     * i.e providers/coursera.jpg
+     */
+    public function getImageDir()
+    {
+        return "providers";
+    }
 }
