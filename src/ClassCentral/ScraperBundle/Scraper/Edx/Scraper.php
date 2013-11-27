@@ -75,7 +75,7 @@ class Scraper extends ScraperAbstractInterface
 
             }
 
-            if($offering->getStatus() == Offering::START_MONTH_KNOWN && $startDate != $offering->getStartDate()->format("F Y"))
+            if($offering->getStatus() == Offering::START_MONTH_KNOWN && trim($startDate) != $offering->getStartDate()->format("F Y"))
             {
                 $this->out("INCORRECT START MONTH");
                 $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
