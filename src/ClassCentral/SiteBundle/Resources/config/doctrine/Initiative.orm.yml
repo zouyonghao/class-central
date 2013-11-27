@@ -17,6 +17,10 @@ ClassCentral\SiteBundle\Entity\Initiative:
     url:
       type: string
       nullable: true
+    imageUrl:
+      type: string
+      nullable: true
+      column: image_url
     description:
       type: string
       nullable: true

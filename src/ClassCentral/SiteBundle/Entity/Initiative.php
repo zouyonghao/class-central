@@ -38,6 +38,12 @@ class Initiative
      * @var string $tooltip
      */
     private $tooltip;
+
+    /**
+     * @var string $imageUrl
+     */
+    private $imageUrl;
+
     
     /**
      * List of initiative name to => CODE used for navigation
@@ -199,5 +205,21 @@ class Initiative
     public function getTooltip()
     {
         return $this->tooltip;
+    }
+
+    /**
+     * @param string $imageUrl
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
     }
 }

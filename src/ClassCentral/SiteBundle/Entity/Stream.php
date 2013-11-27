@@ -37,6 +37,16 @@ class Stream
     private $showInNav;
     private $courses = null;
 
+    /**
+     * @var string $description
+     */
+    private $description;
+
+    /**
+     * @var string $imageUrl
+     */
+    private $imageUrl;
+
     public function __construct() {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -86,5 +96,37 @@ class Stream
     
     public function setShowInNav($showInNav){
         $this->showInNav = $showInNav;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $imageUrl
+     */
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
     }
 }

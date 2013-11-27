@@ -15,6 +15,7 @@ class InitiativeType extends AbstractType
             ->add('description')
             ->add('code')
             ->add('tooltip')
+            ->add('imageUrl')
         ;
     }
 

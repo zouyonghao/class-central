@@ -26,6 +26,13 @@ ClassCentral\SiteBundle\Entity\Institution:
       type: boolean
       nullable: false
       column: is_university
+    imageUrl:
+      type: string
+      nullable: true
+      column: image_url
+    description:
+      type: string
+      nullable: true
   manyToMany:         
     courses:
       targetEntity: Course

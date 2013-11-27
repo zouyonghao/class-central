@@ -13,6 +13,8 @@ class StreamType extends AbstractType
             ->add('name')
             ->add('slug')
             ->add('showInNav',null,array('required'=>false))
+            ->add('description')
+            ->add('imageUrl')
         ;
     }
 

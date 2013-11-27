@@ -24,6 +24,13 @@ ClassCentral\SiteBundle\Entity\Stream:
       type: boolean
       nullable: false
       column: show_in_nav
+    imageUrl:
+      type: string
+      nullable: true
+      column: image_url
+    description:
+      type: string
+      nullable: true
   oneToMany:
     courses:
       targetEntity: Course
