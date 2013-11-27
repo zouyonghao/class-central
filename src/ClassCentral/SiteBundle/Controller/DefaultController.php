@@ -59,7 +59,11 @@ class DefaultController extends Controller {
 
         $offerings = $cache->get('default_initiative_offerings_' . $type,
                     array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiativeInfo['ids']));
+
         $pageInfo =  PageHeaderFactory::get($initiativeInfo['initiative']);
+        $pageInfo->setPageUrl(
+            $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_initiative', array('type' => $type))
+        );
         return $this->render('ClassCentralSiteBundle:Default:initiative.html.twig', 
                 array(
                     'initiative' =>$initiativeInfo['initiative'],
