@@ -38,7 +38,7 @@ class PageHeaderFactory {
 
     private static function getFromInitiative(Initiative $entity)
     {
-        $info = new PageHeaderInfo("initiative");
+        $info = new PageHeaderInfo("Initiative");
         $info->setName($entity->getName());
         $info->setUrl($entity->getUrl());
         $info->setDescription($entity->getDescription());
@@ -48,12 +48,21 @@ class PageHeaderFactory {
 
     private static function getFromStream(Stream $entity)
     {
-
+        $info = new PageHeaderInfo("Stream");
+        $info->setName($entity->getName());
+        $info->setDescription($entity->getDescription());
+        $info->setImageUrl($entity->getImageUrl());
+        return $info;
     }
 
     private static function getFromInstitution(Institution $entity)
     {
-
+        $info = new PageHeaderInfo("Institution");
+        $info->setName($entity->getName());
+        $info->setUrl($entity->getUrl());
+        $info->setDescription($entity->getDescription());
+        $info->setImageUrl($entity->getImageUrl());
+        return $info;
     }
 
 } 

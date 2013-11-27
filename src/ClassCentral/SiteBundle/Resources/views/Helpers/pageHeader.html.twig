@@ -1,13 +1,15 @@
 <div class="intro-wrap">
-    {% if info.url and info.imageUrl %}
-    <div class="image-wrap">
-        <div class="illustrative-image">
-            <img src="#" alt="#">
+    {% if info.imageUrl %}
+        <div class="image-wrap">
+            <div class="illustrative-image">
+                <img src="{{ info.imageUrl }}">
+            </div>
+            {% if info.url %}
+                <div class="learn-more-wrap">
+                    <a href="{{ info.url }}" class="learn-more-link" target="_blank">Learn More</a>
+                </div>
+            {% endif %}
         </div>
-        <div class="learn-more-wrap">
-            <a href="{{ info.url }}" class="learn-more-link" target="_blank">Learn More</a>
-        </div>
-    </div>
     {% endif %}
     <div class="description-wrap">
         <div class="description">

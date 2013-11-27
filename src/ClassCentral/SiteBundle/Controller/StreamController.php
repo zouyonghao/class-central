@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Stream;
@@ -200,12 +201,17 @@ class StreamController extends Controller
         $cache = $this->get('Cache');
         $offerings = $cache->get('stream_offerings_' . $slug, array($this, 'getOfferingsByStream'), array($stream));
 
+        $pageInfo = PageHeaderFactory::get($stream);
+        $pageInfo->setPageUrl(
+            $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_stream', array('slug' => $slug))
+        );
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
                 'stream' => $stream->getName(),
                 'offerings' => $offerings,
                 'page' => 'stream',
                 'slug' => $slug,
-                'offeringTypes' => Offering::$types                
+                'offeringTypes' => Offering::$types,
+                'pageInfo' => $pageInfo
             ));
     }
     

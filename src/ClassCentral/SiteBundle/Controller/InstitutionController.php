@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Institution;
@@ -197,7 +198,12 @@ class InstitutionController extends Controller
            
         $cache = $this->get('Cache');                
         $offerings = $cache->get('institution_offerings_' . $slug,
-                    array ($this, 'getOfferingsByInstitution'), array($institution));  
+                    array ($this, 'getOfferingsByInstitution'), array($institution));
+
+        $pageInfo = PageHeaderFactory::get($institution);
+        $pageInfo->setPageUrl(
+            $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_institution', array('slug' => $slug))
+        );
                       
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
@@ -206,7 +212,8 @@ class InstitutionController extends Controller
                     'page'=>'institution',
                     'offeringTypes'=> Offering::$types,
                     'isUniversity' => $institution->getIsUniversity(),
-                    'slug' => $slug
+                    'slug' => $slug,
+                    'pageInfo' => $pageInfo
                 ));                
     }
     

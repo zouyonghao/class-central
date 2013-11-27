@@ -40,11 +40,20 @@ class PageHeaderInfo {
         $this->setType($type);
     }
 
+    public function getSubject()
+    {
+        return sprintf("List of %s MOOCs",$this->getName());
+    }
+
     /**
      * @return string
      */
     public function getTweet()
     {
+        if(!$this->tweet)
+        {
+            return sprintf("List of %s free online courses/MOOCs",$this->getName());
+        }
         return $this->tweet;
     }
 
