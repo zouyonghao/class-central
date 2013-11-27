@@ -44,7 +44,7 @@ class PageHeaderFactory {
         $info->setDescription($entity->getDescription());
         if($entity->getImageUrl())
         {
-            $info->setImageUrl($entity->getImageDir(). $entity->getImageUrl());
+            $info->setImageUrl($entity->getImageDir().'/' . $entity->getImageUrl());
         }
         return $info;
     }
@@ -56,7 +56,7 @@ class PageHeaderFactory {
         $info->setDescription($entity->getDescription());
         if($entity->getImageUrl())
         {
-            $info->setImageUrl($entity->getImageDir(). $entity->getImageUrl());
+            $info->setImageUrl($entity->getImageDir().'/' . $entity->getImageUrl());
         }
         return $info;
     }
@@ -69,7 +69,7 @@ class PageHeaderFactory {
         $info->setDescription($entity->getDescription());
         if($entity->getImageUrl())
         {
-            $info->setImageUrl($entity->getImageDir(). $entity->getImageUrl());
+            $info->setImageUrl($entity->getImageDir(). '/' . $entity->getImageUrl());
         }
         return $info;
     }
