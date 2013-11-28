@@ -36,5 +36,18 @@ ClassCentral\SiteBundle\Entity\Stream:
       targetEntity: Course
       cascade: { }
       mappedBy: stream      
-      orphanRemoval: false    
+      orphanRemoval: false
+    children:
+      targetEntity: Stream
+      mappedBy: parentStream
+  manyToOne:
+    parentStream:
+        targetEntity: Stream
+        cascade: {  }
+        mappedBy: null
+        inversedBy: children
+        joinColumns:
+            parent_stream_id:
+                referencedColumnName: id
+        orphanRemoval: false
   lifecycleCallbacks: {  }

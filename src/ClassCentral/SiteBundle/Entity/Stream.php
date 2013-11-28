@@ -43,12 +43,23 @@ class Stream
     private $description;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $children;
+
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\Stream
+     */
+    private $parentStream;
+
+    /**
      * @var string $imageUrl
      */
     private $imageUrl;
 
     public function __construct() {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
      * Set name
@@ -137,5 +148,85 @@ class Stream
     public function getImageDir()
     {
         return "subjects";
+    }
+
+
+    /**
+     * Add courses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
+     * @return Stream
+     */
+    public function addCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    {
+        $this->courses[] = $courses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove courses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
+     */
+    public function removeCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    {
+        $this->courses->removeElement($courses);
+    }
+
+    /**
+     * Add children
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Stream $children
+     * @return Stream
+     */
+    public function addChildren(\ClassCentral\SiteBundle\Entity\Stream $children)
+    {
+        $this->children[] = $children;
+    
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Stream $children
+     */
+    public function removeChildren(\ClassCentral\SiteBundle\Entity\Stream $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parentStream
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Stream $parentStream
+     * @return Stream
+     */
+    public function setParentStream(\ClassCentral\SiteBundle\Entity\Stream $parentStream = null)
+    {
+        $this->parentStream = $parentStream;
+    
+        return $this;
+    }
+
+    /**
+     * Get parentStream
+     *
+     * @return \ClassCentral\SiteBundle\Entity\Stream 
+     */
+    public function getParentStream()
+    {
+        return $this->parentStream;
     }
 }
