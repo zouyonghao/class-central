@@ -40,6 +40,8 @@ ClassCentral\SiteBundle\Entity\Course:
      type: text
      nullable: true
      column: search_desc
+    status:
+      type: integer
   manyToOne:
     stream:
       targetEntity: Stream

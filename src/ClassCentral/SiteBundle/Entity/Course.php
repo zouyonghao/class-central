@@ -426,7 +426,7 @@ abstract class CourseStatus
     // Statuses
     const AVAILABLE = 0;
     const NOT_AVAILABLE = 100;
-    const TO_BE_REVIEWED = 101; // To be reviewed by someone before it us displayed
+    const TO_BE_REVIEWED = 101; // To be reviewed by someone before it is displayed
 
     public static function getStatuses()
     {
