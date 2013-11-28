@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityRepository;
 
 class StreamType extends AbstractType
 {
@@ -15,6 +16,15 @@ class StreamType extends AbstractType
             ->add('showInNav',null,array('required'=>false))
             ->add('description')
             ->add('imageUrl')
+            ->add('parentStream','entity',array(
+                'required' => false,
+                'empty_value' => true,
+                'class'=>'ClassCentralSiteBundle:Stream',
+                'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('s')
+                            ->orderBy('s.name', 'ASC')->where('s.parentStream is NULL');
+                },
+             ))
         ;
     }
 
