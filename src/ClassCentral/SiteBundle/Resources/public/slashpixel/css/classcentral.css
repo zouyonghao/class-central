@@ -1263,6 +1263,31 @@ input::-webkit-input-placeholder {
 }
 
 /**
+* Subjects
+*/
+
+#subjects-wrap {
+
+}
+
+#subject-info-outer{
+    width: 235px;
+    height: 205px;
+    margin: 1px;
+    color:#ffffff;
+}
+
+#subject-info-inner {
+    margin: 45px 0px 55px 35px;
+}
+
+#subject-name {
+    font-size: 26px;
+    font-family: "Open Sans";
+    font-weight: bold;
+}
+
+/**
 * Recently Viewed
 */
 

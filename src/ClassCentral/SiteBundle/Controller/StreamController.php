@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Form\StreamType;
@@ -212,6 +213,16 @@ class StreamController extends Controller
                 'slug' => $slug,
                 'offeringTypes' => Offering::$types,
                 'pageInfo' => $pageInfo
+            ));
+    }
+
+    /**
+     * Renders the subjects page
+     */
+    public function subjectsAction(Request $request)
+    {
+        return $this->render('ClassCentralSiteBundle:Stream:subjects.html.twig',array(
+                'page' => 'subjects'
             ));
     }
     
