@@ -22,6 +22,19 @@ class Version20131127234326 extends AbstractMigration
         FOREIGN KEY (`parent_stream_id` )
         REFERENCES `streams` (`id` )");
 
+        // Add column which specifies the subject color
+        $this->addSql("ALTER TABLE streams
+            ADD COLUMN `color` CHAR(7) NULL
+        ");
+
+        // Add column for display order
+        $this->addSql("ALTER TABLE streams
+            ADD COLUMN `display_order` INT NULL DEFAULT 0
+        ");
+
+        // Delete subjects which are not being used
+        $this->addSql("DELETE FROM streams where show_in_nav is NULL");
+
     }
 
     public function down(Schema $schema)

@@ -25,6 +25,8 @@ class StreamType extends AbstractType
                             ->orderBy('s.name', 'ASC')->where('s.parentStream is NULL');
                 },
              ))
+             ->add('color')
+             ->add('displayOrder')
         ;
     }
 

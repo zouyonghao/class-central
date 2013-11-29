@@ -57,6 +57,16 @@ class Stream
      */
     private $imageUrl;
 
+    /**
+     * @var string
+     */
+    private $color;
+
+    /**
+     * @var integer
+     */
+    private $displayOrder;
+
     public function __construct() {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
@@ -228,5 +238,51 @@ class Stream
     public function getParentStream()
     {
         return $this->parentStream;
+    }
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     * @return Stream
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string 
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set displayOrder
+     *
+     * @param integer $displayOrder
+     * @return Stream
+     */
+    public function setDisplayOrder($displayOrder)
+    {
+        $this->displayOrder = $displayOrder;
+    
+        return $this;
+    }
+
+    /**
+     * Get displayOrder
+     *
+     * @return integer 
+     */
+    public function getDisplayOrder()
+    {
+        return $this->displayOrder;
     }
 }
