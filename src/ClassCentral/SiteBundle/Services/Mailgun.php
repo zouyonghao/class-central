@@ -53,7 +53,7 @@ class Mailgun {
         $result = curl_exec($ch);
         curl_close($ch);
 
-        return $result;
+        return json_decode($result,true);
     }
 
     public function sendIntroEmail($to, $from, $subject, $html)

@@ -450,6 +450,7 @@ class UserController extends Controller
         $mailgun = $this->get('mailgun');
         $templating = $this->get('templating');
         $session = $this->get('session');
+        $logger = $this->get('logger');
 
         $email = $request->request->get('email');
         if($email)
@@ -461,7 +462,15 @@ class UserController extends Controller
                 if ($this->container->getParameter('kernel.environment') != 'test')
                 {
                     $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:forgotpassword.html.twig', array('token' => $token->getToken()))->getContent();
-                    $mailgunResponse = $mailgun->sendSimpleText($user->getEmail(),"no-reply@class-central.com>","Reset your Class Central password",$html);
+                    $mailgunResponse = $mailgun->sendSimpleText($user->getEmail(),"no-reply@class-central.com","Reset your Class Central password",$html);
+                    if(!isset($mailgunResponse['id']))
+                    {
+                        $logger->error('Error sending reset password', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
+                    }
+                    else
+                    {
+                        $logger->info('Reset password sent mail sent', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
+                    }
                 }
             }
 
