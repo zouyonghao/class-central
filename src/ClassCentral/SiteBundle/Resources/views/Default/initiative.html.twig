@@ -7,7 +7,11 @@
 
         <meta property="og:title" content="List of {{initiative.name}} free online courses/MOOCs | Class Central" />
         <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': initiativeType}) }}" />
-        <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+        {% if pageInfo.imageUrl %}
+            <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
+        {% else %}
+            <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+        {% endif %}
         <meta property="og:description" content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished" />
         <meta property="og:type" content="website" />
 
