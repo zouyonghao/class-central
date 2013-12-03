@@ -222,7 +222,7 @@ class StreamController extends Controller
     public function subjectsAction(Request $request)
     {
         $cache = $this->get('Cache');
-        $subjects = $this->getSubjectsList();
+        $subjects = $cache->get('stream_list_count ', array($this, 'getSubjectsList'));
         return $this->render('ClassCentralSiteBundle:Stream:subjects.html.twig',array(
                 'page' => 'subjects',
                 'subjects' => $subjects
@@ -251,12 +251,22 @@ class StreamController extends Controller
             }
             else
             {
-                $parentSubjects[] = $subject;
+                $parentSubjects[$subject->getId()] = $subject;
             }
 
             // Detach since its going to be cached
             $em->detach($subject);
 
+        }
+
+        // Update all parent subject counts
+        foreach($childSubjects as $parentId => $subjects)
+        {
+            $parentSubject = $parentSubjects[$parentId];
+            foreach($subjects as $subject)
+            {
+                $parentSubject->setCourseCount( $parentSubject->getCourseCount() + $subject->getCourseCount() );
+            }
         }
 
         return array('parent'=>$parentSubjects,'children'=>$childSubjects);
@@ -266,8 +276,20 @@ class StreamController extends Controller
         $courses = $stream->getCourses();
 
         $courseIds = array();
-        foreach ($courses as $course) {
+        foreach ($courses as $course)
+        {
             $courseIds[] = $course->getId();
+        }
+
+        if($stream->getChildren())
+        {
+            foreach($stream->getChildren() as $child)
+            {
+                foreach($child->getCourses() as $course)
+                {
+                    $courseIds[] = $course->getId();
+                }
+            }
         }
 
         return $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds($courseIds);
