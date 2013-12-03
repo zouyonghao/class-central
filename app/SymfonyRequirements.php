@@ -630,15 +630,11 @@ class SymfonyRequirements extends RequirementCollection
         }
 
         $accelerator =
-            (extension_loaded('eaccelerator') && ini_get('eaccelerator.enable'))
+            (function_exists('apc_store') && ini_get('apc.enabled'))
             ||
-            (extension_loaded('apc') && ini_get('apc.enabled'))
+            function_exists('eaccelerator_put') && ini_get('eaccelerator.enable')
             ||
-            (extension_loaded('Zend OPcache') && ini_get('opcache.enable'))
-            ||
-            (extension_loaded('xcache') && ini_get('xcache.cacher'))
-            ||
-            (extension_loaded('wincache') && ini_get('wincache.ocenabled'))
+            function_exists('xcache_set')
         ;
 
         $this->addRecommendation(
