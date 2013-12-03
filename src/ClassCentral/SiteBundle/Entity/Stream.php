@@ -58,14 +58,30 @@ class Stream
     private $imageUrl;
 
     /**
+     * Color of the box on the subjects page
      * @var string
      */
     private $color;
 
     /**
+     * Color of the subjects chidlren
+     * @var string
+     */
+    private $childColor;
+
+    /**
      * @var integer
      */
     private $displayOrder;
+
+    /*
+     * Count of number of courses
+     * @var integer
+     */
+    private $courseCount;
+
+
+
 
     public function __construct() {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
@@ -284,5 +300,37 @@ class Stream
     public function getDisplayOrder()
     {
         return $this->displayOrder;
+    }
+
+    /**
+     * @param mixed $courseCount
+     */
+    public function setCourseCount($courseCount)
+    {
+        $this->courseCount = $courseCount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCourseCount()
+    {
+        return $this->courseCount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChildColor()
+    {
+        return $this->childColor;
+    }
+
+    /**
+     * @param string $childColor
+     */
+    public function setChildColor($childColor)
+    {
+        $this->childColor = $childColor;
     }
 }

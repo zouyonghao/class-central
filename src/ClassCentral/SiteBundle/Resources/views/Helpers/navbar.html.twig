@@ -71,19 +71,10 @@
                     {% endfor %}                            
                     </ul>
                 </li>
-                <!-- streams !-->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by Subjects" data-toggle="dropdown">Subjects<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        {% for stream in streams %}
-                            <li>
-                                <a href="{{ path('ClassCentralSiteBundle_stream',{'slug':stream['slug']}) }}" title="List of {{ stream['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Stream', '{{stream['name']}}'])">{{ stream['name'] }} ({{ stream['total'] }})</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
 
-                 <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
+                {# Subjects #}
+                <li><a href="{{ path('subjects',{}) }}" class="nav-title" title="Subjects" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Subjects'])">Subjects</a></li>
+                <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
 
                 {# MOOC Tracker/ Signup #}
                 <li class="mooc-tracker">

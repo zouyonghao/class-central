@@ -20,7 +20,7 @@ class CourseType extends AbstractType {
                 'class' => 'ClassCentralSiteBundle:Stream',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('s')
-                        ->orderBy('s.name', 'ASC')->where('s.showInNav = 1');
+                        ->orderBy('s.name', 'ASC');
                 },
             ))
 

@@ -27,9 +27,19 @@ class Version20131127234326 extends AbstractMigration
             ADD COLUMN `color` CHAR(7) NULL
         ");
 
+        // Add column which specifies the subjects childrens' color
+        $this->addSql("ALTER TABLE streams
+            ADD COLUMN `child_color` CHAR(7) NULL
+        ");
+
         // Add column for display order
         $this->addSql("ALTER TABLE streams
             ADD COLUMN `display_order` INT NULL DEFAULT 0
+        ");
+
+        $status = 0; // Hardcoding status
+        $this->addSql("
+            UPDATE courses SET status = $status WHERE status is NULL;
         ");
 
         // Delete subjects which are not being used

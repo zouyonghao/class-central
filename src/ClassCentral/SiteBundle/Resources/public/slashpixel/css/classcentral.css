@@ -95,6 +95,128 @@ body {
 .list-button {
     background-image: url("/bundles/classcentralsite/slashpixel/images/list_button.png");
 }
+/*==========  Subjects styles  ==========*/
+
+.subjects .subject-page-header h1 {
+    font-family: 'Open Sans';
+    color: #0662a1;
+    font-weight: normal;
+    line-height: 1;
+    padding-top: 0;
+    margin-top: 10px;
+    margin-left: 0;
+    margin-bottom: 30px;
+    font-size: 48px;
+}
+
+.subjects-row {
+    overflow: hidden;
+}
+
+.two-subjects-block {
+    width: 50%;
+    overflow: hidden;
+    float: left;
+}
+
+.single-category {
+    float: left;
+    width: 49.5%;
+    margin-left: 0.5%;
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+.single-category a {
+    color: #fff;
+}
+
+.single-category a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.category-header {
+    padding: 40px 0 50px 35px;
+    overflow: hidden;
+}
+
+.course-count span {
+    display: block;
+}
+
+.count {
+    font-size: 21px;
+    font-weight: 300;
+}
+
+.count-title {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.category-title {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.view-all-courses {
+    display: block;
+    float: left;
+    border: 1px solid #fff;
+    padding: 13px 22px;
+    margin-top: 13px;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-duration: 0.2s;
+    -moz-transition-timing-function: ease-out;
+    -o-transition-duration: 0.2s;
+    -o-transition-timing-function: ease;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.view-all-courses:hover {
+    background-color: #b0b0b0;
+}
+
+.subject-list {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.subject-list li {
+    font-size: 11px;
+    font-weight: 600;
+    list-style: none;
+    border-top: 2px solid #fff;
+}
+
+.subject-list li a {
+    display: block;
+    padding: 10px 0;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-duration: 0.2s;
+    -moz-transition-timing-function: ease-out;
+    -o-transition-duration: 0.2s;
+    -o-transition-timing-function: ease;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.subject-list li a:hover {
+    background-color: #b0b0b0;
+}
+
 
 /** Class Central styles for modal */
 .cc-modal {
@@ -1765,6 +1887,18 @@ table .course-name {
     .navbar .nav-right-list .logreg a:hover {
         background-color: transparent;
     }
+
+    /*==========  subjects media queries  ==========*/
+
+    .two-subjects-block {
+        width: 100%;
+    }
+
+    .single-category {
+        width: 233px;
+        margin-left: 2px;
+    }
+
 
 }
 

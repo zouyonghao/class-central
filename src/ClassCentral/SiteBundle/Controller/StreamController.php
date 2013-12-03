@@ -193,7 +193,7 @@ class StreamController extends Controller
           $em = $this->getDoctrine()->getManager();
           $stream = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBySlug($slug);
           
-          if(!$stream || !$stream->getShowInNav())
+          if(!$stream)
           {
               // TODO: Show an error page
               return;
@@ -217,13 +217,49 @@ class StreamController extends Controller
     }
 
     /**
-     * Renders the subjects page
+     * Renders the subjects page which shows a list of all Class Central Subjects
      */
     public function subjectsAction(Request $request)
     {
+        $cache = $this->get('Cache');
+        $subjects = $this->getSubjectsList();
         return $this->render('ClassCentralSiteBundle:Stream:subjects.html.twig',array(
-                'page' => 'subjects'
+                'page' => 'subjects',
+                'subjects' => $subjects
             ));
+    }
+
+    public function getSubjectsList()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $subjectsCount = $em->getRepository('ClassCentralSiteBundle:Stream')->getCourseCountBySubjects();
+
+        $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+        $parentSubjects = array();
+        $childSubjects = array();
+        foreach($allSubjects as $subject)
+        {
+            if(!isset($subjectsCount[$subject->getId()]))
+            {
+                continue; // no count exists. Do not show the subject
+            }
+            $count = $subjectsCount[$subject->getId()]['courseCount'];
+            $subject->setCourseCount($count);
+            if($subject->getParentStream())
+            {
+                $childSubjects[$subject->getParentStream()->getId()][] = $subject;
+            }
+            else
+            {
+                $parentSubjects[] = $subject;
+            }
+
+            // Detach since its going to be cached
+            $em->detach($subject);
+
+        }
+
+        return array('parent'=>$parentSubjects,'children'=>$childSubjects);
     }
     
     public function getOfferingsByStream(\ClassCentral\SiteBundle\Entity\Stream $stream) {

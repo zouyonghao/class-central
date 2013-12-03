@@ -63,11 +63,7 @@
             </td>
             {# hide the stream column on stream pages #}
             {% if page is defined and page != 'stream' %}
-                {% if offering['stream']['showInNav'] %}
                     <td> <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="List of {{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])">{{ offering['stream']['name'] }}</a> </td>
-                {% else %}
-                    <td> {{ offering['stream']['name'] }} </td>
-                {% endif %}
             {% endif %}
                 
             <td {% if offering['status'] == 1 %} itemprop="startDate" content="{{ offering['microdataDate'] }}" {% endif %} data-timestamp="{{ offering['startTimeStamp'] }}">{{ offering['displayDate'] }}</td>

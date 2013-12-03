@@ -36,11 +36,18 @@ ClassCentral\SiteBundle\Entity\Stream:
       length: 7
       fixed: true
       nullable: true
+    childColor:
+      type: string
+      length: 7
+      fixed: true
+      nullable: true
+      column: child_color
     displayOrder:
       type: integer
       unsigned: false
       nullable: true
       column: display_order
+      order: asc
   oneToMany:
     courses:
       targetEntity: Course
