@@ -1,7 +1,23 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
-    <title>Subjects</title>
+    <title>Subjects - Browse MOOCs by Subjects | Class Central</title>
+    <meta name="description"
+          content="Browse MOOCs by Subjects"/>
+    <meta property="og:title" content="Browse MOOCs by Subjects" />
+    <meta property="og:url" content="{{ baseurl }}{{ path('subjects') }}" />
+    <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+    <meta property="og:site_name" content="Class Central"/>
+    <meta property="og:description" content="Browse MOOCs by Subjects" />
+    <meta property="og:type" content="website" />
+    <meta property="fb:admins" content="{{ fb_admins }}" />
+
+    <!-- Twitter card integration -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@classcentral">
+    <meta name="twitter:title" content="Browse MOOCs by subject">
+    <meta name="twitter:description" content="Browse MOOCs by subject">
+    <meta name="twitter:domain" content="www.class-central.com">
 {% endblock %}
 
 {% block content %}
