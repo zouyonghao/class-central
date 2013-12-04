@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -429,5 +430,18 @@ EOD;
         }
 
         return $courseDetails;
+    }
+
+    /**
+     * Shows a list of courses that need to be reviewed
+     * @param Request $request
+     */
+    public function reviewAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findByStatus(CourseStatus::TO_BE_REVIEWED);
+        return $this->render('ClassCentralSiteBundle:Course:review.html.twig', array(
+                'courses' => $courses
+        ));
     }
 }

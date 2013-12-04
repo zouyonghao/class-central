@@ -19,6 +19,10 @@ course_create:
     defaults: { _controller: "ClassCentralSiteBundle:Course:create" }
     requirements: { _method: post }
 
+course_review:
+    pattern: /review
+    defaults: {_controller: "ClassCentralSiteBundle:Course:review"}
+
 course_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "ClassCentralSiteBundle:Course:edit" }
@@ -32,3 +36,4 @@ course_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ClassCentralSiteBundle:Course:delete" }
     requirements: { _method: post }
+
