@@ -37,7 +37,7 @@ class HTMLNetwork extends NetworkAbstractInterface
         $titleLine = $offering->getName();
         $url = $offering->getUrl();
         $url = 'http://www.class-central.com'. $this->router->generate('ClassCentralSiteBundle_mooc', array('id' => $offering->getCourse()->getId(), 'slug' => $offering->getCourse()->getSlug()));
-        $this->output->writeln("<a href='$url'>$titleLine</a>");
+        $this->output->writeln("<a href='$url'>$titleLine</a><br/>");
 
         $secondLine = array();
         if ($offering->getStatus() == Offering::START_DATES_KNOWN)
@@ -66,7 +66,7 @@ class HTMLNetwork extends NetworkAbstractInterface
         $secondLine[] = $name;
         if (!empty($secondLine))
         {
-            $this->output->writeln("<i>" . implode(' | ', $secondLine) . "</i>");
+            $this->output->writeln("<i>" . implode(' | ', $secondLine) . "</i><br/>");
         }
     }
 }
