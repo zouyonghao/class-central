@@ -803,8 +803,14 @@ a.social4:hover {
 
 footer {
     background-color: #ffffff;
-    height: 80px;
+    height: 130px;
 }
+
+.rackspace-logo {
+    width: 150px;
+    margin: 20px auto 0px auto;
+}
+
 
 .pp_default{
     display: block;
@@ -1281,6 +1287,7 @@ input::-webkit-input-placeholder {
     float: left;
     width: 90%;
 }
+
 
 /**
 * MOOC tracker course box

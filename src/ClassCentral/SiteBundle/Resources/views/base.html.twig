@@ -110,6 +110,9 @@
                     <li><a href="https://twitter.com/classcentral">Twitter</a></li>
                     <li><a href="https://plus.google.com/+ClassCentral">Google+</a></li>
                 </ul>
+                {% if page is defined and page == 'home' %}
+                    <div class="rackspace-logo"><img src="/bundles/classcentralsite/slashpixel/images/rackspace.png"/></div>
+                {% endif %}
             {% endblock %}
 
         </footer>

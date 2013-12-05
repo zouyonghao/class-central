@@ -293,7 +293,7 @@ class CourseController extends Controller
 
        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
-           array('page' => 'home',
+           array('page' => 'course',
                  'course'=>$course,
                  'offeringTypes' => Offering::$types,
                  'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past'),
