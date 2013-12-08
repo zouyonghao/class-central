@@ -1,36 +1,166 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
-{% block headmeta %}            
-        <title>{{initiative}} - MOOCs/free online courses list | Class Central</title>
-        <meta name="description"
-              content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
+{% block headmeta %}
+    <title>{{initiative}} - MOOCs/free online courses list | Class Central</title>
+    <meta name="description"
+          content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
 
-        <meta property="og:title" content="List of {{initiative.name}} free online courses/MOOCs | Class Central" />
-        <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': initiativeType}) }}" />
-        {% if pageInfo.imageUrl %}
-            <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
-        {% else %}
-            <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
-        {% endif %}
-        <meta property="og:description" content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished" />
-        <meta property="og:type" content="website" />
+    <meta property="og:title" content="List of {{initiative.name}} free online courses/MOOCs | Class Central" />
+    <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': initiativeType}) }}" />
+    {% if pageInfo.imageUrl %}
+        <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
+    {% else %}
+        <meta property="og:image" content="http://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.jpg">
+    {% endif %}
+    <meta property="og:description" content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished" />
+    <meta property="og:type" content="website" />
 
-        <!-- Twitter card integration -->
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@classcentral">
-        <meta name="twitter:title" content="List of {{initiative.name}} free online courses/MOOCs">
-        <meta name="twitter:description" content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central">
-        <meta name="twitter:domain" content="www.class-central.com">
+    <!-- Twitter card integration -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@classcentral">
+    <meta name="twitter:title" content="List of {{initiative.name}} free online courses/MOOCs">
+    <meta name="twitter:description" content="List of {{initiative.name}} free online courses/MOOCs aggregated by Class Central">
+    <meta name="twitter:domain" content="www.class-central.com">
 {% endblock %} 
 
 {%  block content %}
 
     {% include 'ClassCentralSiteBundle:Helpers:pageHeader.html.twig' with {'info':pageInfo} %}
 
-    {% for offeringType, offeringDetails in offeringTypes %}
-    {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-        <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h2>
-        {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
-    {% endif %}    
-{% endfor %}
+    <div id="filter-wrap">
+        <div class="mobile-filter-btn-wrap">
+            <span>Filter</span>
+            <a class="mobile-filter-btn">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+        </div>
+        <div class="cat-filter-wrap">
+            <div class="category-filter">
+                <span class="filter-title">Filter by:</span>
+                <div class="filter-search-wrap">
+                    <input class="filter-search" placeholder="Search for a course"/>
+                    <div class="filter-search-icon"></div>
+                </div>
+                <ul class="filter-nav">
+                    <li>
+                        <a href="#" class="filter-dropdown-toggle main-category">Subjects<span class="arrow-up"></span><span class="arrow-down"></span></a>
+                        <ul class="main-filter-dropdown">
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Computer Science"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Computer Science</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort" data-category="Science"><span class="tick">√</span>Science</a></li>
+                                    <li><a href="#" class="sort" data-category="Computer Science"><span class="tick">√</span>Computer Science</a></li>
+                                    <li><a href="#" class="sort" data-category="Humanities"><span class="tick">√</span>Humanities</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Computer Science"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Business</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort" data-category="Science"><span class="tick">√</span>Prog Languages</a></li>
+                                    <li><a href="#" class="sort" data-category="Computer Science"><span class="tick">√</span>Inform Security</a></li>
+                                    <li><a href="#" class="sort" data-category="Humanities"><span class="tick">√</span>Theoretical Computer Science</a></li>
+                                </ul>
+
+                            </li>
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Humanities"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Humanities</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
+                                </ul>
+
+                            </li>
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Computer Science"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Engineering</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="filter-dropdown-toggle main-category">Languages<span class="arrow-up"></span><span class="arrow-down"></span></a>
+                        <ul class="main-filter-dropdown">
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Computer Science"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Computer Science</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
+                                </ul>
+
+                            </li>
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Computer Science"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Business</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
+                                </ul>
+
+                            </li>
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Humanities</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
+                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
+                                </ul>
+
+                            </li>
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Engineering</a>
+                                </div>
+                                <ul class="filter-dropdown">
+                                    <li><a href="#" class="sort" data-category="Humanities"><span class="tick">√</span>Prog Languages</a></li>
+                                    <li><a href="#" class="sort" data-category="Science"><span class="tick">√</span>Inform Security</a></li>
+                                    <li><a href="#" class="sort" data-category="Computer Science"><span class="tick">√</span>Theoretical Computer Science</a></li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="tables-wrap">
+            {% for offeringType, offeringDetails in offeringTypes %}
+                {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+                    <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h2>
+                    {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

@@ -216,6 +216,246 @@ body {
 .subject-list li a:hover {
     background-color: #b0b0b0;
 }
+/*==========  Category filter styles  ==========*/
+
+#filter-wrap {
+    overflow: hidden;
+}
+
+.category-filter {
+    width: 240px;
+    margin-top: 12px;
+    margin-right: 10px;
+    /*
+    -webkit-transition-duration: 0.7s;
+       -moz-transition-duration: 0.7s;
+         -o-transition-duration: 0.7s;
+            transition-duration: 0.7s;
+    */
+}
+
+.filter-nav,
+.filter-nav ul {
+    list-style: none;
+    margin: 0;
+}
+
+.main-category,
+.filter-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #898989;
+}
+
+ul.main-filter-dropdown {
+    display: none;
+    background-color: #f8f8f8;
+    margin: 0 0 4px 0;
+}
+
+.active ul.main-filter-dropdown {
+    display: block;
+}
+
+
+.main-category {
+    padding: 10px 15px;
+}
+
+.main-filter-dropdown li a {
+    display: block;
+    padding: 10px 10px 10px 30px;
+}
+
+.filter-dropdown {
+    display: none;
+}
+
+.active + .filter-dropdown {
+    display: block;
+}
+
+.minus-sign {
+    display: none;
+}
+
+.active > .sub-category .minus-sign {
+    display: inline;
+}
+
+.active > .sub-category .plus-sign {
+    display: none;
+}
+
+
+.filter-dropdown li a {
+    display: block;
+    padding: 5px 10px 5px 40px;
+}
+
+.filter-dropdown li a:hover,
+.filter-dropdown li.active > a {
+    background-color: #fff;
+}
+
+.main-category {
+    display: block;
+    background-color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+li a.sort {
+    position: relative;
+    font-size: 12px;
+    line-height: 1;
+    color: #898989;
+}
+
+.filter-nav a,
+.filter-nav a:hover {
+    text-decoration: none;
+}
+
+.sub-category {
+    position: relative;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1663a3;
+}
+
+.arrow-up {
+    display: none;
+    float: right;
+    margin-top: 4px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 7px solid #898989;
+}
+
+.arrow-down {
+    display: block;
+    float: right;
+    margin-top: 4px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #898989;
+}
+
+.active > .main-category .arrow-down {
+    display: none;
+}
+
+.active > .main-category .arrow-up {
+    display: block;
+}
+
+.tick-wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+.tick-wrap .tick {
+    z-index: 999;
+}
+
+.tick {
+    position: absolute;
+    left: 20px;
+    top: 2px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #fff;
+    border: 1px solid #898989;
+    padding: 2px 3px 0 3px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.tick-wrap .tick {
+    top: 9px;
+    left: 10px;
+}
+
+.active > .sort > .tick,
+.ticked {
+    color: #59d856;
+    background-color: #fff;
+}
+
+.filter-search-wrap {
+    overflow: hidden;
+    margin: 4px 0;
+    height: 34px;
+}
+
+.filter-search {
+    float: left;
+    border: none;
+    height: 100%;
+    width: 175px;
+    padding-left: 15px;
+    font-family: "Open Sans";
+    font-weight: 300;
+    font-style: italic;
+
+}
+
+input.filter-search:focus {
+    outline: 0;
+}
+
+.filter-search-icon {
+    float: left;
+    height: 100%;
+    width: 50px;
+    background-color: #fff;
+    background-image: url("/bundles/classcentralsite/slashpixel/images/search_icon_green.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.filter-search-wrap ::-webkit-input-placeholder {
+    font-family: 'Open Sans';
+    color:  #898989;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.filter-search-wrap :-moz-placeholder { /* Firefox 18- */
+    font-family: 'Open Sans';
+    color:  #898989;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.filter-search-wrap ::-moz-placeholder {  /* Firefox 19+ */
+    font-family: 'Open Sans';
+    color:  #898989;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;;
+}
+
+.filter-search-wrap :-ms-input-placeholder {
+    font-family: 'Open Sans';
+    color:  #898989;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+#filter-wrap .instructors,
+#filter-wrap .offering-length {
+    display: none;
+}
 
 
 /** Class Central styles for modal */
@@ -518,8 +758,7 @@ p.newstitle {
 
 .search-form .cc-home-form {
     overflow: hidden;
-    transition-duration: 0.5s;
-    width: 0px;
+    width: 0;
 }
 
 .search-form .cc-home-form input[type="text"] {
@@ -892,6 +1131,80 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     color: #FFFFFF;
 }
 
+.category-filter,
+.tables-wrap {
+    float: left;
+}
+
+.tables-wrap {
+    width: 920px;
+}
+
+#filter-wrap .icon-bar {
+    display: block;
+    width: 35px;
+    height: 4px;
+    background-color: #1663a3;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
+
+#filter-wrap .icon-bar + .icon-bar {
+    margin-top: 4px;
+}
+
+.mobile-filter-btn {
+    display: block;
+    width: 35px;
+}
+
+.mobile-filter-btn:hover {
+    cursor: pointer;
+}
+
+.mobile-filter-btn-wrap {
+    display: none;
+}
+
+.mobile-filter-btn-wrap > span {
+    font-weight: 700;
+    color: #898989;
+    font-size: 14px;
+}
+
+
+#filter-wrap.opened {
+    width: 700px;
+}
+
+.cc-page {
+    overflow: hidden;
+}
+
+.cat-filter-wrap {
+    position: relative;
+    overflow-x: hidden;
+    float: left;
+    /*
+    -webkit-transition-duration: 0.7s;
+       -moz-transition-duration: 0.7s;
+         -o-transition-duration: 0.7s;
+            transition-duration: 0.7s;
+    */
+
+}
+
+.cat-filter-wrap.opened {
+    width: 250px;
+}
+
+.opened > .category-filter {
+    left: 0;
+}
 
 /* Fix for tables not showing up in IE 8*/
 .table {background-color:#ffffff;}
@@ -1785,6 +2098,12 @@ table .course-name {
     .cc-home-form input{
         margin-left: 0px;
     }
+
+    /*==========  filter media queries  ==========*/
+
+    .tables-wrap {
+        width: 690px;
+    }
 }
 
 @media (max-width: 980px) {
@@ -1906,6 +2225,17 @@ table .course-name {
         margin-left: 2px;
     }
 
+    /*==========  filter media queries  ==========*/
+
+    .tables-wrap {
+        width: 470px;
+    }
+
+    #filter-wrap .introcolumn,
+    #filter-wrap .subject,
+    #filter-wrap .start-date {
+        display: none;
+    }
 
 }
 
@@ -1981,4 +2311,40 @@ table .course-name {
         font-size: 14px;
     }
 
+    .tables-wrap {
+        width: 370px;
+    }
+
+}
+
+@media (max-width: 680px) {
+
+    .category-filter {
+        position: absolute;
+        left: -250px;
+    }
+
+    .cat-filter-wrap {
+        width: 0;
+        min-height: 500px;
+    }
+
+    .tables-wrap {
+        width: 400px;
+    }
+
+    .mobile-filter-btn-wrap {
+        display: block;
+    }
+
+    .filter-title {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .tables-wrap {
+        width: 260px;
+    }
 }
