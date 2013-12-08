@@ -17,6 +17,7 @@ class CourseStatsCommand extends ContainerAwareCommand{
     }
     
     protected function execute(InputInterface $input, OutputInterface $output){
+
         /*
         $stats = $this
             ->getContainer()->get('doctrine')
@@ -39,9 +40,11 @@ class CourseStatsCommand extends ContainerAwareCommand{
         }
         */
 
+
+
         $liveCourses = $this
             ->getContainer()->get('doctrine')
-            ->getEntityManager()
+            ->getManager()
             ->getRepository('ClassCentralSiteBundle:Offering')
             ->getAllLiveCourses();
 
@@ -51,11 +54,15 @@ class CourseStatsCommand extends ContainerAwareCommand{
             $offeredStats[count($course->getOfferings())]++;
         }
 
+        $output->writeln("Total Courses " . count($liveCourses));
         print_r($offeredStats);
-        /*
+
         $universities = array();
         $institutions = array();
         $instructors = array();
+        $lang = array();
+        $subjects = array();
+        $providers = array();
 
 
         foreach($liveCourses as $course)
@@ -74,16 +81,49 @@ class CourseStatsCommand extends ContainerAwareCommand{
                 else
                 {
                     $institutions[] = $institution->getId();
-                    echo $institution->getName(). " --- ";
+                    //echo $institution->getName(). " --- ";
                 }
+            }
+
+            // Languages
+            if($course->getLanguage())
+            {
+                $lang[$course->getLanguage()->getName()]++;
+            }
+
+            $subjects[$course->getStream()->getName()]++;
+
+            if($course->getInitiative())
+            {
+                $providers[$course->getInitiative()->getName()]++;
+            }
+            else
+            {
+                $providers['Others']++;
             }
         }
 
         echo "\nUniversities : " . count(array_unique($universities)). "\n";
         echo "Institutions:  " . count(array_unique($institutions)). "\n";
         echo "Instructors:   " . count(array_unique($instructors)). "\n";
-        */
 
+        var_dump($lang);
+        foreach($lang as $name => $count)
+        {
+            $output->writeln("$name,$count");
+        }
+        var_dump($subjects);
+        foreach($subjects as $name => $count)
+        {
+            $output->writeln("$name,$count");
+        }
+
+        var_dump($providers);
+        foreach($providers as $name => $count)
+        {
+            $output->writeln("$name,$count");
+        }
 
     }
+
 }

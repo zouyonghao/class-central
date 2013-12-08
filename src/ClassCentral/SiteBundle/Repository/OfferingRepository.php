@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Repository;
 
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use Doctrine\ORM\EntityRepository;
 use ClassCentral\SiteBundle\Entity\Offering;
 
@@ -323,6 +324,12 @@ class OfferingRepository extends EntityRepository {
         // Iterate through the courses
         foreach($courses as $course )
         {
+            if($course->getStatus() >= CourseStatus::COURSE_NOT_SHOWN_LOWER_BOUND)
+            {
+                // skip the course
+                continue;
+            }
+
             // Determine the first run of the course
             $firstRun = null;
             $offerings = $course->getOfferings();
@@ -370,9 +377,18 @@ class OfferingRepository extends EntityRepository {
         $stats = array();
         $count = 0;
         $liveCourses = array();
+        $firstRuns = array();
         // Iterate through the courses
         foreach($courses as $course)
         {
+            if($course->getStatus() >= 100)
+            {
+                // skip the course
+                continue;
+            }
+          $liveCourses[] = $course;
+
+           continue;
             // Determine the first run of the course
             $firstRun = null;
             $offerings = $course->getOfferings();
