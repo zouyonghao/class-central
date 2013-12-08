@@ -13,7 +13,7 @@
 
     </tr>
     </thead>
-    <tbody class="table-body">
+    <tbody class="table-body-{{ tableId }}">
     {% for offering in offerings %}
         <tr itemscope itemtype="http://schema.org/Event">
             <td class="introcolumn" style="padding: 5px 0px 0px 5px">
@@ -63,7 +63,9 @@
             </td>
             {# hide the stream column on stream pages #}
             {% if page is defined and page != 'stream' %}
-                <td class="subject"> <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="List of {{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])" data-category="{{offering['stream']['name']}}">{{ offering['stream']['name'] }} </a> </td>
+                <td> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="List of {{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])" data-category="{{offering['stream']['name']}}">{{ offering['stream']['name'] }} </a>
+                    <div class="subjectSlug" style="display: none">{{ offering['stream']['slug'] }}</div>
+                </td>
             {% endif %}
 
             <td class="start-date" {% if offering['status'] == 1 %} itemprop="startDate" content="{{ offering['microdataDate'] }}" {% endif %} data-timestamp="{{ offering['startTimeStamp'] }}">{{ offering['displayDate'] }}</td>

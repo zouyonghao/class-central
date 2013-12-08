@@ -46,4 +46,41 @@ class StreamRepository extends EntityRepository {
 
         return $subjects;
     }
+
+    public function getSubjectsTree()
+    {
+        $em = $this->getEntityManager();
+        $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+        $subjects = array();
+        foreach($allSubjects as $subject)
+        {
+            if($subject->getParentStream())
+            {
+                $childSubjects[$subject->getParentStream()->getId()][] = $subject;
+            }
+            else
+            {
+                $subjects[$subject->getSlug()] = array(
+                    'name' => $subject->getName(),
+                    'id' => $subject->getId(),
+                    'slug'=> $subject->getSlug()
+                );
+
+                $children = array();
+                foreach($subject->getChildren() as $childSub)
+                {
+                    $children[$childSub->getSlug()] = array(
+                        'name' => $childSub->getName(),
+                        'id' => $childSub->getId(),
+                        'slug'=> $childSub->getSlug()
+                    );
+
+                }
+                $subjects[$subject->getSlug()]['children'] = $children;
+            }
+        }
+
+        return $subjects;
+    }
+
 }

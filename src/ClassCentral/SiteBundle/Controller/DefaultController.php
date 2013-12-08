@@ -60,6 +60,47 @@ class DefaultController extends Controller {
         $offerings = $cache->get('default_initiative_offerings_' . $type,
                     array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiativeInfo['ids']));
 
+        // Get all the subjects for this offering
+        $offSubjects = array();
+        foreach($offerings as $section => $sectionOfferings)
+        {
+            foreach($sectionOfferings as $offering)
+            {
+                $sub = $offering['stream']['slug'];
+                if(!isset($offSubjects[$sub]))
+                {
+                    $offSubjects[$sub] = true;
+                }
+            }
+
+        }
+
+        $allSubjects = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Stream')->getSubjectsTree();
+
+        // Filter out the subjects not relevant to this provider
+        foreach($allSubjects as $parent)
+        {
+            $hasChild = false;
+            foreach($parent['children'] as $child)
+            {
+                if(!isset($offSubjects[$child['slug']]))
+                {
+                    unset($allSubjects[$parent['slug']]['children'][$child['slug']]);
+                }
+                else
+                {
+                    $hasChild = true;
+                }
+            }
+
+            if(!$hasChild && !isset($offSubjects[$parent['slug']]))
+            {
+                unset($allSubjects[$parent['slug']]);
+            }
+        }
+
+
+
         $pageInfo =  PageHeaderFactory::get($initiativeInfo['initiative']);
         $pageInfo->setPageUrl(
             $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_initiative', array('type' => $type))
@@ -71,7 +112,8 @@ class DefaultController extends Controller {
                     'pageInfo' => $pageInfo,
                     'page'=>'initiative',
                     'initiativeType' => $type,
-                    'offeringTypes'=> Offering::$types
+                    'offeringTypes'=> Offering::$types,
+                    'offSubjects' => $allSubjects
                 ));
         
         

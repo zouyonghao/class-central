@@ -28,32 +28,6 @@ jQuery(function($) {
     });
 
 
-    jQuery(function () {
-
-        $("#nav-search-form").click(function() {
-            toggleSlide(this);
-        });
-    });
-
-    function toggleSlide(element) {
-        var drawer = jQuery(element).parent().find(".cc-home-form");
-        var content = jQuery(element).parent().find(".cc-home-form form");
-
-        if (drawer.hasClass('open')) {
-            drawer.removeClass("open");
-        }
-        else
-        {
-            drawer.addClass("open");
-        }
-    }
-
-    $(".test-button").click(function() {
-        $(this).toggleClass("redtest");
-        console.log("test-button");
-    });
-
-
     //toggle = true;
 
     $(".mobile-filter-btn").click(function() {
@@ -84,7 +58,7 @@ jQuery(function($) {
 
     function toggleActive(e) {
         e.preventDefault();
-        var parent = current.parent()
+        var parent = current.parent();
         if (parent.hasClass("active")) {
             parent.removeClass("active");
         } else {
@@ -110,61 +84,69 @@ jQuery(function($) {
     $(".sort").click(function(e) {
         current = $(this);
         toggleActive(e);
-
-        var filterCats = [];
-
-        $(".active > .sort").each(function() {
-            filterCats.push($(this).data("category"));
-        });
-
-        $(".ticked + .sub-category").each(function() {
-            filterCats.push($(this).data("category"));
-        });
-
-        if (filterCats.length > 0) {
-            $("#filter-wrap .table tbody tr").hide();
-
-            $.each(filterCats, function() {
-                var matches = $("#filter-wrap .table [data-category='" + this + "']").closest("tr");
-                matches.show();
-            });
-        } else {
-            $("#filter-wrap .table tbody tr").show();
-        }
+        subjectFilter();
     });
+
+    var tableTypes = ['recent','recentlyAdded','ongoing','upcoming','selfpaced','past'];
+
+    var lists = {};
+    for(var i = 0; i < tableTypes.length; i++)
+    {
+        var tableType = tableTypes[i];
+        var listClass = 'table-body-' + tableType;
+        if($('.' +listClass)[0])
+        {
+            var options = {
+                valueNames: [ 'course-name','subjectSlug'],
+                searchClass: ['filter-search'],
+                listClass: [listClass],
+                sortClass: ['sort-button']
+            };
+            lists[tableType] = new List('filter-wrap',options);
+        }
+
+    }
+
 
     $(".tick-wrap .tick").click(function(event) {
+        subjectFilter();
+    });
 
+    function subjectFilter() {
         var filterCats = [];
 
         $(".active > .sort").each(function() {
-            filterCats.push($(this).data("category"));
+            filterCats.push($.trim($(this).data("category")));
         });
 
         $(".ticked + .sub-category").each(function() {
-            filterCats.push($(this).data("category"));
+            filterCats.push($.trim($(this).data("category")));
         });
 
-        if (filterCats.length > 0) {
-            $("#filter-wrap .table tbody tr").hide();
+        for(var i = 0; i <= tableTypes.length; i++)
+        {
+            var tableType = tableTypes[i];
 
-            $.each(filterCats, function() {
-                var matches = $("#filter-wrap .table [data-category='" + this + "']").closest("tr");
-                matches.show();
-            });
-        } else {
-            $("#filter-wrap .table tbody tr").show();
+            if(tableType in lists)
+            {
+                var list = lists[tableType];
+
+                list.filter(function(item){
+                    if(filterCats.length > 0)
+                    {
+                        var subject = $.trim(item.values().subjectSlug);
+
+                        if($.inArray(subject,filterCats) != -1)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    return true;
+                });
+            }
         }
-    });
+    }
 
 });
 
-var options = {
-    valueNames: [ 'course-name'],
-    searchClass: ['filter-search'],
-    listClass: ['table-body'],
-    sortClass: ['sort-button']
-
-};
-
-var subjectList = new List('filter-wrap', options);
