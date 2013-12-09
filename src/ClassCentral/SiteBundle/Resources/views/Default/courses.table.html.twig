@@ -22,6 +22,10 @@
                         <img src="{{ asset('bundles/classcentralsite/images/youtube.png') }}" alt="" height="32" width="32"/>
                     </a>
                 {% endif %}
+
+                {# filter information #}
+                <div class="subjectSlug" style="display: none">{{ offering['stream']['slug'] }}</div>
+                <div class="languageSlug" style="display: none">{{ offering['language']['name'] }}</div>
             </td>
 
             <td class="course-name-column">
@@ -64,7 +68,6 @@
             {# hide the stream column on stream pages #}
             {% if page is defined and page != 'stream' %}
                 <td> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="List of {{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])" data-category="{{offering['stream']['name']}}">{{ offering['stream']['name'] }} </a>
-                    <div class="subjectSlug" style="display: none">{{ offering['stream']['slug'] }}</div>
                 </td>
             {% endif %}
 

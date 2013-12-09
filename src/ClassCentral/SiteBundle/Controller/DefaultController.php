@@ -61,7 +61,9 @@ class DefaultController extends Controller {
                     array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiativeInfo['ids']));
 
         // TODO: All Subjects and offerings should be in sync
-        $allSubjects = $cache->get('initiative_subjects_' . $type,array($filterService, 'getOfferingSubjects'), array($offerings));
+        $subjects = $cache->get('initiative_subjects_' . $type,array($filterService, 'getOfferingSubjects'), array($offerings));
+        $lang = $cache->get('initiative_languages_' . $type, array($filterService,'getOfferingLanguages'),array($offerings));
+
 
         $pageInfo =  PageHeaderFactory::get($initiativeInfo['initiative']);
         $pageInfo->setPageUrl(
@@ -75,7 +77,8 @@ class DefaultController extends Controller {
                     'page'=>'initiative',
                     'initiativeType' => $type,
                     'offeringTypes'=> Offering::$types,
-                    'offSubjects' => $allSubjects
+                    'offSubjects' => $subjects,
+                    'offLanguagues' => $lang
                 ));
     }
     

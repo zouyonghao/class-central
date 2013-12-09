@@ -209,6 +209,15 @@ class OfferingRepository extends EntityRepository {
             $offeringArray['initiative']['tooltip'] = $initiative->getTooltip();
             $offeringArray['initiative']['code'] = strtolower($initiative->getCode());
         }
+
+        // Language
+        $language = $course->getLanguage();
+        $offeringArray['language']['name'] = '';
+        if($language)
+        {
+            $offeringArray['language']['name'] = $language->getName();
+        }
+
         
         // Add Institutions
         $offeringArray['institutions'] = array();

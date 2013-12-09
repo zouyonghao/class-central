@@ -45,19 +45,19 @@
                 </div>
                 <ul class="filter-nav">
                     {# subjects #}
-                    <li>
+                    <li class="filter-subjects">
                         <a href="#" class="filter-dropdown-toggle main-category">Subjects<span class="arrow-up"></span><span class="arrow-down"></span></a>
                         <ul class="main-filter-dropdown">
                             {% for pSub in offSubjects %}
                                 <li>
                                     <div class="tick-wrap">
                                         <span class="tick">√</span>
-                                        <a href="#" class="filter-dropdown-toggle sub-category" data-category="{{ pSub['slug'] }}"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
+                                        <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
                                     </div>
                                     {% if pSub.children|length > 0 %}
                                         <ul class="filter-dropdown">
                                             {% for cSub in pSub.children %}
-                                            <li><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-category="{{ cSub.slug }}"><span class="tick">√</span>{{ cSub.name }}</a></li>
+                                            <li><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}"><span class="tick">√</span>{{ cSub.name }}</a></li>
                                             {% endfor %}
                                         </ul>
                                     {% endif %}
@@ -65,57 +65,18 @@
                             {% endfor %}
                         </ul>
                     </li>
-                    <li>
+                    {# languages #}
+                    <li class="filter-languages">
                         <a href="#" class="filter-dropdown-toggle main-category">Languages<span class="arrow-up"></span><span class="arrow-down"></span></a>
                         <ul class="main-filter-dropdown">
+                        {% for language in offLanguagues %}
                             <li>
                                 <div class="tick-wrap">
                                     <span class="tick">√</span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Computer Science"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Computer Science</a>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}"> {{ language.name  }}</a>
                                 </div>
-                                <ul class="filter-dropdown">
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
-                                </ul>
-
                             </li>
-                            <li>
-                                <div class="tick-wrap">
-                                    <span class="tick">√</span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-category="Computer Science"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Business</a>
-                                </div>
-                                <ul class="filter-dropdown">
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
-                                </ul>
-
-                            </li>
-                            <li>
-                                <div class="tick-wrap">
-                                    <span class="tick">√</span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Humanities</a>
-                                </div>
-                                <ul class="filter-dropdown">
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Prog Languages</a></li>
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Inform Security</a></li>
-                                    <li><a href="#" class="sort"><span class="tick">√</span>Theoretical Computer Science</a></li>
-                                </ul>
-
-                            </li>
-                            <li>
-                                <div class="tick-wrap">
-                                    <span class="tick">√</span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category"><span class="plus-sign">+ </span><span class="minus-sign">- </span>Engineering</a>
-                                </div>
-                                <ul class="filter-dropdown">
-                                    <li><a href="#" class="sort" data-category="Humanities"><span class="tick">√</span>Prog Languages</a></li>
-                                    <li><a href="#" class="sort" data-category="Science"><span class="tick">√</span>Inform Security</a></li>
-                                    <li><a href="#" class="sort" data-category="Computer Science"><span class="tick">√</span>Theoretical Computer Science</a></li>
-                                </ul>
-
-                            </li>
+                        {% endfor %}
                         </ul>
                     </li>
                 </ul>

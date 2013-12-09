@@ -56,35 +56,51 @@ jQuery(function($) {
 
     });
 
-    function toggleActive(e) {
+    function toggleActive(e, current) {
         e.preventDefault();
         var parent = current.parent();
-        if (parent.hasClass("active")) {
-            parent.removeClass("active");
-        } else {
-            parent.addClass("active");
-        }
+        parent.toggleClass("active");
     }
 
     $(".tick-wrap .tick").click(function() {
         $(this).toggleClass("ticked");
+        // Deselect all children
+        var parentLi = $(this).parent().parent();
+        if(parentLi.find('.filter-dropdown')[0])
+        {
+            // It has children. Deselect them all
+            console.log("children");
+            parentLi.find('.filter-dropdown li').removeClass("active");
+        }
+        filterCourses();
     });
 
     $(".main-category").click(function(e) {
-        current = $(this);
-        toggleActive(e);
+        toggleActive(e, $(this));
     });
 
 
     $(".sub-category").click(function(e) {
-        current = $(this);
-        toggleActive(e);
+        var parentLi = $(this).parent().parent();
+        // Check if it has any children
+        if(!parentLi.find('.filter-dropdown')[0])
+        {
+            // No children
+            var tickBox = parentLi.find('.tick-wrap .tick');
+            tickBox.toggleClass('ticked');
+        }
+        toggleActive(e, $(this));
+        filterCourses();
     });
 
     $(".sort").click(function(e) {
-        current = $(this);
-        toggleActive(e);
-        subjectFilter();
+        // Remove the parent tick
+        var parentLi = $(this).parent().parent().parent();
+        var tickBox = parentLi.find('.tick-wrap .tick');
+        tickBox.removeClass('ticked');
+        // Toggle the activate for the current one
+        toggleActive(e, $(this));
+        filterCourses();
     });
 
     var tableTypes = ['recent','recentlyAdded','ongoing','upcoming','selfpaced','past'];
@@ -97,7 +113,7 @@ jQuery(function($) {
         if($('.' +listClass)[0])
         {
             var options = {
-                valueNames: [ 'course-name','subjectSlug'],
+                valueNames: [ 'course-name','subjectSlug','languageSlug'],
                 searchClass: ['filter-search'],
                 listClass: [listClass],
                 sortClass: ['sort-button']
@@ -110,48 +126,63 @@ jQuery(function($) {
     }
 
 
-    $(".tick-wrap .tick").click(function(event) {
-        subjectFilter();
-    });
 
-    function subjectFilter() {
+    function filterCourses() {
         var filterCats = [];
-
-        // Sub category
-        $(".active > .sort").each(function() {
-            filterCats.push($.trim($(this).data("category")));
-            // TODO: Uncheck the parent category
+        // Sub subjects
+        $(".filter-subjects .active > .sort").each(function() {
+            filterCats.push($.trim($(this).data("subject")));
         });
 
-        // Parent category
-        $(".ticked + .sub-category").each(function() {
-            var parentCat = $.trim($(this).data("category"));
+        // Parent subjects
+        $(".filter-subjects .ticked + .sub-category").each(function() {
+            var parentCat = $.trim($(this).data("subject"));
             filterCats.push(parentCat);
-            // Get the subcategory for this parent category
+            // Get the subjects for this parent category
             $("a[data-parent='" + parentCat +"']").each(function(){
-               filterCats.push( $.trim($(this).data("category"))) ;
+               filterCats.push( $.trim($(this).data("subject"))) ;
             });
-            // TODO: Uncheck the child categories
         });
 
+        // Languages
+        var filterLang = [];
+        $(".filter-languages .ticked + .sub-category").each(function() {
+            filterLang.push($.trim($(this).data("lang")));
+        });
+
+        // Go through all the lists and fulter the courses which don't
+        // have subjects in filterCats
         for(var i = 0; i <= tableTypes.length; i++)
         {
             var tableType = tableTypes[i];
             if(tableType in lists)
             {
                 var list = lists[tableType];
-                list.filter(function(item){
+                list.filter(function(item) {
+                    // Match subjects
+                    var subMatch = true;
                     if(filterCats.length > 0)
                     {
                         var subject = $.trim(item.values().subjectSlug);
 
-                        if($.inArray(subject,filterCats) != -1)
+                        if($.inArray(subject,filterCats) == -1)
                         {
-                            return true;
+                            subMatch = false;
                         }
-                        return false;
                     }
-                    return true;
+
+                    // Match languages
+                    var langMatch = true;
+                    if(filterLang.length > 0)
+                    {
+                        var language = $.trim(item.values().languageSlug);
+                        if($.inArray(language,filterLang) == -1)
+                        {
+                            langMatch = false;
+                        }
+                    }
+
+                    return subMatch && langMatch;
                 });
             }
         }

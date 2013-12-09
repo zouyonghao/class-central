@@ -64,6 +64,10 @@ class Filter {
         return $allSubjects;
     }
 
+    /**
+     * Builds a subject tree
+     * @return array
+     */
     public function getSubjectsTree()
     {
         $em = $this->container->get('Doctrine')->getManager();
@@ -98,5 +102,51 @@ class Filter {
         }
 
         return $subjects;
+    }
+
+    public function getOfferingLanguages($offerings)
+    {
+        $cache = $this->container->get('cache');
+
+        // Get all the languages for this offering and build a map
+        $offLang = array();
+        foreach($offerings as $section => $sectionOfferings)
+        {
+            foreach($sectionOfferings as $offering)
+            {
+                $lang = $offering['language']['name'];
+                if(!isset($offLang[$lang]))
+                {
+                    $offLang[$lang] = true;
+                }
+            }
+        }
+
+        // Get language info
+        $allLanguages = $cache->get('allLanguages', array($this,'getLanguages'));
+        foreach($allLanguages as $lang)
+        {
+            $name = $lang['name'];
+            if(!isset($offLang[$name]))
+            {
+                unset($allLanguages[$name]);
+            }
+        }
+
+        return $allLanguages;
+    }
+    public function getLanguages()
+    {
+        $em = $this->container->get('Doctrine')->getManager();
+
+        $languages = array();
+        foreach($em->getRepository('ClassCentralSiteBundle:Language')->findAll() as $lang)
+        {
+            $languages[$lang->getName()] = array(
+                'name' => $lang->getName()
+            );
+        }
+
+        return $languages;
     }
 } 
