@@ -49,9 +49,9 @@ class DefaultController extends Controller {
      */
     public function initiativeAction($type='coursera')
     {
-        $initiativeTypes = Initiative::$types;
+        $cache = $this->get('Cache');
+        $filterService = $this->get('Filter');
 
-        $cache = $this->get('Cache');        
         $initiativeInfo = $cache->get('default_initative_ids_'. $type, array($this, 'getInitiativeIds'), array($type));
         if(empty($initiativeInfo)) {
             return;
@@ -60,46 +60,8 @@ class DefaultController extends Controller {
         $offerings = $cache->get('default_initiative_offerings_' . $type,
                     array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiativeInfo['ids']));
 
-        // Get all the subjects for this offering
-        $offSubjects = array();
-        foreach($offerings as $section => $sectionOfferings)
-        {
-            foreach($sectionOfferings as $offering)
-            {
-                $sub = $offering['stream']['slug'];
-                if(!isset($offSubjects[$sub]))
-                {
-                    $offSubjects[$sub] = true;
-                }
-            }
-
-        }
-
-        $allSubjects = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Stream')->getSubjectsTree();
-
-        // Filter out the subjects not relevant to this provider
-        foreach($allSubjects as $parent)
-        {
-            $hasChild = false;
-            foreach($parent['children'] as $child)
-            {
-                if(!isset($offSubjects[$child['slug']]))
-                {
-                    unset($allSubjects[$parent['slug']]['children'][$child['slug']]);
-                }
-                else
-                {
-                    $hasChild = true;
-                }
-            }
-
-            if(!$hasChild && !isset($offSubjects[$parent['slug']]))
-            {
-                unset($allSubjects[$parent['slug']]);
-            }
-        }
-
-
+        // TODO: All Subjects and offerings should be in sync
+        $allSubjects = $cache->get('initiative_subjects_' . $type,array($filterService, 'getOfferingSubjects'), array($offerings));
 
         $pageInfo =  PageHeaderFactory::get($initiativeInfo['initiative']);
         $pageInfo->setPageUrl(
@@ -115,8 +77,6 @@ class DefaultController extends Controller {
                     'offeringTypes'=> Offering::$types,
                     'offSubjects' => $allSubjects
                 ));
-        
-        
     }
     
     public function getInitiativeIds($type)

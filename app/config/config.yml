@@ -102,3 +102,6 @@ services:
   verification_token:
     class: ClassCentral\SiteBundle\Services\VerificationToken
     arguments: ['@doctrine']
+  filter:
+      class: ClassCentral\SiteBundle\Services\Filter
+      arguments: ['@service_container']
