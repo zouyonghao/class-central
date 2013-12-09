@@ -57,7 +57,7 @@
                                     {% if pSub.children|length > 0 %}
                                         <ul class="filter-dropdown">
                                             {% for cSub in pSub.children %}
-                                            <li><a href="#" class="sort" data-category="{{ cSub.slug }}"><span class="tick">√</span>{{ cSub.name }}</a></li>
+                                            <li><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-category="{{ cSub.slug }}"><span class="tick">√</span>{{ cSub.name }}</a></li>
                                             {% endfor %}
                                         </ul>
                                     {% endif %}
@@ -126,7 +126,7 @@
         <div class="tables-wrap">
             {% for offeringType, offeringDetails in offeringTypes %}
                 {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-                    <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h2>
+                    <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} <span id="{{ offeringType }}-count"> ({{ offerings[offeringType]|length }})</span></h2>
                     {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
                 {% endif %}
             {% endfor %}

@@ -102,7 +102,9 @@ jQuery(function($) {
                 listClass: [listClass],
                 sortClass: ['sort-button']
             };
-            lists[tableType] = new List('filter-wrap',options);
+
+            var list = new List('filter-wrap',options);
+            lists[tableType] = list;
         }
 
     }
@@ -115,22 +117,29 @@ jQuery(function($) {
     function subjectFilter() {
         var filterCats = [];
 
+        // Sub category
         $(".active > .sort").each(function() {
             filterCats.push($.trim($(this).data("category")));
+            // TODO: Uncheck the parent category
         });
 
+        // Parent category
         $(".ticked + .sub-category").each(function() {
-            filterCats.push($.trim($(this).data("category")));
+            var parentCat = $.trim($(this).data("category"));
+            filterCats.push(parentCat);
+            // Get the subcategory for this parent category
+            $("a[data-parent='" + parentCat +"']").each(function(){
+               filterCats.push( $.trim($(this).data("category"))) ;
+            });
+            // TODO: Uncheck the child categories
         });
 
         for(var i = 0; i <= tableTypes.length; i++)
         {
             var tableType = tableTypes[i];
-
             if(tableType in lists)
             {
                 var list = lists[tableType];
-
                 list.filter(function(item){
                     if(filterCats.length > 0)
                     {
@@ -147,6 +156,5 @@ jQuery(function($) {
             }
         }
     }
-
 });
 
