@@ -113,17 +113,34 @@ jQuery(function($) {
         if($('.' +listClass)[0])
         {
             var options = {
-                valueNames: [ 'course-name','subjectSlug','languageSlug'],
+                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list'],
                 searchClass: ['filter-search'],
                 listClass: [listClass],
                 sortClass: ['sort-button']
             };
 
             var list = new List('filter-wrap',options);
+            list.on("updated",updated(tableType));
             lists[tableType] = list;
         }
-
     }
+
+    // Callback thats called whenver the results are updated
+    // Updates the count among other things
+    function updated(tableType) {
+        return function() {
+            var count = lists[tableType].visibleItems.length;
+            $('#' + tableType + "-count").html(count);
+            var listTable = $('#' + tableType + 'list');
+            if(count == 0) {
+                listTable.hide();
+            } else {
+                listTable.show();
+            }
+
+        }
+    }
+
 
 
 

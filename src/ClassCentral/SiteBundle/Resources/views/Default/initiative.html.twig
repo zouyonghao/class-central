@@ -45,7 +45,7 @@
                 </div>
                 <ul class="filter-nav">
                     {# subjects #}
-                    <li class="filter-subjects">
+                    <li class="filter-subjects active">
                         <a href="#" class="filter-dropdown-toggle main-category">Subjects<span class="arrow-up"></span><span class="arrow-down"></span></a>
                         <ul class="main-filter-dropdown">
                             {% for pSub in offSubjects %}
@@ -66,7 +66,7 @@
                         </ul>
                     </li>
                     {# languages #}
-                    <li class="filter-languages">
+                    <li class="filter-languages active">
                         <a href="#" class="filter-dropdown-toggle main-category">Languages<span class="arrow-up"></span><span class="arrow-down"></span></a>
                         <ul class="main-filter-dropdown">
                         {% for language in offLanguagues %}
@@ -87,7 +87,7 @@
         <div class="tables-wrap">
             {% for offeringType, offeringDetails in offeringTypes %}
                 {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-                    <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} <span id="{{ offeringType }}-count"> ({{ offerings[offeringType]|length }})</span></h2>
+                    <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} (<span id="{{ offeringType }}-count">{{ offerings[offeringType]|length }}</span>)</h2>
                     {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
                 {% endif %}
             {% endfor %}
