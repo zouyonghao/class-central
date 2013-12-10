@@ -11,9 +11,15 @@
     <meta property="og:type" content="website" />
 {% endblock %}  
 
-{%  block content %}    
-    {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-        <h1 id="{{offeringType}}">{{offeringTypes[offeringType]['nav']}} ({{ offerings[offeringType]|length }})</h1>
-        {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
-    {% endif %}
+{%  block content %}
+
+    <div id="filter-wrap">
+    {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':offSubjects,'offLanguages':offLanguages } %}
+        <div class="tables-wrap">
+        {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
+            <h2 class="tabletitle" id="{{offeringType}}">{{offeringTypes[offeringType]['nav']}} (<span id="{{ offeringType }}-count">{{ offerings[offeringType]|length }}</span>)</h2>
+            {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
+        {% endif %}
+        </div>
+    </div>
 {% endblock %}

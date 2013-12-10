@@ -27,18 +27,24 @@ class DefaultController extends Controller {
             // TODO: render an error page
             return false;
         }
-        
-            
         $cache = $this->get('Cache');
+        $filterService = $this->get('Filter');
+
         $offerings = $cache->get('default_courses_offerings_' . $type,
-                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));   
-        
+                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));
+
+        $shownOfferings = array($type => $offerings[$type]); // All offerings are retriviewed but only one type is shown
+        $subjects = $cache->get('default_courses_offerings_subjects_' . $type,array($filterService, 'getOfferingSubjects'), array($shownOfferings));
+        $lang = $cache->get('default_courses_offerings_languages_' . $type, array($filterService,'getOfferingLanguages'),array($shownOfferings));
+
         return $this->render('ClassCentralSiteBundle:Default:courses.html.twig', 
                 array(
                     'offeringType' => $type,
                     'offerings' => $offerings,
                     'page'=>'courses',
-                    'offeringTypes'=> Offering::$types
+                    'offeringTypes'=> Offering::$types,
+                    'offSubjects' => $subjects,
+                    'offLanguages' => $lang
                 ));
     }
 
