@@ -200,7 +200,10 @@ class StreamController extends Controller
           }
           
         $cache = $this->get('Cache');
+        $filterService = $this->get('Filter');
         $offerings = $cache->get('stream_offerings_' . $slug, array($this, 'getOfferingsByStream'), array($stream));
+        // TODO: All languages and offerings should be in sync
+        $lang = $cache->get('stream_languages_' . $slug, array($filterService,'getOfferingLanguages'),array($offerings));
 
         $pageInfo = PageHeaderFactory::get($stream);
         $pageInfo->setPageUrl(
@@ -212,7 +215,8 @@ class StreamController extends Controller
                 'page' => 'stream',
                 'slug' => $slug,
                 'offeringTypes' => Offering::$types,
-                'pageInfo' => $pageInfo
+                'pageInfo' => $pageInfo,
+                'offLanguages' => $lang
             ));
     }
 
