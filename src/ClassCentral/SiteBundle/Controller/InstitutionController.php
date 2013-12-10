@@ -196,9 +196,14 @@ class InstitutionController extends Controller
             return false;
         }
            
-        $cache = $this->get('Cache');                
+        $cache = $this->get('Cache');
+        $filterService = $this->get('Filter');
         $offerings = $cache->get('institution_offerings_' . $slug,
                     array ($this, 'getOfferingsByInstitution'), array($institution));
+
+        // TODO: All Subjects and offerings should be in sync
+        $subjects = $cache->get('institution_subjects_' . $slug,array($filterService, 'getOfferingSubjects'), array($offerings));
+        $lang = $cache->get('institution_languages_' . $slug, array($filterService,'getOfferingLanguages'),array($offerings));
 
         $pageInfo = PageHeaderFactory::get($institution);
         $pageInfo->setPageUrl(
@@ -213,7 +218,9 @@ class InstitutionController extends Controller
                     'offeringTypes'=> Offering::$types,
                     'isUniversity' => $institution->getIsUniversity(),
                     'slug' => $slug,
-                    'pageInfo' => $pageInfo
+                    'pageInfo' => $pageInfo,
+                    'offSubjects' => $subjects,
+                    'offLanguages' => $lang
                 ));                
     }
     
