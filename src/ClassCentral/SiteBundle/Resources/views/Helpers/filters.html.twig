@@ -1,0 +1,59 @@
+<div class="mobile-filter-btn-wrap">
+    <span>Filter</span>
+    <a class="mobile-filter-btn">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </a>
+</div>
+<div class="cat-filter-wrap">
+    <div class="category-filter">
+        <span class="filter-title">Filter by:</span>
+        <div class="filter-search-wrap">
+            <input class="filter-search" placeholder="Search for a course"/>
+            <div class="filter-search-icon"></div>
+        </div>
+        <ul class="filter-nav">
+        {# subjects #}
+        {% if offSubjects is defined and offSubjects|length > 0  %}
+            <li class="filter-subjects active">
+                <a href="#" class="filter-dropdown-toggle main-category">Subjects<span class="arrow-up"></span><span class="arrow-down"></span></a>
+                <ul class="main-filter-dropdown">
+                    {% for pSub in offSubjects %}
+                        <li>
+                            <div class="tick-wrap">
+                                <span class="tick">√</span>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
+                            </div>
+                            {% if pSub.children|length > 0 %}
+                                <ul class="filter-dropdown">
+                                    {% for cSub in pSub.children %}
+                                        <li><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}"><span class="tick">√</span>{{ cSub.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+
+        {# languages #}
+        {% if offLanguages is defined and offLanguages|length > 0 %}
+            <li class="filter-languages active">
+                <a href="#" class="filter-dropdown-toggle main-category">Languages<span class="arrow-up"></span><span class="arrow-down"></span></a>
+                <ul class="main-filter-dropdown">
+                    {% for language in offLanguages %}
+                        <li>
+                            <div class="tick-wrap">
+                                <span class="tick">√</span>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}"> {{ language.name  }}</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+        </ul>
+    </div>
+</div>

@@ -78,7 +78,7 @@ class DefaultController extends Controller {
                     'initiativeType' => $type,
                     'offeringTypes'=> Offering::$types,
                     'offSubjects' => $subjects,
-                    'offLanguagues' => $lang
+                    'offLanguages' => $lang
                 ));
     }
     
