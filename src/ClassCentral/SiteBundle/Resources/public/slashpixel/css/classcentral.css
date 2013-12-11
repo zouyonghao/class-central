@@ -1210,8 +1210,16 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 .table {background-color:#ffffff;}
 
 .introcolumn{
-    width: 35px;
+    width: 95px;
 }
+.table .introcolumn {
+     text-align: center;
+ }
+
+.table .introcolumn img {
+     margin-top: 16px;
+ }
+
 
 .searchresultsheader div{
     font-family: 'Nixie One', cursive;

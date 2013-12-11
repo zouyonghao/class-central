@@ -1,7 +1,7 @@
 <table class="table table-striped table-bordered" id='{{ tableId}}list'>
     <thead>
     <tr>
-        <th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro</th>
+        <th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro Video</th>
         <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])">Course Name</th>
         <th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>
         {# hide the stream column on stream pages #}
@@ -19,7 +19,7 @@
             <td class="introcolumn" style="padding: 5px 0px 0px 5px">
                 {% if offering['videoIntro'] is not null %}
                     <a href="{{ offering['videoIntro'] }}" rel="intro" title=" {{ offering['name'] }}">
-                        <img src="{{ asset('bundles/classcentralsite/images/youtube.png') }}" alt="" height="32" width="32"/>
+                        <img src="{{ asset('bundles/classcentralsite/images/youtube.png') }}" alt="" height="25" width="25"/>
                     </a>
                 {% endif %}
 

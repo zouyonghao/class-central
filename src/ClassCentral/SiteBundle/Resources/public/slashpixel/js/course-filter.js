@@ -10,8 +10,7 @@ jQuery(function($) {
         listButton.removeClass("active");
         $(this).addClass("active");
         var list = $(this).parent().find("table");
-        var tiles = $(this).parent().find(".tiles-view")
-        console.log(list);
+        var tiles = $(this).parent().find(".tiles-view");
         list.hide();
         tiles.show();
     });
@@ -21,8 +20,7 @@ jQuery(function($) {
         tilesButton.removeClass("active");
         $(this).addClass("active");
         var list = $(this).parent().find("table");
-        var tiles = $(this).parent().find(".tiles-view")
-        console.log(tiles);
+        var tiles = $(this).parent().find(".tiles-view");
         tiles.hide();
         list.show();
     });
@@ -69,7 +67,6 @@ jQuery(function($) {
         if(parentLi.find('.filter-dropdown')[0])
         {
             // It has children. Deselect them all
-            console.log("children");
             parentLi.find('.filter-dropdown li').removeClass("active");
         }
         filterCourses();
@@ -120,8 +117,14 @@ jQuery(function($) {
             };
 
             var list = new List('filter-wrap',options);
-            list.on("updated",updated(tableType));
             lists[tableType] = list;
+            try {
+                // No filters on the homepage
+                list.on("updated",updated(tableType));
+            } catch(err) {
+
+            }
+
         }
     }
 
