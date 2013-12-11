@@ -70,6 +70,7 @@ jQuery(function($) {
             parentLi.find('.filter-dropdown li').removeClass("active");
         }
         filterCourses();
+        gaqPush();
     });
 
     $(".main-category").click(function(e) {
@@ -88,6 +89,7 @@ jQuery(function($) {
         }
         toggleActive(e, $(this));
         filterCourses();
+        gaqPush();
     });
 
     $(".sort").click(function(e) {
@@ -98,6 +100,7 @@ jQuery(function($) {
         // Toggle the activate for the current one
         toggleActive(e, $(this));
         filterCourses();
+        gaqPush();
     });
 
     var tableTypes = ['recent','recentlyAdded','ongoing','upcoming','selfpaced','past'];
@@ -206,6 +209,12 @@ jQuery(function($) {
                 });
             }
         }
+    }
+
+    function gaqPush() {
+        try {
+            _gaq.push(['_trackEvent','Filters','Checkbox Clicked']);
+        }catch (err) {}
     }
 });
 
