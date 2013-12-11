@@ -8,9 +8,12 @@ use ClassCentral\SiteBundle\Entity\Offering;
 class SearchController extends Controller{
        
     public function indexAction() {
+        $filterService = $this->get('Filter');
         $request = $this->getRequest();
         $keywords = $request->get('q');
         $offerings = null;
+        $subjects = null;
+        $lang = null;
         $total = 0;
         if  (!empty($keywords)) {
             // Perform the search
@@ -25,6 +28,8 @@ class SearchController extends Controller{
                     $offeringIds[] = $match['id'];
                 }
                 $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByOfferingIds($offeringIds);
+                $subjects = $filterService->getOfferingSubjects($offerings);
+                $lang = $filterService->getOfferingLanguages($offerings);
             }                       
         }
                 
@@ -34,7 +39,9 @@ class SearchController extends Controller{
             'page' => 'search', 
             'total' => $total,
             'keywords' => $keywords,
-            'offeringTypes' => Offering::$types,            
+            'offeringTypes' => Offering::$types,
+            'offSubjects' => $subjects,
+            'offLanguages' => $lang
         ));        
     }
 }
