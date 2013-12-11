@@ -85,6 +85,10 @@ class CourseRepository extends EntityRepository{
         }
 
         $parsedUrl = parse_url($videoIntro);
+        if (!isset($parsedUrl['query']))
+        {
+            return null;
+        }
         parse_str($parsedUrl['query'], $getParams);
         if($getParams['v'])
         {

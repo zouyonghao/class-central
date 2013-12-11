@@ -9,10 +9,13 @@
 <div class="cat-filter-wrap">
     <div class="category-filter">
         <span class="filter-title">Filter by:</span>
-        <div class="filter-search-wrap">
-            <input class="filter-search" placeholder="Search for a course"/>
-            <div class="filter-search-icon"></div>
-        </div>
+        {# hide search box on search pages #}
+        {% if page is defined and page != 'search' %}
+            <div class="filter-search-wrap">
+                <input class="filter-search" placeholder="Search for a course"/>
+                <div class="filter-search-icon"></div>
+            </div>
+        {% endif %}
         <ul class="filter-nav">
         {# subjects #}
         {% if offSubjects is defined and offSubjects|length > 0  %}
