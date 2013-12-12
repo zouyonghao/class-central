@@ -21,6 +21,8 @@ class Scraper extends ScraperAbstractInterface {
         "it" => "Italian",
         "zh-Hant" => "Chinese",
         "zh-Hans" => "Chinese",
+        "zh-cn" => "Chinese",
+        "zh-tw" => "Chinese",
         "ar" => "Arabic",
         "ru" => "Russian",
         "tr" => "Turkish"
@@ -262,7 +264,7 @@ class Scraper extends ScraperAbstractInterface {
 
     private function getYoutubeVideoUrl($video = '')
     {
-        return (strlen($video) > 1)? 'http://www.youtube.com/watch?v='. $video : null;
+        return (strlen($video) > 1)? 'https://www.youtube.com/watch?v='. $video : null;
     }
 
     private function getCourseLink( $course ){
