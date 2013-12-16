@@ -23,6 +23,7 @@
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/css/prettyPhoto.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/socialcount-icons.css'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/autocomplete.css'
         %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -130,6 +131,7 @@
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/addThisEvent.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/list.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/course-filter.js'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.swiftype.autocomplete.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
 
@@ -146,6 +148,42 @@
                 default_width: 640,
                 default_height:480
                 });
+
+                var customRenderFunction = function(document_type, item) {
+                    var title = '<p class="title">' + item['name'] + '</p>';
+                    if(document_type == 'courses') {
+                        console.log(item);
+                        var ins = '';
+                        if(typeof item['institutions'] !== 'undefined' && item['institutions'] != '' ) {
+                            ins = item['institutions'][0] + ' - ';
+                        }
+                        var provider = '';
+                        if(typeof item['provider'] !== 'undefined' && item['provider'] != '' ) {
+                            provider = ' | ' + item['provider'];
+                        }
+
+                        return title.concat('<p>' + ins + item['displayDate'] + provider + '</p>');
+                    } else if (document_type == 'universities') {
+                        return title.concat('<p class="genre">' + item['courseCount'] + ' courses </p>');
+                    }
+                };
+
+                $('#st-search-input').swiftype({
+                    renderFunction: customRenderFunction,
+                    engineKey: '{{ swiftype_engine_key }}',
+                    filters: {
+                        'courses' : {'status':{
+                            'type' : 'range',
+                            'to' : 99
+                        }},
+                        'universities': {'courseCount':{
+                            'type' : 'range',
+                            'from' : '1'
+                        }}
+                    }
+                });
+
+
             });
 
 

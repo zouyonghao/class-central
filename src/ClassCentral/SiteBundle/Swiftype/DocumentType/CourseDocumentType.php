@@ -48,7 +48,7 @@ class CourseDocumentType extends SwiftypeDocument {
         {
             $provider = $course->getInitiative()->getName();
         }
-        $fields[] = SwiftypeField::get('provider', $provider, SwiftypeField::FIELD_TEXT);
+        $fields[] = SwiftypeField::get('provider', $provider, SwiftypeField::FIELD_ENUM);
 
         // Institutions
         $institutions = array();
@@ -59,7 +59,7 @@ class CourseDocumentType extends SwiftypeDocument {
                 $institutions[] = $ins->getName();
             }
         }
-        $fields[] = SwiftypeField::get('institutions', $institutions, SwiftypeField::FIELD_TEXT);
+        $fields[] = SwiftypeField::get('institutions', $institutions, SwiftypeField::FIELD_ENUM);
 
         // Instructors
         $instructors = array();
@@ -74,13 +74,14 @@ class CourseDocumentType extends SwiftypeDocument {
 
         // Status
         $fields[] = SwiftypeField::get('status', $course->getStatus(), SwiftypeField::FIELD_INTEGER);
-        return $fields;
 
         // Display date
         $nextOffering = $course->getNextOffering();
         if($nextOffering)
         {
-            $fields[] = SwiftypeField::get('displayDate', $offering->getgetDisplayDate(), SwiftypeField::FIELD_TEXT);
+            $fields[] = SwiftypeField::get('displayDate', $nextOffering->getDisplayDate(), SwiftypeField::FIELD_ENUM);
         }
+
+        return $fields;
     }
 }
