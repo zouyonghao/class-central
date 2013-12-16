@@ -21,6 +21,10 @@ abstract class SwiftypeDocument {
 
     private $container;
 
+    const TYPE_COURSE = 'courses';
+    const TYPE_UNIVERSITY = 'universities';
+    const TYPE_PROVIDER = 'providers';
+
     public function __construct($entity, ContainerInterface $container )
     {
         $this->entity = $entity;
