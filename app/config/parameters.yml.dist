@@ -39,3 +39,7 @@ parameters:
 
     test_mailgun_api_key: ~
     test_mailgun_domain_name: ~
+
+    #swiftype
+    swiftype_engine_key: ~
+    swiftype_api_key: ~
