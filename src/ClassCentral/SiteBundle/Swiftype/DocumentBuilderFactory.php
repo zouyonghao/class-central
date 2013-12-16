@@ -23,11 +23,11 @@ class DocumentBuilderFactory {
 
     public static function getDocumentBuilder(ContainerInterface $container, $type)
     {
-        if($type == 'Course')
+        if($type == 'courses')
         {
             return new CourseDocumentBuilder($container);
         }
-        else if ($type == 'University')
+        else if ($type == 'universities')
         {
             return new InstitutionDocumentBuilder($container);
         }
