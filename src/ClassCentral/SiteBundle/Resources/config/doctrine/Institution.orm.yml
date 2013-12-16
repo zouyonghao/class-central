@@ -1,6 +1,7 @@
 ClassCentral\SiteBundle\Entity\Institution:
   type: entity
   table: institutions
+  repositoryClass: ClassCentral\SiteBundle\Repository\InstitutionRepository
   fields:
     id:
       id: true

@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Swiftype;
 
 use ClassCentral\SiteBundle\Swiftype\DocumentBuilders\CourseDocumentBuilder;
+use ClassCentral\SiteBundle\Swiftype\DocumentBuilders\InstitutionDocumentBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -26,5 +27,11 @@ class DocumentBuilderFactory {
         {
             return new CourseDocumentBuilder($container);
         }
+        else if ($type == 'University')
+        {
+            return new InstitutionDocumentBuilder($container);
+        }
+
+        throw new \Exception("Document type {$type} not found in DocumentBuilderFactory");
     }
 } 

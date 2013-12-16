@@ -10,6 +10,11 @@ namespace ClassCentral\SiteBundle\Swiftype;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * A builder is used to build all docs for a particular DocumentType
+ * Class DocumentBuilder
+ * @package ClassCentral\SiteBundle\Swiftype
+ */
 abstract class DocumentBuilder {
 
     private $container;
