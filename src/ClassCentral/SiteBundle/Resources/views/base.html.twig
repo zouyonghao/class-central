@@ -162,7 +162,7 @@
                         }
 
                         return title.concat('<p>' + ins + item['displayDate'] + provider + '</p>');
-                    } else if (document_type == 'universities') {
+                    } else if (document_type == 'universities' || document_type == 'subjects') {
                         return title.concat('<p class="genre">' + item['courseCount'] + ' courses </p>');
                     }
                 };

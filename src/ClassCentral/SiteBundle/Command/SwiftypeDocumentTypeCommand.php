@@ -19,13 +19,13 @@ use ClassCentral\SiteBundle\Swiftype\SwiftypeIndexer;
 class SwiftypeDocumentTypeCommand extends ContainerAwareCommand {
 
     private $task = array('create, delete');
-    private $type = array('courses','universities','providers');
+    private $type = array('courses','universities','providers','subjects');
     protected function configure()
     {
         $this->setName('classcentral:swiftype:doctype')
-             ->setDescription("Create or delete a doctype. eg courses, universities, providers")
+             ->setDescription("Create or delete a doctype. eg courses, universities, providers, subjects")
              ->addArgument('task',InputArgument::REQUIRED,"create or delete")
-             ->addArgument('type',InputArgument::REQUIRED,"Which Doctype? eg courses, universities, providers")
+             ->addArgument('type',InputArgument::REQUIRED,"Which Doctype? eg courses, universities, providers, subjects")
         ;
     }
 

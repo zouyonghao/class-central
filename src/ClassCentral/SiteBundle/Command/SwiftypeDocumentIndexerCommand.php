@@ -19,13 +19,13 @@ use ClassCentral\SiteBundle\Swiftype\DocumentBuilderFactory;
 
 class SwiftypeDocumentIndexerCommand extends ContainerAwareCommand {
 
-    private $type = array('courses','universities','providers');
+    private $type = array('courses','universities','providers',"subjects");
 
     protected function configure()
     {
         $this->setName('classcentral:swiftype:index')
-            ->setDescription("Index a particular doctype. eg courses, universities, providers")
-            ->addArgument('type',InputArgument::REQUIRED,"Which Doctype? eg courses, universities, providers")
+            ->setDescription("Index a particular doctype. eg courses, universities, providers,subjects")
+            ->addArgument('type',InputArgument::REQUIRED,"Which Doctype? eg courses, universities, providers,subjects")
         ;
     }
 

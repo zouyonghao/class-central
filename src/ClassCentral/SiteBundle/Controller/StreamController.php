@@ -226,16 +226,15 @@ class StreamController extends Controller
     public function subjectsAction(Request $request)
     {
         $cache = $this->get('Cache');
-        $subjects = $cache->get('stream_list_count ', array($this, 'getSubjectsList'));
+        $subjects = $cache->get('stream_list_count ', array($this, 'getSubjectsList'),array($this->getDoctrine()->getManager()));
         return $this->render('ClassCentralSiteBundle:Stream:subjects.html.twig',array(
                 'page' => 'subjects',
                 'subjects' => $subjects
             ));
     }
 
-    public function getSubjectsList()
+    public function getSubjectsList($em)
     {
-        $em = $this->getDoctrine()->getManager();
         $subjectsCount = $em->getRepository('ClassCentralSiteBundle:Stream')->getCourseCountBySubjects();
 
         $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
