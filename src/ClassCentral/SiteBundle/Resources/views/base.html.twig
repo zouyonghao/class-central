@@ -152,7 +152,6 @@
                 var customRenderFunction = function(document_type, item) {
                     var title = '<p class="title">' + item['name'] + '</p>';
                     if(document_type == 'courses') {
-                        console.log(item);
                         var ins = '';
                         if(typeof item['institutions'] !== 'undefined' && item['institutions'] != '' ) {
                             ins = item['institutions'][0] + ' - ';
