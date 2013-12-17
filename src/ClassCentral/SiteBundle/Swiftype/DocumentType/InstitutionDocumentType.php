@@ -36,6 +36,10 @@ class InstitutionDocumentType extends SwiftypeDocument {
         // Institution course count
         $fields[] = SwiftypeField::get('courseCount',$repository->getCourseCountByInstitution($institution),SwiftypeField::FIELD_INTEGER);
 
+        // Insititution slug
+        $fields[] = SwiftypeField::get('slug', $institution->getSlug(), SwiftypeField::FIELD_STRING);
+
+
         // Institution url
         $route = 'ClassCentralSiteBundle_institution';
         if($institution->getIsUniversity())
