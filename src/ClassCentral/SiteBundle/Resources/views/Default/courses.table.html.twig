@@ -5,11 +5,11 @@
         <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])">Course Name</th>
         <th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>
         {# hide the stream column on stream pages #}
-        {% if page is defined and page != 'stream' %}<th class="sorting subject" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])">Subject</th> {% endif %}
+        {% if page is defined and page != 'stream' and page=='home' %}<th class="sorting subject" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])">Subject</th> {% endif %}
         <th class="sorting start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])">Start Date</th>
         {# <th class="sorting offering-length" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Length'])">Length</th> #}
         {# hide the initiative column on initiative pages #}
-        {% if page is defined and page != 'initiative' and page=='home' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])">Provider</th> {% endif %}
+        {% if page is defined and page != 'initiative' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])">Provider</th> {% endif %}
 
     </tr>
     </thead>
@@ -66,7 +66,8 @@
 
             </td>
             {# hide the stream column on stream pages #}
-            {% if page is defined and page != 'stream' %}
+            {# hide the stream/subject column for all pages except home page #}
+            {% if page is defined and page != 'stream' and page=='home' %}
                 <td> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': offering['stream']['slug']} ) }}" title="List of {{ offering['stream']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{offering['stream']['name']}}', '{{offering['name']}}'])" data-category="{{offering['stream']['name']}}">{{ offering['stream']['name'] }} </a>
                 </td>
             {% endif %}
@@ -84,8 +85,7 @@
             #}
 
             {# hide the initiative column on initiative pages #}
-            {# hide the provider column for all pages except home page #}
-            {% if page is defined and page != 'initiative' and page=='home' %}
+            {% if page is defined and page != 'initiative'  %}
                 <td>
                     {% if offering['initiative']['name']|length > 0%}
                         <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': offering['initiative']['code'] }) }}"  class="initiativelinks" title="List of {{ offering['initiative']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ offering['initiative']['name'] }}', '{{offering['name']}}'])"> {{ offering['initiative']['name'] }}</a>
