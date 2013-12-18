@@ -1,0 +1,37 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>Course list</h1>
+    <form method="post">
+        <select name="subject">
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name  }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Update subjects">
+        <table class="records_list">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Stream</th>
+                <th>Update Subject</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td><a href="{{ path('course_show', { 'id': course.id }) }}">{{ course.id }}</a></td>
+                    <td><a href="{{ path('ClassCentralSiteBundle_mooc',{ 'id': course.id,'slug': course.slug}) }}">
+                        {{ course.name }}
+                        </a>
+                    </td>
+                    <td>{{ course.stream.name }}</td>
+                    <td><input type="checkbox" name="courses[]" value="{{ course.id }}"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" value="Update subjects">
+    </form>
+{% endblock %}

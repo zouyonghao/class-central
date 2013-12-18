@@ -10,7 +10,7 @@ use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Form\CourseType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Email;
-
+use Symfony\Component\HttpFoundation\Request;
 /**
  * Course controller.
  *
@@ -443,5 +443,42 @@ EOD;
         return $this->render('ClassCentralSiteBundle:Course:review.html.twig', array(
                 'courses' => $courses
         ));
+    }
+
+
+    public function bulkEditAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $postFields = $request->request->all();
+        if(isset($postFields["subject"]))
+        {
+            // Form has been posted. Update the subject
+            $subject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('id' => $postFields['subject']));
+            if($subject)
+            {
+                // Update all the courses
+                foreach($postFields['courses'] as $courseId)
+                {
+                    $course = $em->getRepository('ClassCentralSiteBundle:Course')->findOneBy(array('id'=>$courseId));
+                    if($course)
+                    {
+                        $course->setStream($subject);
+                        $em->persist($course);
+                    }
+                }
+
+                $em->flush();
+            }
+        }
+
+
+
+        $entities = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
+        $subjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+
+        return $this->render('ClassCentralSiteBundle:Course:bulkEdit.html.twig', array(
+                'courses' => $entities,
+                'subjects' => $subjects
+            ));
     }
 }

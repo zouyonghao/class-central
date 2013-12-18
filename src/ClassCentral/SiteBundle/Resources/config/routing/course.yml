@@ -37,3 +37,7 @@ course_delete:
     defaults: { _controller: "ClassCentralSiteBundle:Course:delete" }
     requirements: { _method: post }
 
+course_bulk_edit:
+    pattern:  /bulkEdit
+    defaults: { _controller: "ClassCentralSiteBundle:Course:bulkEdit" }
+
