@@ -2,6 +2,9 @@
 
 {% block content %}
     <h1>Course list</h1>
+    <div id="filter-wrap">
+    <input class="filter-search" placeholder="Search for a course"/><br/>
+    <span id="count"></span>
     <form method="post">
         <select name="subject">
             {% for subject in subjects %}
@@ -9,29 +12,48 @@
             {% endfor %}
         </select>
         <input type="submit" value="Update subjects">
-        <table class="records_list">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Stream</th>
-                <th>Update Subject</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for course in courses %}
+
+            <table class="records_list">
+                <thead>
                 <tr>
-                    <td><a href="{{ path('course_show', { 'id': course.id }) }}">{{ course.id }}</a></td>
-                    <td><a href="{{ path('ClassCentralSiteBundle_mooc',{ 'id': course.id,'slug': course.slug}) }}">
-                        {{ course.name }}
-                        </a>
-                    </td>
-                    <td>{{ course.stream.name }}</td>
-                    <td><input type="checkbox" name="courses[]" value="{{ course.id }}"></td>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Update Subject</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="list">
+                {% for course in courses %}
+                    <tr>
+                        <td><a href="{{ path('course_show', { 'id': course.id }) }}">{{ course.id }}</a></td>
+                        <td><a href="{{ path('ClassCentralSiteBundle_mooc',{ 'id': course.id,'slug': course.slug}) }}" class="courseName">
+                            {{ course.name }}
+                            </a>
+                        </td>
+                        <td><span class="subjectName"> {{ course.stream.name }}</span></td>
+                        <td><input type="checkbox" name="courses[]" value="{{ course.id }}"></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         <input type="submit" value="Update subjects">
     </form>
+    </div>
+
+
+{% endblock %}
+
+{% block customJS %}
+
+    $(function() {
+        var options = {
+        valueNames: [ 'courseName','subjectName'],
+        searchClass: ['filter-search'],
+        page: 2000,
+        };
+        var list = new List('filter-wrap',options);
+        list.on("updated",function(){
+            $('#count').html(list.visibleItems.length);
+        });
+    });
 {% endblock %}

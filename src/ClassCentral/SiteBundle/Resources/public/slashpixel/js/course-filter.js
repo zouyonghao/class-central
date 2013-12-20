@@ -116,7 +116,8 @@ jQuery(function($) {
                 valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list'],
                 searchClass: ['filter-search'],
                 listClass: [listClass],
-                sortClass: ['sort-button']
+                sortClass: ['sort-button'],
+                page:2000
             };
 
             var list = new List('filter-wrap',options);
