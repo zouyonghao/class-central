@@ -55,6 +55,9 @@ ClassCentral\SiteBundle\Entity\User:
         moocTrackerCourses:
           targetEntity: MoocTrackerCourse
           mappedBy: user
+        userCourses:
+          targetEntity: UserCourse
+          mappedBy: user
     manyToMany:
       newsletters:
         targetEntity: Newsletter

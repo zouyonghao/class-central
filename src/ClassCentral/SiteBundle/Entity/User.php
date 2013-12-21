@@ -76,6 +76,11 @@ class User implements UserInterface, \Serializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
+    private $userCourses;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
     private $newsletters;
 
     /**
@@ -90,6 +95,7 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         $this->setCreated(new \DateTime());
         $this->moocTrackerCourses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->moocTrackerSearchTerms = new \Doctrine\Common\Collections\ArrayCollection();
         $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
@@ -447,6 +453,39 @@ class User implements UserInterface, \Serializable
     public function getMoocTrackerCourses()
     {
         return $this->moocTrackerCourses;
+    }
+
+    /**
+     * Add userCourse
+     *
+     * @param \ClassCentral\SiteBundle\Entity\UserCourse $userCourse
+     * @return User
+     */
+    public function addUserCourse(\ClassCentral\SiteBundle\Entity\UserCourse $userCourse)
+    {
+        $this->userCourses[] = $userCourse;
+
+        return $this;
+    }
+
+    /**
+     * Remove $userCourse
+     *
+     * @param \ClassCentral\SiteBundle\Entity\UserCourse $userCourse
+     */
+    public function removeUserCourse(\ClassCentral\SiteBundle\Entity\UserCourse $userCourse)
+    {
+        $this->userCourses->removeElement($userCourse);
+    }
+
+    /**
+     * Get userCourses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserCourses()
+    {
+        return $this->$userCourses;
     }
 
     /**
