@@ -264,7 +264,10 @@ ul.main-filter-dropdown {
 
 .main-filter-dropdown li a {
     display: block;
-    padding: 10px 10px 10px 30px;
+    padding: 10px 10px 10px 35px;
+}
+.main-filter-dropdown li{
+  padding-left:10px;
 }
 
 .filter-dropdown {
@@ -372,14 +375,15 @@ li a.sort {
     color: #fff;
     background-color: #fff;
     border: 1px solid #898989;
-    padding: 2px 3px 0 3px;
+    padding: 2px 4px 0 3px;
     line-height: 1;
     cursor: pointer;
 }
 
 .tick-wrap .tick {
     top: 9px;
-    left: 10px;
+    left: 11px;
+    border-radius: 3px;
 }
 
 .active > .sort > .tick,
@@ -498,12 +502,15 @@ input.filter-search:focus {
 }
 
 .cc-page h1 {
-    font-family: 'Nixie One';
+    font-family: 'Open Sans';
     color: #0662a1;
     font-weight: normal;
     line-height:1.5;
-    padding-top: 40px;
     font-size: 30px;
+}
+
+.cc-page-header {
+    padding-bottom: 20px;
 }
 
 .cc-page h2 {
@@ -591,7 +598,7 @@ input.filter-search:focus {
 .hero-unit {
     background: none;
     padding: 0;
-    margin: 0 0 20px 0;
+    margin: 10px 0 30px;
     padding-top: 20px;
 }
 
@@ -1125,6 +1132,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 .navbar .nav > li > a {
     color: #FFFFFF;
     height: 100%;
+    text-shadow: none
 }
 
 .navbar .nav > li > a:focus, .navbar .nav > li > a:hover {
@@ -1374,7 +1382,7 @@ input::-webkit-input-placeholder {
 }
 
 .course-block .course-title {
-    font-family: 'Nixie One',sans-serif;
+    font-family: 'Open Sans',sans-serif;
     color: #0662a1;
     font-weight: normal;
     margin-left: 0px;
@@ -1445,6 +1453,8 @@ input::-webkit-input-placeholder {
     font-size: 15px;
     font-weight: 300;
     color: #000000;
+    line-height: 30px;
+    margin-bottom: 30px;
 }
 
 .course-offeringtype-block h4 {
@@ -1518,9 +1528,19 @@ input::-webkit-input-placeholder {
     background-color: #5ca8a3;
 }
 
+.course-info{
+    margin:0;
+    padding-left:60px;
+}
+.course-meta-bottom {
+     margin:0;
+ }
+
+
 /* Positioning for MOOC tracker button */
 .btn-mooc-tracker-course-page {
     margin-left: -20px;
+    margin-top: -35px
 }
 
 .course-block .course-share {
@@ -1746,7 +1766,7 @@ input::-webkit-input-placeholder {
 }
 
 #recentlyViewed h1 {
-    font-family: 'Nixie One';
+    font-family: 'Open Sans';
     font-weight: bold;
     line-height:1.5;
     font-size: 30px;
@@ -1949,7 +1969,7 @@ CC form box - for signup, login, forgot password
 }
 
 .mooc-news-description span {
-    font-family: 'Nixie One';
+    font-family: 'Open Sans';
     font-size: 14px;
     font-weight: bold;
     color: #0662a1;
