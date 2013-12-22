@@ -378,12 +378,12 @@ li a.sort {
     padding: 2px 4px 0 3px;
     line-height: 1;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 .tick-wrap .tick {
     top: 9px;
     left: 11px;
-    border-radius: 3px;
 }
 
 .active > .sort > .tick,
