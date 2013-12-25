@@ -170,8 +170,6 @@ jQuery(function($) {
     }
 
 
-
-
     function filterCourses() {
         var filterCats = [];
         // Sub subjects
@@ -195,6 +193,11 @@ jQuery(function($) {
             filterLang.push($.trim($(this).data("lang")));
         });
 
+        // Course Lists
+        var courseLists = [];
+        $(".filter-courses .ticked + .sub-category").each(function(){
+            courseLists.push($.trim( $(this).data("course-list") ));
+        });
         // Go through all the lists and fulter the courses which don't
         // have subjects in filterCats
         for (var key in lists)
@@ -203,8 +206,7 @@ jQuery(function($) {
 
                continue;
             }
-            var tableType = key;
-            var list = lists[tableType];
+            var list = lists[key];
             list.filter(function(item) {
                 // Match subjects
                 var subMatch = true;
@@ -231,6 +233,18 @@ jQuery(function($) {
 
                 return subMatch && langMatch;
             });
+
+            var tableWrapper = $('#' + key + '-table-wrapper');
+            if(courseLists.length > 0 )
+            {
+                if( $.inArray(key, courseLists) != -1) {
+                    tableWrapper.show();
+                } else {
+                    tableWrapper.hide();
+                }
+            } else {
+                tableWrapper.show();
+            }
         }
     }
 

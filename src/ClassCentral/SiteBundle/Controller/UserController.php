@@ -757,7 +757,7 @@ class UserController extends Controller
                 'offerings' => $offerings,
                 'listTypes' => UserCourse::$lists,
                 'offLanguages' => $lang,
-                'offSubjects' => $subjects
+                'offSubjects' => $subjects,
         ));
 
 

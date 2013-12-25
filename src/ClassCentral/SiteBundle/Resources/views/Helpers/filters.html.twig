@@ -17,6 +17,24 @@
             </div>
         {% endif %}
         <ul class="filter-nav">
+        {# user course lists #}
+        {% if offLists is defined and offLists|length > 0 %}
+            <li class="filter-courses active">
+                <a href="#" class="filter-dropdown-toggle main-category">My Courses<span class="arrow-up"></span><span class="arrow-down"></span></a>
+                <ul class="main-filter-dropdown">
+                    {% for list in offLists %}
+                        {% if offerings[list.slug] is not null and offerings[list.slug]|length > 0 %}
+                            <li>
+                                <div class="tick-wrap">
+                                    <span class="tick">√</span>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="{{ list.slug }}">{{ list.desc  }}</a>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
         {# subjects #}
         {% if offSubjects is defined and offSubjects|length > 0  %}
             <li class="filter-subjects active">

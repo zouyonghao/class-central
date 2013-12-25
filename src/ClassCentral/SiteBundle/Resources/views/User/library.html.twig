@@ -2,13 +2,16 @@
 
 {%  block content %}
     <div id="filter-wrap">
-        {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offLanguages':offLanguages, 'offSubjects':offSubjects } %}
+        {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with
+            {'offLanguages':offLanguages, 'offSubjects':offSubjects, 'offLists': listTypes } %}
         <div class="tables-wrap">
             {% for listId, listDetails in listTypes %}
                 {% set listType=listDetails['slug'] %}
                 {% if offerings[listType] is not null and offerings[listType]|length > 0 %}
-                    <h2 class="tabletitle" id="{{listType}}">{{listDetails.desc}} (<span id="{{ listType }}-count">{{ offerings[listType]|length }}</span>)</h2>
-                    {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[listType],'tableId':listType} %}
+                    <div id ="{{ listType }}-table-wrapper">
+                        <h2 class="tabletitle" id="{{listType}}">{{listDetails.desc}} (<span id="{{ listType }}-count">{{ offerings[listType]|length }}</span>)</h2>
+                        {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[listType],'tableId':listType} %}
+                    </div>
                 {% endif %}
             {% endfor %}
         </div>
