@@ -14,3 +14,14 @@
         </div>
     </div>
 {% endblock %}
+
+
+{% block customJS %}
+    $(document).ready(function(){
+        {% for listId, listDetails in listTypes %}
+            {% set listType=listDetails['slug'] %}
+             listifyTable("{{ listType }}");
+             $("#{{ listType }}list").tablesorter( {textExtraction: textExtractor});
+        {% endfor %}
+    });
+{% endblock %}

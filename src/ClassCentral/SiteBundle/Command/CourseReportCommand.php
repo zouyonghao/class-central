@@ -57,9 +57,12 @@ class CourseReportCommand extends ContainerAwareCommand
 
 
             $offeringsByInitiative[$initiative][] = $offering;
-
-            $stream = $offering->getCourse()->getStream()->getName();
-            $offeringsByStream[$stream][] = $offering;
+            $subject = $offering->getCourse()->getStream();
+            if($subject->getParentStream())
+            {
+                $subject = $subject->getParentStream();
+            }
+            $offeringsByStream[$subject->getName()][] = $offering;
         }
 
         // Segregate by Stream
@@ -69,8 +72,13 @@ class CourseReportCommand extends ContainerAwareCommand
         $network->setRouter($this->getContainer()->get('router'));
         foreach($offeringsByStream as $stream => $offerings)
         {
+            $subject = $offerings[0]->getCourse()->getStream();
+            if($subject->getParentStream())
+            {
+                $subject = $subject->getParentStream();
+            }
             $count = count($offerings);
-            $network->outInitiative($offerings[0]->getCourse()->getStream(), $count);
+            $network->outInitiative($subject, $count);
             $network->beforeOffering();
             foreach($offerings as $offering)
             {               

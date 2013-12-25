@@ -132,6 +132,27 @@ jQuery(function($) {
         }
     }
 
+    listifyTable = function (tableType)
+    {
+        var listClass = 'table-body-' + tableType;
+        var options = {
+            valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list'],
+            searchClass: ['filter-search'],
+            listClass: [listClass],
+            sortClass: ['sort-button'],
+            page:2000
+        };
+
+        var list = new List('filter-wrap',options);
+        lists[tableType] = list;
+        try {
+            // No filters on the homepage
+            list.on("updated",updated(tableType));
+        } catch(err) {
+
+        }
+    }
+
     // Callback thats called whenver the results are updated
     // Updates the count among other things
     function updated(tableType) {
@@ -176,39 +197,40 @@ jQuery(function($) {
 
         // Go through all the lists and fulter the courses which don't
         // have subjects in filterCats
-        for(var i = 0; i <= tableTypes.length; i++)
+        for (var key in lists)
         {
-            var tableType = tableTypes[i];
-            if(tableType in lists)
-            {
-                var list = lists[tableType];
-                list.filter(function(item) {
-                    // Match subjects
-                    var subMatch = true;
-                    if(filterCats.length > 0)
-                    {
-                        var subject = $.trim(item.values().subjectSlug);
+            if (!lists.hasOwnProperty(key)) {
 
-                        if($.inArray(subject,filterCats) == -1)
-                        {
-                            subMatch = false;
-                        }
-                    }
-
-                    // Match languages
-                    var langMatch = true;
-                    if(filterLang.length > 0)
-                    {
-                        var language = $.trim(item.values().languageSlug);
-                        if($.inArray(language,filterLang) == -1)
-                        {
-                            langMatch = false;
-                        }
-                    }
-
-                    return subMatch && langMatch;
-                });
+               continue;
             }
+            var tableType = key;
+            var list = lists[tableType];
+            list.filter(function(item) {
+                // Match subjects
+                var subMatch = true;
+                if(filterCats.length > 0)
+                {
+                    var subject = $.trim(item.values().subjectSlug);
+
+                    if($.inArray(subject,filterCats) == -1)
+                    {
+                        subMatch = false;
+                    }
+                }
+
+                // Match languages
+                var langMatch = true;
+                if(filterLang.length > 0)
+                {
+                    var language = $.trim(item.values().languageSlug);
+                    if($.inArray(language,filterLang) == -1)
+                    {
+                        langMatch = false;
+                    }
+                }
+
+                return subMatch && langMatch;
+            });
         }
     }
 
