@@ -43,15 +43,27 @@ class UserCourse
     const LIST_TYPE_STARTED = 2;
     const LIST_TYPE_COMPLETED = 3;
     const LIST_TYPE_AUDITED = 4;
-    const LIST_TYPE_ALERTS = 5;
+    const LIST_TYPE_MOOC_TRACKER = 5;
 
     public static $lists = array(
-        self::LIST_TYPE_INTERESTED => 'Interested',
-        self::LIST_TYPE_STARTED => 'Started',
-        self::LIST_TYPE_COMPLETED => 'Completed',
-        self::LIST_TYPE_AUDITED => 'Audited',
-        self::LIST_TYPE_ALERTS => 'Alerts'
+        self::LIST_TYPE_INTERESTED => array('slug' => 'interested','desc' => "Interested"),
+        self::LIST_TYPE_STARTED => array('slug'=>'started','desc'=>'Started'),
+        self::LIST_TYPE_COMPLETED => array('slug'=>'completed','desc'=>'Completed'),
+        self::LIST_TYPE_AUDITED => array('slug'=>'audited','desc'=>'Audited'),
+        self::LIST_TYPE_MOOC_TRACKER => array('slug'=>'mooc-tracker','desc'=>'MOOC Tracker')
     );
+
+
+
+    public static function getListTypes()
+    {
+        $types = array();
+        foreach(self::$lists as $list)
+        {
+            $types[] = $list['slug'];
+        }
+        return $types;
+    }
 
 
     public function __construct()
@@ -113,6 +125,16 @@ class UserCourse
     public function getListId()
     {
         return $this->listId;
+    }
+
+    public function getList()
+    {
+        if($this->getListId())
+        {
+            return self::$lists[$this->getListId()];
+        }
+
+        return null;
     }
 
     /**

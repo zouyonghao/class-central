@@ -485,7 +485,7 @@ class User implements UserInterface, \Serializable
      */
     public function getUserCourses()
     {
-        return $this->$userCourses;
+        return $this->userCourses;
     }
 
     /**

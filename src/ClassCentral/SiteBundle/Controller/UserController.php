@@ -715,4 +715,52 @@ class UserController extends Controller
         return $params;
     }
 
+    /**
+     * Shows user their library of courses
+     * @param Response $response
+     */
+    public function libraryAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userSession = $this->get('user_session');
+        $offeringRepo = $em->getRepository('ClassCentralSiteBundle:Offering');
+        $filterService = $this->get('Filter');
+
+        // Check if user is already logged in.
+        if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('login'));
+        }
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        // Get all the courses arrays and categorize by list type
+        $offerings = array();
+
+        // Initialize the offering arrays for different list type
+        foreach(UserCourse::getListTypes() as $list )
+        {
+            $offerings[$list] = array();
+        }
+
+        foreach($user->getUserCourses() as $userCourse)
+        {
+            $list = $userCourse->getList();
+            $offering = $offeringRepo->getOfferingArray($userCourse->getCourse()->getNextOffering());
+            $offerings[$list['slug']][] = $offering;
+        }
+
+        $lang = $filterService->getOfferingLanguages($offerings);
+        $subjects = $filterService->getOfferingSubjects($offerings);
+
+        return $this->render('ClassCentralSiteBundle:User:library.html.twig', array(
+                'page' => 'user-library',
+                'offerings' => $offerings,
+                'listTypes' => UserCourse::$lists,
+                'offLanguages' => $lang,
+                'offSubjects' => $subjects
+        ));
+
+
+    }
+
 }

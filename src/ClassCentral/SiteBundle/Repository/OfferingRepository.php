@@ -179,7 +179,7 @@ class OfferingRepository extends EntityRepository {
      * @param \ClassCentral\SiteBundle\Entity\Offering $offering
      * @return Array
      */
-    private function getOfferingArray(Offering $offering) {
+    public function getOfferingArray(Offering $offering) {
         $offeringArray = array();
         $course = $offering->getCourse();
 

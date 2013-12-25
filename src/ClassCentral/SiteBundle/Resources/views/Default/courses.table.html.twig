@@ -3,7 +3,7 @@
     <tr>
         <th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro Video</th>
         <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])">Course Name</th>
-        <th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>
+        {#<th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>#}
         {# hide the stream column on stream pages #}
         {% if page is defined and page != 'stream' and page=='home' %}<th class="sorting subject" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])">Subject</th> {% endif %}
         <th class="sorting start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])">Start Date</th>
@@ -52,7 +52,7 @@
                 {% endif %}
 
             </td>
-
+            {#
             <td class="instructors">
                 {% set i = 0 %}
                 {% for instructor in offering['instructors'] %}
@@ -65,6 +65,7 @@
                 {% endfor %}
 
             </td>
+            #}
             {# hide the stream column on stream pages #}
             {# hide the stream/subject column for all pages except home page #}
             {% if page is defined and page != 'stream' and page=='home' %}
