@@ -160,3 +160,12 @@ newsletter_subscribed:
 newsletter_mooc_tracker_signup:
   pattern: /newsletters/mooc-tracker-save-user
   defaults: {_controller: ClassCentralSiteBundle:Newsletter:moocTrackerSignup}
+
+#interested courses
+user_course_add:
+  pattern: /user/course/add
+  defaults: {_controller: ClassCentralSiteBundle:User:addCourse}
+
+user_course_remove:
+  pattern: /user/course/remove
+  defaults: {_controller: ClassCentralSiteBundle:User:removeCourse}

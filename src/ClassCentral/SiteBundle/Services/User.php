@@ -2,6 +2,9 @@
 
 namespace ClassCentral\SiteBundle\Services;
 
+use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\UserCourse;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -63,5 +66,92 @@ class User {
 
         return $user;
     }
+
+    /**
+     * Adds a course to the users interested list
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @param Course $course
+     * @param $listId
+     */
+    public function addCourse(\ClassCentral\SiteBundle\Entity\User $user, Course $course, $listId)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        // Check if the list id is valid
+        if(!array_key_exists($listId,UserCourse::$lists))
+        {
+            throw new \Exception("List id $listId is not valid");
+        }
+
+        // Validate the course is not already added
+        $userCourseId = $this->getUserCourseId($user,$course,$listId);
+        if($userCourseId)
+        {
+            return false;
+        }
+
+        //Save it if it does not exist
+        $uc = new UserCourse();
+        $uc->setCourse($course);
+        $uc->setUser($user);
+        $uc->setListId($listId);
+        $em->persist($uc);
+        $em->flush();
+
+        return $uc;
+    }
+
+    /**
+     * Given a list id and a course removes it from the users listings
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @param Course $course
+     * @param $listId
+     */
+    public function removeCourse(\ClassCentral\SiteBundle\Entity\User $user, Course $course, $listId)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $userCourseId = $this->getUserCourseId($user,$course,$listId);
+        if($userCourseId)
+        {
+            $uc = $em->find('ClassCentralSiteBundle:UserCourse', $userCourseId);
+            $em->remove($uc);
+            $em->flush();
+
+            return true;
+        }
+
+        // Course was not added before
+        return false;
+
+    }
+
+    /**
+     * Retrives the
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @param Course $course
+     * @param $listId
+     */
+    private function getUserCourseId(\ClassCentral\SiteBundle\Entity\User $user, Course $course, $listId)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+        $query = $em->createNativeQuery("SELECT id FROM users_courses WHERE user_id = ? AND course_id = ? and list_id = ?",$rsm);
+        $query->setParameter('1', $user->getId());
+        $query->setParameter('2', $course->getId());
+        $query->setParameter('3', $listId);
+        $result = $query->getResult();
+
+        if(empty($result))
+        {
+            return null;
+        }
+        else
+        {
+            return $result[0]["id"];
+        }
+
+    }
+
+
 
 } 

@@ -39,6 +39,20 @@ class UserCourse
      */
     private $offering;
 
+    const LIST_TYPE_INTERESTED = 1;
+    const LIST_TYPE_STARTED = 2;
+    const LIST_TYPE_COMPLETED = 3;
+    const LIST_TYPE_AUDITED = 4;
+    const LIST_TYPE_ALERTS = 5;
+
+    public static $lists = array(
+        self::LIST_TYPE_INTERESTED => 'Interested',
+        self::LIST_TYPE_STARTED => 'Started',
+        self::LIST_TYPE_COMPLETED => 'Completed',
+        self::LIST_TYPE_AUDITED => 'Audited',
+        self::LIST_TYPE_ALERTS => 'Alerts'
+    );
+
 
     public function __construct()
     {

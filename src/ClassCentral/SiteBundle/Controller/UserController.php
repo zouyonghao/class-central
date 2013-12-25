@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\MoocTrackerCourse;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Form\SignupType;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Form\UserType;
-
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -607,4 +608,111 @@ class UserController extends Controller
                 'tokenValid' => $tokenValid
         ));
     }
+
+    /**
+     * Ajax call to add a course to the user profile
+     * @param Request $request
+     */
+    public function addCourseAction(Request $request)
+    {
+        return $this->addRemoveCourse($request, 'add');
+    }
+
+    /**
+     * Removes the course from a users library
+     * @param Request $request
+     */
+    public function removeCourseAction(Request $request)
+    {
+        return $this->addRemoveCourse($request, 'remove');
+    }
+
+    private function addRemoveCourse(Request $request, $type)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userService = $this->get('user_service');
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        if(!$user)
+        {
+            // No logged in user
+            return $this->getAjaxResponse(false, "User is not logged in");
+        }
+        try
+        {
+            // Parse the request parameters
+            $params = $this->getCourseListingCallRequestParams($request);
+
+            // Get the course
+            $course = $em->find('ClassCentralSiteBundle:Course',$params['courseId']);
+            if(!$course)
+            {
+                return $this->getAjaxResponse(false, "Course does not exist");
+            }
+
+            if($type == 'add') // Add a course
+            {
+                $uc = $userService->addCourse($user, $course, $params['listId']);
+
+                if($uc)
+                {
+                    return $this->getAjaxResponse(true);
+                }
+
+                return $this->getAjaxResponse(false, "Course already added");
+
+            }
+            else if ($type == 'remove') // Remove a course
+            {
+                $result = $userService->removeCourse($user, $course, $params['listId']);
+                if($result)
+                {
+                    return $this->getAjaxResponse(true);
+                }
+                else
+                {
+                    return $this->getAjaxResponse(false,"Course wasnt added, so cant be removed");
+                }
+            }
+            else {
+                return $this->getAjaxResponse(false);
+            }
+
+        }
+        catch (\Exception $e)
+        {
+            // TODO: Log the exception
+            return $this->getAjaxResponse(false, "Exception : " . $e->getMessage());
+        }
+    }
+
+    private function getAjaxResponse($success = false, $message = '')
+    {
+        $response = array('success' => $success, 'message' => $message);
+        return new Response(json_encode($response));
+    }
+
+    private function getCourseListingCallRequestParams(Request $request)
+    {
+
+        $courseId = $request->query->get('c_id');
+        if(empty($courseId))
+        {
+            throw new \Exception("Course Id is missing");
+        }
+        $listId = $request->query->get('l_id');
+        if(!array_key_exists($listId,UserCourse::$lists))
+        {
+            throw new \Exception("Invalid List Id");
+        }
+
+        $params =  array(
+            'courseId' => $courseId,
+            'offeringId'=> $request->query->get('o_id'),
+            'listId' => $listId
+        );
+
+        return $params;
+    }
+
 }
