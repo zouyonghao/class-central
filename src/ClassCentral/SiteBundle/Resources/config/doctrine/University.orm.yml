@@ -16,10 +16,3 @@ ClassCentral\SiteBundle\Entity\University:
     url:
       type: string
       nullable: true
-  oneToMany:
-    instructors:
-      targetEntity: Instructor
-      cascade: {}
-      mappedBy: instructor
-      inversiedBy: null
-      orphanRemoval: false

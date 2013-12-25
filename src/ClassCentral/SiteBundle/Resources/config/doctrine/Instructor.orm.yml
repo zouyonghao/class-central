@@ -25,12 +25,4 @@ ClassCentral\SiteBundle\Entity\Instructor:
     courses:
         targetEntity: Course
         mappedBy: instructors
-  manyToOne:
-    university:
-      targetEntity: University
-      fetch: LAZY
-      cascade: {}
-      mappedBy: null
-      inversedBy: instructors
-      orphanRemoval: false  
   lifecycleCallbacks: {  }

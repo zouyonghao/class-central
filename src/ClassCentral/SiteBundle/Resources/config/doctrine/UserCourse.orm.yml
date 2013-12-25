@@ -23,7 +23,7 @@ ClassCentral\SiteBundle\Entity\UserCourse:
             targetEntity: User
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: userCourses
             joinColumns:
                 user_id:
                     referencedColumnName: id
