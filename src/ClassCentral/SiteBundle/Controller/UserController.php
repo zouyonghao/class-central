@@ -236,6 +236,17 @@ class UserController extends Controller
         return $this->redirect($this->generateUrl('signup'));
     }
 
+
+    /**
+     * Save the course_id and list_id in the session before redirecting the user to signup page
+     */
+    public function signUpAddToLibraryAction(Request $request, $courseId, $listId)
+    {
+        $this->get('user_session')->saveSignupReferralDetails(array('listId'=> $listId, 'courseId' => $courseId ));
+        return $this->redirect($this->generateUrl('signup'));
+    }
+
+
     /**
      * Create and save the user
      * @param Request $request
@@ -244,8 +255,10 @@ class UserController extends Controller
     {
         $userService = $this->get('user_service');
         $userSession = $this->get('user_session');
+        $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
         $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode("mooc-report");
+
 
         $form   = $this->createForm(new SignupType(), new User(),array(
             'action' => $this->generateUrl('signup_create_user')
@@ -278,11 +291,26 @@ class UserController extends Controller
                 {
                     $this->saveSearchTermInMoocTracker($user,$referralDetails['searchTerm']);
                 }
+                else if (array_key_exists('listId',$referralDetails))
+                {
+                    // Add the course to the users library
+                    $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
+                    if($course)
+                    {
+                        $userService->addCourse($user,$course, $referralDetails['listId']);
+
+                    }
+                    else
+                    {
+                        $logger->error("Course with id {$referralDetails['courseId']} not found");
+                    }
+                }
 
                 $userSession->clearSignupReferralDetails();
+                $userSession->saveUserInformationInSession(); // Update the session
             }
 
-            return $this->redirect($this->generateUrl('mooctracker'));
+            return $this->redirect($this->generateUrl('user_library'));
         }
 
         // Form is not valid

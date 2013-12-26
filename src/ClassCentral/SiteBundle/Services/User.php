@@ -94,6 +94,9 @@ class User {
         $uc->setCourse($course);
         $uc->setUser($user);
         $uc->setListId($listId);
+
+        // Add course to user
+        $user->addUserCourse($uc);
         $em->persist($uc);
         $em->flush();
 

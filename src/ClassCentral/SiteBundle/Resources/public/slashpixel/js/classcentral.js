@@ -17,7 +17,7 @@ jQuery(function($) {
                 addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'));
             } else {
                 // redirect to signup page
-                window.location.replace("/signup");
+                window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/"+ $(clicked).val());
             }
         });
     });

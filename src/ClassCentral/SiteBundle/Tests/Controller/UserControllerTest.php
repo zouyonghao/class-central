@@ -84,6 +84,7 @@ class UserControllerTest extends WebTestCase
      * User is redirected to the MOOC tracker page
      * The course gets added to the mooc tracker page
      */
+    /*
     public function testCourseReferralSignupFlow()
     {
          $client = self::createClient();
@@ -106,6 +107,38 @@ class UserControllerTest extends WebTestCase
         // Check if course is added to mooc tracker
         $this->assertCount(1,
             $crawler->filter("div#mooc-tracker-course-box-content-title")
+        );
+    }
+    */
+
+    /**
+     * User clicks on of the checkboxes and is redirect tp /signup/cc/courseId/listId
+     * User signs up
+     * User is redirected to the profile page
+     * The course is added to profile page
+     */
+    public function testAddToLibraryFlowAction()
+    {
+        $client = self::createClient();
+        $client->request('GET','/signup/cc/622/1');
+        $crawler = $client->followRedirect();
+        $crawler = $client->followRedirect();
+
+        // Fill the signup form
+        $form = $crawler->selectButton('Sign up')->form(array(
+                'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",time()),
+                'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
+                'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
+                'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
+            ));
+
+        $client->submit($form);
+
+        $crawler = $client->followRedirect();
+        $this->isSignedIn($crawler);
+        // Check if course is added to the library
+        $this->assertCount(1,
+            $crawler->filter("td[class=course-name-column]")
         );
     }
 

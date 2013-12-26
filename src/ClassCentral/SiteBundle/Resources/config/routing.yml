@@ -178,3 +178,8 @@ user_library:
   pattern: /user/profile
   defaults: {_controller: ClassCentralSiteBundle:User:library }
 
+signup_add_to_library:
+  pattern: /signup/cc/{courseId}/{listId}
+  defaults: {_controller: ClassCentralSiteBundle:User:signUpAddToLibrary }
+  schemes:  [https]
+
