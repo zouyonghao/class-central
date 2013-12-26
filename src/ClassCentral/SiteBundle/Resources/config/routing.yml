@@ -135,7 +135,7 @@ mooctracker:
 
 mooctracker_signup:
   pattern: /mooc-tracker-signup
-  defaults: { _controller: ClassCentralSiteBundle:Usefr:signUp}
+  defaults: { _controller: ClassCentralSiteBundle:User:signUp}
 
 mooctracker_add_course:
   pattern: /user/tracker/course/{courseId}

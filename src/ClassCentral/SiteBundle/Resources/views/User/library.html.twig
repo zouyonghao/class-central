@@ -5,6 +5,10 @@
         {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with
             {'offLanguages':offLanguages, 'offSubjects':offSubjects, 'offLists': listTypes } %}
         <div class="tables-wrap">
+            {% if showInstructions %}
+                No courses found
+            {% endif %}
+
             {% for listId, listDetails in listTypes %}
                 {% set listType=listDetails['slug'] %}
                 {% if offerings[listType] is not null and offerings[listType]|length > 0 %}

@@ -768,19 +768,26 @@ class UserController extends Controller
             $offerings[$list] = array();
         }
 
+        $userCourses = $user->getUserCourses();
 
-        foreach($user->getUserCourses() as $userCourse)
+        foreach($userCourses as $userCourse)
         {
             $list = $userCourse->getList();
             $offering = $offeringRepo->getOfferingArray($userCourse->getCourse()->getNextOffering());
             $offerings[$list['slug']][] = $offering;
         }
 
+
         // Get the search terms
         $searchTerms = $userSession->getMTSearchTerms();
-
         $lang = $filterService->getOfferingLanguages($offerings);
         $subjects = $filterService->getOfferingSubjects($offerings);
+
+        $showInstructions = false;
+        if(empty($searchTerms) && $userCourses->count()==0)
+        {
+            $showInstructions = true;
+        }
 
         return $this->render('ClassCentralSiteBundle:User:library.html.twig', array(
                 'page' => 'user-library',
@@ -788,7 +795,8 @@ class UserController extends Controller
                 'listTypes' => UserCourse::$lists,
                 'offLanguages' => $lang,
                 'offSubjects' => $subjects,
-                'searchTerms' => $searchTerms
+                'searchTerms' => $searchTerms,
+                'showInstructions' => $showInstructions,
         ));
 
     }
