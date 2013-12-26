@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
@@ -299,7 +300,8 @@ class CourseController extends Controller
                  'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past'),
                  'nextSession' => $nextSession,
                  'nextSessionStart' => $nextSessionStart,
-                 'recentlyViewedCourses' => $recentlyViewedCourses
+                 'recentlyViewedCourses' => $recentlyViewedCourses,
+                 'listTypes' => UserCourse::$lists
        ));
     }
 

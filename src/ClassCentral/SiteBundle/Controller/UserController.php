@@ -631,6 +631,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $userService = $this->get('user_service');
+        $userSession = $this->get('user_session');
 
         $user = $this->get('security.context')->getToken()->getUser();
         if(!$user)
@@ -656,6 +657,7 @@ class UserController extends Controller
 
                 if($uc)
                 {
+                    $userSession->saveUserInformationInSession(); // Update the session
                     return $this->getAjaxResponse(true);
                 }
 
@@ -667,6 +669,7 @@ class UserController extends Controller
                 $result = $userService->removeCourse($user, $course, $params['listId']);
                 if($result)
                 {
+                    $userSession->saveUserInformationInSession(); // Update the session
                     return $this->getAjaxResponse(true);
                 }
                 else
@@ -760,7 +763,19 @@ class UserController extends Controller
                 'offSubjects' => $subjects,
         ));
 
+    }
 
+    /**
+     * Session based ajax calls to check if the user is logged in
+     * @param Request $request
+     */
+    public function isLoggedInAction(Request $request)
+    {
+        // Check if user is already logged in.
+        $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
+        $response = array('loggedIn' => $loggedIn);
+
+        return new Response(json_encode($response));
     }
 
 }

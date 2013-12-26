@@ -18,6 +18,7 @@ class UserSession
     const MT_COURSE_KEY = 'mooc_tracker_courses';
     const MT_SEARCH_TERM_KEY = 'mooc_tracker_search_terms';
     const MT_REFERRAL_KEY = 'mooc_tracker_referral';
+    const LIBRARY_COURSES_KEY = 'user_courses_library';
     const USER_RECENTLY_VIEWED = 'user_recently_view';
     const NEWSLETTER_USER_EMAIL = 'newsletter_user_email';
 
@@ -74,6 +75,19 @@ class UserSession
         }
         $this->session->set(self::MT_SEARCH_TERM_KEY, $searchTerms);
 
+        // Save all the courses from users library in session
+        $userCourseIds = array();
+        foreach($user->getUserCourses() as $userCourse)
+        {
+            $courseId = $userCourse->getCourse()->getId();
+            if(!isset($userCourseIds[$courseId]))
+            {
+                $userCourseIds[$courseId][] = array();
+            }
+            $userCourseIds[$courseId][] = $userCourse->getListId();
+        }
+
+        $this->session->set(self::LIBRARY_COURSES_KEY, $userCourseIds);
     }
 
     /**
@@ -87,6 +101,16 @@ class UserSession
             return false;
         }
         return in_array($courseId, $courseIds);
+    }
+
+    /**
+     * Returns a array of list ids with courses for a particular course
+     * @param $courseId
+     */
+    public function getCourseListIds($courseId)
+    {
+        $userCourseIds = $this->session->get(self::LIBRARY_COURSES_KEY);
+        return isset($userCourseIds[$courseId]) ? $userCourseIds[$courseId] : array();
     }
 
     /**
@@ -107,6 +131,11 @@ class UserSession
     public function getMTCourses()
     {
         return $this->session->get(self::MT_COURSE_KEY);
+    }
+
+    public function getUserLibraryCourses()
+    {
+        return $this->session->get(self::LIBRARY_COURSES_KEY);
     }
 
     public function getMTSearchTerms()

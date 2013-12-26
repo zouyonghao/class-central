@@ -27,7 +27,14 @@
 
 {% block content %}
     <div class="course-block" itemscope itemtype="http://schema.org/Event">
-
+        {% set userListIds = user_session.getCourseListIds(course['id']) %}
+        {% for listId, list in listTypes %}
+            <input type="checkbox" id = "course-list-checkbox" value="{{ listId }}" data-course-id = "{{ course.id }}"
+                {% if listId in userListIds %}checked="checked"{% endif %}
+            >
+                    {{ list.desc }}
+            </input>
+        {% endfor %}
         {% if app.user %}
             {% if user_session.isCourseAddedToMT(course['id']) %}
                 {# added to mooc tracker #}

@@ -44,27 +44,27 @@ class UserControllerAjaxTest extends WebTestCase{
         $this->isSignedIn($crawler);
 
         // Add a course for the signed in user
-        $crawler = $client->request('GET','/user/course/add?c_id=1261&l_id=1');
+        $crawler = $client->request('GET','/ajax/user/course/add?c_id=1261&l_id=1');
         $response = json_decode($crawler->text(),true);
         $this->assertTrue($response['success'],"Course was not added to user");
 
         // Add the course again and it should fail
-        $crawler = $client->request('GET','/user/course/add?c_id=1261&l_id=1');
+        $crawler = $client->request('GET','/ajax/user/course/add?c_id=1261&l_id=1');
         $response = json_decode($crawler->text(),true);
         $this->assertFalse($response['success'],"Course was added to user when it should not have been");
 
         // Remove the course now
-        $crawler = $client->request('GET','/user/course/remove?c_id=1261&l_id=1');
+        $crawler = $client->request('GET','/ajax/user/course/remove?c_id=1261&l_id=1');
         $response = json_decode($crawler->text(),true);
         $this->assertTrue($response['success'],"Course could not be removed");
 
         // Remove should fail
-        $crawler = $client->request('GET','/user/course/remove?c_id=1261&l_id=1');
+        $crawler = $client->request('GET','/ajax/user/course/remove?c_id=1261&l_id=1');
         $response = json_decode($crawler->text(),true);
         $this->assertFalse($response['success'],"Course does not exist. Remove should fail");
 
         // Add the course again and it should work
-        $crawler = $client->request('GET','/user/course/add?c_id=1261&l_id=1');
+        $crawler = $client->request('GET','/ajax/user/course/add?c_id=1261&l_id=1');
         $response = json_decode($crawler->text(),true);
         $this->assertTrue($response['success'],"Course was not added to user");
 
