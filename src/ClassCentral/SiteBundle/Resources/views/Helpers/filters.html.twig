@@ -32,7 +32,17 @@
                             </li>
                         {% endif %}
                     {% endfor %}
+
+                    {% if searchTerms|length > 0 %}
+                        <li>
+                            <div class="tick-wrap">
+                                <span class="tick">√</span>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm">Search Terms</a>
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
+
             </li>
         {% endif %}
         {# subjects #}

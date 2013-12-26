@@ -134,22 +134,25 @@ jQuery(function($) {
 
     listifyTable = function (tableType)
     {
+
         var listClass = 'table-body-' + tableType;
-        var options = {
-            valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list'],
-            searchClass: ['filter-search'],
-            listClass: [listClass],
-            sortClass: ['sort-button'],
-            page:2000
-        };
+        if($('.' +listClass)[0]) {
+            var options = {
+                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list'],
+                searchClass: ['filter-search'],
+                listClass: [listClass],
+                sortClass: ['sort-button'],
+                page:2000
+            };
 
-        var list = new List('filter-wrap',options);
-        lists[tableType] = list;
-        try {
-            // No filters on the homepage
-            list.on("updated",updated(tableType));
-        } catch(err) {
+            var list = new List('filter-wrap',options);
+            lists[tableType] = list;
+            try {
+                // No filters on the homepage
+                list.on("updated",updated(tableType));
+            } catch(err) {
 
+            }
         }
     }
 

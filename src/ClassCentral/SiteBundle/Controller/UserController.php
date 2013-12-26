@@ -671,26 +671,21 @@ class UserController extends Controller
         {
             // Parse the request parameters
             $params = $this->getCourseListingCallRequestParams($request);
-
             // Get the course
             $course = $em->find('ClassCentralSiteBundle:Course',$params['courseId']);
             if(!$course)
             {
                 return $this->getAjaxResponse(false, "Course does not exist");
             }
-
             if($type == 'add') // Add a course
             {
                 $uc = $userService->addCourse($user, $course, $params['listId']);
-
                 if($uc)
                 {
                     $userSession->saveUserInformationInSession(); // Update the session
                     return $this->getAjaxResponse(true);
                 }
-
                 return $this->getAjaxResponse(false, "Course already added");
-
             }
             else if ($type == 'remove') // Remove a course
             {
@@ -773,12 +768,16 @@ class UserController extends Controller
             $offerings[$list] = array();
         }
 
+
         foreach($user->getUserCourses() as $userCourse)
         {
             $list = $userCourse->getList();
             $offering = $offeringRepo->getOfferingArray($userCourse->getCourse()->getNextOffering());
             $offerings[$list['slug']][] = $offering;
         }
+
+        // Get the search terms
+        $searchTerms = $userSession->getMTSearchTerms();
 
         $lang = $filterService->getOfferingLanguages($offerings);
         $subjects = $filterService->getOfferingSubjects($offerings);
@@ -789,6 +788,7 @@ class UserController extends Controller
                 'listTypes' => UserCourse::$lists,
                 'offLanguages' => $lang,
                 'offSubjects' => $subjects,
+                'searchTerms' => $searchTerms
         ));
 
     }
