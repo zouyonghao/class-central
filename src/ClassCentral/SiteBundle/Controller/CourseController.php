@@ -399,7 +399,7 @@ $text
 Find more details about the course at $url
 
 ---
-For a complete list of courses please visit Class Central at http://www.class-central.com.
+For a complete list of courses please visit Class Central at https://www.class-central.com.
 EOD;
 
         return $text;

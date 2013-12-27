@@ -20,7 +20,7 @@ class HTMLNetwork extends NetworkAbstractInterface
 //            $url = $initiative->getUrl();
 //        }
           $name   = $stream->getName();
-          $url = "http://www.class-central.com/stream/". $stream->getSlug();
+          $url = "https://www.class-central.com/stream/". $stream->getSlug();
 
 
         $this->output->writeln("<h1><a href='$url'>$name ($offeringCount)</a></h1>");
@@ -36,7 +36,7 @@ class HTMLNetwork extends NetworkAbstractInterface
         // Print the title line
         $titleLine = $offering->getName();
         $url = $offering->getUrl();
-        $url = 'http://www.class-central.com'. $this->router->generate('ClassCentralSiteBundle_mooc', array('id' => $offering->getCourse()->getId(), 'slug' => $offering->getCourse()->getSlug()));
+        $url = 'https://www.class-central.com'. $this->router->generate('ClassCentralSiteBundle_mooc', array('id' => $offering->getCourse()->getId(), 'slug' => $offering->getCourse()->getSlug()));
         $this->output->writeln("<a href='$url'>$titleLine</a><br/>");
 
         $secondLine = array();

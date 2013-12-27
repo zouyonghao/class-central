@@ -17,7 +17,7 @@ class RedditNetwork extends NetworkAbstractInterface
 //            $name = $initiative->getName();
 //        }
         $name   = $stream->getName();
-        $url = "http://www.class-central.com/stream/". $stream->getSlug();
+        $url = "https://www.class-central.com/stream/". $stream->getSlug();
 
 
 
