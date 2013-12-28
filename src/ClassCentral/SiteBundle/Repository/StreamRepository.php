@@ -2,8 +2,6 @@
 
 namespace ClassCentral\SiteBundle\Repository;
 
-
-use ClassCentral\SiteBundle\Entity\CourseStatus;
 use Doctrine\ORM\EntityRepository;
 use ClassCentral\SiteBundle\Entity\Offering;
 
@@ -28,7 +26,8 @@ class StreamRepository extends EntityRepository {
     public function getCourseCountBySubjects()
     {
         $em = $this->getEntityManager();
-        $validStatusBound = CourseStatus::COURSE_NOT_SHOWN_LOWER_BOUND;
+        // $validStatusBound = CourseStatus::COURSE_NOT_SHOWN_LOWER_BOUND;
+        $validStatusBound = 100; // Hardcoding because CourseStatus cant be found error
         $results = $em->createQuery(
             "SELECT s.id, s.name, count(DISTINCT c.id) as courseCount
              FROM ClassCentralSiteBundle:Stream s
