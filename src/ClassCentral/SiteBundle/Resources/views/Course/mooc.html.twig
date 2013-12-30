@@ -35,6 +35,7 @@
                     {{ list.desc }}
             </input>
         {% endfor %}
+       <!--
         {% if app.user %}
             {% if user_session.isCourseAddedToMT(course['id']) %}
                 {# added to mooc tracker #}
@@ -46,18 +47,15 @@
                    href="{{ path('mooctracker_add_course',{'courseId' : course['id'] }) }}"
                    title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow" id="btn-mooc-tracker-add">track this course</a>
             {% endif %}
+
         {% else %}
             {# sends to signup page#}
             <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
                href="{{ path('signup_mooc',{'courseId' : course['id'] }) }}"
                title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow" id="btn-mooc-tracker-signup">track this course</a>
         {% endif %}
-
-        {% if app.user and user_session.isCourseAddedToMT(course['id']) %}
-
-        {% else %}
-
-        {% endif %}
+        -->
+       
 
         <div class="course-meta-top row" >
 
@@ -98,7 +96,7 @@
 
                 {% if course['initiative']['name']|length > 0 %}
                     <div class="course-info-row">
-                        <span>Initiative:</span><a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
+                        <span>Provider:</span><a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
                                                     onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
                                                     title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
                     </div>
@@ -121,8 +119,53 @@
         <div class ="course-meta-bottom row">
             <div class="course-meta-bottom-left span6">
                 <p class="course-sessions">Sessions {% if course.length > 0 %}({{ course.length }} weeks long){% endif %} :</p>
+                {% set offeringUrl = null %}
+                {% set selectedOfferingDetails = null %}
+                {% if offeringTypesOrder|length > 0 %}
+                    <select id="sessionOptions">
+                    {% for offeringType in offeringTypesOrder %}
+                        {% if course['offerings'][offeringType]|length > 0 %}
+                            <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
+                            {% for offering in course['offerings'][offeringType]%}
+                                {% if offeringUrl is null %}
+                                    {% set offeringUrl = offering['url']  %}
+                                    {% set selectedOfferingDetails = {
+                                        'type' : offeringType,
+                                        'startDate' : offering.startDate,
+                                        'status' : offering.status
+                                    } %}
+                                {% endif %}
+                                <option itemprop="startDate" content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
+                                        data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
+                                >
+                                  {{ offering['displayDate'] }}
+                                </option>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                    {% if offeringUrl is not null %}
+                        <span class="btnAddToCalendar" {% if selectedOfferingDetails.type != 'upcoming' or selectedOfferingDetails.status != 1 %} style="display:none" {% endif %}>
+                            <a href="{{ course.pageUrl }}" title="Add to Calendar" class="addthisevent">
+                                Add to Calendar
+                                <span class="_start">{{ selectedOfferingDetails.startDate }}</span>
+                                <span class="_end">{{ selectedOfferingDetails.startDate }}</span>
+                                <span class="_zonecode">35</span>
+                                <span class="_summary">{{ course['name'] }} {% if course['initiative']['name']|length > 0 and course['initiative']['name'] != 'Others' %} from {{ course['initiative']['name'] }} {% endif %} | Class Central</span>
+                                            <span class="_description">{{ course['desc'] }}<br>Find out more at {{ course.pageUrl }}
+                                            </span>
+                                <span class="_all_day_event">true</span>
+                                <span class="_date_format">DD/MM/YYYY</span>
+                            </a>
+                        </span>
+                        {% endif %}
+                {% endif %}
+
+                <br/><a href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
+                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go To Class</a>
                 {% for offeringType in offeringTypesOrder %}
                     {% if course['offerings'][offeringType]|length > 0 %}
+                         {#
                           <div class='course-offeringtype-block'>
                             <h4 >{{ offeringTypes[offeringType]['sessionDesc'] }}</h4>
                             <ul>
@@ -145,11 +188,10 @@
                                         </a>
                                     {% endif %}
                                 </li>
-
-
                             {% endfor %}
                             </ul>
                           </div>
+                        #}
                     {% endif %}
                 {% endfor %}
             </div>

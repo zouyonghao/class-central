@@ -58,6 +58,13 @@
                     }catch(err){}
                  }
 
+                function recordOutboundLinkWithoutRedirect( initiative, coursename, stream) {
+                    try {
+                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
+                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
+                    }catch(err){}
+                }
+
                 function recordInboundLink(link, initiative, coursename, section) {
                     try {
                         _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Initiative' , initiative, coursename ]);

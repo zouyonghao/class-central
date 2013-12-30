@@ -40,4 +40,28 @@ jQuery(function($) {
             );
         }
     }
+
+    // Select dropdown on course pages
+    $('#sessionOptions').change(function() {
+        var selected = $(this).find('option:selected');
+        var url = selected.data("url");
+        var sessionType = selected.data('sessiontype');
+        var sessionStatus = selected.data('sessionstatus');
+        var sessionStartDate = selected.data('sessionstartdate');
+
+        // Update the user of the href tag
+        $('#btnProviderCoursePage').attr("href",url);
+
+        // Update the add to calendar button
+        $('._start').html(sessionStartDate);
+        $('._end').html(sessionStartDate);
+        if(sessionType=='upcoming' && sessionStatus == '1') {
+            $('.btnAddToCalendar').show();
+        }
+        else {
+            $('.btnAddToCalendar').hide();
+        }
+
+    });
+
 });

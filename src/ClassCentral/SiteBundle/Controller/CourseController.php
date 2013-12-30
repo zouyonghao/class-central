@@ -292,6 +292,8 @@ class CourseController extends Controller
             $nextSessionStart = $nextSession['displayDate'];
         }
 
+        // Count the number of offerings
+
        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
