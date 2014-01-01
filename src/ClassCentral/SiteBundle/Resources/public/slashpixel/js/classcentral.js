@@ -4,7 +4,7 @@ jQuery(function($) {
         cache: false
     });
     // Handle calls to add/remove courses to users library
-    $('input[id="course-list-checkbox"]').change(function(){
+    $('input[class="course-list-checkbox"]').change(function(){
         var clicked = this;
         // Check if the user is logged in
         $.ajax({
@@ -62,6 +62,17 @@ jQuery(function($) {
             $('.btnAddToCalendar').hide();
         }
 
+    });
+
+
+    // relevant to course information page and course tables
+    // stop dropdown from closing when its inside elements are clicked on
+    $('.course-button-group .dropdown-menu').bind('click', function (e) {
+        e.stopPropagation();
+    });
+
+    $('.table .dropdown-menu').bind('click', function (e) {
+        e.stopPropagation();
     });
 
 });

@@ -1105,6 +1105,100 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin: 0;
 }
 
+/*======================================================
+=            course table add button styles            =
+======================================================*/
+
+.add-column .dropdown-toggle {
+    background-color: #898987;
+    border-bottom: 3px solid #6fc9c2;
+    color: #fff;
+    display: block;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 40px;
+    text-align: center;
+    width: 43px;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-duration: 0.2s;
+    -moz-transition-timing-function: ease-out;
+    -o-transition-duration: 0.2s;
+    -o-transition-timing-function: ease;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.add-column .dropdown-toggle:hover,
+.add-column .open .dropdown-toggle {
+    text-decoration: none;
+    background-color: #1663a3;
+}
+
+.add-column .dropdown-menu {
+    min-width: 100px;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #898989;
+    left: -15px;
+    margin: 0;
+}
+
+.add-column .dropdown-menu li {
+    padding: 0 10px;
+}
+
+.add-column .dropdown-menu li:hover {
+    background-color: #F9F9F9
+}
+
+.add-column .dropdown-menu:before {
+    border-bottom: 7px solid #fff;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    content: '';
+    display: inline-block;
+    left: 29px;
+    position: absolute;
+    top: -7px;
+}
+
+.add-column input[type=checkbox] {
+    display: none;
+}
+
+.add-column label {
+    font-size: 12px;
+    cursor: pointer;
+    position: relative;
+    padding-left: 22px;
+}
+
+.add-column .dropdown-menu label:before {
+    border: 1px solid #898989;
+    content: "";
+    display: inline-block;
+    font-size: 12px;
+    height: 12px;
+    left: 0;
+    line-height: 12px;
+    position: absolute;
+    text-align: center;
+    top: 2px;
+    width: 12px;
+}
+
+.add-column input[type=checkbox]:checked + label:before {
+    content: "\2713";  
+    color: #59d856;
+    font-family: arial;  
+}
+
+
+/*-----  End of course table add button styles  ------*/
+
+
+
 
 /*Top navigation */
 
@@ -1187,9 +1281,6 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     width: 700px;
 }
 
-.cc-page {
-    overflow: hidden;
-}
 
 .cat-filter-wrap {
     position: relative;
@@ -1525,6 +1616,125 @@ input::-webkit-input-placeholder {
 .btn-mooc-tracker-added:hover {
     background-color: #5ca8a3;
 }
+
+
+.course-info{
+    margin:0;
+    padding-left:60px;
+}
+.course-meta-bottom {
+     margin:0;
+ }
+/*=============================================
+=            =course buttons group            =
+=============================================*/
+
+.course-button-group {
+    font-family: "Open Sans", sans-serif;
+    list-style: none;
+    float: left;
+    margin: 0;
+}
+
+.course-button-group > li {
+    float: left;
+    margin-left: 4px;
+}
+
+.course-button-group li:first-child {
+    margin-left: 0;
+}
+
+.course-button-group > li a {
+    border-bottom: 3px solid #6fc9c2;
+    color: #fff;
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 36px;
+    text-align: center;
+    width: 100px;
+}
+
+.course-button-group li a:hover {
+    text-decoration: none;
+}
+
+.register-button {
+    background-color: #1663a3;
+}
+
+.review-button {
+    background-color: #3a759a;
+}
+
+.course-button-group>li .add-button {
+    background-color: #f15f45;
+    width: 106px;
+}
+
+.course-button-group .dropdown-menu {
+    padding: 10px 0;
+    font-size: 12px;
+    color: #898989;
+    left: -1px;
+    margin: 0;
+}
+
+.course-button-group .dropdown-menu li {
+    padding: 0 10px;
+}
+
+.course-button-group .dropdown-menu li:hover {
+    background-color: #F9F9F9
+}
+
+.course-button-group .dropdown-menu:before {
+    position: absolute;
+    top: -7px;
+    left: 47px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #fff;
+    border-left: 7px solid transparent;
+    content: '';
+}
+
+.course-button-group input[type=checkbox] {
+    display: none;
+}
+
+.course-button-group label {
+    font-size: 12px;
+    cursor: pointer;
+    position: relative;
+    padding-left: 22px;
+}
+
+.course-button-group .dropdown-menu label:before {
+    border: 1px solid #898989;
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+    text-align: center;
+    font-size: 12px;
+    position: absolute;
+    top: 2px;
+    left: 0;
+}
+
+.course-button-group input[type=checkbox]:checked + label:before {
+    content: "\2713";  
+    color: #59d856;
+    font-family: arial;  
+}
+
+
+
+/*-----  End of =course buttons group  ------*/
+
 
 /* Positioning for MOOC tracker button */
 .btn-mooc-tracker-course-page {

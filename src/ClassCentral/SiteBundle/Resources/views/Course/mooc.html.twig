@@ -27,14 +27,6 @@
 
 {% block content %}
     <div class="course-block" itemscope itemtype="http://schema.org/Event">
-        {% set userListIds = user_session.getCourseListIds(course['id']) %}
-        {% for listId, list in listTypes %}
-            <input type="checkbox" id = "course-list-checkbox" value="{{ listId }}" data-course-id = "{{ course.id }}"
-                {% if listId in userListIds %}checked="checked"{% endif %}
-            >
-                    {{ list.desc }}
-            </input>
-        {% endfor %}
        <!--
         {% if app.user %}
             {% if user_session.isCourseAddedToMT(course['id']) %}
@@ -161,8 +153,32 @@
                         {% endif %}
                 {% endif %}
 
-                <br/><a href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
-                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go To Class</a>
+                <br/>
+                <ul class="course-button-group">
+                    <li>
+                        <a class="register-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
+                           onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Register</a>
+                    </li>
+                    <li>
+                        <a class="review-button" href="#">Review</a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span>+</span> Interested</a>
+                        <ul class="dropdown-menu">
+                            {% set userListIds = user_session.getCourseListIds(course['id']) %}
+                            {% for listId, list in listTypes %}
+                                <li>
+                                    <input type="checkbox" class = "course-list-checkbox" id="check{{ listId }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
+                                           {% if listId in userListIds %}checked="checked"{% endif %}
+                                            >
+                                    <label for="check{{ listId }}">{{ list.desc }}</label>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+
                 {% for offeringType in offeringTypesOrder %}
                     {% if course['offerings'][offeringType]|length > 0 %}
                          {#
