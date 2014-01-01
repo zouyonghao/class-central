@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro Video</th>
+        <th class="add-column">Add</th>
         <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])">Course Name</th>
         {#<th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>#}
         {# hide the stream column on stream pages #}
@@ -10,7 +11,6 @@
         {# <th class="sorting offering-length" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Length'])">Length</th> #}
         {# hide the initiative column on initiative pages #}
         {% if page is defined and page != 'initiative' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])">Provider</th> {% endif %}
-
     </tr>
     </thead>
     <tbody class="table-body-{{ tableId }}">
@@ -26,6 +26,24 @@
                 {# filter information #}
                 <div class="subjectSlug" style="display: none">{{ offering['stream']['slug'] }}</div>
                 <div class="languageSlug" style="display: none">{{ offering['language']['name'] }}</div>
+            </td>
+
+            {# add to profile column #}
+            <td class="add-column">
+                <div class="dropdown">
+                    {% set userListIds = user_session.getCourseListIds(offering.courseId) %}
+                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">{% if userListIds is empty %}+{% else %}-{% endif %}</a>
+                    <ul class="dropdown-menu">
+                        {% for listId, list in listTypes %}
+                            <li>
+                                <input type="checkbox" class = "course-list-checkbox" id="check-{{ listId }}-{{ offering.courseId }}" value="{{ listId }}" data-course-id = "{{ offering.courseId }}"
+                                       {% if listId in userListIds %}checked="checked"{% endif %}
+                                        >
+                                <label for="check-{{ listId }}-{{ offering.courseId }}">{{ list.desc }}</label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </td>
 
             <td class="course-name-column">
@@ -93,6 +111,7 @@
                     {% endif %}
                 </td>
             {% endif %}
+
         </tr>
     {% endfor %}
 

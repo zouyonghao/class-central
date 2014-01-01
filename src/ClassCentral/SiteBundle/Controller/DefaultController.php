@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Initiative;
@@ -16,7 +17,7 @@ class DefaultController extends Controller {
                     array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));                
 
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', 
-                            array( 'offerings' => $offerings, 'page' => 'home',
+                            array( 'offerings' => $offerings, 'page' => 'home',   'listTypes' => UserCourse::$lists,
                                   'offeringTypes'=> array_intersect_key( Offering::$types, array_flip(array('recent','recentlyAdded')))));
     }
     
@@ -44,7 +45,8 @@ class DefaultController extends Controller {
                     'page'=>'courses',
                     'offeringTypes'=> Offering::$types,
                     'offSubjects' => $subjects,
-                    'offLanguages' => $lang
+                    'offLanguages' => $lang,
+                    'listTypes' => UserCourse::$lists
                 ));
     }
 
@@ -84,7 +86,8 @@ class DefaultController extends Controller {
                     'initiativeType' => $type,
                     'offeringTypes'=> Offering::$types,
                     'offSubjects' => $subjects,
-                    'offLanguages' => $lang
+                    'offLanguages' => $lang,
+                    'listTypes' => UserCourse::$lists
                 ));
     }
     

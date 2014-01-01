@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -216,7 +217,8 @@ class StreamController extends Controller
                 'slug' => $slug,
                 'offeringTypes' => Offering::$types,
                 'pageInfo' => $pageInfo,
-                'offLanguages' => $lang
+                'offLanguages' => $lang,
+                'listTypes' => UserCourse::$lists
             ));
     }
 

@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -220,7 +221,8 @@ class InstitutionController extends Controller
                     'slug' => $slug,
                     'pageInfo' => $pageInfo,
                     'offSubjects' => $subjects,
-                    'offLanguages' => $lang
+                    'offLanguages' => $lang,
+                    'listTypes' => UserCourse::$lists
                 ));                
     }
     
