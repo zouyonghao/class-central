@@ -1,22 +1,22 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
  {% block headmeta %}
-     <title>Signup for MOOC Tracker - Notification service for MOOCs</title>
+     <title>Class Central Signup</title>
      <meta name="description"
-           content="MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests"/>
-     <meta property="og:title" content="Signup for MOOC Tracker - Notification service for MOOCs" />
-     <meta property="og:url" content="https://www.class-central.com/mooc-tracker" />
+           content="Signup for a Class Central account and build your own searchable library of courses. MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests"/>
+     <meta property="og:title" content="Signup for Class Central" />
+     <meta property="og:url" content="https://www.class-central.com/signup" />
      <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      <meta property="og:site_name" content="Class Central"/>
-     <meta property="og:description" content="MOOC Tracker is a service from Class Central that sends email notifications based on your interests. Stay updated on courses that match your interests" />
+     <meta property="og:description" content="Signup for a Class Central account and build your own searchable library of courses. MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests" />
      <meta property="og:type" content="website" />
      <meta property="fb:admins" content="{{ fb_admins }}" />
 
      <!-- Twitter card integration -->
      <meta name="twitter:card" content="summary">
      <meta name="twitter:site" content="@classcentral">
-     <meta name="twitter:title" content="Signup for MOOC Tracker - Notification service for MOOCs">
-     <meta name="twitter:description" content="MOOC Tracker is a service from Class Central that sends email notifications based on your interests. Stay updated on courses that match your interests">
+     <meta name="twitter:title" content="Signup for Class Central">
+     <meta name="twitter:description" content="Signup for a Class Central account and build your own searchable library of courses. MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests">
      <meta name="twitter:domain" content="www.class-central.com">
 
  {% endblock %}
@@ -25,11 +25,11 @@
 <div class="signup-box">
     <div class="signup-copy">
         <p class="signup-copy-line1">
-            Stay updated on courses that match your interests
+            Build your own searchable library of courses.
         </p>
 
         <p class="signup-copy-line2">
-            MOOC Tracker is a service from Class Central that sends you email notifications based on your interests.
+            Additionaly, receive email notifications via MOOC Tracker, a service from Class Central that sends you notifications based on your interests.
         </p>
 
         <div class="signup-copy-desc">
@@ -49,11 +49,11 @@
 
     </div>
     <div class="cc-form-box">
-        <h3>Sign Up for MOOC tracker</h3>
+        <h3>Class Central Signup</h3>
         {{ form(form) }}
 
         <p id="cc-form-box-additional-link">
-            Already have an account? <a href="{{ path('login')  }}" title="Login to MOOC Tracker">Login>></a>
+            Already have an account? <a href="{{ path('login')  }}" title="Class Central login">Login>></a>
         </p>
     </div>
 </div>

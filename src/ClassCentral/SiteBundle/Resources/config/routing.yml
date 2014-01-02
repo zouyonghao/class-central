@@ -175,7 +175,7 @@ ajax_user_loggedin:
   defaults: {_controller: ClassCentralSiteBundle:User:isLoggedIn}
 
 user_library:
-  pattern: /user/profile
+  pattern: /user/courses
   defaults: {_controller: ClassCentralSiteBundle:User:library }
 
 signup_add_to_library:

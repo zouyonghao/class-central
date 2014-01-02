@@ -198,7 +198,7 @@ class UserController extends Controller
         // Redirect user if already logged in
         if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            return $this->redirect($this->generateUrl('mooctracker'));
+            return $this->redirect($this->generateUrl('user_library'));
         }
 
         if(!$form)

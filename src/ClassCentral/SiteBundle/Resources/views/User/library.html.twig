@@ -1,6 +1,11 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+{% block headmeta %}
+    <title>My Courses | Class Central</title>
+{% endblock %}
+
 {%  block content %}
+    <h1 class='cc-page-header'>My Courses</h1>
     <div id="filter-wrap">
         {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with
             {'offLanguages':offLanguages, 'offSubjects':offSubjects, 'offLists': listTypes } %}

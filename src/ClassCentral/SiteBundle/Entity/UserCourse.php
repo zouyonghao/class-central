@@ -39,15 +39,15 @@ class UserCourse
      */
     private $offering;
 
-    const LIST_TYPE_INTERESTED = 1;
-    const LIST_TYPE_STARTED = 2;
+    const LIST_TYPE_PLANTOTAKE = 1;
+    const LIST_TYPE_ENROLLED = 2;
     const LIST_TYPE_COMPLETED = 3;
     const LIST_TYPE_AUDITED = 4;
     const LIST_TYPE_MOOC_TRACKER = 5;
 
     public static $lists = array(
-        self::LIST_TYPE_INTERESTED => array('slug' => 'interested','desc' => "Interested"),
-        self::LIST_TYPE_STARTED => array('slug'=>'started','desc'=>'Started'),
+        self::LIST_TYPE_PLANTOTAKE => array('slug' => 'plantotake','desc' => "Plan to take"),
+        self::LIST_TYPE_ENROLLED => array('slug'=>'enrolled','desc'=>'Enrolled'),
         self::LIST_TYPE_COMPLETED => array('slug'=>'completed','desc'=>'Completed'),
         self::LIST_TYPE_AUDITED => array('slug'=>'audited','desc'=>'Audited'),
         self::LIST_TYPE_MOOC_TRACKER => array('slug'=>'mooc-tracker','desc'=>'MOOC Tracker')

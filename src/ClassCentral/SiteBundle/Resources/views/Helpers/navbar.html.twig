@@ -31,16 +31,16 @@
                     <ul class="dropdown-menu user-menu">
                         <li>
                             {% if app.user %}
-                                <a href="{{ path('mooctracker') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker User Menu'])" title="MOOC Tracker">
-                                    MOOC Tracker
+                                <a href="{{ path('user_library') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central User Menu'])" title="My Courses">
+                                    My Courses
                                 </a>
                                 <a href="{{ path('logout') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Logout'])" >Logout</a>
 
 
                             {% else %}
                                 <a href="{{ path('login') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Login'])">Login</a>
-                                <a href="{{ path('mooctracker_signup') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker Signup User Menu'])" title="MOOC Tracker Signup">
-                                    Signup for MOOC Tracker
+                                <a href="{{ path('signup') }}" class="nav-title" title="Class Central Signup" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central Signup User Menu'])" title="Class Central Signup">
+                                    Signup
                                 </a>
                             {% endif %}
                         </li>
@@ -76,14 +76,14 @@
                 <li><a href="{{ path('subjects',{}) }}" class="nav-title" title="Subjects" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Subjects'])">Subjects</a></li>
                 <li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>
 
-                {# MOOC Tracker/ Signup #}
+                {# My Courses/ Signup #}
                 <li class="mooc-tracker">
                     {% if app.user %}
-                        <a href="{{ path('mooctracker') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker'])" title="MOOC Tracker">
-                            MOOC Tracker
+                        <a href="{{ path('user_library') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'My Courses'])" title="My Courses">
+                            My Courses
                         </a>
                     {% else %}
-                        <a href="{{ path('mooctracker_signup') }}" class="nav-title" title="MOOC Tracker" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Tracker Signup'])" title="MOOC Tracker Signup">
+                        <a href="{{ path('signup') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central Signup'])" title="Class Central Signup">
                             Signup
                         </a>
                     {% endif %}

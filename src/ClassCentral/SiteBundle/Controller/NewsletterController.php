@@ -369,7 +369,7 @@ class NewsletterController extends Controller
         // Redirect user if already logged in
         if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            return $this->redirect($this->generateUrl('mooctracker'));
+            return $this->redirect($this->generateUrl('user_library'));
         }
 
 
@@ -378,7 +378,7 @@ class NewsletterController extends Controller
         if(empty($emailEntity))
         {
             // Redirect to signup page
-            $this->redirect($this->generateUrl('mooctracker_signup'));
+            $this->redirect($this->generateUrl('signup'));
         }
         $password = $request->request->get('password');
         if(empty($password))
@@ -404,6 +404,6 @@ class NewsletterController extends Controller
         $em->flush();
 
         // Redirect to MOOC Tracker page
-        return $this->redirect($this->generateUrl('mooctracker'));
+        return $this->redirect($this->generateUrl('user_library'));
     }
 }

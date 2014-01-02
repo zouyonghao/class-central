@@ -27,27 +27,6 @@
 
 {% block content %}
     <div class="course-block" itemscope itemtype="http://schema.org/Event">
-       <!--
-        {% if app.user %}
-            {% if user_session.isCourseAddedToMT(course['id']) %}
-                {# added to mooc tracker #}
-                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added btn-mooc-tracker-course-page"
-                   title="Added to MOOC tracker" rel="nofollow">added to MOOC tracker</a>
-            {% else %}
-                {# add to mooc tracker #}
-                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
-                   href="{{ path('mooctracker_add_course',{'courseId' : course['id'] }) }}"
-                   title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow" id="btn-mooc-tracker-add">track this course</a>
-            {% endif %}
-
-        {% else %}
-            {# sends to signup page#}
-            <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add btn-mooc-tracker-course-page"
-               href="{{ path('signup_mooc',{'courseId' : course['id'] }) }}"
-               title="Get notified when a course is about to start or a new version of the course is offered" rel="nofollow" id="btn-mooc-tracker-signup">track this course</a>
-        {% endif %}
-        -->
-       
 
         <div class="course-meta-top row" >
 
@@ -159,9 +138,11 @@
                         <a class="register-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
                            onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Register</a>
                     </li>
-                    <li>
-                        <a class="review-button" href="#">Review</a>
-                    </li>
+                    {#
+                        <li>
+                            <a class="review-button" href="#">Review</a>
+                        </li>
+                    #}
 
                     <li class="dropdown">
                         {% set userListIds = user_session.getCourseListIds(course['id']) %}
@@ -179,37 +160,6 @@
                     </li>
                 </ul>
 
-                {% for offeringType in offeringTypesOrder %}
-                    {% if course['offerings'][offeringType]|length > 0 %}
-                         {#
-                          <div class='course-offeringtype-block'>
-                            <h4 >{{ offeringTypes[offeringType]['sessionDesc'] }}</h4>
-                            <ul>
-                            {% for offering in course['offerings'][offeringType]%}
-                                <li><span class='offering-start-date' itemprop="startDate" content="{{ offering['microdataDate'] }}">{{ offering['displayDate'] }}</span>
-                                    <a href="{{ offering['url'] }}" class="btn btn-primary btn-course-cc" target="_blank"
-                                           onclick="recordOutboundLink('{{ offering['url'] }}','{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');return false"
-                                            >Go to class</a>
-                                    {% if offeringType == 'upcoming' and offering.status == 1 %}
-                                        <a href="{{ course.pageUrl }}" title="Add to Calendar" class="addthisevent">
-                                            Add to Calendar
-                                            <span class="_start">{{ offering.startDate }}</span>
-                                            <span class="_end">{{ offering.startDate }}</span>
-                                            <span class="_zonecode">35</span>
-                                            <span class="_summary">{{ course['name'] }} {% if course['initiative']['name']|length > 0 and course['initiative']['name'] != 'Others' %} from {{ course['initiative']['name'] }} {% endif %} | Class Central</span>
-                                            <span class="_description">{{ course['desc'] }}<br>Find out more at {{ course.pageUrl }}
-                                            </span>
-                                            <span class="_all_day_event">true</span>
-                                            <span class="_date_format">DD/MM/YYYY</span>
-                                        </a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                            </ul>
-                          </div>
-                        #}
-                    {% endif %}
-                {% endfor %}
             </div>
             <div class="course-meta-bottom-right span5">
 

@@ -1,29 +1,29 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
  {% block headmeta %}
-     <title>MOOC Tracker Login | Class Central</title>
+     <title>Class Central login</title>
      <meta name="description"
-           content="MOOC tracker login"/>
+           content="Class Central login"/>
      <meta property="og:title" content="Login in to Class Central" />
-     <meta property="og:url" content="https://www.class-central.com/mooc-tracker" />
+     <meta property="og:url" content="https://www.class-central.com/login" />
      <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      <meta property="og:site_name" content="Class Central"/>
-     <meta property="og:description" content="MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests" />
+     <meta property="og:description" content="Class Central login. LoginStay updated on courses that match your interests" />
      <meta property="og:type" content="website" />
      <meta property="fb:admins" content="{{ fb_admins }}" />
 
      <!-- Twitter card integration -->
      <meta name="twitter:card" content="summary">
      <meta name="twitter:site" content="@classcentral">
-     <meta name="twitter:title" content="Login in to Class Central">
-     <meta name="twitter:description" content="Login to MOOC tracker to track courses">
+     <meta name="twitter:title" content="Class Central login">
+     <meta name="twitter:description" content="Class Central login">
      <meta name="twitter:domain" content="www.class-central.com">
 
  {% endblock %}
 
 {% block contentheader %}
 <div class="cc-form-box">
-    <h3>MOOC Tracker login</h3>
+    <h3>Class Central login</h3>
     {% if error %}
         <div>{{ error.message }}</div>
     {% endif %}
@@ -45,8 +45,8 @@
     </form>
 
     <p id="cc-form-box-additional-link">
-        Don't have an account? <a href="{{ path('mooctracker_signup') }}" title="Sign up for MOOC Tracker">Sign up >></a> <br/>
-        Forgot your password? <a href="{{ path('forgotpassword') }}" title="Sign up for MOOC Tracker">Reset Password >></a>
+        Don't have an account? <a href="{{ path('signup') }}" title="Sign up for Class Central">Sign up >></a> <br/>
+        Forgot your password? <a href="{{ path('forgotpassword') }}" title="Forgot password">Reset Password >></a>
     </p>
 </div>
 <style type="text/css">
