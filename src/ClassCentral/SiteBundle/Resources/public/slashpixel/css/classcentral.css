@@ -382,8 +382,9 @@ li a.sort {
 }
 
 .tick-wrap .tick {
-    top: 9px;
-    left: 11px;
+    top: 11px;
+    left: 10px;
+    border-radius: 3px;
 }
 
 .active > .sort > .tick,
@@ -509,10 +510,6 @@ input.filter-search:focus {
     font-size: 30px;
 }
 
-.cc-page-header {
-    padding-bottom: 20px;
-}
-
 .cc-page h2 {
     font-size:16px;
     font-family: "Open Sans",sans-serif;
@@ -520,6 +517,7 @@ input.filter-search:focus {
     font-weight: 600;
     padding: 0;
     line-height: normal;
+    margin-left: 20px;
 }
 
 /* Remove rounded corners */
@@ -1528,15 +1526,6 @@ input::-webkit-input-placeholder {
     background-color: #5ca8a3;
 }
 
-.course-info{
-    margin:0;
-    padding-left:60px;
-}
-.course-meta-bottom {
-     margin:0;
- }
-
-
 /* Positioning for MOOC tracker button */
 .btn-mooc-tracker-course-page {
     margin-left: -20px;
@@ -1768,8 +1757,8 @@ input::-webkit-input-placeholder {
 #recentlyViewed h1 {
     font-family: 'Open Sans';
     font-weight: bold;
-    line-height:1.5;
-    font-size: 30px;
+    line-height: 0;
+    font-size: 18px;
 }
 #recentlyViewed #mooc-tracker-course-box-inner {
     left: 0px;
@@ -1820,6 +1809,7 @@ input::-webkit-input-placeholder {
 
 .signup-copy ul li{
     color: #5ca8a3;
+    line-height: 25px;
 }
 
 .signup-copy-desc {
@@ -1898,8 +1888,10 @@ CC form box - for signup, login, forgot password
 
 .cc-form-box h3 {
     color: #0662a1;
-    font-family: "Nixie One";
+    font-family: "Open Sans";
     font-weight: normal;
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 
 .cc-form-box form input {
