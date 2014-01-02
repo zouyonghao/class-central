@@ -30,10 +30,13 @@ class SubjectDocumentBuilder extends DocumentBuilder{
             $docs[] = $doc->getDocument();
         }
 
-        foreach($subjects['children'] as $subject)
+        foreach($subjects['children'] as $childSubjects)
         {
-            $doc = new SubjectDocumentType($subject, $this->getContainer());
-            $docs[] = $doc->getDocument();
+            foreach($childSubjects as $subject)
+            {
+                $doc = new SubjectDocumentType($subject, $this->getContainer());
+                $docs[] = $doc->getDocument();
+            }
         }
 
         return $docs;
