@@ -58,6 +58,9 @@ ClassCentral\SiteBundle\Entity\User:
         userCourses:
           targetEntity: UserCourse
           mappedBy: user
+        userPreferences:
+          targetEntity: UserPreference
+          mappedBy: user
     manyToMany:
       newsletters:
         targetEntity: Newsletter

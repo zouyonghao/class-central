@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Command\DataMigration;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Entity\UserPreference;
 
 /**
  * Class Version5
@@ -15,6 +16,7 @@ class Version5 extends VersionAbstractInterface{
     {
         $this->output->writeln("Starting data migration version 5");
 
+        $this->output->writeln('Migrating MOOC tracker courses');
         $em = $this->container->get('Doctrine')->getManager();
         $moocTrackerCourses = $em->getRepository('ClassCentralSiteBundle:MoocTrackerCourse')->findAll();
 
@@ -24,10 +26,32 @@ class Version5 extends VersionAbstractInterface{
             $uc->setUser($mtc->getUser());
             $uc->setCourse($mtc->getCourse());
             $uc->setCreated($mtc->getCreated());
-            $uc->setListId(UserCourse::LIST_TYPE_MOOC_TRACKER);
+            $uc->setListId(UserCourse::LIST_TYPE_PLANTOTAKE);
             $em->persist($uc);
         }
 
         $em->flush();
+
+        $this->output->writeln('Creating MOOC Tracker preferences');
+        // Creating user preferences for mooc tracker courses and search terms
+        $users = $em->getRepository('ClassCentralSiteBundle:User')->findAll();
+        foreach($users as $user)
+        {
+            $upCourses = new UserPreference();
+            $upCourses->setUser($user);
+            $upCourses->setType(UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES);
+            $upCourses->setValue("1");
+
+            $upSearchTerms = new UserPreference();
+            $upSearchTerms->setUser($user);
+            $upSearchTerms->setType(UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM);
+            $upSearchTerms->setValue("1");
+
+            $em->persist($upCourses);
+            $em->persist($upSearchTerms);
+        }
+
+        $em->flush();
+
     }
 }

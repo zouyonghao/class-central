@@ -88,6 +88,11 @@ class User implements UserInterface, \Serializable
      */
     private $isverified;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $userPreferences;
+
 
     public function  __construct()
     {
@@ -98,6 +103,7 @@ class User implements UserInterface, \Serializable
         $this->userCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->moocTrackerSearchTerms = new \Doctrine\Common\Collections\ArrayCollection();
         $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userPreferences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
     }
 
@@ -486,6 +492,27 @@ class User implements UserInterface, \Serializable
     public function getUserCourses()
     {
         return $this->userCourses;
+    }
+
+    public function addUserPreference(\ClassCentral\SiteBundle\Entity\UserPreference $userPreference)
+    {
+        $this->userPreferences[] = $userPreference;
+        return $this;
+    }
+
+    public function getUserPreferences()
+    {
+        return $this->userPreferences;
+    }
+
+    public function getUserPreferencesByTypeMap()
+    {
+        $up = array();
+        foreach($this->userPreferences as $userPreference)
+        {
+            $up[$userPreference->getType()] = $userPreference;
+        }
+        return $up;
     }
 
     /**

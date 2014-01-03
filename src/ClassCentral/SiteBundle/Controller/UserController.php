@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\MoocTrackerCourse;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Form\SignupType;
 use Symfony\Component\HttpFoundation\Request;
@@ -907,6 +908,9 @@ class UserController extends Controller
         return $this->render('ClassCentralSiteBundle:User:prefs.html.twig',array(
             'newsletters' => $newsletters,
             'newsletterIds' => $newsletterIds,
+            'userPrefs' => $user->getUserPreferencesByTypeMap(),
+            'mtCoursePrefId' => UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
+            'mtSearchTermsPrefId' => UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM,
         ));
     }
 
