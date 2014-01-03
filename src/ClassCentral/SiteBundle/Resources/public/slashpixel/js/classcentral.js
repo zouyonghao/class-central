@@ -75,4 +75,43 @@ jQuery(function($) {
         e.stopPropagation();
     });
 
+    /**
+     * User preferences
+     */
+    $('input[class="user-newsletter-checkbox"]').change(function(){
+        var clicked = this;
+        // Check if the user is logged in
+        $.ajax({
+            url: "/ajax/isLoggedIn",
+            cache: true
+        })
+            .done(function(result){
+                var loggedInResult = $.parseJSON(result);
+                if(loggedInResult.loggedIn) {
+                    updateSubscription($(clicked).val(), $(clicked).is(':checked'));
+                } else {
+                    // redirect to loginpage page
+                    window.location.replace("/login");
+                }
+            });
+    });
+
+    var updateSubscription = function(code, checked) {
+        if(checked){
+            $.ajax( "/ajax/newsletter/subscribe/"+code)
+                .done(
+                function(result){
+                    //console.log("jquery" + result);
+                }
+            );
+        } else {
+            $.ajax("/ajax/newsletter/unsubscribe/"+code)
+                .done(
+                function(result){
+                    //console.log("jquery" + result);
+                }
+            );
+        }
+    }
+
 });

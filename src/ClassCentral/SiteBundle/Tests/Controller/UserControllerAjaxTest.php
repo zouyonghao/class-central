@@ -21,7 +21,7 @@ class UserControllerAjaxTest extends WebTestCase{
         self::$email = sprintf("dhawal+%s@class-central.com",time());
     }
 
-    public function testInterestedCoursesAjaxCall()
+    public function testCoursesAjaxCall()
     {
         // Signup a new user
 
@@ -68,10 +68,21 @@ class UserControllerAjaxTest extends WebTestCase{
         $response = json_decode($crawler->text(),true);
         $this->assertTrue($response['success'],"Course was not added to user");
 
+
+        // Newsletter subscription - unsubscribe
+        $crawler = $client->request('GET', '/ajax/newsletter/subscribe/mooc-report');
+        $response = json_decode($crawler->text(),true);
+        $this->assertTrue($response['success'],"Newsletter was subscribed");
+
+        // Newsletter subscription - unsubscribe
+        $crawler = $client->request('GET', '/ajax/newsletter/unsubscribe/mooc-report');
+        $response = json_decode($crawler->text(),true);
+        $this->assertTrue($response['success'],"Newsletter was not subscribed");
+
     }
 
     public function isSignedIn($crawler)
     {
-        $this->assertGreaterThan(0, $crawler->filter("a:contains('MOOC Tracker')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("a:contains('My Courses')")->count());
     }
 } 

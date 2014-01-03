@@ -161,7 +161,7 @@ newsletter_mooc_tracker_signup:
   pattern: /newsletters/mooc-tracker-save-user
   defaults: {_controller: ClassCentralSiteBundle:Newsletter:moocTrackerSignup}
 
-#library course routes
+#user course routes
 ajax_user_course_add:
   pattern: /ajax/user/course/add
   defaults: {_controller: ClassCentralSiteBundle:User:addCourse}
@@ -169,6 +169,14 @@ ajax_user_course_add:
 ajax_user_course_remove:
   pattern: /ajax/user/course/remove
   defaults: {_controller: ClassCentralSiteBundle:User:removeCourse}
+
+ajax_user_newsletter_subscribe:
+  pattern: /ajax/newsletter/subscribe/{code}
+  defaults: {_controller: ClassCentralSiteBundle:User:subscribeNewsletter}
+
+ajax_user_newsletter_add:
+  pattern: /ajax/newsletter/unsubscribe/{code}
+  defaults: {_controller: ClassCentralSiteBundle:User:unsubscribeNewsletter}
 
 ajax_user_loggedin:
   pattern : /ajax/isLoggedIn
@@ -183,3 +191,6 @@ signup_add_to_library:
   defaults: {_controller: ClassCentralSiteBundle:User:signUpAddToLibrary }
   schemes:  [https]
 
+user_preferences:
+  pattern: /user/preferences
+  defaults: {_controller: ClassCentralSiteBundle:User:preferences}

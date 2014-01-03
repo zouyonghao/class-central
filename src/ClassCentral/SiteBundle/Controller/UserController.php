@@ -655,6 +655,7 @@ class UserController extends Controller
         return $this->addRemoveCourse($request, 'remove');
     }
 
+
     private function addRemoveCourse(Request $request, $type)
     {
         $em = $this->getDoctrine()->getManager();
@@ -709,6 +710,77 @@ class UserController extends Controller
         {
             // TODO: Log the exception
             return $this->getAjaxResponse(false, "Exception : " . $e->getMessage());
+        }
+    }
+
+    public function subscribeNewsletterAction(Request $request, $code)
+    {
+        return $this->updateNewsletterSubscription($code, 'subscribe');
+    }
+
+    public function unsubscribeNewsletterAction(Request $request, $code)
+    {
+        return $this->updateNewsletterSubscription($code, 'unsubscribe');
+    }
+
+    private function updateNewsletterSubscription($code, $type)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userService = $this->get('user_service');
+        $user = $this->get('security.context')->getToken()->getUser();
+        $newsletterService = $this->get('newsletter');
+        $logger = $this->get('logger');
+
+        if(!$user)
+        {
+            // No logged in user
+            return $this->getAjaxResponse(false, "User is not logged in");
+        }
+
+        // Get the newsletter
+        $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode($code);
+        if(!$newsletter)
+        {
+            return $this->getAjaxResponse(false, "Newsletter does not exist");
+        }
+
+        if($type == 'subscribe')
+        {
+            $user->subscribe($newsletter);
+            $em->persist($user);
+            $em->flush();
+
+            // Subscribe
+            if ($this->container->getParameter('kernel.environment') != 'test')
+            {
+                $subscribed = $newsletterService->subscribeUser($newsletter, $user);
+                $logger->info("preferences subscribed : email newsletter subscription", array(
+                        'email' =>$user->getId(),
+                        'newsletter' => $newsletter->getCode(),
+                        'subscribed' => $subscribed
+                ));
+            }
+
+            return $this->getAjaxResponse(true);
+        }
+        elseif($type == 'unsubscribe')
+        {
+            $user->removeNewsletter($newsletter);
+            $em->persist($user);
+            $em->flush();
+
+            // Unsubscribe
+            if ($this->container->getParameter('kernel.environment') != 'test')
+            {
+                $unsubscribed = $newsletterService->unSubscribeUser($newsletter, $user);
+                $logger->info("preferences un subscribed : email newsletter subscription", array(
+                        'email' =>$user->getId(),
+                        'newsletter' => $newsletter->getCode(),
+                        'unsubscribed' => $unsubscribed
+                ));
+            }
+
+            return $this->getAjaxResponse(true);
         }
     }
 
@@ -812,6 +884,30 @@ class UserController extends Controller
         $response = array('loggedIn' => $loggedIn);
 
         return new Response(json_encode($response));
+    }
+
+    /**
+     * Prefrences page for newsletters
+     * @param Request $request
+     */
+    public function preferencesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        // Get newsletter prefrences information
+        $newsletterIds = array();
+        foreach($user->getNewsletters() as $newsletter)
+        {
+            $newsletterIds[] = $newsletter->getId();
+        }
+        $newsletters = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findAll();
+
+
+        return $this->render('ClassCentralSiteBundle:User:prefs.html.twig',array(
+            'newsletters' => $newsletters,
+            'newsletterIds' => $newsletterIds,
+        ));
     }
 
 }

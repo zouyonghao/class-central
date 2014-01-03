@@ -9,8 +9,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Email;
-use ClassCentral\SiteBundle\Entity\User;
-use Mailgun\Mailgun;
+use Mailgun\Mailgun as MG;
 
 /**
  * Interacts with mailgun
@@ -24,10 +23,10 @@ class Newsletter {
     public function __construct($key, $domain)
     {
         $this->mailDomain = $domain;
-        $this->mailgun = new Mailgun($key);
+        $this->mailgun = new MG($key);
     }
 
-    public function subscribeUser(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, User $user)
+    public function subscribeUser(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, \ClassCentral\SiteBundle\Entity\User $user)
     {
         return $this->subscribe($newsLetter->getCode(), $user->getEmail());
     }
@@ -37,7 +36,7 @@ class Newsletter {
         return $this->subscribe($newsLetter->getCode(), $email->getEmail());
     }
 
-    public function unSubscribeUser(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, User $user)
+    public function unSubscribeUser(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, \ClassCentral\SiteBundle\Entity\User $user)
     {
         return $this->unsubscribe($newsLetter->getCode(), $user->getEmail());
     }
