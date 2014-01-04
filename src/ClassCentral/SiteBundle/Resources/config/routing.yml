@@ -178,6 +178,10 @@ ajax_user_newsletter_add:
   pattern: /ajax/newsletter/unsubscribe/{code}
   defaults: {_controller: ClassCentralSiteBundle:User:unsubscribeNewsletter}
 
+ajax_user_preference:
+  pattern: /ajax/user/pref/{prefId}/{value}
+  defaults: {_controller: ClassCentralSiteBundle:User:updateUserPreference}
+
 ajax_user_loggedin:
   pattern : /ajax/isLoggedIn
   defaults: {_controller: ClassCentralSiteBundle:User:isLoggedIn}

@@ -10,12 +10,12 @@
             <h2>MOOC Tracker</h2>
             <div>
                 {% set mtCoursePref = userPrefs[mtCoursePrefId].value %}
-                <input type="checkbox" {% if mtCoursePref == "1" %}checked="checked"{% endif %}>Courses</input>
+                <input type="checkbox" {% if mtCoursePref == "1" %}checked="checked"{% endif %} value="{{ mtCoursePrefId }}" class="mooc-tracker-checkbox">Courses</input>
                 <p>Receive notifications when "Plan to Take" courses are offered again, about to start, the dates change, etc</p>
             </div>
             <div>
                 {% set mtSearchTermPref = userPrefs[mtSearchTermsPrefId].value %}
-                <input type="checkbox" {% if mtSearchTermPref == "1" %}checked="checked"{% endif %}>Search Terms</input>
+                <input type="checkbox" {% if mtSearchTermPref == "1" %}checked="checked"{% endif %} value="{{ mtSearchTermsPrefId }}" class="mooc-tracker-checkbox">Search Terms</input>
                 <p>Receive new course notifications for search terms added to MOOC Tracker</p>
             </div>
         </div>

@@ -38,7 +38,7 @@ class UserControllerAjaxTest extends WebTestCase{
                 'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
             ));
 
-        $client->submit($form);
+        $crawler = $client->submit($form);
 
         $crawler = $client->followRedirect();
         $this->isSignedIn($crawler);
@@ -79,6 +79,15 @@ class UserControllerAjaxTest extends WebTestCase{
         $response = json_decode($crawler->text(),true);
         $this->assertTrue($response['success'],"Newsletter was not subscribed");
 
+        // User Preference - mooc tracker courses - unchecked
+        $crawler = $client->request('GET', '/ajax/user/pref/100/0');
+        $response = json_decode($crawler->text(),true);
+        $this->assertTrue($response['success'],"User preference was not unchecked");
+
+        // User Preference - mooc tracker courses - checked
+        $crawler = $client->request('GET', '/ajax/user/pref/100/1');
+        $response = json_decode($crawler->text(),true);
+        $this->assertTrue($response['success'],"User preference was not checked");
     }
 
     public function isSignedIn($crawler)

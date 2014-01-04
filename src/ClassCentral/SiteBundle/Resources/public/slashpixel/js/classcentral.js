@@ -76,7 +76,7 @@ jQuery(function($) {
     });
 
     /**
-     * User preferences
+     * User preferences - Newsletter
      */
     $('input[class="user-newsletter-checkbox"]').change(function(){
         var clicked = this;
@@ -109,6 +109,45 @@ jQuery(function($) {
                 .done(
                 function(result){
                     //console.log("jquery" + result);
+                }
+            );
+        }
+    }
+
+    /**
+     * User Preferences - MOOC Tracker preferences
+     */
+    $('input[class="mooc-tracker-checkbox"]').change(function(){
+        var clicked = this;
+        // Check if the user is logged in
+        $.ajax({
+            url: "/ajax/isLoggedIn",
+            cache: true
+        })
+            .done(function(result){
+                var loggedInResult = $.parseJSON(result);
+                if(loggedInResult.loggedIn) {
+                    updateUserPreference($(clicked).val(), $(clicked).is(':checked'));
+                } else {
+                    // redirect to loginpage page
+                    window.location.replace("/login");
+                }
+            });
+    });
+
+    var updateUserPreference = function(prefId, checked) {
+        if(checked){
+            $.ajax( "/ajax/user/pref/"+ prefId + "/1")
+                .done(
+                function(result){
+                    console.log("jquery" + result);
+                }
+            );
+        } else {
+            $.ajax("/ajax/user/pref/"+ prefId + "/0")
+                .done(
+                function(result){
+                    console.log("jquery" + result);
                 }
             );
         }

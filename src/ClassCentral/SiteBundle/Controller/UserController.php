@@ -271,6 +271,8 @@ class UserController extends Controller
             $user = $form->getData();
             $user = $userService->signup($user, true); // true - verification email
 
+            // Init user preferences
+            $userService->initPreferences($user);
             // Normal flow. Subscribe the user to a mooc report newsletter
             if($newsletter)
             {
@@ -785,6 +787,38 @@ class UserController extends Controller
         }
     }
 
+    public function updateUserPreferenceAction(Request $request, $prefId, $value)
+    {
+        $userService = $this->get('user_service');
+        $user = $this->get('security.context')->getToken()->getUser();
+        if(!$user)
+        {
+            // No logged in user
+            return $this->getAjaxResponse(false, "User is not logged in");
+        }
+
+        // Validate prefrence values
+        if($prefId == UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES || $prefId == UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM)
+        {
+            // Check if the value is 0 or 1
+            if(!in_array( $value, array("0","1")))
+            {
+                return $this->getAjaxResponse(false, "Invalid value for boolean preference");
+            }
+
+        }
+
+        // Validate preferenceIds
+        if(!in_array($prefId, UserPreference::$validPrefs))
+        {
+            return $this->getAjaxResponse(false,"Invalid preference id");
+        }
+
+        // Update the users preferences
+        $userService->updatePreference($user, $prefId, $value);
+
+        return $this->getAjaxResponse(true);
+    }
     private function getAjaxResponse($success = false, $message = '')
     {
         $response = array('success' => $success, 'message' => $message);

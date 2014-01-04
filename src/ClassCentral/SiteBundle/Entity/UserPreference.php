@@ -43,6 +43,10 @@ class UserPreference
     const USER_PREFERENCE_MOOC_TRACKER_COURSES = 100;
     const USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM = 101;
 
+    public static $validPrefs = array(
+        self::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM, self::USER_PREFERENCE_MOOC_TRACKER_COURSES
+    );
+
     public function __construct()
     {
         $this->created = new \DateTime();

@@ -28,7 +28,7 @@ ClassCentral\SiteBundle\Entity\UserPreference:
             targetEntity: User
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: userPreferences
             joinColumns:
                 user_id:
                     referencedColumnName: id

@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Entity\UserPreference;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -40,6 +41,9 @@ class User {
 
         $em->persist($user);
         $em->flush();
+
+        // Create user prefrences for the user
+        $this->initPreferences($user);
 
         // Login the user
         $token = new UsernamePasswordToken($user, $password,'secured_area',$user->getRoles());
@@ -155,6 +159,79 @@ class User {
 
     }
 
+    /**
+     * Updates or creates a iser preference if it does not exist
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @param $type
+     * @param $value
+     */
+    public function updatePreference(\ClassCentral\SiteBundle\Entity\User $user, $type, $value)
+    {
+        $em = $this->container->get('doctrine')->getManager();
 
+        if(!in_array($type, UserPreference::$validPrefs))
+        {
+            throw new \Exception("Preference $type is not a valid preference");
+        }
+
+        $prefMap = $user->getUserPreferencesByTypeMap();
+        if(in_array($type,array_keys($prefMap)))
+        {
+            // Update the preferences
+            $up = $prefMap[$type];
+            $up->setValue($value);
+            $em->persist($up);
+        }
+        else
+        {
+            // Create the preferences
+            $up = new UserPreference();
+            $up->setUser($user);
+            $up->setType($type);
+            $up->setValue($value);
+            $em->persist($up);
+        }
+
+        $em->flush();
+
+        return true;
+    }
+
+    /**
+     * Initializes preferences for a particular user
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @param array $prefs
+     */
+    public function initPreferences(\ClassCentral\SiteBundle\Entity\User $user, $prefs = array())
+    {
+        $em = $this->container->get('doctrine')->getManager();
+
+        // MOOC Tracker courses
+        $upCourses = new UserPreference();
+        $upCourses->setUser($user);
+        $upCourses->setType(UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES);
+        $value = 1;
+        if(in_array(UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES, $prefs))
+        {
+            $value = $prefs[UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES];
+        }
+        $upCourses->setValue($value);
+        $em->persist($upCourses);
+
+        // MOOC Tracker search terms
+        $upSearchTerms = new UserPreference();
+        $upSearchTerms->setUser($user);
+        $upSearchTerms->setType(UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM);
+        $value = 1;
+        if(in_array(UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES, $prefs))
+        {
+            $value = $prefs[UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES];
+        }
+        $upSearchTerms->setValue($value);
+        $em->persist($upSearchTerms);
+
+        $em->flush();
+
+    }
 
 } 
