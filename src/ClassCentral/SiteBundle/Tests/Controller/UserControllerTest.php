@@ -33,14 +33,25 @@ class UserControllerTest extends WebTestCase
 
         $client->submit($form);
 
+
         $crawler = $client->followRedirect();
         $this->isSignedIn($crawler);
 
-        // Add course to MOOC Tracker
-        $this->addCourseToMOOCTracker($client);
+
+        // $this->addCourseToMOOCTracker($client);
+        // Add course to users library
+        $this->addCourseToUsersLibrary($client);
 
         // Add search term to MOOC tracker
         $this->addSearchTermToMOOCTracker($client);
+
+        // Check the default preferences page are correctly populated
+        $crawler = $client->request('GET','/user/preferences');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /user/preferences");
+        // Mooc tracker preferences are ON by default
+        $this->assertEquals(2, $crawler->filter("input[class=mooc-tracker-checkbox]:checked")->count(), "MOOC Tracker preferences are not correct");
+        // Only one newsletter has been subscribed too
+        $this->assertEquals(1, $crawler->filter("input[class=user-newsletter-checkbox]:checked")->count(), "Newsletter preferences are not correct");
 
         // Logout
         $client->request('GET','/logout');
@@ -67,14 +78,14 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
         $crawler = $client->followRedirect();
 
-        // Should be the homepage
-        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+        // Should be the profile page
+        $this->assertTrue($crawler->filter('h1[class=cc-page-header]')->count() > 0);
 
         // Check that the user is logged by going to the login page
         $client->request('GET', '/login');
         // Should redirect to the homepage
-        $client->followRedirect();
-        $this->assertTrue($crawler->filter('table[id=recentlist] tr')->count() > 0);
+        $crawler = $client->followRedirect();
+        //$this->assertTrue($crawler->filter('table[id=recentlist]')->count() > 0);
 
     }
 
@@ -167,16 +178,16 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->followRedirect();
         $this->isSignedIn($crawler);
-        // Check if course is added to mooc tracker
+        // Check if course is added to users library
         $this->assertGreaterThan(0,
             $crawler->filter("a:contains('machine learning')")->count()
         );
     }
 
-    public function testMOOCTrackerRedirectToLoginPageForLoggedOutUser()
+    public function testMyCoursesPageRedirectToLoginPage()
     {
         $client = self::createClient();
-        $client->request('GET','/mooc-tracker');
+        $client->request('GET','/user/courses');
         $crawler = $client->followRedirect();
 
         $this->isLoginPage($crawler);
@@ -204,6 +215,19 @@ class UserControllerTest extends WebTestCase
         return $client;
     }
 
+    private function addCourseToUsersLibrary($client)
+    {
+        $crawler = $client->request('GET','/ajax/user/course/add?c_id=1261&l_id=1');
+        $response = json_decode($crawler->text(),true);
+        $this->assertTrue($response['success'],"Course was not added to user");
+
+        // Go to the library page and check of the course exists there
+        $crawler = $client->request('GET','/user/courses');
+        $this->assertCount(1,
+            $crawler->filter("td[class=course-name-column]")
+        );
+    }
+
     private function  addCourseToMOOCTracker($client)
     {
         // Machine Learning course
@@ -226,16 +250,16 @@ class UserControllerTest extends WebTestCase
 
     public function isSignedOut($crawler)
     {
-        $this->assertGreaterThan(0, $crawler->filter("a:contains('Signup for MOOC Tracker')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("a:contains('Signup')")->count());
     }
 
     public function isSignedIn($crawler)
     {
-        $this->assertGreaterThan(0, $crawler->filter("a:contains('MOOC Tracker')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("a:contains('My Courses')")->count());
     }
 
     private function isLoginPage($crawler)
     {
-        $this->assertGreaterThan(0, $crawler->filter("html:contains('MOOC Tracker login')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("html:contains('Class Central login')")->count());
     }
 }

@@ -271,8 +271,6 @@ class UserController extends Controller
             $user = $form->getData();
             $user = $userService->signup($user, true); // true - verification email
 
-            // Init user preferences
-            $userService->initPreferences($user);
             // Normal flow. Subscribe the user to a mooc report newsletter
             if($newsletter)
             {
