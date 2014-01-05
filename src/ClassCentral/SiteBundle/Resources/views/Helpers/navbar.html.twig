@@ -40,7 +40,7 @@
                             {% else %}
                                 <a href="{{ path('login') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Login'])">Login</a>
                                 <a href="{{ path('signup') }}" class="nav-title" title="Class Central Signup" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central Signup User Menu'])" title="Class Central Signup">
-                                    Signup
+                                    Sign Up
                                 </a>
                             {% endif %}
                         </li>
@@ -84,7 +84,7 @@
                         </a>
                     {% else %}
                         <a href="{{ path('signup') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central Signup'])" title="Class Central Signup">
-                            Signup
+                            Sign Up
                         </a>
                     {% endif %}
                 </li>

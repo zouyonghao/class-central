@@ -2098,9 +2098,10 @@ CC form box - for signup, login, forgot password
 .cc-form-box h3 {
     color: #0662a1;
     font-family: "Open Sans";
-    font-weight: normal;
     margin-top: 0px;
     margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .cc-form-box form input {

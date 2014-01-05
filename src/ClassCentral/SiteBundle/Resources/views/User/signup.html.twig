@@ -1,7 +1,7 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
  {% block headmeta %}
-     <title>Class Central Signup</title>
+     <title>Class Central Sign Up</title>
      <meta name="description"
            content="Signup for a Class Central account and build your own searchable library of courses. MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests"/>
      <meta property="og:title" content="Signup for Class Central" />
@@ -15,14 +15,16 @@
      <!-- Twitter card integration -->
      <meta name="twitter:card" content="summary">
      <meta name="twitter:site" content="@classcentral">
-     <meta name="twitter:title" content="Signup for Class Central">
-     <meta name="twitter:description" content="Signup for a Class Central account and build your own searchable library of courses. MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests">
+     <meta name="twitter:title" content="Sign Up for Class Central">
+     <meta name="twitter:description" content="Sign Up for a Class Central account and build your own searchable library of courses. MOOC Tracker is a service from Class Central that sends you email notifications based on your interests. Stay updated on courses that match your interests">
      <meta name="twitter:domain" content="www.class-central.com">
 
  {% endblock %}
 
 {% block contentheader %}
+    {#
 <div class="signup-box">
+
     <div class="signup-copy">
         <p class="signup-copy-line1">
             Build your own searchable library of courses.
@@ -48,15 +50,18 @@
         </div>
 
     </div>
+
+
+</div>
+     #}
     <div class="cc-form-box">
-        <h3>Class Central Signup</h3>
+        <h3>Sign Up</h3>
         {{ form(form) }}
 
         <p id="cc-form-box-additional-link">
-            Already have an account? <a href="{{ path('login')  }}" title="Class Central login">Login>></a>
+            Already have an account? <a href="{{ path('login')  }}" title="Login">Login>></a>
         </p>
     </div>
-</div>
 <style type="text/css">
     .cc-page {
         display: none;
