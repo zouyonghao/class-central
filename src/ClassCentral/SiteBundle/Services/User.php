@@ -53,7 +53,7 @@ class User {
         if ($this->container->getParameter('kernel.environment') != 'test')
         {
             $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig')->getContent();
-            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central's MOOC Tracker",$html);
+            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central",$html);
 
             if($emailVerification)
             {
