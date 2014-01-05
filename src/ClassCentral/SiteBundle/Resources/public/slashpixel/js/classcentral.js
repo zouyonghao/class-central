@@ -36,11 +36,12 @@ jQuery(function($) {
     });
 
     function addRemoveCourse(listId, courseId, checked) {
+        _gaq.push(['_trackEvent','My Courses - Add', listId.toString(),  courseId.toString() ]);
         try{
          if(checked){
-             _gaq.push(['_trackEvent','My Courses - Add',listId, courseId]);
+             _gaq.push(['_trackEvent','My Courses - Add',listId.toString(), courseId.toString()]);
          }else {
-             _gaq.push(['_trackEvent','My Courses - Remove',listId, courseId]);
+             _gaq.push(['_trackEvent','My Courses - Remove', listId.toString(),  courseId.toString() ]);
          }
         }catch(err){}
         if(checked){
@@ -118,9 +119,9 @@ jQuery(function($) {
     var updateSubscription = function(code, checked) {
         try{
             if(checked){
-                _gaq.push(['_trackEvent','Newsletters','Subscribed', code]);
+                _gaq.push(['_trackEvent','Newsletter Preferences','Subscribed', code]);
             }else {
-                _gaq.push(['_trackEvent','Newsletters','Unsubscribed', code]);
+                _gaq.push(['_trackEvent','Newsletter Preferences','Unsubscribed', code]);
             }
         }catch(err){}
 
@@ -167,7 +168,7 @@ jQuery(function($) {
             if(checked){
                 _gaq.push(['_trackEvent','MOOC Tracker Preferences','Checked', prefId]);
             }else {
-                _gaq.push(['_trackEvent','Newsletters','UnChecked', prefId]);
+                _gaq.push(['_trackEvent','MOOC Tracker Preferences','UnChecked', prefId]);
             }
         }catch(err){}
         if(checked){
