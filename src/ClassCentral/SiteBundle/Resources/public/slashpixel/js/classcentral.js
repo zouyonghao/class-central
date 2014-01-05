@@ -36,7 +36,13 @@ jQuery(function($) {
     });
 
     function addRemoveCourse(listId, courseId, checked) {
-
+        try{
+         if(checked){
+             _gaq.push(['_trackEvent','My Courses - Add',listId, courseId]);
+         }else {
+             _gaq.push(['_trackEvent','My Courses - Remove',listId, courseId]);
+         }
+        }catch(err){}
         if(checked){
             $.ajax( "/ajax/user/course/add?c_id=" +courseId +"&l_id="+ listId)
                 .done(
@@ -110,6 +116,14 @@ jQuery(function($) {
     });
 
     var updateSubscription = function(code, checked) {
+        try{
+            if(checked){
+                _gaq.push(['_trackEvent','Newsletters','Subscribed', code]);
+            }else {
+                _gaq.push(['_trackEvent','Newsletters','Unsubscribed', code]);
+            }
+        }catch(err){}
+
         if(checked){
             $.ajax( "/ajax/newsletter/subscribe/"+code)
                 .done(
@@ -149,6 +163,13 @@ jQuery(function($) {
     });
 
     var updateUserPreference = function(prefId, checked) {
+        try{
+            if(checked){
+                _gaq.push(['_trackEvent','MOOC Tracker Preferences','Checked', prefId]);
+            }else {
+                _gaq.push(['_trackEvent','Newsletters','UnChecked', prefId]);
+            }
+        }catch(err){}
         if(checked){
             $.ajax( "/ajax/user/pref/"+ prefId + "/1")
                 .done(
