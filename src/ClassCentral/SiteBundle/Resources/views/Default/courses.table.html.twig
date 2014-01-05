@@ -32,11 +32,12 @@
             <td class="add-column">
                 <div class="dropdown">
                     {% set userListIds = user_session.getCourseListIds(offering.courseId) %}
-                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">{% if userListIds is empty %}+{% else %}-{% endif %}</a>
+                    {# span id is same as the name of the input checkbox#}
+                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span id="check-{{ tableId }}-{{ offering.courseId }}">{% if userListIds is empty %}+{% else %}-{% endif %}</span></a>
                     <ul class="dropdown-menu">
                         {% for listId, list in listTypes %}
                             <li>
-                                <input type="checkbox" class = "course-list-checkbox" id="check-{{ listId }}-{{ offering.courseId }}" value="{{ listId }}" data-course-id = "{{ offering.courseId }}"
+                                <input type="checkbox" name="check-{{ tableId }}-{{ offering.courseId }}" class = "course-list-checkbox" id="check-{{ listId }}-{{ offering.courseId }}" value="{{ listId }}" data-course-id = "{{ offering.courseId }}"
                                        {% if listId in userListIds %}checked="checked"{% endif %}
                                         >
                                 <label for="check-{{ listId }}-{{ offering.courseId }}">{{ list.desc }}</label>

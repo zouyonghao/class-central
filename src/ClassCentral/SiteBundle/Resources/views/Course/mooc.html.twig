@@ -146,11 +146,11 @@
 
                     <li class="dropdown">
                         {% set userListIds = user_session.getCourseListIds(course['id']) %}
-                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span>{% if userListIds is empty %}+{% else %}-{% endif %}</span> Interested</a>
+                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span id="course-interest-checkbox">{% if userListIds is empty %}+{% else %}-{% endif %}</span> Interested</a>
                         <ul class="dropdown-menu">
                             {% for listId, list in listTypes %}
                                 <li>
-                                    <input type="checkbox" class = "course-list-checkbox" id="check{{ listId }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
+                                    <input type="checkbox"  name="course-interest-checkbox" class = "course-list-checkbox" id="check{{ listId }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
                                            {% if listId in userListIds %}checked="checked"{% endif %}
                                             >
                                     <label for="check{{ listId }}">{{ list.desc }}</label>

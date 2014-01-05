@@ -48,11 +48,6 @@ class UserControllerAjaxTest extends WebTestCase{
         $response = json_decode($crawler->text(),true);
         $this->assertTrue($response['success'],"Course was not added to user");
 
-        // Add the course again and it should fail
-        $crawler = $client->request('GET','/ajax/user/course/add?c_id=1261&l_id=1');
-        $response = json_decode($crawler->text(),true);
-        $this->assertFalse($response['success'],"Course was added to user when it should not have been");
-
         // Remove the course now
         $crawler = $client->request('GET','/ajax/user/course/remove?c_id=1261&l_id=1');
         $response = json_decode($crawler->text(),true);

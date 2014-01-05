@@ -72,7 +72,8 @@ class User {
     }
 
     /**
-     * Adds a course to the users interested list
+     * Adds a course to the users interested list.
+     * A course can be added only once.
      * @param \ClassCentral\SiteBundle\Entity\User $user
      * @param Course $course
      * @param $listId
@@ -86,12 +87,8 @@ class User {
             throw new \Exception("List id $listId is not valid");
         }
 
-        // Validate the course is not already added
-        $userCourseId = $this->getUserCourseId($user,$course,$listId);
-        if($userCourseId)
-        {
-            return false;
-        }
+       // Remove the course if it exists
+        $this->removeCourse($user, $course, $listId);
 
         //Save it if it does not exist
         $uc = new UserCourse();
@@ -132,7 +129,8 @@ class User {
     }
 
     /**
-     * Retrives the
+     * Retrives the userCourse
+     * There can be only one course added per user. So ignoring the list id
      * @param \ClassCentral\SiteBundle\Entity\User $user
      * @param Course $course
      * @param $listId
@@ -142,10 +140,10 @@ class User {
         $em = $this->container->get('doctrine')->getManager();
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('id', 'id');
-        $query = $em->createNativeQuery("SELECT id FROM users_courses WHERE user_id = ? AND course_id = ? and list_id = ?",$rsm);
+        $query = $em->createNativeQuery("SELECT id FROM users_courses WHERE user_id = ? AND course_id = ?",$rsm);
         $query->setParameter('1', $user->getId());
         $query->setParameter('2', $course->getId());
-        $query->setParameter('3', $listId);
+        //$query->setParameter('3', $listId);
         $result = $query->getResult();
 
         if(empty($result))

@@ -14,6 +14,19 @@ jQuery(function($) {
         .done(function(result){
             var loggedInResult = $.parseJSON(result);
             if(loggedInResult.loggedIn) {
+                var name = $(clicked).attr("name");
+                if($(clicked).is(':checked')) {
+                    $('span[id=' + name + ']').html("-");
+                    // uncheck the rest
+                    $('input[name=' + name +']:checked').each(function(){
+                        $(this).attr('checked',false);
+                    });
+                    // check this one back
+                    $(clicked).attr('checked',true);
+                } else {
+                    $('span[id=' + name + ']').html("+");
+                }
+
                 addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'));
             } else {
                 // redirect to signup page
@@ -68,11 +81,11 @@ jQuery(function($) {
     // relevant to course information page and course tables
     // stop dropdown from closing when its inside elements are clicked on
     $('.course-button-group .dropdown-menu').bind('click', function (e) {
-        e.stopPropagation();
+       //e.stopPropagation();
     });
 
     $('.table .dropdown-menu').bind('click', function (e) {
-        e.stopPropagation();
+        //e.stopPropagation();
     });
 
     /**
@@ -140,14 +153,14 @@ jQuery(function($) {
             $.ajax( "/ajax/user/pref/"+ prefId + "/1")
                 .done(
                 function(result){
-                    console.log("jquery" + result);
+                   // console.log("jquery" + result);
                 }
             );
         } else {
             $.ajax("/ajax/user/pref/"+ prefId + "/0")
                 .done(
                 function(result){
-                    console.log("jquery" + result);
+                    //console.log("jquery" + result);
                 }
             );
         }
