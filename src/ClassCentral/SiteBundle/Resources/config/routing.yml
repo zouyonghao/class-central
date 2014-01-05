@@ -131,15 +131,17 @@ email_verify:
 #mooc tracker
 mooctracker:
   pattern: /mooc-tracker
-  defaults: { _controller: ClassCentralSiteBundle:User:moocTracker}
+  defaults:
+            _controller: FrameworkBundle:Redirect:redirect
+            route: user_library
+            permanent: true # this is for 301
 
 mooctracker_signup:
   pattern: /mooc-tracker-signup
-  defaults: { _controller: ClassCentralSiteBundle:User:signUp}
-
-mooctracker_add_course:
-  pattern: /user/tracker/course/{courseId}
-  defaults: {_controller: ClassCentralSiteBundle:User:addCourseToMOOCTracker }
+  defaults:
+              _controller: FrameworkBundle:Redirect:redirect
+              route: signup
+              permanent: true # this is for 301
 
 mooctracker_add_search_term:
   pattern: /user/tracker/searchTerm/{searchTerm}

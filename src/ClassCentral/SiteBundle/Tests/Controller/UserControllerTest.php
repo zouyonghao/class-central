@@ -250,7 +250,7 @@ class UserControllerTest extends WebTestCase
 
     public function isSignedOut($crawler)
     {
-        $this->assertGreaterThan(0, $crawler->filter("a:contains('Signup')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("a:contains('Sign Up')")->count());
     }
 
     public function isSignedIn($crawler)
@@ -260,6 +260,6 @@ class UserControllerTest extends WebTestCase
 
     private function isLoginPage($crawler)
     {
-        $this->assertGreaterThan(0, $crawler->filter("html:contains('Class Central login')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("html:contains('Login')")->count());
     }
 }
