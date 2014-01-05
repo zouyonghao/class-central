@@ -2322,6 +2322,15 @@ table .course-name {
     background-position: -213px -13px;
 }
 
+.nav-logo {
+     margin-top: 18px;
+     background-image: url("/bundles/classcentralsite/slashpixel/images/cc-logo.png");
+     height: 20px;
+     width: 220px;
+     background-repeat: no-repeat;
+}
+
+
 /*==========  media queries  ==========*/
 
 @media (max-width: 1201px) {
