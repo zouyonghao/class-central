@@ -1633,6 +1633,7 @@ input::-webkit-input-placeholder {
     list-style: none;
     float: left;
     margin: 0;
+    margin-bottom: 40px;
 }
 
 .course-button-group > li {
@@ -2453,6 +2454,10 @@ table .course-name {
         background-color: transparent;
     }
 
+    .course-info{
+        padding-left:30px;
+    }
+
     /*==========  subjects media queries  ==========*/
 
     .two-subjects-block {
@@ -2496,6 +2501,10 @@ table .course-name {
         font-size: 30px;
         margin-bottom: 10px;
         margin-top: 0px;
+    }
+
+    .course-info{
+        padding-left:10px;
     }
 
     input::-webkit-input-placeholder {

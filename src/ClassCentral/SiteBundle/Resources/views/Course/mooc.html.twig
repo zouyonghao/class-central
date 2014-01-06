@@ -146,7 +146,7 @@
 
                     <li class="dropdown">
                         {% set userListIds = user_session.getCourseListIds(course['id']) %}
-                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span id="course-interest-checkbox">{% if userListIds is empty %}+{% else %}-{% endif %}</span> Interested</a>
+                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span id="course-interest-checkbox">{% if userListIds is empty %}+{% else %}-{% endif %}</span>My Courses</a>
                         <ul class="dropdown-menu">
                             {% for listId, list in listTypes %}
                                 <li>
@@ -195,6 +195,9 @@
     </script>
 
     <style type="text/css">
+        .btnAddToCalendar {
+            position: absolute;
+        }
             /* AddThisEvent */
         .addthisevent {visibility:hidden;}
         .addthisevent-drop 						{display:inline-block;position:relative;z-index:998;background:#0662a1;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: normal;color:#fff!important;text-decoration:none;font-size:14px; font-weight:normal;text-decoration:none;padding:4px 5px 5px 8px;}
@@ -213,14 +216,6 @@
         .addthisevent_dropdown .frs:hover 		{color:#6d84b4;}
         .addthisevent 							{visibility:hidden;}
 
-        @media (max-width: 767px) {
-            .addthisevent-drop {
-                display: block;
-                margin-left: 102px;
-                margin-top: 10px;
-                width: 120px;
-            }
-        }
     </style>
     <!-- Form for Sending email -->
     <div class="modal hide fade cc-modal" id="sendMailModal">
