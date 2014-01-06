@@ -26,7 +26,7 @@ class Version5 extends VersionAbstractInterface{
             $uc->setUser($mtc->getUser());
             $uc->setCourse($mtc->getCourse());
             $uc->setCreated($mtc->getCreated());
-            $uc->setListId(UserCourse::LIST_TYPE_PLANTOTAKE);
+            $uc->setListId(UserCourse::LIST_TYPE_INTERESTED);
             $em->persist($uc);
         }
 
