@@ -60,7 +60,7 @@ class Scraper extends ScraperAbstractInterface
                 $this->out("");
                 continue;
             }
-
+            try {
             if($offering->getStatus() == Offering::START_DATES_KNOWN)
             {
                 $offeringStartDate = new \DateTime($startDate);
@@ -82,6 +82,15 @@ class Scraper extends ScraperAbstractInterface
                 $this->out("Offering Date - {$offering->getDisplayDate()}");
                 $this->out($url);
                 $this->out("");
+            }
+
+            } catch(\Exception $e) {
+                $this->out("Error parsing dates");
+                   $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
+                   $this->out("Offering Date - {$offering->getDisplayDate()}");
+                   $this->out($url);
+                   $this->out("");
+
             }
 
         }
