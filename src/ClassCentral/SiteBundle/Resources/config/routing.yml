@@ -73,6 +73,10 @@ subjects:
    pattern: /subjects
    defaults: { _controller: ClassCentralSiteBundle:Stream:subjects}
 
+languages:
+   pattern: /languages
+   defaults: { _controller: ClassCentralSiteBundle:Language:languages}
+
 lang:
     pattern:  /language/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Language:view }

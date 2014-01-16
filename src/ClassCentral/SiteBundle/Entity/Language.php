@@ -44,6 +44,11 @@ class Language
      */
     private $displayOrder;
 
+    /*
+     * Count of number of courses
+     * @var integer
+     */
+    private $courseCount;
 
     public function __construct()
     {
@@ -208,5 +213,21 @@ class Language
     public function getDisplayOrder()
     {
         return $this->displayOrder;
+    }
+
+    /**
+     * @param mixed $courseCount
+     */
+    public function setCourseCount($courseCount)
+    {
+        $this->courseCount = $courseCount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCourseCount()
+    {
+        return $this->courseCount;
     }
 }

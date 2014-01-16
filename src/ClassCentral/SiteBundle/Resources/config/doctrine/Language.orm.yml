@@ -1,6 +1,7 @@
 ClassCentral\SiteBundle\Entity\Language:
   type: entity
   table: languages
+  repositoryClass: ClassCentral\SiteBundle\Repository\LanguageRepository
   fields:
       id:
         id: true
@@ -33,6 +34,7 @@ ClassCentral\SiteBundle\Entity\Language:
         unsigned: false
         nullable: true
         column: display_order
+        order: asc
   oneToMany:
        courses:
          targetEntity: Course

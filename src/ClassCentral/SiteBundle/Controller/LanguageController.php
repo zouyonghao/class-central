@@ -244,5 +244,41 @@ class LanguageController extends Controller
         return $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds($courseIds);
     }
 
+    /**
+     * Shows a page which lists all languages
+     * @param Request $request
+     */
+    public function languagesAction(Request $request)
+    {
+        $cache = $this->get('Cache');
+        $languages = $cache->get('language_list_count ', array($this, 'getLanguagesList'),array($this->getDoctrine()->getManager()));
+        return $this->render('ClassCentralSiteBundle:Language:languages.html.twig',array(
+                'page' => 'languages',
+                'languages' => $languages
+            ));
+    }
+
+    public function getLanguagesList($em)
+    {
+        $languagesCount = $em->getRepository('ClassCentralSiteBundle:Language')->getCourseCountByLanguages();
+        $allLanguages = $em->getRepository('ClassCentralSiteBundle:Language')->findAll();
+        $languages = array();
+        foreach($allLanguages as $language)
+        {
+            if(!isset($languagesCount[$language->getId()]))
+            {
+                continue; // no count exists. Do not show the language
+            }
+
+            $count = $languagesCount[$language->getId()]['courseCount'];
+            $language->setCourseCount($count);
+            $languages[$language->getId()] = $language;
+
+            $em->detach($language);
+        }
+
+        return $languages;
+    }
+
 
 }

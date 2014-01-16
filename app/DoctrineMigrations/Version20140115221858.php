@@ -25,7 +25,7 @@ class Version20140115221858 extends AbstractMigration
         ");
 
         // Update the columns
-        $this->addSql("UPDATE  languages SET code='en', slug ='english',color='#ca393e' WHERE name='English' LIMIT 1");
+        $this->addSql("UPDATE  languages SET code='en', slug ='english',color='#f15f45' WHERE name='English' LIMIT 1");
         $this->addSql("UPDATE  languages SET code='fr', slug ='french',color='#1663a3' WHERE name='French' LIMIT 1");
         $this->addSql("UPDATE  languages SET code='es', slug ='spanish',color='#5ca8a3' WHERE name='Spanish' LIMIT 1");
         $this->addSql("UPDATE  languages SET code='it', slug ='italian',color='#ce2127' WHERE name='Italian' LIMIT 1");
