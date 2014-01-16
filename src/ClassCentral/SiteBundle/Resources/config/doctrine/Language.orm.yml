@@ -23,6 +23,16 @@ ClassCentral\SiteBundle\Entity\Language:
         length: 45
         fixed: false
         nullable: false
+      color:
+        type: string
+        length: 7
+        fixed: true
+        nullable: true
+      displayOrder:
+        type: integer
+        unsigned: false
+        nullable: true
+        column: display_order
   oneToMany:
        courses:
          targetEntity: Course

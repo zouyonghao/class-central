@@ -13,6 +13,8 @@ class LanguageType extends AbstractType
             ->add('name')
             ->add('slug')
             ->add('code')
+            ->add('color')
+            ->add('displayOrder')
         ;
     }
 
