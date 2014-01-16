@@ -11,6 +11,8 @@ class LanguageType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('slug')
+            ->add('code')
         ;
     }
 

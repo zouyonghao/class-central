@@ -13,6 +13,16 @@ ClassCentral\SiteBundle\Entity\Language:
         type: string
         length: 255
         nullable: false
+      slug:
+        type: string
+        length: 45
+        fixed: false
+        nullable: false
+      code:
+        type: string
+        length: 45
+        fixed: false
+        nullable: false
   oneToMany:
        courses:
          targetEntity: Course

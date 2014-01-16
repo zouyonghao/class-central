@@ -24,6 +24,16 @@ class Language
      */
     private $courses;
 
+    /**
+     * @var string
+     */
+    private $slug;
+
+    /**
+     * @var string
+     */
+    private $code;
+
     public function __construct()
     {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
@@ -83,4 +93,62 @@ class Language
         return $this->getName();
     }
 
+
+
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Language
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return Language
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Remove courses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
+     */
+    public function removeCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    {
+        $this->courses->removeElement($courses);
+    }
 }
