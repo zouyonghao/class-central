@@ -11,6 +11,7 @@ namespace ClassCentral\SiteBundle\Utility\PageHeader;
 
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
+use ClassCentral\SiteBundle\Entity\Language;
 use ClassCentral\SiteBundle\Entity\Stream;
 
 class PageHeaderFactory {
@@ -32,8 +33,13 @@ class PageHeaderFactory {
             return self::getFromInstitution($entity);
         }
 
+        if($entity instanceof Language)
+        {
+            return self::getFromLanguage($entity);
+        }
+
         // Should not reach here
-        throw new \Exception('$enity should be a type of Initiative, Stream, Institution');
+        throw new \Exception('$entity should be a type of Initiative, Stream, Institution, Language');
     }
 
     private static function getFromInitiative(Initiative $entity)
@@ -71,6 +77,14 @@ class PageHeaderFactory {
         {
             $info->setImageUrl($entity->getImageDir(). '/' . $entity->getImageUrl());
         }
+        return $info;
+    }
+
+    private static function getFromLanguage(Language $entity)
+    {
+        $info = new PageHeaderInfo("Language");
+        $info->setName($entity->getName() . " Language");
+
         return $info;
     }
 

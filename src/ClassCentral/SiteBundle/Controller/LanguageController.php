@@ -2,10 +2,14 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Language;
 use ClassCentral\SiteBundle\Form\LanguageType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Language controller.
@@ -184,4 +188,61 @@ class LanguageController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Displays courses by languages
+     * @param Request $request
+     * @param $slug
+     */
+    public function viewAction(Request $request, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $language = $em->getRepository('ClassCentralSiteBundle:Language')->findOneBySlug($slug);
+
+        If(!$language)
+        {
+            // TODO: Show an error page
+            return;
+        }
+
+        $cache = $this->get('Cache');
+        $filterService = $this->get('Filter');
+        $offerings = $cache->get('language_offerings_' . $slug,
+            array ($this, 'getOfferingsByLanguage'), array($language));
+
+        // TODO: All Subjects and offerings should be in sync
+        $subjects = $cache->get('language_subjects_' . $slug,array($filterService, 'getOfferingSubjects'), array($offerings));
+        $pageInfo = PageHeaderFactory::get($language);
+
+        // Set the pageurl for share links
+        $pageInfo->setPageUrl(
+            $this->container->getParameter('baseurl'). $this->get('router')->generate('lang', array('slug' => $slug))
+        );
+        return $this->render('ClassCentralSiteBundle:Language:view.html.twig',
+            array(
+                'language' => $language,
+                'offerings' => $offerings,
+                'page'=>'language',
+                'offeringTypes'=> Offering::$types,
+                'slug' => $slug,
+                'pageInfo' => $pageInfo,
+                'offSubjects' => $subjects,
+                'listTypes' => UserCourse::$lists
+            ));
+    }
+
+
+    public function getOfferingsByLanguage(Language $language)
+    {
+        $courses = $language->getCourses();
+        $courseIds = array();
+        foreach($courses as $course)
+        {
+            $courseIds[] = $course->getId();
+        }
+
+        return $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds($courseIds);
+    }
+
+
 }

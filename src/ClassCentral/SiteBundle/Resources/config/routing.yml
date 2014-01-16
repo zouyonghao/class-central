@@ -72,6 +72,10 @@ ClassCentralSiteBundle_admin:
 subjects:
    pattern: /subjects
    defaults: { _controller: ClassCentralSiteBundle:Stream:subjects}
+
+lang:
+    pattern:  /language/{slug}
+    defaults: { _controller: ClassCentralSiteBundle:Language:view }
 login:
   pattern: /login
   defaults: {_controller: ClassCentralSiteBundle:Login:login }
