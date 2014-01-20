@@ -18,6 +18,7 @@
                 <p>{{ info.description  }}</p>
             {% endif %}
         </div>
+        {#
         <div class="social-media-wrap">
             <a class="twitter-icon" href="https://twitter.com/share?url={{ info.pageUrl|url_encode }}&text={{ info.tweet|url_encode }}&via=classcentral&hashtags=mooc"
                onmousedown="_gaq.push(['_trackEvent', '{{ info.type }} Share', 'Twitter', '{{ info.name }}'])" target="_blank"></a>
@@ -32,5 +33,6 @@
             <a class="mail-icon" href="mailto:?subject={{ info.subject|url_encode }}&body={{ info.pageUrl|url_encode }}"
                onmousedown="_gaq.push(['_trackEvent', '{{ info.type }} Share', 'Mail', '{{ info.name }}'])"></a>
         </div>
+        #}
     </div>
 </div>

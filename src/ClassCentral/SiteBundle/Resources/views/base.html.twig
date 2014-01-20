@@ -224,9 +224,18 @@
         <!-- AddThis Smart Layers BEGIN -->
         <!-- Go to http://www.addthis.com/get/smart-layers to customize -->
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ addthis_pubid }}"></script>
-        <script type="text/javascript">
+
+            <script type="text/javascript">
+                var addthis_config = addthis_config||{};
+                addthis_config.data_track_clickback = false;
+                addthis_config.data_track_addressbar = false;
             addthis.layers({
                 'theme' : 'transparent',
+                'share' : {
+                    'position' : 'left',
+                    'numPreferredServices' : 5,
+                    'services': 'facebook, twitter,google_plusone_share, email,more'
+                },
                 'follow' : {
                     'services' : [
                         {'service': 'facebook', 'id': 'classcentral'},

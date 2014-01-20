@@ -33,6 +33,7 @@
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
 
+                {#
                 <div class="course-share">
                     <div class="course-share-text">Tell your friends:</div>
                     <div class="course-share-button">
@@ -47,6 +48,7 @@
                         <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}']);"></a>
                     </div>
                 </div>
+                #}
 
                 <div class="course-secondline">
                     {% if course['institutions']|length > 0 %}
