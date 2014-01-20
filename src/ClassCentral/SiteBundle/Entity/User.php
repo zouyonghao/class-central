@@ -93,6 +93,11 @@ class User implements UserInterface, \Serializable
      */
     private $userPreferences;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reviews;
+
 
     public function  __construct()
     {
@@ -104,6 +109,7 @@ class User implements UserInterface, \Serializable
         $this->moocTrackerSearchTerms = new \Doctrine\Common\Collections\ArrayCollection();
         $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userPreferences = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
     }
 
@@ -598,5 +604,48 @@ class User implements UserInterface, \Serializable
     public function getIsverified()
     {
         return $this->isverified;
+    }
+
+    /**
+     * Add reviews
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Review $reviews
+     * @return User
+     */
+    public function addReview(\ClassCentral\SiteBundle\Entity\Review $reviews)
+    {
+        $this->reviews[] = $reviews;
+    
+        return $this;
+    }
+
+    /**
+     * Remove reviews
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Review $reviews
+     */
+    public function removeReview(\ClassCentral\SiteBundle\Entity\Review $reviews)
+    {
+        $this->reviews->removeElement($reviews);
+    }
+
+    /**
+     * Get reviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * Remove userPreferences
+     *
+     * @param \ClassCentral\SiteBundle\Entity\UserPreference $userPreferences
+     */
+    public function removeUserPreference(\ClassCentral\SiteBundle\Entity\UserPreference $userPreferences)
+    {
+        $this->userPreferences->removeElement($userPreferences);
     }
 }
