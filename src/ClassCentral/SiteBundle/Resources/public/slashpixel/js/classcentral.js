@@ -188,4 +188,13 @@ jQuery(function($) {
         }
     }
 
+    /**
+     * Reviews and ratings
+     */
+    $('#star').raty({
+        starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half.png',
+        starOff     : '/bundles/classcentralsite/slashpixel/images/star-off.png',
+        starOn      : '/bundles/classcentralsite/slashpixel/images/star-on.png'
+    });
+
 });

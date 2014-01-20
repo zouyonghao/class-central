@@ -63,6 +63,17 @@ class Review
     private $offering;
 
 
+    // Difficulty
+    const DIFFICULTY_BEGINNER = 1;
+    const DIFFICULTY_INTERMEDIATE = 2;
+    const DIFFICULTY_ADVANCED = 3;
+
+    public static $difficulty = array(
+        self::DIFFICULTY_BEGINNER => array('slug'=>'beginner','desc'=>'Beginner'),
+        self::DIFFICULTY_INTERMEDIATE => array('slug'=>'intermediate','desc'=>'Intermediate'),
+        self::DIFFICULTY_ADVANCED => array('slug'=>'advanced','desc'=>'Advanced'),
+    );
+
     /**
      * Get id
      *

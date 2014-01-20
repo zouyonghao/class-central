@@ -1,0 +1,49 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+<div class="add-review">
+    <header>
+        <h2><span>Review</span>{{ course.name }}</h2>
+    </header>
+    <div class="review-form-wrap"> <!-- styles in classcentral.css review form block -->
+        <form id="review-form" class="clearfix" method="post" action="#review-form">
+            <p class="course-quality">
+                <span class="review-field-label">Quality</span>
+                    <div id="star"></div>
+            </p>
+            <p class="course-progress">
+                <span class="review-field-label">Progress</span>
+                {% for state in progress %}
+                    <input type="radio" id="{{ state.slug }}" name="progress">
+                    <label for="{{ state.slug }}">{{ state.desc }}</label>
+                {% endfor %}
+            </p>
+
+            <p class="course-progress">
+                <span class="review-field-label">Difficulty</span>
+                {% for state in difficulty %}
+                    <input type="radio" id="{{ state.slug }}" name="difficulty">
+                    <label for="{{ state.slug }}">{{ state.desc }}</label>
+                {% endfor %}
+            </p>
+
+            <p class="course-effort">
+                <span class="review-field-label">Effort (hours spent per week)</span>
+                <input type="text" class="form-control bfh-number" data-min="0" data-max="40">
+
+            </p>
+
+            <div class="text-wrap">
+                <p class="review-text">
+                    <span class="review-field-label">Review</span>
+                    <textarea id="review-text" name="review-text" placeholder=""></textarea>
+                </p>
+            </div>
+
+            <input id="submit-review" type="submit" name="cc-send" value="Review Course">
+            <input id="comments" name="cc-comments" type="text"/>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

@@ -208,3 +208,8 @@ signup_add_to_library:
 user_preferences:
   pattern: /user/preferences
   defaults: {_controller: ClassCentralSiteBundle:User:preferences}
+
+# review routes
+review_new:
+  pattern: /review/new/{courseId}
+  defaults: {_controller: ClassCentralSiteBundle:Review:new}
