@@ -191,10 +191,65 @@ jQuery(function($) {
     /**
      * Reviews and ratings
      */
-    $('#star').raty({
+    var isEmpty = function(str) {
+        return (!str || 0 === str.length);
+    }
+
+    $('#rating').raty({
         starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half.png',
         starOff     : '/bundles/classcentralsite/slashpixel/images/star-off.png',
         starOn      : '/bundles/classcentralsite/slashpixel/images/star-on.png'
+    });
+
+    $('#review-form').submit(function(event){
+        event.preventDefault();
+        
+        // Get all the fields
+        var rating = $('#rating').raty('score');
+        var reviewText = $('textarea[name=review-text]').val();
+        var effort = $('input:text[name=effort]').val();
+        var progress = $('input:radio[name=progress]:checked').val();
+        var difficulty = $('input:radio[name=difficulty]:checked').val();
+
+        // Validate the form
+        var validationError = false;
+
+        // Rating cannot be empty
+        if(rating === undefined) {
+            $('#rating-error').show();
+            validationError = true;
+        } else {
+            $('#rating-error').hide();
+        }
+
+        // Review if exits should be atleast 20 words long
+        if(!isEmpty(reviewText)) {
+            // Non empty review. Should be 20 words long
+            var words = reviewText.split(' ');
+            if(words.length < 20) {
+                $('#review-text-error').show();
+                validationError = true;
+            } else {
+                $('#review-text-error').hide();
+            }
+        } else {
+            $('#review-text-error').hide();
+        }
+
+       if(!validationError) {
+           var review = {
+               'rating': rating,
+               'reviewText': reviewText,
+               'effort': effort,
+               'progress': progress,
+               'difficulty': difficulty
+           }
+
+           console.log(review);
+       }
+
+
+
     });
 
 });
