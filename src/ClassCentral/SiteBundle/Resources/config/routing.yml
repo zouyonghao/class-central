@@ -211,5 +211,9 @@ user_preferences:
 
 # review routes
 review_new:
-  pattern: /review/new/{courseId}
+  pattern: /user/review/new/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Review:new}
+
+review_create:
+  pattern: /user/review/create/{courseId}
+  defaults: {_controller: ClassCentralSiteBundle:Review:create}

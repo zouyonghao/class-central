@@ -63,15 +63,30 @@ class Review
     private $offering;
 
 
+    // Level
+    const LEVEL_BEGINNER = 1;
+    const LEVEL_INTERMEDIATE = 2;
+    const LEVEL_ADVANCED = 3;
+
+    public static $levels = array(
+        self::LEVEL_BEGINNER => array('slug'=>'beginner','desc'=>'Beginner'),
+        self::LEVEL_INTERMEDIATE => array('slug'=>'intermediate','desc'=>'Intermediate'),
+        self::LEVEL_ADVANCED => array('slug'=>'advanced','desc'=>'Advanced'),
+    );
+
     // Difficulty
-    const DIFFICULTY_BEGINNER = 1;
-    const DIFFICULTY_INTERMEDIATE = 2;
-    const DIFFICULTY_ADVANCED = 3;
+    const DIFFICULTY_VERY_EASY = 1;
+    const DIFFICULTY_EASY = 2;
+    const DIFFICULTY_MEDIUM = 3;
+    const DIFFICULTY_HARD = 4;
+    const DIFFICULTY_VERY_HARD = 5;
 
     public static $difficulty = array(
-        self::DIFFICULTY_BEGINNER => array('slug'=>'beginner','desc'=>'Beginner'),
-        self::DIFFICULTY_INTERMEDIATE => array('slug'=>'intermediate','desc'=>'Intermediate'),
-        self::DIFFICULTY_ADVANCED => array('slug'=>'advanced','desc'=>'Advanced'),
+        self::DIFFICULTY_VERY_EASY => array('slug'=>'very_easy', 'desc' => 'Very Easy'),
+        self::DIFFICULTY_EASY => array('slug'=>'easy', 'desc' => 'Easy'),
+        self::DIFFICULTY_MEDIUM => array('slug'=>'medium', 'desc' => 'Medium'),
+        self::DIFFICULTY_HARD => array('slug'=>'hard', 'desc' => 'Hard'),
+        self::DIFFICULTY_VERY_HARD => array('slug'=>'very_hard', 'desc' => 'Very Hard'),
     );
 
     /**

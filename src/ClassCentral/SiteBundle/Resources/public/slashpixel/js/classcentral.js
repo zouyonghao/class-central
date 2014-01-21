@@ -203,13 +203,14 @@ jQuery(function($) {
 
     $('#review-form').submit(function(event){
         event.preventDefault();
-        
+
         // Get all the fields
         var rating = $('#rating').raty('score');
         var reviewText = $('textarea[name=review-text]').val();
         var effort = $('input:text[name=effort]').val();
         var progress = $('input:radio[name=progress]:checked').val();
         var difficulty = $('input:radio[name=difficulty]:checked').val();
+        var level = $('input:radio[name=level]:checked').val();
 
         // Validate the form
         var validationError = false;
@@ -242,8 +243,20 @@ jQuery(function($) {
                'reviewText': reviewText,
                'effort': effort,
                'progress': progress,
-               'difficulty': difficulty
-           }
+               'difficulty': difficulty,
+               'level':level
+           };
+
+           $.ajax({
+               type:"post",
+               url:"/user/review/create/" + $('#courseId').data("value"),
+               data:JSON.stringify(review)
+           })
+               .done(
+               function(result){
+                   console.log("jquery" + result);
+               }
+           );
 
            console.log(review);
        }

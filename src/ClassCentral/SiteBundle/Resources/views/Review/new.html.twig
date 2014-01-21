@@ -5,6 +5,7 @@
     <header>
         <h2><span>Review</span>{{ course.name }}</h2>
     </header>
+    <span id="courseId" data-value="{{ course.id }}" class="hidden"></span>
     <div class="review-form-wrap"> <!-- styles in classcentral.css review form block -->
         <form id="review-form" class="clearfix" method="post" action="#review-form">
             <p class="course-quality">
@@ -14,16 +15,24 @@
             </p>
             <p class="course-progress">
                 <span class="review-field-label">Progress</span>
-                {% for state in progress %}
-                    <input type="radio" id="{{ state.slug }}" name="progress" value="{{ state.slug }}">
+                {% for id,state in progress %}
+                    <input type="radio" id="{{ state.slug }}" name="progress" value="{{ id }}">
                     <label for="{{ state.slug }}">{{ state.desc }}</label>
                 {% endfor %}
             </p>
 
             <p class="course-progress">
                 <span class="review-field-label">Difficulty</span>
-                {% for state in difficulty %}
-                    <input type="radio" id="{{ state.slug }}" name="difficulty" value="{{ state.slug }}">
+                {% for id,state in difficulty %}
+                    <input type="radio" id="{{ state.slug }}" name="difficulty" value="{{ id }}">
+                    <label for="{{ state.slug }}">{{ state.desc }}</label>
+                {% endfor %}
+            </p>
+
+            <p class="course-progress">
+                <span class="review-field-label">Level</span>
+                {% for id,state in levels %}
+                    <input type="radio" id="{{ state.slug }}" name="level" value="{{ id }}">
                     <label for="{{ state.slug }}">{{ state.desc }}</label>
                 {% endfor %}
             </p>

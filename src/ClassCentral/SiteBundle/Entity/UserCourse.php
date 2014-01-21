@@ -144,6 +144,7 @@ class UserCourse
         return null;
     }
 
+
     /**
      * Set user
      *
