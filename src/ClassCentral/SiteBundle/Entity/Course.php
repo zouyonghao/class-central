@@ -16,6 +16,7 @@ class Course {
         $this->instructors = new ArrayCollection();
         $this->setCreated(new \DateTime());
         $this->setStatus(CourseStatus::TO_BE_REVIEWED);
+        $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -122,6 +123,12 @@ class Course {
      * @var string $videoIntro
      */
     private $videoIntro;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reviews;
+
 
     /**
      * Set name
@@ -406,6 +413,39 @@ class Course {
 
     public function __toString() {
         return $this->getName();
+    }
+
+    /**
+     * Add reviews
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Review $reviews
+     * @return User
+     */
+    public function addReview(\ClassCentral\SiteBundle\Entity\Review $reviews)
+    {
+        $this->reviews[] = $reviews;
+
+        return $this;
+    }
+
+    /**
+     * Remove reviews
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Review $reviews
+     */
+    public function removeReview(\ClassCentral\SiteBundle\Entity\Review $reviews)
+    {
+        $this->reviews->removeElement($reviews);
+    }
+
+    /**
+     * Get reviews
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
     }
 
 }

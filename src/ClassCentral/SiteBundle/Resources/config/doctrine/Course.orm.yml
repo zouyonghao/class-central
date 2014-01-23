@@ -75,6 +75,9 @@ ClassCentral\SiteBundle\Entity\Course:
       mappedBy: course
       inversedBy: null    
       orphanRemoval: false
+    reviews:
+      targetEntity: Review
+      mappedBy: course
   manyToMany:    
     institutions:
       targetEntity: Institution

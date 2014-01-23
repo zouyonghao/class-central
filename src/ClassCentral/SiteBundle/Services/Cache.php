@@ -80,7 +80,7 @@ class Cache {
             }
             
         } else {
-            echo "does not contain keys";
+            //echo "does not contain keys";
         }
     } 
     

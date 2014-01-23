@@ -218,13 +218,17 @@ class CourseController extends Controller
     public function moocAction($id, $slug)
     {
        $em = $this->getDoctrine()->getManager();
+       $rs = $this->get('review'); // Review service
+       $cache = $this->get('Cache');
+
        $courseId = intval($id);
-       $course = $this->get('Cache')->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
+       $course = $cache->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
        if(!$course)
        {
            // TODO: render a error page
           return;
        }
+
 
        // If the slug is not the same, then redirect to the correct url
 
@@ -292,7 +296,8 @@ class CourseController extends Controller
             $nextSessionStart = $nextSession['displayDate'];
         }
 
-        // Count the number of offerings
+       // Get reviews and ratings
+        $rating = $rs->getRatings($courseId);
 
        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
@@ -303,7 +308,8 @@ class CourseController extends Controller
                  'nextSession' => $nextSession,
                  'nextSessionStart' => $nextSessionStart,
                  'recentlyViewedCourses' => $recentlyViewedCourses,
-                 'listTypes' => UserCourse::$lists
+                 'listTypes' => UserCourse::$lists,
+                 'rating' => $rating
        ));
     }
 

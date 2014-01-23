@@ -195,11 +195,23 @@ jQuery(function($) {
         return (!str || 0 === str.length);
     }
 
-    $('#rating').raty({
+    var ratyDefaults = {
         starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half.png',
         starOff     : '/bundles/classcentralsite/slashpixel/images/star-off.png',
         starOn      : '/bundles/classcentralsite/slashpixel/images/star-on.png'
-    });
+    };
+
+    $('#rating').raty(ratyDefaults);
+
+    $('.average-rating').raty($.extend(
+        {
+            score: function() {
+                return $(this).attr('data-score');
+            },
+            readOnly: true
+        },
+        ratyDefaults
+    ));
 
     $('#review-form').submit(function(event){
         event.preventDefault();
@@ -260,8 +272,6 @@ jQuery(function($) {
 
            console.log(review);
        }
-
-
 
     });
 

@@ -48,7 +48,7 @@ ClassCentral\SiteBundle\Entity\Review:
             targetEntity: Course
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: reviews
             joinColumns:
                 course_id:
                     referencedColumnName: id

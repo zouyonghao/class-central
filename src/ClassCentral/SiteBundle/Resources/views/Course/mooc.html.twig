@@ -168,6 +168,60 @@
         </div>
     </div>
 
+
+
+    <div class="course-reviews"> <!-- styles in classcentral.css course review block -->
+        <header class="reviews-header">
+            <h2><span class="review-count">424</span>Reviews</h2>
+            <div class="average-rating" data-score="{{ rating }}">
+            </div>
+        </header>
+        <div class="single-reviews-wrap">
+            <div class="single-review">
+                <span class="author">Maureen McGinn</span>
+                <div class="small-star-rating small-rating-2"><!-- small-rating-2 class displays 2 small blue stars, small-rating-3 displays 3 small blue stars and so on  -->
+                    <span class="star-rating-1"></span>
+                    <span class="star-rating-2"></span>
+                    <span class="star-rating-3"></span>
+                    <span class="star-rating-4"></span>
+                    <span class="star-rating-5"></span>
+                </div>
+                <span class="review-date">Today</span>
+                <div class="review-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in nunc lorem. Mauris pellentesque auctor lectus a lacinia. Curabitur malesuada luctus dolor, quis sodales augue. Nam eu euismod est. Phasellus in neque quis mauris accumsan porta. Duis id laoreet sapien. Quisque mi orci, euismod sed nisi fringilla, mattis fringilla nunc. Aenean accumsan justo convallis odio placerat congue. Duis vulputate id erat nec dapibus. Nulla bibendum eros ac dignissim. </div>
+                <div class="question">Was this review helpful to you<span class="yes-no">YES | NO</span></div>
+            </div>
+            <div class="single-review">
+                <span class="author">Maureen McGinn</span>
+                <div class="small-star-rating small-rating-4">
+                    <span class="star-rating-1"></span>
+                    <span class="star-rating-2"></span>
+                    <span class="star-rating-3"></span>
+                    <span class="star-rating-4"></span>
+                    <span class="star-rating-5"></span>
+                </div>
+                <span class="review-date">Today</span>
+                <div class="review-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in nunc lorem. Mauris  </div>
+                <div class="question">Was this review helpful to you?<span class="yes-no">YES | NO</span></div>
+            </div>
+            <div class="single-review">
+                <span class="author">Maureen McGinn</span>
+                <div class="small-star-rating small-rating-3">
+                    <span class="star-rating-1"></span>
+                    <span class="star-rating-2"></span>
+                    <span class="star-rating-3"></span>
+                    <span class="star-rating-4"></span>
+                    <span class="star-rating-5"></span>
+                </div>
+                <span class="review-date">Today</span>
+                <div class="review-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in nunc lorem. Mauris pellentesque auctor lectus a lacinia. Curabitur malesuada luctus dolor, quis sodales augue. Nam eu euismod est. Phasellus bibendum eros ac dignissim. </div>
+                <div class="question">Was this review helpful to you?<span class="yes-no">YES | NO</span></div>
+            </div>
+        </div>
+        <div class="view-more-wrap">
+            <button class="view-more">View More Reviews</button>
+        </div>
+    </div>
+
     {% if course['stream']['showInNav'] %}
         <div class="row">
             <div class ="span12" style="text-align: center; margin-top: 25px">
