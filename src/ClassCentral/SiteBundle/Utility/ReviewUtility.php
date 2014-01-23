@@ -19,6 +19,7 @@ class ReviewUtility {
      */
     public static function  getReviewArray(Review $review)
     {
+        $rd = new ReadableDate();
         $r = array();
         $r['id'] = $review->getId();
         $r['rating'] = $review->getRating();
@@ -28,6 +29,7 @@ class ReviewUtility {
         $r['levelId'] = $review->getLevelId();
         $r['listId'] = $review->getListId();
         $r['created'] = $review->getCreated();
+        $r['displayDate'] = $rd->get($review->getCreated()->getTimestamp());
         $r['modified'] = $review->getModified();
 
         $user = $review->getUser();
