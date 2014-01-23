@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Review {
@@ -51,7 +52,6 @@ class Review {
             foreach($reviews as $review)
             {
                 $ratingSum += $review->getRating();
-                echo $ratingSum . "<br/>";
             }
 
             $rating = $ratingSum/$reviews->count();
@@ -62,7 +62,34 @@ class Review {
 
     public function getReviews($courseId)
     {
+        return $this->cache->get(
+            $this->getReviewsCacheKey($courseId),
+            array($this,'getReviewsArray'),
+            array($courseId)
+        );
+    }
 
+    public function getReviewsArray($courseId)
+    {
+        $course = $this->em->getRepository('ClassCentralSiteBundle:Course')->findOneById($courseId);
+
+        $r = array();
+        $reviewCount = 0;
+        foreach($course->getReviews() as $review)
+        {
+            $r[] = ReviewUtility::getReviewArray($review);
+            $reviewText = $review->getReview();
+            if(!empty($reviewText))
+            {
+                $reviewCount++;
+            }
+        }
+
+        $reviews = array();
+        $reviews['count'] = $reviewCount;
+        $reviews['reviews'] = $r;
+
+        return $reviews;
     }
 
     public function getReviewsCacheKey($courseId)

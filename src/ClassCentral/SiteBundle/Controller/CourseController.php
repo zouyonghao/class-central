@@ -298,6 +298,7 @@ class CourseController extends Controller
 
        // Get reviews and ratings
         $rating = $rs->getRatings($courseId);
+        $reviews = $rs->getReviews($courseId);
 
        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
@@ -309,7 +310,8 @@ class CourseController extends Controller
                  'nextSessionStart' => $nextSessionStart,
                  'recentlyViewedCourses' => $recentlyViewedCourses,
                  'listTypes' => UserCourse::$lists,
-                 'rating' => $rating
+                 'rating' => $rating,
+                 'reviews' => $reviews
        ));
     }
 

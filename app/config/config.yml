@@ -106,3 +106,6 @@ services:
   filter:
       class: ClassCentral\SiteBundle\Services\Filter
       arguments: ['@service_container']
+  review:
+        class: ClassCentral\SiteBundle\Services\Review
+        arguments: ['@service_container']

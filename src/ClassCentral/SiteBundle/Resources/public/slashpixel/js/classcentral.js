@@ -213,6 +213,16 @@ jQuery(function($) {
         ratyDefaults
     ));
 
+    $('.user-rating').raty($.extend(
+        {
+            score: function() {
+                return $(this).attr('data-score');
+            },
+            readOnly: true
+        },
+        ratyDefaults
+    ));
+
     $('#review-form').submit(function(event){
         event.preventDefault();
 

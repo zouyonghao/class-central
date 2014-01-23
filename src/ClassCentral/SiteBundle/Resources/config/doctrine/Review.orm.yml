@@ -34,6 +34,12 @@ ClassCentral\SiteBundle\Entity\Review:
             unsigned: false
             nullable: true
             column: list_id
+        created:
+            type: datetime
+            nullable: true
+        modified:
+            type: datetime
+            nullable: false
     manyToOne:
         user:
             targetEntity: User

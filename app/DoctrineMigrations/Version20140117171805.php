@@ -24,6 +24,8 @@ class Version20140117171805 extends AbstractMigration
               `list_id` INT NULL ,
               `course_id` INT NOT NULL ,
               `offering_id` INT NULL ,
+              `created` TIMESTAMP NULL DEFAULT NULL ,
+              `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
               PRIMARY KEY (`id`) ,
               INDEX `fk_reviews_user_id_idx` (`user_id` ASC) ,
               INDEX `fk_reviews_course_idx` (`course_id` ASC) ,

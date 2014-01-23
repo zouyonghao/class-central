@@ -62,6 +62,16 @@ class Review
      */
     private $offering;
 
+    /**
+     * @var \DateTime
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    private $modified;
+
 
     // Level
     const LEVEL_BEGINNER = 1;
@@ -88,6 +98,11 @@ class Review
         self::DIFFICULTY_HARD => array('slug'=>'hard', 'desc' => 'Hard'),
         self::DIFFICULTY_VERY_HARD => array('slug'=>'very_hard', 'desc' => 'Very Hard'),
     );
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+    }
 
     /**
      * Get id
@@ -304,5 +319,51 @@ class Review
     public function getOffering()
     {
         return $this->offering;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return UserPreference
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set modified
+     *
+     * @param \DateTime $modified
+     * @return UserPreference
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * Get modified
+     *
+     * @return \DateTime
+     */
+    public function getModified()
+    {
+        return $this->modified;
     }
 }
