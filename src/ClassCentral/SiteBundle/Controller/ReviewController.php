@@ -61,6 +61,8 @@ class ReviewController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
+        $ru = $this->get('review');
+        $userSession = $this->get('user_session');
 
 
 
@@ -137,6 +139,10 @@ class ReviewController extends Controller {
         $em->persist($review);
         $em->flush();
 
+        // clear the review cache for this particular course
+        $ru->clearCache($course->getId());
+        // Update the users review history in session
+        $userSession->saveReviewInformationInSession();
         return $this->getAjaxResponse(true);
     }
 

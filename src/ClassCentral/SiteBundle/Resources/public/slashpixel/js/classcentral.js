@@ -223,8 +223,12 @@ jQuery(function($) {
         ratyDefaults
     ));
 
+    /**
+     * Review course
+     */
     $('#review-form').submit(function(event){
         event.preventDefault();
+        $('#review-form').attr('disabled',true);
 
         // Get all the fields
         var rating = $('#rating').raty('score');
@@ -277,10 +281,18 @@ jQuery(function($) {
                .done(
                function(result){
                    console.log("jquery" + result);
+                   result = JSON.parse(result);
+                   if(result['success']) {
+                       // Redirect to the course page
+                       window.location.href = $('#courseUrl').data("value");
+                   } else {
+                       // Show an error message
+                   }
                }
            );
 
-           console.log(review);
+       } else {
+           $('#review-form').attr('disabled',false);
        }
 
     });

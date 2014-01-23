@@ -21,6 +21,8 @@ class UserSession
     const LIBRARY_COURSES_KEY = 'user_courses_library';
     const USER_RECENTLY_VIEWED = 'user_recently_view';
     const NEWSLETTER_USER_EMAIL = 'newsletter_user_email';
+    const USER_REVIEWED_COURSES = 'user_review_course_ids';
+    const USER_REVIEWS  = 'user_review_ids';
 
 
     public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session)
@@ -86,8 +88,38 @@ class UserSession
             }
             $userCourseIds[$courseId][] = $userCourse->getListId();
         }
-
         $this->session->set(self::LIBRARY_COURSES_KEY, $userCourseIds);
+
+        $this->saveUserInformationInSession();
+
+    }
+
+    /**
+     * Saves the review history of the user in the session
+     */
+    public function saveReviewInformationInSession()
+    {
+        $user = $this->securityContext->getToken()->getUser();
+        // Save all the course ids of the rhe reviews that the user has done in the session
+        $reviewCourseIds = array();
+        $reviewIds = array();
+        foreach($user->getReviews() as $review )
+        {
+            $reviewCourseIds[] = $review->getCourse()->getId();
+            $reviewIds[] = $review->getId();
+        }
+        $this->session->set(self::USER_REVIEWED_COURSES,$reviewCourseIds);
+        $this->session->set(self::USER_REVIEWS,$reviewIds);
+    }
+
+    public function isCourseReviewed($courseId)
+    {
+        $courseIds = $this->session->get(self::USER_REVIEWED_COURSES);
+        if(empty($courseIds))
+        {
+            return false;
+        }
+        return in_array($courseId, $courseIds);
     }
 
     /**

@@ -140,10 +140,11 @@
                         <a class="register-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
                            onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
                     </li>
-
+                    {% if not user_session.isCourseReviewed(course.id) %}
                     <li>
                         <a class="review-button" href="{{ path('review_new',{courseId: course.id}) }}">Review</a>
                     </li>
+                    {% endif %}
 
                     <li class="dropdown">
                         {% set userListIds = user_session.getCourseListIds(course['id']) %}

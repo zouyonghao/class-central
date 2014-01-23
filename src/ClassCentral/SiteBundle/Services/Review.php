@@ -104,7 +104,7 @@ class Review {
 
     public function clearCache($courseId)
     {
-        $this->cache->delete($this->getReviewCacheKey($courseId));
-        $this->cache->delete($this->getRatingCacheKey($courseId));
+        $this->cache->deleteCache($this->getReviewsCacheKey($courseId));
+        $this->cache->deleteCache($this->getRatingsCacheKey($courseId));
     }
 } 

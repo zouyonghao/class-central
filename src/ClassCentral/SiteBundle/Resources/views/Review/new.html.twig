@@ -6,6 +6,7 @@
         <h2><span>Review</span>{{ course.name }}</h2>
     </header>
     <span id="courseId" data-value="{{ course.id }}" class="hidden"></span>
+    <span id="courseUrl" data-value="{{ path('ClassCentralSiteBundle_mooc',{id:course.id,slug:course.slug }) }}" class="hidden"></span>
     <div class="review-form-wrap"> <!-- styles in classcentral.css review form block -->
         <form id="review-form" class="clearfix" method="post" action="#review-form">
             <p class="course-quality">

@@ -37,6 +37,11 @@ class Cache {
             return $data;
         }
     }
+
+    public function deleteCache($cacheKey)
+    {
+        $this->doctrineCache->delete($this->prefix . '_' .$cacheKey);
+    }
     
     /**
      * The key stores all keys used for caching.
