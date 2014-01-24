@@ -187,7 +187,7 @@
                             <div class="user-rating" data-score="{{ rating }}"></div>
                             <span class="review-date">{{ review.displayDate }}</span>
                             <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
-                            <div class="question">Was this review helpful to you<span class="yes-no">YES</span></div>
+                            <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?<span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}">NO</a></span></div>
                         </div>
                     {% endif %}
                 {% endfor %}

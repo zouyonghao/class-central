@@ -47,6 +47,30 @@ class Version20140117171805 extends AbstractMigration
                 ON UPDATE NO ACTION)
           ENGINE = InnoDB;
         ");
+
+        $this->addSql("
+        CREATE  TABLE IF NOT EXISTS `reviews_feedback` (
+          `id` INT NOT NULL AUTO_INCREMENT ,
+          `user_id` INT NOT NULL ,
+          `review_id` INT NOT NULL ,
+          `helpful` TINYINT(1) NOT NULL ,
+          `created` TIMESTAMP NULL DEFAULT NULL ,
+          PRIMARY KEY (`id`) ,
+          INDEX `fk_reviews_helpful_user_id_idx` (`user_id` ASC) ,
+          INDEX `fk_reviews_helpful_review_id_idx` (`review_id` ASC) ,
+          UNIQUE INDEX `multiple_user_review_idx` (`user_id` ASC, `review_id` ASC) ,
+          CONSTRAINT `fk_reviews_helpful_user_id`
+            FOREIGN KEY (`user_id` )
+            REFERENCES `users` (`id` )
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
+          CONSTRAINT `fk_reviews_helpful_review_id`
+            FOREIGN KEY (`review_id` )
+            REFERENCES `reviews` (`id` )
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION)
+        ENGINE = InnoDB;
+        ");
     }
 
     public function down(Schema $schema)

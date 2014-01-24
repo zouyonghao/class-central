@@ -11,6 +11,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Review;
+use ClassCentral\SiteBundle\Entity\ReviewFeedback;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -170,6 +171,56 @@ class ReviewController extends Controller {
         $ru->clearCache($course->getId());
         // Update the users review history in session
         $userSession->saveReviewInformationInSession();
+        return $this->getAjaxResponse(true);
+    }
+
+    /**
+     * Records the user feedback
+     * @param $reviewId
+     * @param $feedback
+     */
+    public function feedbackAction($reviewId, $feedback)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        if(!$user)
+        {
+            // No logged in user
+            return $this->getAjaxResponse(false, "User is not logged in");
+        }
+
+        // Get the review
+        $review = $em->getRepository('ClassCentralSiteBundle:Review')->find($reviewId);
+        if(!$review)
+        {
+            return $this->getAjaxResponse('false', 'Review does not exist');
+        }
+
+        // Normalize the feedback
+        $fb = ($feedback == 1) ? true: false;
+
+        // Check if it already exists or not
+        $rf = $em->getRepository('ClassCentralSiteBundle:ReviewFeedback')->findOneBy(array(
+                'user' => $user,
+                'review'=>$review
+        ));
+
+        if($rf)
+        {
+            $rf->setHelpful($fb);
+        } else
+        {
+
+            // Create a new feedback
+            $rf = new ReviewFeedback();
+            $rf->setUser($user);
+            $rf->setHelpful($fb);
+            $rf->setReview($review);
+        }
+        $em->persist($rf);
+        $em->flush();
+
         return $this->getAjaxResponse(true);
     }
 

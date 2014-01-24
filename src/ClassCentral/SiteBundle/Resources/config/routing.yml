@@ -217,3 +217,7 @@ review_new:
 review_create:
   pattern: /user/review/create/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Review:create}
+
+ajax_review_feedback:
+  pattern: /ajax/review/feedback/{reviewId}/{feedback}
+  defaults: {_controller: ClassCentralSiteBundle:Review:feedback }
