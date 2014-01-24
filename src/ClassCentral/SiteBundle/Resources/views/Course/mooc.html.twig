@@ -186,7 +186,7 @@
                             <span class="author">{{ review.user.name }}</span>
                             <div class="user-rating" data-score="{{ rating }}"></div>
                             <span class="review-date">{{ review.displayDate }}</span>
-                            <div class="review-content">{{ review.reviewText }}</div>
+                            <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
                             <div class="question">Was this review helpful to you<span class="yes-no">YES</span></div>
                         </div>
                     {% endif %}

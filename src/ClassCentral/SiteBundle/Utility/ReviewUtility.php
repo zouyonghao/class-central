@@ -23,7 +23,7 @@ class ReviewUtility {
         $r = array();
         $r['id'] = $review->getId();
         $r['rating'] = $review->getRating();
-        $r['reviewText'] = $review->getReview();
+        $r['reviewText'] = nl2br( preg_replace("/[\r\n]+/", "\n\n", $review->getReview()));
         $r['hours'] = $review->getHours();
         $r['difficultyId'] = $review->getDifficultyId();
         $r['levelId'] = $review->getLevelId();
