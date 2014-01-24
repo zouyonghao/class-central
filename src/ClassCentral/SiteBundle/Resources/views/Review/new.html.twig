@@ -38,6 +38,37 @@
                 {% endfor %}
             </p>
 
+            {% if offeringCount == 1 %}
+                <select id="sessionOptions" class="hidden">
+                    <option itemprop="startDate" content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
+                            data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
+                            selected="selected" value="{{ offering.id }}"
+                            >
+                        {{ offering['displayDate'] }}
+                    </option>
+                </select>
+            {% else %}
+            <p>
+                <span class="review-field-label">Session</span>
+                <select id="sessionOptions">
+                    <option value="-1"></option>
+                    {% for offeringType in offeringTypesOrder %}
+                        {% if offerings[offeringType]|length > 0 %}
+                            <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
+                            {% for offering in offerings[offeringType]%}
+                                <option itemprop="startDate" content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
+                                        data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
+                                        value="{{ offering.id }}"
+                                        >
+                                    {{ offering['displayDate'] }}
+                                </option>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </p>
+            {% endif %}
+
             <p class="course-effort">
                 <span class="review-field-label">Effort (hours spent per week)</span>
                 <input type="text" class="form-control bfh-number" data-min="0" data-max="40" name="effort">

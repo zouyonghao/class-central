@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 
+use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,6 +32,20 @@ class ReviewController extends Controller {
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
+        $offerings = $em->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds(array($courseId));
+        $offeringTypesOrder = array('upcoming','ongoing','selfpaced','past');
+        $offeringCount = 0;
+        $offering = null; // If there is only one offering this will keep track of it
+        // offering count
+        foreach($offerings as $type => $ot) {
+            if(in_array($type,$offeringTypesOrder))
+            {
+                foreach($ot as $o) {
+                    $offering = $o;
+                    $offeringCount++;
+                }
+            }
+        }
 
         $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
             'user' => $user,
@@ -48,7 +63,12 @@ class ReviewController extends Controller {
             'progress' => UserCourse::$progress,
             'difficulty'=> Review::$difficulty,
             'course' => $course,
-            'levels' => Review::$levels
+            'levels' => Review::$levels,
+            'offerings' => $offerings,
+            'offeringTypes' => Offering::$types,
+            'offeringCount' => $offeringCount,
+            'offering' => $offering,
+            'offeringTypesOrder' => $offeringTypesOrder,
         ));
     }
 
@@ -65,11 +85,11 @@ class ReviewController extends Controller {
         $userSession = $this->get('user_session');
 
 
-
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
         if (!$course) {
             return $this->getAjaxResponse(false,'Course not found');
         }
+
 
         $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
                 'user' => $user,
@@ -91,6 +111,13 @@ class ReviewController extends Controller {
 
         // Validate the response
         $reviewData = json_decode($content, true);
+
+        // Get the offering
+        if($reviewData['offeringId'] != -1)
+        {
+            $offering = $em->getRepository('ClassCentralSiteBundle:Offering')->find($reviewData['offeringId']);
+            $review->setOffering($offering);
+        }
 
         // check if the rating valid
         if(!isset($reviewData['rating']) &&  !is_numeric($reviewData['rating']))

@@ -237,6 +237,7 @@ jQuery(function($) {
         var progress = $('input:radio[name=progress]:checked').val();
         var difficulty = $('input:radio[name=difficulty]:checked').val();
         var level = $('input:radio[name=level]:checked').val();
+        var offeringId = $('#sessionOptions').val();
 
         // Validate the form
         var validationError = false;
@@ -270,7 +271,8 @@ jQuery(function($) {
                'effort': effort,
                'progress': progress,
                'difficulty': difficulty,
-               'level':level
+               'level':level,
+               'offeringId':offeringId
            };
 
            $.ajax({
