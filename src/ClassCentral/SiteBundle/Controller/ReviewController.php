@@ -34,7 +34,7 @@ class ReviewController extends Controller {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
         $offerings = $em->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds(array($courseId));
-        $offeringTypesOrder = array('upcoming','ongoing','selfpaced','past');
+        $offeringTypesOrder = array('ongoing','selfpaced','past');
         $offeringCount = 0;
         $offering = null; // If there is only one offering this will keep track of it
         // offering count

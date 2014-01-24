@@ -203,7 +203,7 @@ jQuery(function($) {
 
     $('#rating').raty(ratyDefaults);
 
-    $('.average-rating').raty($.extend(
+    $('#average-rating').raty($.extend(
         {
             score: function() {
                 return $(this).attr('data-score');

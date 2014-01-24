@@ -32,6 +32,14 @@
 
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
+                <div id="average-rating" data-score="{{ rating }}"></div>
+                <div>
+                    {% if  reviews.reviews|length  > 0 %}
+                        <span class="review-count">{{ reviews.reviews|length }} </span>ratings
+                    {% else %}
+                        <a href="{{ path('review_new',{courseId: course.id}) }}">Be the first to review this course</a>
+                    {% endif %}
+                </div>
 
                 {#
                 <div class="course-share">
@@ -173,8 +181,8 @@
 
     <div class="course-reviews"> <!-- styles in classcentral.css course review block -->
         <header class="reviews-header">
-            <h2><span class="review-count">{{ reviews.reviews|length }} </span>Ratings</h2>
-            <div class="average-rating" data-score="{{ rating }}">
+            <h2><span class="review-count">{{ reviews.reviews|length }} </span>ratings</h2>
+            <div class="average-rating" id="average-rating" data-score="{{ rating }}">
             </div>
         </header>
 
