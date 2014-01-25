@@ -72,6 +72,12 @@ class Review
      */
     private $modified;
 
+    /**
+     *
+     * @var status
+     */
+    private $status;
+
 
     // Level
     const LEVEL_BEGINNER = 1;
@@ -99,9 +105,28 @@ class Review
         self::DIFFICULTY_VERY_HARD => array('slug'=>'very_hard', 'desc' => 'Very Hard'),
     );
 
+    /**
+     * Statuses for reviews
+     * Anything above 100 is not shown to the user
+     */
+    const REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND = 100;
+
+    const REVIEW_STATUS_NEW_BUT_SHOWN = 1;
+    const REVIEW_STATUS_APPROVED = 2;
+    const REVIEW_STATUS_NOT_SHOWN = 100;
+    const REVIEW_STATUS_SPAM = 101;
+
+    public static $statuses = array(
+        self::REVIEW_STATUS_NEW_BUT_SHOWN => 'New Review - but shown',
+        self::REVIEW_STATUS_APPROVED => 'Approved',
+        self::REVIEW_STATUS_NEW_BUT_SHOWN => "Don't Show",
+        self::REVIEW_STATUS_SPAM => 'Spam Review'
+    );
+
     public function __construct()
     {
         $this->created = new \DateTime();
+        $this->setStatus(self::REVIEW_STATUS_NEW_BUT_SHOWN);
     }
 
     /**
@@ -365,5 +390,13 @@ class Review
     public function getModified()
     {
         return $this->modified;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
     }
 }

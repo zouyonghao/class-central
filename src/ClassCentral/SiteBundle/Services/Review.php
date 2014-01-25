@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
+use ClassCentral\SiteBundle\Entity\Review as ReviewEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Review {
@@ -51,7 +52,10 @@ class Review {
             $ratingSum = 0;
             foreach($reviews as $review)
             {
-                $ratingSum += $review->getRating();
+                if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND)
+                {
+                    $ratingSum += $review->getRating();
+                }
             }
 
             $rating = $ratingSum/$reviews->count();
@@ -77,11 +81,15 @@ class Review {
         $reviewCount = 0;
         foreach($course->getReviews() as $review)
         {
-            $r[] = ReviewUtility::getReviewArray($review);
-            $reviewText = $review->getReview();
-            if(!empty($reviewText))
+
+            if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND)
             {
-                $reviewCount++;
+                $r[] = ReviewUtility::getReviewArray($review);
+                $reviewText = $review->getReview();
+                if(!empty($reviewText))
+                {
+                    $reviewCount++;
+                }
             }
         }
 

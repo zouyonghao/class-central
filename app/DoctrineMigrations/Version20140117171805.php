@@ -23,6 +23,7 @@ class Version20140117171805 extends AbstractMigration
               `user_id` INT NOT NULL ,
               `list_id` INT NULL ,
               `course_id` INT NOT NULL ,
+              `status` INT NOT NULL ,
               `offering_id` INT NULL ,
               `created` TIMESTAMP NULL DEFAULT NULL ,
               `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,

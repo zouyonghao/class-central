@@ -40,6 +40,9 @@ ClassCentral\SiteBundle\Entity\Review:
         modified:
             type: datetime
             nullable: false
+        status:
+            type: integer
+            nullable: false
     manyToOne:
         user:
             targetEntity: User
