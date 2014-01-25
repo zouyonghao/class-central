@@ -11,6 +11,7 @@
                 <th>User Name</th>
                 <th>Course Name</th>
                 <th>Rating</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@
                 <td style="padding-right: 10px">{{ review.user.name }}</td>
                 <td style="padding-right: 10px">{{ review.course.name }}</td>
                 <td>{{ review.rating }}</td>
+                <th><a href="{{ path('review_edit',{reviewId: review.id}) }}">Edit</a></th>
             </tr>
         {% endfor %}
         </tbody>

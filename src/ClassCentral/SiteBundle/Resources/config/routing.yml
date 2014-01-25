@@ -214,6 +214,10 @@ review_new:
   pattern: /user/review/new/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Review:new}
 
+review_edit:
+  pattern: /user/review/edit/{reviewId}
+  defaults: {_controller: ClassCentralSiteBundle:Review:edit}
+
 review_create:
   pattern: /user/review/create/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Review:create}

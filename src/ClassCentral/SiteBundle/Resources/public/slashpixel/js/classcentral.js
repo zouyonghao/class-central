@@ -198,16 +198,16 @@ jQuery(function($) {
     var ratyDefaults = {
         starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half.png',
         starOff     : '/bundles/classcentralsite/slashpixel/images/star-off.png',
-        starOn      : '/bundles/classcentralsite/slashpixel/images/star-on.png'
+        starOn      : '/bundles/classcentralsite/slashpixel/images/star-on.png',
+        score: function() {
+            return $(this).attr('data-score');
+        }
     };
 
     $('#rating').raty(ratyDefaults);
 
-    $('#average-rating').raty($.extend(
+    $('.course-rating').raty($.extend(
         {
-            score: function() {
-                return $(this).attr('data-score');
-            },
             readOnly: true
         },
         ratyDefaults
@@ -215,9 +215,6 @@ jQuery(function($) {
 
     $('.user-rating').raty($.extend(
         {
-            score: function() {
-                return $(this).attr('data-score');
-            },
             readOnly: true
         },
         ratyDefaults
@@ -238,6 +235,8 @@ jQuery(function($) {
         var difficulty = $('input:radio[name=difficulty]:checked').val();
         var level = $('input:radio[name=level]:checked').val();
         var offeringId = $('#sessionOptions').val();
+        var status = $('#reviewStatus').val();
+        var reviewId = $('#reviewid').data("value");
 
         // Validate the form
         var validationError = false;
@@ -272,7 +271,9 @@ jQuery(function($) {
                'progress': progress,
                'difficulty': difficulty,
                'level':level,
-               'offeringId':offeringId
+               'offeringId':offeringId,
+               'status':status,
+               'reviewId':reviewId
            };
 
            $.ajax({
@@ -282,7 +283,6 @@ jQuery(function($) {
            })
                .done(
                function(result){
-                   console.log("jquery" + result);
                    result = JSON.parse(result);
                    if(result['success']) {
                        // Redirect to the course page

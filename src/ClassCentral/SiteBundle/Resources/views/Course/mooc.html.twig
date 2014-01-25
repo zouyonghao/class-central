@@ -32,7 +32,7 @@
 
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
-                <div id="average-rating" data-score="{{ rating }}"></div>
+                <div class="course-rating" data-score="{{ rating }}"></div>
                 <div>
                     {% if  reviews.reviews|length  > 0 %}
                         <span class="review-count">{{ reviews.reviews|length }} </span>ratings
@@ -182,7 +182,7 @@
     <div class="course-reviews"> <!-- styles in classcentral.css course review block -->
         <header class="reviews-header">
             <h2><span class="review-count">{{ reviews.reviews|length }} </span>ratings</h2>
-            <div class="average-rating" id="average-rating" data-score="{{ rating }}">
+            <div class="average-rating course-rating" data-score="{{ rating }}">
             </div>
         </header>
 

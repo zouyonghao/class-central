@@ -90,7 +90,7 @@ class UserSession
         }
         $this->session->set(self::LIBRARY_COURSES_KEY, $userCourseIds);
 
-        $this->saveUserInformationInSession();
+        $this->saveReviewInformationInSession();
 
     }
 

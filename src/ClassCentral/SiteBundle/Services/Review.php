@@ -46,7 +46,7 @@ class Review {
         // Basic formula
         $rating = 0;
         $reviews = $course->getReviews();
-
+        $validReviewsCount = 0;
         if($reviews->count() > 0)
         {
             $ratingSum = 0;
@@ -55,10 +55,11 @@ class Review {
                 if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND)
                 {
                     $ratingSum += $review->getRating();
+                    $validReviewsCount++;
                 }
             }
 
-            $rating = $ratingSum/$reviews->count();
+            $rating = $ratingSum/$validReviewsCount;
         }
 
         return $rating;

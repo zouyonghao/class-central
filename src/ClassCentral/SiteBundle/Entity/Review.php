@@ -119,7 +119,7 @@ class Review
     public static $statuses = array(
         self::REVIEW_STATUS_NEW_BUT_SHOWN => 'New Review - but shown',
         self::REVIEW_STATUS_APPROVED => 'Approved',
-        self::REVIEW_STATUS_NEW_BUT_SHOWN => "Don't Show",
+        self::REVIEW_STATUS_NOT_SHOWN => "Don't Show",
         self::REVIEW_STATUS_SPAM => 'Spam Review'
     );
 
