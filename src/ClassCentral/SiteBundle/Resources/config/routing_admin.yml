@@ -45,3 +45,8 @@ ClassCentralSiteBundle_user:
 ClassCentralSiteBundle_newsletter:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/newsletter.yml"
   prefix:   /newsletter
+
+
+reviews_by_status:
+  pattern: /review/status/view/{statusId}
+  defaults: { _controller: ClassCentralSiteBundle:Review:reviewsByStatus }

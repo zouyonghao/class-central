@@ -1,0 +1,30 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+
+<h1>Reviews by status</h1>
+
+    <table class="record_properties">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User Name</th>
+                <th>Course Name</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+        {# &nbsp; #}
+        {% for review in reviews %}
+            <tr>
+                <td style="padding-right: 10px">{{ review.id }}</td>
+                <td style="padding-right: 10px">{{ review.user.name }}</td>
+                <td style="padding-right: 10px">{{ review.course.name }}</td>
+                <td>{{ review.rating }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

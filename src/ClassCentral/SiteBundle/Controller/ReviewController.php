@@ -224,9 +224,26 @@ class ReviewController extends Controller {
         return $this->getAjaxResponse(true);
     }
 
+
     private function getAjaxResponse($success = false, $message = '')
     {
         $response = array('success' => $success, 'message' => $message);
         return new Response(json_encode($response));
     }
-} 
+
+    /**
+     * Admin access only - shows reviews by different status id
+     * @param Request $request
+     * @param $statusId
+     */
+   public function reviewsByStatusAction(Request $request, $statusId)
+   {
+       $em = $this->getDoctrine()->getManager();
+       $reviews = $em->getRepository('ClassCentralSiteBundle:Review')->findByStatus($statusId);
+
+       return $this->render('ClassCentralSiteBundle:Review:reviewsByStatus.html.twig',array(
+            'reviews' => $reviews
+       ));
+   }
+
+}
