@@ -200,6 +200,8 @@
                                 <span class="star-rating-5"></span>
                             </div>
                             <span class="review-date">{{ review.displayDate }}</span>
+                            <div style="clear:both"></div>
+                            <div class="review-title">Dhawal Shah completed this course and spent an average of 10 hours per week and found the course to be very easy</div>
                             <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
                             <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?<span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}">NO</a></span></div>
                         </div>

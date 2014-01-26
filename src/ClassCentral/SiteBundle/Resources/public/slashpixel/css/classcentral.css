@@ -1824,6 +1824,11 @@ input::-webkit-input-placeholder {
     font-weight: 600;
 }
 
+.course-reviews .review-title {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
 .course-reviews .question {
     color: #5d456b;
 }
