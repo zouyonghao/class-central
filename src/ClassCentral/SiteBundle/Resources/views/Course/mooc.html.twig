@@ -192,7 +192,13 @@
                         <div class="single-review">
                             <div class="review-feedback">3 out of 5 people found this useful</div>
                             <span class="author">{{ review.user.name }}</span>
-                            <div class="user-rating" data-score="{{ rating }}"></div>
+                            <div class="small-star-rating small-rating-{{ rating }}"><!-- small-rating-2 class displays 2 small blue stars, small-rating-3 displays 3 small blue stars and so on  -->
+                                <span class="star-rating-1"></span>
+                                <span class="star-rating-2"></span>
+                                <span class="star-rating-3"></span>
+                                <span class="star-rating-4"></span>
+                                <span class="star-rating-5"></span>
+                            </div>
                             <span class="review-date">{{ review.displayDate }}</span>
                             <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
                             <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?<span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}">NO</a></span></div>

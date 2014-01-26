@@ -195,6 +195,8 @@ jQuery(function($) {
         return (!str || 0 === str.length);
     }
 
+    $('#review-text').autosize();
+
     var ratyDefaults = {
         starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half.png',
         starOff     : '/bundles/classcentralsite/slashpixel/images/star-off.png',

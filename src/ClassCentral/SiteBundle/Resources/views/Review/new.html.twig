@@ -11,7 +11,7 @@
     <div class="review-form-wrap"> <!-- styles in classcentral.css review form block -->
         <form id="review-form" class="clearfix" method="post" action="#review-form">
             <p class="course-quality">
-                <span class="review-field-label">Quality</span>
+                <span class="review-field-label">Quality <span style="color: red">*</span></span>
                 <span class="review-form-error" id="rating-error" style="display:none;">Rating is required</span>
                 <div id="rating" data-score ={{ review.rating }}></div>
             </p>
@@ -53,7 +53,7 @@
                 {% if review.offering is not null %}
                     {% set offId = review.offering.id %}
                 {% else %}
-                    {% set offId = review.offering.id %}
+                    {% set offId = -1 %}
                 {% endif %}
                 <span class="review-field-label">Session</span>
                 <select id="sessionOptions">
@@ -96,7 +96,7 @@
                 <p class="review-text">
                     <span class="review-field-label">Review</span>
                     <span class="review-form-error" id="review-text-error" style="display:none;">Review should be at least 20 words</span>
-                    <textarea id="review-text" name="review-text" placeholder="">{{ review.review }}</textarea>
+                    <textarea id="review-text" name="review-text" placeholder="" class="expandable">{{ review.review }}</textarea>
                 </p>
             </div>
 
