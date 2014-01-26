@@ -49,8 +49,10 @@ class UserCourse
     public static $lists = array(
         self::LIST_TYPE_INTERESTED => array('slug' => 'interested','desc' => "Interested"),
         self::LIST_TYPE_ENROLLED => array('slug'=>'enrolled','desc'=>'Enrolled'),
+        self::LIST_TYPE_PARTIALLY_COMPLETED => array('slug' => 'partially_completed','desc' => 'Partially Completed'),
         self::LIST_TYPE_COMPLETED => array('slug'=>'completed','desc'=>'Completed'),
-        self::LIST_TYPE_AUDITED => array('slug'=>'audited','desc'=>'Audited')
+        self::LIST_TYPE_AUDITED => array('slug'=>'audited','desc'=>'Audited'),
+        self::LIST_TYPE_DROPPED => array('slug' => 'dropped','desc' => 'Dropped')
     );
 
     public static $progress = array(

@@ -332,6 +332,21 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Returns a formatted name for display purposes
+     */
+    public function getDisplayName()
+    {
+        if(empty($this->name))
+        {
+            return 'A Class Central user';
+        }
+        else
+        {
+            return ucwords($this->name);
+        }
+    }
+
+    /**
      * Set created
      *
      * @param \DateTime $created

@@ -59,7 +59,10 @@ class Review {
                 }
             }
 
-            $rating = $ratingSum/$validReviewsCount;
+            if($validReviewsCount > 0)
+            {
+                $rating = $ratingSum/$validReviewsCount;
+            }
         }
 
         return $rating;

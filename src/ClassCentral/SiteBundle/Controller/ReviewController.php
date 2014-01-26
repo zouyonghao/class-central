@@ -151,7 +151,7 @@ class ReviewController extends Controller {
 
         // Get the review object if it exists
         $review = null;
-        if(isset($reviewData['reviewId']))
+        if(isset($reviewData['reviewId']) && is_numeric($reviewData['reviewId']))
         {
             // Its an edit. Get the review
             // Get the review
@@ -217,6 +217,10 @@ class ReviewController extends Controller {
         if(isset($reviewData['progress']) && array_key_exists($reviewData['progress'], UserCourse::$progress))
         {
             $review->setListId($reviewData['progress']);
+
+            // Add/update the course to users library
+            $userService = $this->get('user_service');
+            $uc = $userService->addCourse($user, $course, $reviewData['progress']);
         }
 
         // Difficulty
@@ -249,7 +253,7 @@ class ReviewController extends Controller {
         // clear the review cache for this particular course
         $ru->clearCache($course->getId());
         // Update the users review history in session
-        $userSession->saveReviewInformationInSession();
+        $userSession->saveUserInformationInSession();
         return $this->getAjaxResponse(true);
     }
 

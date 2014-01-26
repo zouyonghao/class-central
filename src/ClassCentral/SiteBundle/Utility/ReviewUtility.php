@@ -35,7 +35,7 @@ class ReviewUtility {
         $user = $review->getUser();
         $u = array();
         $u['id'] = $user->getId();
-        $u['name'] = $user->getName();
+        $u['name'] = $user->getDisplayName();
 
         $r['user'] = $u;
 

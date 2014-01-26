@@ -35,7 +35,7 @@
                 <div class="course-rating" data-score="{{ rating }}"></div>
                 <div>
                     {% if  reviews.reviews|length  > 0 %}
-                        <span class="review-count">{{ reviews.reviews|length }} </span>ratings
+                        <span class="review-count">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}
                     {% else %}
                         <a href="{{ path('review_new',{courseId: course.id}) }}">Be the first to review this course</a>
                     {% endif %}
@@ -177,11 +177,10 @@
         </div>
     </div>
 
-
-
-    <div class="course-reviews"> <!-- styles in classcentral.css course review block -->
+    <div class="course-reviews">
         <header class="reviews-header">
-            <h2><span class="review-count">{{ reviews.reviews|length }} </span>ratings</h2>
+            <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}</h2>
+            <span><a class="review-button" href="{{ path('review_new',{courseId: course.id}) }}">Write a review</a></span>
             <div class="average-rating course-rating" data-score="{{ rating }}">
             </div>
         </header>
@@ -191,6 +190,7 @@
                 {% for review in reviews.reviews %}
                     {% if review.reviewText %}
                         <div class="single-review">
+                            <div class="review-feedback">3 out of 5 people found this useful</div>
                             <span class="author">{{ review.user.name }}</span>
                             <div class="user-rating" data-score="{{ rating }}"></div>
                             <span class="review-date">{{ review.displayDate }}</span>
