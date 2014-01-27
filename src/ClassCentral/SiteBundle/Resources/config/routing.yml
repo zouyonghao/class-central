@@ -222,6 +222,11 @@ review_create:
   pattern: /user/review/create/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Review:create}
 
+signup_create_review:
+  pattern: /signup/review/{courseId}
+  defaults: {_controller: ClassCentralSiteBundle:User:signUpCreateReview }
+  schemes:  [https]
+
 ajax_review_feedback:
   pattern: /ajax/review/feedback/{reviewId}/{feedback}
   defaults: {_controller: ClassCentralSiteBundle:Review:feedback }

@@ -26,6 +26,12 @@
  {% endblock %}
 
 {% block content %}
+    {% if app.user %}
+        {% set reviewUrl = path('review_new',{courseId: course.id})%}
+    {% else %}
+        {% set reviewUrl = path('signup_create_review',{courseId: course.id})%}
+    {% endif %}
+
     <div class="course-block" itemscope itemtype="http://schema.org/Event">
 
         <div class="course-meta-top row" >
@@ -37,7 +43,7 @@
                     {% if  reviews.reviews|length  > 0 %}
                         <span class="review-count">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}
                     {% else %}
-                        <a href="{{ path('review_new',{courseId: course.id}) }}">Be the first to review this course</a>
+                        <a href="{{ reviewUrl }}" rel="nofollow">Be the first to review this course</a>
                     {% endif %}
                 </div>
 
@@ -150,7 +156,7 @@
                     </li>
                     {% if not user_session.isCourseReviewed(course.id) %}
                     <li>
-                        <a class="review-button" href="{{ path('review_new',{courseId: course.id}) }}">Review</a>
+                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow">Review</a>
                     </li>
                     {% endif %}
 
@@ -180,7 +186,7 @@
     <div class="course-reviews">
         <header class="reviews-header">
             <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}</h2>
-            <span><a class="review-button" href="{{ path('review_new',{courseId: course.id}) }}">Write a review</a></span>
+            <span><a class="review-button" href="{{ reviewUrl }}" rel="nofollow">Write a review</a></span>
             <div class="average-rating course-rating" data-score="{{ rating }}">
             </div>
         </header>

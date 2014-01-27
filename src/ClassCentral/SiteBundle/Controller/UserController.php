@@ -247,6 +247,15 @@ class UserController extends Controller
         return $this->redirect($this->generateUrl('signup'));
     }
 
+    /*
+     * Saves the courseId into session when a user clicks on 'Write a review' button
+     */
+    public function signUpCreateReviewAction(Request $request, $courseId)
+    {
+        $this->get('user_session')->saveSignupReferralDetails(array('review' => true, 'courseId' => $courseId ));
+        return $this->redirect($this->generateUrl('signup'));
+    }
+
 
     /**
      * Create and save the user
@@ -282,6 +291,7 @@ class UserController extends Controller
 
             // Check where the user reached the signed in page
             $referralDetails = $userSession->getSignupReferralDetails();
+            $redirectUrl = null;
             if(!empty($referralDetails))
             {
                 if(array_key_exists('mooc',$referralDetails))
@@ -306,9 +316,28 @@ class UserController extends Controller
                         $logger->error("Course with id {$referralDetails['courseId']} not found");
                     }
                 }
+                else if (array_key_exists('review', $referralDetails))
+                {
+                    // Redirect to the create review page
+                    $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
+                    if($course)
+                    {
+                        // Redirect to create review page
+                        $redirectUrl = $this->generateUrl('review_new', array('courseId' =>$referralDetails['courseId']));
+                    }
+                    else
+                    {
+                        $logger->error("Create Review flow: Course with id {$referralDetails['courseId']} not found");
+                    }
+                }
 
                 $userSession->clearSignupReferralDetails();
                 $userSession->saveUserInformationInSession(); // Update the session
+
+                if($redirectUrl)
+                {
+                    return $this->redirect($redirectUrl);
+                }
             }
 
             return $this->redirect($this->generateUrl('user_library'));

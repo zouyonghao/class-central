@@ -145,7 +145,7 @@ class ReviewController extends Controller {
         // Get the json post data
         $content = $this->getRequest("request")->getContent();
         if(empty($content)) {
-            return $this->getAjaxResponse(false);
+            return $this->getAjaxResponse(false, "Error retrieving form details");
         }
         $reviewData = json_decode($content, true);
 
@@ -196,18 +196,18 @@ class ReviewController extends Controller {
         // check if the rating valid
         if(!isset($reviewData['rating']) &&  !is_numeric($reviewData['rating']))
         {
-            $this->getAjaxResponse(false,'Rating is required and expected to be a number');
+            return $this->getAjaxResponse(false,'Rating is required and expected to be a number');
         }
         // Check if the rating is in range
         if(!($reviewData['rating'] >= 1 && $reviewData['rating'] <= 5))
         {
-            $this->getAjaxResponse(false,'Rating should be between 1 to 5');
+            return $this->getAjaxResponse(false,'Rating should be between 1 to 5');
         }
 
         // If review exists its length should be atleast 20 words
         if(!empty($reviewData['reviewText']) && str_word_count($reviewData['reviewText']) < 20)
         {
-            $this->getAjaxResponse(false,'Review should be at least 20 words long');
+            return $this->getAjaxResponse(false,'Review should be at least 20 words long');
         }
 
         $review->setRating($reviewData['rating']);
@@ -254,7 +254,7 @@ class ReviewController extends Controller {
         $ru->clearCache($course->getId());
         // Update the users review history in session
         $userSession->saveUserInformationInSession();
-        return $this->getAjaxResponse(true);
+        return $this->getAjaxResponse(true,$review->getId());
     }
 
     /**
