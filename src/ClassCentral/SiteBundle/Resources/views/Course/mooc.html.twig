@@ -186,9 +186,9 @@
     <div class="course-reviews">
         <header class="reviews-header">
             <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}</h2>
-            <span><a class="review-button" href="{{ reviewUrl }}" rel="nofollow">Write a review</a></span>
             <div class="average-rating course-rating" data-score="{{ rating }}">
             </div>
+            <a class="review-button" href="{{ reviewUrl }}" rel="nofollow">Write a review</a>
         </header>
 
         {% if reviews.count > 0 %}
