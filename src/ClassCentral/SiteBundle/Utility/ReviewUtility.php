@@ -30,6 +30,7 @@ class ReviewUtility {
         $r['listId'] = $review->getListId();
         $r['created'] = $review->getCreated();
         $r['displayDate'] = $rd->get($review->getCreated()->getTimestamp());
+        $r['publishedDate'] = $review->getCreated()->format('Y-m-d');
         $r['modified'] = $review->getModified();
 
         // Review feedback

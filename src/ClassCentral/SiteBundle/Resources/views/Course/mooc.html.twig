@@ -2,10 +2,10 @@
 
 
  {% block headmeta %}
-     <title>{{ course['pageTitle'] }}</title>
+     <title>{{ course['pageTitle'] }} | MOOC reviews and ratings</title>
      <meta name="description"
            content="{{ course['desc'] }}"/>
-     <meta property="og:title" content="{{ course['pageTitle'] }}" />
+     <meta property="og:title" content="{{ course['pageTitle'] }} | MOOC reviews and ratings" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
      <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      <meta property="og:site_name" content="Class Central"/>
@@ -38,10 +38,13 @@
 
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
-                <div class="course-rating" data-score="{{ rating }}"></div>
+                <div class="course-rating" data-score="{{ rating }}"
+                        itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                            <meta itemprop="ratingValue" content="{{ rating }}">
+                        </div>
                 <div>
                     {% if  reviews.reviews|length  > 0 %}
-                        <span class="review-count">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}
+                        <span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}
                     {% else %}
                         <a href="{{ reviewUrl }}" rel="nofollow">Be the first to review this course</a>
                     {% endif %}
@@ -183,6 +186,18 @@
         </div>
     </div>
 
+    {% if course['stream']['showInNav'] %}
+        <div class="row">
+            <div class ="span12" style="text-align: center; margin-top: 25px">
+                <a class="btn btn-primary btn-course-cc"
+                   href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
+                   title="List of {{ course['stream']['name'] }} MOOCs"
+                   onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+                        >Browse more {{ course['stream']['name'] }} courses</a>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="course-reviews">
         <header class="reviews-header">
             <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}</h2>
@@ -195,30 +210,35 @@
             <div class="single-reviews-wrap">
                 {% for review in reviews.reviews %}
                     {% if review.reviewText %}
-                        <div class="single-review">
+                        <div class="single-review" itemprop="review" itemscope itemtype="http://schema.org/Review">
                             {% if review.fb.total > 0 %}
                                 <div class="review-feedback">{{review.fb.positive }}  out of {{ review.fb.total  }}  people found this useful</div>
                             {% endif %}
-                            <span class="author">{{ review.user.name }}</span>
-                            <div class="small-star-rating small-rating-{{ rating }}"><!-- small-rating-2 class displays 2 small blue stars, small-rating-3 displays 3 small blue stars and so on  -->
+                            <span class="author" itemprop="author">{{ review.user.name }}</span>
+                            <div class="small-star-rating small-rating-{{ review.rating }}" itemprop="ratingValue" itemscope itemtype="http://schema.org/Rating">
                                 <span class="star-rating-1"></span>
                                 <span class="star-rating-2"></span>
                                 <span class="star-rating-3"></span>
                                 <span class="star-rating-4"></span>
                                 <span class="star-rating-5"></span>
+                                <meta itemprop="ratingValue" content="{{ review.rating }}">
                             </div>
-                            <span class="review-date">{{ review.displayDate }}</span>
+                            <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
                             <div style="clear:both"></div>
-                            <div class="review-title">Dhawal Shah completed this course and spent an average of 10 hours per week and found the course to be very easy</div>
-                            <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
+                            <div itemprop="description">
+                                <div class="review-title">Dhawal Shah completed this course and spent an average of 10 hours per week and found the course to be very easy</div>
+                                <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
+                            </div>
                             <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?<span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}">NO</a></span></div>
                         </div>
                     {% endif %}
                 {% endfor %}
             </div>
-            <div class="view-more-wrap">
-                <button class="view-more">View More Reviews</button>
-            </div>
+            <!--
+                <div class="view-more-wrap">
+                    <button class="view-more">View More Reviews</button>
+                </div>
+            -->
         {% endif %}
     </div>
 
@@ -264,17 +284,7 @@
     </div>
     {% endif %}
 
-    {% if course['stream']['showInNav'] %}
-        <div class="row">
-            <div class ="span12" style="text-align: center; margin-top: 25px">
-                <a class="btn btn-primary btn-course-cc"
-                   href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
-                   title="List of {{ course['stream']['name'] }} MOOCs"
-                   onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
-                   >Browse more {{ course['stream']['name'] }} courses</a>
-            </div>
-        </div>
-    {% endif %}
+
 
     <script type="text/javascript">
         window.addthisevent_settings = {

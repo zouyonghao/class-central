@@ -55,10 +55,10 @@ class ReviewFeedbackPrecomputeCommand extends ContainerAwareCommand {
             $query = sprintf("INSERT INTO reviews_feedback_summary(review_id,positive,negative,total)
                                 VALUES(%d,%d,%d,%d)
                             ON DUPLICATE KEY UPDATE
-                               negative = %d,
                                 positive = %d,
+                                negative = %d,
                                 total = %d
-                            ", $id, $n,$p,$t,$n,$p,$t);
+                            ", $id, $p,$n,$t,$p,$n,$t);
 
             $em->getConnection()->exec($query);
         }
