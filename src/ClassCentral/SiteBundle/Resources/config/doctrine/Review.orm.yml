@@ -71,4 +71,8 @@ ClassCentral\SiteBundle\Entity\Review:
                 offering_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToOne:
+        fbSummary:
+          targetEntity: ReviewFeedbackSummary
+          mappedBy: review
     lifecycleCallbacks: {  }

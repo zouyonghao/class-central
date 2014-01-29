@@ -78,6 +78,11 @@ class Review
      */
     private $status;
 
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\ReviewFeedbackSummary
+     */
+    private $fbSummary;
+
 
     // Level
     const LEVEL_BEGINNER = 1;
@@ -398,5 +403,29 @@ class Review
 
     public function setStatus($status) {
         $this->status = $status;
+    }
+
+
+    /**
+     * Set fbSummary
+     *
+     * @param \ClassCentral\SiteBundle\Entity\ReviewFeedbackSummary $fbSummary
+     * @return Review
+     */
+    public function setFbSummary(\ClassCentral\SiteBundle\Entity\ReviewFeedbackSummary $fbSummary = null)
+    {
+        $this->fbSummary = $fbSummary;
+    
+        return $this;
+    }
+
+    /**
+     * Get fbSummary
+     *
+     * @return \ClassCentral\SiteBundle\Entity\ReviewFeedbackSummary 
+     */
+    public function getFbSummary()
+    {
+        return $this->fbSummary;
     }
 }
