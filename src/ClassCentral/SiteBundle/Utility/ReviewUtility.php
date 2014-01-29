@@ -32,6 +32,18 @@ class ReviewUtility {
         $r['displayDate'] = $rd->get($review->getCreated()->getTimestamp());
         $r['modified'] = $review->getModified();
 
+        // Review feedback
+        $r['fb']['total'] = 0;
+        $r['fb']['positive'] = 0;
+        $r['fb']['negative'] = 0;
+        $fb = $review->getFbSummary();
+        if($fb)
+        {
+            $r['fb']['total'] = $fb->getTotal();
+            $r['fb']['positive'] = $fb->getPositive();
+            $r['fb']['negative'] = $fb->getNegative();
+        }
+
         $user = $review->getUser();
         $u = array();
         $u['id'] = $user->getId();

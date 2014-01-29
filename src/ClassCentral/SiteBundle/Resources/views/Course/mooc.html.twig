@@ -196,7 +196,9 @@
                 {% for review in reviews.reviews %}
                     {% if review.reviewText %}
                         <div class="single-review">
-                            <div class="review-feedback">3 out of 5 people found this useful</div>
+                            {% if review.fb.total > 0 %}
+                                <div class="review-feedback">{{review.fb.positive }}  out of {{ review.fb.total  }}  people found this useful</div>
+                            {% endif %}
                             <span class="author">{{ review.user.name }}</span>
                             <div class="small-star-rating small-rating-{{ rating }}"><!-- small-rating-2 class displays 2 small blue stars, small-rating-3 displays 3 small blue stars and so on  -->
                                 <span class="star-rating-1"></span>
