@@ -251,6 +251,14 @@ jQuery(function($) {
             $('#rating-error').hide();
         }
 
+        // progress cannot be empty
+        if(progress === undefined) {
+            $('#progress-error').show();
+            validationError = true;
+        } else {
+            $('#progress-error').hide();
+        }
+
         // Review if exits should be atleast 20 words long
         if(!isEmpty(reviewText)) {
             // Non empty review. Should be 20 words long

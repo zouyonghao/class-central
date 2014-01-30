@@ -116,7 +116,7 @@ class ReviewControllerTest extends WebTestCase {
         $this->isSignedIn($crawler);
 
         // Confirm if its the write a new review form
-        $this->assertGreaterThan(0, $crawler->filter("span:contains('Progress')")->count());
+        $this->assertGreaterThan(0, $crawler->filter("span:contains('How difficult was this course?')")->count());
     }
 
 

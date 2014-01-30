@@ -428,4 +428,24 @@ class Review
     {
         return $this->fbSummary;
     }
+
+    public function getProgress()
+    {
+        if($this->getListId())
+        {
+            return UserCourse::$progress[$this->getListId()]['desc'];
+        }
+
+        return "";
+    }
+
+    public function getDifficulty()
+    {
+        if($this->getDifficultyId())
+        {
+            return self::$difficulty[$this->getDifficultyId()]['desc'];
+        }
+
+        return "";
+    }
 }

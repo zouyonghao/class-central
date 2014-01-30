@@ -205,6 +205,7 @@ class ReviewController extends Controller {
             return $this->getAjaxResponse(false,'Rating should be between 1 to 5');
         }
 
+
         // If review exists its length should be atleast 20 words
         if(!empty($reviewData['reviewText']) && str_word_count($reviewData['reviewText']) < 20)
         {
@@ -214,6 +215,12 @@ class ReviewController extends Controller {
         $review->setRating($reviewData['rating']);
         $review->setReview($reviewData['reviewText']);
 
+
+        // Progress is required
+        if(!isset($reviewData['progress']))
+        {
+            return $this->getAjaxResponse(false,'Progress is required');
+        }
         // Progress
         if(isset($reviewData['progress']) && array_key_exists($reviewData['progress'], UserCourse::$progress))
         {

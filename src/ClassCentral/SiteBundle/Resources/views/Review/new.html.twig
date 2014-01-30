@@ -1,5 +1,7 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
-
+{% block headmeta %}
+    <title>Review a course</title>
+{% endblock %}
 {% block content %}
 <div class="add-review">
     <header>
@@ -8,15 +10,16 @@
     <span id="courseId" data-value="{{ course.id }}" class="hidden"></span>
     <span id="reviewid" data-value="{{ review.id }}" class="hidden"></span>
     <span id="courseUrl" data-value="{{ path('ClassCentralSiteBundle_mooc',{id:course.id,slug:course.slug }) }}" class="hidden"></span>
-    <div class="review-form-wrap"> <!-- styles in classcentral.css review form block -->
+    <div class="review-form-wrap">
         <form id="review-form" class="clearfix" method="post" action="#review-form">
             <p class="course-quality">
-                <span class="review-field-label">Quality <span style="color: red">*</span></span>
+                <span class="review-field-label">How would you rate this course?<span style="color: red"> *</span></span>
                 <span class="review-form-error" id="rating-error" style="display:none;">Rating is required</span>
                 <div id="rating" data-score ={{ review.rating }}></div>
             </p>
             <p class="course-progress">
-                <span class="review-field-label">Progress</span>
+                <span class="review-field-label">How much of the course did you finish?<span style="color: red"> *</span></span>
+                <span class="review-form-error" id="progress-error" style="display:none;">This is a required field</span>
                 {% for id,state in progress %}
                     <input type="radio" id="{{ state.slug }}" name="progress" value="{{ id }}" {% if review.listId == id %}checked{%  endif  %}>
                     <label for="{{ state.slug }}">{{ state.desc }}</label>
@@ -24,7 +27,7 @@
             </p>
 
             <p class="course-progress">
-                <span class="review-field-label">Difficulty</span>
+                <span class="review-field-label">How difficult was this course?</span>
                 {% for id,state in difficulty %}
                     <input type="radio" id="{{ state.slug }}" name="difficulty" value="{{ id }}" {% if review.difficultyId == id %}checked{%  endif  %}>
                     <label for="{{ state.slug }}">{{ state.desc }}</label>
@@ -32,7 +35,7 @@
             </p>
 
             <p class="course-progress">
-                <span class="review-field-label">Level</span>
+                <span class="review-field-label">Which level is this course appropriate for?</span>
                 {% for id,state in levels %}
                     <input type="radio" id="{{ state.slug }}" name="level" value="{{ id }}" {% if review.levelId == id %}checked{%  endif  %}>
                     <label for="{{ state.slug }}">{{ state.desc }}</label>
@@ -76,7 +79,7 @@
             {% endif %}
 
             <p class="course-effort">
-                <span class="review-field-label">Effort (hours spent per week)</span>
+                <span class="review-field-label">How many hours did you spend per week?</span>
                 <input type="text" class="form-control bfh-number" data-min="0" data-max="40" name="effort" value="{{ review.hours }}">
 
             </p>

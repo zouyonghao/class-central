@@ -32,6 +32,7 @@ class ReviewUtility {
         $r['displayDate'] = $rd->get($review->getCreated()->getTimestamp());
         $r['publishedDate'] = $review->getCreated()->format('Y-m-d');
         $r['modified'] = $review->getModified();
+        $r['reviewTitle'] = self::getReviewTitle($review);
 
         // Review feedback
         $r['fb']['total'] = 0;
@@ -53,5 +54,14 @@ class ReviewUtility {
         $r['user'] = $u;
 
         return $r;
+    }
+
+    public static function getReviewTitle(Review $review)
+    {
+        $title = sprintf("%s %s this course", $review->getUser()->getDisplayName(), strtolower($review->getProgress()) );
+        $title .=  ($review->getHours() > 0) ? sprintf(" and spent %s hours a week on it", $review->getHours()) : '';
+        $title .= ($review->getDifficultyId()) ? sprintf(", while finding the course difficulty to be %s", strtolower($review->getDifficulty())) : '';
+        $title .= '.';
+        return $title;
     }
 } 
