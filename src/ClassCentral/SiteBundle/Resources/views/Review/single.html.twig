@@ -1,0 +1,29 @@
+{% if review.reviewText %}
+    <div class="single-review" itemprop="review" itemscope itemtype="http://schema.org/Review">
+        {% if review.fb.total > 0 %}
+            <div class="review-feedback">{{review.fb.positive }}  out of {{ review.fb.total  }}  people found this useful</div>
+        {% endif %}
+        <span class="author" itemprop="author">{{ review.user.name }}</span>
+        <div class="small-star-rating small-rating-{{ review.rating }}" itemprop="ratingValue" itemscope itemtype="http://schema.org/Rating">
+            <span class="star-rating-1"></span>
+            <span class="star-rating-2"></span>
+            <span class="star-rating-3"></span>
+            <span class="star-rating-4"></span>
+            <span class="star-rating-5"></span>
+            <meta itemprop="ratingValue" content="{{ review.rating }}">
+        </div>
+        <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
+        <div style="clear:both"></div>
+        <div itemprop="description">
+            <div class="review-title">Dhawal Shah completed this course and spent an average of 10 hours per week and found the course to be very easy</div>
+            <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
+        </div>
+        {% if app.user and user_session.isUserReview(review.id) %}
+            {# show the edit button #}
+            <div class="question"><a href="{{ path('review_edit',{reviewId:review.id}) }}">edit review</a></div>
+        {% else %}
+            {# show the feedback #}
+            <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?<span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}">NO</a></span></div>
+        {% endif %}
+    </div>
+{% endif %}

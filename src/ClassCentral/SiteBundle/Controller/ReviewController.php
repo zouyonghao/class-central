@@ -14,6 +14,7 @@ use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\ReviewFeedback;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -328,5 +329,24 @@ class ReviewController extends Controller {
             'reviews' => $reviews
        ));
    }
+
+    /**
+     * Shows the users reviews
+     */
+    public function myReviewsAction()
+    {
+        // Get the user
+        $user = $this->get('security.context')->getToken()->getUser();
+        $reviews = array();
+        foreach($user->getReviews() as $review)
+        {
+            $reviews[] = ReviewUtility::getReviewArray($review);
+        }
+
+        return $this->render('ClassCentralSiteBundle:Review:myreviews.html.twig',array(
+                'reviews' => $reviews,
+                'page' => 'myReviews'
+            ));
+    }
 
 }

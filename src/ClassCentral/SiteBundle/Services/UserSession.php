@@ -122,6 +122,16 @@ class UserSession
         return in_array($courseId, $courseIds);
     }
 
+    public function isUserReview($reviewId)
+    {
+        $reviewIds = $this->session->get(self::USER_REVIEWS);
+        if(empty($reviewIds))
+        {
+            return false;
+        }
+        return in_array($reviewId, $reviewIds);
+    }
+
     /**
      * Checks whether the course has been added to MOOC tracker
      */

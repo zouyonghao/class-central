@@ -222,6 +222,9 @@ review_create:
   pattern: /user/review/create/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Review:create}
 
+user_reviews:
+  pattern: /user/reviews
+  defaults: {_controller: ClassCentralSiteBundle:Review:myReviews}
 signup_create_review:
   pattern: /signup/review/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:User:signUpCreateReview }
