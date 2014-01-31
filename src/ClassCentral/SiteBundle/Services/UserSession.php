@@ -24,6 +24,13 @@ class UserSession
     const USER_REVIEWED_COURSES = 'user_review_course_ids';
     const USER_REVIEWS  = 'user_review_ids';
 
+    // Flash message types
+    const FLASH_TYPE_NOTICE = 'notice';
+    const FLASH_TYPE_INFO = 'info';
+    const FLASH_TYPE_SUCCESS = 'success';
+    const FLASH_TYPE_ERROR = 'error';
+
+    private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);
 
     public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session)
     {
@@ -246,4 +253,22 @@ class UserSession
         return $this->session->get(self::NEWSLETTER_USER_EMAIL);
     }
 
+    /**
+     * Saves a flash message to be displayed to the user on the next page load
+     * @param $type
+     * @param $title
+     * @param $text
+     */
+    public function notifyUser($type, $title, $text)
+    {
+        if(!in_array($type, self::$flashTypes))
+        {
+            throw new \Exception('Find me a pair of courses');
+        }
+
+        $this->session->getFlashBag()->add($type, array(
+                'title' => $title,
+                'text' => $text
+            ));
+    }
 }

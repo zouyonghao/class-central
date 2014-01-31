@@ -340,4 +340,17 @@ jQuery(function($) {
 
     });
 
+    // Default notification false
+    $.pnotify.defaults.history = false;
+
+    // Pines notification
+    $('.flash-message').each(function(index,element){
+
+         $.pnotify({
+            title: $(element).data('title'),
+            text: $(element).text(),
+            type: $(element).data('type')
+	});
+});
+
 });

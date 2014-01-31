@@ -14,6 +14,7 @@ use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\ReviewFeedback;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -172,6 +173,7 @@ class ReviewController extends Controller {
 
         } else
         {
+            $newReview = true;
             $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
                     'user' => $user,
                     'course' => $course
@@ -262,6 +264,24 @@ class ReviewController extends Controller {
         $ru->clearCache($course->getId());
         // Update the users review history in session
         $userSession->saveUserInformationInSession();
+
+        if($newReview)
+        {
+            $userSession->notifyUser(
+                UserSession::FLASH_TYPE_SUCCESS,
+                'Review created',
+                sprintf("Review for <i>%s</i> created successfully", $course->getName())
+            );
+        }
+        else
+        {
+            $userSession->notifyUser(
+                UserSession::FLASH_TYPE_SUCCESS,
+                'Review updated',
+                sprintf("Your review for <i>%s</i> has been updated successfully", $course->getName())
+            );
+        }
+
         return $this->getAjaxResponse(true,$review->getId());
     }
 

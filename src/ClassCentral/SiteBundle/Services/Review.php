@@ -82,22 +82,17 @@ class Review {
         $course = $this->em->getRepository('ClassCentralSiteBundle:Course')->findOneById($courseId);
 
         $reviewEntities = $this->em->createQuery("
-               SELECT r,f from ClassCentralSiteBundle:Review r JOIN r.course c JOIN r.fbSummary f WHERE c.id = $courseId
+               SELECT r,f from ClassCentralSiteBundle:Review r JOIN r.course c LEFT JOIN r.fbSummary f WHERE c.id = $courseId
                 ORDER BY f.positive DESC")
             ->getResult();
         $r = array();
         $reviewCount = 0;
         foreach($reviewEntities as $review)
         {
-
             if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND)
             {
                 $r[] = ReviewUtility::getReviewArray($review);
-                $reviewText = $review->getReview();
-                if(!empty($reviewText))
-                {
-                    $reviewCount++;
-                }
+                $reviewCount++;
             }
         }
 
