@@ -38,17 +38,19 @@
 
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
-                <div class="course-rating" data-score="{{ rating }}"
-                        itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                            <meta itemprop="ratingValue" content="{{ rating }}">
-                        </div>
-                <div>
-                    {% if  reviews.reviews|length  > 0 %}
-                        <span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}
-                    {% else %}
-                        <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review', 'First to Review   ', '{{course['name']}}'])">Be the first to review this course</a>
-                    {% endif %}
-                </div>
+                <div class="course-rating-wrap">
+                    <div class="course-rating" data-score="{{ rating }}"
+                            itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                <meta itemprop="ratingValue" content="{{ rating }}">
+                    </div>
+                    <div class="review-link">
+                        {% if  reviews.reviews|length  > 0 %}
+                            <span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}rating{% else %}ratings{% endif %}
+                        {% else %}
+                            <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review', 'First to Review   ', '{{course['name']}}'])">Be the first to review this course</a>
+                        {% endif %}
+                    </div>
+                 </div>
 
                 {#
                 <div class="course-share">

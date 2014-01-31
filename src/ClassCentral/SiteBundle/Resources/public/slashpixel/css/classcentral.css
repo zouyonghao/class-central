@@ -2034,6 +2034,28 @@ input::-webkit-input-placeholder {
     cursor: pointer;
 }
 
+.course-rating-wrap {
+     overflow: hidden;
+     margin-bottom: 10px;
+ }
+
+.course-rating {
+     float: left;
+ }
+
+.review-link {
+     float: left;
+     margin-left: 15px;
+     padding-top: 3px;
+ }
+
+.review-form-error {
+     color: red;
+     display: block;
+     margin-bottom: 3px;
+ }
+
+
 .review-feedback {
     font-size: 12px;
     margin-bottom: 5px;
@@ -2272,6 +2294,24 @@ input::-webkit-input-placeholder {
 
 
 /*-----  End of course review  ------*/
+
+/** UI notify **/
+.ui-pnotify {
+     font-size: 13px;
+ }
+
+.ui-pnotify .alert h4 {
+     margin-bottom: .4em;
+ }
+
+.ui-pnotify-title {
+     font-size: 14px;
+ }
+
+.ui-pnotify-text {
+     line-height: 18px;
+ }
+
 
 
 /* Positioning for MOOC tracker button */
