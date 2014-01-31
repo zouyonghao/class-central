@@ -1973,6 +1973,7 @@ input::-webkit-input-placeholder {
 .course-reviews .author {
     font-size: 14px;
     font-weight: 600;
+    margin-right: 5px;
     display: block;
     float: left;
     color: #1663a3;
@@ -2033,6 +2034,10 @@ input::-webkit-input-placeholder {
     cursor: pointer;
 }
 
+.review-feedback {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
 .average-rating {
     float: right;
     margin: 19px 0;
@@ -2066,7 +2071,6 @@ input::-webkit-input-placeholder {
 
 .small-star-rating {
     float: left;
-    margin-left: 20px;
     margin-top: 3px;
 }
 
@@ -2173,6 +2177,10 @@ input::-webkit-input-placeholder {
     -o-transition-timing-function: ease;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
+}
+
+.add-review .course-quality {
+    margin-bottom: 0px;
 }
 
 .course-progress label {

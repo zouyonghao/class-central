@@ -201,7 +201,9 @@ jQuery(function($) {
         starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half.png',
         starOff     : '/bundles/classcentralsite/slashpixel/images/star-off.png',
         starOn      : '/bundles/classcentralsite/slashpixel/images/star-on.png',
-        score: function() {
+        hints       : ['','','','',''],
+        size        : 21,
+        score       : function() {
             return $(this).attr('data-score');
         }
     };

@@ -58,7 +58,7 @@ class ReviewUtility {
 
     public static function getReviewTitle(Review $review)
     {
-        $title = sprintf("%s %s this course", $review->getUser()->getDisplayName(), strtolower($review->getProgress()) );
+        $title = sprintf(" %s this course", strtolower($review->getProgress()) );
         $title .=  ($review->getHours() > 0) ? sprintf(" and spent %s hours a week on it", $review->getHours()) : '';
         $title .= ($review->getDifficultyId()) ? sprintf(", while finding the course difficulty to be %s", strtolower($review->getDifficulty())) : '';
         $title .= '.';
