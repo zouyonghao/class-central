@@ -157,9 +157,16 @@ class Scraper extends ScraperAbstractInterface
 
             if($this->doModify())
             {
-                $em->persist($offering);
-                $em->flush();
-                $this->out("OFFERING {$courseDetail['name']} created");
+                try {
+                    $em->persist($offering);
+                    $em->flush();
+                    $this->out("OFFERING {$courseDetail['name']} created");
+                }
+                catch(\Exception $e) {
+                    $this->out("OFFERING {$courseDetail['name']} creation FAILED");
+                }
+
+
             }
 
             $offerings[] = $offering;
