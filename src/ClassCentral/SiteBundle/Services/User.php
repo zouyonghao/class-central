@@ -24,6 +24,7 @@ class User {
         $templating = $this->container->get('templating');
         $mailgun = $this->container->get('mailgun');
         $verifyTokenService = $this->container->get('verification_token');
+        $userSession = $this->container->get('user_session');
 
         $user->setEmail(strtolower($user->getEmail())); // Normalize the email
         $password = $user->getPassword();
@@ -49,6 +50,13 @@ class User {
         $token = new UsernamePasswordToken($user, $password,'secured_area',$user->getRoles());
         $this->container->get('security.context')->setToken($token);
 
+        // Create a successfull signup notification
+        $userSession->notifyUser(
+            UserSession::FLASH_TYPE_SUCCESS,
+            'Account successfully created',
+            "You can now build your own library of courses by adding them to <a href='/user/courses''>My Courses</a>",
+            30 // 30 seconds delay
+        );
         // Send a welcome email but not in the test environment
         if ($this->container->getParameter('kernel.environment') != 'test')
         {
@@ -65,6 +73,14 @@ class User {
                 $tokenEntity = $verifyTokenService->create($value,\ClassCentral\SiteBundle\Entity\VerificationToken::EXPIRY_1_YEAR);
                 $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:confirm.email.html.twig',array('token' => $tokenEntity->getToken()))->getContent();
                 $mailgunResponse = $mailgun->sendSimpleText($user->getEmail(),"no-reply@class-central.com","Please confirm your email",$html);
+
+                // Send user a notification about this email
+                $userSession->notifyUser(
+                    UserSession::FLASH_TYPE_NOTICE,
+                    'Confirm your email address',
+                    "A confirmation email has been sent to <b>{$user->getEmail()}</b>. Click on the confirmation link in the email to activate your account",
+                    60 // 1 minute delay
+                );
             }
         }
 

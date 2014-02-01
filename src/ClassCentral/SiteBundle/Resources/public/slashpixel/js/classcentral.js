@@ -27,7 +27,7 @@ jQuery(function($) {
                     $('span[id=' + name + ']').html("+");
                 }
 
-                addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'));
+                addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'), $(clicked).data('course-name'));
             } else {
                 // redirect to signup page
                 window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/"+ $(clicked).val());
@@ -35,8 +35,7 @@ jQuery(function($) {
         });
     });
 
-    function addRemoveCourse(listId, courseId, checked) {
-        _gaq.push(['_trackEvent','My Courses - Add', listId.toString(),  courseId.toString() ]);
+    function addRemoveCourse(listId, courseId, checked,name) {
         try{
          if(checked){
              _gaq.push(['_trackEvent','My Courses - Add',listId.toString(), courseId.toString()]);
@@ -49,16 +48,44 @@ jQuery(function($) {
                 .done(
                 function(result){
                     //console.log("jquery" + result);
+                    var r = JSON.parse(result);
+                    if(r.success)
+                    {
+                        notify(
+                            'Course added',
+                            '<i>'+ name +'</i> added to <a href="/user/courses">My Courses</a> successfully',
+                            'success'
+                        );
+
+                    }
                 }
             );
         } else {
             $.ajax( "/ajax/user/course/remove?c_id=" +courseId +"&l_id="+ listId)
                 .done(
                 function(result){
-                    //console.log("jquery" + result);
+                    var r = JSON.parse(result);
+                    if(r.success)
+                    {
+                        notify(
+                            'Course removed',
+                            '<i>'+ name +'</i> removed from <a href="/user/courses">My Courses</a> successfully',
+                            'success'
+                        );
+                    }
                 }
             );
         }
+    }
+
+    function notify( title, text, type)
+    {
+        $.pnotify({
+            title: title,
+            text: text,
+            type: type,
+            animation: 'show'
+        });
     }
 
     // Select dropdown on course pages
@@ -349,8 +376,10 @@ jQuery(function($) {
          $.pnotify({
             title: $(element).data('title'),
             text: $(element).text(),
-            type: $(element).data('type')
-	});
-});
+            type: $(element).data('type'),
+            animation: 'show',
+            delay: $(element).data('delay') * 1000
+	    });
+    });
 
 });

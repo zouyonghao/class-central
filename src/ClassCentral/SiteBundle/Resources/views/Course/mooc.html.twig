@@ -172,7 +172,7 @@
                             {% for listId, list in listTypes %}
                                 <li>
                                     <input type="checkbox"  name="course-interest-checkbox" class = "course-list-checkbox" id="check{{ listId }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
-                                           {% if listId in userListIds %}checked="checked"{% endif %}
+                                           {% if listId in userListIds %}checked="checked"{% endif %} data-course-name="{{ course.name }}"
                                             >
                                     <label for="check{{ listId }}">{{ list.desc }}</label>
                                 </li>

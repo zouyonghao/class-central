@@ -51,6 +51,13 @@ class UserSession
             $user->setLastLogin(new \DateTime());
             $this->em->persist($user);
             $this->em->flush();
+
+            // Send a successfull login notification
+            $this->notifyUser(
+                self::FLASH_TYPE_SUCCESS,
+                'Logged in',
+                'You have been logged in successfully'
+            );
         }
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
@@ -259,7 +266,7 @@ class UserSession
      * @param $title
      * @param $text
      */
-    public function notifyUser($type, $title, $text)
+    public function notifyUser($type, $title, $text, $delay = 8)
     {
         if(!in_array($type, self::$flashTypes))
         {
@@ -268,7 +275,8 @@ class UserSession
 
         $this->session->getFlashBag()->add($type, array(
                 'title' => $title,
-                'text' => $text
+                'text' => $text,
+                'delay' => $delay
             ));
     }
 }

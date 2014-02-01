@@ -132,7 +132,7 @@
             <div class="flash-messages hidden">
                 {% for type, messages in app.session.flashbag.all() %}
                     {% for message in messages %}
-                        <div class="flash-message" data-type="{{ type }}" data-title="{{ message.title }}">{{ message.text }}</div>
+                        <div class="flash-message" data-type="{{ type }}" data-title="{{ message.title }}" data-delay="{{ message.delay }}">{{ message.text }}</div>
                     {% endfor %}
                 {% endfor %}
             </div>

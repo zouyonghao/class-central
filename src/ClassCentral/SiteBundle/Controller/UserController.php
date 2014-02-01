@@ -8,6 +8,7 @@ use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Form\SignupType;
+use ClassCentral\SiteBundle\Services\UserSession;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -309,7 +310,13 @@ class UserController extends Controller
                     if($course)
                     {
                         $userService->addCourse($user,$course, $referralDetails['listId']);
-
+                        $name = $course->getName();
+                        // Send a notification message
+                        $userSession->notifyUser(
+                            UserSession::FLASH_TYPE_SUCCESS,
+                            'Course added',
+                            "<i>{$name}</i> added to <a href='/user/courses'>My Courses</a> successfully"
+                        );
                     }
                     else
                     {
