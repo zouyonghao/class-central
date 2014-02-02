@@ -104,7 +104,7 @@
             </div>
 
             <input id="submit-review" type="submit" name="cc-send" value="Review Course">
-            <a id="cancel-review"  onmousedown="_gaq.push(['_trackEvent', 'Create Review Page', 'Cancel', '{{review.course.name}}'])" href="{{ path('ClassCentralSiteBundle_mooc',{id: review.course.id,slug:review.course.slug}) }}">Cancel</a>
+            <a id="cancel-review"  onmousedown="_gaq.push(['_trackEvent', 'Create Review Page', 'Cancel', '{{course.name}}'])" href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id,slug:course.slug}) }}">Cancel</a>
         </form>
 
     </div>

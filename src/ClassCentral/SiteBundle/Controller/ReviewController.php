@@ -85,8 +85,8 @@ class ReviewController extends Controller {
 
         if($review)
         {
-            // TODO: Redirect the user to the review
-            return null;
+            // redirect to edit page
+            return $this->redirect($this->generateUrl('review_edit', array('reviewId' => $review->getId() )));
         }
 
         $formData['page'] = 'write_review';
