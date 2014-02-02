@@ -38,9 +38,8 @@
 
             <div class='course-info span6'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
-                <div class="course-rating-wrap">
-                    <div class="course-rating" data-score="{{ rating }}"
-                            itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                <div class="course-rating-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                    <div class="course-rating" data-score="{{ rating }}">
                                 <meta itemprop="ratingValue" content="{{ rating }}">
                     </div>
                     <div class="review-link">
@@ -127,7 +126,7 @@
                                         'status' : offering.status
                                     } %}
                                 {% endif %}
-                                <option itemprop="startDate" content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
+                                <option content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
                                         data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
                                 >
                                   {{ offering['displayDate'] }}
