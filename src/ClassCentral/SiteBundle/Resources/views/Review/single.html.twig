@@ -21,11 +21,11 @@
         <span class="author"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}"> {{ review.course.name }}</a></span>
     {% endif %}
     <meta itemprop="author" content = "{{review.user.name}}"/>
-    <meta itemprop="name" content="{{ review.user.name }} {{ review.reviewTitle }}">
+    <meta itemprop="name" content="{{ review.user.name }} {{ review.reviewTitle|raw }}">
     <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
     <div style="clear:both"></div>
     <div itemprop="description">
-        <div class="review-title"><span class="author">{{ review.user.name }} </span> {{ review.reviewTitle }}</div>
+        <div class="review-title"><span class="author">{{ review.user.name }} </span> {{ review.reviewTitle|raw }}</div>
         <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
     </div>
     {% if app.user and user_session.isUserReview(review.id) %}
