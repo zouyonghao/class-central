@@ -27,6 +27,7 @@ class CourseReportCommand extends ContainerAwareCommand
     {
         $month = $input->getArgument('month');
         $year = $input->getArgument('year');
+        $em = $this->getContainer()->get('doctrine')->getManager();
 
         $offerings = $this
             ->getContainer()->get('doctrine')
@@ -70,9 +71,12 @@ class CourseReportCommand extends ContainerAwareCommand
 
         $network = NetworkFactory::get( $input->getOption('network'),$output);
         $network->setRouter($this->getContainer()->get('router'));
+        $coursesByCount = array();
         foreach($offeringsByStream as $stream => $offerings)
         {
             $subject = $offerings[0]->getCourse()->getStream();
+
+
             if($subject->getParentStream())
             {
                 $subject = $subject->getParentStream();
@@ -80,11 +84,19 @@ class CourseReportCommand extends ContainerAwareCommand
             $count = count($offerings);
             $network->outInitiative($subject, $count);
             $network->beforeOffering();
+
             foreach($offerings as $offering)
-            {               
+            {
                 $network->outOffering( $offering );
+                // Count the number of times its been added to my courses
+                $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
+                $timesAdded = count($added);
+                $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
             } 
         }
+
+        asort($coursesByCount);
+        print_r($coursesByCount);
 
     }
 
