@@ -46,7 +46,7 @@
                         {% if  reviews.reviews|length  > 0 %}
                             <span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}
                         {% else %}
-                            <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review', 'First to Review   ', '{{course['name']}}'])">Be the first to review this course</a>
+                            <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'First to Review   ', '{{course['name']}}'])">Be the first to review this course</a>
                         {% endif %}
                     </div>
                  </div>
@@ -160,7 +160,7 @@
                     </li>
                     {% if not user_session.isCourseReviewed(course.id) %}
                     <li>
-                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review', 'Review Button', '{{course['name']}}'])">Review</a>
+                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Review Button', '{{course['name']}}'])">Review</a>
                     </li>
                     {% endif %}
 
@@ -205,7 +205,7 @@
             <div class="average-rating course-rating" data-score="{{ rating }}">
             </div>
             {% if not user_session.isCourseReviewed(course.id) %}
-                <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review', 'Write a review', '{{course['name']}}'])">Write a review</a>
+                <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Linke', 'Write a review', '{{course['name']}}'])">Write a review</a>
             {% endif %}
         </header>
 

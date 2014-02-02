@@ -304,7 +304,11 @@ jQuery(function($) {
 
        if(!validationError) {
            try{
-               _gaq.push(['_trackEvent', 'Create Review Page', 'Update/Create']);
+                if(reviewId === undefined){
+                    _gaq.push(['_trackEvent', 'Create Review', " " + $('#courseId').data("value")]);
+                } else {
+                    _gaq.push(['_trackEvent', 'Update Review'," " +  $('#courseId').data("value")]);
+                }
            } catch(err){}
 
            var review = {

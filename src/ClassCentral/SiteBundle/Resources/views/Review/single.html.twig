@@ -33,6 +33,7 @@
         <div class="question"><a href="{{ path('review_edit',{reviewId:review.id}) }}">edit review</a></div>
     {% else %}
         {# show the feedback #}
-        <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?<span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}">NO</a></span></div>
+        <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?
+            <span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}" onmousedown="_gaq.push(['_trackEvent','Review Feedback','Yes']);">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}" onmousedown="_gaq.push(['_trackEvent','Review Feedback','No']);">NO</a></span></div>
     {% endif %}
 </div>
