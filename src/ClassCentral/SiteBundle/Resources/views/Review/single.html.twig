@@ -11,11 +11,16 @@
         <span class="star-rating-4"></span>
         <span class="star-rating-5"></span>
         <meta itemprop="ratingValue" content="{{ review.rating }}">
+	<meta itemprop="worstRating" content = "1"/>
+	<meta itemprop="bestRating" content = "5"/>
     </div>
+    <meta itemprop="about" content="{{ course.name}}">
+    <meta itemprop="author" content = "{{review.user.name}}"/>
+    <meta itemprop="name" content="{{ review.user.name }} {{ review.reviewTitle }}">
     <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
     <div style="clear:both"></div>
     <div itemprop="description">
-        <div class="review-title"><span class="author" itemprop="author">{{ review.user.name }} </span> {{ review.reviewTitle }}</div>
+        <div class="review-title"><span class="author">{{ review.user.name }} </span> {{ review.reviewTitle }}</div>
         <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
     </div>
     {% if app.user and user_session.isUserReview(review.id) %}
