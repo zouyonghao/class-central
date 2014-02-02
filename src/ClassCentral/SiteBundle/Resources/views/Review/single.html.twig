@@ -14,7 +14,12 @@
 	<meta itemprop="worstRating" content = "1"/>
 	<meta itemprop="bestRating" content = "5"/>
     </div>
-    <meta itemprop="about" content="{{ course.name}}">
+    {% if course is defined %}
+        <meta itemprop="about" content="{{ course.name}}">
+    {% else %}
+        {# This is for My Reviews page#}
+        <span class="author"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}"> {{ review.course.name }}</a></span>
+    {% endif %}
     <meta itemprop="author" content = "{{review.user.name}}"/>
     <meta itemprop="name" content="{{ review.user.name }} {{ review.reviewTitle }}">
     <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
