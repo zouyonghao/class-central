@@ -303,6 +303,10 @@ jQuery(function($) {
         }
 
        if(!validationError) {
+           try{
+               _gaq.push(['_trackEvent', 'Create Review Page', 'Update/Create']);
+           } catch(err){}
+
            var review = {
                'rating': rating,
                'reviewText': reviewText,
@@ -337,7 +341,6 @@ jQuery(function($) {
        }
 
     });
-
 
     // Review feedback
     $('.review-feedback').bind('click',function(e){

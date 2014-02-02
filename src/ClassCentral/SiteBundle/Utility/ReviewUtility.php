@@ -57,7 +57,7 @@ class ReviewUtility {
         $c['name'] = $course->getName();
         $c['id'] = $course->getId();
         $c['slug'] = $course->getSlug();
-        $r['course'] = $course;
+        $r['course'] = $c;
         return $r;
     }
 
