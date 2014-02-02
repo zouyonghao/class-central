@@ -47,7 +47,7 @@ class Review {
         $rating = 0;
         $reviews = $course->getReviews();
         $validReviewsCount = 0;
-        if($reviews->count() > 0)
+        if($reviews && $reviews->count() > 0)
         {
             $ratingSum = 0;
             foreach($reviews as $review)
