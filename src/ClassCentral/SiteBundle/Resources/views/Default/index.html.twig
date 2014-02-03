@@ -17,7 +17,7 @@
             <a href="https://www.udacity.com/" title="Udacity" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.udacity.com/','Udacity');return false" target="_blank" >Udacity</a>,
             <a href="https://www.edx.org/" title="edX" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.edx.org/','edX');return false" target="_blank" >edX</a>,
             <a href="https://novoed.com/" title="NovoED" class="tagline-initiative-links" onclick="recordTaglineClicks('https://novoed.com/','NovoED');return false" target="_blank" >NovoED</a>, &
-            <a href="https://www.class-central.com/initiative/others" title="Other MOOC initiatives" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.class-central.com/initiative/others','Others');return false" target="_blank" >others</a>. <span><a data-toggle="modal" href="#learnmore">Learn More ></a></span>
+            <a href="https://www.class-central.com/initiative/others" title="Other MOOC initiatives" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.class-central.com/initiative/others','Others');return false" target="_blank" >others</a>. <span><a href="{{ path('ClassCentralSiteBundle_faq') }}">Learn More ></a></span>
         </h1>
 
     {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} %}
@@ -41,8 +41,5 @@
         {% endif %}
     {% endfor %}
 </div>
-
-{# Include the learn more model box #}
-{% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{} %}
 
 {% endblock %}  

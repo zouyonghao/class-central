@@ -389,4 +389,27 @@ jQuery(function($) {
 	    });
     });
 
+
+    $('.faq-box .question').click( function() {
+        var parent = $(this).parent();
+        if (parent.hasClass('show-answer') ) {
+            parent.find('.answer').hide();
+            parent.toggleClass('show-answer');
+        } else {
+            parent.find('.answer').show();
+            parent.toggleClass('show-answer');
+        }
+    });
+
+    $('.faq-wrap .faq-question').click( function() {
+        var parent = $(this).parent();
+        if (parent.hasClass('show-answer') ) {
+            parent.find('.faq-answer').hide();
+            parent.toggleClass('show-answer');
+        } else {
+            parent.find('.faq-answer').show();
+            parent.toggleClass('show-answer');
+        }
+    });
+
 });

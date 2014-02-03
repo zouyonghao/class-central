@@ -1,4 +1,7 @@
 
+/*==========  Base  ==========*/
+
+
 body {
     background-color:#efeff0;
     font-family: "Open Sans";
@@ -189,6 +192,86 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group>.bfh-number {
     float: left;
 }
+
+/*==========  Misc  ==========*/
+
+.breadcrumbs {
+    list-style: none;
+    overflow: hidden;
+    margin: 0 0 5px 0;
+}
+
+.breadcrumbs li {
+    float: left;
+}
+
+.breadcrumbs li a {
+    float: left;
+    text-decoration: none;
+    font-size: 11px;
+    line-height: 11px;
+    color: #0662a1;
+    padding: 7px 0 7px 50px;
+    position: relative;
+    background-color: #fff;
+}
+
+.breadcrumbs li a:after { 
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    border-left: 30px solid #fff;
+    position: absolute;
+    top: 50%;
+    margin-top: -40px; 
+    left: 100%;
+    z-index: 2; 
+}
+
+.breadcrumbs li a:before { 
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 40px solid transparent;       
+    border-bottom: 40px solid transparent;
+    border-left: 30px solid #efeff0;
+    position: absolute;
+    top: 50%;
+    margin-top: -40px; 
+    margin-left: 4px;
+    left: 100%;
+    z-index: 1; 
+}
+
+.breadcrumbs li:first-child a {
+    padding-left: 25px;
+}
+
+.breadcrumbs li:last-child a {
+    background-color: #ddd;
+    text-decoration: none;
+    pointer-events: none;
+    cursor: default;
+    padding-right: 25px;
+}
+
+.breadcrumbs li a:hover {
+    background-color: #ddd;
+    text-decoration: none;
+}
+
+.breadcrumbs li a:hover:after {
+    border-left-color: #ddd !important;
+}
+
+.breadcrumbs li:last-child a:after {
+    display: none;
+}
+
 /*==========  tiles styles  ==========*/
 
 .tiles-view {
@@ -1311,7 +1394,7 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 }
 
 .add-column .dropdown-menu {
-    padding: 10px 0;
+    padding: 0 0 10px 0;
     font-size: 12px;
     color: #898989;
     left: -15px;
@@ -1366,6 +1449,14 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     content: "\2713";  
     color: #59d856;
     font-family: arial;  
+}
+
+.add-column .dropdown-list-header {
+    font-size: 12px;
+    color: #1663a3;
+    background-color: #f8f8f8;
+    line-height: 32px;
+    margin-bottom: 10px;
 }
 
 
@@ -1799,6 +1890,7 @@ input::-webkit-input-placeholder {
 .course-meta-bottom {
      margin:0;
  }
+
 /*=============================================
 =            =course buttons group            =
 =============================================*/
@@ -1914,9 +2006,6 @@ input::-webkit-input-placeholder {
 =            course review            =
 =====================================*/
 
-/*
-    this style block goes with the .course-reviews html block
-*/
 
 .course-reviews {
     width: 66%;
@@ -1928,13 +2017,63 @@ input::-webkit-input-placeholder {
     -webkit-box-sizing: border-box;box-sizing: border-box;
 }
 
-.related-courses-wrap {
+.related-courses-wrap,
+.faq-box-wrap {
     width: 32.5%;
-    float: left;
+    float: right;
+    clear: right;
+}
+
+.related-courses-wrap {
     margin: 25px 0;
 }
 
-.related-courses-wrap .table th {
+.faq-box-wrap {
+    margin: 25px 0 0 0;
+}
+
+.faq-box .answer {
+    display: none;
+    margin-top: 10px;
+    color: #000;
+    font-weight: 400;
+}
+
+.faq-box .question {
+    color: #6e6e6e;
+    overflow: hidden;
+}
+
+.faq-box .question:hover {
+    cursor: pointer;
+    color: #3a759a;
+}
+
+.faq-box .question span:first-child {
+    float: left;
+    width: 90%;
+}
+
+.faq-box .triangle {
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 5px solid #3a759a;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    margin-top: 7px;
+    float: right;
+}
+
+.faq-box .show-answer .triangle {
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid #3a759a;
+    margin-top: 0;
+}
+
+.related-courses-wrap .table th,
+.faq-box-wrap .table th {
     color: #3a759a;
     font-family: "Open Sans";
     font-size: 14px;
@@ -2128,6 +2267,96 @@ input::-webkit-input-placeholder {
     float: left;
     clear: left;
     margin-bottom: 10px;
+}
+
+.faq-wrap {
+    width: 66%;
+    background-color: #fff;
+    float: left;
+    margin: 25px 1.5% 25px 0;
+    font-family: "Open Sans",sans-serif;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.faq-heading {
+    display: block;
+    background-color: #f8f8f8;
+    margin: 4px 4px 0 4px;
+    overflow: hidden;
+    padding: 15px 24px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #3a759a;
+}
+
+.faq-item {
+    padding: 20px 55px;
+    border-bottom: 1px solid #EFEFF0;
+}
+
+.faq-answer {
+    display: none;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.faq-answer .question {
+    margin-top: 30px;
+}
+
+.faq-question {
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 600;
+    color: #1663a3;
+}
+
+.faq-question:hover {
+    color: #6e6e6e;
+    cursor: pointer;
+}
+
+.show-answer .faq-question {
+    padding-top: 10px;
+}
+
+.faq-wrap .question {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.faq-wrap .question {
+    color: #5d456b;
+}
+
+.faq-wrap .yes-no {
+    margin-left: 15px;
+    color: #f15f45;
+    text-transform: uppercase;
+}
+
+.faq-wrap .yes-no a {
+    color: #f15f45;
+}
+
+.faq-wrap .triangle {
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 5px solid #1663a3;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    margin-top: 7px;
+    float: right;
+}
+
+.faq-wrap .show-answer .triangle {
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid #1663a3;
+    margin-top: 0;
 }
 
 /*==========  review form  ==========*/
