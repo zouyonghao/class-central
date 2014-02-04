@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -210,6 +211,22 @@ class StreamController extends Controller
         $pageInfo->setPageUrl(
             $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_stream', array('slug' => $slug))
         );
+
+        $breadcrumbs = array(
+            Breadcrumb::getBreadCrumb('Subjects', $this->generateUrl('subjects')),
+        );
+
+        // Add parent stream to the breadcrumb if it exists
+        if($stream->getParentStream())
+        {
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                $stream->getParentStream()->getName(),
+                $this->generateUrl('ClassCentralSiteBundle_stream', array( 'slug' => $stream->getParentStream()->getSlug()))
+            );
+        }
+
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb($stream->getName());
+
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
                 'stream' => $stream->getName(),
                 'offerings' => $offerings,
@@ -218,7 +235,8 @@ class StreamController extends Controller
                 'offeringTypes' => Offering::$types,
                 'pageInfo' => $pageInfo,
                 'offLanguages' => $lang,
-                'listTypes' => UserCourse::$lists
+                'listTypes' => UserCourse::$lists,
+                'breadcrumbs' => $breadcrumbs
             ));
     }
 
@@ -229,9 +247,13 @@ class StreamController extends Controller
     {
         $cache = $this->get('Cache');
         $subjects = $cache->get('stream_list_count ', array($this, 'getSubjectsList'),array($this->getDoctrine()->getManager()));
+        $breadcrumbs = array(
+            Breadcrumb::getBreadCrumb('Subjects')
+        );
         return $this->render('ClassCentralSiteBundle:Stream:subjects.html.twig',array(
                 'page' => 'subjects',
-                'subjects' => $subjects
+                'subjects' => $subjects,
+                'breadcrumbs' => $breadcrumbs
             ));
     }
 

@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Initiative;
@@ -123,7 +124,12 @@ class DefaultController extends Controller {
     }
 
     public function faqAction() {
-        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
+        $breadcrumbs = array();
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb('FAQ','');
+        return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array(
+            'page' => 'faq',
+            'breadcrumb' => $breadcrumbs
+        ));
     }
     
     /**

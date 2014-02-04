@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
@@ -300,6 +301,27 @@ class CourseController extends Controller
         $rating = $rs->getRatings($courseId);
         $reviews = $rs->getReviews($courseId);
 
+        // Breadcrumbs
+        $breadcrumbs = array();
+        if(!empty($course['initiative']['name']))
+        {
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                $course['initiative']['name'],
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => $course['initiative']['code'] ))
+            );
+        }
+        else
+        {
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                'Others',
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => 'others'))
+            );
+        }
+
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+            $course['name']
+        );
+
        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
@@ -311,7 +333,8 @@ class CourseController extends Controller
                  'recentlyViewedCourses' => $recentlyViewedCourses,
                  'listTypes' => UserCourse::$lists,
                  'rating' => $rating,
-                 'reviews' => $reviews
+                 'reviews' => $reviews,
+                 'breadcrumbs' => $breadcrumbs
        ));
     }
 

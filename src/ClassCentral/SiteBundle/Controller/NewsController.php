@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\News;
@@ -20,8 +21,11 @@ class NewsController extends Controller
     {
         $cache = $this->get('Cache');
         $news = $cache->get('recent_news',array($this,'getRecentNews'));
+        $breadcrumbs = array(
+            Breadcrumb::getBreadCrumb('News')
+        );
         return $this->render('ClassCentralSiteBundle:News:home.html.twig', array(
-            'news' => $news, 'page' => 'news'
+            'news' => $news, 'page' => 'news', 'breadcrumbs' => $breadcrumbs
         ));
     }
 

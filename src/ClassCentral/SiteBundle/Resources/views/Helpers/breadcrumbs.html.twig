@@ -1,0 +1,11 @@
+{% if breadcrumbs is defined and breadcrumbs is not empty %}
+    <div class="breadcrumb-wrap">
+        <ul class="breadcrumbs">
+            <li><a href="/"  onmousedown="_gaq.push(['_trackEvent','Breadcrumbs','Home']);">Home</a></li>
+
+            {% for b in breadcrumbs %}
+                <li><a href="{{ b.url }}" onmousedown="_gaq.push(['_trackEvent','Breadcrumbs','{{ b.name }}']);">{{ b.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

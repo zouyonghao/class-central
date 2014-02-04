@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -218,6 +219,11 @@ class LanguageController extends Controller
         $pageInfo->setPageUrl(
             $this->container->getParameter('baseurl'). $this->get('router')->generate('lang', array('slug' => $slug))
         );
+
+        $breadcrumbs = array(
+            Breadcrumb::getBreadCrumb('Languages',$this->generateUrl('languages')),
+            Breadcrumb::getBreadCrumb($language->getName(), $this->generateUrl('lang',array('slug' => $language->getSlug())))
+        );
         return $this->render('ClassCentralSiteBundle:Language:view.html.twig',
             array(
                 'language' => $language,
@@ -227,7 +233,8 @@ class LanguageController extends Controller
                 'slug' => $slug,
                 'pageInfo' => $pageInfo,
                 'offSubjects' => $subjects,
-                'listTypes' => UserCourse::$lists
+                'listTypes' => UserCourse::$lists,
+                'breadcrumbs' => $breadcrumbs
             ));
     }
 
@@ -252,9 +259,13 @@ class LanguageController extends Controller
     {
         $cache = $this->get('Cache');
         $languages = $cache->get('language_list_count ', array($this, 'getLanguagesList'),array($this->getDoctrine()->getManager()));
+        $breadcrumbs = array(
+            Breadcrumb::getBreadCrumb('Languages',$this->generateUrl('languages'))
+        );
         return $this->render('ClassCentralSiteBundle:Language:languages.html.twig',array(
                 'page' => 'languages',
-                'languages' => $languages
+                'languages' => $languages,
+                'breadcrumbs' => $breadcrumbs
             ));
     }
 
