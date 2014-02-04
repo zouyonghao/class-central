@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         
-        {% if app.environment == 'dev' and page is defined %}
+        {% if app.environment == 'prod' and page is defined %}
 
             <!-- Google+ Direct connect -->
             <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
