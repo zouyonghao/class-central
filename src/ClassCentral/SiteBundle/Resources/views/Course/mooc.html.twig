@@ -187,17 +187,15 @@
         </div>
     </div>
 
-    {% if course['stream']['showInNav'] %}
-        <div class="row">
-            <div class ="span12" style="text-align: center; margin-top: 25px">
-                <a class="btn btn-primary btn-course-cc"
-                   href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
-                   title="List of {{ course['stream']['name'] }} MOOCs"
-                   onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
-                        >Browse more {{ course['stream']['name'] }} courses</a>
-            </div>
+    <div class="row">
+        <div class ="span12" style="text-align: center; margin-top: 25px">
+            <a class="btn btn-primary btn-course-cc"
+               href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
+               title="List of {{ course['stream']['name'] }} MOOCs"
+               onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+                    >Browse more {{ course['stream']['name'] }} courses</a>
         </div>
-    {% endif %}
+    </div>
 
     <div class="course-reviews">
         <header class="reviews-header">
@@ -223,7 +221,52 @@
         {% endif %}
     </div>
 
-    {% if recentlyViewedCourses|length > 0 %}
+    <div class="faq-box-wrap">
+        <table class="table table-striped table-bordered faq-box">
+            <thead>
+            <tr>
+                <th>FAQs</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="question">
+                        <span>What are MOOCs?</span>
+                        <span class="triangle"></span>
+                    </div>
+                    <div class="answer">
+                        MOOCs stand for Massive Open Online Courses. These are<span style="text-decoration: underline;"> <em>free online courses</em></span> from universities around the world (eg. <a title="Stanford University MOOCs" href="https://www.class-central.com/university/stanford" target="_blank">Stanford</a> <a title="Harvard University MOOCs" href="https://www.class-central.com/university/harvard" target="_blank">Harvard</a> <a title="MIT MOOCs" href="https://www.class-central.com/university/mit" target="_blank">MIT</a>) offered to anyone with an internet connection.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="question">
+                        <span>How do I register?</span>
+                        <span class="triangle"></span>
+                    </div>
+                    <div class="answer">
+                        To register for a course, click on "Go to Class" button on the course page. This will take you to the providers website where you can register for the course.
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="question">
+                        <span>How do these MOOCs or free online courses work?</span>
+                        <span class="triangle"></span>
+                    </div>
+                    <div class="answer">MOOCs are designed for an online audience, teaching primarily through short (5-20 min.) pre recorded video lectures, that you watch on weekly schedule when convenient for you.  They also have student discussion forums, homework/assignments, and online quizzes or exams.
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+        {% if recentlyViewedCourses|length > 0 %}
     <div class="related-courses-wrap">
         <table class="table table-striped table-bordered">
             <thead>

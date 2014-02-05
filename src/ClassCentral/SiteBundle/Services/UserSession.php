@@ -239,7 +239,7 @@ class UserSession
             array_unshift($courses, $courseId);
 
             // Save 5 courses
-            $courses = array_slice($courses,0,8);
+            $courses = array_slice($courses,0,5);
         }
 
         $this->session->set(self::USER_RECENTLY_VIEWED,$courses);
