@@ -203,7 +203,7 @@
             <div class="average-rating course-rating" data-score="{{ rating }}">
             </div>
             {% if not user_session.isCourseReviewed(course.id) %}
-                <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Linke', 'Write a review', '{{course['name']}}'])">Write a review</a>
+                <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
             {% endif %}
         </header>
 
