@@ -26,7 +26,6 @@
                 {% endfor %}
             </p>
 
-            {#
             <p class="course-progress">
                 <span class="review-field-label">How difficult was this course?</span>
                 {% for id,state in difficulty %}
@@ -34,9 +33,7 @@
                     <label for="{{ state.slug }}">{{ state.desc }}</label>
                 {% endfor %}
             </p>
-            #}
 
-            {#
             <p class="course-progress">
                 <span class="review-field-label">Which level is this course appropriate for?</span>
                 {% for id,state in levels %}
@@ -44,9 +41,7 @@
                     <label for="{{ state.slug }}">{{ state.desc }}</label>
                 {% endfor %}
             </p>
-            #}
 
-            {#
             {% if offeringCount == 1 %}
                 <select id="sessionOptions" class="hidden">
                     <option itemprop="startDate" content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
@@ -82,15 +77,12 @@
                 </select>
             </p>
             {% endif %}
-            #}
 
-            {#
             <p class="course-effort">
                 <span class="review-field-label">How many hours did you spend per week?</span>
                 <input type="text" class="form-control bfh-number" data-min="0" data-max="40" name="effort" value="{{ review.hours }}">
 
             </p>
-            #}
 
             <p class="course-progress">
             {% if showStatus %}
