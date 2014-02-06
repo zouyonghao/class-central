@@ -412,7 +412,7 @@ class UserController extends Controller
         // Redirect user if already logged in
         if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            return $this->redirect($this->generateUrl('mooctracker'));
+            return $this->redirect($this->generateUrl('user_library'));
         }
 
         return $this->render('ClassCentralSiteBundle:User:forgotPassword.html.twig');
@@ -447,11 +447,17 @@ class UserController extends Controller
                         $logger->info('Reset password sent mail sent', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
                     }
                 }
+                $session->set('fpSendEmail',true);
             }
-
+            else
+            {
+                $session->set('fpEmail',$email);
+                $session->set('fpSendEmail',"not empty"); // I know this is stupid
+            }
         }
 
-        $session->set('fpSendEmail',true);
+
+
         return $this->redirect($this->generateUrl('forgotpassword'));
     }
 
