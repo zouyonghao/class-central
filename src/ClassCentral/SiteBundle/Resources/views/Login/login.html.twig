@@ -28,8 +28,9 @@
         <div>{{ error.message }}</div>
     {% endif %}
 
-    <a href="{{ path('fb_authorize_start') }}">Login with Facebook</a>
-
+    <a href="{{ path('fb_authorize_start') }}"
+            onmousedown="_gaq.push(['_trackEvent','Sign In with Facebook', 'Login Form']);">
+        <img style="margin-bottom: 20px;margin-left: 90px;" src="/bundles/classcentralsite/slashpixel/images/sign_in_with_fb.png"></a>
     <form action="{{ path('login_check') }}" method="post">
         <label for="username">Email:</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}" />

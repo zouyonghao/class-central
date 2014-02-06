@@ -56,6 +56,9 @@
      #}
     <div class="cc-form-box">
         <h3>Sign Up</h3>
+        <a href="{{ path('fb_authorize_start') }}"
+           onmousedown="_gaq.push(['_trackEvent','Sign In with Facebook', 'Login Form']);"
+                ><img style="margin-bottom: 20px;margin-left: 90px;" src="/bundles/classcentralsite/slashpixel/images/sign_in_with_fb.png"></a>
         {{ form(form) }}
 
         <p id="cc-form-box-additional-link">
