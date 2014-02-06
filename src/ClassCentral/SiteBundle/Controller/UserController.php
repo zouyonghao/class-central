@@ -265,12 +265,6 @@ class UserController extends Controller
     public function createUserAction(Request $request)
     {
         $userService = $this->get('user_service');
-        $userSession = $this->get('user_session');
-        $logger = $this->get('logger');
-        $em = $this->getDoctrine()->getManager();
-        $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode("mooc-report");
-
-
         $form   = $this->createForm(new SignupType(), new User(),array(
             'action' => $this->generateUrl('signup_create_user')
         ));
@@ -279,81 +273,15 @@ class UserController extends Controller
         if($form->isValid())
         {
             $user = $form->getData();
-            $user = $userService->signup($user, true); // true - verification email
+            $url = $userService->createUser($user, true);
 
-            // Normal flow. Subscribe the user to a mooc report newsletter
-            if($newsletter)
-            {
-                // Save the user preferences
-                $user->subscribe($newsletter);
-                $em->persist($user);
-                $em->flush();
-            }
+            return $this->redirect($url);
 
-            // Check where the user reached the signed in page
-            $referralDetails = $userSession->getSignupReferralDetails();
-            $redirectUrl = null;
-            if(!empty($referralDetails))
-            {
-                if(array_key_exists('mooc',$referralDetails))
-                {
-                    $this->saveCourseInMoocTracker($user,$referralDetails['mooc']);
-                }
-                else if (array_key_exists('searchTerm',$referralDetails))
-                {
-                    $this->saveSearchTermInMoocTracker($user,$referralDetails['searchTerm']);
-                }
-                else if (array_key_exists('listId',$referralDetails))
-                {
-                    // Add the course to the users library
-                    $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
-                    if($course)
-                    {
-                        $userService->addCourse($user,$course, $referralDetails['listId']);
-                        $name = $course->getName();
-                        // Send a notification message
-                        $userSession->notifyUser(
-                            UserSession::FLASH_TYPE_SUCCESS,
-                            'Course added',
-                            "<i>{$name}</i> added to <a href='/user/courses'>My Courses</a> successfully"
-                        );
-                    }
-                    else
-                    {
-                        $logger->error("Course with id {$referralDetails['courseId']} not found");
-                    }
-                }
-                else if (array_key_exists('review', $referralDetails))
-                {
-                    // Redirect to the create review page
-                    $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
-                    if($course)
-                    {
-                        // Redirect to create review page
-                        $redirectUrl = $this->generateUrl('review_new', array('courseId' =>$referralDetails['courseId']));
-                    }
-                    else
-                    {
-                        $logger->error("Create Review flow: Course with id {$referralDetails['courseId']} not found");
-                    }
-                }
-
-                $userSession->clearSignupReferralDetails();
-                $userSession->saveUserInformationInSession(); // Update the session
-
-                if($redirectUrl)
-                {
-                    return $this->redirect($redirectUrl);
-                }
-            }
-
-            return $this->redirect($this->generateUrl('user_library'));
         }
 
         // Form is not valid
         return $this->signUpAction($form);
     }
-
 
     /**
      * Add course to MOOC tracker
@@ -429,31 +357,12 @@ class UserController extends Controller
         // TODO: Validate the search term
 
         $user = $this->get('security.context')->getToken()->getUser();
-        $this->saveSearchTermInMoocTracker($user,$searchTerm);
+        $this->get('user_service')->saveSearchTermInMoocTracker($user,$searchTerm);
 
         return $this->redirect($this->generateUrl('ClassCentralSiteBundle_search',array(
             'q' => $searchTerm
         )));
 
-    }
-
-    private function saveSearchTermInMoocTracker($user,$searchTerm)
-    {
-        $userSession = $this->get('user_session');
-        $em = $this->getDoctrine()->getManager();
-
-        if(!$userSession->isSearchTermAddedToMT($searchTerm))
-        {
-            $mtSearchTerm = new MoocTrackerSearchTerm();
-            $mtSearchTerm->setUser($user);
-            $mtSearchTerm->setSearchTerm($searchTerm);
-            $em->persist($mtSearchTerm);
-            // Add the searchterm to user
-            $user->addMoocTrackerSearchTerm($mtSearchTerm);
-            $em->flush();
-
-            $userSession->saveUserInformationInSession();
-        }
     }
 
     /***

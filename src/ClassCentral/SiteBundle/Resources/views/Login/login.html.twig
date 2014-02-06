@@ -28,6 +28,8 @@
         <div>{{ error.message }}</div>
     {% endif %}
 
+    <a href="{{ path('fb_authorize_start') }}">Login with Facebook</a>
+
     <form action="{{ path('login_check') }}" method="post">
         <label for="username">Email:</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}" />

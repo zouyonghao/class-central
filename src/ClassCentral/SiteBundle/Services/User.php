@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -16,6 +17,96 @@ class User {
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function login(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $token = new UsernamePasswordToken($user, null,'secured_area',$user->getRoles());
+        $this->container->get('security.context')->setToken($token);
+    }
+
+    /**
+     * Creates a new user
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @return null
+     */
+    public function createUser(\ClassCentral\SiteBundle\Entity\User $user, $verificationEmail = true)
+    {
+        $userSession = $this->container->get('user_session');
+        $logger = $this->container->get('logger');
+        $em = $this->container->get('doctrine')->getManager();
+        $router = $this->container->get('router');
+        $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode("mooc-report");
+
+        $user = $this->signup($user, $verificationEmail); // true - verification email
+
+        // Normal flow. Subscribe the user to a mooc report newsletter
+        if($newsletter)
+        {
+            // Save the user preferences
+            $user->subscribe($newsletter);
+            $em->persist($user);
+            $em->flush();
+        }
+
+        // Check where the user reached the signed in page
+        $referralDetails = $userSession->getSignupReferralDetails();
+        $redirectUrl = null;
+        if(!empty($referralDetails))
+        {
+            if(array_key_exists('mooc',$referralDetails))
+            {
+                $this->saveCourseInMoocTracker($user,$referralDetails['mooc']);
+            }
+            else if (array_key_exists('searchTerm',$referralDetails))
+            {
+                $this->saveSearchTermInMoocTracker($user,$referralDetails['searchTerm']);
+            }
+            else if (array_key_exists('listId',$referralDetails))
+            {
+                // Add the course to the users library
+                $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
+                if($course)
+                {
+                    $this->addCourse($user,$course, $referralDetails['listId']);
+                    $name = $course->getName();
+                    // Send a notification message
+                    $userSession->notifyUser(
+                        UserSession::FLASH_TYPE_SUCCESS,
+                        'Course added',
+                        "<i>{$name}</i> added to <a href='/user/courses'>My Courses</a> successfully"
+                    );
+                }
+                else
+                {
+                    $logger->error("Course with id {$referralDetails['courseId']} not found");
+                }
+            }
+            else if (array_key_exists('review', $referralDetails))
+            {
+                // Redirect to the create review page
+                $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
+                if($course)
+                {
+                    // Redirect to create review page
+                    $redirectUrl = $router->generate('review_new', array('courseId' =>$referralDetails['courseId']));
+                }
+                else
+                {
+                    $logger->error("Create Review flow: Course with id {$referralDetails['courseId']} not found");
+                }
+            }
+
+            $userSession->clearSignupReferralDetails();
+            $userSession->saveUserInformationInSession(); // Update the session
+
+            if($redirectUrl)
+            {
+                return ($redirectUrl);
+            }
+        }
+
+        return $router->generate('user_library');
     }
 
     public function signup(\ClassCentral\SiteBundle\Entity\User $user, $emailVerification = true)
@@ -47,8 +138,7 @@ class User {
         $this->initPreferences($user);
 
         // Login the user
-        $token = new UsernamePasswordToken($user, $password,'secured_area',$user->getRoles());
-        $this->container->get('security.context')->setToken($token);
+        $this->login($user);
 
         // Create a successfull signup notification
         $userSession->notifyUser(
@@ -245,7 +335,26 @@ class User {
         $em->persist($upSearchTerms);
 
         $em->flush();
-
     }
+
+    public function saveSearchTermInMoocTracker($user,$searchTerm)
+    {
+        $userSession = $this->container->get('user_session');
+        $em = $this->container->get('doctrine')->getManager();
+
+        if(!$userSession->isSearchTermAddedToMT($searchTerm))
+        {
+            $mtSearchTerm = new MoocTrackerSearchTerm();
+            $mtSearchTerm->setUser($user);
+            $mtSearchTerm->setSearchTerm($searchTerm);
+            $em->persist($mtSearchTerm);
+            // Add the searchterm to user
+            $user->addMoocTrackerSearchTerm($mtSearchTerm);
+            $em->flush();
+
+            $userSession->saveUserInformationInSession();
+        }
+    }
+
 
 } 

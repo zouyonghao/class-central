@@ -233,3 +233,11 @@ signup_create_review:
 ajax_review_feedback:
   pattern: /ajax/review/feedback/{reviewId}/{feedback}
   defaults: {_controller: ClassCentralSiteBundle:Review:feedback }
+
+fb_authorize_start:
+  pattern: /facebook/oauth/start
+  defaults: {_controller: ClassCentralSiteBundle:Login:redirectToAuthorization }
+
+fb_authorize_redirect:
+  pattern: /facebook/oauth/authorize
+  defaults: {_controller: ClassCentralSiteBundle:Login:fbReceiveAuthorizationCode }
