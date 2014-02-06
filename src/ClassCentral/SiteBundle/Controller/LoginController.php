@@ -79,11 +79,17 @@ class LoginController extends Controller{
         $em = $this->getDoctrine()->getManager();
         $fb = $this->createFacebookObj();
         $userService = $this->get('user_service');
+        $userSession = $this->get('user_session');
+        $logger = $this->get('logger');
+
+        $logger->info("FBAUTH: FB auth redirect");
 
         $userId = $fb->getUser();
         if(!$userId)
         {
-            // Authorization failed
+            // Redirect to the signup page
+            $logger->info("FBAUTH: FB auth denied by the user");
+            return $this->redirect($this->generateUrl('signup'));
         }
 
         try {
@@ -92,6 +98,8 @@ class LoginController extends Controller{
             if(!$email)
             {
                 // TODO : Render error page
+                $logger->error("FBAUTH: Email missing");
+                return null;
 
             }
             $name = $fbUser['name'];
@@ -103,11 +111,38 @@ class LoginController extends Controller{
 
             if($user)
             {
+
                $userService->login($user);
+               // Check whether the user has fb details
+               $ufb = $user->getFb();
+               if($ufb)
+               {
+                   $logger->info("FBAUTH: FB user exists");
+                   // Update the token
+                   $ufb->setAccessToken($fb->getAccessToken());
+               }
+               else
+               {
+                   $logger->info("FBAUTH: Email exists but UserFb table is empty");
+                   // Create a FB info
+                   $ufb = new UserFb();
+                   $ufb->setFbEmail($email);
+                   $ufb->setFbId($userId);
+                   $ufb->setUserInfo(json_encode($fbUser));
+                   $ufb->setAccessToken($fb->getAccessToken());
+                   $ufb->setUser($user);
+
+               }
+
+               $em->persist($ufb);
+               $em->flush();
+
+               $userSession->login($user);
                return $this->redirect( $this->generateUrl('user_library') );
             }
             else
             {
+                $logger->info("FBAUTH: New user");
                 // Create a new account
                 $user = new User();
                 $user->setEmail($email);
@@ -133,7 +168,8 @@ class LoginController extends Controller{
 
         } catch(\FacebookApiException $e) {
             // TODO: Show error page
-
+            $logger->info("FBAUTH: Api exception" . $e->getMessage());
+            return null;
         }
 
     }

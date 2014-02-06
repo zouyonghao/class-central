@@ -2,6 +2,7 @@
 
 namespace  ClassCentral\SiteBundle\Services;
 
+use ClassCentral\SiteBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -43,21 +44,7 @@ class UserSession
     {
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            // user has just logged in. Update the session
-            $this->saveUserInformationInSession();
-
-            // Update the last login time stamp
-            $user = $event->getAuthenticationToken()->getUser();
-            $user->setLastLogin(new \DateTime());
-            $this->em->persist($user);
-            $this->em->flush();
-
-            // Send a successfull login notification
-            $this->notifyUser(
-                self::FLASH_TYPE_SUCCESS,
-                'Logged in',
-                'You have been logged in successfully'
-            );
+            $this->login($event->getAuthenticationToken()->getUser());
         }
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
@@ -69,6 +56,24 @@ class UserSession
         // $user = $event->getAuthenticationToken()->getUser();
 
         // ...
+    }
+
+    public function login(User $user)
+    {
+        // user has just logged in. Update the session
+        $this->saveUserInformationInSession();
+
+        // Update the last login time stamp
+        $user->setLastLogin(new \DateTime());
+        $this->em->persist($user);
+        $this->em->flush();
+
+        // Send a successfull login notification
+        $this->notifyUser(
+            self::FLASH_TYPE_SUCCESS,
+            'Logged in',
+            'You have been logged in successfully'
+        );
     }
 
     public function saveUserInformationInSession()
