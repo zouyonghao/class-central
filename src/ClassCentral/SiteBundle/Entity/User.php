@@ -98,6 +98,18 @@ class User implements UserInterface, \Serializable
      */
     private $reviews;
 
+    /**
+     * @var integer
+     */
+    private $signupType;
+
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\Userfb
+     */
+    private $fb;
+
+    const SIGNUP_TYPE_FORM = 1;
+    const SIGNUP_TYPE_FACEBOOK = 2;
 
     public function  __construct()
     {
@@ -111,6 +123,7 @@ class User implements UserInterface, \Serializable
         $this->userPreferences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
+        $this->setSignupType(self::SIGNUP_TYPE_FACEBOOK);
     }
 
     public function __toString()
@@ -662,5 +675,52 @@ class User implements UserInterface, \Serializable
     public function removeUserPreference(\ClassCentral\SiteBundle\Entity\UserPreference $userPreferences)
     {
         $this->userPreferences->removeElement($userPreferences);
+    }
+
+
+    /**
+     * Set signupType
+     *
+     * @param integer $signupType
+     * @return User
+     */
+    public function setSignupType($signupType)
+    {
+        $this->signupType = $signupType;
+    
+        return $this;
+    }
+
+    /**
+     * Get signupType
+     *
+     * @return integer 
+     */
+    public function getSignupType()
+    {
+        return $this->signupType;
+    }
+
+    /**
+     * Set fb
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Userfb $fb
+     * @return User
+     */
+    public function setFb(\ClassCentral\SiteBundle\Entity\UserFb $fb = null)
+    {
+        $this->fb = $fb;
+    
+        return $this;
+    }
+
+    /**
+     * Get fb
+     *
+     * @return \ClassCentral\SiteBundle\Entity\Userfb 
+     */
+    public function getFb()
+    {
+        return $this->fb;
     }
 }

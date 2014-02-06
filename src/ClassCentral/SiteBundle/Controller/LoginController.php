@@ -10,6 +10,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
+use ClassCentral\SiteBundle\Entity\UserFb;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -111,10 +112,21 @@ class LoginController extends Controller{
                 $user = new User();
                 $user->setEmail($email);
                 $user->setName($name);
-                $user->setPassword($this->getRandomPassword());
+                $user->setPassword($this->getRandomPassword()); // Set a random password
                 $user->setIsverified(true);
+                $user->setSignupType(User::SIGNUP_TYPE_FACEBOOK);
 
                 $redirectUrl = $userService->createUser($user, false);
+
+                // Create a FB info
+                $ufb = new UserFb();
+                $ufb->setFbEmail($email);
+                $ufb->setFbId($userId);
+                $ufb->setUserInfo(json_encode($fbUser));
+                $ufb->setAccessToken($fb->getAccessToken());
+                $ufb->setUser($user);
+                $em->persist($ufb);
+                $em->flush();
 
                 return $this->redirect($redirectUrl);
             }

@@ -48,6 +48,15 @@ ClassCentral\SiteBundle\Entity\User:
             type: boolean
             nullable: false
             column: isVerified
+        signupType:
+            type: integer
+            unsigned: false
+            nullable: true
+            column: signup_type
+    oneToOne:
+        fb:
+            targetEntity: UserFb
+            mappedBy: user
     oneToMany:
         moocTrackerSearchTerms:
           targetEntity: MoocTrackerSearchTerm
