@@ -18,7 +18,7 @@ class UserControllerAjaxTest extends WebTestCase{
 
     public static function setUpBeforeClass()
     {
-        self::$email = sprintf("dhawal+%s@class-central.com",time());
+        self::$email = sprintf("dhawal+%s@class-central.com",mt_rand());
     }
 
     public function testCoursesAjaxCall()

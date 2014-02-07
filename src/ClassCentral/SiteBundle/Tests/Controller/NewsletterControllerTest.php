@@ -15,7 +15,7 @@ class NewsletterControllerTest extends WebTestCase {
     public function testSignupNewsletterForNewEmail()
     {
         $client = static::createClient();
-        $email = sprintf("dhawal+%s@class-central.com",time());
+        $email = sprintf("dhawal+%s@class-central.com",mt_rand());
 
         $crawler = $client->request('GET', '/newsletters/subscribe/mooc-report');
         //$crawler = $client->followRedirect();

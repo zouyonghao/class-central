@@ -12,7 +12,7 @@ class UserControllerTest extends WebTestCase
 
     public static function setUpBeforeClass()
     {
-        self::$email = sprintf("dhawal+%s@class-central.com",time());
+        self::$email = sprintf("dhawal+%s@class-central.com",mt_rand());
     }
 
     public function testSignupForm()
@@ -137,7 +137,7 @@ class UserControllerTest extends WebTestCase
 
         // Fill the signup form
         $form = $crawler->selectButton('Sign up')->form(array(
-                'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",time()),
+                'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",mt_rand()),
                 'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
                 'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
                 'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
@@ -168,7 +168,7 @@ class UserControllerTest extends WebTestCase
 
         // Fill the signup form
         $form = $crawler->selectButton('Sign up')->form(array(
-            'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",time()),
+            'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",mt_rand()),
             'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
             'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
             'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password

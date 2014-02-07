@@ -85,12 +85,4 @@ class NavigationController extends Controller{
         $streams = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Stream')->getCourseCountByStream();
         return $streams;
     }
-
-    /**
-     * Controller which renders the bread
-     */
-    public function breadcrumbAction()
-    {
-
-    }
 }

@@ -13,7 +13,8 @@ framework:
     templating:      { engines: ['twig'], assets_version: 6 } #assets_version: SomeVersionScheme
     default_locale: "%locale%"
     trusted_proxies: ~
-    session:         ~
+    session:
+      handler_id: session.handler.memcached
     fragments:       ~
 
 # Twig Configuration
@@ -78,7 +79,9 @@ services:
   dom_parser:
     class: SimplehtmldomClient
   doctrine_cache:
-    class: Doctrine\Common\Cache\ApcCache
+    class: Doctrine\Common\Cache\MemcachedCache
+    calls:
+      - [setMemcached,[ @session.memcached ] ]
   cache:
     class: ClassCentral\SiteBundle\Services\Cache
     calls:
@@ -109,3 +112,12 @@ services:
   review:
         class: ClassCentral\SiteBundle\Services\Review
         arguments: ['@service_container']
+  session.memcached:
+    class: Memcached
+    arguments:
+    persistent_id: %baseurl%
+    calls:
+      - [ addServer, [ %session_memcached_host%, %session_memcached_port% ]]
+  session.handler.memcached:
+    class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
+    arguments: [@session.memcached, { prefix: %baseurl%, expiretime: %session_memcached_expire% }]

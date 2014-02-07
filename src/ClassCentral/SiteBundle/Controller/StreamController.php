@@ -246,7 +246,7 @@ class StreamController extends Controller
     public function subjectsAction(Request $request)
     {
         $cache = $this->get('Cache');
-        $subjects = $cache->get('stream_list_count ', array($this, 'getSubjectsList'),array($this->getDoctrine()->getManager()));
+        $subjects = $cache->get('stream_list_count', array($this, 'getSubjectsList'),array($this->getDoctrine()->getManager()));
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('Subjects')
         );

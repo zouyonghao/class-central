@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Offering;
 
@@ -41,7 +42,8 @@ class SearchController extends Controller{
             'keywords' => $keywords,
             'offeringTypes' => Offering::$types,
             'offSubjects' => $subjects,
-            'offLanguages' => $lang
+            'offLanguages' => $lang,
+            'listTypes' => UserCourse::$lists,
         ));        
     }
 }

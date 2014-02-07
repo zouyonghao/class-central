@@ -33,7 +33,6 @@ class ReviewControllerTest extends WebTestCase {
             ));
 
         $crawler = $client->submit($form);
-
         $crawler = $client->followRedirect();
         $this->isSignedIn($crawler);
 

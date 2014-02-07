@@ -257,8 +257,8 @@ class LanguageController extends Controller
      */
     public function languagesAction(Request $request)
     {
-        $cache = $this->get('Cache');
-        $languages = $cache->get('language_list_count ', array($this, 'getLanguagesList'),array($this->getDoctrine()->getManager()));
+        $cache = $this->get('cache');
+        $languages = $cache->get('language_list_count', array($this, 'getLanguagesList'),array($this->getDoctrine()->getManager()));
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('Languages',$this->generateUrl('languages'))
         );

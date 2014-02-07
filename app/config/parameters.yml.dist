@@ -44,3 +44,8 @@ parameters:
     swiftype_engine_slug: ~
     swiftype_engine_key: ~
     swiftype_api_key: ~
+
+    #memcache
+    session_memcached_host: localhost
+    session_memcached_port: 11211
+    session_memcached_expire: 3600
