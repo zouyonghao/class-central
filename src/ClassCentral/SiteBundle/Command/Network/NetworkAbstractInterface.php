@@ -29,4 +29,10 @@ abstract class NetworkAbstractInterface
     abstract public function beforeOffering();
     abstract public function outOffering(Offering $offering);
 
+    public function outLevel( $name , $offeringCount)
+    {
+        $this->output->writeln( strtoupper($name) . "({$offeringCount})");
+        $this->output->writeln('');
+    }
+
 }

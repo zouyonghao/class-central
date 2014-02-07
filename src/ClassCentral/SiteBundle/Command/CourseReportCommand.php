@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Command;
 
+use ClassCentral\SiteBundle\Command\Network\RedditNetwork;
 use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,6 +21,7 @@ class CourseReportCommand extends ContainerAwareCommand
             ->addArgument('month', InputArgument::OPTIONAL,"Which month")
             ->addArgument('year', InputArgument::OPTIONAL, "Which year")
             ->addOption('network',null, InputOption::VALUE_OPTIONAL)
+            ->addOption('cs',null, InputOption::VALUE_OPTIONAL, "Yes/No - Splits the cs courses up by different levels")
             ;
     }
 
@@ -28,6 +30,9 @@ class CourseReportCommand extends ContainerAwareCommand
         $month = $input->getArgument('month');
         $year = $input->getArgument('year');
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $network = NetworkFactory::get( $input->getOption('network'),$output);
+        $isReddit = ($input->getOption('network') == 'Reddit') || ($input->getOption('cs') == 'Yes');
+        $courseToLevelMap = RedditNetwork::getCourseToLevelMap();
 
         $offerings = $this
             ->getContainer()->get('doctrine')
@@ -39,6 +44,12 @@ class CourseReportCommand extends ContainerAwareCommand
         // Segreagate by Initiative 
         $offeringsByInitiative = array();
         $offeringsByStream = array();
+        $offeringsByLevel = array(
+            'beginner' => array(),
+            'intermediate' => array(),
+            'advanced' => array(),
+            'uncategorized' => array()
+        );
         foreach($offerings as $offering)
         {
             if($offering->getInitiative() == null)
@@ -53,7 +64,7 @@ class CourseReportCommand extends ContainerAwareCommand
             // Skip self paced courses
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
-                continue;
+                //continue;
             }
 
 
@@ -64,40 +75,76 @@ class CourseReportCommand extends ContainerAwareCommand
                 $subject = $subject->getParentStream();
             }
             $offeringsByStream[$subject->getName()][] = $offering;
+
+            if($isReddit && $subject->getName() == 'Computer Science')
+            {
+                $courseId = $offering->getCourse()->getId();
+                if(isset($courseToLevelMap[$courseId]))
+                {
+                    $offeringsByLevel[$courseToLevelMap[$courseId]][] = $offering;
+                }
+                else
+                {
+                    $offeringsByLevel['uncategorized'][] = $offering;
+                }
+            }
         }
 
         // Segregate by Stream
 
 
-        $network = NetworkFactory::get( $input->getOption('network'),$output);
         $network->setRouter($this->getContainer()->get('router'));
         $coursesByCount = array();
-        foreach($offeringsByStream as $stream => $offerings)
+
+        if($isReddit)
         {
-            $subject = $offerings[0]->getCourse()->getStream();
-
-
-            if($subject->getParentStream())
+            foreach($offeringsByLevel as $level => $offerings)
             {
-                $subject = $subject->getParentStream();
+                $count = count($offerings);
+                $network->outLevel(ucfirst($level), $count);
+                $network->beforeOffering();
+
+                foreach($offerings as $offering)
+                {
+                    $network->outOffering( $offering );
+                    // Count the number of times its been added to my courses
+                    $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
+                    $timesAdded = count($added);
+                    $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                }
             }
-            $count = count($offerings);
-            $network->outInitiative($subject, $count);
-            $network->beforeOffering();
-
-            foreach($offerings as $offering)
-            {
-                $network->outOffering( $offering );
-                // Count the number of times its been added to my courses
-                $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
-                $timesAdded = count($added);
-                $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
-            } 
         }
+        else
+        {
+            foreach($offeringsByStream as $stream => $offerings)
+            {
+                $subject = $offerings[0]->getCourse()->getStream();
+
+                if($subject->getParentStream())
+                {
+                    $subject = $subject->getParentStream();
+                }
+                $count = count($offerings);
+                $network->outInitiative($subject, $count);
+                $network->beforeOffering();
+
+                foreach($offerings as $offering)
+                {
+                    $network->outOffering( $offering );
+                    // Count the number of times its been added to my courses
+                    $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
+                    $timesAdded = count($added);
+                    $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                }
+            }
+        }
+
 
         asort($coursesByCount);
         print_r($coursesByCount);
 
     }
+
+
 
 }
