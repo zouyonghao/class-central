@@ -143,6 +143,10 @@ class LoginController extends Controller{
             else
             {
                 $logger->info("FBAUTH: New user");
+                $newsletterService = $this->get('newsletter');
+                $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode('mooc-report');
+
+
                 // Create a new account
                 $user = new User();
                 $user->setEmail($email);
@@ -162,6 +166,15 @@ class LoginController extends Controller{
                 $ufb->setUser($user);
                 $em->persist($ufb);
                 $em->flush();
+
+                // Subscribe to newsletter
+                $subscribed = $newsletterService->subscribeUser($newsletter, $user);
+                $logger->info("preferences subscribed : email newsletter subscription", array(
+                    'email' =>$user->getId(),
+                    'newsletter' => $newsletter->getCode(),
+                    'subscribed' => $subscribed
+                ));
+
 
                 return $this->redirect($redirectUrl);
             }
