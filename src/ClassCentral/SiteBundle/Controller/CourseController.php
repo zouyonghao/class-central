@@ -322,7 +322,12 @@ class CourseController extends Controller
             $course['name']
         );
 
-       return $this->render(
+        // Get the latest 2 news item
+        $newsController = new NewsController();
+        $news = $cache->get('recent_news_course_page',array($newsController,'getRecentNews'), array($this->getDoctrine()->getManager(),2));
+
+
+        return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
                  'course'=>$course,
@@ -334,7 +339,8 @@ class CourseController extends Controller
                  'listTypes' => UserCourse::$lists,
                  'rating' => $rating,
                  'reviews' => $reviews,
-                 'breadcrumbs' => $breadcrumbs
+                 'breadcrumbs' => $breadcrumbs,
+                 'news' => $news
        ));
     }
 

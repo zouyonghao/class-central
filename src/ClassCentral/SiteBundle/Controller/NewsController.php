@@ -20,7 +20,7 @@ class NewsController extends Controller
     public function homeAction()
     {
         $cache = $this->get('Cache');
-        $news = $cache->get('recent_news',array($this,'getRecentNews'));
+        $news = $cache->get('recent_news',array($this,'getRecentNews'), array($this->getDoctrine()->getManager()));
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('News')
         );
@@ -29,17 +29,15 @@ class NewsController extends Controller
         ));
     }
 
-    public function getRecentNews()
+    public function getRecentNews($em, $limit = 6)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $news = $em->getRepository('ClassCentralSiteBundle:News')->findAll();
 
         $query = $em->createQueryBuilder();
         $query->add('select', 'n')
             ->add('from', 'ClassCentralSiteBundle:News n')
             ->add('orderBy', 'n.id DESC')
-            ->setMaxResults(6);
+            ->setMaxResults($limit);
         $news = $query->getQuery()->getResult();
 
         $newsArray = array();
@@ -56,6 +54,7 @@ class NewsController extends Controller
 
         return $newsArray;
     }
+
 
     /**
      * Lists all News entities.

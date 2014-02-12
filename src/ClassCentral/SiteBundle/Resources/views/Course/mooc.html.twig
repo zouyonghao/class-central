@@ -221,11 +221,13 @@
         {% endif %}
     </div>
 
-    <div class="faq-box-wrap">
+    <div class="faq-box-wrap course-sidebar-box-wrap">
         <table class="table table-striped table-bordered faq-box">
             <thead>
             <tr>
-                <th>FAQs</th>
+                <th>FAQs <a href="{{ path('ClassCentralSiteBundle_faq') }}"
+                            onmousedown="_gaq.push(['trackEvent', 'View All FAQ - Course page'])"
+                            >View All</a></th>
             </tr>
             </thead>
             <tbody>
@@ -306,6 +308,37 @@
             </tbody>
         </table>
     </div>
+    {% endif %}
+
+    {% if news|length > 0 %}
+        <div class="course-sidebar-box-wrap">
+            <table class="table table-striped table-bordered news-box">
+                <thead>
+                <tr>
+                    <th>News <a href="{{ path('ClassCentralSiteBundle_news') }}"
+                                onmousedown="_gaq.push(['trackEvent', 'View All News - Course Page'])"
+                                >View All</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for newsItem in news %}
+                    <tr>
+                        <td>
+                            <div class="news-excerpt">
+                                <h4>{{ newsItem.title }}</h4>
+                                <p>
+                                   {{ newsItem.description }}
+                                </p>
+                                <a href="{{ newsItem.url }}"
+                                   target="_blank" onmousedown="_gaq.push(['_trackEvent', 'Outbound Clicks - News','{{  newsItem.title }}' , 'Course Page'])"
+                                        >Read More ></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
 
 
