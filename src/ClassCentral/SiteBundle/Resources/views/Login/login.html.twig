@@ -44,6 +44,10 @@
             <input type="hidden" name="_target_path" value="/account" />
         #}
 
+        {% if redirectUrl is not empty %}
+            <input type="hidden" name="_target_path" value="{{ redirectUrl }}" />
+        {% endif %}
+
         <button class="btn btn-primary btn-course-cc" type="submit">Login</button>
     </form>
 

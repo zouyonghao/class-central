@@ -2510,7 +2510,8 @@ input::-webkit-input-placeholder {
 #submit-review {
     font-size: 12px;
     font-weight: 600;
-    width: 124px;    
+    width: 124px;
+    height: 30px;
     line-height: 30px;
     color: #fff;
     border: none;
@@ -2518,6 +2519,7 @@ input::-webkit-input-placeholder {
     border-bottom: 3px solid #6fc9c2;
     background-color: #1663a3;
     font-family: "Open Sans", sans-serif;
+    padding: 8px 15px;
 }
 
 #cancel-review {

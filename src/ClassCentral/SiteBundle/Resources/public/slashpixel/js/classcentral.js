@@ -254,9 +254,9 @@ jQuery(function($) {
     /**
      * Review course
      */
-    $('#review-form').submit(function(event){
+    $('#submit-review').click(function(event){
         event.preventDefault();
-        $('#review-form').attr('disabled',true);
+        $('#submit-review').attr('disabled',true);
 
         // Get all the fields
         var rating = $('#rating').raty('score');
@@ -341,7 +341,7 @@ jQuery(function($) {
            );
 
        } else {
-           $('#review-form').attr('disabled',false);
+           $('#submit-review').attr('disabled',false);
        }
 
     });

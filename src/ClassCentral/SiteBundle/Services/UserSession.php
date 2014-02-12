@@ -3,7 +3,9 @@
 namespace  ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
@@ -15,6 +17,8 @@ class UserSession
     private $em;
 
     private $session;
+
+    private $container;
 
     const MT_COURSE_KEY = 'mooc_tracker_courses';
     const MT_SEARCH_TERM_KEY = 'mooc_tracker_search_terms';
@@ -31,13 +35,25 @@ class UserSession
     const FLASH_TYPE_SUCCESS = 'success';
     const FLASH_TYPE_ERROR = 'error';
 
+    /**
+     * Routes to skip when tracking the previous page.
+     * This page is used to redirect login
+     * @var array
+     */
+    private static $skipRoutes = array(
+        'signup', 'signup_mooc', 'signup_search_term', 'signup_create_user',
+        'forgotpassword', 'forgotpassword_sendemail', 'resetPassword', 'resetPassword_save',
+        'fb_authorize_start', 'fb_authorize_redirect'
+    );
+
     private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);
 
-    public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session)
+    public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session, ContainerInterface $container)
     {
         $this->securityContext = $securityContext;
         $this->em              = $doctrine->getManager();
         $this->session         = $session;
+        $this->container       = $container;
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
@@ -56,6 +72,44 @@ class UserSession
         // $user = $event->getAuthenticationToken()->getUser();
 
         // ...
+    }
+
+    /**
+     * Saves the last route in the session
+     * @param GetResponseEvent $event
+     */
+    public function onKernelRequest(GetResponseEvent $event)
+    {
+        if ($event->getRequestType() !== \Symfony\Component\HttpKernel\HttpKernel::MASTER_REQUEST) {
+            return;
+        }
+
+        /** @var \Symfony\Component\HttpFoundation\Request $request  */
+        $request = $event->getRequest();
+        /** @var \Symfony\Component\HttpFoundation\Session $session  */
+        $session = $request->getSession();
+
+        $routeParams = $this->container->get('router')->match($request->getPathInfo());
+        $routeName = $routeParams['_route'];
+        if ($routeName[0] == '_') {
+            return;
+        }
+
+        // Skype the route tracking for certain pages like signup, forgot password etc
+        if(in_array($routeName,self::$skipRoutes))
+        {
+            return;
+        }
+        unset($routeParams['_route']);
+        $routeData = array('name' => $routeName, 'params' => $routeParams);
+
+        //Skipping duplicates
+        $thisRoute = $session->get('this_route', array());
+        if ($thisRoute == $routeData) {
+            return;
+        }
+        $session->set('last_route', $thisRoute);
+        $session->set('this_route', $routeData);
     }
 
     public function login(User $user)

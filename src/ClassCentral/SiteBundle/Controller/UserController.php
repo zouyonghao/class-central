@@ -253,6 +253,11 @@ class UserController extends Controller
      */
     public function signUpCreateReviewAction(Request $request, $courseId)
     {
+        // If logged in, redirect to create review page.
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('review_new', array('courseId' => $courseId)));
+        }
         $this->get('user_session')->saveSignupReferralDetails(array('review' => true, 'courseId' => $courseId ));
         return $this->redirect($this->generateUrl('signup'));
     }
