@@ -393,10 +393,20 @@ class Course {
         );
 
         $offerings = $this->getOfferings();
-        if(empty($offerings))
+        if($offerings->isEmpty())
         {
             //TODO: Handle it correctly
-            return;
+            // Create a offering
+            $offering = new Offering();
+            $offering->setCourse($this);
+            //$offering->setId(-1);
+            $offering->setUrl($this->getUrl());
+            $dt = new \DateTime();
+            $dt->add(new \DateInterval("P1Y"));
+            $offering->setStartDate($dt);
+            $offering->setStatus(Offering::START_DATES_UNKNOWN);
+
+            return $offering;
         }
 
         $nextOffering = $offerings->first();
