@@ -17,6 +17,7 @@ class Version20140213161335 extends AbstractMigration
 
         // Updates the shortname for future learn courses
         $this->addSql("UPDATE offerings SET short_name = CONCAT('fl-',SUBSTRING(url,37)) WHERE course_id IN (SELECT id FROM courses WHERE initiative_id=113);");
+        $this->addSql("UPDATE offerings SET short_name = CONCAT('iversity-',SUBSTRING(url,30)) WHERE course_id IN (SELECT id FROM courses WHERE initiative_id=106);");
     }
 
     public function down(Schema $schema)
