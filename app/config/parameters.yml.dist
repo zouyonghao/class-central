@@ -53,3 +53,6 @@ parameters:
     #fb app details
     fb_app_id: ~
     fb_secret: ~
+
+    #kimonolabs
+    kimono_api_key: ~
