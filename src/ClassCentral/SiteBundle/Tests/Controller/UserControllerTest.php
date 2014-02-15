@@ -78,8 +78,11 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
         $crawler = $client->followRedirect();
 
-        // Should be the home page
-        $this->assertEquals('/', $client->getResponse()->headers->get('location'));
+        // Should be the My Courses page
+        //$this->assertEquals('/user/courses', $client->getResponse()->headers->get('location'));
+        $this->assertCount(1,
+            $crawler->filter("h1[class=cc-page-header]")
+        );
 
         // Check that the user is logged by going to the login page
         $client->request('GET', '/login');

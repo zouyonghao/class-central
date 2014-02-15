@@ -43,7 +43,9 @@ class UserSession
     private static $skipRoutes = array(
         'signup', 'signup_mooc', 'signup_search_term', 'signup_create_user',
         'forgotpassword', 'forgotpassword_sendemail', 'resetPassword', 'resetPassword_save',
-        'fb_authorize_start', 'fb_authorize_redirect'
+        'fb_authorize_start', 'fb_authorize_redirect',
+        'review_save', 'review_create','review_new',
+        'login'
     );
 
     private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);
@@ -114,12 +116,26 @@ class UserSession
         if ($thisRoute == $routeData) {
             return;
         }
+
+        $logger = $this->container->get('logger');
+
+        if(!empty($thisRoute))
+        {
+            $logger->info( " LOGIN PREVIOUS" . $thisRoute['name']);
+        }
+        $logger->info(" LOGIN CURRENT" . $routeData['name']);
+
         $session->set('last_route', $thisRoute);
         $session->set('this_route', $routeData);
     }
 
     public function login(User $user)
     {
+
+        // Create a review for this user if it exists
+        $us = $this->container->get('user_service');
+        $us->createReviewFromSession($user);
+
         // user has just logged in. Update the session
         $this->saveUserInformationInSession();
 

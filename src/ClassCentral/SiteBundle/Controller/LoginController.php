@@ -56,7 +56,7 @@ class LoginController extends Controller{
 
     private function getLastAccessedPage($session)
     {
-        $last_route = $session->get('last_route', array('name' => 'index'));
+        $last_route = $session->get('this_route');
         $redirectUrl = null;
         if(! empty($last_route))
         {
@@ -155,6 +155,8 @@ class LoginController extends Controller{
                    ($this->getLastAccessedPage($request->getSession())) ?
                        $this->getLastAccessedPage($request->getSession()):
                        $this->generateUrl('user_library');
+
+               $logger->info(' LOGIN REDIRECT URL ' . $redirectUrl);
 
                return $this->redirect( $redirectUrl );
             }
