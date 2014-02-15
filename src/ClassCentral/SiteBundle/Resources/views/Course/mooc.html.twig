@@ -26,11 +26,8 @@
  {% endblock %}
 
 {% block content %}
-    {% if app.user %}
-        {% set reviewUrl = path('review_new',{courseId: course.id})%}
-    {% else %}
-        {% set reviewUrl = path('signup_create_review',{courseId: course.id})%}
-    {% endif %}
+
+    {% set reviewUrl = path('review_new',{courseId: course.id})%}
 
     <div class="course-block" itemscope itemtype="http://schema.org/Product">
 

@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
+use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -33,9 +34,11 @@ class User {
     public function createUser(\ClassCentral\SiteBundle\Entity\User $user, $verificationEmail = true)
     {
         $userSession = $this->container->get('user_session');
+        $session = $this->container->get('session');
         $logger = $this->container->get('logger');
         $em = $this->container->get('doctrine')->getManager();
         $router = $this->container->get('router');
+        $ru = $this->container->get('review');
         $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode("mooc-report");
 
         $user = $this->signup($user, $verificationEmail); // true - verification email
@@ -104,6 +107,22 @@ class User {
             {
                 return ($redirectUrl);
             }
+        }
+
+        // Check if it was the review first signup later flow
+        $userReview = $session->get('user_review');
+        if(!empty($userReview))
+        {
+            // Save the review
+            $courseId = $userReview['courseId'];
+            $review = $ru->saveReview($courseId,$user,$userReview);
+
+            if($review instanceof Review)
+            {
+                // Review created successfully. Redirect to the router page
+                return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $courseId,'slug' => $review->getCourse()->getSlug() ));
+            }
+
         }
 
         return $router->generate('user_library');

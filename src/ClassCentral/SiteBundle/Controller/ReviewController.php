@@ -13,7 +13,9 @@ use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\ReviewFeedback;
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -62,12 +64,14 @@ class ReviewController extends Controller {
 
 
     /**
-     * Renders the form to create a new review
+     * Renders the form to create a new review for both logged in
+     * and logged out users
      * @param Request $request
      * @param $courseId
      */
     public function newAction(Request $request, $courseId) {
-        $user = $this->get('security.context')->getToken()->getUser();
+
+        $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
 
         // Get the course
@@ -77,22 +81,36 @@ class ReviewController extends Controller {
         }
 
         $formData = $this->getReviewFormData($course);
-
-        $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
-            'user' => $user,
-            'course' => $course
-        ));
-
-        if($review)
-        {
-            // redirect to edit page
-            return $this->redirect($this->generateUrl('review_edit', array('reviewId' => $review->getId() )));
-        }
-
         $formData['page'] = 'write_review';
         $formData['review'] = new Review(); // Empty review object
-        return $this->render('ClassCentralSiteBundle:Review:new.html.twig', $formData);
+
+        if($loggedIn)
+        {
+
+            $user = $this->get('security.context')->getToken()->getUser();
+            $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
+                'user' => $user,
+                'course' => $course
+            ));
+
+            if($review)
+            {
+                // redirect to edit page
+                return $this->redirect($this->generateUrl('review_edit', array('reviewId' => $review->getId() )));
+            }
+            return $this->render('ClassCentralSiteBundle:Review:new.html.twig', $formData);
+        }
+        else
+        {
+            $signupForm   = $this->createForm(new SignupType(), new User(),array(
+                'action' => $this->generateUrl('signup_create_user')
+            ));
+            $formData['signupForm'] = $signupForm->createView();
+            return $this->render('ClassCentralSiteBundle:Review:newUserReview.html.twig', $formData);
+        }
+
     }
+
 
     /**
      * Renders the edit form
@@ -125,6 +143,8 @@ class ReviewController extends Controller {
         return $this->render('ClassCentralSiteBundle:Review:new.html.twig', $formData);
     }
 
+
+
     /**
      * Validates and creates the review. Updates if the review already
      * is created
@@ -132,12 +152,44 @@ class ReviewController extends Controller {
      * @param $courseId
      */
     public function createAction(Request $request, $courseId) {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $logger = $this->get('logger');
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $ru = $this->get('review');
+        // Get the json post data
+        $content = $this->getRequest("request")->getContent();
+        if(empty($content)) {
+            return $this->getAjaxResponse(false, "Error retrieving form details");
+        }
+        $reviewData = json_decode($content, true);
+
+        $result = $ru->saveReview($courseId, $user, $reviewData);
+
+        if(is_string($result))
+        {
+            // Error. Json response. I know this is wrong
+            return new Response($result);
+        }
+
+        // result is a review object
+        $review = $result;
+
+        return $this->getAjaxResponse(true,$review->getId());
+    }
+
+
+    /**
+     * Part of the review signup flow. Saves the review in session, until
+     * user signs up and login
+     * @param Request $request
+     * @param $courseId
+     */
+    public function saveAction(Request $request, $courseId)
+    {
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
         $ru = $this->get('review');
         $userSession = $this->get('user_session');
-        $newReview = false;
+        $session = $this->get('session');
 
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
         if (!$course) {
@@ -151,51 +203,6 @@ class ReviewController extends Controller {
         }
         $reviewData = json_decode($content, true);
 
-        // Get the review object if it exists
-        $review = null;
-        if(isset($reviewData['reviewId']) && is_numeric($reviewData['reviewId']))
-        {
-            // Its an edit. Get the review
-            // Get the review
-            $review = $em->getRepository('ClassCentralSiteBundle:Review')->find($reviewData['reviewId']);
-            if(!$review)
-            {
-                return $this->getAjaxResponse(false, 'Review does not exist');
-            }
-
-            // Check if the user has access to edit the review
-            // Either the user is an admin or the person who created the review
-            $admin =  $this->get('security.context')->isGranted('ROLE_ADMIN');
-            if(!$admin && $user->getId() != $review->getUser()->getId())
-            {
-                return $this->getAjaxResponse(false, 'User does not have access to edit the review');
-            }
-
-        } else
-        {
-            $newReview = true;
-            $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
-                    'user' => $user,
-                    'course' => $course
-            ));
-
-            if($review)
-            {
-                return $this->getAjaxResponse(false, 'Review already exists');
-            }
-
-            $review = new Review();
-            $review->setUser($user);
-            $review->setCourse($course);
-        }
-
-        // Get the offering
-        if(isset($reviewData['offeringId']) && $reviewData['offeringId'] != -1)
-        {
-            $offering = $em->getRepository('ClassCentralSiteBundle:Offering')->find($reviewData['offeringId']);
-            $review->setOffering($offering);
-        }
-
         // check if the rating valid
         if(!isset($reviewData['rating']) &&  !is_numeric($reviewData['rating']))
         {
@@ -207,82 +214,23 @@ class ReviewController extends Controller {
             return $this->getAjaxResponse(false,'Rating should be between 1 to 5');
         }
 
-
         // If review exists its length should be atleast 20 words
         if(!empty($reviewData['reviewText']) && str_word_count($reviewData['reviewText']) < 20)
         {
             return $this->getAjaxResponse(false,'Review should be at least 20 words long');
         }
 
-        $review->setRating($reviewData['rating']);
-        $review->setReview($reviewData['reviewText']);
-
-
         // Progress is required
-        if(!isset($reviewData['progress']))
+        if(!isset($reviewData['progress']) && !array_key_exists($reviewData['progress'], UserCourse::$progress))
         {
             return $this->getAjaxResponse(false,'Progress is required');
         }
-        // Progress
-        if(isset($reviewData['progress']) && array_key_exists($reviewData['progress'], UserCourse::$progress))
-        {
-            $review->setListId($reviewData['progress']);
 
-            // Add/update the course to users library
-            $userService = $this->get('user_service');
-            $uc = $userService->addCourse($user, $course, $reviewData['progress']);
-        }
+        // Save it in the session
+        $reviewData['courseId'] = $courseId;
+        $session->set('user_review',$reviewData);
 
-        // Difficulty
-        if(isset($reviewData['difficulty']) && array_key_exists($reviewData['difficulty'], Review::$difficulty))
-        {
-            $review->setDifficultyId($reviewData['difficulty']);
-        }
-
-        // Level
-        if(isset($reviewData['level']) && array_key_exists($reviewData['level'], Review::$levels))
-        {
-            $review->setLevelId($reviewData['level']);
-        }
-
-        // Effort
-        if(isset($reviewData['effort']) && is_numeric($reviewData['effort']) && $reviewData['effort'] > 0)
-        {
-            $review->setHours($reviewData['effort']);
-        }
-
-        // Status
-        if(isset($reviewData['status']) && array_key_exists($reviewData['status'],Review::$statuses))
-        {
-            $review->setStatus($reviewData['status']);
-        }
-
-        $em->persist($review);
-        $em->flush();
-
-        // clear the review cache for this particular course
-        $ru->clearCache($course->getId());
-        // Update the users review history in session
-        $userSession->saveUserInformationInSession();
-
-        if($newReview)
-        {
-            $userSession->notifyUser(
-                UserSession::FLASH_TYPE_SUCCESS,
-                'Review created',
-                sprintf("Review for <i>%s</i> created successfully", $course->getName())
-            );
-        }
-        else
-        {
-            $userSession->notifyUser(
-                UserSession::FLASH_TYPE_SUCCESS,
-                'Review updated',
-                sprintf("Your review for <i>%s</i> has been updated successfully", $course->getName())
-            );
-        }
-
-        return $this->getAjaxResponse(true,$review->getId());
+        return $this->getAjaxResponse(true);
     }
 
     /**

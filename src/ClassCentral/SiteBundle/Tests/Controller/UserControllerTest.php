@@ -110,9 +110,7 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
 
         // Get redirected to the create review page
-
-        // Should be the home page
-        $this->assertEquals('/user/review/new/622', $client->getResponse()->headers->get('location'));
+        $this->assertEquals('/review/new/622', $client->getResponse()->headers->get('location'));
 
     }
 

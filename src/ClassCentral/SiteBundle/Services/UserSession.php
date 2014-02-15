@@ -100,6 +100,12 @@ class UserSession
         {
             return;
         }
+
+        // If its starts with ajax_
+        if(strpos($routeName, "ajax") === 0)
+        {
+            return;
+        }
         unset($routeParams['_route']);
         $routeData = array('name' => $routeName, 'params' => $routeParams);
 

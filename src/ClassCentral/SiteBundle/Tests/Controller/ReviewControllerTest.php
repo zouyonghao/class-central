@@ -38,7 +38,7 @@ class ReviewControllerTest extends WebTestCase {
 
 
         // Render the create review page
-        $client->request('GET','/user/review/new/622');
+        $client->request('GET','/review/new/622');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET create review page");
 
         // Create review should fail --> rating is not valid
