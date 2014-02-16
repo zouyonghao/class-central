@@ -123,7 +123,7 @@ class User implements UserInterface, \Serializable
         $this->userPreferences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
-        $this->setSignupType(self::SIGNUP_TYPE_FACEBOOK);
+        $this->setSignupType(self::SIGNUP_TYPE_FORM);
     }
 
     public function __toString()
