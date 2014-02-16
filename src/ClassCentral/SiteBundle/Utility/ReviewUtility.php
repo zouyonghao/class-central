@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Utility;
 
 
 use ClassCentral\SiteBundle\Entity\Review;
+use ClassCentral\SiteBundle\Entity\UserCourse;
 
 class ReviewUtility {
 
@@ -63,7 +64,15 @@ class ReviewUtility {
 
     public static function getReviewTitle(Review $review)
     {
-        $title = sprintf(" %s this course", strtolower($review->getProgress()) );
+        $format = " %s this course";
+        if($review->getListId() == UserCourse::LIST_TYPE_CURRENT)
+        {
+            $title = ' is taking this course right now';
+        }
+        else
+        {
+            $title = sprintf(" %s this course", strtolower($review->getProgress()) );
+        }
         $title .=  ($review->getHours() > 0) ? sprintf(", spending %s hours a week on it",  $review->getHours() ) : '';
         $title .= ($review->getDifficultyId()) ? sprintf(" and found the course difficulty to be %s", strtolower($review->getDifficulty())  ) : '';
         $title .= '.';

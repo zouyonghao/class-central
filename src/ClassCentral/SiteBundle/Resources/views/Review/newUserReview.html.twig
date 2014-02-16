@@ -1,6 +1,7 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 {% block headmeta %}
-    <title>Review a course</title>
+    <title>Review {{ course.name }}</title>
+    <meta name="robots" content="noindex" />
 {% endblock %}
 {% block content %}
     <div class="add-review">

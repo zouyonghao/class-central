@@ -3204,6 +3204,11 @@ table .course-name {
 }
 
 @media (max-width: 980px) {
+    #signupForm {
+        width: 350px !important;
+        padding: 20px !important;
+        margin: 50px auto !important;
+    }
 
     nav-collapse .pull-right > .dropdown > a,
     .nav-collapse .pull-right > li > a {
