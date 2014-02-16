@@ -84,7 +84,6 @@ class ReviewControllerTest extends WebTestCase {
     {
         return  array(
             'rating' => 4,
-            'effort' => 10,
             'progress' => 1,
             'reviewText' => ""
         );
@@ -116,6 +115,82 @@ class ReviewControllerTest extends WebTestCase {
 
         // Confirm if its the write a new review form
         $this->assertGreaterThan(0, $crawler->filter("span:contains('How difficult was this course?')")->count());
+    }
+
+    /**
+     * In this scenario when the user clicks on create review he is shown a lighter version of
+     * create review form instead of a signup page. This flow needs to tested
+     */
+    public function testCreateReviewSignupLaterFlow()
+    {
+        $client = static::createClient();
+
+        // Get the review page
+        $client->request('GET','/review/new/622');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET create review page");
+
+        // Save the review using an ajax call
+        $crawler = $client->request('POST','/review/save/622',array(),array(),array(),json_encode($this->getReviewData()));
+        $response = json_decode($crawler->text(),true);
+        $this->assertTrue($response['success'],"Review wasnt saved in the session");
+
+
+        // A signup form is popped up to the user. Simulate that
+        $client->request('GET','/signup');
+
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /signup");
+
+        // Fill the signup form
+        $email =  sprintf("dhawal+%s@class-central.com",rand());
+        $form = $crawler->selectButton('Sign up')->form(array(
+            'classcentral_sitebundle_signuptype[email]' => $email,
+            'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
+            'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
+            'classcentral_sitebundle_signuptype[password][confirm_password]' => self::$password
+        ));
+
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        $this->isSignedIn($crawler);
+
+        // User is signed in. Check if the review has been created
+        $crawler = $client->request('GET','/user/reviews');
+        $this->assertCount(1,
+            $crawler->filter("div[class=single-review]")
+        );
+
+
+        // Review is created. Log the user out and then test the login flow
+        $client->request('GET','/logout');
+        $crawler = $client->followRedirect();
+
+
+        $client->request('GET','/review/new/733');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET create review page");
+
+        // Save the review using an ajax call
+        $crawler = $client->request('POST','/review/save/733',array(),array(),array(),json_encode($this->getReviewData()));
+        $response = json_decode($crawler->text(),true);
+        $this->assertTrue($response['success'],"Review wasnt saved in the session");
+
+        // Now the user clicks on the login button. Log him in
+        $crawler = $client->request('GET', '/login');
+        $form = $crawler->selectButton('Login')->form(array(
+            '_username' => $email,
+            '_password' => self::$password
+        ));
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        $this->isSignedIn($crawler);
+
+        // User is signed in. Check if the review has been created
+        $crawler = $client->request('GET','/user/reviews');
+        $this->assertCount(2,
+            $crawler->filter("div[class=single-review]")
+        );
+
+
     }
 
 
