@@ -35,6 +35,16 @@ jQuery(function($) {
         });
     });
 
+    // Completed, Audited, Partially Completed, Drooped
+    var listCourseDone = [
+        3,4,5,6
+    ];
+
+    // Enrolled, Current
+    var listEnrolled = [
+        2,7
+    ];
+
     function addRemoveCourse(listId, courseId, checked,name) {
         try{
          if(checked){
@@ -51,11 +61,41 @@ jQuery(function($) {
                     var r = JSON.parse(result);
                     if(r.success)
                     {
-                        notify(
-                            'Course added',
-                            '<i>'+ name +'</i> added to <a href="/user/courses">My Courses</a> successfully',
-                            'success'
-                        );
+                        if($.inArray(Number(listId), listCourseDone) >= 0)
+                        {
+                            // Ask them to review the course
+                            notifyWithDelay(
+                                'Course added',
+                                'Would you like to review it? It takes no time at all ' +
+                                '<br/><a href="/review/new/' + courseId+ '">Review ' + name +
+                                    '</a> ',
+                                'success',
+                                60
+                            );
+                        }
+                        else if($.inArray(Number(listId), listEnrolled) >= 0)
+                        {
+                            // Ask them to review once they are done with the course
+                            notifyWithDelay(
+                                'Course added',
+                                '<i>'+ name +'</i> added to <a href="/user/courses">My Courses</a> successfully. ' +
+                                  'Don\'t forget to <a href="/review/new/' + courseId + '">review</a> the course once you finish it'
+                                ,
+                                'success',
+                                30
+                            );
+                        }
+                        else
+                        {
+                            // Interested
+                            notify(
+                                'Course added',
+                                '<i>'+ name +'</i> added to <a href="/user/courses">My Courses</a> successfully',
+                                'success'
+                            );
+                        }
+
+
 
                     }
                 }
@@ -85,6 +125,17 @@ jQuery(function($) {
             text: text,
             type: type,
             animation: 'show'
+        });
+    }
+
+    function notifyWithDelay( title, text, type, delay)
+    {
+        $.pnotify({
+            title: title,
+            text: text,
+            type: type,
+            animation: 'show',
+            delay: delay * 1000
         });
     }
 
