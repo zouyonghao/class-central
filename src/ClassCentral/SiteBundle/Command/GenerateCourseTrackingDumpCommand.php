@@ -54,6 +54,18 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             AS (SELECT * FROM user_courses_tracking WHERE user_identifier != '');
         ");
 
+        // Delete sessions which have just more than 120 courses
+        $conn->exec("
+            DELETE FROM $tbl WHERE user_identifier IN (SELECT user_identifier FROM (SELECT user_identifier FROM $tbl GROUP BY user_identifier HAVING count(course_id) > 120 ) t);
+        ");
+
+//        // Delete sessions which have just 1 course
+//        $conn->exec("
+//            DELETE FROM $tbl WHERE user_identifier IN (SELECT user_identifier FROM (SELECT user_identifier FROM $tbl GROUP BY user_identifier HAVING count(course_id) = 1 ) t);
+//        ");
+
+
+
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('user_identifier','user_identifier');
         $rsm->addScalarResult('course_id','course_id');
@@ -62,7 +74,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
         $fp = fopen("extras/user_course.csv", "w");
         while(true)
         {
-            $results = $em->createNativeQuery("SELECT id,user_identifier,course_id FROM user_courses_tracking WHERE id > $id LIMIT 10000", $rsm)->getResult();
+            $results = $em->createNativeQuery("SELECT id,user_identifier,course_id FROM $tbl WHERE id > $id LIMIT 10000", $rsm)->getResult();
 
             if(empty($results))
             {
