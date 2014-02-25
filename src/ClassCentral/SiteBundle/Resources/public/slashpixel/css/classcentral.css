@@ -2006,11 +2006,12 @@ input::-webkit-input-placeholder {
 =            course review            =
 =====================================*/
 
-
-.course-reviews {
+.course-left-column {
     width: 66%;
-    background-color: #fff;
     float: left;
+}
+.course-reviews, .recommended-courses {
+    background-color: #fff;
     margin: 25px 1.5% 25px 0;
     font-family: "Open Sans", sans-serif;
     -moz-box-sizing: border-box;
@@ -2031,8 +2032,8 @@ input::-webkit-input-placeholder {
     clear: right;
 }
 
-.related-courses-wrap {
-    margin: 25px 0;
+.related-courses-wrap{
+    margin: 25px 0px 0px;
 }
 
 .faq-box-wrap {
@@ -2081,7 +2082,8 @@ input::-webkit-input-placeholder {
 
 .related-courses-wrap .table th,
 .faq-box-wrap .table th,
-.course-sidebar-box-wrap .table th{
+.course-sidebar-box-wrap .table th,
+.recommended-courses .table th{
     color: #3a759a;
     font-family: "Open Sans";
     font-size: 14px;

@@ -13,6 +13,7 @@ ClassCentral\SiteBundle\Entity\CourseRecommendation:
             type: integer
             unsigned: false
             nullable: true
+            order: asc
         created:
             type: datetime
             nullable: true
