@@ -43,6 +43,7 @@ class CourseRecommendation
     public function  __construct()
     {
         $this->created = new \DateTime();
+        $this->modified = new \DateTime();
     }
 
     /**
