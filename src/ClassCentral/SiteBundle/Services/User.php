@@ -4,7 +4,6 @@ namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
-use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -111,7 +110,7 @@ class User {
 
         // Check if it was the review first signup later flow
         $review = $this->createReviewFromSession($user);
-        if($review instanceof Review)
+        if($review instanceof \ClassCentral\SiteBundle\Entity\Review)
         {
             // Review created successfully. Redirect to the router page
             return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug() ));
