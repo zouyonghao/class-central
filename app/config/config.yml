@@ -30,6 +30,7 @@ twig:
       addthisevent  : %addthisevent%
       rackspace_cdn_base_url: %rackspace_cdn_base_url%
       user_session  : @user_session
+      reviewService : @review
       swiftype_engine_key : %swiftype_engine_key%
 # Assetic Configuration
 assetic:
