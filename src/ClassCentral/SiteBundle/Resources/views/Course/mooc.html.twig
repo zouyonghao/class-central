@@ -41,7 +41,7 @@
                     </div>
                     <div class="review-link">
                         {% if  reviews.reviews|length  > 0 %}
-                            <span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}
+                            <a href="#course-reviews"><span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
                         {% else %}
                             <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'First to Review   ', '{{course['name']}}'])">Be the first to review this course</a>
                         {% endif %}
@@ -239,7 +239,7 @@
             </div>
         {% endif %}
 
-        <div class="course-reviews">
+        <div class="course-reviews" id="course-reviews">
             <header class="reviews-header">
                 <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</h2>
                 <div class="average-rating course-rating" data-score="{{ rating }}">
