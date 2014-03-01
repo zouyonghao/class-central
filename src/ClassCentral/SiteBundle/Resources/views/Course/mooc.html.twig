@@ -45,6 +45,9 @@
                         {% else %}
                             <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'First to Review   ', '{{course['name']}}'])">Be the first to review this course</a>
                         {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="review-button" href="{{ reviewUrl }}" rel="nofollow">Write a review (admin only)</a>
+                        {% endif %}
                     </div>
                  </div>
 

@@ -74,6 +74,7 @@ class ReviewController extends Controller {
 
         $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
+        $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
 
         // Get the course
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
@@ -119,7 +120,7 @@ class ReviewController extends Controller {
                 'course' => $course
             ));
 
-            if($review)
+            if(!$isAdmin && $review)
             {
                 // redirect to edit page
                 return $this->redirect($this->generateUrl('review_edit', array('reviewId' => $review->getId() )));

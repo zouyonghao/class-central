@@ -164,7 +164,8 @@ class Review {
                 'course' => $course
             ));
 
-            if($review)
+            // Admins can create multiple reviews - for adding external reviews
+            if($review && !$isAdmin)
             {
                 return $this->getAjaxResponse(false, 'Review already exists');
             }
