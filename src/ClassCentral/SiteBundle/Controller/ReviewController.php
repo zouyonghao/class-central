@@ -59,7 +59,7 @@ class ReviewController extends Controller {
             'offering' => $offering,
             'offeringTypesOrder' => $offeringTypesOrder,
             'reviewStatuses' => Review::$statuses,
-            'showStatus' => false
+            'isAdmin' =>  $this->get('security.context')->isGranted('ROLE_ADMIN')
         );
     }
 
@@ -165,7 +165,6 @@ class ReviewController extends Controller {
         $formData = $this->getReviewFormData($review->getCourse());
         $formData['page'] = 'edit_review';
         $formData['review'] = $review;
-        $formData['showStatus'] = $admin;
         return $this->render('ClassCentralSiteBundle:Review:new.html.twig', $formData);
     }
 
@@ -188,7 +187,8 @@ class ReviewController extends Controller {
         }
         $reviewData = json_decode($content, true);
 
-        $result = $ru->saveReview($courseId, $user, $reviewData);
+        $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
+        $result = $ru->saveReview($courseId, $user, $reviewData, $isAdmin);
 
         if(is_string($result))
         {

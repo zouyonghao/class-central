@@ -34,6 +34,8 @@ class ReviewUtility {
         $r['publishedDate'] = $review->getCreated()->format('Y-m-d');
         $r['modified'] = $review->getModified();
         $r['reviewTitle'] = self::getReviewTitle($review);
+        $r['externalReviewerName'] = $review->getReviewerName();
+        $r['externalReviewLink'] = $review->getExternalLink();
 
         // Review feedback
         $r['fb']['total'] = 0;

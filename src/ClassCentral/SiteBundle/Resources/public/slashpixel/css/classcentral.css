@@ -189,6 +189,10 @@ textarea.input-group-sm > .input-group-btn > .btn {
   content: "\e114";
 }
 
+.glyphicon-new-window:before {
+    content: "\e164";
+}
+
 .input-group>.bfh-number {
     float: left;
 }
@@ -2108,6 +2112,11 @@ input::-webkit-input-placeholder {
 
 .reviews-header .review-count {
     margin-right: 5px;
+}
+
+#ext-review-link {
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .single-review {

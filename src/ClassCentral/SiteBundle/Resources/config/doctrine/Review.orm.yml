@@ -43,6 +43,18 @@ ClassCentral\SiteBundle\Entity\Review:
         status:
             type: integer
             nullable: false
+        externalLink:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+            column: external_link
+        reviewerName:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+            column: reviewer_name
     manyToOne:
         user:
             targetEntity: User

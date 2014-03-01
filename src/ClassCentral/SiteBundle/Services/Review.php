@@ -126,7 +126,7 @@ class Review {
      * @param $courseId
      * @param $reviewData
      */
-    public function saveReview($courseId, \ClassCentral\SiteBundle\Entity\User $user, $reviewData)
+    public function saveReview($courseId, \ClassCentral\SiteBundle\Entity\User $user, $reviewData, $isAdmin = false)
     {
         $em = $this->em;
         $newReview = false;
@@ -236,10 +236,26 @@ class Review {
             $review->setHours($reviewData['effort']);
         }
 
-        // Status
-        if(isset($reviewData['status']) && array_key_exists($reviewData['status'],\ClassCentral\SiteBundle\Entity\Review::$statuses))
+        if($isAdmin)
         {
-            $review->setStatus($reviewData['status']);
+            // Status
+            if(isset($reviewData['status']) && array_key_exists($reviewData['status'],\ClassCentral\SiteBundle\Entity\Review::$statuses))
+            {
+                $review->setStatus($reviewData['status']);
+            }
+
+            // External reviewer name
+            if(isset($reviewData['externalReviewerName']) )
+            {
+                $review->setReviewerName($reviewData['externalReviewerName']);
+            }
+
+            // External review link
+            if(isset($reviewData['externalReviewLink']) && filter_var($reviewData['externalReviewLink'], FILTER_VALIDATE_URL))
+            {
+                $review->setExternalLink( $reviewData['externalReviewLink'] );
+            }
+
         }
 
         $user->addReview($review);

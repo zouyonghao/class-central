@@ -25,8 +25,14 @@
     <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
     <div style="clear:both"></div>
     <div itemprop="description">
-        <div class="review-title"><span class="author">{{ review.user.name }} </span> {{ review.reviewTitle|raw }}</div>
+        <div class="review-title"><span class="author">{% if review.externalReviewerName is not empty %} {{ review.externalReviewerName }}  {% else %} {{ review.user.name }} {% endif %}</span> {{ review.reviewTitle|raw }}</div>
         <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
+        {% if review.externalReviewLink is not empty %}
+        <div id="ext-review-link">
+            <a href="{{ review.externalReviewLink }}" target="_blank"> <span class="glyphicon glyphicon-new-window"></span> Full Review
+            </a>
+        </div>
+        {% endif %}
     </div>
     {% if app.user and user_session.isUserReview(review.id) %}
         {# show the edit button #}
@@ -35,5 +41,9 @@
         {# show the feedback #}
         <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?
             <span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}" onmousedown="_gaq.push(['_trackEvent','Review Feedback','Yes']);">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}" onmousedown="_gaq.push(['_trackEvent','Review Feedback','No']);">NO</a></span></div>
+    {% endif %}
+    {# edit button for all admins#}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="question"><a href="{{ path('review_edit',{reviewId:review.id}) }}">edit review (admin only)</a></div>
     {% endif %}
 </div>

@@ -401,6 +401,8 @@ jQuery(function($) {
         var offeringId = $('#sessionOptions').val();
         var status = $('#reviewStatus').val();
         var reviewId = $('#reviewid').data("value");
+        var externalReviewerName = $('#ext-reviewer-name').val();
+        var externalReviewLink = $('#ext-review-link').val();
 
         var review = {
             'rating': rating,
@@ -411,7 +413,9 @@ jQuery(function($) {
             'level':level,
             'offeringId':offeringId,
             'status':status,
-            'reviewId':reviewId
+            'reviewId':reviewId,
+            'externalReviewerName': externalReviewerName,
+            'externalReviewLink': externalReviewLink
         };
 
         return review;

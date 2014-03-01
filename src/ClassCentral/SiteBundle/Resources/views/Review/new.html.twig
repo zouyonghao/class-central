@@ -84,17 +84,26 @@
                 <input type="text" class="form-control bfh-number" data-min="0" data-max="40" name="effort" value="{{ review.hours }}">
 
             </p>
+            {% if isAdmin %}
+                <p class="course-progress">
+                    <span class="review-field-label">Review Status</span>
+                    <select id="reviewStatus">
+                        {% for id,status in reviewStatuses %}
+                            <option value="{{ id }}" >{{ status }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
 
-            <p class="course-progress">
-            {% if showStatus %}
-                <span class="review-field-label">Review Status</span>
-                <select id="reviewStatus">
-                    {% for id,status in reviewStatuses %}
-                        <option value="{{ id }}" >{{ status }}</option>
-                    {% endfor %}
-                </select>
+                <p class="course-progress">
+                    <span class="review-field-label">External Reviewer Name</span>
+                    <input type="text" id="ext-reviewer-name" value="{{ review.reviewerName }}" />
+                </p>
+
+                <p class="course-progress">
+                    <span class="review-field-label">External Review Link</span>
+                    <input type="text" id="ext-review-link" value="{{ review.externalLink }}">
+                </p>
             {% endif %}
-            </p>
 
             <div class="text-wrap">
                 <p class="review-text">

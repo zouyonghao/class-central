@@ -83,6 +83,15 @@ class Review
      */
     private $fbSummary;
 
+    /**
+     * @var string
+     */
+    private $externalLink;
+
+    /**
+     * @var string
+     */
+    private $reviewerName;
 
     // Level
     const LEVEL_BEGINNER = 1;
@@ -447,5 +456,52 @@ class Review
         }
 
         return "";
+    }
+
+
+    /**
+     * Set externalLink
+     *
+     * @param string $externalLink
+     * @return Review
+     */
+    public function setExternalLink($externalLink)
+    {
+        $this->externalLink = $externalLink;
+    
+        return $this;
+    }
+
+    /**
+     * Get externalLink
+     *
+     * @return string 
+     */
+    public function getExternalLink()
+    {
+        return $this->externalLink;
+    }
+
+    /**
+     * Set reviewerName
+     *
+     * @param string $reviewerName
+     * @return Review
+     */
+    public function setReviewerName($reviewerName)
+    {
+        $this->reviewerName = $reviewerName;
+    
+        return $this;
+    }
+
+    /**
+     * Get reviewerName
+     *
+     * @return string 
+     */
+    public function getReviewerName()
+    {
+        return $this->reviewerName;
     }
 }
