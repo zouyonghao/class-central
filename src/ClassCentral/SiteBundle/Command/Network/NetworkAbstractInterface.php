@@ -15,9 +15,16 @@ abstract class NetworkAbstractInterface
 
     protected $router;
 
+    protected $container;
+
     public function __construct(OutputInterface $output)
     {
         $this->output = $output;
+    }
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
     }
 
     public function setRouter(Router $router) {
