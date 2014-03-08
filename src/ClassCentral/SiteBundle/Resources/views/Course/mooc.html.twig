@@ -29,6 +29,11 @@
 
     {% set reviewUrl = path('review_new',{courseId: course.id})%}
 
+    {# Links for admin #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <p><b>Links for Admin</b></p>
+<a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
+    {% endif %}
     <div class="course-block" itemscope itemtype="http://schema.org/Product">
 
         <div class="course-meta-top row" >
