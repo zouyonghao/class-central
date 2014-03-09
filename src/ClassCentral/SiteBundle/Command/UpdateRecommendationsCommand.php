@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpdateRecommendationsCommand extends ContainerAwareCommand {
 
     private $courses = array();
-    const RECOMMENDATIONS_SCORE = 15;
+    const RECOMMENDATIONS_SCORE = 0.5;
 
     protected function configure()
     {
