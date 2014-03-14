@@ -188,7 +188,8 @@ class User {
         // Send a welcome email but not in the test environment
         if ($this->container->getParameter('kernel.environment') != 'test')
         {
-            $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig')->getContent();
+            $name = ($user->getName()) ? ucwords($user->getName()) : "";
+            $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig', array('name' => $name))->getContent();
             $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central",$html);
 
             if($emailVerification)
