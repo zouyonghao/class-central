@@ -56,3 +56,6 @@ parameters:
 
     #kimonolabs
     kimono_api_key: ~
+
+    #clicky
+    clicky_site_id: ~
