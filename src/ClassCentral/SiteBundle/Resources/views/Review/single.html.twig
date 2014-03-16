@@ -20,6 +20,13 @@
         {# This is for My Reviews page#}
         <span class="author"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}"> {{ review.course.name }}</a></span>
     {% endif %}
+
+    {% if review.externalReviewLink is not empty %}
+        <span class="author">
+            <a href="{{ review.externalReviewLink }}" target="_blank">  &nbsp;External Review <span class="glyphicon glyphicon-new-window"></span></a>
+        </span>
+    {% endif %}
+
     <meta itemprop="author" content = "{{review.user.name}}"/>
     <meta itemprop="name" content="{{ review.user.name }} {{ review.reviewTitle|raw }}">
     <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
