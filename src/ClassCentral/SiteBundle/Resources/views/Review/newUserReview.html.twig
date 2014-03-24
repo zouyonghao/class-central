@@ -47,7 +47,16 @@
             <h3>Sign Up to post your review</h3>
             <a href="{{ path('fb_authorize_start') }}"
                onmousedown="_gaq.push(['_trackEvent','Sign In with Facebook', 'Login Form']);"
-                    ><img style="margin-bottom: 20px;margin-left: 90px;" src="/bundles/classcentralsite/slashpixel/images/sign_in_with_fb.png"></a>
+                    ><img style="margin-bottom: 40px;margin-left: 90px;" src="/bundles/classcentralsite/slashpixel/images/sign_in_with_fb.png"></a>
+
+            <div style="height: 1px; background-color: black; text-align: center; font-size: 20px">
+                <span style="background-color: white; position: relative; top: -0.5em;">
+                    OR
+                </span>
+            </div>
+
+            <br/>
+
             {{ form(signupForm) }}
 
             <p id="cc-form-box-additional-link">
