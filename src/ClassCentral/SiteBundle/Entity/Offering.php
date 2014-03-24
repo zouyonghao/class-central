@@ -82,6 +82,29 @@ class Offering {
     private $instructors;
     private $microdataDate;
 
+    /**
+     * Holds the state of the offering. A state must belong to:
+     * one of these - finished,in progress, self paced, upcoming
+     * and can also optionally belong to
+     * recent, just announced
+     * the field value is equal to the sum of required state values + optional values.
+     * eg. if a new offering has just been added its state will be upcoming + just_announced.
+     *  140 + 2 = 142
+     * @var integer
+     */
+    private $state;
+
+    // Different state values
+    const STATE__RECENT = 1;
+    const STATE_JUST_ANNOUNCED = 2;
+    const STATE_RECENT_AND_JUST_ANNOUNCED = 3;
+
+    // Mutually exclusive state values
+    const STATE_FINISHED = 110;
+    const STATE_IN_PROGRESS = 120;
+    const STATE_SELF_PACED = 130;
+    const STATE_UPCOMING  = 140;
+
     private $shortName;
     
     public static $types = array(
@@ -350,6 +373,31 @@ class Offering {
             self::COURSE_OPEN => 'Self paced',
             self::START_YEAR_KNOWN => 'Start Year Known'
         );
+    }
+
+
+
+    /**
+     * Set state
+     *
+     * @param integer $state
+     * @return Offering
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return integer
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 
 }

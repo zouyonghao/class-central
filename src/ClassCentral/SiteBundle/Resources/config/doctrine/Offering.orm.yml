@@ -51,6 +51,10 @@ ClassCentral\SiteBundle\Entity\Offering:
       type: text
       nullable: true
       column: search_desc
+    state:
+      type: integer
+      unsigned: false
+      nullable: true
   manyToOne:
     course:
       targetEntity: Course
