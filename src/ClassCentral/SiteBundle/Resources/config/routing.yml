@@ -6,6 +6,11 @@ ClassCentralSiteBundle_faq:
     pattern:  /faq
     defaults: { _controller: ClassCentralSiteBundle:Default:faq }
 
+ClassCentralSiteBundle_privacy:
+    pattern:  /privacy-policy
+    defaults: { _controller: ClassCentralSiteBundle:Default:privacyPolicy }
+
+
 ClassCentralSiteBundle_courses:
     pattern:  /courses/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:courses }

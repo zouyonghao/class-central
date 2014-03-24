@@ -131,6 +131,12 @@ class DefaultController extends Controller {
             'breadcrumb' => $breadcrumbs
         ));
     }
+
+    public function privacyPolicyAction() {
+        return $this->render('ClassCentralSiteBundle:Default:privacy.html.twig', array(
+            'page' => 'privacy',
+        ));
+    }
     
     /**
      * 
