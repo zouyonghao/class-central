@@ -94,12 +94,12 @@ class Offering {
      */
     private $state;
 
-    // Different state values
-    const STATE__RECENT = 1;
+    // Different state values - optional
+    const STATE_RECENT = 1;
     const STATE_JUST_ANNOUNCED = 2;
     const STATE_RECENT_AND_JUST_ANNOUNCED = 3;
 
-    // Mutually exclusive state values
+    // Mutually exclusive state values - expired
     const STATE_FINISHED = 110;
     const STATE_IN_PROGRESS = 120;
     const STATE_SELF_PACED = 130;
