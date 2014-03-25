@@ -175,6 +175,7 @@
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/enquire.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/classcentral.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/bootstrapFormHelpers/js/bootstrap-formhelpers.js'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.floatThead.min.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
 
@@ -239,12 +240,19 @@
             }
             $(document).ready(function() 
             {                 
-                $("#recentlist").tablesorter( {textExtraction: textExtractor}); 
+                $("#recentlist").tablesorter( {textExtraction: textExtractor});
                 $("#recentlyAddedlist").tablesorter( {textExtraction: textExtractor}); 
                 $("#ongoinglist").tablesorter( {textExtraction: textExtractor}); 
                 $("#upcominglist").tablesorter({textExtraction: textExtractor} );
                 $("#pastlist").tablesorter({textExtraction: textExtractor} ); 
                 $("#selfpacedlist").tablesorter({textExtraction: textExtractor} );
+
+                $("#recentlist").floatThead();
+                $("#recentlyAddedlist").floatThead();
+                $("#ongoinglist").floatThead();
+                $("#upcominglist").floatThead();
+                $("#pastlist").floatThead();
+                $("#selfpacedlist").floatThead();
             } 
             );
             $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
