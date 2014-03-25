@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -109,11 +110,63 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
 
 
         $fp = fopen("extras/courses.csv", "w");
+
+        // Add a title line to the CSV
+        $title = array(
+            'Course Id',
+            'Course Name',
+            'Provider',
+            'Universities/Institutions',
+            'Parent Subject',
+            'Child Subject',
+            'Url',
+            'Next Session Date'
+        );
+        fputcsv($fp,$title);
+
         foreach($courses as $course)
         {
+            if($course->getStatus() == CourseStatus::NOT_AVAILABLE)
+            {
+                continue;
+            }
+            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "" ;
+            $ins = array();
+            foreach($course->getInstitutions() as $institution)
+            {
+                $ins[] = $institution->getName();
+            }
+
+            $nextSession = $course->getNextOffering();
+            $date = "";
+            $url = $course->getUrl();
+            if($nextSession)
+            {
+                $url = $nextSession->getUrl();
+                $date = $nextSession->getDisplayDate();
+            }
+
+            $subject = $course->getStream();
+            if($subject->getParentStream())
+            {
+                $parent = $subject->getParentStream()->getName();
+                $subject = $subject->getName();
+            }
+            else
+            {
+                $parent = $subject->getName();
+                $subject = "";
+            }
+
             $line = array(
                 $course->getId(),
-                $course->getName()
+                $course->getName(),
+                $provider,
+                implode($ins,"|||"),
+                $parent,
+                $subject,
+                $url,
+                $date
             );
 
             fputcsv($fp,$line);
