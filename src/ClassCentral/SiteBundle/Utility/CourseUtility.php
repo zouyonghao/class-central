@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Utility;
 
 
+use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
 
 class CourseUtility {
@@ -78,5 +79,139 @@ class CourseUtility {
         $state += Offering::STATE_UPCOMING;
 
         return $state;
+    }
+
+    /**
+     * Calculates the next session for a course
+     * @param Course $course
+     * @return Offering
+     */
+    public static function getNextSession(Course $course)
+    {
+
+        $offerings = $course->getOfferings();
+
+        // Remove all the offerings that are not valid
+        $offerings->filter(
+            function($offering)
+            {
+                return $offering->getStatus() == Offering::COURSE_NA;
+            }
+        );
+
+        if( $offerings->isEmpty() )
+        {
+            return null;
+        }
+
+        // Categorize offerings into finished, ongoing, selfpaced, upcoming
+        // Initialize the state map
+        $offeringStateMap = array();
+        foreach(Offering::$stateMap as $key => $value)
+        {
+            $offeringStateMap[$key] = array();
+        }
+
+        // Build the state map;
+        foreach($offerings as $offering)
+        {
+            $states = self::getStates($offering->getState());
+            foreach($states as $state)
+            {
+                $offeringStateMap[$state][] = $offering;
+            }
+        }
+
+
+
+        // Now that the state map is build - traverse in the following order until the next session is found
+        // upcoming, self paced, ongoing, finished
+
+        // upcoming
+        if( !empty($offeringStateMap['upcoming']) )
+        {
+            if( count($offeringStateMap['upcoming']) == 1 )
+            {
+                return array_pop( $offeringStateMap['upcoming'] );
+            }
+
+            // Multiple sessions. Pick the next earliest upcoming session
+            $next = array_shift( $offeringStateMap['upcoming'] );
+
+            foreach( $offeringStateMap['upcoming'] as $uo)
+            {
+                if($uo->getStartDate() < $next->getStartDate() )
+                {
+                    $next = $uo;
+                }
+            }
+
+            return $next;
+        }
+
+        // selfpaced
+        if(!empty($offeringStateMap['selfpaced']))
+        {
+            return array_pop( $offeringStateMap['selfpaced'] );
+        }
+
+        // Ongoing
+        if(!empty($offeringStateMap['ongoing']))
+        {
+            return array_pop( $offeringStateMap['ongoing'] );
+        }
+
+        // finished
+        if( !empty($offeringStateMap['finished']) )
+        {
+            if( count($offeringStateMap['finished']) == 1 )
+            {
+                return array_pop( $offeringStateMap['finished'] );
+            }
+
+            // Multiple sessions. Pick the last finished session
+            $last = array_shift( $offeringStateMap['finished'] );
+
+            foreach( $offeringStateMap['finished'] as $uo)
+            {
+                if($uo->getStartDate() > $last->getStartDate() )
+                {
+                    $last = $uo;
+                }
+            }
+
+            return $last;
+        }
+
+        // Error: Should not come here
+        return null;
+    }
+
+
+    // Given a state returns an array of states.
+    // i.e recent, upcoming, ongoing etc
+    public static function getStates($state)
+    {
+        $stateMap = array_flip(Offering::$stateMap);
+
+        $states = array();
+        $unit = $state % 10;
+        if(array_key_exists($unit,$stateMap))
+        {
+            $states[] = $stateMap[$unit];
+        }
+
+        if(array_key_exists(Offering::STATE_RECENT_AND_JUST_ANNOUNCED,$stateMap))
+        {
+            $states[] = $stateMap[Offering::STATE_RECENT];
+            $states[] = $stateMap[Offering::STATE_JUST_ANNOUNCED];
+        }
+
+        if(array_key_exists($state - $unit,$stateMap))
+        {
+            $states[] = $stateMap[$state - $unit];
+        }
+
+        return $states;
     }
 } 

@@ -95,8 +95,8 @@ class Offering {
     private $state;
 
     // Different state values - optional
-    const STATE_RECENT = 1;
-    const STATE_JUST_ANNOUNCED = 2;
+    const STATE_JUST_ANNOUNCED = 1;
+    const STATE_RECENT = 2;
     const STATE_RECENT_AND_JUST_ANNOUNCED = 3;
 
     // Mutually exclusive state values - expired
@@ -116,6 +116,15 @@ class Offering {
         'past' => array('desc' => 'Finished', 'nav'=>'Finished courses', 'sessionDesc' =>'Finished')
     );
 
+    public static $stateMap = array(
+        'recent' => self::STATE_RECENT,
+        'recentlyAdded' => self::STATE_JUST_ANNOUNCED,
+        'finished' => self::STATE_FINISHED,
+        'ongoing' => self::STATE_IN_PROGRESS,
+        'selfpaced' => self::STATE_SELF_PACED,
+        'upcoming' => self::STATE_UPCOMING
+    );
+
     public function __construct() {
         $this->instructors = new ArrayCollection();
         $this->setCreated(new \DateTime());
@@ -130,7 +139,7 @@ class Offering {
         return $this->id;
     }
 
-    public function setId( $id ) {
+    public function setId($id) {
         $this->id = $id;
     }
 
