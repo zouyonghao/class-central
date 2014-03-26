@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -31,6 +32,11 @@ class UpdateCourseStateCommand extends ContainerAwareCommand {
         $output->writeln("Updating the state for all offerings");
         $this->updateStates();
         $output->writeln("");
+
+        // Update the Next session for all courses
+        $output->writeln("Updating the next sessions for all courses");
+        $coursesUpdated = $this->updateNextSession();
+        $output->writeln("$coursesUpdated courses updated");
     }
 
     /**
@@ -68,5 +74,38 @@ class UpdateCourseStateCommand extends ContainerAwareCommand {
 
         // Print out the statistics
         print_r($updatedCount);
+    }
+
+    private function updateNextSession()
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
+        $cnt = 0;
+        foreach($courses as $course)
+        {
+            // Skip courses that are not available
+            if( $course->getStatus() == CourseStatus::NOT_AVAILABLE)
+            {
+                continue;
+            }
+
+            $cns = $course->getNextSession(); // Current next session
+            $ns = CourseUtility::getNextSession($course); // next session
+            if($ns != null)
+            {
+                // Update the next session
+                if($cns != null && $cns->getId() == $ns->getId())
+                {
+                    // nothing changed
+                    continue;
+                }
+                $course->setNextSession($ns);
+                $em->persist($course);
+                $cnt++;
+            }
+        }
+        $em->flush();
+
+        return $cnt;
     }
 } 
