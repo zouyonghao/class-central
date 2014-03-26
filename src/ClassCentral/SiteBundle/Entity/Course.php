@@ -14,6 +14,7 @@ class Course {
         $this->offerings = new ArrayCollection();   
         $this->institutions = new ArrayCollection();
         $this->instructors = new ArrayCollection();
+        $this->tags = new ArrayCollection();
         $this->setCreated(new \DateTime());
         $this->setStatus(CourseStatus::TO_BE_REVIEWED);
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
@@ -128,6 +129,11 @@ class Course {
      * @var \Doctrine\Common\Collections\Collection
      */
     private $reviews;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tags;
 
 
     /**
@@ -458,6 +464,39 @@ class Course {
         return $this->reviews;
     }
 
+    /**
+     * Add tags
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Tag $tags
+     * @return Course
+     */
+    public function addTag(\ClassCentral\SiteBundle\Entity\Tag $tags)
+    {
+        $this->tags[] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Tag $tags
+     */
+    public function removeTag(\ClassCentral\SiteBundle\Entity\Tag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
 }
 
 /**
@@ -486,4 +525,5 @@ abstract class CourseStatus
             self::TO_BE_REVIEWED => 'To Be Reviewed'
         );
     }
+
 }

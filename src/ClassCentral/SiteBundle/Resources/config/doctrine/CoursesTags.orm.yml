@@ -1,0 +1,32 @@
+ClassCentral\SiteBundle\Entity\CoursesTags:
+    type: entity
+    table: courses_tags
+    fields:
+        coursesTags:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            column: courses_tags
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        course:
+            targetEntity: Courses
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                course_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        tag:
+            targetEntity: Tags
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                tag_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
