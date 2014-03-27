@@ -115,6 +115,9 @@ services:
   review:
         class: ClassCentral\SiteBundle\Services\Review
         arguments: ['@service_container']
+  tag:
+        class: ClassCentral\SiteBundle\Services\Tag
+        arguments: ['@service_container']
   session.memcached:
     class: Memcached
     arguments:

@@ -1,6 +1,6 @@
 ClassCentral\SiteBundle\Entity\Tag:
     type: entity
-    table: tag
+    table: tags
     fields:
         id:
             id: true

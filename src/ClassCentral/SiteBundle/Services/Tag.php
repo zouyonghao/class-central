@@ -1,0 +1,109 @@
+<?php
+
+namespace ClassCentral\SiteBundle\Services;
+
+use ClassCentral\SiteBundle\Entity\Course;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class Tag {
+
+    private $container;
+    private $cache;
+    private $em;
+
+    const ALL_TAGS_CACHE_KEY = 'all_tags_array';
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+        $this->cache = $container->get('cache');
+        $this->em = $container->get('doctrine')->getManager();
+    }
+
+    /**
+     * Returns an array of all tags from the cache or database
+     */
+    public function getAllTags()
+    {
+       return $this->cache->get(
+           self::ALL_TAGS_CACHE_KEY,
+           array($this,'getAllTagsFromDatabase')
+       );
+    }
+
+    public  function getAllTagsFromDatabase()
+    {
+        $tags  = array();
+        $tagEntities = $this->em->getRepository('ClassCentralSiteBundle:Tag')->findAll();
+
+        foreach($tagEntities as $tag)
+        {
+            $tags[] = $tag->getName();
+        }
+
+        return $tags;
+    }
+
+    /**
+     * Saves the course
+     * @param Course $c
+     * @param array $tags
+     */
+    public function saveCourseTags(Course $c, array $tags)
+    {
+        $newTag = false;
+        $tagsToBeRemoved = array();
+        // Get existing tags for this course
+        $ct = array();
+        foreach($c->getTags() as $cTag)
+        {
+            $tName = $cTag->getName();
+            $ct[] = $tName;
+
+            if(!in_array($tName, $tags))
+            {
+                $tagsToBeRemoved[]= $cTag;
+            }
+        }
+
+        foreach($tagsToBeRemoved as $tr)
+        {
+            $c->removeTag($tr);
+        }
+
+        // Create new tags if necessary
+        foreach($tags as $tag)
+        {
+            if(in_array($tag,$ct))
+            {
+                // nothing to do here
+                continue;
+            }
+
+            // Check if the tag exists
+            $t = $this->em->getRepository('ClassCentralSiteBundle:Tag')->findOneBy( array('name'=> $tag) );
+            if(!$t)
+            {
+                $newTag = true;
+
+                $t = new \ClassCentral\SiteBundle\Entity\Tag();
+                $t->setName($tag);
+                $this->em->persist($t);
+            }
+
+            $c->addTag($t);
+        }
+
+
+        $this->em->persist($c);
+        $this->em->flush();
+
+        // Flush the tag cache if a new tag was created
+        if($newTag)
+        {
+            $this->cache->deleteCache(self::ALL_TAGS_CACHE_KEY);
+        }
+    }
+
+
+} 
