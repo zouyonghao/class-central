@@ -481,7 +481,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 /*==========  Category filter styles  ==========*/
 
 #filter-wrap {
-    overflow: hidden;
+    overflow: inherit;
 }
 
 .category-filter {
