@@ -30,7 +30,7 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $indexer = new Indexer();
+        $indexer = $this->getContainer()->get('es_indexer');
         $indexer->setContainer($this->getContainer());
 
         $courses = $this->getContainer()->get('doctrine')->getManager()

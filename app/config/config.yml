@@ -118,6 +118,11 @@ services:
   tag:
         class: ClassCentral\SiteBundle\Services\Tag
         arguments: ['@service_container']
+  # elastic serach indexer
+  es_indexer:
+        class: ClassCentral\ElasticSearchBundle\Indexer
+        calls:
+          - [setContainer, ['@service_container'] ]
   session.memcached:
     class: Memcached
     arguments:
