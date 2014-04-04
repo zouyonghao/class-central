@@ -78,6 +78,8 @@ services:
     calls:
       - [SetArrayResult,[true]]
       - [SetLimits, [0,500,1000]]
+  es_client:
+      class: Elasticsearch\Client
   dom_parser:
     class: SimplehtmldomClient
   doctrine_cache:

@@ -98,6 +98,20 @@ class CourseDocumentType extends DocumentType {
             $body['nextSession'] = $nsDoc->getBody();
         }
 
+        // Subject
+        $subjects = array();
+        $sub = $c->getStream();
+        if($sub->getParentStream())
+        {
+            // Add the parent stream first
+            $psDoc = new SubjectDocumentType($sub->getParentStream(), $this->container);
+            $subjects[] = $psDoc->getBody();
+        }
+        $sDoc = new SubjectDocumentType($sub, $this->container);
+        $subjects[] = $sDoc->getBody();
+        $body['subjects'] = $subjects;
+
+
         // Sessions. Add sessions to the records
         $sessions = array();
         $body['sessions'] = array();

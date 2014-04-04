@@ -59,3 +59,6 @@ parameters:
 
     #clicky
     clicky_site_id: ~
+
+    #elastic search
+    es_index_name: ~

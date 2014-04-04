@@ -32,6 +32,16 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
     {
         $indexer = $this->getContainer()->get('es_indexer');
         $indexer->setContainer($this->getContainer());
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
+
+        $subjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+        foreach($subjects as $subject)
+        {
+            $indexer->index($subject);
+        }
+
+        return;
 
         $courses = $this->getContainer()->get('doctrine')->getManager()
                     ->getRepository('ClassCentralSiteBundle:Course')->findAll();
@@ -40,5 +50,7 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         {
             $indexer->index($course);
         }
+
+
     }
 } 

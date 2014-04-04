@@ -53,6 +53,7 @@ class SessionDocumentType extends DocumentType{
         $b['url'] = $o->getUrl();
         $b['displayDate'] = $o->getDisplayDate();
         $b['startDate'] = $o->getStartDate()->format('d-m-Y');
+        $b['startTimeStamp'] = $o->getStartTimestamp();
         $b['microdataDate'] = $o->getMicrodataDate();
         $b['status'] = $o->getStatus();
         $b['courseId'] = $o->getCourse()->getId();

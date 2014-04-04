@@ -64,6 +64,37 @@ class Filter {
         return $allSubjects;
     }
 
+    public function getCourseSubjects( $subjectIds = array())
+    {
+        $cache = $this->container->get('cache');
+        // Get the entire subject tree
+        $allSubjects = $cache->get('allSubjects', array($this,'getSubjectsTree'));
+
+        // Filter out the subjects that are not mentioned in these offerings
+        foreach($allSubjects as $parent)
+        {
+            $hasChild = false;
+            foreach($parent['children'] as $child)
+            {
+                if(!in_array($child['id'],$subjectIds))
+                {
+                    unset($allSubjects[$parent['slug']]['children'][$child['slug']]);
+                }
+                else
+                {
+                    $hasChild = true;
+                }
+            }
+
+            if(!$hasChild && !in_array($parent['id'],$subjectIds))
+            {
+                unset($allSubjects[$parent['slug']]);
+            }
+        }
+
+        return $allSubjects;
+    }
+
     /**
      * Builds a subject tree
      * @return array
@@ -135,6 +166,24 @@ class Filter {
 
         return $allLanguages;
     }
+
+    public function getCourseLanguages($languageIds = array())
+    {
+        $cache = $this->container->get('cache');
+
+        // Get language info
+        $allLanguages = $cache->get('allLanguages', array($this,'getLanguages'));
+        foreach($allLanguages as $lang)
+        {
+            $name = $lang['name'];
+            if( !in_array($lang['id'],$languageIds) )
+            {
+                unset($allLanguages[$name]);
+            }
+        }
+
+        return $allLanguages;
+    }
     public function getLanguages()
     {
         $em = $this->container->get('Doctrine')->getManager();
@@ -143,7 +192,8 @@ class Filter {
         foreach($em->getRepository('ClassCentralSiteBundle:Language')->findAll() as $lang)
         {
             $languages[$lang->getName()] = array(
-                'name' => $lang->getName()
+                'name' => $lang->getName(),
+                'id' => $lang->getId()
             );
         }
 

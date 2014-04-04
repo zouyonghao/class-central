@@ -10,8 +10,10 @@ namespace ClassCentral\ElasticSearchBundle;
 
 
 use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\SubjectDocumentType;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Institution;
+use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Swiftype\DocumentType\InstitutionDocumentType;
 use Elasticsearch\Client;
 
@@ -56,6 +58,14 @@ class Indexer {
         {
             $iDoc = new InstitutionDocumentType($entity, $this->container);
             $doc = $iDoc->getDocument($this->indexName);
+
+            $this->esClient->index($doc);
+        }
+
+        if($entity instanceof Stream)
+        {
+            $sDoc = new SubjectDocumentType($entity, $this->container);
+            $doc = $sDoc->getDocument($this->indexName);
 
             $this->esClient->index($doc);
         }

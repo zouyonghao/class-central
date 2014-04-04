@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Initiative;
@@ -183,5 +184,69 @@ class InitiativeController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+
+    /**
+     * Display the provider page
+     * @param $slug
+     */
+    public function providerAction($slug)
+    {
+        $cache = $this->get('cache');
+        $filter =$this->get('filter');
+        $es = $this->get('es_client'); // elastic search
+        $indexName = $this->container->getParameter('es_index_name');
+
+        $params['index'] = $indexName;
+        $params['type'] = 'course';
+        $params['body']['size'] = 1000;
+
+        $query = array(
+            'match' => array(
+                'provider.code' => $slug,
+            )
+        );
+
+
+        $facets = array(
+            "subjects" => array(
+                'terms' => array(
+                    'field' => 'subjects.id',
+                    'size' => 40
+                )
+            ),
+            "language" => array(
+                'terms' => array(
+                    'field' => 'language.id',
+                    'size' => 40
+                )
+            )
+        );
+
+        $params['body']['query'] = $query;
+        $params['body']['facets'] = $facets;
+
+        $results = $es->search($params);
+        $subjectIds = array();
+        foreach($results['facets']['subjects']['terms'] as $term)
+        {
+            $subjectIds[] = $term['term'];
+        }
+        $allSubjects = $filter->getCourseSubjects($subjectIds);
+
+        $languageIds = array();
+        foreach($results['facets']['language']['terms'] as $term)
+        {
+            $languageIds[] = $term['term'];
+        }
+        $allLanguages = $filter->getCourseLanguages($languageIds);
+
+        return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
+            'results' => $results,
+            'listTypes' => UserCourse::$lists,
+            'allSubjects' => $allSubjects,
+            'allLanguages' => $allLanguages
+        ));
     }
 }
