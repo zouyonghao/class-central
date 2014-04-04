@@ -115,7 +115,7 @@ class CourseUtility {
         // Build the state map;
         foreach($offerings as $offering)
         {
-            $states = self::getStates($offering->getState());
+            $states = self::getStates($offering);
             foreach($states as $state)
             {
                 $offeringStateMap[$state][] = $offering;
@@ -182,7 +182,6 @@ class CourseUtility {
 
             return $last;
         }
-
         // Error: Should not come here
         return null;
     }
@@ -190,8 +189,10 @@ class CourseUtility {
 
     // Given a state returns an array of states.
     // i.e recent, upcoming, ongoing etc
-    public static function getStates($state)
+    public static function getStates(Offering $offering)
     {
+        $state = CourseUtility::calculateState($offering);
+
         $stateMap = array_flip(Offering::$stateMap);
 
         $states = array();

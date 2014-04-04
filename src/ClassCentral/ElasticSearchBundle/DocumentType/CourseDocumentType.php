@@ -10,6 +10,10 @@ namespace ClassCentral\ElasticSearchBundle\DocumentType;
 
 
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
+use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Utility\CourseUtility;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 
 class CourseDocumentType extends DocumentType {
     /**
@@ -42,6 +46,7 @@ class CourseDocumentType extends DocumentType {
     public function getBody()
     {
         $indexer = $this->container->get('es_indexer');
+        $rs = $this->container->get('review');
         $body = array();
         $c = $this->entity ; // Alias for entity
 
@@ -63,9 +68,9 @@ class CourseDocumentType extends DocumentType {
         $lang = $c->getLanguage();
         if($lang)
         {
-            $course['language']['name'] = $lang->getName();
-            $course['language']['id'] = $lang->getId();
-            $course['language']['slug'] = $lang->getSlug();
+            $body['language']['name'] = $lang->getName();
+            $body['language']['id'] = $lang->getId();
+            $body['language']['slug'] = $lang->getSlug();
         }
 
         // Institutions
@@ -76,7 +81,6 @@ class CourseDocumentType extends DocumentType {
             $body['institutions'][] = $iDoc->getBody();
         }
 
-
         // Provider
         $body['provider'] = array();
         if($c->getInitiative())
@@ -84,6 +88,35 @@ class CourseDocumentType extends DocumentType {
             $pDoc = new ProviderDocumentType($c->getInitiative(), $this->container);
             $body['provider'] = $pDoc->getBody();
         }
+
+        // Get the next session
+        $body['nextSession'] = array();
+        $ns = CourseUtility::getNextSession($c);
+        if($ns)
+        {
+            $nsDoc = new SessionDocumentType($ns,$this->container);
+            $body['nextSession'] = $nsDoc->getBody();
+        }
+
+        // Sessions. Add sessions to the records
+        $sessions = array();
+        $body['sessions'] = array();
+        foreach( $c->getOfferings() as $session )
+        {
+            // Ignore invalid session
+            if($session->getStatus()  == Offering::COURSE_NA)
+            {
+                continue;
+            }
+
+            $sDoc = new SessionDocumentType($session, $this->container);
+            $sessions[] = $sDoc->getBody();
+        }
+        $body['sessions'] = $sessions;
+
+        $body['rating'] = $rs->calculateRatings($c->getId());
+        $rArray = $rs->getReviewsArray($c->getId());
+        $body['reviewsCount'] = $rArray['count'];
 
 
         return $body;
