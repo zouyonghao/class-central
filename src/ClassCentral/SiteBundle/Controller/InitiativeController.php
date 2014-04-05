@@ -208,7 +208,14 @@ class InitiativeController extends Controller
             )
         );
 
-
+        $sort = array(
+            "nextSession.state" => array(
+                "order" => "desc"
+            ),
+            "nextSession.startDate" => array(
+                "order" => "asc"
+            )
+        );
         $facets = array(
             "subjects" => array(
                 'terms' => array(
@@ -224,6 +231,7 @@ class InitiativeController extends Controller
             )
         );
 
+        $params['body']['sort'] = $sort;
         $params['body']['query'] = $query;
         $params['body']['facets'] = $facets;
 

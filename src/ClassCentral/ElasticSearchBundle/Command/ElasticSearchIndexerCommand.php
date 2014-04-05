@@ -41,8 +41,6 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
             $indexer->index($subject);
         }
 
-        return;
-
         $courses = $this->getContainer()->get('doctrine')->getManager()
                     ->getRepository('ClassCentralSiteBundle:Course')->findAll();
 

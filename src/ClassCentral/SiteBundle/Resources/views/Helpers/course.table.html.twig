@@ -15,8 +15,9 @@
     </tr>
     </thead>
     <tbody class="table-body-{{ tableId }}">
-    {% for result in results.hits.hits %}
+    {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
+
         <tr itemscope itemtype="http://schema.org/Event">
             {#
             <td class="introcolumn" style="padding: 5px 0px 0px 5px">

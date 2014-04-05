@@ -52,7 +52,7 @@ class SessionDocumentType extends DocumentType{
         $b['id'] = $o->getId();
         $b['url'] = $o->getUrl();
         $b['displayDate'] = $o->getDisplayDate();
-        $b['startDate'] = $o->getStartDate()->format('d-m-Y');
+        $b['startDate'] = $o->getStartDate()->format('Y/m/d');
         $b['startTimeStamp'] = $o->getStartTimestamp();
         $b['microdataDate'] = $o->getMicrodataDate();
         $b['status'] = $o->getStatus();
@@ -61,6 +61,7 @@ class SessionDocumentType extends DocumentType{
 
         // get the state
         $b['states'] = CourseUtility::getStates($o);
+        $b['state'] = CourseUtility::calculateState($o);
 
         return $b;
     }
@@ -73,5 +74,4 @@ class SessionDocumentType extends DocumentType{
     {
         // TODO: Implement getMapping() method.
     }
-
 } 
