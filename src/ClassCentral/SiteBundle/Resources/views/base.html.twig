@@ -270,14 +270,49 @@
                 var addthis_config = addthis_config||{};
                 addthis_config.data_track_clickback = false;
                 addthis_config.data_track_addressbar = false;
-            addthis.layers({
-                'theme' : 'transparent',
-                'share' : {
-                    'position' : 'left',
-                    'numPreferredServices' : 5,
-                    'services': 'facebook, twitter,google_plusone_share, email,more'
-                }
-            });
+
+                {# match #}
+                enquire.register("screen and (min-width:1440px)", {
+                    match : function() {
+                        addthis.layers({
+                            'theme' : 'transparent',
+                            'share' : {
+                                'position' : 'left',
+                                'numPreferredServices' : 5,
+                                'services': 'facebook, twitter,google_plusone_share, email,more'
+                            },
+                            'follow' : {
+                                'services' : [
+                                    {'service': 'facebook', 'id': 'classcentral'},
+                                    {'service': 'twitter', 'id': 'classcentral'},
+                                    {'service': 'google_follow', 'id': '+ClassCentral'}
+                                ],
+                                'offset' : {
+                                    'top' : '0px'
+                                }
+                            }
+                        });
+                    }
+                });
+
+                enquire.register("screen and (max-width:1440px)", {
+                    match : function() {
+                        addthis.layers({
+                            'theme' : 'transparent',
+                            'follow' : {
+                                'services' : [
+                                    {'service': 'facebook', 'id': 'classcentral'},
+                                    {'service': 'twitter', 'id': 'classcentral'},
+                                    {'service': 'google_follow', 'id': '+ClassCentral'}
+                                ],
+                                'offset' : {
+                                    'top' : '125px'
+                                }
+                            }
+                        });
+                    }
+                });
+
         </script>
         <!-- AddThis Smart Layers END -->
 
