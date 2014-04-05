@@ -46,6 +46,7 @@ class CourseDocumentType extends DocumentType {
     public function getBody()
     {
         $indexer = $this->container->get('es_indexer');
+        $em = $this->container->get('doctrine')->getManager();
         $rs = $this->container->get('review');
         $body = array();
         $c = $this->entity ; // Alias for entity
@@ -71,6 +72,14 @@ class CourseDocumentType extends DocumentType {
             $body['language']['name'] = $lang->getName();
             $body['language']['id'] = $lang->getId();
             $body['language']['slug'] = $lang->getSlug();
+        }
+        else
+        {
+            // Set the default to english
+            $l = $em->getRepository('ClassCentralSiteBundle:Language')->findOneBy( array('slug'=> 'english' ) );
+            $body['language']['name'] = $l->getName();
+            $body['language']['id'] = $l->getId();
+            $body['language']['slug'] = $l->getSlug();
         }
 
         // Institutions
