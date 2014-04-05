@@ -42,6 +42,7 @@ class ProviderDocumentType extends DocumentType
         $b['imageUrl'] = $p->getImageUrl();
         $b['code'] = $p->getCode();
         $b['description'] = $p->getDescription();
+        $b['tooltip'] = $p->getTooltip();
 
         return $b;
     }

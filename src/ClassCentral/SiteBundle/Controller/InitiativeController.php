@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Initiative;
@@ -198,9 +199,15 @@ class InitiativeController extends Controller
         $es = $this->get('es_client'); // elastic search
         $indexName = $this->container->getParameter('es_index_name');
 
+        // Get the provider
+        $provider = $this->getDoctrine()->getManager()
+                    ->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code'=>$slug ) );
+        $pageInfo =  PageHeaderFactory::get($provider);
+
         $params['index'] = $indexName;
         $params['type'] = 'course';
         $params['body']['size'] = 1000;
+
 
         $query = array(
             'match' => array(
@@ -250,11 +257,15 @@ class InitiativeController extends Controller
         }
         $allLanguages = $filter->getCourseLanguages($languageIds);
 
+
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
             'results' => $results,
             'listTypes' => UserCourse::$lists,
             'allSubjects' => $allSubjects,
-            'allLanguages' => $allLanguages
+            'allLanguages' => $allLanguages,
+            'page' => 'initiative',
+            'provider' => $provider,
+            'pageInfo' => $pageInfo
         ));
     }
 }
