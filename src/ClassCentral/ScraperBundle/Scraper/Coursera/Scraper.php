@@ -15,6 +15,7 @@ class Scraper extends ScraperAbstractInterface {
 
     protected static $languageMap = array(
         'en' => "English",
+        'en,pt' => "English",
         'fr' => "French",
         "de" => "German",
         "es" => "Spanish",
@@ -25,7 +26,8 @@ class Scraper extends ScraperAbstractInterface {
         "zh-tw" => "Chinese",
         "ar" => "Arabic",
         "ru" => "Russian",
-        "tr" => "Turkish"
+        "tr" => "Turkish",
+        "he" => "Herbrew"
     );
 
     private $courseFields = array(
@@ -125,6 +127,7 @@ class Scraper extends ScraperAbstractInterface {
             }
             else
             {
+                
                 // Check if any fields are modified
                 $courseModified = false;
                 $changedFields = array(); // To keep track of fields that have changed
