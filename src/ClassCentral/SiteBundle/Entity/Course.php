@@ -135,6 +135,7 @@ class Course {
      */
     private $tags;
 
+    /*
      * Stores the next session for a course. This is the one
      * that is displayed in the course tables
      * @var \ClassCentral\SiteBundle\Entity\Offering
@@ -507,6 +508,8 @@ class Course {
     {
         $this->tags[] = $tags;
 
+        return $this;
+    }
 
     /**
      * Set nextSession
@@ -517,8 +520,6 @@ class Course {
     public function setNextSession(\ClassCentral\SiteBundle\Entity\Offering $nextSession = null)
     {
         $this->nextSession = $nextSession;
-
-        return $this;
     }
 
     /**
