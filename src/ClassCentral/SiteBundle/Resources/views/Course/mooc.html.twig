@@ -133,7 +133,8 @@
                                 {% endif %}
                                 <option content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
                                         data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
-                                >
+                                        {% if course.nextOffering.id == offering.id %} selected="selected" {% endif %}
+                                 >
                                   {{ offering['displayDate'] }}
                                 </option>
                             {% endfor %}

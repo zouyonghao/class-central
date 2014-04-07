@@ -405,7 +405,7 @@ class Course {
             // Create a offering
             $offering = new Offering();
             $offering->setCourse($this);
-            //$offering->setId(-1);
+            $offering->setId(-1);
             $offering->setUrl($this->getUrl());
             $dt = new \DateTime();
             $dt->add(new \DateInterval("P1Y"));
@@ -416,13 +416,35 @@ class Course {
         }
 
         $nextOffering = $offerings->first();
+        $now = new \DateTime();
+        $upcoming = array();
         foreach($offerings as $offering)
         {
+            if($offering->getStartDate() > $now)
+            {
+                $upcoming[] = $offering;
+            }
+
             if($offering->getStartDate() > $nextOffering->getStartDate())
             {
                 $nextOffering = $offering;
             }
         }
+
+        if( count($upcoming) > 1 )
+        {
+            // Multiple upcoming. Pick the earliest one
+            $nextOffering = array_pop($upcoming);
+            foreach($upcoming as $offering)
+            {
+                if($offering->getStartDate() < $nextOffering->getStartDate())
+                {
+                    $nextOffering = $offering;
+                }
+            }
+        }
+
+
 
         return $nextOffering;
     }

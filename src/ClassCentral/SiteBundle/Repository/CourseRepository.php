@@ -29,6 +29,7 @@ class CourseRepository extends EntityRepository{
         $nextOffering = $course->getNextOffering();
         if($nextOffering) {
             $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
+            $courseDetails['nextOffering']['id'] = $nextOffering->getId();
         }
 
 
