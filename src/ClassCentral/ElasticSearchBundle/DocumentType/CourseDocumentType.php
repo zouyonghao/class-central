@@ -11,6 +11,7 @@ namespace ClassCentral\ElasticSearchBundle\DocumentType;
 
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
@@ -94,9 +95,17 @@ class CourseDocumentType extends DocumentType {
         $body['provider'] = array();
         if($c->getInitiative())
         {
-            $pDoc = new ProviderDocumentType($c->getInitiative(), $this->container);
-            $body['provider'] = $pDoc->getBody();
+           $provider = $c->getInitiative();
         }
+        else
+        {
+            // create an independent provider
+            $provider = new Initiative();
+            $provider->setName('Independent');
+            $provider->setCode('independent');
+        }
+        $pDoc = new ProviderDocumentType($provider, $this->container);
+        $body['provider'] = $pDoc->getBody();
 
         // Get the next session
         $body['nextSession'] = array();

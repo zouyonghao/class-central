@@ -52,7 +52,11 @@ class Courses {
      */
     public function findByLanguage( $slug )
     {
+        $matchCriteria = array(
+            'language.slug' => $slug
+        );
 
+        return $this->findCourses($matchCriteria);
     }
 
     /**
