@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Form\InitiativeType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Initiative controller.
@@ -192,12 +193,12 @@ class InitiativeController extends Controller
      * Display the provider page
      * @param $slug
      */
-    public function providerAction($slug)
+    public function providerAction(Request $request, $type)
     {
         $cache = $this->get('cache');
 
         $data = $cache->get(
-            'provider_' . $slug,
+            'provider_' . $type,
              function ( $slug, $container ) {
                  $esCourses = $this->get('es_courses');
                  $filter =$this->get('filter');
@@ -221,7 +222,7 @@ class InitiativeController extends Controller
                      'allLanguages' => $allLanguages
                  );
              },
-            array( $slug, $this->container)
+            array( $type, $this->container)
         );
 
         if( empty($data) )

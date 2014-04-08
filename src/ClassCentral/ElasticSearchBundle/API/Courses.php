@@ -66,7 +66,23 @@ class Courses {
      */
     public function findByTime ( $status )
     {
+        $matchCriteria = array(
+            'nextSession.states' => $status
+        );
 
+        return $this->findCourses($matchCriteria);
+    }
+
+    /**
+     * @param $status
+     */
+    public function findBySubject( $id )
+    {
+        $matchCriteria = array(
+            'subjects.id' => $id
+        );
+
+        return $this->findCourses($matchCriteria);
     }
 
     private function findCourses ( $matchCriteria )

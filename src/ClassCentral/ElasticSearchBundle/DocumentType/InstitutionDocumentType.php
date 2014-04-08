@@ -41,7 +41,7 @@ class InstitutionDocumentType extends DocumentType{
         $b['id'] = $i->getId();
         $b['name'] = $i->getName();
         $b['url'] = $i->getUrl();
-        $b['slug'] = $i->getSlug();
+        $b['slug'] = strtolower($i->getSlug());
         $b['isUniversity'] = $i->getIsUniversity();
         $b['description'] = $i->getDescription();
         $b['imageUrl'] = $i->getImageUrl();

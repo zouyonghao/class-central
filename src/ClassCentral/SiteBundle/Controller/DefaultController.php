@@ -29,25 +29,44 @@ class DefaultController extends Controller {
             // TODO: render an error page
             return false;
         }
-        $cache = $this->get('Cache');
-        $filterService = $this->get('Filter');
 
-        $offerings = $cache->get('default_courses_offerings_' . $type,
-                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));
+        $cache = $this->get('cache');
 
-        $shownOfferings = array($type => $offerings[$type]); // All offerings are retriviewed but only one type is shown
-        $subjects = $cache->get('default_courses_offerings_subjects_' . $type,array($filterService, 'getOfferingSubjects'), array($shownOfferings));
-        $lang = $cache->get('default_courses_offerings_languages_' . $type, array($filterService,'getOfferingLanguages'),array($shownOfferings));
+
+        $data = $cache->get(
+            'course_status_' . $type,
+            function($type, $container) {
+                $esCourses = $this->get('es_courses');
+                $filter =$this->get('filter');
+
+                $response = $esCourses->findByTime($type);
+                $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
+                $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+
+                return array(
+                    'response' => $response,
+                    'allSubjects' => $allSubjects,
+                    'allLanguages' => $allLanguages
+                );
+            },
+            array($type, $this->container)
+        );
+
+        if( empty($data) )
+        {
+            // Show an error message
+            return;
+        }
 
         return $this->render('ClassCentralSiteBundle:Default:courses.html.twig', 
                 array(
                     'offeringType' => $type,
-                    'offerings' => $offerings,
                     'page'=>'courses',
-                    'offeringTypes'=> Offering::$types,
-                    'offSubjects' => $subjects,
-                    'offLanguages' => $lang,
-                    'listTypes' => UserCourse::$lists
+                    'results' => $data['response']['results'],
+                    'listTypes' => UserCourse::$lists,
+                    'allSubjects' => $data['allSubjects'],
+                    'allLanguages' => $data['allLanguages'],
+                     'offeringTypes' => Offering::$types
                 ));
     }
 

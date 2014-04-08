@@ -24,11 +24,7 @@ ClassCentralSiteBundle_initiative_novoed:
           type: novoed
 
 ClassCentralSiteBundle_initiative:
-    pattern:  /provider/{type}
-    defaults: { _controller: ClassCentralSiteBundle:Default:initiative }
-
-provider:
-  pattern: /provider_new/{slug}
+  pattern: /provider/{type}
   defaults: { _controller: ClassCentralSiteBundle:Initiative:provider }
 
 ClassCentralSiteBundle_initiative_redirect:

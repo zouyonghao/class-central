@@ -192,51 +192,82 @@ class StreamController extends Controller
     
     public function viewAction($slug) 
     {
-          $em = $this->getDoctrine()->getManager();
-          $stream = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBySlug($slug);
-          
-          if(!$stream)
-          {
-              // TODO: Show an error page
-              return;
-          }
-          
-        $cache = $this->get('Cache');
-        $filterService = $this->get('Filter');
-        $offerings = $cache->get('stream_offerings_' . $slug, array($this, 'getOfferingsByStream'), array($stream));
-        // TODO: All languages and offerings should be in sync
-        $lang = $cache->get('stream_languages_' . $slug, array($filterService,'getOfferingLanguages'),array($offerings));
 
-        $pageInfo = PageHeaderFactory::get($stream);
-        $pageInfo->setPageUrl(
-            $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_stream', array('slug' => $slug))
+        $cache = $this->get('cache');
+
+        $data = $cache->get(
+            'subject_' . $slug,
+            function($slug, $container) {
+                $esCourses = $this->get('es_courses');
+                $filter =$this->get('filter');
+                $em = $container->get('doctrine')->getManager();
+
+                $subject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBySlug($slug);
+
+                if(!$subject)
+                {
+                    // TODO: Show an error page
+                    return;
+                }
+
+
+                $pageInfo =  PageHeaderFactory::get($subject);
+                $pageInfo->setPageUrl(
+                    $container->getParameter('baseurl'). $container->get('router')->generate('ClassCentralSiteBundle_stream', array('slug' => $slug))
+                );
+
+                $response = $esCourses->findBySubject($subject->getId());
+                $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
+                $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+
+                $breadcrumbs = array(
+                    Breadcrumb::getBreadCrumb('Subjects', $container->get('router')->generate('subjects')),
+                );
+
+                // Add parent stream to the breadcrumb if it exists
+                if($subject->getParentStream())
+                {
+                    $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                        $subject->getParentStream()->getName(),
+                        $container->get('router')->generate('ClassCentralSiteBundle_stream', array( 'slug' => $subject->getParentStream()->getSlug()))
+                    );
+                }
+
+                $breadcrumbs[] = Breadcrumb::getBreadCrumb($subject->getName());
+
+                return array(
+                    'response' => $response,
+                    'subject' => array(
+                        'name' => $subject->getName(),
+                         'id' => $subject->getId()
+                    ),
+                    'pageInfo' => $pageInfo,
+                    'allSubjects' => $allSubjects,
+                    'allLanguages' => $allLanguages,
+                    'breadcrumbs' => $breadcrumbs
+                );
+            },
+            array($slug, $this->container)
         );
 
-        $breadcrumbs = array(
-            Breadcrumb::getBreadCrumb('Subjects', $this->generateUrl('subjects')),
-        );
-
-        // Add parent stream to the breadcrumb if it exists
-        if($stream->getParentStream())
+        if( empty($data) )
         {
-            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
-                $stream->getParentStream()->getName(),
-                $this->generateUrl('ClassCentralSiteBundle_stream', array( 'slug' => $stream->getParentStream()->getSlug()))
-            );
+            // Show an error message
+            return;
         }
 
-        $breadcrumbs[] = Breadcrumb::getBreadCrumb($stream->getName());
 
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
-                'stream' => $stream->getName(),
-                'offerings' => $offerings,
-                'page' => 'stream',
+                'subject' => $data['subject'],
+                'page' => 'subject',
                 'slug' => $slug,
                 'offeringTypes' => Offering::$types,
-                'pageInfo' => $pageInfo,
-                'offLanguages' => $lang,
+                'results' => $data['response']['results'],
                 'listTypes' => UserCourse::$lists,
-                'breadcrumbs' => $breadcrumbs
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'pageInfo' => $data['pageInfo'],
+                'breadcrumbs' => $data['breadcrumbs']
             ));
     }
 
