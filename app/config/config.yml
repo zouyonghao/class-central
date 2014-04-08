@@ -80,6 +80,9 @@ services:
       - [SetLimits, [0,500,1000]]
   es_client:
       class: Elasticsearch\Client
+  es_courses:
+      class: ClassCentral\ElasticSearchBundle\API\Courses
+      arguments: [ '@es_client', '%es_index_name%']
   dom_parser:
     class: SimplehtmldomClient
   doctrine_cache:

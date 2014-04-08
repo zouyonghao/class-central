@@ -195,77 +195,49 @@ class InitiativeController extends Controller
     public function providerAction($slug)
     {
         $cache = $this->get('cache');
-        $filter =$this->get('filter');
-        $es = $this->get('es_client'); // elastic search
-        $indexName = $this->container->getParameter('es_index_name');
 
-        // Get the provider
-        $provider = $this->getDoctrine()->getManager()
-                    ->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code'=>$slug ) );
-        $pageInfo =  PageHeaderFactory::get($provider);
+        $data = $cache->get(
+            'provider_' . $slug,
+             function ( $slug, $container ) {
+                 $esCourses = $this->get('es_courses');
+                 $filter =$this->get('filter');
+                 $em = $container->get('doctrine')->getManager();
+                 $provider  = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code'=>$slug ) );
+                 if(!$provider)
+                 {
+                     return array();
+                 }
+                 $pageInfo =  PageHeaderFactory::get($provider);
 
-        $params['index'] = $indexName;
-        $params['type'] = 'course';
-        $params['body']['size'] = 1000;
+                 $response = $esCourses->findByProvider($slug);
+                 $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
+                 $allLanguages = $filter->getCourseLanguages($response['languageIds']);
 
-
-        $query = array(
-            'match' => array(
-                'provider.code' => $slug,
-            )
+                 return array(
+                     'response' => $response,
+                     'provider' => $provider,
+                     'pageInfo' => $pageInfo,
+                     'allSubjects' => $allSubjects,
+                     'allLanguages' => $allLanguages
+                 );
+             },
+            array( $slug, $this->container)
         );
 
-        $sort = array(
-            "nextSession.state" => array(
-                "order" => "desc"
-            ),
-            "nextSession.startDate" => array(
-                "order" => "asc"
-            )
-        );
-        $facets = array(
-            "subjects" => array(
-                'terms' => array(
-                    'field' => 'subjects.id',
-                    'size' => 40
-                )
-            ),
-            "language" => array(
-                'terms' => array(
-                    'field' => 'language.id',
-                    'size' => 40
-                )
-            )
-        );
-
-        $params['body']['sort'] = $sort;
-        $params['body']['query'] = $query;
-        $params['body']['facets'] = $facets;
-
-        $results = $es->search($params);
-        $subjectIds = array();
-        foreach($results['facets']['subjects']['terms'] as $term)
+        if( empty($data) )
         {
-            $subjectIds[] = $term['term'];
+            // Show an error message
+            return;
         }
-        $allSubjects = $filter->getCourseSubjects($subjectIds);
-
-        $languageIds = array();
-        foreach($results['facets']['language']['terms'] as $term)
-        {
-            $languageIds[] = $term['term'];
-        }
-        $allLanguages = $filter->getCourseLanguages($languageIds);
-
 
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
-            'results' => $results,
+            'results' => $data['response']['results'],
             'listTypes' => UserCourse::$lists,
-            'allSubjects' => $allSubjects,
-            'allLanguages' => $allLanguages,
+            'allSubjects' => $data['allSubjects'],
+            'allLanguages' => $data['allLanguages'],
             'page' => 'initiative',
-            'provider' => $provider,
-            'pageInfo' => $pageInfo
+            'provider' => $data['provider'],
+            'pageInfo' => $data['pageInfo']
         ));
     }
 }
