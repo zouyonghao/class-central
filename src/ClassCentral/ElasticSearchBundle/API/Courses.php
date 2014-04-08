@@ -39,7 +39,11 @@ class Courses {
      */
     public function findByInstitution( $slug )
     {
+        $matchCriteria = array(
+            'institutions.slug' => $slug
+        );
 
+        return $this->findCourses($matchCriteria);
     }
 
     /**

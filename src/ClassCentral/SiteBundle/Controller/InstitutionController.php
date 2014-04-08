@@ -189,40 +189,60 @@ class InstitutionController extends Controller
     }
     
     public function viewAction($slug) {
-        
-        $em = $this->getDoctrine()->getManager();
-        $institution = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBySlug($slug);
-        if(!$institution) {
-            // TODO: render an error page
-            return false;
-        }
-           
-        $cache = $this->get('Cache');
-        $filterService = $this->get('Filter');
-        $offerings = $cache->get('institution_offerings_' . $slug,
-                    array ($this, 'getOfferingsByInstitution'), array($institution));
 
-        // TODO: All Subjects and offerings should be in sync
-        $subjects = $cache->get('institution_subjects_' . $slug,array($filterService, 'getOfferingSubjects'), array($offerings));
-        $lang = $cache->get('institution_languages_' . $slug, array($filterService,'getOfferingLanguages'),array($offerings));
 
-        $pageInfo = PageHeaderFactory::get($institution);
-        $pageInfo->setPageUrl(
-            $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_institution', array('slug' => $slug))
+        $cache = $this->get('cache');
+
+        $data = $cache->get(
+            'institution_' . $slug,
+            function($slug, $container) {
+                $esCourses = $this->get('es_courses');
+                $filter =$this->get('filter');
+                $em = $container->get('doctrine')->getManager();
+
+                $institution = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBySlug($slug);
+                if(!$institution) {
+                    // TODO: render an error page
+                    return array();
+                }
+
+                $pageInfo =  PageHeaderFactory::get($institution);
+                $pageInfo->setPageUrl(
+                    $container->getParameter('baseurl'). $container->get('router')->generate('ClassCentralSiteBundle_institution', array('slug' => $slug))
+                );
+
+                $response = $esCourses->findByInstitution($slug);
+                $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
+                $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+
+                return array(
+                    'response' => $response,
+                    'institution' => $institution,
+                    'pageInfo' => $pageInfo,
+                    'allSubjects' => $allSubjects,
+                    'allLanguages' => $allLanguages
+                );
+            },
+            array($slug, $this->container)
         );
-                      
+
+        if( empty($data) )
+        {
+            // Show an error message
+            return;
+        }
+
+
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
-                    'institution' => $institution->getName(),
-                    'offerings' => $offerings,
+                    'institution' => $data['institution'],
                     'page'=>'institution',
-                    'offeringTypes'=> Offering::$types,
-                    'isUniversity' => $institution->getIsUniversity(),
                     'slug' => $slug,
-                    'pageInfo' => $pageInfo,
-                    'offSubjects' => $subjects,
-                    'offLanguages' => $lang,
-                    'listTypes' => UserCourse::$lists
+                    'results' => $data['response']['results'],
+                    'listTypes' => UserCourse::$lists,
+                    'allSubjects' => $data['allSubjects'],
+                    'allLanguages' => $data['allLanguages'],
+                    'pageInfo' => $data['pageInfo']
                 ));                
     }
     
