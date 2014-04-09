@@ -15,11 +15,15 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
+            {% stylesheets filter='lessphp'
+		        '@bootstrap_css'
+	        %}
+                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+            {% endstylesheets %}
+
         <!-- Le styles -->  
         {% stylesheets filter='yui_css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/fonts.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/bootstrap-3.1.1/css/bootstrap.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/bootstrap-3.1.1/css/bootstrap-theme.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal-bs3patch.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
