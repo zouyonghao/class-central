@@ -17,6 +17,7 @@ class SearchController extends Controller{
         $response['results'] = array();
         $allLanguages = array();
         $allSubjects = array();
+        $allSessions = array();
 
 
         $request = $this->getRequest();
@@ -28,6 +29,7 @@ class SearchController extends Controller{
             $response = $esCourses->search($keywords);
             $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
             $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+            $allSessions  = $filter->getCourseSessions( $response['sessions'] );
             $total = $response['results']['hits']['total'];
         }
                 
@@ -40,6 +42,7 @@ class SearchController extends Controller{
             'listTypes' => UserCourse::$lists,
             'allSubjects' => $allSubjects,
             'allLanguages' => $allLanguages,
+            'allSessions'  => $allSessions,
         ));        
     }
 }

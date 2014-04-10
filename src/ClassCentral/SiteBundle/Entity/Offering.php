@@ -119,7 +119,7 @@ class Offering {
     public static $stateMap = array(
         'recent' => self::STATE_RECENT,
         'recentlyAdded' => self::STATE_JUST_ANNOUNCED,
-        'finished' => self::STATE_FINISHED,
+        'past' => self::STATE_FINISHED,
         'ongoing' => self::STATE_IN_PROGRESS,
         'selfpaced' => self::STATE_SELF_PACED,
         'upcoming' => self::STATE_UPCOMING

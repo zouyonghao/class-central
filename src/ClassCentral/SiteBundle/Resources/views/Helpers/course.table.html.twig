@@ -40,6 +40,11 @@
                 {% endif %}
                 <div class="subjectSlug" style="display: none">{{ subject.slug }}</div>
                 <div class="languageSlug" style="display: none">{{ course.language.name }}</div>
+                {% set states = [] %}
+                {% for state in course.nextSession.states %}
+                    {% set states = states|merge([state]) %}
+                {% endfor %}
+                <div class="sessionSlug" style="display:none;">{{ states|join(',') }}</div>
 
                 <div class="dropdown">
                     {% set userListIds = user_session.getCourseListIds(course.id) %}

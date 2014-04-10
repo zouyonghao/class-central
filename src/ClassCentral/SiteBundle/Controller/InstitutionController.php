@@ -214,13 +214,15 @@ class InstitutionController extends Controller
                 $response = $esCourses->findByInstitution($slug);
                 $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
                 $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+                $allSessions  = $filter->getCourseSessions( $response['sessions'] );
 
                 return array(
                     'response' => $response,
                     'institution' => $institution,
                     'pageInfo' => $pageInfo,
                     'allSubjects' => $allSubjects,
-                    'allLanguages' => $allLanguages
+                    'allLanguages' => $allLanguages,
+                    'allSessions'  => $allSessions
                 );
             },
             array($slug, $this->container)
@@ -242,6 +244,7 @@ class InstitutionController extends Controller
                     'listTypes' => UserCourse::$lists,
                     'allSubjects' => $data['allSubjects'],
                     'allLanguages' => $data['allLanguages'],
+                    'allSessions' => $data['allSessions'],
                     'pageInfo' => $data['pageInfo']
                 ));                
     }

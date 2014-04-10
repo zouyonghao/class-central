@@ -162,17 +162,17 @@ class CourseUtility {
         }
 
         // finished
-        if( !empty($offeringStateMap['finished']) )
+        if( !empty($offeringStateMap['past']) )
         {
-            if( count($offeringStateMap['finished']) == 1 )
+            if( count($offeringStateMap['past']) == 1 )
             {
-                return array_pop( $offeringStateMap['finished'] );
+                return array_pop( $offeringStateMap['past'] );
             }
 
             // Multiple sessions. Pick the last finished session
-            $last = array_shift( $offeringStateMap['finished'] );
+            $last = array_shift( $offeringStateMap['past'] );
 
-            foreach( $offeringStateMap['finished'] as $uo)
+            foreach( $offeringStateMap['past'] as $uo)
             {
                 if($uo->getStartDate() > $last->getStartDate() )
                 {

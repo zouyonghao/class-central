@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -211,15 +212,17 @@ class InitiativeController extends Controller
                  $pageInfo =  PageHeaderFactory::get($provider);
 
                  $response = $esCourses->findByProvider($slug);
-                 $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
-                 $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+                 $allSubjects = $filter->getCourseSubjects( $response['subjectIds'] );
+                 $allLanguages = $filter->getCourseLanguages( $response['languageIds'] );
+                 $allSessions  = $filter->getCourseSessions( $response['sessions'] );
 
                  return array(
                      'response' => $response,
                      'provider' => $provider,
                      'pageInfo' => $pageInfo,
                      'allSubjects' => $allSubjects,
-                     'allLanguages' => $allLanguages
+                     'allLanguages' => $allLanguages,
+                     'allSessions'  => $allSessions
                  );
              },
             array( $type, $this->container)
@@ -236,6 +239,7 @@ class InitiativeController extends Controller
             'listTypes' => UserCourse::$lists,
             'allSubjects' => $data['allSubjects'],
             'allLanguages' => $data['allLanguages'],
+            'allSessions' => $data['allSessions'],
             'page' => 'initiative',
             'provider' => $data['provider'],
             'pageInfo' => $data['pageInfo']

@@ -219,6 +219,7 @@ class StreamController extends Controller
                 $response = $esCourses->findBySubject($subject->getId());
                 $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
                 $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+                $allSessions  = $filter->getCourseSessions( $response['sessions'] );
 
                 $breadcrumbs = array(
                     Breadcrumb::getBreadCrumb('Subjects', $container->get('router')->generate('subjects')),
@@ -244,6 +245,7 @@ class StreamController extends Controller
                     'pageInfo' => $pageInfo,
                     'allSubjects' => $allSubjects,
                     'allLanguages' => $allLanguages,
+                    'allSessions'  => $allSessions,
                     'breadcrumbs' => $breadcrumbs
                 );
             },
@@ -267,6 +269,7 @@ class StreamController extends Controller
                 'allSubjects' => $data['allSubjects'],
                 'allLanguages' => $data['allLanguages'],
                 'pageInfo' => $data['pageInfo'],
+                'allSessions' => $data['allSessions'],
                 'breadcrumbs' => $data['breadcrumbs']
             ));
     }

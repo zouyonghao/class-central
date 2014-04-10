@@ -15,16 +15,12 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-            {% stylesheets filter='lessphp'
-		        '@bootstrap_css'
-	        %}
-                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-            {% endstylesheets %}
 
         <!-- Le styles -->  
         {% stylesheets filter='yui_css'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap.css'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-responsive.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/fonts.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal-bs3patch.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/css/prettyPhoto.css'
@@ -163,8 +159,8 @@
         {# All the javascript goes in here #}
         
         {% javascripts filter='yui_js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.11.0.min.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/bootstrap-3.1.1/js/bootstrap.min.js'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.7.1.min.js'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/js/jquery.prettyPhoto.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.tablesorter.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modalmanager.js'

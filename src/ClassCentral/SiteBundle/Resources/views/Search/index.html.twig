@@ -58,7 +58,7 @@
      </div>
      {% if total != 0 %}
          <div id="filter-wrap">
-             {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages } %}
+             {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
              <div class="tables-wrap">
                  {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'recent'} %}
              </div>

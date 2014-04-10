@@ -220,6 +220,7 @@ class LanguageController extends Controller
                 $response = $esCourses->findByLanguage($slug);
                 $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
                 $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+                $allSessions  = $filter->getCourseSessions( $response['sessions'] );
 
                 $breadcrumbs = array(
                     Breadcrumb::getBreadCrumb('Languages',$container->get('router')->generate('languages')),
@@ -233,7 +234,8 @@ class LanguageController extends Controller
                     'pageInfo' => $pageInfo,
                     'allSubjects' => $allSubjects,
                     'allLanguages' => $allLanguages,
-                    'breadcrumbs' => $breadcrumbs
+                    'breadcrumbs' => $breadcrumbs,
+                    'allSessions'  => $allSessions
                 );
             },
             array($slug, $this->container)
@@ -257,6 +259,7 @@ class LanguageController extends Controller
                 'listTypes' => UserCourse::$lists,
                 'allSubjects' => $data['allSubjects'],
                 'allLanguages' => $data['allLanguages'],
+                'allSessions' => $data['allSessions'],
                 'pageInfo' => $data['pageInfo'],
                 'breadcrumbs' => $data['breadcrumbs']
             ));

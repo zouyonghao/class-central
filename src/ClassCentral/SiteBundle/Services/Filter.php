@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Services;
 
+use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Filter {
@@ -198,5 +199,20 @@ class Filter {
         }
 
         return $languages;
+    }
+
+    public function getCourseSessions ($sessions = array())
+    {
+        $s = array();
+        $allSessions = Offering::$types;
+        foreach($allSessions as $key => $value)
+        {
+            if ( in_array($key,$sessions) )
+            {
+                $s[$key] = $value;
+            }
+        }
+
+        return $s;
     }
 } 

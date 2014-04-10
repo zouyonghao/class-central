@@ -182,9 +182,15 @@ class Courses {
             $languageIds[] = $term['term'];
         }
 
+        $sessions = array();
+        foreach( $results['facets']['sessions']['terms'] as $term )
+        {
+            $sessions[] = $term['term'];
+        }
         return array(
             'subjectIds' => $subjectIds,
             'languageIds' => $languageIds,
+            'sessions'    => $sessions,
             'results' => $results
         );
     }
@@ -210,6 +216,12 @@ class Courses {
                 'terms' => array(
                     'field' => 'language.id',
                     'size' => 40
+                )
+            ),
+            "sessions" => array(
+                "terms" => array(
+                    'field' => 'nextSession.states',
+                    'size' => 10
                 )
             )
         );
