@@ -9,6 +9,8 @@
 namespace ClassCentral\ElasticSearchBundle\API;
 
 
+use ClassCentral\SiteBundle\Entity\CourseStatus;
+
 class Courses {
 
     private $indexName;
@@ -85,19 +87,110 @@ class Courses {
         return $this->findCourses($matchCriteria);
     }
 
-    private function findCourses ( $matchCriteria )
+    /**
+     * Searches the term
+     * @param $q
+     */
+    public function search ( $q )
     {
         $params = array();
+        $qValues = $this->getDefaultQueryValues();
 
         $params['index'] = $this->indexName;
         $params['type'] = 'course';
         $params['body']['size'] = 1000;
 
+        $query = array(
+           "filtered" => array(
+               "query" => array(
+                    "multi_match" => array(
+                        "query" => $q,
+                        "type" => "best_fields",
+                        "fields" => array(
+                            'name^2',
+                            'description',
+                            'institutions.name',
+                            'institutions.slug',
+                            'instructors',
+                            'provider.slug',
+                            'provider.name',
+                            "subjects.name",
+                            "subject.slug",
+                            "searchDesc"
+                        ),
+                        "tie_breaker" => 0.1,
+                        "minimum_should_match" => "2<75%"
+
+                    ),
+               ),
+               // Remove courses that ar not valid
+               'filter' => $qValues['filter']
+           )
+        );
+
+        $params['body']['query'] = $query;
+        $params['body']['facets'] = $qValues['facets'];
+
+        $results = $this->esClient->search($params);
+        return $this->formatResults($results);
+    }
+
+    private function findCourses ( $matchCriteria )
+    {
+        $params = array();
+        $qValues = $this->getDefaultQueryValues();
+
+        $params['index'] = $this->indexName;
+        $params['type'] = 'course';
+        $params['body']['size'] = 1000;
 
         $query = array(
             'match' => $matchCriteria
         );
 
+        $query = array(
+            'filtered' => array(
+
+                'query' => array(
+                    'match' => $matchCriteria
+                ),
+                // Remove courses that ar not valid
+                'filter' => $qValues['filter']
+            )
+        );
+
+        $params['body']['sort'] = $qValues['sort'];
+        $params['body']['query'] = $query;
+        $params['body']['facets'] = $qValues['facets'];
+
+        $results = $this->esClient->search($params);
+        return $this->formatResults($results);
+    }
+
+    private function formatResults( $results )
+    {
+
+        $subjectIds = array();
+        foreach($results['facets']['subjects']['terms'] as $term)
+        {
+            $subjectIds[] = $term['term'];
+        }
+
+        $languageIds = array();
+        foreach($results['facets']['language']['terms'] as $term)
+        {
+            $languageIds[] = $term['term'];
+        }
+
+        return array(
+            'subjectIds' => $subjectIds,
+            'languageIds' => $languageIds,
+            'results' => $results
+        );
+    }
+
+    private function getDefaultQueryValues()
+    {
         $sort = array(
             "nextSession.state" => array(
                 "order" => "desc"
@@ -121,31 +214,14 @@ class Courses {
             )
         );
 
-        $params['body']['sort'] = $sort;
-        $params['body']['query'] = $query;
-        $params['body']['facets'] = $facets;
+        $filter = array(
+            "range" => array(
+                'status' => array(
+                    "lte" => 100
+                )
+        ));
 
-
-
-        $results = $this->esClient->search($params);
-
-        $subjectIds = array();
-        foreach($results['facets']['subjects']['terms'] as $term)
-        {
-            $subjectIds[] = $term['term'];
-        }
-
-        $languageIds = array();
-        foreach($results['facets']['language']['terms'] as $term)
-        {
-            $languageIds[] = $term['term'];
-        }
-
-        return array(
-            'subjectIds' => $subjectIds,
-            'languageIds' => $languageIds,
-            'results' => $results
-        );
+        return compact('sort','facets', 'filter');
     }
 
 } 

@@ -57,6 +57,9 @@ class CourseDocumentType extends DocumentType {
         $body['videoIntro'] = $c->getVideoIntro();
         $body['length'] = $c->getLength();
         $body['slug'] = $c->getSlug();
+        $body['description'] = $c->getDescription();
+        $body['searchDesc'] = $c->getSearchDesc();
+        $body['status'] = $c->getStatus();
 
         // Instructors
         $body['instructors'] = array();
