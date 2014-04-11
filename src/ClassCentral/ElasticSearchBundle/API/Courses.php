@@ -235,7 +235,7 @@ class Courses {
                     'field' => 'nextSession.states',
                     'size' => 10
                 )
-            )
+            ),
         );
 
         $filter = array(
@@ -247,5 +247,88 @@ class Courses {
 
         return compact('sort','facets', 'filter');
     }
+
+    /**
+     * Get the counts for different items
+     *  - providers
+     *  - courses
+     *  - subjects
+     * @return array
+     */
+    public function getCounts()
+    {
+        $params = array();
+        $qValues = $this->getDefaultQueryValues();
+        $facets = $qValues['facets'];
+
+        $params['index'] = $this->indexName;
+        $params['type'] = 'course';
+        $params['body']['size'] = 1;
+
+
+        $query = array(
+            'filtered' => array(
+
+                'query' => array(
+                    'match_all' => array()
+                ),
+                // Remove courses that ar not valid
+                'filter' => $qValues['filter']
+            )
+        );
+
+        // Add provider and providerNav counts to the facets
+        $facets['provider'] = array(
+            "terms" => array(
+                'field' => 'provider.code',
+                'size' => 1000
+            )
+        );
+
+        $facets['providerNav'] = array(
+            "terms" => array(
+                'field' => 'provider.navCode',
+                'size' => 1000
+            )
+        );
+
+        $params['body']['query'] = $query;
+        $params['body']['facets'] = $facets;
+
+        $results = $this->esClient->search($params);
+
+        $subjects = array();
+        foreach($results['facets']['subjects']['terms'] as $term)
+        {
+            $subjects[ $term['term'] ] = $term['count'];
+        }
+
+        $languages = array();
+        foreach($results['facets']['language']['terms'] as $term)
+        {
+            $languages[ $term['term'] ] = $term['count'];
+        }
+
+        $sessions = array();
+        foreach( $results['facets']['sessions']['terms'] as $term )
+        {
+            $sessions[ $term['term'] ] = $term['count'] ;
+        }
+
+        $providers = array();
+        foreach ($results['facets']['provider']['terms'] as $term)
+        {
+            $providers[ $term['term'] ] = $term['count'];
+        }
+
+        $providersNav = array();
+        foreach ($results['facets']['providerNav']['terms'] as $term)
+        {
+            $providersNav[ $term['term'] ] = $term['count'];
+        }
+
+        return compact( 'subjects', 'languages', 'sessions', 'providers', 'providersNav');
+    }
+
 
 } 
