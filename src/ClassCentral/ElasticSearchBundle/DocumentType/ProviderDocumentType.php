@@ -10,6 +10,7 @@ namespace ClassCentral\ElasticSearchBundle\DocumentType;
 
 
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
+use ClassCentral\SiteBundle\Entity\Initiative;
 
 class ProviderDocumentType extends DocumentType
 {
@@ -43,6 +44,17 @@ class ProviderDocumentType extends DocumentType
         $b['code'] = strtolower($p->getCode());
         $b['description'] = $p->getDescription();
         $b['tooltip'] = $p->getTooltip();
+
+
+        // To get navbar counts and courses
+        if( !in_array( $p->getCode(), Initiative::$types) )
+        {
+            $b['navCode'] = 'others';
+        }
+        else
+        {
+            $b['navCode'] = $p->getCode();
+        }
 
         return $b;
     }

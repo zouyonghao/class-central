@@ -28,9 +28,21 @@ class Courses {
      */
     public function findByProvider( $slug )
     {
-        $matchCriteria = array(
-           'provider.code' => $slug
-        );
+        if( $slug == 'others' )
+        {
+            // Special case
+            $matchCriteria = array(
+                'provider.navCode' => $slug
+            );
+        }
+        else
+        {
+            $matchCriteria = array(
+                'provider.code' => $slug
+            );
+        }
+
+
 
         return $this->findCourses($matchCriteria);
     }
@@ -143,10 +155,10 @@ class Courses {
         $params['index'] = $this->indexName;
         $params['type'] = 'course';
         $params['body']['size'] = 1000;
-
         $query = array(
             'match' => $matchCriteria
         );
+
 
         $query = array(
             'filtered' => array(

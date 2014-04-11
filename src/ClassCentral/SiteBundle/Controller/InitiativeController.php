@@ -204,11 +204,22 @@ class InitiativeController extends Controller
                  $esCourses = $this->get('es_courses');
                  $filter =$this->get('filter');
                  $em = $container->get('doctrine')->getManager();
-                 $provider  = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code'=>$slug ) );
-                 if(!$provider)
+
+                 if( $slug == 'others')
                  {
-                     return array();
+                     $provider = new Initiative();
+                     $provider->setName('Others');
+                     $provider->setCode('others');
                  }
+                 else
+                 {
+                     $provider  = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code'=>$slug ) );
+                     if(!$provider)
+                     {
+                         return array();
+                     }
+                 }
+
                  $pageInfo =  PageHeaderFactory::get($provider);
 
                  $response = $esCourses->findByProvider($slug);
