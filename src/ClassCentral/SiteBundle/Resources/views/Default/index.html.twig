@@ -34,12 +34,12 @@
 
 {% block content %}
 <div class="course-table-wrapper">
-    {% for offeringType, offeringDetails in offeringTypes %}
-        {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-                <h2 class="tabletitle" id="{{offeringType}}">{{offeringDetails.desc}} ({{ offerings[offeringType]|length }})</h2>
-                {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
-        {% endif %}
-    {% endfor %}
+
+    <h2 class="tabletitle" >Recently Started or Starting Soon ({{ recentCourses.hits.total }})</h2>
+
+        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recentCourses,'tableId':'recent'} %}
+
+
 </div>
 
 {% endblock %}  

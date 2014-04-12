@@ -285,7 +285,7 @@ class LanguageController extends Controller
     public function languagesAction(Request $request)
     {
         $cache = $this->get('cache');
-        $languages = $cache->get('language_list_count', array($this, 'getLanguagesList'),array($this->getDoctrine()->getManager()));
+        $languages = $cache->get('language_list_count', array($this, 'getLanguagesList'),array($this->container));
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('Languages',$this->generateUrl('languages'))
         );
@@ -296,9 +296,14 @@ class LanguageController extends Controller
             ));
     }
 
-    public function getLanguagesList($em)
+    public function getLanguagesList($container)
     {
-        $languagesCount = $em->getRepository('ClassCentralSiteBundle:Language')->getCourseCountByLanguages();
+        $em = $container->get('doctrine')->getManager();
+        $esCourses = $container->get('es_courses');
+
+        $count = $esCourses->getCounts();
+        $languagesCount = $count['languages'];
+
         $allLanguages = $em->getRepository('ClassCentralSiteBundle:Language')->findAll();
         $languages = array();
         foreach($allLanguages as $language)
@@ -308,7 +313,7 @@ class LanguageController extends Controller
                 continue; // no count exists. Do not show the language
             }
 
-            $count = $languagesCount[$language->getId()]['courseCount'];
+            $count = $languagesCount[$language->getId()];
             $language->setCourseCount($count);
             $languages[$language->getId()] = $language;
 

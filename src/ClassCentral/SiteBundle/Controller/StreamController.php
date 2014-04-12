@@ -280,7 +280,7 @@ class StreamController extends Controller
     public function subjectsAction(Request $request)
     {
         $cache = $this->get('Cache');
-        $subjects = $cache->get('stream_list_count', array($this, 'getSubjectsList'),array($this->getDoctrine()->getManager()));
+        $subjects = $cache->get('stream_list_count', array($this, 'getSubjectsList'),array($this->container));
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('Subjects')
         );
@@ -291,9 +291,14 @@ class StreamController extends Controller
             ));
     }
 
-    public function getSubjectsList($em)
+    public function getSubjectsList($container)
     {
-        $subjectsCount = $em->getRepository('ClassCentralSiteBundle:Stream')->getCourseCountBySubjects();
+        // counts
+        $em = $container->get('doctrine')->getManager();
+        $esCourses = $container->get('es_courses');
+
+        $count = $esCourses->getCounts();
+        $subjectsCount = $count['subjects'];
 
         $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
         $parentSubjects = array();
@@ -304,7 +309,7 @@ class StreamController extends Controller
             {
                 continue; // no count exists. Do not show the subject
             }
-            $count = $subjectsCount[$subject->getId()]['courseCount'];
+            $count = $subjectsCount[$subject->getId()];
             $subject->setCourseCount($count);
             if($subject->getParentStream())
             {
@@ -318,16 +323,6 @@ class StreamController extends Controller
             // Detach since its going to be cached
             $em->detach($subject);
 
-        }
-
-        // Update all parent subject counts
-        foreach($childSubjects as $parentId => $subjects)
-        {
-            $parentSubject = $parentSubjects[$parentId];
-            foreach($subjects as $subject)
-            {
-                $parentSubject->setCourseCount( $parentSubject->getCourseCount() + $subject->getCourseCount() );
-            }
         }
 
         return array('parent'=>$parentSubjects,'children'=>$childSubjects);

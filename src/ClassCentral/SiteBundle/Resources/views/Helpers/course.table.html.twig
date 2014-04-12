@@ -107,7 +107,7 @@
 
 
             {% if page is defined and page != 'stream' and page=='home' %}
-                <td> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subject'][0]['slug']} ) }}" title="List of {{ course['subject'][0]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['subject'][0]['name']}}', '{{course['name']}}'])" data-category="{{course['subject'][0]['name']}}">{{ course['subject'][0]['name'] }} </a>
+                <td> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}'])" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
                 </td>
             {% endif %}
 
