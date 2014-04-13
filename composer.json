@@ -28,8 +28,7 @@
         "mailgun/mailgun-php": "~1.4",
         "facebook/php-sdk": " ~3.2.3",
         "elasticsearch/elasticsearch": "~1.0",
-	"leafo/lessphp": "dev-master",
-        "twbs/bootstrap": "v3.1.1",
+	    "leafo/lessphp": "dev-master",
         "oyejorge/less.php": "dev-master"
     },
     "repositories" : [

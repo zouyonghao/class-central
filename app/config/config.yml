@@ -52,12 +52,6 @@ assetic:
           apply_to: "\.less$"
           formatter: "compressed"
           preserve_comments: false
-    assets:
-      bootstrap_css:
-          inputs:
-              - %kernel.root_dir%/../vendor/twbs/bootstrap/less/bootstrap.less
-          filters:
-              - lessphp
 # Doctrine Configuration
 doctrine:
     dbal:
