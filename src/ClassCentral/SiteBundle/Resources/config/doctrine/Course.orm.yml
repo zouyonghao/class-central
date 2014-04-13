@@ -114,14 +114,4 @@ ClassCentral\SiteBundle\Entity\Course:
         inverseJoinColumns:
           tag_id:
             referencedColumnName: id
-  oneToOne:
-    nextSession:
-     targetEntity: Offering
-     cascade: {  }
-     mappedBy: null
-     inversedBy: null
-     joinColumns:
-         next_session_id:
-             referencedColumnName: id
-     orphanRemoval: false
 lifecycleCallbacks: {  }

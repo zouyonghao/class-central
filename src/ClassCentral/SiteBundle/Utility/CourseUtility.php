@@ -122,8 +122,6 @@ class CourseUtility {
             }
         }
 
-
-
         // Now that the state map is build - traverse in the following order until the next session is found
         // upcoming, self paced, ongoing, finished
 
@@ -192,9 +190,19 @@ class CourseUtility {
     public static function getStates(Offering $offering)
     {
         $state = CourseUtility::calculateState($offering);
+        return self::getStatesFromState( $state );
+    }
 
+
+    /**
+     * Given an integer value of state returns
+     * an array of states
+     * @param $state integer
+     * @return array
+     */
+    public function getStatesFromState ($state)
+    {
         $stateMap = array_flip(Offering::$stateMap);
-
         $states = array();
         $unit = $state % 10;
         if(array_key_exists($unit,$stateMap))
@@ -212,7 +220,7 @@ class CourseUtility {
         {
             $states[] = $stateMap[$state - $unit];
         }
-
         return $states;
+
     }
 } 

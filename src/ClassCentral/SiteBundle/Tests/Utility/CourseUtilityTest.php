@@ -12,6 +12,7 @@ namespace ClassCentral\SiteBundle\Tests\Utility;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class CourseUtilityTest extends  \PHPUnit_Framework_TestCase {
 
@@ -99,21 +100,21 @@ class CourseUtilityTest extends  \PHPUnit_Framework_TestCase {
     public function testGetStates()
     {
         // upcoming
-        $states = CourseUtility::getStates(Offering::STATE_UPCOMING);
+        $states = CourseUtility::getStatesFromState(Offering::STATE_UPCOMING);
         $this->assertNotEmpty(
             array_intersect(array('upcoming'), $states),
             'Get states should have returned upcoming'
         );
 
         // recent + upcoming
-        $states = CourseUtility::getStates(Offering::STATE_UPCOMING + Offering::STATE_RECENT);
+        $states = CourseUtility::getStatesFromState(Offering::STATE_UPCOMING + Offering::STATE_RECENT);
         $this->assertNotEmpty(
             array_intersect(array('upcoming','recent'), $states),
             'Get states should have returned upcoming and recent'
         );
 
         // recent + just announced + upcoming
-        $states = CourseUtility::getStates(Offering::STATE_UPCOMING + Offering::STATE_RECENT + Offering::STATE_JUST_ANNOUNCED);
+        $states = CourseUtility::getStatesFromState(Offering::STATE_UPCOMING + Offering::STATE_RECENT + Offering::STATE_JUST_ANNOUNCED);
         $this->assertNotEmpty(
             array_intersect(array('upcoming','recent','recentlyAdded'), $states),
             'Get states should have returned upcoming, recent, and recentlyAdded'
@@ -121,23 +122,23 @@ class CourseUtilityTest extends  \PHPUnit_Framework_TestCase {
 
 
         // self paced
-        $states = CourseUtility::getStates(Offering::STATE_SELF_PACED);
+        $states = CourseUtility::getStatesFromState(Offering::STATE_SELF_PACED);
         $this->assertNotEmpty(
             array_intersect(array('selfpaced'), $states),
             'Get states should have returned selfpaced'
         );
 
         // ongoing
-        $states = CourseUtility::getStates(Offering::STATE_IN_PROGRESS);
+        $states = CourseUtility::getStatesFromState(Offering::STATE_IN_PROGRESS);
         $this->assertNotEmpty(
             array_intersect(array('ongoing'), $states),
             'Get states should have returned ongoing/inprogress'
         );
 
         // finished
-        $states = CourseUtility::getStates(Offering::STATE_FINISHED);
+        $states = CourseUtility::getStatesFromState(Offering::STATE_FINISHED);
         $this->assertNotEmpty(
-            array_intersect(array('finished'), $states),
+            array_intersect(array('past'), $states),
             'Get states should have returned finished'
         );
 
@@ -147,23 +148,25 @@ class CourseUtilityTest extends  \PHPUnit_Framework_TestCase {
     public function testGetNextSession()
     {
 
-
         $c = new Course();
         // Finished offerings
-        $fo1 = $this->buildOffering(1, "2012-06-03", Offering::STATE_FINISHED);
-        $fo2 = $this->buildOffering(2, "2012-05-03", Offering::STATE_FINISHED);
-        $fo3 = $this->buildOffering(3, "2012-07-03", Offering::STATE_FINISHED);
+        $fo1 = $this->buildOffering(1, new \DateTime("2012-06-03"), Offering::START_DATES_KNOWN );
+        $fo2 = $this->buildOffering(2, new \DateTime("2012-05-03"), Offering::START_DATES_KNOWN );
+        $fo3 = $this->buildOffering(3, new \DateTime("2012-07-03"), Offering::START_DATES_KNOWN );
 
         // Ongoing session
-        $oo1 = $this->buildOffering(4, "2012-07-03", Offering::STATE_IN_PROGRESS);
+        $oodt1 = new \DateTime();
+        $oodt1->sub( new \DateInterval("P10D") );
+        $oo1 = $this->buildOffering(4, $oodt1, Offering::START_DATES_KNOWN);
+
 
         // Self paced session
-        $so1 = $this->buildOffering(5, "2012-07-03", Offering::STATE_SELF_PACED);
+        $so1 = $this->buildOffering(5, new \DateTime("2012-07-03"), Offering::COURSE_OPEN);
 
         // Upcoming sessions
-        $uo1 = $this->buildOffering(6, "2012-06-03", Offering::STATE_UPCOMING);
-        $uo2 = $this->buildOffering(7, "2012-05-03", Offering::STATE_UPCOMING);
-        $uo3 = $this->buildOffering(8, "2012-07-03", Offering::STATE_UPCOMING);
+        $uo1 = $this->buildOffering(6, $this->getFutureDateUtility("P20D"), Offering::START_DATES_KNOWN );
+        $uo2 = $this->buildOffering(7, $this->getFutureDateUtility("P10D"), Offering::START_DATES_KNOWN );
+        $uo3 = $this->buildOffering(8, $this->getFutureDateUtility("P30D"), Offering::START_DATES_KNOWN );
 
         // Course with single finished offering
         $c->addOffering($fo1);
@@ -198,12 +201,24 @@ class CourseUtilityTest extends  \PHPUnit_Framework_TestCase {
         $this->assertEquals($uo2->getId(),$next->getId());
     }
 
-    private function buildOffering($id, $date,$state)
+    private function getFutureDateUtility( $interval )
+    {
+        $dt = new \DateTime();
+        $dt->add(new \DateInterval($interval));
+        return $dt;
+    }
+
+    private function buildOffering($id, $date, $state)
     {
         $o = new Offering();
         $o->setId($id);
-        $o->setStartDate( new \DateTime($date) );
-        $o->setState($state);
+        $o->setStartDate( $date );
+
+        // End date
+        $endDate = clone $date;
+        $endDate->add(new \DateInterval("P1M"));
+        $o->setEndDate($endDate);
+        $o->setStatus( $state );
         return $o;
     }
 
