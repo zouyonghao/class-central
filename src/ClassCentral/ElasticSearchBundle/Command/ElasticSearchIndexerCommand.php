@@ -18,7 +18,7 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
 
     protected function configure()
     {
-        $this->setName("classcentral:elasticsearch:index")
+        $this->setName("classcentral:elasticsearch:indexer")
              ->setDescription("Indexes documents into elastic search");
     }
 

@@ -12,7 +12,9 @@ namespace ClassCentral\ElasticSearchBundle\DocumentType;
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
+use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 
@@ -41,7 +43,26 @@ class CourseDocumentType extends DocumentType {
      */
     public function getMapping()
     {
-        // TODO: Implement getMapping() method.
+        $pDoc = new ProviderDocumentType( new Initiative(), $this->container );
+        $pMapping = $pDoc->getMapping();
+
+        $iDoc = new InstitutionDocumentType( new Institution(), $this->container );
+        $iMapping = $iDoc->getMapping();
+
+        $sDoc = new SubjectDocumentType( new Stream(), $this->container) ;
+        $sMapping = $sDoc->getMapping();
+
+        return array(
+            'provider' => array(
+                'properties' => $pMapping
+            ),
+            'subjects' => array(
+                "properties" => $sMapping
+            ),
+            'institutions' => array(
+                "properties" => $iMapping
+            )
+        );
     }
 
     public function getBody()

@@ -59,6 +59,11 @@ class SubjectDocumentType extends DocumentType {
      */
     public function getMapping()
     {
-        // TODO: Implement getMapping() method.
+       return array(
+           "slug" => array(
+               "type" => "string",
+               "index" => "not_analyzed"
+           )
+       );
     }
 }

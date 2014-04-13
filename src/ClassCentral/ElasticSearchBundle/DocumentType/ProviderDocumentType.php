@@ -53,7 +53,7 @@ class ProviderDocumentType extends DocumentType
         }
         else
         {
-            $b['navCode'] = $p->getCode();
+            $b['navCode'] = strtolower($p->getCode());
         }
 
         return $b;
@@ -65,6 +65,15 @@ class ProviderDocumentType extends DocumentType
      */
     public function getMapping()
     {
-        // TODO: Implement getMapping() method.
+        return array(
+            'code' => array(
+                "type" => "string",
+                "index" => "not_analyzed"
+            ),
+            'navCode' => array(
+                "type" => "string",
+                "index" => "not_analyzed"
+            )
+        );
     }
 }
