@@ -19,26 +19,24 @@
         <ul class="filter-nav">
 
         {# user course lists #}
-        {% if offLists is defined and offLists|length > 0 %}
+        {% if userLists is defined and userLists|length > 0 %}
             <li class="filter-courses active">
                 <a href="#" class="filter-dropdown-toggle main-category">My Courses<span class="arrow-up"></span><span class="arrow-down"></span></a>
                 <ul class="main-filter-dropdown">
-                    {% for list in offLists %}
-                        {% if offerings[list.slug] is not null and offerings[list.slug]|length > 0 %}
-                            <li>
-                                <div class="tick-wrap">
-                                    <span class="tick">√</span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="{{ list.slug }}" type="course-list">{{ list.desc  }}</a>
-                                </div>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
+                    {% for list in listTypes if list.slug in userLists %}
+                        <li>
+                            <div class="tick-wrap">
+                                <span class="tick">√</span>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="{{ list.slug }}" data-type="course-list">{{ list.desc  }}</a>
+                            </div>
+                        </li>
+                {% endfor %}
 
                     {% if searchTerms|length > 0 %}
                         <li>
                             <div class="tick-wrap">
                                 <span class="tick">√</span>
-                                <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm">Search Terms</a>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm" data-type="course-list">Search Terms</a>
                             </div>
                         </li>
                     {% endif %}

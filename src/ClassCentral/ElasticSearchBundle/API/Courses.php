@@ -99,6 +99,56 @@ class Courses {
         return $this->findCourses($matchCriteria);
     }
 
+
+    public function findByIds( $courseIds )
+    {
+        $params = array();
+        $qValues = $this->getDefaultQueryValues();
+
+        $params['index'] = $this->indexName;
+        $params['type'] = 'course';
+        $params['body']['size'] = 1000;
+
+        $filters = array(
+            "terms" => array(
+                'id' => $courseIds
+            ),
+            "range" => $qValues['filter']['range']
+        );
+
+        $qValues['filter']['terms'] = array(
+            'ids' => $courseIds
+        );
+
+        $query = array(
+            'filtered' => array(
+                // Remove courses that ar not valid
+                'filter' => array(
+                    'and' => array(
+                        array(
+                            "terms" => array(
+                                'id' => $courseIds
+                            )
+                        ),
+                        array(
+                            'range' => $qValues['filter']['range']
+                        )
+
+                    )
+                )
+            )
+        );
+
+        $params['body']['sort'] = $qValues['sort'];
+        $params['body']['query'] = $query;
+        $params['body']['facets'] = $qValues['facets'];
+
+        //var_dump( json_encode($params['body'])); exit();
+
+        $results = $this->esClient->search($params);
+        return $this->formatResults($results);
+    }
+
     /**
      * Searches the term
      * @param $q
@@ -146,6 +196,7 @@ class Courses {
         $results = $this->esClient->search($params);
         return $this->formatResults($results);
     }
+
 
     private function findCourses ( $matchCriteria )
     {

@@ -43,7 +43,7 @@ class ElasticSearchIndexCommand extends ContainerAwareCommand {
         }
         else
         {
-            $output->writeln("Invalid action. create/delete are valid actions");    
+            $output->writeln("Invalid action. create/delete are valid actions");
         }
     }
 

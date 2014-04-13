@@ -99,24 +99,78 @@ jQuery(function($) {
         gaqPush(type, value);
     });
 
-    var tableTypes = ['recent','recentlyAdded','ongoing','upcoming','selfpaced','past'];
-    var tableType = 'recent', list;
+    var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable'];
 
-    var listClass = 'table-body-' + tableType;
-    if($('.' +listClass)[0])
+    var lists = {};
+    for(var i = 0; i < tableTypes.length; i++)
     {
-        var options = {
-            valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list', 'sessionSlug'],
-            searchClass: ['filter-search'],
-            listClass: [listClass],
-            sortClass: ['sort-button'],
-            page:2000
-        };
+        var tableType = tableTypes[i];
+        var listClass = 'table-body-' + tableType;
+        if($('.' +listClass)[0])
+        {
+            var options = {
+                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list', 'sessionSlug'],
+                searchClass: ['filter-search'],
+                listClass: [listClass],
+                sortClass: ['sort-button'],
+                page:2000
+            };
 
-        list = new List('filter-wrap',options);
+            var list = new List('filter-wrap',options);
+            lists[tableType] = list;
+            try {
+                // No filters on the homepage
+                list.on("updated",updated(tableType));
+            } catch(err) {
+
+            }
+
+        }
     }
 
+    // Callback thats called whenver the results are updated
+    // Updates the count among other things
+    function updated(tableType) {
+        return function() {
+            var count = lists[tableType].visibleItems.length;
+            $('#' + tableType + "-count").html(count);
+            var listTable = $('#' + tableType + 'list');
+            if(count == 0) {
+                listTable.hide();
+            } else {
+                listTable.show();
+            }
 
+        }
+    }
+
+    /**
+     * Glogal function for my courses tables
+     * @param tableType
+     */
+    listifyTable = function (tableType)
+    {
+
+        var listClass = 'table-body-' + tableType;
+        if($('.' +listClass)[0]) {
+            var options = {
+                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list','sessionSlug'],
+                searchClass: ['filter-search'],
+                listClass: [listClass],
+                sortClass: ['sort-button'],
+                page:2000
+            };
+
+            var list = new List('filter-wrap',options);
+            lists[tableType] = list;
+            try {
+                // No filters on the homepage
+                list.on("updated",updated(tableType));
+            } catch(err) {
+
+            }
+        }
+    }
 
     function filterCourses() {
         var filterCats = [];
@@ -154,46 +208,65 @@ jQuery(function($) {
         });
 
 
-        // Go through all the lists and fulter the courses which don't
+        // Go through all the lists and filter the courses which don't
         // have subjects in filterCats
-        list.filter(function (item) {
-            // Match subjects
-            var subMatch = true;
-            if (filterCats.length > 0) {
-                var subject = $.trim(item.values().subjectSlug);
+        for (var key in lists)
+        {
+            if (!lists.hasOwnProperty(key)) {
 
-                if ($.inArray(subject, filterCats) == -1) {
-                    subMatch = false;
-                }
+                continue;
             }
+            var list = lists[key];
+            list.filter(function (item) {
+                // Match subjects
+                var subMatch = true;
+                if (filterCats.length > 0) {
+                    var subject = $.trim(item.values().subjectSlug);
 
-            // Match languages
-            var langMatch = true;
-            if (filterLang.length > 0) {
-                var language = $.trim(item.values().languageSlug);
-                if ($.inArray(language, filterLang) == -1) {
-                    langMatch = false;
-                }
-            }
-
-            var sessionMatch = true;
-            if (sessions.length > 0) {
-                sessionMatch = false;
-                var itemSessionsStr = $.trim(item.values().sessionSlug);
-                var itemSessions = itemSessionsStr.split(',');
-
-                for(i = 0; i < itemSessions.length; ++i)
-                {
-                    if ($.inArray(itemSessions[i], sessions) > -1) {
-                        sessionMatch = true;
-                        break;
+                    if ($.inArray(subject, filterCats) == -1) {
+                        subMatch = false;
                     }
                 }
+
+                // Match languages
+                var langMatch = true;
+                if (filterLang.length > 0) {
+                    var language = $.trim(item.values().languageSlug);
+                    if ($.inArray(language, filterLang) == -1) {
+                        langMatch = false;
+                    }
+                }
+
+                var sessionMatch = true;
+                if (sessions.length > 0) {
+                    sessionMatch = false;
+                    var itemSessionsStr = $.trim(item.values().sessionSlug);
+                    var itemSessions = itemSessionsStr.split(',');
+
+                    for(i = 0; i < itemSessions.length; ++i)
+                    {
+                        if ($.inArray(itemSessions[i], sessions) > -1) {
+                            sessionMatch = true;
+                            break;
+                        }
+                    }
+                }
+
+                return subMatch && langMatch && sessionMatch;
+            });
+
+            var tableWrapper = $('#' + key + '-table-wrapper');
+            if(courseLists.length > 0 )
+            {
+                if( $.inArray(key, courseLists) != -1) {
+                    tableWrapper.show();
+                } else {
+                    tableWrapper.hide();
+                }
+            } else {
+                tableWrapper.show();
             }
-
-            return subMatch && langMatch && sessionMatch;
-        });
-
+        }
     }
 
     function gaqPush(type, value) {
