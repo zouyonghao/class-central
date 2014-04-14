@@ -76,7 +76,7 @@ class SessionDocumentType extends DocumentType{
             'state' => array(
                 'type' => 'integer'
             ) ,
-            'startState' => array(
+            'startDate' => array(
                 'type' => 'date'
             )
         );
