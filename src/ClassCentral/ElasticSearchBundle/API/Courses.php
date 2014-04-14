@@ -292,7 +292,7 @@ class Courses {
         $filter = array(
             "range" => array(
                 'status' => array(
-                    "lte" => 100
+                    "lt" => 100
                 )
         ));
 
