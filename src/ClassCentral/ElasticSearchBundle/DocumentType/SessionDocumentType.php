@@ -72,6 +72,13 @@ class SessionDocumentType extends DocumentType{
      */
     public function getMapping()
     {
-        // TODO: Implement getMapping() method.
+        return array(
+            'state' => array(
+                'type' => 'integer'
+            ) ,
+            'startState' => array(
+                'type' => 'date'
+            )
+        );
     }
 } 

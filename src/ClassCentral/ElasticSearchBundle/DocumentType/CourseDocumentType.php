@@ -52,6 +52,10 @@ class CourseDocumentType extends DocumentType {
         $sDoc = new SubjectDocumentType( new Stream(), $this->container) ;
         $sMapping = $sDoc->getMapping();
 
+        // Next Session mapping for sorting
+        $nsDoc = new SessionDocumentType( new Offering(), $this->container);
+        $nsMapping= $nsDoc->getMapping();
+
         return array(
             'provider' => array(
                 'properties' => $pMapping
@@ -61,6 +65,9 @@ class CourseDocumentType extends DocumentType {
             ),
             'institutions' => array(
                 "properties" => $iMapping
+            ),
+            'nextSession' => array(
+                'properties' => $nsMapping
             )
         );
     }
