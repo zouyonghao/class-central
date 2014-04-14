@@ -77,7 +77,8 @@ class SessionDocumentType extends DocumentType{
                 'type' => 'integer'
             ) ,
             'startDate' => array(
-                'type' => 'date'
+                'type' => 'date',
+                'format' => 'YYYY-MM-dd'
             )
         );
     }

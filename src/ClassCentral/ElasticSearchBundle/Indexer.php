@@ -26,11 +26,7 @@ class Indexer {
 
     public function __construct()
     {
-        $param['hosts'] = array(
-            '192.168.1.1:9200'
-        );
         $this->esClient = new Client();
-        $this->indexName = 'cc_test';
     }
 
     public function setContainer($container)
@@ -45,6 +41,8 @@ class Indexer {
      */
     public function index($entity)
     {
+        $this->indexName = $this->container->getParameter('es_index_name');
+
         // Index the course
         if($entity instanceof Course)
         {
