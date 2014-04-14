@@ -52,7 +52,7 @@ class SessionDocumentType extends DocumentType{
         $b['id'] = $o->getId();
         $b['url'] = $o->getUrl();
         $b['displayDate'] = $o->getDisplayDate();
-        $b['startDate'] = $o->getStartDate()->format('Y/m/d');
+        $b['startDate'] = $o->getStartDate()->format('Y-m-d');
         $b['startTimeStamp'] = $o->getStartTimestamp();
         $b['microdataDate'] = $o->getMicrodataDate();
         $b['status'] = $o->getStatus();
