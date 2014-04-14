@@ -197,44 +197,71 @@ class LanguageController extends Controller
      */
     public function viewAction(Request $request, $slug)
     {
-        $em = $this->getDoctrine()->getManager();
-        $language = $em->getRepository('ClassCentralSiteBundle:Language')->findOneBySlug($slug);
+        $cache = $this->get('cache');
 
-        If(!$language)
+        $data = $cache->get(
+            'language_' . $slug,
+            function($slug, $container) {
+                $esCourses = $this->get('es_courses');
+                $filter =$this->get('filter');
+                $em = $container->get('doctrine')->getManager();
+
+                $language = $em->getRepository('ClassCentralSiteBundle:Language')->findOneBySlug($slug);
+                if(!$language) {
+                    // TODO: render an error page
+                    return array();
+                }
+
+                $pageInfo =  PageHeaderFactory::get($language);
+                $pageInfo->setPageUrl(
+                    $container->getParameter('baseurl'). $container->get('router')->generate('lang', array('slug' => $slug))
+                );
+
+                $response = $esCourses->findByLanguage($slug);
+                $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
+                $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+                $allSessions  = $filter->getCourseSessions( $response['sessions'] );
+
+                $breadcrumbs = array(
+                    Breadcrumb::getBreadCrumb('Languages',$container->get('router')->generate('languages')),
+                    Breadcrumb::getBreadCrumb($language->getName(), $container->get('router')->generate('lang',array('slug' => $language->getSlug())))
+                );
+
+
+                return array(
+                    'response' => $response,
+                    'language' => $language,
+                    'pageInfo' => $pageInfo,
+                    'allSubjects' => $allSubjects,
+                    'allLanguages' => $allLanguages,
+                    'breadcrumbs' => $breadcrumbs,
+                    'allSessions'  => $allSessions
+                );
+            },
+            array($slug, $this->container)
+        );
+
+        if( empty($data) )
         {
-            // TODO: Show an error page
+            // Show an error message
             return;
         }
 
-        $cache = $this->get('Cache');
-        $filterService = $this->get('Filter');
-        $offerings = $cache->get('language_offerings_' . $slug,
-            array ($this, 'getOfferingsByLanguage'), array($language));
 
-        // TODO: All Subjects and offerings should be in sync
-        $subjects = $cache->get('language_subjects_' . $slug,array($filterService, 'getOfferingSubjects'), array($offerings));
-        $pageInfo = PageHeaderFactory::get($language);
 
-        // Set the pageurl for share links
-        $pageInfo->setPageUrl(
-            $this->container->getParameter('baseurl'). $this->get('router')->generate('lang', array('slug' => $slug))
-        );
-
-        $breadcrumbs = array(
-            Breadcrumb::getBreadCrumb('Languages',$this->generateUrl('languages')),
-            Breadcrumb::getBreadCrumb($language->getName(), $this->generateUrl('lang',array('slug' => $language->getSlug())))
-        );
         return $this->render('ClassCentralSiteBundle:Language:view.html.twig',
             array(
-                'language' => $language,
-                'offerings' => $offerings,
+                'language' => $data['language'],
                 'page'=>'language',
                 'offeringTypes'=> Offering::$types,
                 'slug' => $slug,
-                'pageInfo' => $pageInfo,
-                'offSubjects' => $subjects,
+                'results' => $data['response']['results'],
                 'listTypes' => UserCourse::$lists,
-                'breadcrumbs' => $breadcrumbs
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'allSessions' => $data['allSessions'],
+                'pageInfo' => $data['pageInfo'],
+                'breadcrumbs' => $data['breadcrumbs']
             ));
     }
 
@@ -258,7 +285,7 @@ class LanguageController extends Controller
     public function languagesAction(Request $request)
     {
         $cache = $this->get('cache');
-        $languages = $cache->get('language_list_count', array($this, 'getLanguagesList'),array($this->getDoctrine()->getManager()));
+        $languages = $cache->get('language_list_count', array($this, 'getLanguagesList'),array($this->container));
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('Languages',$this->generateUrl('languages'))
         );
@@ -269,9 +296,14 @@ class LanguageController extends Controller
             ));
     }
 
-    public function getLanguagesList($em)
+    public function getLanguagesList($container)
     {
-        $languagesCount = $em->getRepository('ClassCentralSiteBundle:Language')->getCourseCountByLanguages();
+        $em = $container->get('doctrine')->getManager();
+        $esCourses = $container->get('es_courses');
+
+        $count = $esCourses->getCounts();
+        $languagesCount = $count['languages'];
+
         $allLanguages = $em->getRepository('ClassCentralSiteBundle:Language')->findAll();
         $languages = array();
         foreach($allLanguages as $language)
@@ -281,7 +313,7 @@ class LanguageController extends Controller
                 continue; // no count exists. Do not show the language
             }
 
-            $count = $languagesCount[$language->getId()]['courseCount'];
+            $count = $languagesCount[$language->getId()];
             $language->setCourseCount($count);
             $languages[$language->getId()] = $language;
 

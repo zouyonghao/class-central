@@ -14,40 +14,62 @@ class DefaultController extends Controller {
     public function indexAction() {
   
         $cache = $this->get('Cache');
-        $offerings = $cache->get('default_index_offerings',
-                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));                
+        $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
 
-        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', 
-                            array( 'offerings' => $offerings, 'page' => 'home',   'listTypes' => UserCourse::$lists,
-                                  'offeringTypes'=> array_intersect_key( Offering::$types, array_flip(array('recent','recentlyAdded')))));
+        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
+                'page' => 'home',
+                'listTypes' => UserCourse::$lists,
+                'recentCourses'   => $recent['response']['results']
+               ));
+    }
+
+
+    public function getCoursesByStatus($type, $container)
+    {
+        $esCourses = $container->get('es_courses');
+        $filter =$container->get('filter');
+        $response = $esCourses->findByTime($type);
+        $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
+        $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+
+        return array(
+            'response' => $response,
+            'allSubjects' => $allSubjects,
+            'allLanguages' => $allLanguages
+        );
     }
     
-    
-    
-    public function coursesAction($type = 'upcoming'){
+    public function coursesAction($type = 'upcoming')
+    {
         if(!in_array($type, array_keys(Offering::$types))){
             // TODO: render an error page
             return false;
         }
-        $cache = $this->get('Cache');
-        $filterService = $this->get('Filter');
 
-        $offerings = $cache->get('default_courses_offerings_' . $type,
-                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'));
+        $cache = $this->get('cache');
 
-        $shownOfferings = array($type => $offerings[$type]); // All offerings are retriviewed but only one type is shown
-        $subjects = $cache->get('default_courses_offerings_subjects_' . $type,array($filterService, 'getOfferingSubjects'), array($shownOfferings));
-        $lang = $cache->get('default_courses_offerings_languages_' . $type, array($filterService,'getOfferingLanguages'),array($shownOfferings));
+
+        $data = $cache->get(
+            'course_status_' . $type,
+            array($this, 'getCoursesByStatus'),
+            array($type, $this->container)
+        );
+
+        if( empty($data) )
+        {
+            // Show an error message
+            return;
+        }
 
         return $this->render('ClassCentralSiteBundle:Default:courses.html.twig', 
                 array(
                     'offeringType' => $type,
-                    'offerings' => $offerings,
                     'page'=>'courses',
-                    'offeringTypes'=> Offering::$types,
-                    'offSubjects' => $subjects,
-                    'offLanguages' => $lang,
-                    'listTypes' => UserCourse::$lists
+                    'results' => $data['response']['results'],
+                    'listTypes' => UserCourse::$lists,
+                    'allSubjects' => $data['allSubjects'],
+                    'allLanguages' => $data['allLanguages'],
+                     'offeringTypes' => Offering::$types
                 ));
     }
 

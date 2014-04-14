@@ -135,7 +135,6 @@ class Course {
      */
     private $tags;
 
-
     /**
      * Set name
      *
@@ -207,7 +206,12 @@ class Course {
     public function getStream() {
         return $this->stream;
     }
-   
+
+    public function addOffering(Offering $offering)
+    {
+        $this->offerings[] = $offering;
+    }
+
     public function getOfferings() {
         return $this->offerings;
     }

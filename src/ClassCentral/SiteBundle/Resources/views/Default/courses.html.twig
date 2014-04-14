@@ -14,12 +14,10 @@
 {%  block content %}
 
     <div id="filter-wrap">
-    {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':offSubjects,'offLanguages':offLanguages } %}
+        {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages } %}
         <div class="tables-wrap">
-        {% if offerings[offeringType] is not null and offerings[offeringType]|length > 0 %}
-            <h2 class="tabletitle" id="{{offeringType}}">{{offeringTypes[offeringType]['nav']}} (<span id="{{ offeringType }}-count">{{ offerings[offeringType]|length }}</span>)</h2>
-            {% include 'ClassCentralSiteBundle:Default:courses.table.html.twig' with{'offerings':offerings[offeringType],'tableId':offeringType} %}
-        {% endif %}
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'statustable'} %}
         </div>
     </div>
+
 {% endblock %}

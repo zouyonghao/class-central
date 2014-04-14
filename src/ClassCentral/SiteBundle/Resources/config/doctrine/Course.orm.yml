@@ -114,5 +114,4 @@ ClassCentral\SiteBundle\Entity\Course:
         inverseJoinColumns:
           tag_id:
             referencedColumnName: id
-
 lifecycleCallbacks: {  }

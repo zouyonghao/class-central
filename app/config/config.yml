@@ -48,7 +48,10 @@ assetic:
         yui_js:
              jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
 
-
+        lessphp:
+          apply_to: "\.less$"
+          formatter: "compressed"
+          preserve_comments: false
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -78,6 +81,11 @@ services:
     calls:
       - [SetArrayResult,[true]]
       - [SetLimits, [0,500,1000]]
+  es_client:
+      class: Elasticsearch\Client
+  es_courses:
+      class: ClassCentral\ElasticSearchBundle\API\Courses
+      arguments: [ '@es_client', '%es_index_name%']
   dom_parser:
     class: SimplehtmldomClient
   doctrine_cache:
@@ -118,6 +126,11 @@ services:
   tag:
         class: ClassCentral\SiteBundle\Services\Tag
         arguments: ['@service_container']
+  # elastic serach indexer
+  es_indexer:
+        class: ClassCentral\ElasticSearchBundle\Indexer
+        calls:
+          - [setContainer, ['@service_container'] ]
   session.memcached:
     class: Memcached
     arguments:

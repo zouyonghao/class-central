@@ -1,0 +1,34 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block headmeta %}
+    <title>{{provider.name}} - MOOCs/free online courses list | Class Central</title>
+    <meta name="description"
+          content="List of {{provider.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
+
+    <meta property="og:title" content="List of {{provider.name}} free online courses/MOOCs | Class Central" />
+    <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': provider.code}) }}" />
+    {% if pageInfo.imageUrl %}
+        <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
+    {% else %}
+        <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
+    {% endif %}
+    <meta property="og:description" content="List of {{provider.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter card integration -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@classcentral">
+    <meta name="twitter:title" content="List of {{provider.name}} free online courses/MOOCs">
+    <meta name="twitter:description" content="List of {{provider.name}} free online courses/MOOCs aggregated by Class Central">
+    <meta name="twitter:domain" content="www.class-central.com">
+{% endblock %}
+
+{%  block content %}
+    {% include 'ClassCentralSiteBundle:Helpers:pageHeader.html.twig' with {'info':pageInfo} %}
+    <div id="filter-wrap">
+        {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions' : allSessions } %}
+        <div class="tables-wrap">
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'providertable'} %}
+        </div>
+    </div>
+{% endblock %}

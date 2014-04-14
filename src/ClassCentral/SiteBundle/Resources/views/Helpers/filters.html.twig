@@ -17,27 +17,26 @@
             </div>
         {% endif %}
         <ul class="filter-nav">
+
         {# user course lists #}
-        {% if offLists is defined and offLists|length > 0 %}
+        {% if userLists is defined and userLists|length > 0 %}
             <li class="filter-courses active">
                 <a href="#" class="filter-dropdown-toggle main-category">My Courses<span class="arrow-up"></span><span class="arrow-down"></span></a>
                 <ul class="main-filter-dropdown">
-                    {% for list in offLists %}
-                        {% if offerings[list.slug] is not null and offerings[list.slug]|length > 0 %}
-                            <li>
-                                <div class="tick-wrap">
-                                    <span class="tick">√</span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="{{ list.slug }}">{{ list.desc  }}</a>
-                                </div>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
+                    {% for list in listTypes if list.slug in userLists %}
+                        <li>
+                            <div class="tick-wrap">
+                                <span class="tick">√</span>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="{{ list.slug }}" data-type="course-list">{{ list.desc  }}</a>
+                            </div>
+                        </li>
+                {% endfor %}
 
                     {% if searchTerms|length > 0 %}
                         <li>
                             <div class="tick-wrap">
                                 <span class="tick">√</span>
-                                <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm">Search Terms</a>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm" data-type="course-list">Search Terms</a>
                             </div>
                         </li>
                     {% endif %}
@@ -45,6 +44,28 @@
 
             </li>
         {% endif %}
+
+
+
+        {# sessions #}
+        {% if offSessions is defined and offSessions|length > 0 %}
+            <li class="filter-sessions active">
+                <a href="#" class="filter-dropdown-toggle main-category">Course Status<span class="arrow-up"></span><span class="arrow-down"></span></a>
+
+                <ul class="main-filter-dropdown">
+                    {% for slug,session in offSessions %}
+                        <li>
+                            <div class="tick-wrap">
+                                <span class="tick">√</span>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-session="{{ slug }}" data-type="session"> {{ session.nav  }}</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+
+
         {# subjects #}
         {% if offSubjects is defined and offSubjects|length > 0  %}
             <li class="filter-subjects active">
@@ -54,12 +75,12 @@
                         <li>
                             <div class="tick-wrap">
                                 <span class="tick">√</span>
-                                <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}" data-type="subject"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
                             </div>
                             {% if pSub.children|length > 0 %}
                                 <ul class="filter-dropdown">
                                     {% for cSub in pSub.children %}
-                                        <li><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}"><span class="tick">√</span>{{ cSub.name }}</a></li>
+                                        <li><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}" data-type="subject"><span class="tick">√</span>{{ cSub.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
@@ -78,7 +99,7 @@
                         <li>
                             <div class="tick-wrap">
                                 <span class="tick">√</span>
-                                <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}"> {{ language.name  }}</a>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}" data-type="lang"> {{ language.name  }}</a>
                             </div>
                         </li>
                     {% endfor %}

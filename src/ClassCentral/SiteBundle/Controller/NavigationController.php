@@ -19,10 +19,42 @@ class NavigationController extends Controller{
     
     public function indexAction($page)
     {
-        $cache = $this->get('cache');        
-        $offeringCount = $cache->get($this->offeringCountCacheKey, array($this,'getOfferingCount'));
-        $initiativeCount = $cache->get($this->initiativeCountCacheKey, array($this,'getInitiativeCount'));
+        $cache = $this->get('cache');
+        $em = $this->getDoctrine()->getManager();
 
+
+
+        $data = $cache->get('navigation_counts', function($container){
+            $esCourses = $container->get('es_courses');
+            $counts = $esCourses->getCounts();
+            $em = $container->get('doctrine')->getManager();
+
+            $offeringCount = array();
+            foreach (array_keys(Offering::$types) as $type)
+            {
+                $offeringCount[$type] = $counts['sessions'][strtolower($type)];
+            }
+
+            $initiativeCount = array();
+            foreach( Initiative::$types as $code => $name )
+            {
+                if($code == 'others')
+                {
+                    $initiativeCount[$name]['name'] = 'Others';
+                }
+                else
+                {
+                    $provider = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code' => $code) );
+                    $initiativeCount[$name]['name'] = $provider->getName();
+                }
+
+                $initiativeCount[$name]['count'] = $counts['providersNav'][$code];
+
+            }
+
+            return compact('offeringCount','initiativeCount');
+
+        }, array($this->container));
 
         // Start the session for every user
         $session = $this->getRequest()->getSession();
@@ -33,56 +65,11 @@ class NavigationController extends Controller{
         }
 
         return $this->render('ClassCentralSiteBundle:Helpers:navbar.html.twig', 
-                            array( 'offeringCount' => $offeringCount,'initiativeCount'=>$initiativeCount, 
+                            array( 'offeringCount' => $data['offeringCount'],'initiativeCount'=>$data['initiativeCount'],
                                    'page' => $page, 'offeringTypes'=> Offering::$types, 
                                     'initiativeTypes' => Initiative::$types,
                                     'navEventName' => $this->navEventName
                                 ));  
     }
-    
-    public function getInitiativeCount()
-    {
-        $results = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')->getCourseCountByInitative();
-        $initiativeCount = array();
-        $othersCode = Initiative::$types['others'];
-        $initiativeCount[$othersCode]['count'] = 0;
-        $initiativeCount[$othersCode]['name'] = 'Others';
-        $initiativeCodes = array_values(Initiative::$types);
-        
-        foreach ($results as $result)
-        {
-            $name = $result['name'];
-            $code = $result['code'];
-            $count = $result['total']; // accessing the count
-            
-            if(in_array($code, $initiativeCodes))
-            {
-                $initiativeCount[$code]['count'] = $count;
-                $initiativeCount[$code]['name'] = $name;
-            } else
-            {
-               $initiativeCount[$othersCode]['count'] += $count; 
-            }
-            
-        }
-        
-        return $initiativeCount;
-    }
 
-    public function getOfferingCount()
-    {
-        $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByInitiative();
-        $offeringCount = array();
-        foreach (array_keys(Offering::$types) as $type) {
-            $offeringCount[$type] = isset($offerings[$type]) ? count($offerings[$type]) : 0;
-        }
-        
-        return $offeringCount;
-    }
-
-    public function getStreamCount()
-    {
-        $streams = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Stream')->getCourseCountByStream();
-        return $streams;
-    }
 }

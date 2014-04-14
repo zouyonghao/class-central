@@ -15,11 +15,12 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
+
         <!-- Le styles -->  
         {% stylesheets filter='yui_css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/fonts.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-responsive.css'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/fonts.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/css/prettyPhoto.css'
@@ -158,7 +159,7 @@
         {# All the javascript goes in here #}
         
         {% javascripts filter='yui_js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.7.1.min.js'        
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.7.1.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/js/jquery.prettyPhoto.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.tablesorter.min.js'
@@ -239,20 +240,14 @@
                 }        
             }
             $(document).ready(function() 
-            {                 
-                $("#recentlist").tablesorter( {textExtraction: textExtractor});
-                $("#recentlyAddedlist").tablesorter( {textExtraction: textExtractor}); 
-                $("#ongoinglist").tablesorter( {textExtraction: textExtractor}); 
-                $("#upcominglist").tablesorter({textExtraction: textExtractor} );
-                $("#pastlist").tablesorter({textExtraction: textExtractor} ); 
-                $("#selfpacedlist").tablesorter({textExtraction: textExtractor} );
-
-                $("#recentlist").floatThead();
-                $("#recentlyAddedlist").floatThead();
-                $("#ongoinglist").floatThead();
-                $("#upcominglist").floatThead();
-                $("#pastlist").floatThead();
-                $("#selfpacedlist").floatThead();
+            {
+                var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable'];
+                for(i = 0; i < tableTypes.length; i++)
+                {
+                    var tList = $('#' + tableTypes[i] + "list");
+                    tList.tablesorter( {textExtraction: textExtractor});
+                    tList.floatThead();
+                }
             } 
             );
             $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
