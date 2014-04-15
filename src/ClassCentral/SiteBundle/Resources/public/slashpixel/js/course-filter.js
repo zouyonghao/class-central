@@ -174,15 +174,18 @@ jQuery(function($) {
 
     function filterCourses() {
         var filterCats = [];
+        var tickedSubjects = []; // for the pushstate url
         // Sub subjects
         $(".filter-subjects .active > .sort").each(function() {
             filterCats.push($.trim($(this).data("subject")));
+            tickedSubjects.push($.trim($(this).data("subject")));
         });
 
         // Parent subjects
         $(".filter-subjects .ticked + .sub-category").each(function() {
             var parentCat = $.trim($(this).data("subject"));
             filterCats.push(parentCat);
+            tickedSubjects.push(parentCat);
             // Get the subjects for this parent category
             $("a[data-parent='" + parentCat +"']").each(function(){
                filterCats.push( $.trim($(this).data("subject"))) ;
@@ -207,6 +210,8 @@ jQuery(function($) {
             sessions.push($.trim($(this).data("session")));
         });
 
+        // updates the url
+        updateUrl(tickedSubjects, filterLang, sessions);
 
         // Go through all the lists and filter the courses which don't
         // have subjects in filterCats
@@ -308,6 +313,47 @@ jQuery(function($) {
         }
     }
     filterCourses();
+
+    /**
+     * Updates the url to reflect the filters using pushstate
+     * @param subjects
+     * @param langs
+     * @param sessions
+     */
+    function updateUrl(subjects, langs, sessions) {
+        var params = {};
+        if( subjects.length > 0 ) {
+            params['subject'] = subjects.join();
+        }
+        if( sessions.length > 0 ) {
+            params['session'] = sessions.join();
+        }
+
+        var lowerCaseLangs = [];
+        if( langs.length > 0 ) {
+            for(i=0; i < langs.length; i++) {
+                console.log(langs[i]);
+                lowerCaseLangs.push(langs[i].toLowerCase());
+            }
+            params['lang'] = lowerCaseLangs.join();
+        }
+        try{
+            // Check if there is a search param
+            $qParams = $.url().param();
+            for(var param in $qParams) {
+                if($.inArray(param,['session','subject','lang']) == -1 ) {
+                    params[param ] = $qParams[param];
+                }
+            }
+
+            if( $.isEmptyObject(params) ) {
+                history.replaceState(null, null, $.url().attr('path'));
+            } else {
+                history.replaceState(null, null, $.url().attr('path') + '?' + $.param(params));
+            }
+        } catch(e){};
+
+    }
 
     function gaqPush(type, value) {
         try {
