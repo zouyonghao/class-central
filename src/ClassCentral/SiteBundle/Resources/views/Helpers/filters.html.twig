@@ -54,7 +54,7 @@
 
                 <ul class="main-filter-dropdown">
                     {% for slug,session in offSessions %}
-                        <li>
+                        <li id="session-{{ slug }}">
                             <div class="tick-wrap">
                                 <span class="tick">√</span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-session="{{ slug }}" data-type="session"> {{ session.nav  }}</a>
@@ -72,7 +72,7 @@
                 <a href="#" class="filter-dropdown-toggle main-category">Subjects<span class="arrow-up"></span><span class="arrow-down"></span></a>
                 <ul class="main-filter-dropdown">
                     {% for pSub in offSubjects %}
-                        <li>
+                        <li id="subject-{{ pSub.slug }}" data-type="parent-sub">
                             <div class="tick-wrap">
                                 <span class="tick">√</span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}" data-type="subject"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
@@ -80,7 +80,7 @@
                             {% if pSub.children|length > 0 %}
                                 <ul class="filter-dropdown">
                                     {% for cSub in pSub.children %}
-                                        <li><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}" data-type="subject"><span class="tick">√</span>{{ cSub.name }}</a></li>
+                                        <li id="subject-{{ cSub.slug }}" data-type="child-sub"><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}" data-type="subject"><span class="tick">√</span>{{ cSub.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
@@ -96,7 +96,7 @@
                 <a href="#" class="filter-dropdown-toggle main-category">Languages<span class="arrow-up"></span><span class="arrow-down"></span></a>
                 <ul class="main-filter-dropdown">
                     {% for language in offLanguages %}
-                        <li>
+                        <li id="lang-{{ language.name|lower }}">
                             <div class="tick-wrap">
                                 <span class="tick">√</span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}" data-type="lang"> {{ language.name  }}</a>

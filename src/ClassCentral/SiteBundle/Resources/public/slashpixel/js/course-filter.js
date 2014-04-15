@@ -269,6 +269,46 @@ jQuery(function($) {
         }
     }
 
+
+    // Parse the url for filters
+    // Session filters
+    var qSessionsParam = $.url().param('session');
+    if( qSessionsParam ) {
+        var qSessions = qSessionsParam.split(',');
+        for(i = 0; i < qSessions.length; i++) {
+            $('#session-'+qSessions[i]).find('.tick').addClass('ticked');
+        }
+    }
+
+    // language filters
+    var qLanguageParam = $.url().param('lang');
+    if( qLanguageParam ) {
+        var qLang = qLanguageParam.split(',');
+        for(i=0; i < qLang.length; i++) {
+            $('#lang-'+qLang[i]).find('.tick').addClass('ticked');
+        }
+    }
+
+    // subject filters
+    var qSubjectParam = $.url().param('subject');
+    if( qSubjectParam ) {
+        var qSubject = qSubjectParam.split(',');
+        for(i=0;i < qSubject.length; i++) {
+            // Check if it is a parent subject
+            subNode = $('#subject-' + qSubject[i]);
+            if($(subNode).data('type') == 'parent-sub') {
+                $(subNode).find('.tick').addClass('ticked');
+            } else {
+                $(subNode).addClass('active');
+                // Expand the parent
+                var parentSlug = $(subNode).find('a').data('parent');
+                $('#subject-' + parentSlug).find('.tick-wrap').addClass('active');
+            }
+
+        }
+    }
+    filterCourses();
+
     function gaqPush(type, value) {
         try {
             _gaq.push(['_trackEvent','Filters',type, value]);
