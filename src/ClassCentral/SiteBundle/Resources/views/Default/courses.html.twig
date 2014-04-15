@@ -13,6 +13,15 @@
 
 {%  block content %}
 
+
+    <div class="intro-wrap">
+        <div class="description-wrap">
+            <div class="description">
+                <h1 class='cc-page-header'>{{ offeringTypes[offeringType]['nav'] }}</h1>
+            </div>
+        </div>
+    </div>
+
     <div id="filter-wrap">
         {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages } %}
         <div class="tables-wrap">
