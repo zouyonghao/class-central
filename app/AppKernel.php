@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new ClassCentral\ScraperBundle\ClassCentralScraperBundle(),
             new ClassCentral\ElasticSearchBundle\ClassCentralElasticSearchBundle(),
+            new ClassCentral\MOOCTrackerBundle\ClassCentralMOOCTrackerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {          
