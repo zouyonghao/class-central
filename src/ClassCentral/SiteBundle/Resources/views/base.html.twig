@@ -161,11 +161,8 @@
         {% javascripts filter='yui_js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.7.1.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/js/jquery.prettyPhoto.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.tablesorter.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modalmanager.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modal.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/socialcount.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/addThisEvent.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/list.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.swiftype.autocomplete.js'
@@ -186,14 +183,7 @@
 
 
         <script type="text/javascript">
-            <!-- Jquery Lightbox plugin -->
             $(document).ready(function(){
-                $("a[rel^='intro']").prettyPhoto({
-                social_tools : false,
-                show_title: false,                    
-                default_width: 640,
-                default_height:480
-                });
 
                 var customRenderFunction = function(document_type, item) {
                     var title = '<p class="title">' + item['name'] + '</p>';
@@ -232,25 +222,7 @@
             });
 
 
-            var textExtractor = function(node){ 
-                timestamp = node.getAttributeNode("data-timestamp");
-                if( timestamp != undefined ){  
-                    return timestamp.value;
-                } else {
-                    return $(node).text()
-                }        
-            }
-            $(document).ready(function() 
-            {
-                var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable'];
-                for(i = 0; i < tableTypes.length; i++)
-                {
-                    var tList = $('#' + tableTypes[i] + "list");
-                    tList.tablesorter( {textExtraction: textExtractor});
-                    tList.floatThead();
-                }
-            } 
-            );
+
             $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
 
 

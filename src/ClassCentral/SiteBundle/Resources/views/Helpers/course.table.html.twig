@@ -3,15 +3,15 @@
     <tr>
         {#<th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro Video</th>#}
         <th class="add-column">Add</th>
-        <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])">Course Name</th>
+        <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])" data-sort="course-name">Course Name</th>
         {#<th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>#}
         {# hide the stream column on stream pages #}
-        {% if page is defined and page != 'stream' and page=='home' %}<th class="sorting subject" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])">Subject</th> {% endif %}
-        <th class="sorting start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])">Start Date</th>
+        {% if page is defined and page != 'stream' and page=='home' %}<th class="sorting subject" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])" data-sort="subjectSlug">Subject</th> {% endif %}
+        <th class="sorting start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])" data-sort="course-startdate">Start Date</th>
         {# <th class="sorting offering-length" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Length'])">Length</th> #}
         {# hide the initiative column on initiative pages #}
-        {% if page is defined and page != 'initiative' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])">Provider</th> {% endif %}
-        <th class="sorting course-rating-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Rating'])">Rating</th>
+        {% if page is defined and page != 'initiative' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])" data-sort="course-provider">Provider</th> {% endif %}
+        <th class="sorting course-rating-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Rating'])" data-sort="course-rating-value">Rating</th>
     </tr>
     </thead>
     <tbody class="table-body-{{ tableId }}">
@@ -40,6 +40,9 @@
                 {% endif %}
                 <div class="subjectSlug" style="display: none">{{ subject.slug }}</div>
                 <div class="languageSlug" style="display: none">{{ course.language.name }}</div>
+                <div class="course-startdate" style="display: none">{{ course.nextSession.startDate }}</div>
+                <div class="course-rating-value" style="display: none"> {{ course.rating }} </div>
+                <div class="course-provider" style="display: none">{{ course.provider.name }}</div>
                 {% set states = [] %}
                 {% for state in course.nextSession.states %}
                     {% set states = states|merge([state]) %}

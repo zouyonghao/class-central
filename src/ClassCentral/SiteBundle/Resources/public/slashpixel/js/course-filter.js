@@ -109,14 +109,20 @@ jQuery(function($) {
         if($('.' +listClass)[0])
         {
             var options = {
-                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list', 'sessionSlug'],
+                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list', 'sessionSlug', 'course-startdate', "course-rating-value","course-provider"],
                 searchClass: ['filter-search'],
                 listClass: [listClass],
-                sortClass: ['sort-button'],
                 page:2000
             };
+            if($('#course-table-wrapper').length > 0)
+            {
+                var list = new List('course-table-wrapper',options);
+            }
+            else
+            {
+                var list = new List('filter-wrap',options);
+            }
 
-            var list = new List('filter-wrap',options);
             lists[tableType] = list;
             try {
                 // No filters on the homepage
@@ -154,10 +160,9 @@ jQuery(function($) {
         var listClass = 'table-body-' + tableType;
         if($('.' +listClass)[0]) {
             var options = {
-                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list','sessionSlug'],
+                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list','sessionSlug','course-startdate', "course-rating-value","course-provider"],
                 searchClass: ['filter-search'],
                 listClass: [listClass],
-                sortClass: ['sort-button'],
                 page:2000
             };
 
@@ -173,6 +178,11 @@ jQuery(function($) {
     }
 
     function filterCourses() {
+
+        if(!$('.cat-filter-wrap').length) {
+
+            return;
+        }
         var filterCats = [];
         var tickedSubjects = []; // for the pushstate url
         // Sub subjects
@@ -275,6 +285,8 @@ jQuery(function($) {
     }
 
 
+    // for page load done with filters
+
     // Parse the url for filters
     // Session filters
     var qSessionsParam = $.url().param('session');
@@ -312,7 +324,28 @@ jQuery(function($) {
 
         }
     }
+
     filterCourses();
+
+
+    // SORTING
+    var sortDescClass = 'headerSortUp';
+    var sortAscClass = 'headerSortDown';
+    $('th.sorting').clicglok(function(){
+        var table = $(this).parent().parent().parent().attr('id');
+        var list = table.substring(0, table.indexOf('list'));
+        var sortBy = $(this).data('sort');
+        if(!$(this).hasClass(sortAscClass)) {
+            lists[list].sort(sortBy,{'asc':true});
+            $(this).removeClass(sortDescClass);
+            $(this).addClass(sortAscClass);
+        } else {
+            lists[list].sort(sortBy,{'desc':true});
+            $(this).removeClass(sortAscClass);
+            $(this).addClass(sortDescClass);
+        }
+
+    });
 
     /**
      * Updates the url to reflect the filters using pushstate
@@ -332,7 +365,6 @@ jQuery(function($) {
         var lowerCaseLangs = [];
         if( langs.length > 0 ) {
             for(i=0; i < langs.length; i++) {
-                console.log(langs[i]);
                 lowerCaseLangs.push(langs[i].toLowerCase());
             }
             params['lang'] = lowerCaseLangs.join();

@@ -50,7 +50,6 @@
         {% for listId, listDetails in listTypes %}
             {% set listType=listDetails['slug'] %}
              listifyTable("{{ listType }}");
-             $("#{{ listType }}list").tablesorter( {textExtraction: textExtractor});
         {% endfor %}
 
         {% if searchTerms|length > 0 %}
