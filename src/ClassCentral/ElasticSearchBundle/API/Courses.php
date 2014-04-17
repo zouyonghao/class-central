@@ -97,6 +97,27 @@ class Courses {
     }
 
     /**
+     * Return courses between a specified start and end date
+     * @param $start
+     * @param $end
+     * @return array
+     */
+    public function findByNextSessionStartDate( \DateTime $start, \DateTime $end )
+    {
+        $query = array(
+            'range' => array(
+                "nextSession.startDate" => array(
+                    "gte" => $start->format('Y-m-d'),
+                    "lte" => $end->format('Y-m-d')
+                )
+            )
+
+        );
+
+        return $this->findCourses( $query );
+    }
+
+    /**
      * @param $status
      */
     public function findBySubject( $id )
@@ -209,7 +230,7 @@ class Courses {
     }
 
 
-    private function findCourses ( $matchCriteria )
+    private function findCourses ( $criteria )
     {
         $params = array();
         $qValues = $this->getDefaultQueryValues();
@@ -217,17 +238,26 @@ class Courses {
         $params['index'] = $this->indexName;
         $params['type'] = 'course';
         $params['body']['size'] = 1000;
-        $query = array(
-            'match' => $matchCriteria
-        );
+
+        if( isset($criteria['range']) )
+        {
+            $query = array(
+                $criteria
+            );
+        }
+        else
+        {
+            $query = array(
+                'match' => $criteria
+            );
+        }
+
 
 
         $query = array(
             'filtered' => array(
 
-                'query' => array(
-                    'match' => $matchCriteria
-                ),
+                'query' => $query,
                 // Remove courses that ar not valid
                 'filter' => $qValues['filter']
             )
@@ -236,6 +266,8 @@ class Courses {
         $params['body']['sort'] = $qValues['sort'];
         $params['body']['query'] = $query;
         $params['body']['facets'] = $qValues['facets'];
+
+        var_dump(json_encode($params['body']));
 
         $results = $this->esClient->search($params);
         return $this->formatResults($results);
