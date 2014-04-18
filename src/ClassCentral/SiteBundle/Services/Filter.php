@@ -207,7 +207,7 @@ class Filter {
         $allSessions = Offering::$types;
         foreach($allSessions as $key => $value)
         {
-            if ( in_array($key,$sessions) )
+            if ( in_array(strtolower($key),$sessions) )
             {
                 $s[$key] = $value;
             }

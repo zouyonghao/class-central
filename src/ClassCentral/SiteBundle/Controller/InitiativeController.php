@@ -211,6 +211,12 @@ class InitiativeController extends Controller
                      $provider->setName('Others');
                      $provider->setCode('others');
                  }
+                 elseif ( $slug == 'independent')
+                 {
+                     $provider = new Initiative();
+                     $provider->setName('Independent');
+                     $provider->setCode('independent');
+                 }
                  else
                  {
                      $provider  = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code'=>$slug ) );
