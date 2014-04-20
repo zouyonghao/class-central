@@ -267,8 +267,6 @@ class Courses {
         $params['body']['query'] = $query;
         $params['body']['facets'] = $qValues['facets'];
 
-        var_dump(json_encode($params['body']));
-
         $results = $this->esClient->search($params);
         return $this->formatResults($results);
     }

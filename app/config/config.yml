@@ -94,6 +94,23 @@ services:
   es_courses:
       class: ClassCentral\ElasticSearchBundle\API\Courses
       arguments: [ '@es_client', '%es_index_name%']
+  # Used to retrive jobs
+  es_scheduler:
+        class: ClassCentral\ElasticSearchBundle\API\Scheduler
+        arguments: [ '@es_client', '%es_scheduler_index_name%']
+  scheduler:
+      class: ClassCentral\ElasticSearchBundle\Scheduler\ESScheduler
+      calls:
+        - [setContainer, ['@service_container'] ]
+  es_runner:
+        class: ClassCentral\ElasticSearchBundle\Scheduler\ESRunner
+        calls:
+          - [setContainer, ['@service_container'] ]
+  es_indexer:
+      class: ClassCentral\ElasticSearchBundle\Indexer
+      calls:
+          - [setContainer, ['@service_container'] ]
+
   dom_parser:
     class: SimplehtmldomClient
   doctrine_cache:

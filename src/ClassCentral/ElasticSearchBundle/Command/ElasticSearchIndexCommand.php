@@ -20,16 +20,33 @@ class ElasticSearchIndexCommand extends ContainerAwareCommand {
     {
         $this
             ->setName('classcentral:elasticsearch:index')
+            ->addArgument('type', InputArgument::REQUIRED, "directory/scheduler")
             ->addArgument('action', InputArgument::REQUIRED, "delete/create the index");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $action = $input->getArgument('action');
+        $type   = $input->getArgument('type');
         $esClient = $this->getContainer()->get('es_client');
 
+        $index = null;
+        if($this == 'directory')
+        {
+            $index = $this->getContainer()->getParameter('es_index_name');
+        }
+        elseif ($type == 'scheduler')
+        {
+            $index = $this->getContainer()->getParameter('es_scheduler_index_name');
+        }
+        else
+        {
+            $output->writeln("Invalid index name");
+            return;
+        }
+
         $params = array();
-        $params['index'] = $this->getContainer()->getParameter('es_index_name');
+        $params['index'] = $index;
 
         if($action == 'delete')
         {

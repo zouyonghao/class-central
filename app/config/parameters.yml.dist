@@ -63,3 +63,4 @@ parameters:
 
     #elastic search
     es_index_name: ~
+    es_scheduler_index_name: ~
