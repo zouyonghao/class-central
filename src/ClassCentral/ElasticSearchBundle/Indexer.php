@@ -10,8 +10,11 @@ namespace ClassCentral\ElasticSearchBundle;
 
 
 use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\ESJobLogDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\SubjectDocumentType;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
+use ClassCentral\ElasticSearchBundle\Scheduler\ESJobLog;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Stream;
@@ -68,6 +71,13 @@ class Indexer {
         {
             $jobDoc = new ESJobDocumentType($entity, $this->container);
             $doc = $jobDoc->getDocument( $this->getIndexName('es_scheduler_index_name') );
+            $this->esClient->index( $doc );
+        }
+
+        if($entity instanceof ESJobLog)
+        {
+            $jobLogDoc = new ESJobLogDocumentType($entity, $this->container);
+            $doc = $jobLogDoc->getDocument( $this->getIndexName('es_scheduler_index_name') );
             $this->esClient->index( $doc );
         }
     }

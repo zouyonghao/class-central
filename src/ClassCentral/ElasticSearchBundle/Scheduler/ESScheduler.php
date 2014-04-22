@@ -35,7 +35,7 @@ class ESScheduler {
         $job->setRunDate($date);
         $job->setClass($class);
         $job->setArgs($arguments);
-        $job->setType( $type );
+        $job->setJobType( $type );
 
         $indexer->index( $job );
 

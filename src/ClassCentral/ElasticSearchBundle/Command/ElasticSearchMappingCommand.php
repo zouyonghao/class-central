@@ -11,7 +11,10 @@ namespace ClassCentral\ElasticSearchBundle\Command;
 
 use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\ESJobLogDocumentType;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
+use ClassCentral\ElasticSearchBundle\Scheduler\ESJobLog;
+use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Course;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -83,26 +86,47 @@ class ElasticSearchMappingCommand extends ContainerAwareCommand {
 
     private function updateSchedulerMapping( $deleteMapping )
     {
-        $es = $this->getContainer()->get('es_client'); // Elastic Search client
-        $params = array();
-        $params['index'] = $this->getContainer()->getParameter('es_scheduler_index_name');
 
         $jobDoc = new ESJobDocumentType( new ESJob( 'fake_id' ), $this->getContainer());
-        $params['type'] = $jobDoc->getType();
+
+        $this->createDocMapping(
+            $jobDoc,
+            $this->getContainer()->getParameter('es_scheduler_index_name'),
+            $deleteMapping
+        );
+
+        // put job log mapping
+        $jobLogDoc = new ESJobLogDocumentType( new ESJobLog(), $this->getContainer() );
+        $this->createDocMapping(
+            $jobLogDoc,
+            $this->getContainer()->getParameter('es_scheduler_index_name'),
+            $deleteMapping
+        );
+
+
+    }
+
+
+    private function createDocMapping ( DocumentType $doc, $index, $deleteMapping)
+    {
+        $es = $this->getContainer()->get('es_client'); // Elastic Search client
+        $params = array();
+        $params['index'] = $index;
+        $params['type']  = $doc->getType();
 
         if( $deleteMapping )
         {
-            $es->indices()->deleteMapping($params);
+            $es->indices()->deleteMapping( $params );
         }
 
         $mapping = array(
             '_source' => array(
                 'enabled' => true
             ),
-            'properties' => $jobDoc->getMapping()
+            'properties' => $doc->getMapping()
         );
 
-        $params['body'][ $jobDoc->getType() ] = $mapping;
+        $params['body'][ $doc->getType() ] = $mapping;
 
         $es->indices()->putMapping( $params );
     }

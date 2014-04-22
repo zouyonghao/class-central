@@ -9,6 +9,7 @@
 namespace ClassCentral\ElasticSearchBundle\API;
 
 
+use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
 
 class Scheduler {
@@ -43,13 +44,16 @@ class Scheduler {
                 'filter' => array(
                     'and' => array(
                         array(
-                            "terms" => array(
-                                "runDate" => $date
+                            "numeric_range" => array(
+                                "runDate" => array(
+                                    'gte' => $date,
+                                    'lte' => $date
+                                )
                             )
                         ),
                         array(
-                            "terms" => array(
-                                "type" => $type
+                            "term" => array(
+                                "jobType" => $type
                             )
                         )
                     )
@@ -64,9 +68,22 @@ class Scheduler {
         return $results;
     }
 
+    /**
+     * Deletes a job with a particular id
+     * @param $id
+     */
+    public function delete ($id)
+    {
+        $params = array();
+        $params['index'] = $this->indexName;
+        $params['type'] = $this->getJobType();
+        $params['id'] = $id;
+
+        return $this->esClient->delete( $params );
+    }
+
     protected function getJobType()
     {
-        $job = new ESJob("fakeId");
-        return $job->getId();
+        return 'job';
     }
 } 

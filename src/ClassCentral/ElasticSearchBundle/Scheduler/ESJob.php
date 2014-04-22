@@ -21,7 +21,7 @@ class ESJob {
      * Job type
      * @var
      */
-    private $type;
+    private $jobType;
 
     /**
      *
@@ -93,7 +93,7 @@ class ESJob {
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created)
+    public function setCreated( \DateTime $created)
     {
         $this->created = $created;
     }
@@ -141,17 +141,29 @@ class ESJob {
     /**
      * @param mixed $type
      */
-    public function setType($type)
+    public function setJobType($type)
     {
-        $this->type = $type;
+        $this->jobType = $type;
     }
 
     /**
      * @return mixed
      */
-    public function getType()
+    public function getJobType()
     {
-        return $this->type;
+        return $this->jobType;
+    }
+
+    public static function getObjFromArray( $result )
+    {
+        $job = $result['_source'];
+        $j = new ESJob( $result['_id'] );
+        $j->setClass( $job['class'] );
+        $j->setArgs( $job['args'] );
+        $j->setCreated( \DateTime::createFromFormat('Y-m-d H:i:s',$job['created']) );
+        $j->setJobType( $job['jobType'] );
+        $j->setRunDate( new \DateTime($job['runDate'])   );
+        return $j;
     }
 
 
