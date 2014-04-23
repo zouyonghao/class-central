@@ -22,8 +22,14 @@ monolog:
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
 
+
 #framework:
 #  templating:
 #    assets_base_urls:
 #      http: ['%prod_assets_cdn_url%']
 #      ssl: ['%prod_assets_cdn_url%']
+
+scheduler:
+    type: stream
+    path: %kernel.logs_dir%/scheduler.%kernel.environment%.log
+    channels: [ scheduler ]

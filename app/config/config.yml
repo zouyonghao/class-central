@@ -102,6 +102,9 @@ services:
       class: ClassCentral\ElasticSearchBundle\Scheduler\ESScheduler
       calls:
         - [setContainer, ['@service_container'] ]
+      tags:
+        - { name: 'monolog.logger', channel: 'scheduler' }
+
   es_runner:
         class: ClassCentral\ElasticSearchBundle\Scheduler\ESRunner
         calls:

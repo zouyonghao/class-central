@@ -28,6 +28,7 @@ class ESScheduler {
      */
     public function schedule( \DateTime $date, $type, $class, $arguments = array() )
     {
+        $logger = $this->container->get('monolog.logger.scheduler');
         $indexer = $this->container->get('es_indexer');
 
         $id = md5(uniqid('', true));
@@ -38,6 +39,8 @@ class ESScheduler {
         $job->setJobType( $type );
 
         $indexer->index( $job );
+
+        $logger->info( "SCHEDULER :  job created with id $id", ESJob::getArrayFromObj( $job ) );
 
         return $id;
     }

@@ -9,6 +9,8 @@
 namespace ClassCentral\ElasticSearchBundle\Scheduler;
 
 
+use Symfony\Component\Config\Definition\Exception\Exception;
+
 class ESRunner {
 
     private $container;
@@ -18,19 +20,36 @@ class ESRunner {
         $this->container = $container;
     }
 
+
     /**
      * Run a job immediately by id
      * @param $id
      */
     public function runById($id)
     {
+        $logger = $this->getLogger();
         $esScheduler = $this->container->get('es_scheduler');
+        $indexer = $this->container->get('es_indexer');
 
         // Retrieve the job
-        $result = $esScheduler->findJobById($id);
-        $job = ESJob::getObjFromArray($result);
+        try
+        {
+            $result = $esScheduler->findJobById($id);
+            $job = ESJob::getObjFromArray($result);
 
-        $status = $this->run( $job );
+            $status = $this->run( $job );
+
+            // Create a log item
+            $jl = ESJobLog::getJobLog( $job, $status );
+            $indexer->index( $jl );
+        }
+        catch (\Exception $e)
+        {
+            // Job not found
+            $logger->error("RUNNER: runById - Job not found for id $id", array(
+                'message' => $e->getMessage()
+            ));
+        }
     }
 
     /**
@@ -40,11 +59,20 @@ class ESRunner {
      */
     public function runByDate( \DateTime $date, $type)
     {
-        // Retrieve all jobs for this date and type
+        $logger = $this->getLogger();
         $esScheduler = $this->container->get('es_scheduler');
         $indexer = $this->container->get('es_indexer');
 
+        $dt = $date->format('Y-m-d');
+
+
+        $logger->info("RUNNER: runByDate called with parameters date $dt & type $type");
+
+        // Retrieve all jobs for this date and type
         $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type );
+
+        $totalJobs = $results['hits']['total'];
+        $logger->info("RUNNER: $totalJobs jobs found");
 
         foreach ($results['hits']['hits'] as $result)
         {
@@ -66,11 +94,20 @@ class ESRunner {
      */
     public function run(ESJob $job)
     {
+        $logger = $this->getLogger();
         $class = $job->getClass();
+        $jobId = $job->getId();
+
+        $logger->info("RUNNER: Running job with id $jobId");
 
         // Check if the class exists
         if( !class_exists( $job->getClass() ))
         {
+
+            $logger->error(
+                "Runner: Class $class not found for job with id $jobId",
+                ESJob::getArrayFromObj( $job)
+            );
             return SchedulerJobStatus::getStatusObject(
                 SchedulerJobStatus::SCHEDULERJOB_STATUS_CLASS_NOT_FOUND,
                 "The class $class has not been found");
@@ -83,9 +120,19 @@ class ESRunner {
         $status =  $task->perform( $job->getArgs() );
         $task->tearDown();
 
+        $logger->info(
+            "RUNNER: Job with id $jobId completed", array(
+                'status' => SchedulerJobStatus::$statuses[ $status->getStatus()],
+                'message' => $status->getMessage()
+            )
+        );
+
         return $status;
     }
 
-
+    private function getLogger()
+    {
+        return $this->container->get('monolog.logger.scheduler');
+    }
 
 } 

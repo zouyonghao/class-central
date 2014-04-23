@@ -23,7 +23,10 @@ monolog:
         chromephp:
             type:  chromephp
             level: info
-
+        scheduler:
+            type: stream
+            path: %kernel.logs_dir%/scheduler.%kernel.environment%.log
+            channels: [ scheduler ]
 assetic:
     use_controller: true
 

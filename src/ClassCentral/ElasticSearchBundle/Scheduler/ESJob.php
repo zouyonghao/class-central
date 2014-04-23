@@ -166,5 +166,17 @@ class ESJob {
         return $j;
     }
 
+    public static function getArrayFromObj( ESJob $job )
+    {
+        $j = array();
+        $j['id'] = $job->getId();
+        $j['class'] = $job->getClass();
+        $j['args'] = $job->getArgs();
+        $j['created'] = $job->getCreated();
+        $j['jobType'] = $job->getJobType();
+        $j['runDate'] = $job->getRunDate();
+        return $j;
+    }
+
 
 } 
