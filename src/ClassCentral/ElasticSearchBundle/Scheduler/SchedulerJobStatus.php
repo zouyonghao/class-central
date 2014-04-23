@@ -18,11 +18,14 @@ class SchedulerJobStatus {
     const SCHEDULERJOB_STATUS_SUCCESS = 1;
     const SCHEDULERJOB_STATUS_FAILED  = 2;
     const SCHEDULERJOB_STATUS_CLASS_NOT_FOUND = 3;
+    const SCHEDULERJOB_STATUS_JOB_NOT_FOUND = 4;
 
     public static $statuses = array(
         SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS => 'Success',
         SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED  => 'Failed',
-        SchedulerJobStatus::SCHEDULERJOB_STATUS_CLASS_NOT_FOUND => 'Job class not found'
+        SchedulerJobStatus::SCHEDULERJOB_STATUS_CLASS_NOT_FOUND => 'Job class not found',
+        SchedulerJobStatus::SCHEDULERJOB_STATUS_JOB_NOT_FOUND => 'Job not found'
+
     );
 
     public static function getStatusObject( $status, $message)

@@ -172,9 +172,9 @@ class ESJob {
         $j['id'] = $job->getId();
         $j['class'] = $job->getClass();
         $j['args'] = $job->getArgs();
-        $j['created'] = $job->getCreated();
+        $j['created'] = $job->getCreated()->format('Y-m-d H:i:s');
         $j['jobType'] = $job->getJobType();
-        $j['runDate'] = $job->getRunDate();
+        $j['runDate'] = $job->getRunDate()->format('Y-m-d');
         return $j;
     }
 

@@ -15,6 +15,8 @@ class ESRunner {
 
     private $container;
 
+    private $logger;
+
     public function setContainer($container)
     {
         $this->container = $container;
@@ -38,17 +40,24 @@ class ESRunner {
             $job = ESJob::getObjFromArray($result);
 
             $status = $this->run( $job );
-
             // Create a log item
             $jl = ESJobLog::getJobLog( $job, $status );
             $indexer->index( $jl );
+
+            return $status;
         }
         catch (\Exception $e)
         {
+            var_dump( $e->getMessage() );
             // Job not found
             $logger->error("RUNNER: runById - Job not found for id $id", array(
                 'message' => $e->getMessage()
             ));
+
+            return SchedulerJobStatus::getStatusObject(
+                SchedulerJobStatus::SCHEDULERJOB_STATUS_JOB_NOT_FOUND,
+                "Job with $id not found"
+            );
         }
     }
 
@@ -132,7 +141,11 @@ class ESRunner {
 
     private function getLogger()
     {
-        return $this->container->get('monolog.logger.scheduler');
+        if(!$this->logger)
+        {
+            $this->logger = $this->container->get('monolog.logger.scheduler');
+        }
+        return $this->logger;
     }
 
 } 
