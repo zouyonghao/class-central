@@ -15,12 +15,6 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
-monolog:
-    scheduler:
-      type: stream
-      path: %kernel.logs_dir%/scheduler.%kernel.environment%.log
-      channels: [ scheduler ]
-
 # Doctrine Configuration
 doctrine:
     dbal:
