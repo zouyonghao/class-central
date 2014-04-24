@@ -17,6 +17,8 @@ class ESJob {
 
     private $id;
 
+    private $userId;
+
     /**
      * Job type
      * @var
@@ -147,6 +149,22 @@ class ESJob {
     }
 
     /**
+     * @param mixed $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
      * @return mixed
      */
     public function getJobType()
@@ -163,6 +181,7 @@ class ESJob {
         $j->setCreated( \DateTime::createFromFormat('Y-m-d H:i:s',$job['created']) );
         $j->setJobType( $job['jobType'] );
         $j->setRunDate( new \DateTime($job['runDate'])   );
+        $j->setUserId( $job['userId']);
         return $j;
     }
 
@@ -175,6 +194,7 @@ class ESJob {
         $j['created'] = $job->getCreated()->format('Y-m-d H:i:s');
         $j['jobType'] = $job->getJobType();
         $j['runDate'] = $job->getRunDate()->format('Y-m-d');
+        $j['userId']  = $job->getUserId();
         return $j;
     }
 

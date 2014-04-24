@@ -26,7 +26,7 @@ class ESScheduler {
      * @param $class
      * @param $arguments
      */
-    public function schedule( \DateTime $date, $type, $class, $arguments = array() )
+    public function schedule( \DateTime $date, $type, $class, $arguments = array(), $userId = -1)
     {
         $logger = $this->container->get('monolog.logger.scheduler');
         $indexer = $this->container->get('es_indexer');
@@ -37,6 +37,8 @@ class ESScheduler {
         $job->setClass($class);
         $job->setArgs($arguments);
         $job->setJobType( $type );
+        $job->setUserId( $userId );
+
 
         $indexer->index( $job );
 

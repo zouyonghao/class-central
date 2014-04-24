@@ -17,7 +17,6 @@ class ESJobLog {
 
     private $id;
 
-
     /**
      * The time which the job ran at
      * @var
