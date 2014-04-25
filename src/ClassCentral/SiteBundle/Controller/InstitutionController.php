@@ -193,6 +193,15 @@ class InstitutionController extends Controller
 
         $cache = $this->get('cache');
 
+        if($slug !== strtolower($slug))
+        {
+            // Do a 301 redirect
+            $request = $this->get('request');
+            $routeName = $request->get('_route');
+            $url = $this->get('router')->generate($routeName, array('slug' => strtolower($slug) ));
+            return $this->redirect( $url, 301);
+        }
+
         $data = $cache->get(
             'institution_' . $slug,
             function($slug, $container) {

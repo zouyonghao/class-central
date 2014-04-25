@@ -54,7 +54,7 @@ class Courses {
     public function findByInstitution( $slug )
     {
         $matchCriteria = array(
-            'institutions.slug' => $slug
+            'institutions.slug' => strtolower($slug)
         );
 
         return $this->findCourses($matchCriteria);
