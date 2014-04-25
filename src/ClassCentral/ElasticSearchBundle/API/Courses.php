@@ -10,6 +10,7 @@ namespace ClassCentral\ElasticSearchBundle\API;
 
 
 use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Offering;
 
 class Courses {
 
@@ -105,10 +106,20 @@ class Courses {
     public function findByNextSessionStartDate( \DateTime $start, \DateTime $end )
     {
         $query = array(
-            'range' => array(
-                "nextSession.startDate" => array(
-                    "gte" => $start->format('Y-m-d'),
-                    "lte" => $end->format('Y-m-d')
+            'bool' => array(
+                'must' => array(
+                    array(
+                        'range' => array(
+                            "nextSession.startDate" => array(
+                                "gte" => $start->format('Y-m-d'),
+                                "lte" => $end->format('Y-m-d')
+                            )
+                        )),
+                    array(
+                        'term' => array(
+                            'nextSession.status' => Offering::START_DATES_KNOWN
+                        )
+                    )
                 )
             )
 
@@ -239,7 +250,7 @@ class Courses {
         $params['type'] = 'course';
         $params['body']['size'] = 1000;
 
-        if( isset($criteria['range']) )
+        if( isset($criteria['range']) || isset( $criteria['bool'] ) )
         {
             $query = array(
                 $criteria

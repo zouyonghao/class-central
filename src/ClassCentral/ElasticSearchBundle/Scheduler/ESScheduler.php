@@ -30,6 +30,8 @@ class ESScheduler {
     {
         $logger = $this->container->get('monolog.logger.scheduler');
         $indexer = $this->container->get('es_indexer');
+        $esScheduler = $this->container->get('es_scheduler');
+
 
         $id = md5(uniqid('', true));
         $job = new ESJob( $id );
@@ -39,12 +41,19 @@ class ESScheduler {
         $job->setJobType( $type );
         $job->setUserId( $userId );
 
+        // Check if the job already exists
+        if ($esScheduler->jobExists( $job ) )
+        {
+            $logger->info( "SCHEDULER :  job already exists", ESJob::getArrayFromObj( $job ) );
+            return false;
+        }
+        else
+        {
+            $indexer->index( $job );
+            $logger->info( "SCHEDULER :  job created with id $id", ESJob::getArrayFromObj( $job ) );
+            return $id;
+        }
 
-        $indexer->index( $job );
-
-        $logger->info( "SCHEDULER :  job created with id $id", ESJob::getArrayFromObj( $job ) );
-
-        return $id;
     }
 
 } 
