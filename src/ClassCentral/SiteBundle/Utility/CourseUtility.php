@@ -81,6 +81,7 @@ class CourseUtility {
         return $state;
     }
 
+
     /**
      * Calculates the next session for a course
      * @param Course $course
@@ -222,5 +223,32 @@ class CourseUtility {
         }
         return $states;
 
+    }
+
+    public static function calculateBoost( $states, \DateTime $date )
+    {
+        if( in_array('selfpaced', $states) )
+        {
+            return 12;
+        }
+
+        if( in_array('recent',$states) )
+        {
+            return 5;
+        }
+
+        if ( in_array( 'upcoming', $states) )
+        {
+            $dt = new \DateTime();
+            $dt->add(new \DateInterval('P30D'));
+
+            if( $date < $dt)
+            {
+                return 3;
+            }
+
+        }
+
+        return 0;
     }
 } 
