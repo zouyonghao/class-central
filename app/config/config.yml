@@ -130,6 +130,10 @@ services:
     calls:
       - [setApiKey,[%mailgun_api_key%]]
       - [setDomain,[%mailgun_domain_name%]]
+  mg:
+    class: Mailgun\Mailgun
+    arguments: ['%mailgun_api_key%']
+
   newsletter:
     class: ClassCentral\SiteBundle\Services\Newsletter
     arguments: ['%mailgun_api_key%', '%mailgun_domain_name%']

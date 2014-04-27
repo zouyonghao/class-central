@@ -18,9 +18,26 @@ abstract class SchedulerJobAbstract {
 
     private  $container;
 
+    private $job;
+
     public function setContainer($container)
     {
         $this->container = $container;
+    }
+
+    public function setJob(ESJob $job)
+    {
+        $this->job = $job;
+    }
+
+    protected function getContainer()
+    {
+        return $this->container;
+    }
+
+    protected function getJob()
+    {
+        return $this->job;
     }
 
     abstract public function setUp();

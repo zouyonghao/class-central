@@ -26,14 +26,16 @@ class NotificationGeneratorCommand extends ContainerAwareCommand {
     {
         $esCourses = $this->getContainer()->get('es_courses');
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $scheduler = $this->getContainer()->get('scheduler');
+
         // Get a list of all courses that are starting in the next 2 weeks.
 
         $start = new \DateTime();
         $start->sub(new \DateInterval('P1D'));
         $end = new \DateTime();
-        $end->add(new \DateInterval('P14D'));
+        $end->add(new \DateInterval('P15D'));
 
-        $results = $esCourses->findByNextSessionStartDate($start, $end);
+        $results = $esCourses->findByNextSessionStartDate($end, $end);
         $output->writeln( $results['results']['hits']['total'] . ' courses found');
 
         $courseIds = array();
@@ -44,7 +46,7 @@ class NotificationGeneratorCommand extends ContainerAwareCommand {
 
         // Get a list of all users and build a user to courses map
         $qb = $em->createQueryBuilder();
-        $qb->add('select', 'uc as usercourse, c.id as cid,u.id as uid')
+        $qb->add('select', 'uc as usercourse, c.id as cid,u.id as uid, u.isverified as verified')
              ->add('from', 'ClassCentralSiteBundle:UserCourse uc')
              ->join('uc.course', 'c')
             ->join('uc.user', 'u')
@@ -55,6 +57,12 @@ class NotificationGeneratorCommand extends ContainerAwareCommand {
         $users = array();
         foreach($results as $r)
         {
+            $verified = $r['verified'];
+            if(!$verified)
+            {
+                // Don't send email to verified users
+                continue;
+            }
             $uid = $r['uid'];
             $cid = $r['cid'];
             $listId = $r['usercourse']['listId'];
@@ -66,6 +74,24 @@ class NotificationGeneratorCommand extends ContainerAwareCommand {
 
             $users[$uid][$listId][] = $cid;
         }
+
+        $output->writeln( count($users) . ' users found');
+        $scheduled  = 0;
+        foreach($users as $uid => $courses)
+        {
+            $id = $scheduler->schedule(
+                new \DateTime(),
+                'email',
+                'ClassCentral\MOOCTrackerBundle\Job\SchedulerJobAbstract',
+                $courses,
+                $uid
+            );
+
+            if($id){
+                $scheduled++;
+            }
+        }
+        $output->writeln( $scheduled . ' jobs scheduled');
     }
 
 } 

@@ -124,6 +124,7 @@ class ESRunner {
 
         $task = new $class();
         $task->setContainer( $this->container);
+        $task->setJob( $job );
 
         $task->setUp();
         $status =  $task->perform( $job->getArgs() );
