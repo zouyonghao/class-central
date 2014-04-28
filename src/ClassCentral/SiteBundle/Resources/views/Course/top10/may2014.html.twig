@@ -1,14 +1,14 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
  {% block headmeta %}
-     <title>Ten most popular MOOCs in {{ month }} {{ year }}</title>
+     <title>Ten most popular MOOCs starting in {{ month }} {{ year }}</title>
      <meta name="description"
            content="Ten most popular MOOCs in {{ month }} {{ year }}"/>
-     <meta property="og:title" content="Ten most popular MOOCs in {{ month }} {{ year }}" />
+     <meta property="og:title" content="Ten most popular MOOCs starting in {{ month }} {{ year }}" />
      <meta property="og:url" content="{{ path('top10', {month: month, year: year}) }}" />
      <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      <meta property="og:site_name" content="Class Central"/>
-     <meta property="og:description" content="Ten most popular MOOCs in {{ month }} {{ year }}" />
+     <meta property="og:description" content="Ten most popular MOOCs starting in {{ month }} {{ year }}" />
      <meta property="og:type" content="website" />
 
      <meta property="fb:admins" content="{{ fb_admins }}" />
@@ -16,8 +16,8 @@
      <!-- Twitter card integration -->
      <meta name="twitter:card" content="summary">
      <meta name="twitter:site" content="@classcentral">
-     <meta name="twitter:title" content="Ten most popular MOOCs in {{ month }} {{ year }}">
-     <meta name="twitter:description" content="Ten most popular MOOCs in {{ month }} {{ year }}">
+     <meta name="twitter:title" content="Ten most popular MOOCs starting in {{ month }} {{ year }}">
+     <meta name="twitter:description" content="Ten most popular MOOCs starting in {{ month }} {{ year }}">
      <meta name="twitter:domain" content="www.class-central.com">
 
      <script type="text/javascript">
