@@ -43,6 +43,8 @@ class CourseUtility {
         $twoWeeksAgo->sub(new \DateInterval('P14D'));
         $twoWeeksLater = clone $now;
         $twoWeeksLater->add(new \DateInterval('P14D'));
+        $yesterday = clone $now;
+        $yesterday->sub(new \DateInterval('P1D'));
 
         $startDate = $offering->getStartDate();
         $endDate = $offering->getEndDate();
@@ -70,7 +72,7 @@ class CourseUtility {
         }
 
         // Check if its ongoing
-        if ( $offering->getStatus() == Offering::START_DATES_KNOWN && $now >= $startDate) {
+        if ( $offering->getStatus() == Offering::START_DATES_KNOWN && $yesterday > $startDate) {
             $state += Offering::STATE_IN_PROGRESS;
             return $state;
         }

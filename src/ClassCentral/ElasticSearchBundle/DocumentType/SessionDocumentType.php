@@ -62,12 +62,6 @@ class SessionDocumentType extends DocumentType{
         // get the state
         $b['states'] = CourseUtility::getStates($o);
         $b['state'] = CourseUtility::calculateState($o);
-        if( $o->getCourse()->getId() == 1849 )
-        {
-            echo "Machine Learning course \n";
-            var_dump( $b['states'] );
-
-        }
 
         // Boost the state depending on the date. This value is used for sorting
         $b['state'] +=  CourseUtility::calculateBoost($b['states'], $o->getStartDate() );
