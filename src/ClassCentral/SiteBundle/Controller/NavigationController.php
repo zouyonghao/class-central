@@ -32,7 +32,14 @@ class NavigationController extends Controller{
             $offeringCount = array();
             foreach (array_keys(Offering::$types) as $type)
             {
-                $offeringCount[$type] = $counts['sessions'][strtolower($type)];
+                if(isset($counts['sessions'][strtolower($type)]))
+                {
+                    $offeringCount[$type] = $counts['sessions'][strtolower($type)];
+                }
+                else
+                {
+                    $offeringCount[$type] = 0;
+                }
             }
 
             $initiativeCount = array();
