@@ -276,9 +276,9 @@ jQuery(function($) {
     $('#review-text').autosize();
 
     var ratyDefaults = {
-        starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half.png',
-        starOff     : '/bundles/classcentralsite/slashpixel/images/star-off.png',
-        starOn      : '/bundles/classcentralsite/slashpixel/images/star-on.png',
+        starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-gray.png',
+        starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-gray.png',
+        starOn      : '/bundles/classcentralsite/slashpixel/images/star-on-gray.png',
         hints       : ['','','','',''],
         size        : 21,
         score       : function() {
@@ -532,6 +532,44 @@ jQuery(function($) {
         } else {
             parent.find('.faq-answer').show();
             parent.toggleClass('show-answer');
+        }
+    });
+
+    // tableExtender hides table rows after specified number and shows them again if btn is clicked
+    // table and button must be in the same parent container
+    // vars:
+    // table - table class or id
+    // visibleRows - number of visible rows (default: 7)
+    // viewMoreButton - id or class for the button to display and hide table rows (default: ".expand-table-btn")
+    function tableExtender(table, visibleRows, viewMoreButton) {
+        visibleRows = typeof visibleRows !== 'undefined' ? visibleRows : 7;
+        viewMoreButton = typeof viewMoreButton !== 'undefined' ? viewMoreButton : '.expand-table-btn';
+        $table = $(table);
+        $(table + " tr:gt(" + visibleRows + ")").hide().addClass("hidden-row");
+        var $button = $table.parent().find(viewMoreButton);
+        $button.css('display', 'block');
+        $button.click(function(event){
+            event.preventDefault();
+            $this = $(this);
+            $this.parent().find(".hidden-row").show();
+            $this.css('display', 'none');
+        });
+
+    }
+
+    tableExtender(".front-page-table .table");
+
+    // front page tab nav
+    $('nav.page-tabs').on('click', 'ul > li > a', function(event) {
+        event.preventDefault();
+        $this = $(this);
+        targetTab = $this.data("target-section");
+        console.log(targetTab);
+        if (targetTab !== undefined) {
+            $(".section-tab-content").hide();
+            $("." + targetTab).show();
+            $("nav.page-tabs ul > li").removeClass("active-tab");
+            $this.closest("li").addClass("active-tab");
         }
     });
 

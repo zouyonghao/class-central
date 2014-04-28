@@ -1,12 +1,6 @@
 
 /*==========  Base  ==========*/
 
-
-body {
-    background-color:#efeff0;
-    font-family: "Open Sans";
-}
-
 .column30 {
     width: 30%;
     margin-right: 2%;
@@ -18,125 +12,125 @@ body {
 }
 
 .has-warning .input-group-addon {
-  color: #8a6d3b;
-  background-color: #fcf8e3;
-  border-color: #8a6d3b;
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #8a6d3b;
 }
 
 .has-error .input-group-addon {
-  color: #a94442;
-  background-color: #f2dede;
-  border-color: #a94442;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #a94442;
 }
 
 
 .has-success .input-group-addon {
-  color: #3c763d;
-  background-color: #dff0d8;
-  border-color: #3c763d;
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #3c763d;
 }
 
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
-  height: 46px;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 6px;
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 6px;
 }
 
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
-  height: 46px;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 6px;
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 6px;
 }
 
 select.input-group-lg > .form-control,
 select.input-group-lg > .input-group-addon,
 select.input-group-lg > .input-group-btn > .btn {
-  height: 46px;
-  line-height: 46px;
+    height: 46px;
+    line-height: 46px;
 }
 
 textarea.input-group-lg > .form-control,
 textarea.input-group-lg > .input-group-addon,
 textarea.input-group-lg > .input-group-btn > .btn {
-  height: auto;
+    height: auto;
 }
 
 .input-group-sm > .form-control,
 .input-group-sm > .input-group-addon,
 .input-group-sm > .input-group-btn > .btn {
-  height: 30px;
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
 }
 
 select.input-group-sm > .form-control,
 select.input-group-sm > .input-group-addon,
 select.input-group-sm > .input-group-btn > .btn {
-  height: 30px;
-  line-height: 30px;
+    height: 30px;
+    line-height: 30px;
 }
 
 textarea.input-group-sm > .form-control,
 textarea.input-group-sm > .input-group-addon,
 textarea.input-group-sm > .input-group-btn > .btn {
-  height: auto;
+    height: auto;
 }
 
 .input-group-addon,
 .input-group-btn,
 .input-group .form-control {
-  display: table-cell;
+    display: table-cell;
 }
 
 .input-group-addon:not(:first-child):not(:last-child),
 .input-group-btn:not(:first-child):not(:last-child),
 .input-group .form-control:not(:first-child):not(:last-child) {
-  border-radius: 0;
+    border-radius: 0;
 }
 
 .input-group-addon,
 .input-group-btn {
-  white-space: nowrap;
-  vertical-align: middle;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 .input-group-addon {
-  padding: 6px 12px;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1;
-  color: #555555;
-  text-align: center;
-  background-color: #eeeeee;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555555;
+    text-align: center;
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
 }
 
 .input-group-addon.input-sm {
-  padding: 5px 10px;
-  font-size: 12px;
-  border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
 }
 
 .input-group-addon.input-lg {
-  padding: 10px 16px;
-  font-size: 18px;
-  border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 18px;
+    border-radius: 6px;
 }
 
 .input-group-addon input[type="radio"],
 .input-group-addon input[type="checkbox"] {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .input-group .form-control:first-child,
@@ -144,12 +138,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-btn:first-child > .btn,
 .input-group-btn:first-child > .dropdown-toggle,
 .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .input-group-addon:first-child {
-  border-right: 0;
+    border-right: 0;
 }
 
 .input-group .form-control:last-child,
@@ -157,36 +151,36 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-btn:last-child > .btn,
 .input-group-btn:last-child > .dropdown-toggle,
 .input-group-btn:first-child > .btn:not(:first-child) {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
 }
 
 .input-group-addon:last-child {
-  border-left: 0;
+    border-left: 0;
 }
 
 .glyphicon {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: 'Glyphicons Halflings';
-  -webkit-font-smoothing: antialiased;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .glyphicon:empty {
-  width: 1em;
+    width: 1em;
 }
 
 .glyphicon-chevron-up:before {
-  content: "\e113";
+    content: "\e113";
 }
 
 .glyphicon-chevron-down:before {
-  content: "\e114";
+    content: "\e114";
 }
 
 .glyphicon-new-window:before {
@@ -220,35 +214,35 @@ textarea.input-group-sm > .input-group-btn > .btn {
     background-color: #fff;
 }
 
-.breadcrumbs li a:after { 
-    content: " "; 
-    display: block; 
-    width: 0; 
+.breadcrumbs li a:after {
+    content: " ";
+    display: block;
+    width: 0;
     height: 0;
     border-top: 40px solid transparent;
     border-bottom: 40px solid transparent;
     border-left: 30px solid #fff;
     position: absolute;
     top: 50%;
-    margin-top: -40px; 
+    margin-top: -40px;
     left: 100%;
-    z-index: 2; 
+    z-index: 2;
 }
 
-.breadcrumbs li a:before { 
-    content: " "; 
-    display: block; 
-    width: 0; 
+.breadcrumbs li a:before {
+    content: " ";
+    display: block;
+    width: 0;
     height: 0;
-    border-top: 40px solid transparent;       
+    border-top: 40px solid transparent;
     border-bottom: 40px solid transparent;
     border-left: 30px solid #efeff0;
     position: absolute;
     top: 50%;
-    margin-top: -40px; 
+    margin-top: -40px;
     margin-left: 4px;
     left: 100%;
-    z-index: 1; 
+    z-index: 1;
 }
 
 .breadcrumbs li:first-child a {
@@ -478,266 +472,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .subject-list li a:hover {
     background-color: #b0b0b0;
 }
-/*==========  Category filter styles  ==========*/
-
-#filter-wrap {
-    overflow: inherit;
-}
-
-.category-filter {
-    width: 240px;
-    margin-top: 12px;
-    margin-right: 10px;
-    /*
-    -webkit-transition-duration: 0.7s;
-       -moz-transition-duration: 0.7s;
-         -o-transition-duration: 0.7s;
-            transition-duration: 0.7s;
-    */
-}
-
-.filter-nav,
-.filter-nav ul {
-    list-style: none;
-    margin: 0;
-}
-
-.main-category,
-.filter-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #898989;
-}
-
-ul.main-filter-dropdown {
-    display: none;
-    background-color: #f8f8f8;
-    margin: 0 0 4px 0;
-}
-
-.active ul.main-filter-dropdown {
-    display: block;
-}
-
-
-.main-category {
-    padding: 10px 15px;
-}
-
-.main-filter-dropdown li a {
-    display: block;
-    padding: 10px 10px 10px 35px;
-}
-.main-filter-dropdown li{
-  padding-left:10px;
-}
-
-.filter-dropdown {
-    display: none;
-}
-
-.active + .filter-dropdown {
-    display: block;
-}
-
-.minus-sign {
-    display: none;
-}
-
-.active > .sub-category .minus-sign {
-    display: inline;
-}
-
-.active > .sub-category .plus-sign {
-    display: none;
-}
-
-
-.filter-dropdown li a {
-    display: block;
-    padding: 5px 10px 5px 40px;
-}
-
-.filter-dropdown li a:hover,
-.filter-dropdown li.active > a {
-    background-color: #fff;
-}
-
-.main-category {
-    display: block;
-    background-color: #fff;
-    line-height: 1;
-    margin-bottom: 4px;
-}
-
-li a.sort {
-    position: relative;
-    font-size: 12px;
-    line-height: 1;
-    color: #898989;
-}
-
-.filter-nav a,
-.filter-nav a:hover {
-    text-decoration: none;
-}
-
-.sub-category {
-    position: relative;
-    font-size: 12px;
-    font-weight: 700;
-    color: #1663a3;
-}
-
-.arrow-up {
-    display: none;
-    float: right;
-    margin-top: 4px;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 7px solid #898989;
-}
-
-.arrow-down {
-    display: block;
-    float: right;
-    margin-top: 4px;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 7px solid #898989;
-}
-
-.active > .main-category .arrow-down {
-    display: none;
-}
-
-.active > .main-category .arrow-up {
-    display: block;
-}
-
-.tick-wrap {
-    position: relative;
-    overflow: hidden;
-}
-
-.tick-wrap .tick {
-    z-index: 999;
-}
-
-.tick {
-    position: absolute;
-    left: 20px;
-    top: 2px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    background-color: #fff;
-    border: 1px solid #898989;
-    padding: 2px 4px 0 3px;
-    line-height: 1;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-.tick-wrap .tick {
-    top: 11px;
-    left: 10px;
-    border-radius: 3px;
-}
-
-.active > .sort > .tick,
-.ticked {
-    color: #59d856;
-    background-color: #fff;
-}
-
-.filter-search-wrap {
-    overflow: hidden;
-    margin: 4px 0;
-    height: 34px;
-}
-
-.filter-search {
-    float: left;
-    border: none;
-    height: 100%;
-    width: 175px;
-    padding-left: 15px;
-    font-family: "Open Sans";
-    font-weight: 300;
-    font-style: italic;
-
-}
-
-input.filter-search:focus {
-    outline: 0;
-}
-
-.filter-search-icon {
-    float: left;
-    height: 100%;
-    width: 50px;
-    background-color: #fff;
-    background-image: url("/bundles/classcentralsite/slashpixel/images/search_icon_green.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-
-.filter-search-wrap ::-webkit-input-placeholder {
-    font-family: 'Open Sans';
-    color:  #898989;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 14px;
-}
-
-.filter-search-wrap :-moz-placeholder { /* Firefox 18- */
-    font-family: 'Open Sans';
-    color:  #898989;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 14px;
-}
-
-.filter-search-wrap ::-moz-placeholder {  /* Firefox 19+ */
-    font-family: 'Open Sans';
-    color:  #898989;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 14px;;
-}
-
-.filter-search-wrap :-ms-input-placeholder {
-    font-family: 'Open Sans';
-    color:  #898989;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 14px;
-}
-
-#filter-wrap .instructors,
-#filter-wrap .offering-length {
-    display: none;
-}
-
-
-/** Class Central styles for modal */
-.cc-modal {
-    border-radius: 0px;
-}
-
-.cc-modal .modal-header {
-    border-bottom: 0px;
-}
-
-.cc-modal .modal-footer {
-    background-color: #ffffff;
-    border-top: 0px;
-}
 
 /** Class Central styles for form **/
 
@@ -757,91 +491,7 @@ input.filter-search:focus {
     margin-left: 5px;
 }
 
-.cc-page {
-    margin-bottom: 50px;
-    padding-bottom: 10px;
-    margin-top: 50px;
-    clear: both;
-}
 
-.cc-page h1 {
-    font-family: 'Open Sans';
-    color: #0662a1;
-    font-weight: normal;
-    line-height:1.5;
-    font-size: 30px;
-}
-
-.cc-page h2 {
-    font-size:16px;
-    font-family: "Open Sans",sans-serif;
-    color: #3a759a;
-    font-weight: 600;
-    padding: 0;
-    line-height: normal;
-    margin-left: 20px;
-}
-
-/* Remove rounded corners */
-.table {
-    border: 4px solid #fff;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-}
-
-.table tr {
-    border: none;
-}
-
-.table td {
-    border: none;
-    color: #3a759a;
-    font-weight: 600;
-    padding: 16px;
-}
-
-.table td a {
-    color: #cd2127;
-}
-
-.table th {
-    border: none;
-    color: #cd2127;
-    font-family: "Open Sans";
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 16px;
-}
-
-
-.table-bordered thead:first-child tr:first-child th:first-child {
-    -webkit-border-top-left-radius: 0;
-    -moz-border-radius-topleft: 0;
-    border-top-left-radius: 0;
-}
-
-.table-bordered tbody:last-child tr:last-child td:first-child {
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    -webkit-border-bottom-left-radius: 0;
-    -moz-border-radius-bottomleft: 0;
-    border-bottom-left-radius: 0;
-    border-radius: 0;
-}
-
-.table-bordered thead:first-child tr:first-child th:last-child {
-    -webkit-border-top-right-radius: 0;
-    -moz-border-radius-topright: 0;
-    border-top-right-radius: 0;
-}
-
-.table-bordered tbody:last-child tr:last-child td:last-child {
-    -webkit-border-bottom-right-radius: 0;
-    -moz-border-radius-bottomright: 0;
-    border-bottom-right-radius: 0;
-}
 
 .main-background {
     display: none;
@@ -922,26 +572,7 @@ a.learnmorelink:hover {
     color: #ffffff;
     text-decoration: underline;
 }
-.table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
-    background-color: #fff;
-}
-.table-striped tbody tr:nth-child(even) td, .table-striped tbody tr:nth-child(even) th {
-    background-color: #f9f9f9;
-}
 
-.table-striped thead {
-    background-color: #f9f9f9;
-}
-
-.tabletitle {
-    font-family: "Open Sans",sans-serif;
-    color: #066666;
-    font-weight: 600;
-    padding: 20px 0 10px 20px;
-}
-thead {
-    background-color:white;
-}
 .modal {
     max-height: 700px;
     overflow: auto;
@@ -996,7 +627,7 @@ p.newstitle {
     background-color:#0088cc;
 }
 
-.navbar .btn {
+/*.navbar .btn {
     background-image: none;
     border-radius: 0px;
     background-color: transparent;
@@ -1134,16 +765,16 @@ p.newstitle {
     color:  #f15f45;
     font-style: italic;
     font-size: 15px;
-}
+}*/
 
-.search-form :-moz-placeholder { /* Firefox 18- */
-    font-family: 'Open Sans';
-    color: #f15f45;
-    font-style: italic;
-    font-size: 15px;
-}
+/* .search-form :-moz-placeholder {*/ /* Firefox 18- */
+/*font-family: 'Open Sans';
+color: #f15f45;
+font-style: italic;
+font-size: 15px;
+} */
 
-.search-form ::-moz-placeholder {  /* Firefox 19+ */
+/*.search-form ::-moz-placeholder {  
     font-family: 'Open Sans';
     color: #f15f45;
     font-style: italic;
@@ -1224,10 +855,10 @@ p.newstitle {
     margin-left: 5px;
 }
 
-/* align the dropdown menu in the navbar with arrows*/
+
 .navbar .pull-right>li>.dropdown-menu, .navbar .nav>li>.dropdown-menu.pull-right {
     right: 20px;
-}
+}*/
 
 .socialmedia.nav-pills > li > a {
     width:30px;
@@ -1330,25 +961,9 @@ footer {
     margin-bottom: 20px;
 }
 
-table.table thead .sorting,
-table.table thead .headerSortDown,
-table.table thead .headerSortUp {
-    cursor: pointer;
-    *cursor: hand;
-}
-
-table.table thead .sorting { background: url('/bundles/classcentralsite/slashpixel/images/sort_both_red.png') no-repeat center right; }
-table.table thead .headerSortDown { background: url('/bundles/classcentralsite/slashpixel/images/sort_asc_red.png') no-repeat center right; }
-table.table thead .headerSortUp { background: url('/bundles/classcentralsite/slashpixel/images/sort_desc_red.png') no-repeat center right; }
-
-.table-striped td {
+/*.table-striped td {
     max-width: 290px;
-}
-
-.initiativelinks,
-.table td a.initiativelinks {
-    color:#3a759a;
-}
+}*/
 
 .tagline-initiative-links{color:#222}
 
@@ -1367,111 +982,10 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     margin: 0;
 }
 
-/*======================================================
-=            course table add button styles            =
-======================================================*/
-
-.add-column .dropdown-toggle {
-    background-color: #898987;
-    border-bottom: 3px solid #6fc9c2;
-    color: #fff;
-    display: block;
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 40px;
-    text-align: center;
-    width: 43px;
-    -webkit-transition-duration: 0.2s;
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-duration: 0.2s;
-    -moz-transition-timing-function: ease-out;
-    -o-transition-duration: 0.2s;
-    -o-transition-timing-function: ease;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-out;
-}
-
-.add-column .dropdown-toggle:hover,
-.add-column .open .dropdown-toggle {
-    text-decoration: none;
-    background-color: #1663a3;
-}
-
-.add-column .dropdown-menu {
-    padding: 0 0 10px 0;
-    font-size: 12px;
-    color: #898989;
-    left: -15px;
-    margin: 0;
-}
-
-.add-column .dropdown-menu li {
-    padding: 0 10px;
-}
-
-.add-column .dropdown-menu li:hover {
-    background-color: #F9F9F9
-}
-
-.add-column .dropdown-menu:before {
-    border-bottom: 7px solid #fff;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    content: '';
-    display: inline-block;
-    left: 29px;
-    position: absolute;
-    top: -7px;
-}
-
-.add-column input[type=checkbox] {
-    display: none;
-}
-
-.add-column label {
-    font-size: 12px;
-    cursor: pointer;
-    position: relative;
-    padding-left: 22px;
-}
-
-.add-column .dropdown-menu label:before {
-    border: 1px solid #898989;
-    content: "";
-    display: inline-block;
-    font-size: 12px;
-    height: 12px;
-    left: 0;
-    line-height: 12px;
-    position: absolute;
-    text-align: center;
-    top: 2px;
-    width: 12px;
-}
-
-.add-column input[type=checkbox]:checked + label:before {
-    content: "\2713";  
-    color: #59d856;
-    font-family: arial;  
-}
-
-.add-column .dropdown-list-header {
-    font-size: 12px;
-    color: #1663a3;
-    background-color: #f8f8f8;
-    line-height: 32px;
-    margin-bottom: 10px;
-}
-
-
-/*-----  End of course table add button styles  ------*/
-
-
-
 
 /*Top navigation */
 
-.navbar {
+/*.navbar {
     border-bottom: 3px solid #6fc9c2;
 }
 
@@ -1548,43 +1062,19 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
 
 #filter-wrap.opened {
     width: 700px;
-}
+}*/
 
-
-.cat-filter-wrap {
-    position: relative;
-    overflow-x: hidden;
-    float: left;
-    /*
-    -webkit-transition-duration: 0.7s;
-       -moz-transition-duration: 0.7s;
-         -o-transition-duration: 0.7s;
-            transition-duration: 0.7s;
-    */
-
-}
-
-.cat-filter-wrap.opened {
-    width: 250px;
-}
-
-.opened > .category-filter {
-    left: 0;
-}
-
-/* Fix for tables not showing up in IE 8*/
-.table {background-color:#ffffff;}
 
 .introcolumn{
     width: 95px;
 }
 .table .introcolumn {
-     text-align: center;
- }
+    text-align: center;
+}
 
 .table .introcolumn img {
-     margin-top: 16px;
- }
+    margin-top: 16px;
+}
 
 
 .searchresultsheader div{
@@ -1646,33 +1136,32 @@ table.table thead .headerSortUp { background: url('/bundles/classcentralsite/sla
     border: 0px;
 }
 
-input::-webkit-input-placeholder {
+/*input::-webkit-input-placeholder {
     font-family: 'Open Sans';
     color:  #f15f45;
     font-style: italic;
     font-size: 19px;
-}
+}*/
 
-:-moz-placeholder { /* Firefox 18- */
-    font-family: 'Open Sans';
-    color: #f15f45;
-    font-style: italic;
-    font-size: 19px;
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-    font-family: 'Open Sans';
-    color: #f15f45;
-    font-style: italic;
-    font-size: 19px;
+/*:-moz-placeholder { /* Firefox 18- */
+/*font-family: 'Open Sans';
+color: #f15f45;
+font-style: italic;
+font-size: 19px;
+}*/
+/*::-moz-placeholder {  /* Firefox 19+ */
+/*font-family: 'Open Sans';
+color: #f15f45;
+font-style: italic;
+font-size: 19px;
 }
 
 :-ms-input-placeholder {
-    font-family: 'Open Sans';
-    color: #f15f45;
-    font-style: italic;
-    font-size: 19px;
-}
+font-family: 'Open Sans';
+color: #f15f45;
+font-style: italic;
+font-size: 19px;
+}*/
 
 .input-append button.add-on {
     height: inherit !important;
@@ -1684,7 +1173,7 @@ input::-webkit-input-placeholder {
 }
 
 /* Nav search form */
-#nav-search-form input[type="text"]{
+/*#nav-search-form input[type="text"]{
     font-size: 20px;
     -moz-border-top-left-radius: 0px;
     -webkit-border-top-left-radius: 0px;
@@ -1731,7 +1220,7 @@ input::-webkit-input-placeholder {
     margin: 0px;
     padding: 0px;
     border: 0px;
-}
+} */
 
 /* MOOC/Course pages */
 .course-block {
@@ -1892,8 +1381,8 @@ input::-webkit-input-placeholder {
     padding-left:60px;
 }
 .course-meta-bottom {
-     margin:0;
- }
+    margin:0;
+}
 
 /*=============================================
 =            =course buttons group            =
@@ -1997,9 +1486,9 @@ input::-webkit-input-placeholder {
 }
 
 .course-button-group input[type=checkbox]:checked + label:before {
-    content: "\2713";  
+    content: "\2713";
     color: #59d856;
-    font-family: arial;  
+    font-family: arial;
 }
 
 
@@ -2067,9 +1556,9 @@ input::-webkit-input-placeholder {
 }
 
 .faq-box .triangle {
-    content: " "; 
-    display: block; 
-    width: 0; 
+    content: " ";
+    display: block;
+    width: 0;
     height: 0;
     border-top: 5px solid #3a759a;
     border-right: 5px solid transparent;
@@ -2193,25 +1682,25 @@ input::-webkit-input-placeholder {
 }
 
 .course-rating-wrap {
-     overflow: hidden;
-     margin-bottom: 10px;
- }
+    overflow: hidden;
+    margin-bottom: 10px;
+}
 
 .course-rating {
-     float: left;
- }
+    float: left;
+}
 
 .review-link {
-     float: left;
-     margin-left: 15px;
-     padding-top: 3px;
- }
+    float: left;
+    margin-left: 15px;
+    padding-top: 3px;
+}
 
 .review-form-error {
-     color: red;
-     display: block;
-     margin-bottom: 3px;
- }
+    color: red;
+    display: block;
+    margin-bottom: 3px;
+}
 
 
 .review-feedback {
@@ -2361,9 +1850,9 @@ input::-webkit-input-placeholder {
 }
 
 .faq-wrap .triangle {
-    content: " "; 
-    display: block; 
-    width: 0; 
+    content: " ";
+    display: block;
+    width: 0;
     height: 0;
     border-top: 5px solid #1663a3;
     border-right: 5px solid transparent;
@@ -2587,20 +2076,20 @@ input::-webkit-input-placeholder {
 
 /** UI notify **/
 .ui-pnotify {
-     font-size: 13px;
- }
+    font-size: 13px;
+}
 
 .ui-pnotify .alert h4 {
-     margin-bottom: .4em;
- }
+    margin-bottom: .4em;
+}
 
 .ui-pnotify-title {
-     font-size: 14px;
- }
+    font-size: 14px;
+}
 
 .ui-pnotify-text {
-     line-height: 18px;
- }
+    line-height: 18px;
+}
 
 
 
@@ -3046,32 +2535,7 @@ CC form box - for signup, login, forgot password
     color: #0662a1;
 }
 
-.table-uni-list {
-    margin-left: 0;
-}
 
-.table-uni-list li {
-    display: inline;
-}
-
-.table-uni-list li:after {
-    content: ', ';
-}
-
-.table-uni-list li:last-child:after {
-    content: "";
-}
-
-.table-uni-list li a {
-    color: #3a759a;
-    font-style: italic;
-    font-weight: 400;
-}
-
-table .course-name {
-    font-weight: 600;
-    color: #cd2127;
-}
 
 /*==========================================
 =            Institution styles            =
@@ -3192,11 +2656,11 @@ table .course-name {
 }
 
 .nav-logo {
-     margin-top: 18px;
-     background-image: url("/bundles/classcentralsite/slashpixel/images/cc-logo.png");
-     height: 20px;
-     width: 220px;
-     background-repeat: no-repeat;
+    margin-top: 18px;
+    background-image: url("/bundles/classcentralsite/slashpixel/images/cc-logo.png");
+    height: 20px;
+    width: 220px;
+    background-repeat: no-repeat;
 }
 
 
@@ -3205,12 +2669,6 @@ table .course-name {
 @media (max-width: 1201px) {
     .cc-home-form input{
         margin-left: 0px;
-    }
-
-    /*==========  filter media queries  ==========*/
-
-    .tables-wrap {
-        width: 690px;
     }
 }
 
@@ -3267,10 +2725,6 @@ table .course-name {
 
     .cc-page h1 {
         font-size: 28px;
-    }
-
-    .cc-page h2 {
-        font-size: 24px;
     }
 
     .hero-unit h1 {
@@ -3413,9 +2867,6 @@ table .course-name {
         font-size: 20px;
     }
 
-    .cc-page h2 {
-        font-size: 16px;
-    }
     .mooc-news h1 {
         font-size: 30px;
     }

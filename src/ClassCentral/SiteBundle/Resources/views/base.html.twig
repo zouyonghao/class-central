@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">        
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="//use.typekit.net/gdf6zoz.js"></script> <!-- typekit fonts -->
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script><!-- typekit fonts -->
         {%  block headmeta %}               
         {% endblock %}
 
@@ -15,12 +17,14 @@
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-
+        {% stylesheets filter='lessphp'
+            '@bootstrap_css'
+        %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets %}
         <!-- Le styles -->  
         {% stylesheets filter='yui_css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-responsive.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/fonts.css'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal-bs3patch.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/css/prettyPhoto.css'
@@ -107,16 +111,16 @@
     </head>
 
     <body>
+    {% include 'ClassCentralSiteBundle:Helpers:sprites.svg.twig' %}
             {% if page is defined %}
                 {% render controller('ClassCentralSiteBundle:Navigation:index', {'page': page}) %}
             {% else %}
                 {% render controller('ClassCentralSiteBundle:Navigation:index', {'page':'admin'}) %}
             {% endif %}
-
+        {%  block contentheader %}
+        {% endblock %}
         <div class="container cc-body-content">
-            {%  block contentheader %}
-            {% endblock %}
-            <div class="cc-page">
+            <div class="cc-page container">
                 {# Content pages go here #}
                 {% if breadcrumbs is defined %}
                     {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
@@ -128,22 +132,107 @@
             {% endblock %}
         </div> <!-- /container -->
 
+        <section class="blog-spotlight">
+            <div class="container">
+                <h2 class="section-heading"><span>Latest From The Blog</span></h2>
+                <div class="row">
+                    <a href="#" class="single-post single-post-left col-sm-6">
+                        <div class="post-bg-left post-bg">
+                            <img src="/bundles/classcentralsite/slashpixel/images/post-bg-1.jpg" alt="post-background">
+                        </div>
+                        <h3>
+                            Just after it all began, the universe sent
+                            us a text message. We just Decoded it.
+                        </h3>
+                        <p class="excerpt">
+                            Sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+                        </p>
+                        <span class="read-more">READ MORE</span>
+                    </a>
+                    <a href="#" class="single-post single-post-right col-sm-6">
+                        <div class="post-bg-right post-bg">
+                            <img src="/bundles/classcentralsite/slashpixel/images/post-bg-2.jpg" alt="post-background">
+                        </div>
+                        <h3>
+                            Sed ut perspiciatis unde omnis iste
+                            natus error sit volup tatem.
+                        </h3>
+                        <p class="excerpt">
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                        </p>
+                        <span class="read-more">READ MORE</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="convincer">
+            <div class="container">
+                <div class="convincer-wrap">
+                    <span>Create your free account today</span>
+                    <a class="create-free-account" href="#">Create free account</a>
+                </div>
+            </div>
+        </section>
+        <section class="footer-logos">
+            <ul>
+                <li><a class="stanford-logo" href="#">Stanford University</a></li>
+                <li><a class="harvard-logo" href="#">Harvard University</a></li>
+                <li><a class="mit-logo" href="#">Massachusetts Institute of Technology</a></li>
+                <li><a class="berkeley-logo" href="#">Berkeley University of California</a></li>
+                <li><a class="uts-logo" href="#">University of Texas System</a></li>
+                <li><a class="cornell-logo" href="#">Cornell University</a></li>
+                <li><a class="boston-logo" href="#">Boston University</a></li>
+                <li><a class="harvard-logo" href="#">Harvard University</a></li>
+            </ul>
+        </section>
+
         <footer>
             {% block footer %}
-                <ul class="classcentralfooter">
-                    <li><a href="mailto:contact@class-central.com" title="Class Central contact">Contact</a></li>
-                    <li><a href="http://www.blog.class-central.com">Blog</a></li>
-                    <li><a href="{{ path('languages') }}">Languages</a></li>
-                    <li><a href="https://www.facebook.com/classcentral">Facebook</a></li>
-                    <li><a href="https://twitter.com/classcentral">Twitter</a></li>
-                    <li><a href="https://plus.google.com/+ClassCentral">Google+</a></li>
-                </ul>
-                {#
-                    {% if page is defined and page == 'home' %}
-                        <div class="rackspace-logo"><img src="/bundles/classcentralsite/slashpixel/images/rackspace.png"/></div>
-                    {% endif %}
-                #}
-                <p class="classcentralfooter"><a href="{{ path('ClassCentralSiteBundle_privacy') }}"> Privacy Policy</a></p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4 col-xs-4 link-column">
+                            <h5 class="list-heading">Title One</h5>
+                            <ul>
+                                <li><a href="mailto:contact@class-central.com" title="Class Central contact">Contact</a></li>
+                                <li><a href="{{ path('ClassCentralSiteBundle_privacy') }}"> Privacy Policy</a></li>
+                                <li><a href="#" class="cookies">Cookies</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-4 link-column">
+                            <h5 class="list-heading">Title Two</h5>
+                            <ul>
+                                <li><a href="http://www.blog.class-central.com">Blog</a></li>
+                                <li><a href="#">Newsletter</a></li>
+                                <li><a href="{{ path('languages') }}">Languages</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-4 link-column">
+                            <h5 class="list-heading">Social</h5>
+                            <ul>
+                                <li><a href="https://www.facebook.com/classcentral">Facebook</a></li>
+                                <li><a href="https://twitter.com/classcentral">Twitter</a></li>
+                                <li><a href="https://plus.google.com/+ClassCentral">Google+</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 col-lg-4 col-sm-7 col-xs-8 newsletter-column">
+                            <div class="newsletter-wrap">
+                                <h4><span>Newsletter. </span>Never miss a course.</h4>
+                                <form class="newsletter-subscription" method="" action="">
+                                    <p>
+                                        <input type="email" placeholder="your@email.com" required>
+                                        <input type="submit" value="SUBSCRIBE">
+                                    </p>
+                                </form>
+                                <span class="reminder">No spam. Unsubscribe any time.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span class="copyright">©Class Central 2011-2014</span>
+                        </div>
+                    </div>
+                </div>
             {% endblock %}
 
             {# Session flash messages #}
