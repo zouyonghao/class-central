@@ -74,6 +74,9 @@ ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
     prefix: /admin    
 
+top10:
+  pattern: /ten-most-popular-moocs/{month}-{year}
+  defaults: { _controller: ClassCentralSiteBundle:Course:top10 }
 subjects:
    pattern: /subjects
    defaults: { _controller: ClassCentralSiteBundle:Stream:subjects}

@@ -578,4 +578,21 @@ EOD;
                 'subjects' => $subjects
             ));
     }
+
+    /**
+     * Shows a page with the top 10 courses.
+     * @param Request $request
+     * @param $year
+     * @param $month -> march, april, etc
+     */
+    public function top10Action(Request $request, $month, $year)
+    {
+
+
+        return $this->render("ClassCentralSiteBundle:Course:top10/{$month}{$year}.html.twig", array(
+            'month' => $month,
+            'year'  => $year,
+            'page' => 'top10'
+        ));
+    }
 }
