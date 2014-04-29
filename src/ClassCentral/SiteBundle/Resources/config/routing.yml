@@ -77,6 +77,11 @@ ClassCentralSiteBundle_admin:
 top10:
   pattern: /ten-most-popular-moocs/{month}-{year}
   defaults: { _controller: ClassCentralSiteBundle:Course:top10 }
+
+mooc-report:
+  pattern: /mooc-report/{month}-{year}
+  defaults: { _controller: ClassCentralSiteBundle:Course:moocReport }
+
 subjects:
    pattern: /subjects
    defaults: { _controller: ClassCentralSiteBundle:Stream:subjects}
