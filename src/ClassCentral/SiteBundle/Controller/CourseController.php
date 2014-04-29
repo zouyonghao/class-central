@@ -587,12 +587,20 @@ EOD;
      */
     public function top10Action(Request $request, $month, $year)
     {
-
-
         return $this->render("ClassCentralSiteBundle:Course:top10/{$month}{$year}.html.twig", array(
             'month' => $month,
             'year'  => $year,
             'page' => 'top10'
+        ));
+    }
+
+    public function moocReportAction(Request $request, $month, $year)
+    {
+        return $this->render("ClassCentralSiteBundle:Course:moocReport/{$month}{$year}.html.twig", array(
+            'month' => $month,
+            'year'  => $year,
+            'count' => 99,
+            'page' => 'mooc-report'
         ));
     }
 }
