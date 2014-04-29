@@ -72,7 +72,7 @@ class CourseUtility {
         }
 
         // Check if its ongoing
-        if ( $offering->getStatus() == Offering::START_DATES_KNOWN && $yesterday > $startDate) {
+        if ( $offering->getStatus() == Offering::START_DATES_KNOWN && $yesterday     > $startDate) {
             $state += Offering::STATE_IN_PROGRESS;
             return $state;
         }
@@ -252,5 +252,35 @@ class CourseUtility {
         }
 
         return 0;
+    }
+
+    /**
+     * Returns an image url that can be used as the opengraph image tag
+     * @param Course $c
+     */
+    public static function getImageUrl(Course $c)
+    {
+        $imageUrl = null;
+
+        // Do institutions first
+        foreach($c->getInstitutions() as $ins)
+        {
+            if( $ins->getImageUrl() )
+            {
+                $imageUrl = $ins->getImageDir() . '/' . $ins->getImageUrl();
+                return $imageUrl;
+            }
+        }
+
+        // Provider
+        $provider = $c->getInitiative();
+        if( $provider && $provider->getImageUrl() )
+        {
+            $imageUrl = $provider->getImageDir() . '/' . $provider->getImageUrl();
+        }
+
+
+
+        return $imageUrl;
     }
 } 
