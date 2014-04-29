@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Repository;
 
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Doctrine\ORM\EntityRepository;
 
 class CourseRepository extends EntityRepository{
@@ -26,6 +27,7 @@ class CourseRepository extends EntityRepository{
         $courseDetails['slug'] = $course->getSlug();
         $courseDetails['url'] = $course->getUrl();
         $courseDetails['nextOffering'] = null;
+        $courseDetails['imageUrl'] = CourseUtility::getImageUrl($course);
         $nextOffering = $course->getNextOffering();
         if($nextOffering) {
             $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
