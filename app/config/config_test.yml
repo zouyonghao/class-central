@@ -25,3 +25,11 @@ doctrine:
         user:     %test_database_user%
         password: %test_database_password%
         charset:  UTF8
+
+services:
+ mailgun:
+    class: ClassCentral\SiteBundle\Services\Mailgun
+    calls:
+      - [setApiKey,[%mailgun_api_key%]]
+      - [setDomain,[%mailgun_domain_name%]]
+      - [sendEmail, [false]]

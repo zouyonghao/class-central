@@ -12,6 +12,7 @@ namespace ClassCentral\MOOCTrackerBundle\Job;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobAbstract;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\CourseUtility;
 
 class CourseStartReminderJob extends SchedulerJobAbstract{
 
@@ -29,7 +30,8 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $userId = $this->getJob()->getUserId();
-        $user = $this->getRepository('ClassCentralSiteBundle:User')->findOneBy( $userId );
+        $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array( 'id' => $userId) );
+        $mailgun = $this->getContainer()->get('mailgun');
 
         if(!$user)
         {
@@ -38,17 +40,62 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 "User with id $userId not found"
             );
         }
+        else
+        {
 
+        }
         // TODO: Implement this
+       //var_dump( $args);
+        $numCourses = 0;
+        if(isset( $args[UserCourse::LIST_TYPE_INTERESTED]) )
+        {
+            $numCourses += count($args[UserCourse::LIST_TYPE_INTERESTED]);
+        }
+        if( isset($args[UserCourse::LIST_TYPE_ENROLLED]) )
+        {
+            $numCourses += count( $args[UserCourse::LIST_TYPE_ENROLLED] );
+        }
 
-        $numCourses = count($args[UserCourse::LIST_TYPE_INTERESTED]) + count( $args[UserCourse::LIST_TYPE_ENROLLED] );
+
         if( $numCourses == 1)
         {
-            // Just one course
+            $courseId = null;
+            $isInterested = empty( $args[UserCourse::LIST_TYPE_INTERESTED] ) ? false : true;
+            if( $isInterested )
+            {
+                $courseId = array_pop( $args[UserCourse::LIST_TYPE_INTERESTED]) ;
+            }
+            else
+            {
+                $courseId = array_pop( $args[UserCourse::LIST_TYPE_ENROLLED] );
+            }
+
+            $html = $this->getCourseView( $courseId );
+
+            $response = $mailgun->sendMessage( array(
+                'from' => '"MOOC Tracker" <no-reply@class-central.com>',
+                //'to' => $user->getEmail(),
+                'to' => 'dhawalhshah@gmail.com',
+                'subject' => 'Course Starting soon',
+                'html' => $html
+            ));
+
+            if( !($response && $response->http_response_code == 200))
+            {
+                // Failed
+                return SchedulerJobStatus::getStatusObject(
+                    SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
+                    ($response && $response->http_response_body)  ?
+                        $response->http_response_body->message : "Mailgun error"
+                );
+            }
+
         }
         else
         {
             // Multiple courses
+
+
         }
 
 
@@ -64,6 +111,15 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
         return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
 
+    }
+
+    private function getCourseView($courseId)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+        $nextSession = CourseUtility::getNextSession( $course );
+
+        return sprintf( "<a href='%s'>%s (%s) </a>", $nextSession->getUrl(), $course->getName(), $nextSession->getDisplayDate() );
     }
 
     public function tearDown()

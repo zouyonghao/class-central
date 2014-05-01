@@ -30,5 +30,12 @@ monolog:
 assetic:
     use_controller: true
 
+services:
+ mailgun:
+    class: ClassCentral\SiteBundle\Services\Mailgun
+    calls:
+      - [setApiKey,[%mailgun_api_key%]]
+      - [setDomain,[%mailgun_domain_name%]]
+      - [sendEmail, [false]]
 #swiftmailer:
 #    delivery_address: me@example.com

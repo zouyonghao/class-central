@@ -48,7 +48,7 @@ class ESRunner {
         }
         catch (\Exception $e)
         {
-            var_dump( $e->getMessage() );
+
             // Job not found
             $logger->error("RUNNER: runById - Job not found for id $id", array(
                 'message' => $e->getMessage()
@@ -127,7 +127,7 @@ class ESRunner {
         $task->setJob( $job );
 
         $task->setUp();
-        $status =  $task->perform( $job->getArgs() );
+        $status =  $task->perform( json_decode($job->getArgs(), true ) );
         $task->tearDown();
 
         $logger->info(

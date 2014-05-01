@@ -82,7 +82,7 @@ class NotificationGeneratorCommand extends ContainerAwareCommand {
             $id = $scheduler->schedule(
                 new \DateTime(),
                 'email',
-                'ClassCentral\MOOCTrackerBundle\Job\SchedulerJobAbstract',
+                'ClassCentral\MOOCTrackerBundle\Job\CourseStartReminderJob',
                 $courses,
                 $uid
             );

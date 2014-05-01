@@ -19,6 +19,9 @@ class Mailgun {
     private $apiKey;
     private $apiUrl = 'https://api.mailgun.net/v2';
     private $mailDomain;
+    private $sendEmail = false;
+
+    private $mg;
 
     public function setApiKey($key)
     {
@@ -28,6 +31,11 @@ class Mailgun {
     public function setDomain($domain)
     {
         $this->mailDomain = $domain;
+    }
+
+    public function sendEmail ( $send )
+    {
+        $this->sendEmail = $send;
     }
 
     /*
@@ -76,6 +84,30 @@ class Mailgun {
         curl_close($ch);
 
         return $result;
+    }
+
+    /**
+     * A wrapper around the Mailgun sendMessage call
+     * @param array $params
+     * @return mixed
+     */
+    public function sendMessage( $params = array() )
+    {
+        $params['o:testmode'] = !$this->sendEmail;
+        return $this->getMG()->sendMessage(
+            $this->mailDomain,
+            $params
+        );
+    }
+
+    private function getMG()
+    {
+        if (!$this->mg)
+        {
+            $this->mg = new \Mailgun\Mailgun( $this->apiKey );
+        }
+
+        return $this->mg;
     }
 
 }
