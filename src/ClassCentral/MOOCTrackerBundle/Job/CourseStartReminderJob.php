@@ -14,7 +14,17 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 
+/**
+ * Sends a reminder email for the course. Emails are sent on 2 occasion
+ * - 2 weeks before the start date
+ * - 1 day before
+ * Class CourseStartReminderJob
+ * @package ClassCentral\MOOCTrackerBundle\Job
+ */
 class CourseStartReminderJob extends SchedulerJobAbstract{
+
+    const JOB_TYPE_2_WEEKS_BEFORE = 'email_reminder_course_start_2weeks';
+    const JOB_TYPE_1_DAY_BEFORE   = 'email_reminder_course_start_1day';
 
     public function setUp()
     {

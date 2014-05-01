@@ -93,6 +93,7 @@ class Mailgun {
      */
     public function sendMessage( $params = array() )
     {
+        // Doesn't send email if testmode is true
         $params['o:testmode'] = !$this->sendEmail;
         return $this->getMG()->sendMessage(
             $this->mailDomain,
