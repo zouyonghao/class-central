@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CourseStartReminderJobScheduler extends ContainerAwareCommand {
+class CourseStartReminderJobSchedulerCommand extends ContainerAwareCommand {
 
     protected function configure()
     {
@@ -30,6 +30,9 @@ class CourseStartReminderJobScheduler extends ContainerAwareCommand {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $now = new \DateTime();
+        $output->writeln( "<comment>Create reminder scheduler started on {$now->format('Y-m-d H:i:s')}</comment>");
+
         $esCourses = $this->getContainer()->get('es_courses');
         $em = $this->getContainer()->get('doctrine')->getManager();
         $scheduler = $this->getContainer()->get('scheduler');
@@ -49,10 +52,6 @@ class CourseStartReminderJobScheduler extends ContainerAwareCommand {
             $output->writeLn("<error>Invalid date or format. Correct format is Y-m-d</error>");
             return;
         }
-
-        $now = new \DateTime();
-        $output->writeln( "<comment>Job Started on {$now->format('Y-m-d H:i:s')}</comment>");
-
 
         $dt = new \DateTime( $date);
         if( $type == CourseStartReminderJob::JOB_TYPE_2_WEEKS_BEFORE )
@@ -123,7 +122,7 @@ class CourseStartReminderJobScheduler extends ContainerAwareCommand {
         foreach($users as $uid => $courses)
         {
             $id = $scheduler->schedule(
-                new \DateTime(),
+                new \DateTime( $date ),
                 $type,
                 'ClassCentral\MOOCTrackerBundle\Job\CourseStartReminderJob',
                 $courses,

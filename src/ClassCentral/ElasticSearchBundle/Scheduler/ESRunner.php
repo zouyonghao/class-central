@@ -82,18 +82,23 @@ class ESRunner {
 
         $totalJobs = $results['hits']['total'];
         $logger->info("RUNNER: $totalJobs jobs found");
-
+        $statuses = array(); // Array of status of all jobs
         foreach ($results['hits']['hits'] as $result)
         {
             $job = ESJob::getObjFromArray( $result );
             $status = $this->run( $job );
-
+            $statuses[ $job->getId() ] = $status;
             // Create a log item
             $jl = ESJobLog::getJobLog( $job, $status );
             $indexer->index( $jl );
 
             $esScheduler->delete( $job->getId() );
         }
+
+        return array(
+            'total' => $totalJobs,
+            'statuses' => $statuses
+        );
     }
 
     /**
