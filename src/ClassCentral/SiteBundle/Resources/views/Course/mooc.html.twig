@@ -48,6 +48,8 @@
                 <div class="course-rating-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                     <div class="course-rating" data-score="{{ rating }}">
                                 <meta itemprop="ratingValue" content="{{ rating }}">
+                                <meta itemprop="worstRating" content = "1"/>
+                                <meta itemprop="bestRating" content = "5"/>
                     </div>
                     <div class="review-link">
                         {% if  reviews.reviews|length  > 0 %}
