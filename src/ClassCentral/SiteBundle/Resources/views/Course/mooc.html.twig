@@ -96,7 +96,7 @@
 
                         <a class="provider-logo" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
                            onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
-                           title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
+                           title="{{ course['initiative']['name'] }}">{{ course['initiative']['name'] }}</a>
                     {% endif %}
 
                     {% if course['institutions']|length > 0 %}
@@ -119,13 +119,16 @@
                     {{ course['desc'] }}
                 </p>
                 <div class="course-footer-wrap">
-                    <div class="taglist">
-                        <span>Tags</span>
-                        <a href="#">computer science,</a>
-                        <a href="#">enterprise,</a>
-                        <a href="#">science,</a>
-                        <a href="#">coursera</a>
-                    </div>
+                    {% if course.tags|length > 0 %}
+                        <div class="taglist">
+                            <span>Tags</span>
+                            {% for tag in course.tags %}
+                                <a href="{{ path('tag_courses', {tag: tag|lower}) }}"
+                                   onmousedown="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - tags', '{{tag}}', '{{course['name']}}'])">{{ tag|lower }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     {% if not user_session.isCourseReviewed(course.id) %}
                         <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
                     {% endif %}
@@ -155,7 +158,7 @@
                         <svg class="icon icon-provider-icon" viewBox="0 0 38 32"><use xlink:href="#icon-provider-icon"></use></svg>
                         Provider
                     </span>
-                <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])" title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
+                <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])">{{ course['initiative']['name'] }}</a>
             </div>
             <div class="course-data-row course-institution">
                     <span class="course-data-icon">

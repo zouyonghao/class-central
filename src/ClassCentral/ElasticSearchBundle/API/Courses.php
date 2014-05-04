@@ -73,6 +73,15 @@ class Courses {
         return $this->findCourses($matchCriteria);
     }
 
+    public function findByTag( $tag )
+    {
+        $matchCriteria = array(
+            'tags' => strtolower($tag)
+        );
+
+        return $this->findCourses($matchCriteria);
+    }
+
     /**
      * Find all the courses by time:
      * recent, upcoming, finished etc.

@@ -42,6 +42,9 @@ ClassCentralSiteBundle_institution:
     pattern:  /institution/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Institution:view }
 
+tag_courses:
+  pattern: /tag/{tag}
+  defaults: { _controller: ClassCentralSiteBundle:Course:tag }
 # redirect /stream to /subject
 ClassCentralSiteBundle_stream_redirect:
     pattern:  /stream/{slug}

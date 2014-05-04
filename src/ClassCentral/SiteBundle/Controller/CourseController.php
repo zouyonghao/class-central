@@ -579,6 +579,7 @@ EOD;
             ));
     }
 
+
     /**
      * Shows a page with the top 10 courses.
      * @param Request $request
@@ -602,5 +603,50 @@ EOD;
             'count' => 99,
             'page' => 'mooc-report'
         ));
+    }
+    
+    public function tagAction(Request $request, $tag)
+    {
+        $cache = $this->get('cache');
+
+        $data = $cache->get(
+            'tag_' . $tag,
+            function($tag, $container) {
+                $esCourses = $this->get('es_courses');
+                $filter =$this->get('filter');
+                $em = $container->get('doctrine')->getManager();
+
+                $response = $esCourses->findByTag($tag);
+                $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
+                $allLanguages = $filter->getCourseLanguages($response['languageIds']);
+                $allSessions  = $filter->getCourseSessions( $response['sessions'] );
+
+                return array(
+                    'response' => $response,
+                    'allSubjects' => $allSubjects,
+                    'allLanguages' => $allLanguages,
+                    'allSessions'  => $allSessions
+                );
+            },
+            array($tag, $this->container)
+        );
+
+        if( empty($data) )
+        {
+            // Show an error message
+            return;
+        }
+
+
+        return $this->render('ClassCentralSiteBundle:Course:tag.html.twig',
+            array(
+                'page'=>'tag',
+                'results' => $data['response']['results'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'allSessions' => $data['allSessions'],
+                'tag' => $tag
+            ));
     }
 }

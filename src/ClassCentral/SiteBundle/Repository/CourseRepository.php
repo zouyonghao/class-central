@@ -33,7 +33,15 @@ class CourseRepository extends EntityRepository{
             $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
             $courseDetails['nextOffering']['id'] = $nextOffering->getId();
         }
-
+        $courseDetails['tags'] = array();
+        foreach( $course->getTags() as $tag)
+        {
+            $name = $tag->getName();
+            if( !empty($name) ) // To account for bug which adds empty tags to courses
+            {
+                $courseDetails['tags'][] = $name;
+            }
+        }
 
         // Stream
         $stream = $course->getStream();
@@ -51,6 +59,12 @@ class CourseRepository extends EntityRepository{
             $courseDetails['initiative']['tooltip'] = $initiative->getTooltip();
             $courseDetails['initiative']['code'] = strtolower($initiative->getCode());
         }
+        else
+        {
+            $courseDetails['initiative']['name'] = 'Independent';
+            $courseDetails['initiative']['code'] = 'independent';
+        }
+
 
         // Institutions
         $courseDetails['institutions'] = array();
