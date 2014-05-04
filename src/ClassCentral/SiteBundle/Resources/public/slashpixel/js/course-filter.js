@@ -82,7 +82,20 @@ jQuery(function($) {
 
 
     $(".sub-category").click(function(e) {
-        toggleActive(e, $(this));
+        e.preventDefault();
+        var span = $(this).parent().find('span')[0];
+        var parentLi = $(span).parent().parent();
+        if(parentLi.find('.filter-dropdown')[0]) {
+            // Has sub categories. Expand collapse the sub categories
+            toggleActive(e, $(this));
+        } else{
+            // No sub-categories. Check the box and filter the courses
+            $(span).toggleClass('ticked');
+            var type = $(this).data('type');
+            var value = $(this).data(type);
+            filterCourses();
+            gaqPush(type, value);
+        }
     });
 
     $(".sort").click(function(e) {
