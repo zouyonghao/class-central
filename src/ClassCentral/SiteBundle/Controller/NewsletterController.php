@@ -387,10 +387,18 @@ class NewsletterController extends Controller
             return $this->redirect($this->generateUrl('newsletter_subscribed'));
         }
 
+        $name = $request->request->get('name');
+        if( empty($name) )
+        {
+            $session->getFlashBag()->add('newsletter_signup_invalid_password',"Please enter a name");
+            return $this->redirect($this->generateUrl('newsletter_subscribed'));
+        }
+
         // Password-Email are accurate. Create a user
         $user = new User();
         $user->setEmail($email);
         $user->setPassword($password);
+        $user->setName($name);
         foreach($emailEntity->getNewsletters() as $newsletter)
         {
             $user->addNewsletter($newsletter);

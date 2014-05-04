@@ -167,9 +167,9 @@
                         <div class="col-md-6 col-lg-4 col-sm-7 col-xs-8 newsletter-column">
                             <div class="newsletter-wrap">
                                 <h4><span>Newsletter. </span>Never miss a course.</h4>
-                                <form class="newsletter-subscription" method="" action="">
+                                <form class="newsletter-subscription" action="{{ path('newsletter_subscribe_to',{code: 'mooc-report'}) }}" method="post">
                                     <p>
-                                        <input type="email" placeholder="your@email.com" required>
+                                        <input type="email" placeholder="your@email.com" name="email" required>
                                         <input type="submit" value="SUBSCRIBE">
                                     </p>
                                 </form>
