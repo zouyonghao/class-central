@@ -160,6 +160,9 @@ jQuery(function($) {
                 listTable.show();
             }
 
+            // Update the count on course listing pages
+            $('#number-of-courses').html( count );
+
         }
     }
 
