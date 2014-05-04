@@ -57,12 +57,23 @@
         <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-black icon-link" value="YES"></i> <i class="icon-remove icon-black icon-link" value="NO"></i></div>
      </div>
      {% if total != 0 %}
-         <div id="filter-wrap">
-             {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
-             <div class="tables-wrap">
-                 {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
+         <section class="courses">
+             <h2 class="section-heading">
+                 <span>Courses</span>
+             </h2>
+             <div id="filter-wrap">
+                 <div class="row">
+                     <div class="col-md-4 col-lg-3">
+                         {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
+                     </div>
+                     <div class="col-sm-12 col-md-8 col-lg-9">
+                         <div class="tables-wrap">
+                             {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
+                         </div>
+                     </div>
+                 </div>
              </div>
-         </div>
+         </section>
     {% endif %}
    {% endif %}             
 {% endblock %}  

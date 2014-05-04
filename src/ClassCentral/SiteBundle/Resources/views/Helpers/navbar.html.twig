@@ -70,12 +70,14 @@
                 <li class="search-form">
                     <div id='nav-search-form'>
                         {# <input  id="prependedInput" type="text" name="q"> #}
-                        <a href="/search" class="search-button" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])">
+                        <a href="/search" class="search-button" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])" id="navbar-search-btn">
                             <svg viewBox="0 0 33 32" class="icon-search">
                                 <use xlink:href="#icon-cc-logo2"></use>
                             </svg>
                         </a>
-                        <input class="cc-search-box" placeholder="search for subject" type="text">
+                        <form action="{{ path('ClassCentralSiteBundle_search') }}" method="get" name="search" id="navbar-search-form">
+                            <input class="cc-search-box" placeholder="what do you want to learn?" id="st-search-input" type="text" name="q">
+                        </form>
                     </div>
                     {# include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} #}
                 </li>

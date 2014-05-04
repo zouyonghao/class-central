@@ -557,4 +557,47 @@ jQuery(function($) {
         e.stopPropagation();
     });
 
+    /*
+    Search functionality
+     */
+    var customRenderFunction = function(document_type, item) {
+        var title = '<p class="title">' + item['name'] + '</p>';
+        if(document_type == 'courses') {
+            var ins = '';
+            if(typeof item['institutions'] !== 'undefined' && item['institutions'] != '' ) {
+                ins = item['institutions'][0] + ' - ';
+            }
+            var provider = '';
+            if(typeof item['provider'] !== 'undefined' && item['provider'] != '' ) {
+                provider = ' | ' + item['provider'];
+            }
+
+            return title.concat('<p>' + ins + item['displayDate'] + provider + '</p>');
+        } else if (document_type == 'universities' || document_type == 'subjects') {
+            return title.concat('<p class="genre">' + item['courseCount'] + ' courses </p>');
+        }
+    };
+
+    // Autocomplete
+    $('#st-search-input').swiftype({
+        renderFunction: customRenderFunction,
+        engineKey: '{{ swiftype_engine_key }}',
+        filters: {
+            'courses' : {'status':{
+                'type' : 'range',
+                'to' : 99
+            }},
+            'universities': {'courseCount':{
+                'type' : 'range',
+                'from' : '1'
+            }}
+        }
+    });
+
+    // Navbar search button
+    $('#navbar-search-btn').click(function(e){
+        e.preventDefault();
+        $('#navbar-search-form').submit();
+    });
+
 });
