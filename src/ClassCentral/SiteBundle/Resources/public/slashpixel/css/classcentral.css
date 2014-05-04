@@ -1223,86 +1223,7 @@ font-size: 19px;
 } */
 
 /* MOOC/Course pages */
-.course-block {
-    padding: 20px 20px;
-    background-color: #ffffff;
-}
 
-.course-block .course-title {
-    font-family: 'Open Sans',sans-serif;
-    color: #0662a1;
-    font-weight: normal;
-    margin-left: 0px;
-    padding-top: 0px;
-}
-
-.course-block .course-instructors {
-    font-family: "Open Sans",sans-serif;
-    font-size: 14px;
-    color: #066666;
-    font-weight: 400;
-    font-style: italic;
-}
-
-.course-secondline {
-    margin-bottom: 5px;
-}
-
-.course-secondline ul{
-    display: inline;
-    list-style-type: none;
-    margin-left: 0px;
-}
-.course-secondline ul:after {
-    content: ' - ';
-}
-
-.course-secondline ul li {
-    display: inline;
-}
-
-.course-secondline li:after {
-    content: ', ';
-}
-
-.course-secondline li:last-child:after {
-    content: "";
-}
-
-.course-secondline ul li a {
-    font-family: "Open Sans",sans-serif;
-    font-size: 14px;
-    color: #066666;
-    font-weight: 600;
-}
-
-.course-info-row {
-    margin-bottom: 10px;
-}
-.course-info-row span {
-    font-family: "Open Sans",sans-serif;
-    font-size: 14px;
-    color: #0662a1;
-    font-weight: 600;
-    display: inline-block;
-    width: 80px;
-}
-
-.course-info-row a {
-    font-family: "Open Sans",sans-serif;
-    font-size: 14px;
-    color: #066666;
-    font-weight: 400;
-}
-
-.course-block .course-desc {
-    font-family: "Open Sans",sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    color: #000000;
-    line-height: 30px;
-    margin-bottom: 30px;
-}
 
 .course-offeringtype-block h4 {
     font-family: "Open Sans",sans-serif;
@@ -1335,20 +1256,6 @@ font-size: 19px;
     font-weight: 600;
 }
 
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px; height: 0; overflow: hidden;
-    margin-bottom: 20px;
-}
-
-.video-container iframe, .video-container object, .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
 
 .btn-course-cc {
     -moz-border-radius: 0px;
@@ -1375,11 +1282,6 @@ font-size: 19px;
     background-color: #5ca8a3;
 }
 
-
-.course-info{
-    margin:0;
-    padding-left:60px;
-}
 .course-meta-bottom {
     margin:0;
 }
@@ -1418,14 +1320,6 @@ font-size: 19px;
 
 .course-button-group li a:hover {
     text-decoration: none;
-}
-
-.register-button {
-    background-color: #1663a3;
-}
-
-.review-button {
-    background-color: #3a759a;
 }
 
 .course-button-group>li .add-button {

@@ -331,7 +331,7 @@ jQuery(function($) {
     // SORTING
     var sortDescClass = 'headerSortUp';
     var sortAscClass = 'headerSortDown';
-    $('th.sorting').clicglok(function(){
+    $('th.sorting').click(function(){
         var table = $(this).parent().parent().parent().attr('id');
         var list = table.substring(0, table.indexOf('list'));
         var sortBy = $(this).data('sort');

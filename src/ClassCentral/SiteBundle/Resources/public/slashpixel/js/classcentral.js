@@ -11,28 +11,28 @@ jQuery(function($) {
             url: "/ajax/isLoggedIn",
             cache: true
         })
-        .done(function(result){
-            var loggedInResult = $.parseJSON(result);
-            if(loggedInResult.loggedIn) {
-                var name = $(clicked).attr("name");
-                if($(clicked).is(':checked')) {
-                    $('span[id=' + name + ']').html("-");
-                    // uncheck the rest
-                    $('input[name=' + name +']:checked').each(function(){
-                        $(this).attr('checked',false);
-                    });
-                    // check this one back
-                    $(clicked).attr('checked',true);
-                } else {
-                    $('span[id=' + name + ']').html("+");
-                }
+            .done(function(result){
+                var loggedInResult = $.parseJSON(result);
+                if(loggedInResult.loggedIn) {
+                    var name = $(clicked).attr("name");
+                    if($(clicked).is(':checked')) {
+                        $('span[id=' + name + ']').html("-");
+                        // uncheck the rest
+                        $('input[name=' + name +']:checked').each(function(){
+                            $(this).attr('checked',false);
+                        });
+                        // check this one back
+                        $(clicked).attr('checked',true);
+                    } else {
+                        $('span[id=' + name + ']').html("+");
+                    }
 
-                addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'), $(clicked).data('course-name'));
-            } else {
-                // redirect to signup page
-                window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/"+ $(clicked).val());
-            }
-        });
+                    addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'), $(clicked).data('course-name'));
+                } else {
+                    // redirect to signup page
+                    window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/"+ $(clicked).val());
+                }
+            });
     });
 
     // Completed, Audited, Partially Completed, Drooped
@@ -47,11 +47,11 @@ jQuery(function($) {
 
     function addRemoveCourse(listId, courseId, checked,name) {
         try{
-         if(checked){
-             _gaq.push(['_trackEvent','My Courses - Add',listId.toString(), courseId.toString()]);
-         }else {
-             _gaq.push(['_trackEvent','My Courses - Remove', listId.toString(),  courseId.toString() ]);
-         }
+            if(checked){
+                _gaq.push(['_trackEvent','My Courses - Add',listId.toString(), courseId.toString()]);
+            }else {
+                _gaq.push(['_trackEvent','My Courses - Remove', listId.toString(),  courseId.toString() ]);
+            }
         }catch(err){}
         if(checked){
             $.ajax( "/ajax/user/course/add?c_id=" +courseId +"&l_id="+ listId)
@@ -67,7 +67,7 @@ jQuery(function($) {
                             notifyWithDelay(
                                 'Course added',
                                 'Would you like to review it? It takes no time at all ' +
-                                '<br/><a href="/review/new/' + courseId+ '">Review ' + name +
+                                    '<br/><a href="/review/new/' + courseId+ '">Review ' + name +
                                     '</a> ',
                                 'success',
                                 60
@@ -79,7 +79,7 @@ jQuery(function($) {
                             notifyWithDelay(
                                 'Course added',
                                 '<i>'+ name +'</i> added to <a href="/user/courses">My Courses</a> successfully. ' +
-                                  'Don\'t forget to <a href="/review/new/' + courseId + '">review</a> the course once you finish it'
+                                    'Don\'t forget to <a href="/review/new/' + courseId + '">review</a> the course once you finish it'
                                 ,
                                 'success',
                                 30
@@ -166,7 +166,7 @@ jQuery(function($) {
     // relevant to course information page and course tables
     // stop dropdown from closing when its inside elements are clicked on
     $('.course-button-group .dropdown-menu').bind('click', function (e) {
-       //e.stopPropagation();
+        //e.stopPropagation();
     });
 
     $('.table .dropdown-menu').bind('click', function (e) {
@@ -253,7 +253,7 @@ jQuery(function($) {
             $.ajax( "/ajax/user/pref/"+ prefId + "/1")
                 .done(
                 function(result){
-                   // console.log("jquery" + result);
+                    // console.log("jquery" + result);
                 }
             );
         } else {
@@ -312,36 +312,36 @@ jQuery(function($) {
         var review = getReviewFormFields();
         var validationError = validateReviewForm(review);
 
-       if(!validationError) {
-           try{
+        if(!validationError) {
+            try{
                 if(review.reviewId === undefined){
                     _gaq.push(['_trackEvent', 'Create Review', " " + $('#courseId').data("value")]);
                 } else {
                     _gaq.push(['_trackEvent', 'Update Review'," " +  $('#courseId').data("value")]);
                 }
-           } catch(err){}
+            } catch(err){}
 
-           $.ajax({
-               type:"post",
-               url:"/user/review/create/" + $('#courseId').data("value"),
-               data:JSON.stringify(review)
-           })
-               .done(
-               function(result){
-                   result = JSON.parse(result);
-                   if(result['success']) {
-                       // Redirect to the course page
-                       window.location.href = $('#courseUrl').data("value");
-                   } else {
-                       // Show an error message
-                   }
-               }
-           );
+            $.ajax({
+                type:"post",
+                url:"/user/review/create/" + $('#courseId').data("value"),
+                data:JSON.stringify(review)
+            })
+                .done(
+                function(result){
+                    result = JSON.parse(result);
+                    if(result['success']) {
+                        // Redirect to the course page
+                        window.location.href = $('#courseUrl').data("value");
+                    } else {
+                        // Show an error message
+                    }
+                }
+            );
 
-       } else {
-           $('#submit-review').attr('disabled',false);
+        } else {
+            $('#submit-review').attr('disabled',false);
 
-       }
+        }
 
     });
 
@@ -358,30 +358,30 @@ jQuery(function($) {
                 url: "/ajax/isLoggedIn",
                 cache: true
             })
-            .done(function(result){
-                var loggedInResult = $.parseJSON(result);
-                if(!loggedInResult.loggedIn) {
-                    // Not logged in. Continue
-                    $.ajax({
-                        type:"post",
-                        url:"/review/save/" + $('#courseId').data("value"),
-                        data:JSON.stringify(review)
-                    })
-                        .done(
-                        function(result){
-                            result = JSON.parse(result);
-                            if(result['success']) {
-                                // Redirect to the course page
-                                $('#signupForm').modal('show');
-                            } else {
-                                // Show an error message
-                                showPinesNotification('error','Some error occurred',result['message']);
+                .done(function(result){
+                    var loggedInResult = $.parseJSON(result);
+                    if(!loggedInResult.loggedIn) {
+                        // Not logged in. Continue
+                        $.ajax({
+                            type:"post",
+                            url:"/review/save/" + $('#courseId').data("value"),
+                            data:JSON.stringify(review)
+                        })
+                            .done(
+                            function(result){
+                                result = JSON.parse(result);
+                                if(result['success']) {
+                                    // Redirect to the course page
+                                    $('#signupForm').modal('show');
+                                } else {
+                                    // Show an error message
+                                    showPinesNotification('error','Some error occurred',result['message']);
+                                }
                             }
-                        }
-                    );
+                        );
 
-                }
-            });
+                    }
+                });
 
 
         }
@@ -473,18 +473,18 @@ jQuery(function($) {
             url: "/ajax/isLoggedIn",
             cache: true
         })
-        .done(function(result){
-            var loggedInResult = $.parseJSON(result);
-            if(loggedInResult.loggedIn) {
-                $.ajax("/ajax/review/feedback/"+ reviewId+"/"+feedback)
-                    .done(function(result){
-                        $('#review-feedback-'+reviewId).text("Thank you for your feedback.");
-                    });
-            } else {
-                // redirect to login page
-                window.location.replace("/login");
-            }
-        });
+            .done(function(result){
+                var loggedInResult = $.parseJSON(result);
+                if(loggedInResult.loggedIn) {
+                    $.ajax("/ajax/review/feedback/"+ reviewId+"/"+feedback)
+                        .done(function(result){
+                            $('#review-feedback-'+reviewId).text("Thank you for your feedback.");
+                        });
+                } else {
+                    // redirect to login page
+                    window.location.replace("/login");
+                }
+            });
 
     });
 
@@ -503,13 +503,13 @@ jQuery(function($) {
     // Pines notification
     $('.flash-message').each(function(index,element){
 
-         $.pnotify({
+        $.pnotify({
             title: $(element).data('title'),
             text: $(element).text(),
             type: $(element).data('type'),
             animation: 'show',
             delay: $(element).data('delay') * 1000
-	    });
+        });
     });
 
 
@@ -535,30 +535,6 @@ jQuery(function($) {
         }
     });
 
-    // tableExtender hides table rows after specified number and shows them again if btn is clicked
-    // table and button must be in the same parent container
-    // vars:
-    // table - table class or id
-    // visibleRows - number of visible rows (default: 7)
-    // viewMoreButton - id or class for the button to display and hide table rows (default: ".expand-table-btn")
-    function tableExtender(table, visibleRows, viewMoreButton) {
-        visibleRows = typeof visibleRows !== 'undefined' ? visibleRows : 7;
-        viewMoreButton = typeof viewMoreButton !== 'undefined' ? viewMoreButton : '.expand-table-btn';
-        $table = $(table);
-        $(table + " tr:gt(" + visibleRows + ")").hide().addClass("hidden-row");
-        var $button = $table.parent().find(viewMoreButton);
-        $button.css('display', 'block');
-        $button.click(function(event){
-            event.preventDefault();
-            $this = $(this);
-            $this.parent().find(".hidden-row").show();
-            $this.css('display', 'none');
-        });
-
-    }
-
-    tableExtender(".front-page-table .table");
-
     // front page tab nav
     $('nav.page-tabs').on('click', 'ul > li > a', function(event) {
         event.preventDefault();
@@ -571,6 +547,14 @@ jQuery(function($) {
             $("nav.page-tabs ul > li").removeClass("active-tab");
             $this.closest("li").addClass("active-tab");
         }
+    });
+
+    $('.course-data-row .dropdown-menu input').click(function(e) {
+        e.stopPropagation();
+    });
+
+    $('.course-data-row .dropdown-menu label').click(function(e) {
+        e.stopPropagation();
     });
 
 });

@@ -17,7 +17,7 @@
      <meta property="og:description" content="{{ course['desc'] }}" />
      <meta property="og:type" content="website" />
      {% if course['videoIntro'] is not null %}
-        <meta property="og:video" content="{{  course['videoIntro'] }}" />
+         <meta property="og:video" content="{{  course['videoIntro'] }}" />
      {% endif %}
      <meta property="fb:admins" content="{{ fb_admins }}" />
 
@@ -31,20 +31,31 @@
  {% endblock %}
 
 {% block content %}
+    <h2 class="section-heading"><span>Course Details</span></h2>
 
     {% set reviewUrl = path('review_new',{courseId: course.id})%}
 
     {# Links for admin #}
     {% if is_granted('ROLE_ADMIN') %}
         <p><b>Links for Admin</b></p>
-<a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
+        <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
     {% endif %}
-    <div class="course-block" itemscope itemtype="http://schema.org/Product">
+    <div class="course-block row" itemscope itemtype="http://schema.org/Product">
 
-        <div class="course-meta-top row" >
+    <div class="course-meta-main-wrap col-lg-9" >
+        <div class="course-meta-main">
 
-            <div class='course-info span6'>
+            <div class="course-video">
+                {% if course['videoEmbedUrl'] is not null %}
+                    <span class="preview-tab">Preview</span>
+                    <div class="video-container">
+                        <iframe class="ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
+                    </div>
+                {% endif %}
+            </div>
+            <div class='course-info'>
                 <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
+                {#
                 <div class="course-rating-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                     <div class="course-rating" data-score="{{ rating }}">
                                 <meta itemprop="ratingValue" content="{{ rating }}">
@@ -62,7 +73,7 @@
                         {% endif %}
                     </div>
                  </div>
-
+                #}
                 {#
                 <div class="course-share">
                     <div class="course-share-text">Tell your friends:</div>
@@ -80,10 +91,17 @@
                 </div>
                 #}
 
-                <div class="course-secondline">
+                <div class="course-provider-wrap">
+                    {% if course['initiative']['name']|length > 0 %}
+
+                        <a class="provider-logo" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
+                           onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
+                           title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
+                    {% endif %}
+
                     {% if course['institutions']|length > 0 %}
                         {# Output the institutions with links #}
-                        <ul>
+                        <ul class="institution-list">
                             {% for institution in course['institutions'] %}
                                 {% set route = 'ClassCentralSiteBundle_university' %}
                                 {% if not institution['isUniversity'] %}
@@ -94,92 +112,131 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+                    <span class="with-separator"> &nbsp;with&nbsp;</span>
                     <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                 </div>
-
-                {% if course['initiative']['name']|length > 0 %}
-                    <div class="course-info-row">
-                        <span>Provider:</span><a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
-                                                    onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
-                                                    title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
-                    </div>
-                {% endif %}
-
                 <p class="course-desc" itemprop="description">
                     {{ course['desc'] }}
                 </p>
-            </div>
-
-            <div class="course-video span5">
-                {% if course['videoEmbedUrl'] is not null %}
-                    <div class="video-container">
-                        <iframe src="{{ course['videoEmbedUrl'] }}" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
+                <div class="course-footer-wrap">
+                    <div class="taglist">
+                        <span>Tags</span>
+                        <a href="#">computer science,</a>
+                        <a href="#">enterprise,</a>
+                        <a href="#">science,</a>
+                        <a href="#">coursera</a>
                     </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class ="course-meta-bottom row">
-            <div class="course-meta-bottom-left span6">
-                <p class="course-sessions">Sessions {% if course.length > 0 %}({{ course.length }} weeks long){% endif %} :</p>
-                {% set offeringUrl = null %}
-                {% set selectedOfferingDetails = null %}
-                {% if offeringTypesOrder|length > 0 %}
-                    <select id="sessionOptions">
-                    {% for offeringType in offeringTypesOrder %}
-                        {% if course['offerings'][offeringType]|length > 0 %}
-                            <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
-                            {% for offering in course['offerings'][offeringType]%}
-                                {% if offeringUrl is null %}
-                                    {% set offeringUrl = offering['url']  %}
-                                    {% set selectedOfferingDetails = {
-                                        'type' : offeringType,
-                                        'startDate' : offering.startDate,
-                                        'status' : offering.status
-                                    } %}
-                                {% endif %}
-                                <option content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
-                                        data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
-                                        {% if course.nextOffering.id == offering.id %} selected="selected" {% endif %}
-                                 >
-                                  {{ offering['displayDate'] }}
-                                </option>
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                    </select>
-                    {% if offeringUrl is not null %}
-                        <span class="btnAddToCalendar" {% if selectedOfferingDetails.type != 'upcoming' or selectedOfferingDetails.status != 1 %} style="display:none" {% endif %}>
-                            <a href="{{ course.pageUrl }}" title="Add to Calendar" class="addthisevent">
-                                Add to Calendar
-                                <span class="_start">{{ selectedOfferingDetails.startDate }}</span>
-                                <span class="_end">{{ selectedOfferingDetails.startDate }}</span>
-                                <span class="_zonecode">35</span>
-                                <span class="_summary">{{ course['name'] }} {% if course['initiative']['name']|length > 0 and course['initiative']['name'] != 'Others' %} from {{ course['initiative']['name'] }} {% endif %} | Class Central</span>
-                                            <span class="_description">{{ course['desc'] }}<br>Find out more at {{ course.pageUrl }}
-                                            </span>
-                                <span class="_all_day_event">true</span>
-                                <span class="_date_format">DD/MM/YYYY</span>
-                            </a>
-                        </span>
-                        {% endif %}
-                {% endif %}
-
-                <br/>
-                <ul class="course-button-group">
-                    <li>
-                        <a class="register-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
-                           onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
-                    </li>
                     {% if not user_session.isCourseReviewed(course.id) %}
-                    <li>
-                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Review Button', '{{course['name']}}'])">Review</a>
-                    </li>
+                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
                     {% endif %}
+                </div>
+            </div><!-- course info -->
+        </div>
+    </div>
 
-                    <li class="dropdown">
+    <div class ="course-meta-sidebar col-lg-3">
+        <div class="course-data">
+            <div class="course-data-row course-pace">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-pace-icon" viewBox="0 0 36 32"><use xlink:href="#icon-pace-icon"></use></svg>
+                        Pace
+                    </span>
+                <span class="course-data-value">Self paced</span>
+            </div>
+            <div class="course-data-row course-language">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-comment" viewBox="0 0 32 32"><use xlink:href="#icon-comment"></use></svg>
+                        Language
+                    </span>
+                <span class="course-data-value">English</span>
+            </div>
+            <div class="course-data-row course-provider">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-provider-icon" viewBox="0 0 38 32"><use xlink:href="#icon-provider-icon"></use></svg>
+                        Provider
+                    </span>
+                <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])" title="{{ course['initiative']['tooltip'] }}">{{ course['initiative']['name'] }}</a>
+            </div>
+            <div class="course-data-row course-institution">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-institution-icon" viewBox="0 0 22 32"><use xlink:href="#icon-institution-icon"></use></svg>
+                        Institution
+                    </span>
+                {% for institution in course['institutions'] %}
+                    {% set route = 'ClassCentralSiteBundle_university' %}
+                    {% if not institution['isUniversity'] %}
+                        {% set route = 'ClassCentralSiteBundle_institution' %}
+                    {% endif %}
+                    <a class="course-data-value" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
+                       onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                {% endfor %}
+            </div>
+            <div class="course-data-row course-sessions">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-calendar-icon" viewBox="0 0 32 32"><use xlink:href="#icon-calendar-icon"></use></svg>
+                        Calendar
+                    </span>
+                    <span class="course-data-value">
+                        {% set offeringUrl = null %}
+                        {% set selectedOfferingDetails = null %}
+                        {% if offeringTypesOrder|length > 0 %}
+                            <select id="sessionOptions">
+                                {% for offeringType in offeringTypesOrder %}
+                                    {% if course['offerings'][offeringType]|length > 0 %}
+                                        <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
+                                        {% for offering in course['offerings'][offeringType]%}
+                                            {% if offeringUrl is null %}
+                                                {% set offeringUrl = offering['url']  %}
+                                                {% set selectedOfferingDetails = {
+                                                'type' : offeringType,
+                                                'startDate' : offering.startDate,
+                                                'status' : offering.status
+                                                } %}
+                                            {% endif %}
+                                            <option content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
+                                                    data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
+                                                    {% if course.nextOffering.id == offering.id %} selected="selected" {% endif %}
+                                                    >
+                                                {{ offering['displayDate'] }}
+                                            </option>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </span>
+            </div>
+            <div class="course-data-row course-reviews" id="course-reviews">
+                <span class="course-data-icon"></span>
+                    <span class="course-data-value">
+                        <div class="average-rating course-rating" data-score="{{ rating }}"></div>
+                        <span class="review-count">
+                            {{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}
+                        </span>
+                        {% if not user_session.isCourseReviewed(course.id) %}
+                            <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
+                        {% endif %}
+                    </span>
+            </div>
+            <div class="course-data-row course-participants">
+                <span class="number">274</span>
+                <span class="course-data-value">Registered Participants</span>
+            </div>
+            <div class="course-data-row add-to-my-courses">
+                    <span class="dropdown">
                         {% set userListIds = user_session.getCourseListIds(course['id']) %}
-                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span id="course-interest-checkbox">{% if userListIds is empty %}+{% else %}-{% endif %}</span>My Courses</a>
+                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
+                            <span id="course-interest-checkbox">
+                                {% if userListIds is empty %}+{% else %}-{% endif %}
+                            </span>
+                            Add to my courses
+                            <span class="arrow-icon arrow-down-icon">
+                                <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                            </span>
+                            <span class="arrow-icon arrow-up-icon">
+                                <svg class="icon icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                            </span>
+                        </a>
                         <ul class="dropdown-menu">
                             {% for listId, list in listTypes %}
                                 <li>
@@ -190,14 +247,17 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                    </li>
-                </ul>
-
+                    </span>
             </div>
-            <div class="course-meta-bottom-right span5">
-
+            <div class="course-data-row course-register-button">
+                <a class="register-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
+                   onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
             </div>
         </div>
+
+
+
+    </div>
     </div>
 
     <div class="row">
@@ -254,7 +314,7 @@
                 </table>
             </div>
         {% endif %}
-
+        {#
         <div class="course-reviews" id="course-reviews">
             <header class="reviews-header">
                 <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</h2>
@@ -278,6 +338,7 @@
                 -->
             {% endif %}
         </div>
+        #}
     </div>
 
 
@@ -328,46 +389,46 @@
     </div>
 
 
-        {% if recentlyViewedCourses|length > 0 %}
-    <div class="related-courses-wrap">
-        <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th>Recently Viewed</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for course in recentlyViewedCourses %}
+    {% if recentlyViewedCourses|length > 0 %}
+        <div class="related-courses-wrap">
+            <table class="table table-striped table-bordered">
+                <thead>
                 <tr>
-                    <td>
-                        {% if course.initiative is not null %}
-                            {% set initiative=course.initiative.name %}
-                        {% else %}
-                            {% set initiative='Others' %}
-                        {% endif %}
-                        <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
-                           onmousedown='recordInboundLink(
-                                   "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
-                                   "{{initiative}}","{{course.name}}","recentlyViewed");return false' ><span itemprop="name">{{ course.name }}</span></a>
-                        {% if course.institutions|length %}
-                        <ul class="table-uni-list">
-                            {% for institution in course.institutions %}
-                                {% set route = 'ClassCentralSiteBundle_university' %}
-                                {% if not institution['isUniversity'] %}
-                                    {% set route = 'ClassCentralSiteBundle_institution' %}
-                                {% endif %}
-                                <li>
-                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </td>
+                    <th>Recently Viewed</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                {% for course in recentlyViewedCourses %}
+                    <tr>
+                        <td>
+                            {% if course.initiative is not null %}
+                                {% set initiative=course.initiative.name %}
+                            {% else %}
+                                {% set initiative='Others' %}
+                            {% endif %}
+                            <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
+                               onmousedown='recordInboundLink(
+                                       "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
+                                       "{{initiative}}","{{course.name}}","recentlyViewed");return false' ><span itemprop="name">{{ course.name }}</span></a>
+                            {% if course.institutions|length %}
+                                <ul class="table-uni-list">
+                                    {% for institution in course.institutions %}
+                                        {% set route = 'ClassCentralSiteBundle_university' %}
+                                        {% if not institution['isUniversity'] %}
+                                            {% set route = 'ClassCentralSiteBundle_institution' %}
+                                        {% endif %}
+                                        <li>
+                                            <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
 
     {% if news|length > 0 %}
@@ -387,7 +448,7 @@
                             <div class="news-excerpt">
                                 <h4>{{ newsItem.title }}</h4>
                                 <p>
-                                   {{ newsItem.description }}
+                                    {{ newsItem.description }}
                                 </p>
                                 <a href="{{ newsItem.url }}"
                                    target="_blank" onmousedown="_gaq.push(['_trackEvent', 'Outbound Clicks - News','{{  newsItem.title }}' , 'Course Page'])"
@@ -422,7 +483,7 @@
         .btnAddToCalendar {
             position: absolute;
         }
-            /* AddThisEvent */
+        /* AddThisEvent */
         .addthisevent {visibility:hidden;}
         .addthisevent-drop 						{display:inline-block;position:relative;z-index:998;background:#0662a1;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: normal;color:#fff!important;text-decoration:none;font-size:14px; font-weight:normal;text-decoration:none;padding:4px 5px 5px 8px;}
         .addthisevent-drop:hover 				{background-color:#666666;font-size: inherit;font-family: inherit; font-weight: inherit}
@@ -473,44 +534,44 @@
 {% endblock %}
 
 {% block customJS %}
-      $( document ).ready(function() {
+    $( document ).ready(function() {
 
-          addthisevent.settings(window.addthisevent_settings);
+    addthisevent.settings(window.addthisevent_settings);
 
-          $("#share-course-form-submit").click(function(){
+    $("#share-course-form-submit").click(function(){
 
-            _gaq.push(['_trackEvent', 'Course - Share', 'Mail Sent', '{{ course['name'] }}'])
+    _gaq.push(['_trackEvent', 'Course - Share', 'Mail Sent', '{{ course['name'] }}'])
 
-            var to = $("input[name='toEmail']").val();
-            var from = $("input[name='fromEmail']").val();
-            var fromName = $("input[name='fromName']").val();
-            var dataString = 'name='+ fromName + '&to=' + to + '&from=' + from;
+    var to = $("input[name='toEmail']").val();
+    var from = $("input[name='fromEmail']").val();
+    var fromName = $("input[name='fromName']").val();
+    var dataString = 'name='+ fromName + '&to=' + to + '&from=' + from;
 
-            // Validations
-            if(to == "" || from == "" || fromName == "" )
-            {
-                $('#share-course-form-error').show().text("All fields are required");
-                return false;
-            }
+    // Validations
+    if(to == "" || from == "" || fromName == "" )
+    {
+    $('#share-course-form-error').show().text("All fields are required");
+    return false;
+    }
 
-            $('#share-course-form-error').hide().text("");
+    $('#share-course-form-error').hide().text("");
 
-              $.ajax({
-                  type:"POST",
-                  url: "{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}",
-                  data: dataString,
-                  success:function(response){
-                      if(response.success) {
-                         $("#sendMailModal").modal('hide');
-                         $("input[name='toEmail']").val("");
-                      } else {
-                         $('#share-course-form-error').show().text(response.errors[0]);
-                      }
-                  }
-              });
-          });
+    $.ajax({
+    type:"POST",
+    url: "{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}",
+    data: dataString,
+    success:function(response){
+    if(response.success) {
+    $("#sendMailModal").modal('hide');
+    $("input[name='toEmail']").val("");
+    } else {
+    $('#share-course-form-error').show().text(response.errors[0]);
+    }
+    }
+    });
+    });
 
-      });
+    });
 {% endblock %}
 
 

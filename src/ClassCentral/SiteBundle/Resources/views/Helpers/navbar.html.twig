@@ -20,7 +20,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by their Start date" data-toggle="dropdown">Courses<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle nav-title" title="Browse MOOCs by their Start date" data-toggle="dropdown">
+                        Courses
+                        <b class="caret">
+                            <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                        </b>
+                    </a>
                     <ul class="dropdown-menu">
                         {% for offeringType, offeringDetails in offeringTypes %}
                             {% if offeringCount[offeringType] > 0 %}
@@ -31,7 +36,12 @@
                 </li>
 
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle nav-title" title="Browser MOOCs by Initiatives" data-toggle="dropdown">Providers<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle nav-title" title="Browser MOOCs by Initiatives" data-toggle="dropdown">
+                        Providers
+                        <b class="caret">
+                            <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                        </b>
+                    </a>
                     <ul class="dropdown-menu">
                         {% for initiative, code in initiativeTypes %}
                             <li>
@@ -71,6 +81,24 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li class="social-icon">
+                    <a href="http://www.facebook.com/classcentral">
+                        Facebook
+                        <svg class="icon icon-facebook" viewBox="0 0 32 32"><use xlink:href="#icon-facebook"></use></svg>
+                    </a>
+                </li>
+                <li class="social-icon">
+                    <a href="#">
+                        Twitter
+                        <svg class="icon icon-twitter" viewBox="0 0 32 32"><use xlink:href="#icon-twitter"></use></svg>
+                    </a>
+                </li>
+                <li class="social-icon">
+                    <a href="https://plus.google.com/+ClassCentral">
+                        Google plus
+                        <svg class="icon icon-google_follow" viewBox="0 0 32 32"><use xlink:href="#icon-google_follow"></use></svg>
+                    </a>
+                </li>
                 <li class="user-menu-wrap">
 
                     {% if app.user %}
