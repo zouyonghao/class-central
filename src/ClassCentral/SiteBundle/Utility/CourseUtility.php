@@ -213,7 +213,7 @@ class CourseUtility {
             $states[] = $stateMap[$unit];
         }
 
-        if(array_key_exists(Offering::STATE_RECENT_AND_JUST_ANNOUNCED,$stateMap))
+        if( $unit == Offering::STATE_RECENT_AND_JUST_ANNOUNCED )
         {
             $states[] = $stateMap[Offering::STATE_RECENT];
             $states[] = $stateMap[Offering::STATE_JUST_ANNOUNCED];
