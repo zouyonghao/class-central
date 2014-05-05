@@ -47,7 +47,7 @@
 
             <div class="course-video">
                 {% if course['videoEmbedUrl'] is not null %}
-                    <span class="preview-tab">Preview</span>
+                    <span class="preview-tab">Intro</span>
                     <div class="video-container">
                         <iframe class="ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
                     </div>
@@ -116,7 +116,7 @@
                     <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                 </div>
                 <p class="course-desc" itemprop="description">
-                    {{ course['desc'] }}
+                    {{ course['longDesc'] }}
                 </p>
                 <div class="course-footer-wrap">
                     {% if course.tags|length > 0 %}
@@ -146,13 +146,15 @@
                     </span>
                 <span class="course-data-value">Self paced</span>
             </div>
-            <div class="course-data-row course-language">
-                    <span class="course-data-icon">
-                        <svg class="icon icon-comment" viewBox="0 0 32 32"><use xlink:href="#icon-comment"></use></svg>
-                        Language
-                    </span>
-                <span class="course-data-value">English</span>
-            </div>
+            {% if course.lang is not empty %}
+                <div class="course-data-row course-language">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-comment" viewBox="0 0 32 32"><use xlink:href="#icon-comment"></use></svg>
+                            Language
+                        </span>
+                    <a href="{{ path('lang', {slug : course.lang.slug}) }}" class="course-data-value">{{ course.lang.name }}</a>
+                </div>
+            {% endif %}
             <div class="course-data-row course-provider">
                     <span class="course-data-icon">
                         <svg class="icon icon-provider-icon" viewBox="0 0 38 32"><use xlink:href="#icon-provider-icon"></use></svg>
@@ -160,20 +162,22 @@
                     </span>
                 <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])">{{ course['initiative']['name'] }}</a>
             </div>
-            <div class="course-data-row course-institution">
-                    <span class="course-data-icon">
-                        <svg class="icon icon-institution-icon" viewBox="0 0 22 32"><use xlink:href="#icon-institution-icon"></use></svg>
-                        Institution
-                    </span>
-                {% for institution in course['institutions'] %}
-                    {% set route = 'ClassCentralSiteBundle_university' %}
-                    {% if not institution['isUniversity'] %}
-                        {% set route = 'ClassCentralSiteBundle_institution' %}
-                    {% endif %}
-                    <a class="course-data-value" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
-                       onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
-                {% endfor %}
-            </div>
+            {% if course.institutions is not empty %}
+                <div class="course-data-row course-institution">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-institution-icon" viewBox="0 0 22 32"><use xlink:href="#icon-institution-icon"></use></svg>
+                            Institution
+                        </span>
+                    {% for institution in course['institutions'] %}
+                        {% set route = 'ClassCentralSiteBundle_university' %}
+                        {% if not institution['isUniversity'] %}
+                            {% set route = 'ClassCentralSiteBundle_institution' %}
+                        {% endif %}
+                        <a class="course-data-value" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
+                           onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <div class="course-data-row course-sessions">
                     <span class="course-data-icon">
                         <svg class="icon icon-calendar-icon" viewBox="0 0 32 32"><use xlink:href="#icon-calendar-icon"></use></svg>
@@ -209,6 +213,15 @@
                         {% endif %}
                     </span>
             </div>
+            {% if course.length > 0 %}
+                <div class="course-data-row course-language">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-comment" viewBox="0 0 32 32"><use xlink:href="#icon-comment"></use></svg>
+                            Length
+                        </span>
+                    <span  class="course-data-value">{{ course.length }} weeks long</span>
+                </div>
+            {% endif %}
             <div class="course-data-row course-reviews" id="course-reviews">
                 <span class="course-data-icon"></span>
                     <span class="course-data-value">
@@ -222,7 +235,7 @@
                     </span>
             </div>
             <div class="course-data-row course-participants">
-                <span class="number">274</span>
+                <span class="number" id="mycourses-listed-count">0</span>
                 <span class="course-data-value">Registered Participants</span>
             </div>
             <div class="course-data-row add-to-my-courses">
@@ -317,7 +330,7 @@
                 </table>
             </div>
         {% endif %}
-        {#
+
         <div class="course-reviews" id="course-reviews">
             <header class="reviews-header">
                 <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</h2>
@@ -341,7 +354,7 @@
                 -->
             {% endif %}
         </div>
-        #}
+
     </div>
 
 
@@ -573,6 +586,10 @@
     }
     });
     });
+
+    // Counter for the numbers
+    var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3);
+    numAnim.start();
 
     });
 {% endblock %}

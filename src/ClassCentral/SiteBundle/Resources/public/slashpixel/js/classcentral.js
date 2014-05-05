@@ -16,7 +16,12 @@ jQuery(function($) {
                 if(loggedInResult.loggedIn) {
                     var name = $(clicked).attr("name");
                     if($(clicked).is(':checked')) {
-                        $('span[id=' + name + ']').html("-");
+                        if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
+                            $('span[id=' + name + ']').html('-');
+                        } else {
+                            $('span[id=' + name + ']').html('<svg class="icon-minus" viewBox="0 0 32 32"><use xlink:href="#icon-minus"></use></svg>');
+                        }
+
                         // uncheck the rest
                         $('input[name=' + name +']:checked').each(function(){
                             $(this).attr('checked',false);
@@ -24,7 +29,13 @@ jQuery(function($) {
                         // check this one back
                         $(clicked).attr('checked',true);
                     } else {
-                        $('span[id=' + name + ']').html("+");
+                        if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
+                            $('span[id=' + name + ']').html('+');
+                        } else {
+                            $('span[id=' + name + ']').
+                                html('<svg class="icon-plus" viewBox="0 0 32 32"><use xlink:href="#icon-plus"></use></svg>');
+                        }
+
                     }
 
                     addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'), $(clicked).data('course-name'));
