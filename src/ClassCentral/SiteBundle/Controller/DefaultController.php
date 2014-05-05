@@ -169,5 +169,14 @@ class DefaultController extends Controller {
         // Just adding a dummy page
         return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
     }
+
+    public function githubButtonAction()
+    {
+        if ($this->container->has('profiler'))
+        {
+            $this->container->get('profiler')->disable();
+        }
+        return $this->render('ClassCentralSiteBundle:Default:githubbtn.html.twig');
+    }
     
 }
