@@ -37,7 +37,7 @@
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         
-        {% if app.environment == 'prod' and page is defined %}
+        {% if app.environment == 'prod' %}
 
             <!-- Google+ Direct connect -->
             <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
@@ -219,6 +219,7 @@
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.floatThead.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/purl.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/countUp.min.js'
+        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/addThisEvent.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
 
