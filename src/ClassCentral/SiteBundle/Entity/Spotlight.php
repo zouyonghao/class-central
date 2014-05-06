@@ -40,6 +40,19 @@ class Spotlight
     private $imageUrl;
 
     const SPOTLIGHT_TYPE_DEMO = 1; // Only show in dev
+    const SPOTLIGHT_TYPE_COURSE = 2;
+    const SPOTLIGHT_TYPE_NEWS = 3;
+    const SPOTLIGHT_TYPE_INTERVIEW = 4;
+    const SPOTLIGHT_TYPE_AD = 5;
+
+    public static $spotlightMap = array(
+        self::SPOTLIGHT_TYPE_DEMO => array( 'class' => 'spotlight-article','text' => 'View Demo'),
+        self::SPOTLIGHT_TYPE_COURSE => array( 'class' => 'spotlight-course','text' => 'View Course'),
+        self::SPOTLIGHT_TYPE_NEWS => array( 'class' => 'spotlight-article','text' => 'Read Article'),
+        self::SPOTLIGHT_TYPE_INTERVIEW => array( 'class' => 'spotlight-interview','text' => 'Read Interview'),
+        self::SPOTLIGHT_TYPE_AD => array( 'class' => 'spotlight-sponsor','text' => 'View Sponsor'),
+    );
+
 
     /**
      * Get id

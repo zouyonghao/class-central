@@ -36,7 +36,7 @@ class Version20140506002035 extends AbstractMigration
                 'title' => 'Spotlight title #' . $position,
                 'description' => 'Welcome to the world of tomorrow',
                 'url' => 'https://www.class-central.com',
-                'image_url' => 'https://lorempixel.com/198/160/',
+                'image_url' => 'https://lorempixel.com/198/160/?'.$position,
                 'type' => Spotlight::SPOTLIGHT_TYPE_DEMO
            ));
        }

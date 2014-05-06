@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Spotlight;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
@@ -16,14 +17,18 @@ class DefaultController extends Controller {
         $cache = $this->get('Cache');
         $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
 
-
+        $spotlights = $this
+            ->getDoctrine()->getManager()
+            ->getRepository('ClassCentralSiteBundle:Spotlight')->findAll();
         // limit the results to 10 courses
         $recent['response']['results']['hits']['hits'] =
             array_splice($recent['response']['results']['hits']['hits'],0,10);
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
-                'recentCourses'   => $recent['response']['results']
+                'recentCourses'   => $recent['response']['results'],
+                'spotlights' => $spotlights,
+                'spotlightMap' => Spotlight::$spotlightMap
                ));
     }
 
