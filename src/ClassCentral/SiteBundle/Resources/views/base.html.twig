@@ -207,7 +207,6 @@
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modalmanager.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modal.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/addThisEvent.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/list.min.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.swiftype.autocomplete.js'
         '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.raty.js'
@@ -275,59 +274,6 @@
             {% block customJS %}
             {% endblock %}
         </script>
-        <!-- AddThis Smart Layers BEGIN -->
-        <!-- Go to http://www.addthis.com/get/smart-layers to customize -->
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ addthis_pubid }}"></script>
-
-            <script type="text/javascript">
-                var addthis_config = addthis_config||{};
-                addthis_config.data_track_clickback = false;
-                addthis_config.data_track_addressbar = false;
-
-                {# match #}
-                enquire.register("screen and (min-width:1440px)", {
-                    match : function() {
-                        addthis.layers({
-                            'theme' : 'transparent',
-                            'share' : {
-                                'position' : 'left',
-                                'numPreferredServices' : 5,
-                                'services': 'facebook, twitter,google_plusone_share, email,more'
-                            },
-                            'follow' : {
-                                'services' : [
-                                    {'service': 'facebook', 'id': 'classcentral'},
-                                    {'service': 'twitter', 'id': 'classcentral'},
-                                    {'service': 'google_follow', 'id': '+ClassCentral'}
-                                ],
-                                'offset' : {
-                                    'top' : '0px'
-                                }
-                            }
-                        });
-                    }
-                });
-
-                enquire.register("screen and (max-width:1440px)", {
-                    match : function() {
-                        addthis.layers({
-                            'theme' : 'transparent',
-                            'follow' : {
-                                'services' : [
-                                    {'service': 'facebook', 'id': 'classcentral'},
-                                    {'service': 'twitter', 'id': 'classcentral'},
-                                    {'service': 'google_follow', 'id': '+ClassCentral'}
-                                ],
-                                'offset' : {
-                                    'top' : '125px'
-                                }
-                            }
-                        });
-                    }
-                });
-
-        </script>
-        <!-- AddThis Smart Layers END -->
 
         {% if page is defined %}
 		<script type="text/javascript">
