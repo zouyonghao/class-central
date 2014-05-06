@@ -16,6 +16,10 @@ class DefaultController extends Controller {
         $cache = $this->get('Cache');
         $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
 
+
+        // limit the results to 10 courses
+        $recent['response']['results']['hits']['hits'] =
+            array_splice($recent['response']['results']['hits']['hits'],0,10);
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
