@@ -6,6 +6,8 @@
   1. =Base
     1.1 =Icons
     1.2 =Section Base Styles
+    1.3 =Search Form
+    1.4 =Modals
   2. =Navbar
   3. =Header Area
     3.1 =Tab Nav
@@ -29,7 +31,7 @@
    =Base
    ========================================================================== */
 
-// fix for chrome font rendering bug
+// fix for the chrome font rendering bug
 body {
   -webkit-animation-delay: 0.1s;
   -webkit-animation-name: fontfix;
@@ -103,6 +105,227 @@ body {
 
 #number-of-courses {
   display: inline;
+}
+
+/* =Search Form
+----------------------------------------------------------------------------- */
+
+.search-wrapper {
+  margin: 40px 0;
+}
+
+.cc-home-form .cc-search-box {
+  width: 190px;
+  height: 36px;
+  border: none;
+  .border-right-radius();
+  padding: 0 15px 0 20px;
+}
+
+.cc-home-form .cc-search-box:focus {
+  outline: none;
+}
+
+.cc-home-form button {
+  display: block;
+  float: left;
+  width: 35px;
+  height: 36px;
+  background: @gray-dark;
+  .border-left-radius();
+  padding: 0;
+  border: none;
+}
+
+.searchresultsheader div {
+  font-size: 16px;
+  margin-left: 20px;
+}
+
+@media (min-width: 420px) {
+  .cc-home-form .cc-search-box {
+    width: 300px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .cc-home-form button {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cc-home-form .icon-search {
+    width: 24px;
+    height: 24px;
+    margin: 10px 7px 8px 14px;
+  }
+}
+
+@media (min-width: 630px) {
+  .cc-home-form .cc-search-box {
+    width: 400px;
+  }
+}
+
+
+/* =Modals
+----------------------------------------------------------------------------- */
+
+.cc-form-bg-wrap {
+  overflow: hidden;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/cc-forms-bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-color: #115c93;
+  min-height: 1000px;
+}
+
+.cc-form-bg-wrap + .cc-body-content {
+  display: none;
+}
+
+.cc-form-box {
+  width: 300px;
+  margin: 100px auto;
+}
+
+.cc-form-box-inner {
+  background: @white;
+  .border-radius(10px);
+  overflow: hidden;
+}
+
+.cc-form-box .form-box-header {
+  background: @gray-beige;
+  height: 70px;
+  position: relative;
+  margin-bottom: 68px;
+}
+
+.cc-form-box .icon-cc-logo-circle {
+  width: 62px;
+  height: 62px;
+  position: absolute;
+  margin-left: -31px;
+  left: 50%;
+  top: 39px;
+  .border-radius(50%);
+  border: 6px solid @white;
+}
+
+.cc-form-box .form-box-body {
+  padding: 0 25px 50px 25px;
+}
+
+.cc-form-box .sign-in-with-facebook {
+  overflow: hidden;
+  display: block;
+  background: @blue-fb;
+  margin: 30px 0 64px 0;
+  .border-radius();
+  max-width: 300px;
+  height: 52px;
+  line-height: 52px;
+  color: @white;
+  font-size: 16px;
+  padding: 0 18px;
+}
+
+.cc-form-box .sign-in-with-facebook:hover,
+.cc-form-box .sign-in-with-facebook:focus {
+  color: @white;
+  text-decoration: none;
+}
+
+.sign-in-with-facebook .icon-facebook2 {
+  width: 42px;
+  height: 42px;
+  display: block;
+  float: left;
+  fill: @white;
+  margin: 10px 20px 0 0;
+}
+
+.cc-form-box input[type="text"],
+.cc-form-box input[type="email"],
+.cc-form-box input[type="password"] {
+  display: block;
+  border: 1px solid @gray-border-dark;
+  .border-radius();
+  margin: 28px 0;
+  width: 100%;
+  height: 50px;
+  font-size: 14px;
+  font-family: @font-family-small-text;
+  padding: 0 18px;
+}
+
+.cc-form-box label {
+  display: none;
+}
+
+.cc-form-box button[type="submit"] {
+  display: block;
+  width: 100%;
+  .border-radius();
+  background: @gray-dark;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  color: @white;
+  border: 1px solid @purple-border;
+  padding: 0;
+}
+
+.or-separator {
+  height: 1px;
+  background-color: @gray-beige;
+  text-align: center;
+  position: relative;
+  margin: 62px 0;
+}
+
+.or-separator span {
+  display: block;
+  position: absolute;
+  color: @blue-text;
+  width: 50px;
+  height: 50px;
+  background-color: @gray-beige;
+  line-height: 50px;
+  .border-radius(50%);
+  font-family: @font-family-small-text;
+  text-align: center;
+  margin-left: -25px;
+  left: 50%;
+  top: -25px;
+}
+
+
+#cc-form-box-additional-link {
+  margin: 15px 0;
+  color: @blue-light;
+  font-size: 14px;
+  font-family: @font-family-small-text;
+}
+
+#cc-form-box-additional-link a {
+  color: @white;
+}
+
+#cc-form-box-additional-link .sign-up-link {
+  float: right;
+}
+
+@media (min-width: @screen-xs-min) {
+  .cc-form-box .form-box-body {
+    padding: 0 50px 50px 50px;
+  }
+
+  .cc-form-box {
+    width: 400px;
+  }
 }
 
 /* ==========================================================================
@@ -212,16 +435,16 @@ body {
   padding: 15px 0;
 }
 
+#navbar-search-form {
+  overflow: hidden;
+  float: left;
+}
+
 #nav-search-form .cc-search-box {
   width: 190px;
   height: 36px;
   border: none;
-  -webkit-border-top-right-radius: 200px;
-  -webkit-border-bottom-right-radius: 200px;
-  -moz-border-radius-topright: 200px;
-  -moz-border-radius-bottomright: 200px;
-  border-top-right-radius: 200px;
-  border-bottom-right-radius: 200px;
+  .border-right-radius();
   padding: 0 15px 0 20px;
 }
 
@@ -235,12 +458,7 @@ body {
   width: 35px;
   height: 36px;
   background: @gray-dark;
-  -webkit-border-top-left-radius: 200px;
-  -webkit-border-bottom-left-radius: 200px;
-  -moz-border-radius-topleft: 200px;
-  -moz-border-radius-bottomleft: 200px;
-  border-top-left-radius: 200px;
-  border-bottom-left-radius: 200px;
+  .border-left-radius();
 }
 
 .navbar-default .navbar-right > .social-icon {
@@ -756,8 +974,63 @@ body {
 
 .learn-more-tab-section {
   display: none;
-  height: 700px;
-  background: red;
+  overflow: hidden;
+  margin-bottom: 100px;
+}
+
+.faq-item {
+  border-top: 1px solid @gray-faq-border;
+  padding: 0 15px;
+}
+
+.show-answer.faq-item {
+  padding-bottom: 15px;
+}
+
+.faq-item:last-child {
+  border-bottom: 1px solid @gray-faq-border;
+}
+
+.faq-heading {
+  color: @gray-dark;
+  font-size: 36px;
+  margin: 30px 0;
+}
+
+.faq-question {
+  font-size: 24px;
+  color: @blue;
+  cursor: pointer;
+  padding: 15px 20px 15px 0;
+  position: relative;
+}
+
+.faq-question .arrow-down,
+.faq-question .arrow-up {
+  position: absolute;
+  right: 0;
+  top: 15px;
+}
+
+.faq-answer {
+  display: none;
+  font-size: 18px;
+  color: @gray-dark;
+  line-height: 1.8;
+}
+
+.show-answer .arrow-down {
+  display: none;
+}
+
+.show-answer .arrow-up {
+  display: block;
+}
+
+@media (min-width: 520px) {
+  .faq-answer {
+    padding-right: 55px;
+  }
 }
 
 /* ==========================================================================
@@ -768,9 +1041,95 @@ body {
   display: none;
   height: 500px;
   background: blue;
+  overflow: hidden;
+}
+
+.subjects {
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+.subjects .single-category {
+  padding-bottom: 40px;
+  border-right: 1px solid @gray-faq-border;
+  border-bottom: 1px solid @gray-faq-border;
+  padding-top: 20px;
+}
+
+.border-wrap {
+  position: relative;
+  top: 1px;
+}
+
+.subjects .course-count {
+  display: block;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: @blue;
 }
 
 
+.subjects .single-category .show-all-subjects .category-title {
+  font-size: 26px;
+  color: @gray-dark;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.subjects .single-category .show-all-subjects {
+  display: block;
+  color: @blue;
+  padding-bottom: 5px;
+}
+
+.subjects .subject-list {
+  list-style: none;
+  padding: 0;
+}
+
+.subjects .single-category a {
+  font-size: 15px;
+  color: @blue;
+  line-height: 1.8;
+}
+
+.subjects .single-category a > span {
+  color: @gray-tag;
+}
+
+.subjects .subject-list > li {
+  float: left;
+  color: @blue;
+}
+
+.subjects .subject-list > li > a {
+  margin-right: 15px;
+}
+
+@media (min-width: 500px) {
+  .subjects .single-category {
+    min-height: 240px;
+    padding-bottom: 0;
+  }
+}
+
+@media (min-width: 630px) {
+  .subjects .category-title {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: @screen-lg-min) {
+  .subjects .single-category {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 500px) {
+  .subjects .single-category {
+    width: 100%;
+  }
+}
 /* ==========================================================================
    =Content
    ========================================================================== */
@@ -1202,6 +1561,12 @@ thead {
 /* Fix for tables not showing up in IE 8*/
 /*.table {background-color:#ffffff;}*/
 
+@media (max-width: @screen-md-min) {
+  #filter-wrap .start-date {
+    display: none;
+  }
+}
+
 /* ==========================================================================
    =Course filter
    ========================================================================== */
@@ -1283,7 +1648,8 @@ thead {
 }
 
 #filter-wrap {
-  overflow: inherit;
+  overflow: hidden;
+  position: relative;
 }
 
 .category-filter {
@@ -1543,6 +1909,49 @@ input.filter-search:focus {
   border-top: 0px;
 }
 
+@media (max-width: @screen-sm-min) {
+  .filter-column {
+    width: 280px;
+    position: absolute;
+    max-height: 480px;
+    overflow-y: auto;
+  }
+
+  .table-column {
+    position: relative;
+    left: 0;
+    .transition(0.5s);
+    z-index: 1002;
+    min-height: 700px;
+    background: @beige;
+  }
+
+  .show-filter .table-column {
+    left: 280px;
+  }
+
+  .mobile-filter-btn-wrap {
+    overflow: hidden;
+  }
+
+  .mobile-filter-btn {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 30px;
+    float: left;
+  }
+
+  .mobile-filter-btn .icon-bar {
+    display: block;
+    width: 30px;
+    height: 5px;
+    background: @gray-dark;
+  }
+
+  .mobile-filter-btn .icon-bar + .icon-bar {
+    margin-top: 5px;
+  }
+}
 
 /* ==========================================================================
    =Course page
@@ -1639,7 +2048,6 @@ input.filter-search:focus {
   float: left;
 }
 
-.course-provider-wrap .provider-logo,
 .institution-list li,
 .course-provider-wrap .course-instructors,
 .with-separator {
@@ -1650,6 +2058,14 @@ input.filter-search:focus {
   position: absolute;
   left: 0;
   display: block;
+  overflow: hidden;
+  width: 40px;
+  height: 19px;
+  .hide-text();
+}
+
+.course-provider-wrap .provider-logo img {
+  height: 19px;
 }
 
 .institution-list a {
@@ -1961,6 +2377,21 @@ input.filter-search:focus {
   margin-bottom: 0;
   color: @gray-medium-dark;
   font-size: 12px;
+}
+
+.ad-wrap {
+  margin-top: 60px;
+}
+
+.ad-wrap .ad-note {
+  color: #aeaeac;
+  float: right;
+}
+
+.ad-wrap .ad-content {
+  background: #f1f0e9;
+  padding: 20px 10px 20px 40px;
+  min-height: 120px;
 }
 
 /* ==========================================================================
@@ -2321,6 +2752,12 @@ footer h5 {
 footer .copyright {
   font-size: 12px;
   font-weight: 400;
+  display: block;
+  margin-top: 3px;
+}
+
+footer .copyright + iframe {
+  margin-top: 10px;
 }
 
 footer .list-heading {
@@ -2396,6 +2833,10 @@ footer ul > li > a {
   outline: none;
 }
 
+.newsletter-subscription input[type="email"]:focus + input[type="submit"] {
+  color: @red;
+}
+
 .newsletter-subscription input[type="submit"] {
   -webkit-border-top-right-radius: 5px;
   -webkit-border-bottom-right-radius: 5px;
@@ -2405,7 +2846,7 @@ footer ul > li > a {
   border-bottom-right-radius: 5px;
   background: @white;
   font-size: 13px;
-  color: @red;
+  color: rgba(205, 33, 39, 0.20);
   width: 92px;
   padding-right: 20px;
   font-weight: 700;

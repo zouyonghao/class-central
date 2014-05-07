@@ -26,29 +26,27 @@ jQuery(function($) {
     });
 
 
-    //toggle = true;
-
-    $(".mobile-filter-btn").click(function() {
-
+    $(".mobile-filter-btn").click(function(event) {
+        event.preventDefault();
         var filterWrap = $("#filter-wrap");
         var catWrap = $("#filter-wrap .cat-filter-wrap");
 
         //if (toggle) {
-        if (catWrap.hasClass("opened")) {
-            catWrap.removeClass("opened");
+        if (catWrap.hasClass("show-filter")) {
+            catWrap.removeClass("show-filter");
         }   else   {
-            catWrap.addClass("opened");
+            catWrap.addClass("show-filter");
         }
 
-        if (filterWrap.hasClass("opened")) {
+        if (filterWrap.hasClass("show-filter")) {
             //toggle = false;
             //setTimeout(function() {
-            filterWrap.removeClass("opened");
+            filterWrap.removeClass("show-filter");
             //toggle = true;
             //}, 900);
 
         }   else   {
-            filterWrap.addClass("opened");
+            filterWrap.addClass("show-filter");
         }
         //}
 

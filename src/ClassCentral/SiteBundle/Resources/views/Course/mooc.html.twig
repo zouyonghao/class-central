@@ -96,7 +96,7 @@
 
                         <a class="provider-logo" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
                            onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
-                           title="{{ course['initiative']['name'] }}">{{ course['initiative']['name'] }}</a>
+                           title="{{ course['initiative']['name'] }}"><img src="" alt="provider logo"></a>
                     {% endif %}
 
                     {% if course['institutions']|length > 0 %}
@@ -270,7 +270,12 @@
                    onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
             </div>
         </div>
-
+        <div class="ad-wrap">
+            <div class="ad-content">
+                <!-- ad here -->
+            </div>
+            <span class="ad-note">Advertisement</span>
+        </div>
 
 
     </div>

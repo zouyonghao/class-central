@@ -28,39 +28,42 @@
                 <h1 class='cc-page-header'>Subjects</h1>
             </div>
         </div>
-        {% set i = 0 %}
-        {% set closeRow = 0 %}
-        {% set closeBlock = 0 %}
-        {% for parent in subjects.parent %}
-            {% if i is divisible by(4) %}
-                <div class="subjects-row">
-                {% set closeRow = i + 4 %}
-            {% endif %}
+        <div class="row border-wrap">
 
-                {% if i is divisible by(2) %}
-                    <div class="two-subjects-block">
-                    {% set closeBlock = i + 2 %}
+            {% set i = 0 %}
+            {% set closeRow = 0 %}
+            {% set closeBlock = 0 %}
+            {% for parent in subjects.parent %}
+                {#
+                {% if i is divisible by(4) %}
+                    <div class="subjects-row row">
+                    {% set closeRow = i + 4 %}
                 {% endif %}
 
-                   {# Actual subject information #}
-                    <div class="single-category" style="background-color: {% if parent.color %} {{ parent.color }} {% else %}#f15f45 {% endif %}">
-                        <div class="category-header">
-                            <div class="course-count">
-                                <span class="count">{{ parent.courseCount }}</span>
-                                <span class="count-title">courses</span>
-                            </div>
-                            <span class="category-title">{{ parent.name }}</span>
-                            <a href="{{ path('ClassCentralSiteBundle_stream', {'slug': parent.slug } ) }}" title="List of {{ parent.name }} MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{parent.name}}', 'Subjects'])"
-                               class="view-all-courses">View All Courses</a>
+                    {% if i is divisible by(2) %}
+                        <div class="two-subjects-block">
+                        {% set closeBlock = i + 2 %}
+                    {% endif %}
+                #}
+                {# Actual subject information #}
+                <div class="single-category col-xs-6 col-md-4" {#style="background-color: {% if parent.color %} {{ parent.color }} {% else %}#f15f45 {% endif %}"#}>
+                    <div class="category-header">
+                        <div class="course-count">
+                            <span class="count">{{ parent.courseCount }}</span>
+                            <span class="count-title">courses</span>
                         </div>
-                        {% if subjects.children[parent.id] is defined %}
-                            <ul class="subject-list" style="background-color:{% if parent.childColor %} {{ parent.childColor }} {% else %}#ce6452 {% endif %}">
-                                {% for child in subjects.children[parent.id] %}
-                                    <li><a href="{{ path('ClassCentralSiteBundle_stream', {'slug': child.slug } ) }}" title="List of {{ child.name }} MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{child.name}}', 'Subjects'])">{{ child.name }}</a></li>
-                                {% endfor %}
-                            </ul>
-                         {% endif %}
+                        <a class="show-all-subjects" href="{{ path('ClassCentralSiteBundle_stream', {'slug': parent.slug } ) }}" title="List of {{ parent.name }} MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{parent.name}}', 'Subjects'])"
+                           class="view-all-courses"><span class="category-title">{{ parent.name }}</span></a>
                     </div>
+                    {% if subjects.children[parent.id] is defined %}
+                        <ul class="subject-list" {#style="background-color:{% if parent.childColor %} {{ parent.childColor }} {% else %}#ce6452 {% endif %}"#}>
+                            {% for child in subjects.children[parent.id] %}
+                                <li><a href="{{ path('ClassCentralSiteBundle_stream', {'slug': child.slug } ) }}" title="List of {{ child.name }} MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{child.name}}', 'Subjects'])"><span>{{ child.name }}</span></a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                {#
                 {% set i = i +1 %}
                 {% if i  == closeBlock %}
                     </div>
@@ -69,16 +72,20 @@
             {% if i ==  closeRow %}
                 </div>
             {% endif %}
-        {% endfor %}
+        #}
+            {% endfor %}
 
-        {# close the unfinished divs #}
-        {% if i  != closeBlock %}
-            </div>
-        {% endif %}
+            {# close the unfinished divs #}
+            {#
+            {% if i  != closeBlock %}
+                </div>
+            {% endif %}
 
-        {% if i !=  closeRow %}
-            </div>
-        {% endif %}
+            {% if i !=  closeRow %}
+                </div>
+            {% endif %}
+            #}
+        </div>
     </div>
 
 

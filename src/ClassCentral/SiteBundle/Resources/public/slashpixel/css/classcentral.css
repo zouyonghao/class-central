@@ -11,25 +11,6 @@
     display: none;
 }
 
-.has-warning .input-group-addon {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #8a6d3b;
-}
-
-.has-error .input-group-addon {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #a94442;
-}
-
-
-.has-success .input-group-addon {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #3c763d;
-}
-
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
@@ -351,127 +332,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .list-button {
     background-image: url("/bundles/classcentralsite/slashpixel/images/list_button.png");
 }
-/*==========  Subjects styles  ==========*/
-
-.subjects .subject-page-header h1 {
-    font-family: 'Open Sans';
-    color: #0662a1;
-    font-weight: normal;
-    line-height: 1;
-    padding-top: 0;
-    margin-top: 10px;
-    margin-left: 0;
-    margin-bottom: 30px;
-    font-size: 48px;
-}
-
-.subjects-row {
-    overflow: hidden;
-}
-
-.two-subjects-block {
-    width: 50%;
-    overflow: hidden;
-    float: left;
-}
-
-.single-category {
-    float: left;
-    width: 49.5%;
-    margin-left: 0.5%;
-    color: #fff;
-    margin-bottom: 25px;
-}
-
-.single-category a {
-    color: #fff;
-}
-
-.single-category a:hover {
-    color: #fff;
-    text-decoration: none;
-}
-
-.category-header {
-    padding: 40px 0 50px 35px;
-    overflow: hidden;
-}
-
-.course-count span {
-    display: block;
-}
-
-.count {
-    font-size: 21px;
-    font-weight: 300;
-}
-
-.count-title {
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 1;
-}
-
-.category-title {
-    display: block;
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 10px;
-}
-
-.view-all-courses {
-    display: block;
-    float: left;
-    border: 1px solid #fff;
-    padding: 13px 22px;
-    margin-top: 13px;
-    font-size: 9px;
-    font-weight: 700;
-    line-height: 1;
-    text-transform: uppercase;
-    -webkit-transition-duration: 0.2s;
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-duration: 0.2s;
-    -moz-transition-timing-function: ease-out;
-    -o-transition-duration: 0.2s;
-    -o-transition-timing-function: ease;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-out;
-}
-
-.view-all-courses:hover {
-    background-color: #b0b0b0;
-}
-
-.subject-list {
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-.subject-list li {
-    font-size: 11px;
-    font-weight: 600;
-    list-style: none;
-    border-top: 2px solid #fff;
-}
-
-.subject-list li a {
-    display: block;
-    padding: 10px 0;
-    -webkit-transition-duration: 0.2s;
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-duration: 0.2s;
-    -moz-transition-timing-function: ease-out;
-    -o-transition-duration: 0.2s;
-    -o-transition-timing-function: ease;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-out;
-}
-
-.subject-list li a:hover {
-    background-color: #b0b0b0;
-}
 
 /** Class Central styles for form **/
 
@@ -627,239 +487,6 @@ p.newstitle {
     background-color:#0088cc;
 }
 
-/*.navbar .btn {
-    background-image: none;
-    border-radius: 0px;
-    background-color: transparent;
-}
-
-.navbar .btn:hover,
-.navbar .btn:active {
-    background-image: none;
-    border-radius: 0px;
-    background-color: transparent;
-}
-
-.navbar .nav-right-list {
-    float: right;
-}
-
-.navbar .nav-right-list .search-form {
-    display: block;
-    margin-top: 0;
-}
-
-.search-form #nav-search-form,
-.search-form .cc-home-form {
-    float: left;
-}
-
-.search-form .cc-home-form {
-    overflow: hidden;
-    width: 0;
-}
-
-.search-form .cc-home-form input[type="text"] {
-    font-size: 16px;
-    height: 30px;
-}
-
-.search-form .cc-home-form .input-append .add-on:last-child {
-    height: 30px;
-    width: 40px;
-    background-color: #fff;
-    border-bottom: none;
-}
-
-.search-form .cc-home-form .input-append .add-on .icon-search {
-    background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon-big.png");
-}
-
-.search-form .cc-home-form.open {
-    width: 285px;
-}
-
-.search-form .cc-home-form {
-    margin-top: 20px;
-}
-
-.navbar .nav-right-list .logreg {
-    margin-top: 0;
-}
-
-.navbar .nav>li.logreg>a:focus {
-    background-color: #2a85ac;
-}
-
-.navbar .nav-right-list .logreg > a {
-    height: 80px;
-    padding: 0;
-    background-color: #2a85ac;
-    width: 60px;
-    text-indent: -9999px;
-    white-space: nowrap;
-    background-image: url("/bundles/classcentralsite/slashpixel/images/user-icon.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-
-.navbar .nav-right-list li.dropdown.open.logreg>.dropdown-toggle {
-    background-color: #2a85ac;
-    background-image: url("/bundles/classcentralsite/slashpixel/images/user-icon.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-
-.dropdown-menu.user-menu {
-    top: 90%;
-}
-
-.navbar .pull-right>li>.dropdown-menu.user-menu {
-    right: -1px;
-}
-
-.navbar .nav-right-list .logreg a:hover {
-    background-color: #2a85ac;
-}
-
-.search-form .cc-home-form .input-xxxlarge.input-large {
-    width: 176px;
-}
-
-.navbar .nav-right-list .search-form .search-button {
-    margin: 0;
-}
-
-.navbar .nav-right-list .search-form .search-button button {
-    background-color: #5d456b;
-}
-
-.navbar .nav-right-list .search-form .search-button button:hover {
-    opacity: 1;
-}
-
-.navbar .nav-right-list .search-form #nav-search-form .search-button .add-on {
-    height: 80px;
-    border: none;
-    background-color: transparent;
-    padding: 0;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-
-.navbar .nav-right-list .search-form form {
-    margin: 0 22px;
-}
-
-.navbar ul.logo {
-    margin: 0;
-}
-
-.navbar .logo li a {
-    padding-right: 0;
-}
-
-.search-form input::-webkit-input-placeholder {
-    font-family: 'Open Sans';
-    color:  #f15f45;
-    font-style: italic;
-    font-size: 15px;
-}*/
-
-/* .search-form :-moz-placeholder {*/ /* Firefox 18- */
-/*font-family: 'Open Sans';
-color: #f15f45;
-font-style: italic;
-font-size: 15px;
-} */
-
-/*.search-form ::-moz-placeholder {  
-    font-family: 'Open Sans';
-    color: #f15f45;
-    font-style: italic;
-    font-size: 15px;
-}
-
-.search-form :-ms-input-placeholder {
-    font-family: 'Open Sans';
-    color: #f15f45;
-    font-style: italic;
-    font-size: 15px;
-}
-
-.search-form .cc-home-form .input-append .add-on .icon-search {
-    margin: 3px 10px;
-}
-
-.navbar .search-button {
-    height: 100%;
-}
-
-.navbar .nav-right-list > li {
-    margin-top: 20px;
-}
-
-.navbar .nav-right-list li.dropdown.open > .dropdown-toggle {
-    background: none;
-    color: #FFFFFF;
-}
-
-.navbar .nav>li>a {
-    padding-left: 0px;
-    padding-right: 25px;
-}
-
-.nav-title {
-    font-family: "Open Sans";
-    font-weight: 400;
-    font-size: 14px;
-    -webkit-font-smoothing: antialiased;
-}
-
-.dropdown-menu li>a.nav-title {
-    color: #1663a3;
-    text-align: right;
-}
-
-.dropdown-menu li>a.nav-title:hover {
-    color: #fff;
-}
-
-.navbar .nav-right-list > li > form {
-    margin-top: 5px;
-}
-
-.navbar .nav li.dropdown > .dropdown-toggle .caret, .navbar .nav li.dropdown.open > .dropdown-toggle .caret {
-    border-top-color: #FFFFFF;
-    border-bottom-color: #FFFFFF;
-}
-
-.navbar h1 {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 25px;
-    text-transform: uppercase;
-    text-shadow: 0.5px 0.866px 1px rgb( 6, 102, 102 );
-    -webkit-font-smoothing: antialiased;
-}
-
-.dropdown-menu {
-    border-radius: 0px;
-    font-family: 'Open Sans';
-}
-
-.navbar .nav .dropdown-toggle .caret {
-    margin-top: 9px;
-    margin-left: 5px;
-}
-
-
-.navbar .pull-right>li>.dropdown-menu, .navbar .nav>li>.dropdown-menu.pull-right {
-    right: 20px;
-}*/
-
 .socialmedia.nav-pills > li > a {
     width:30px;
     height:30px;
@@ -982,89 +609,6 @@ footer {
     margin: 0;
 }
 
-
-/*Top navigation */
-
-/*.navbar {
-    border-bottom: 3px solid #6fc9c2;
-}
-
-.navbar .nav {
-    margin: 0 30px 0 0;
-}
-
-.navbar-inner {
-    background: none;
-    border: none;
-}
-
-.cc-navbar {
-    background-color: #0662a1;
-    min-height: 80px;
-    color: #FFFFFF;
-}
-
-.navbar .nav > li > a {
-    color: #FFFFFF;
-    height: 100%;
-    text-shadow: none
-}
-
-.navbar .nav > li > a:focus, .navbar .nav > li > a:hover {
-    color: #FFFFFF;
-}
-
-.category-filter,
-.tables-wrap {
-    float: left;
-}
-
-.tables-wrap {
-    width: 920px;
-}
-
-#filter-wrap .icon-bar {
-    display: block;
-    width: 35px;
-    height: 4px;
-    background-color: #1663a3;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.25);
-    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.25);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.25);
-}
-
-#filter-wrap .icon-bar + .icon-bar {
-    margin-top: 4px;
-}
-
-.mobile-filter-btn {
-    display: block;
-    width: 35px;
-}
-
-.mobile-filter-btn:hover {
-    cursor: pointer;
-}
-
-.mobile-filter-btn-wrap {
-    display: none;
-}
-
-.mobile-filter-btn-wrap > span {
-    font-weight: 700;
-    color: #898989;
-    font-size: 14px;
-}
-
-
-#filter-wrap.opened {
-    width: 700px;
-}*/
-
-
 .introcolumn{
     width: 95px;
 }
@@ -1077,54 +621,11 @@ footer {
 }
 
 
-.searchresultsheader div{
-    font-family: 'Nixie One', cursive;
-    color:#000000;
-    font-size:15px;
-    margin-left: 20px;
-}
-
 .icon-link:hover{
     cursor: hand;
     cursor: pointer;
 }
 
-/* Search form */
-.cc-home-form input[type="text"]{
-    font-size: 20px;
-    -moz-border-top-left-radius: 0px;
-    -webkit-border-top-left-radius: 0px;
-    border-top-left-radius: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    height: 38px;
-}
-
-.cc-home-form .input-append .add-on:last-child{
-    height: 35px;
-    width: 60px;
-    border-radius: 0px;
-    border-bottom: 3px solid #6fc9c2;
-    background-color: #0662a1;
-    border-left-color:#066666 ;
-}
-
-.cc-home-form .input-append button:hover {
-    opacity: 0.75;
-}
-
-.cc-home-form .input-append .add-on .icon-search {
-    background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon.png");
-    background-position: 0 0;
-    height: 22px;
-    width: 22px;
-    margin: 10px 22px;
-}
-
-.search-wrapper {
-    margin-left: 20px;
-}
 
 .input-xxxlarge.input-large {
     width: 500px;
@@ -1136,33 +637,6 @@ footer {
     border: 0px;
 }
 
-/*input::-webkit-input-placeholder {
-    font-family: 'Open Sans';
-    color:  #f15f45;
-    font-style: italic;
-    font-size: 19px;
-}*/
-
-/*:-moz-placeholder { /* Firefox 18- */
-/*font-family: 'Open Sans';
-color: #f15f45;
-font-style: italic;
-font-size: 19px;
-}*/
-/*::-moz-placeholder {  /* Firefox 19+ */
-/*font-family: 'Open Sans';
-color: #f15f45;
-font-style: italic;
-font-size: 19px;
-}
-
-:-ms-input-placeholder {
-font-family: 'Open Sans';
-color: #f15f45;
-font-style: italic;
-font-size: 19px;
-}*/
-
 .input-append button.add-on {
     height: inherit !important;
 }
@@ -1171,56 +645,6 @@ font-size: 19px;
 .input-append .add-on {
     border: none;
 }
-
-/* Nav search form */
-/*#nav-search-form input[type="text"]{
-    font-size: 20px;
-    -moz-border-top-left-radius: 0px;
-    -webkit-border-top-left-radius: 0px;
-    border-top-left-radius: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
-    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
-    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
-    width: 110px;
-}
-
-#nav-search-form .input-append .add-on:last-child{
-    border-radius: 0px;
-    background-color: #ffffff;
-    border-left-color:#066666 ;
-    -moz-box-shadow:    0px 0px 1px 0px rgb( 6, 102, 102 );
-    -webkit-box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
-    box-shadow: 0px 0px 1px 0px rgb( 6, 102, 102 );
-}
-
-#nav-search-form .input-append button:hover {
-    opacity: 1;
-}
-
-#nav-search-form .input-append .add-on .icon-search {
-    background-image: url("/bundles/classcentralsite/slashpixel/images/search-icon.png");
-    background-position: center center;
-    height: 100%;
-    width: 60px;
-    margin: 0;
-}
-
-#nav-search-form .input-append .add-on {
-    margin-left: 0;
-}
-
-#nav-search-form #prependedInput {
-    display: none;
-}
-
-#nav-search-form button{
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-} */
 
 /* MOOC/Course pages */
 
@@ -1670,97 +1094,6 @@ font-size: 19px;
     clear: left;
     margin-bottom: 10px;
 }
-
-.faq-wrap {
-    width: 66%;
-    background-color: #fff;
-    float: left;
-    margin: 25px 1.5% 25px 0;
-    font-family: "Open Sans",sans-serif;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.faq-heading {
-    display: block;
-    background-color: #f8f8f8;
-    margin: 4px 4px 0 4px;
-    overflow: hidden;
-    padding: 15px 24px;
-    font-size: 14px;
-    line-height: 16px;
-    color: #3a759a;
-}
-
-.faq-item {
-    padding: 20px 55px;
-    border-bottom: 1px solid #EFEFF0;
-}
-
-.faq-answer {
-    display: none;
-    margin-top: 20px;
-    font-weight: 600;
-}
-
-.faq-answer .question {
-    margin-top: 30px;
-}
-
-.faq-question {
-    font-size: 16px;
-    line-height: 16px;
-    font-weight: 600;
-    color: #1663a3;
-}
-
-.faq-question:hover {
-    color: #6e6e6e;
-    cursor: pointer;
-}
-
-.show-answer .faq-question {
-    padding-top: 10px;
-}
-
-.faq-wrap .question {
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.faq-wrap .question {
-    color: #5d456b;
-}
-
-.faq-wrap .yes-no {
-    margin-left: 15px;
-    color: #f15f45;
-    text-transform: uppercase;
-}
-
-.faq-wrap .yes-no a {
-    color: #f15f45;
-}
-
-.faq-wrap .triangle {
-    content: " ";
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: 5px solid #1663a3;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
-    margin-top: 7px;
-    float: right;
-}
-
-.faq-wrap .show-answer .triangle {
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid #1663a3;
-    margin-top: 0;
-}
-
 
 .news-excerpt h4 {
     color: #536868;
@@ -2229,6 +1562,7 @@ font-size: 19px;
 /*
 * Signup form page styling
 */
+/*
 .signup-box {
     min-width: 1170px;
 }
@@ -2290,6 +1624,7 @@ font-size: 19px;
 .signup-copy-desc ul {
     margin-left: 40px;
 }
+*/
 
 /**
 Newsletter subscribe pages
@@ -2326,75 +1661,6 @@ Newsletter subscribe pages
 #newsletter-subscribe .cc-form-input:-ms-input-placeholder {
     color: #dce1e7;
     font-size: 14px;
-}
-
-
-
-/**
-CC form box - for signup, login, forgot password
-**/
-
-.cc-form-input {
-    border-radius: 0px !important;
-}
-
-.cc-form-box {
-    padding: 20px;
-    margin-top: 50px;
-    background-color: #ffffff;
-    width: 350px;
-    margin: 50px auto;
-    padding-bottom: 50px;
-}
-
-.cc-form-box h3 {
-    color: #0662a1;
-    font-family: "Open Sans";
-    margin-top: 0px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.cc-form-box form input {
-    width: 90%;
-}
-.cc-form-box form input {
-    margin-top: 10px ;
-}
-.cc-form-box form input[type=text],
-.cc-form-box form input[type=email],
-.cc-form-box form input[type=password] {
-    border-radius: 0px;
-
-}
-
-.cc-form-box form label {
-    color: #066666;
-    font-family: "Open Sans",sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.cc-form-box form label .label-req {
-    color: red;
-    margin-left: 5px;
-}
-
-.cc-form-box form .btn-course-cc{
-    float: left;
-    width: 95%;
-    margin-top: 20px;
-}
-
-#cc-form-box-additional-link {
-    color: #066666;
-    padding-top: 50px;
-}
-
-#cc-form-box-additional-link a{
-    color: #f38574;
-    text-decoration: underline;
 }
 
 /* News page */
@@ -2678,29 +1944,6 @@ CC form box - for signup, login, forgot password
         padding-left:30px;
     }
 
-    /*==========  subjects media queries  ==========*/
-
-    .two-subjects-block {
-        width: 100%;
-    }
-
-    .single-category {
-        width: 233px;
-        margin-left: 2px;
-    }
-
-    /*==========  filter media queries  ==========*/
-
-    .tables-wrap {
-        width: 470px;
-    }
-
-    #filter-wrap .introcolumn,
-    #filter-wrap .subject,
-    #filter-wrap .start-date {
-        display: none;
-    }
-
 }
 
 
@@ -2727,31 +1970,6 @@ CC form box - for signup, login, forgot password
         padding-left:10px;
     }
 
-    input::-webkit-input-placeholder {
-        font-size: 14px;
-    }
-
-    :-moz-placeholder { /* Firefox 18- */
-        font-size: 14px;
-    }
-
-    ::-moz-placeholder {  /* Firefox 19+ */
-        font-size: 14px;
-    }
-
-    :-ms-input-placeholder {
-        font-size: 14px;
-    }
-
-    .cc-home-form .input-append .add-on .icon-search {
-        margin: 0px;
-    }
-
-    .cc-home-form .input-append .add-on:last-child {
-        height: 28px;
-        width: 40px;
-    }
-
     .cc-page {
         margin-top: 30px;
     }
@@ -2764,52 +1982,12 @@ CC form box - for signup, login, forgot password
         font-size: 30px;
     }
 
-
-    .cc-home-form button{
-        margin-left: 0px;
-        margin-bottom: 0px;
-    }
-
-
-    .cc-home-form input{
-        height: 30px;
-        font-size: 14px;
-    }
-
-    .tables-wrap {
-        width: 370px;
-    }
-
 }
 
 @media (max-width: 680px) {
 
-    .category-filter {
-        position: absolute;
-        left: -250px;
-    }
-
-    .cat-filter-wrap {
-        width: 0;
-        min-height: 500px;
-    }
-
-    .tables-wrap {
-        width: 400px;
-    }
-
-    .mobile-filter-btn-wrap {
-        display: block;
-    }
-
-    .filter-title {
-        display: none;
-    }
 }
 
 @media (max-width: 480px) {
 
-    .tables-wrap {
-        width: 260px;
-    }
 }
