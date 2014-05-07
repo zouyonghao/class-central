@@ -53,6 +53,14 @@ class Spotlight
         self::SPOTLIGHT_TYPE_AD => array( 'class' => 'spotlight-sponsor','text' => 'View Sponsor'),
     );
 
+    public static $spotlights = array(
+        self::SPOTLIGHT_TYPE_DEMO => 'Demo',
+        self::SPOTLIGHT_TYPE_COURSE => 'Course',
+        self::SPOTLIGHT_TYPE_NEWS => 'News',
+        self::SPOTLIGHT_TYPE_INTERVIEW => 'Interview',
+        self::SPOTLIGHT_TYPE_AD => 'Advertisement',
+    );
+
 
     /**
      * Get id
