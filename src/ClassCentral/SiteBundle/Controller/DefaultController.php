@@ -23,12 +23,18 @@ class DefaultController extends Controller {
         // limit the results to 10 courses
         $recent['response']['results']['hits']['hits'] =
             array_splice($recent['response']['results']['hits']['hits'],0,10);
+
+        $subjects = $cache->get('stream_list_count',
+                        array( new StreamController(), 'getSubjectsList'),
+                        array( $this->container )
+        );
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
                 'recentCourses'   => $recent['response']['results'],
                 'spotlights' => $spotlights,
-                'spotlightMap' => Spotlight::$spotlightMap
+                'spotlightMap' => Spotlight::$spotlightMap,
+                'subjects' => $subjects
                ));
     }
 

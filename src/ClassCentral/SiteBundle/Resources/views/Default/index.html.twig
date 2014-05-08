@@ -64,7 +64,9 @@
         {% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{ } %}
     </section>
     <section class="subjects-tab-section section-tab-content">
-
+        <div class="subjects">
+            {% include 'ClassCentralSiteBundle:Helpers:subjects.html.twig' with{ subjects : subjects } %}
+        </div>
     </section>
     <section class="upcoming-courses front-page-table">
         <h2 class="section-heading"><span>Starting Soon</span></h2>
