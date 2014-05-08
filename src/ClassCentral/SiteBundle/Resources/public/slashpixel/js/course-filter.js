@@ -110,7 +110,7 @@ jQuery(function($) {
         gaqPush(type, value);
     });
 
-    var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable'];
+    var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable','tagtable'];
 
     var lists = {};
     for(var i = 0; i < tableTypes.length; i++)

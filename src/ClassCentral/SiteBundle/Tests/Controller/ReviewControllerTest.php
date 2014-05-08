@@ -13,7 +13,7 @@ class ReviewControllerTest extends WebTestCase {
 
     public static function setUpBeforeClass()
     {
-        self::$email = sprintf("dhawal+%s@class-central.com",time());
+        self::$email = sprintf("dhawal+%s@class-central.com",mt_rand());
     }
 
     public  function testReviewFunctionality()
@@ -25,7 +25,7 @@ class ReviewControllerTest extends WebTestCase {
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /signup");
 
         // Fill the signup form
-        $form = $crawler->selectButton('Sign up')->form(array(
+        $form = $crawler->selectButton('Sign Up')->form(array(
                 'classcentral_sitebundle_signuptype[email]' => self::$email,
                 'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
                 'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
@@ -101,7 +101,7 @@ class ReviewControllerTest extends WebTestCase {
         $crawler = $client->followRedirect();
 
         // Fill the signup form
-        $form = $crawler->selectButton('Sign up')->form(array(
+        $form = $crawler->selectButton('Sign Up')->form(array(
                 'classcentral_sitebundle_signuptype[email]' =>  sprintf("dhawal+%s@class-central.com",time()),
                 'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
                 'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,
@@ -143,7 +143,7 @@ class ReviewControllerTest extends WebTestCase {
 
         // Fill the signup form
         $email =  sprintf("dhawal+%s@class-central.com",rand());
-        $form = $crawler->selectButton('Sign up')->form(array(
+        $form = $crawler->selectButton('Sign Up')->form(array(
             'classcentral_sitebundle_signuptype[email]' => $email,
             'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
             'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,

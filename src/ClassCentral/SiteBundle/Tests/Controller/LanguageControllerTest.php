@@ -10,7 +10,7 @@ class LanguageControllerTest extends WebTestCase {
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET','/language/french');
+        $crawler = $client->request('GET','/language/arabic');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /");
         $this->assertTrue($crawler->filter('h1[class=cc-page-header]')->count() > 0);
     }
