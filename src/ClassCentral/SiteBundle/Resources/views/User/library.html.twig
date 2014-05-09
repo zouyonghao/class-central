@@ -11,12 +11,19 @@
             <span>Courses</span>
         </h2>
         <div id="filter-wrap">
+            <div class="mobile-filter-btn-wrap">
+                <a href="#" class="mobile-filter-btn">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+            </div>
             <div class="row">
-                <div class="col-md-4 col-lg-3">
+                <div class="col-sm-4 col-lg-3 filter-column">
                     {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with
                     {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions' : allSessions, 'userLists' : userLists } %}
                 </div>
-                <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="col-sm-8 col-lg-9 table-column">
                     <div class="tables-wrap">
                         {% if showInstructions %}
                             No courses found
@@ -56,13 +63,13 @@
 {% block customJS %}
     $(document).ready(function() {
 
-        {% for listId, listDetails in listTypes %}
-            {% set listType=listDetails['slug'] %}
-             listifyTable("{{ listType }}");
-        {% endfor %}
+    {% for listId, listDetails in listTypes %}
+        {% set listType=listDetails['slug'] %}
+        listifyTable("{{ listType }}");
+    {% endfor %}
 
-        {% if searchTerms|length > 0 %}
-            listifyTable("searchTerm");
-        {% endif %}
+    {% if searchTerms|length > 0 %}
+        listifyTable("searchTerm");
+    {% endif %}
     });
 {% endblock %}

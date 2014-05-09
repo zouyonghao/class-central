@@ -31,11 +31,18 @@
             <span>Courses</span>
         </h2>
         <div id="filter-wrap">
+            <div class="mobile-filter-btn-wrap">
+                <a href="#" class="mobile-filter-btn">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+            </div>
             <div class="row">
-                <div class="col-md-4 col-lg-3">
+                <div class="col-sm-4 col-lg-3 filter-column">
                     {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects, 'offSessions' : allSessions } %}
                 </div>
-                <div class="col-sm-12 col-md-8 col-lg-9">
+                <div class="col-sm-8 col-lg-9 table-column">
                     <div class="tables-wrap">
                         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'languagetable'} %}
                     </div>

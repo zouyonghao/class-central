@@ -42,7 +42,7 @@
     {% endif %}
     <div class="course-block row" itemscope itemtype="http://schema.org/Product">
 
-    <div class="course-meta-main-wrap col-lg-9" >
+    <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
         <div class="course-meta-main">
 
             <div class="course-video">
@@ -129,15 +129,18 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+
+                    {#
                     {% if not user_session.isCourseReviewed(course.id) %}
                         <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
                     {% endif %}
+                    #}
                 </div>
             </div><!-- course info -->
         </div>
     </div>
 
-    <div class ="course-meta-sidebar col-lg-3">
+    <div class ="course-meta-sidebar col-sm-4 col-lg-3">
         <div class="course-data">
             <div class="course-data-row course-pace">
                     <span class="course-data-icon">
@@ -281,6 +284,7 @@
     </div>
     </div>
 
+    {#
     <div class="row">
         <div class ="span12" style="text-align: center; margin-top: 25px">
             <a class="btn btn-primary btn-course-cc"
@@ -290,125 +294,138 @@
                     >Browse more {{ course['stream']['name'] }} courses</a>
         </div>
     </div>
+    #}
 
+    <div class="row">
+        <div class="col-sm-8 col-lg-9 course-bottom-wrap">
+            <div class="row">
+                <div class="col-md-6">
 
-    <div class="course-left-column">
-        {# Show courses recommendationss #}
-        {% if recommendations|length > 0 %}
-            <div class="recommended-courses">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>People who viewed this course also viewed</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for course in recommendations %}
-                        <tr>
-                            <td>
-                                {% if course.initiative is not null %}
-                                    {% set initiative=course.initiative.name %}
-                                {% else %}
-                                    {% set initiative='Others' %}
-                                {% endif %}
-                                <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
-                                   onmousedown='recordInboundLink(
-                                           "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
-                                           "{{initiative}}","{{course.name}}","recommended");return false' ><span itemprop="name">{{ course.name }}</span></a>
-                                {% if course.institutions|length %}
-                                    <ul class="table-uni-list">
-                                        {% for institution in course.institutions %}
-                                            {% set route = 'ClassCentralSiteBundle_university' %}
-                                            {% if not institution['isUniversity'] %}
-                                                {% set route = 'ClassCentralSiteBundle_institution' %}
+                    <div class="faq-wrap">
+                        <h5 class="faq-heading">
+                            FAQ
+                            <a href="{{ path('ClassCentralSiteBundle_faq') }}" onmousedown="_gaq.push(['trackEvent', 'View All FAQ - Course page'])">View All</a>
+                        </h5>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What are MOOCs?</span>
+                                <span class="arrow-up">
+                                    <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                                </span>
+                                <span class="arrow-down">
+                                    <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                                </span>
+                            </div>
+                            <div class="faq-answer">
+                                MOOCs stand for Massive Open Online Courses. These are<span style="text-decoration: underline;"> <em>free online courses</em></span> from universities around the world (eg. <a title="Stanford University MOOCs" href="https://www.class-central.com/university/stanford" target="_blank">Stanford</a> <a title="Harvard University MOOCs" href="https://www.class-central.com/university/harvard" target="_blank">Harvard</a> <a title="MIT MOOCs" href="https://www.class-central.com/university/mit" target="_blank">MIT</a>) offered to anyone with an internet connection.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How do I register?</span>
+                                <span class="arrow-up">
+                                    <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                                </span>
+                                <span class="arrow-down">
+                                    <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                                </span>
+                            </div>
+                            <div class="faq-answer">
+                                To register for a course, click on "Go to Class" button on the course page. This will take you to the providers website where you can register for the course.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How do these MOOCs or free online courses work?</span>
+                                <span class="arrow-up">
+                                    <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                                </span>
+                                <span class="arrow-down">
+                                    <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                                </span>
+                            </div>
+                            <div class="faq-answer">
+                                MOOCs are designed for an online audience, teaching primarily through short (5-20 min.) pre recorded video lectures, that you watch on weekly schedule when convenient for you.  They also have student discussion forums, homework/assignments, and online quizzes or exams.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+
+                    {# Show courses recommendationss #}
+                    {#
+                    {% if recommendations|length > 0 %}
+                        <div class="recommended-courses">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>People who viewed this course also viewed</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for course in recommendations %}
+                                    <tr>
+                                        <td>
+                                            {% if course.initiative is not null %}
+                                                {% set initiative=course.initiative.name %}
+                                            {% else %}
+                                                {% set initiative='Others' %}
                                             {% endif %}
-                                            <li>
-                                                <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                                            <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
+                                               onmousedown='recordInboundLink(
+                                                       "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
+                                                       "{{initiative}}","{{course.name}}","recommended");return false' ><span itemprop="name">{{ course.name }}</span></a>
+                                            {% if course.institutions|length %}
+                                                <ul class="table-uni-list">
+                                                    {% for institution in course.institutions %}
+                                                        {% set route = 'ClassCentralSiteBundle_university' %}
+                                                        {% if not institution['isUniversity'] %}
+                                                            {% set route = 'ClassCentralSiteBundle_institution' %}
+                                                        {% endif %}
+                                                        <li>
+                                                            <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                    #}
+
+                    <div class="course-reviews" id="course-reviews">
+                        <header class="reviews-header">
+                            <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</h2>
+                            <div class="average-rating course-rating" data-score="{{ rating }}">
+                            </div>
+                            {% if not user_session.isCourseReviewed(course.id) %}
+                                <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
+                            {% endif %}
+                        </header>
+
+                        {% if reviews.count > 0 %}
+                            <div class="single-reviews-wrap">
+                                {% for review in reviews.reviews %}
+                                    {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review,'rating':rating} %}
+                                {% endfor %}
+                            </div>
+                            <!--
+                                <div class="view-more-wrap">
+                                    <button class="view-more">View More Reviews</button>
+                                </div>
+                            -->
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        {% endif %}
-
-        <div class="course-reviews" id="course-reviews">
-            <header class="reviews-header">
-                <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</h2>
-                <div class="average-rating course-rating" data-score="{{ rating }}">
-                </div>
-                {% if not user_session.isCourseReviewed(course.id) %}
-                    <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
-                {% endif %}
-            </header>
-
-            {% if reviews.count > 0 %}
-                <div class="single-reviews-wrap">
-                    {% for review in reviews.reviews %}
-                        {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review,'rating':rating} %}
-                    {% endfor %}
-                </div>
-                <!--
-                    <div class="view-more-wrap">
-                        <button class="view-more">View More Reviews</button>
-                    </div>
-                -->
-            {% endif %}
         </div>
-
     </div>
-
-
-    <div class="faq-box-wrap course-sidebar-box-wrap">
-        <table class="table table-striped table-bordered faq-box">
-            <thead>
-            <tr>
-                <th>FAQs <a href="{{ path('ClassCentralSiteBundle_faq') }}"
-                            onmousedown="_gaq.push(['trackEvent', 'View All FAQ - Course page'])"
-                            >View All</a></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <div class="question">
-                        <span>What are MOOCs?</span>
-                        <span class="triangle"></span>
-                    </div>
-                    <div class="answer">
-                        MOOCs stand for Massive Open Online Courses. These are<span style="text-decoration: underline;"> <em>free online courses</em></span> from universities around the world (eg. <a title="Stanford University MOOCs" href="https://www.class-central.com/university/stanford" target="_blank">Stanford</a> <a title="Harvard University MOOCs" href="https://www.class-central.com/university/harvard" target="_blank">Harvard</a> <a title="MIT MOOCs" href="https://www.class-central.com/university/mit" target="_blank">MIT</a>) offered to anyone with an internet connection.
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="question">
-                        <span>How do I register?</span>
-                        <span class="triangle"></span>
-                    </div>
-                    <div class="answer">
-                        To register for a course, click on "Go to Class" button on the course page. This will take you to the providers website where you can register for the course.
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="question">
-                        <span>How do these MOOCs or free online courses work?</span>
-                        <span class="triangle"></span>
-                    </div>
-                    <div class="answer">MOOCs are designed for an online audience, teaching primarily through short (5-20 min.) pre recorded video lectures, that you watch on weekly schedule when convenient for you.  They also have student discussion forums, homework/assignments, and online quizzes or exams.
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
+    {#
 
     {% if recentlyViewedCourses|length > 0 %}
         <div class="related-courses-wrap">
@@ -451,7 +468,9 @@
             </table>
         </div>
     {% endif %}
+    #}
 
+    {#
     {% if news|length > 0 %}
         <div class="course-sidebar-box-wrap">
             <table class="table table-striped table-bordered news-box">
@@ -483,7 +502,7 @@
         </div>
     {% endif %}
 
-
+    #}
 
     <script type="text/javascript">
         window.addthisevent_settings = {

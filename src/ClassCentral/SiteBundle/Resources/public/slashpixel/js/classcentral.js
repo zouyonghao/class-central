@@ -15,6 +15,7 @@ jQuery(function($) {
                 var loggedInResult = $.parseJSON(result);
                 if(loggedInResult.loggedIn) {
                     var name = $(clicked).attr("name");
+                    console.log($(clicked).is(':checked'));
                     if($(clicked).is(':checked')) {
                         if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
                             $('span[id=' + name + ']').html('-');
@@ -24,10 +25,10 @@ jQuery(function($) {
 
                         // uncheck the rest
                         $('input[name=' + name +']:checked').each(function(){
-                            $(this).attr('checked',false);
+                            $(this).prop('checked',false);
                         });
                         // check this one back
-                        $(clicked).attr('checked',true);
+                        $(clicked).prop('checked',true);
                     } else {
                         if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
                             $('span[id=' + name + ']').html('+');
@@ -68,7 +69,6 @@ jQuery(function($) {
             $.ajax( "/ajax/user/course/add?c_id=" +courseId +"&l_id="+ listId)
                 .done(
                 function(result){
-                    //console.log("jquery" + result);
                     var r = JSON.parse(result);
                     if(r.success)
                     {
@@ -551,7 +551,6 @@ jQuery(function($) {
         event.preventDefault();
         $this = $(this);
         targetTab = $this.data("target-section");
-        console.log(targetTab);
         if (targetTab !== undefined) {
             $(".section-tab-content").hide();
             $("." + targetTab).show();

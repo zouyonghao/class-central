@@ -1,360 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script type="text/javascript" src="//use.typekit.net/gdf6zoz.js"></script> <!-- typekit fonts -->
-        <script type="text/javascript">try{Typekit.load();}catch(e){}</script><!-- typekit fonts -->
-        {%  block headmeta %}               
-        {% endblock %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="//use.typekit.net/gdf6zoz.js"></script> <!-- typekit fonts -->
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script><!-- typekit fonts -->
+    {%  block headmeta %}
+    {% endblock %}
 
-        <link rel="shortcut icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
-        <link rel="icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
-        <link rel="search" type="application/opensearchdescription+xml" href="{{ asset('bundles/classcentralsite/xml/opensearch.xml') }}" title="Class Central MOOC search" />
+    <link rel="shortcut icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
+    <link rel="icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
+    <link rel="search" type="application/opensearchdescription+xml" href="{{ asset('bundles/classcentralsite/xml/opensearch.xml') }}" title="Class Central MOOC search" />
 
-        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-        <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-        {% stylesheets filter='lessphp'
-            '@bootstrap_css'
-        %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-        {% endstylesheets %}
-        <!-- Le styles -->  
-        {% stylesheets filter='yui_css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal-bs3patch.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/css/prettyPhoto.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/socialcount-icons.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/autocomplete.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.pnotify.default.css'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.pnotify.default.icons.css'
-        %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
-        
-        {% if app.environment == 'prod' %}
+    {% stylesheets filter='lessphp'
+    '@bootstrap_css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+    <!-- Le styles -->
+    {% stylesheets filter='yui_css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/prettyPhoto/css/prettyPhoto.css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/socialcount-icons.css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/autocomplete.css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.pnotify.default.css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.pnotify.default.icons.css'
+    %}
+    {#
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal-bs3patch.css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal.css'
+    #}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
 
-            <!-- Google+ Direct connect -->
-            <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
-             
-            <!-- Including google analytics. The parameter ganalytics_id must be set in parameters.ini -->
-            <script type="text/javascript">
+    {% if app.environment == 'prod' %}
 
-                var _gaq = _gaq || [];
-                var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
-                _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
-                _gaq.push(['_setAccount', '{{ ganalytics_id }}']);
-                _gaq.push(['_setSiteSpeedSampleRate', 20]);
-                _gaq.push(['_trackPageview']);
+        <!-- Google+ Direct connect -->
+        <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
 
-                {% set userType = 'Visitor' %}
-                {% if app.user %}
-                {% set userType = 'Member' %}
-                {% endif %}
-                _gaq.push(['_setCustomVar',
-                    1,
-                    'User Type',
-                    '{{ userType }}',
-                    2
-                ]);
-
-                (function() {
-                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-                                
-                function recordOutboundLink(link, initiative, coursename, stream) {
-                    try {                        
-                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
-                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
-                        window.open(link);
-                    }catch(err){}
-                 }
-
-                function recordOutboundLinkWithoutRedirect( initiative, coursename, stream) {
-                    try {
-                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
-                        _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
-                    }catch(err){}
-                }
-
-                function recordInboundLink(link, initiative, coursename, section) {
-                    try {
-                        _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Initiative' , initiative, coursename ]);
-                        _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Section' , section, coursename ]);
-                    }catch(err){}
-                }
-
-                function recordTaglineClicks(link, initiative) {
-                    try {
-                        _gaq.push(['_trackEvent', 'Tagline Clicks' , initiative ]);
-                        window.open(link);
-                    }catch(err){}
-                }
-
-            </script>
-        
-        {% endif %}
-
-        <!-- Le fav and touch icons -->
-        <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
-	<link rel="apple-touch-icon" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-72x72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-114x114.png" />
-
-    </head>
-
-    <body>
-    {% include 'ClassCentralSiteBundle:Helpers:sprites.svg.twig' %}
-            {% if page is defined %}
-                {% render controller('ClassCentralSiteBundle:Navigation:index', {'page': page}) %}
-            {% else %}
-                {% render controller('ClassCentralSiteBundle:Navigation:index', {'page':'admin'}) %}
-            {% endif %}
-        {%  block contentheader %}
-        {% endblock %}
-        <div class="container cc-body-content">
-            <div class="cc-page">
-                {# Content pages go here #}
-                {% if breadcrumbs is defined %}
-                    {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
-                {% endif %}
-                {%  block content %}
-                {% endblock %}
-            </div>
-            {%  block contentfooter %}
-            {% endblock %}
-        </div> <!-- /container -->
-
-        {% block abovefooter %}
-        {% endblock %}
-
-
-        <footer>
-            {% block footer %}
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-2 col-sm-4 col-xs-4 link-column">
-                            <h5 class="list-heading">Browse courses by</h5>
-                            <ul>
-                                <li><a href="{{ path('subjects') }}">Subjects</a></li>
-                                <li><a href="{{ path('languages') }}">Languages</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-2 col-sm-4 col-xs-4 link-column">
-                            <h5 class="list-heading">More</h5>
-                            <ul>
-                                <li><a href="http://www.blog.class-central.com">Blog</a></li>
-                                <li><a href="{{ path('ClassCentralSiteBundle_news') }}" title="MOOC News">News</a></li>
-                                <li><a href="{{ path('ClassCentralSiteBundle_faq') }}" title="Frequently asked questions about MOOCs">FAQ</a></li>
-                                <li><a href="{{ path('ClassCentralSiteBundle_privacy') }}"> Privacy Policy</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-2 col-sm-4 col-xs-4 link-column">
-                            <h5 class="list-heading">Connect</h5>
-                            <ul>
-                                <li><a href="mailto:contact@class-central.com" title="Class Central contact">Email</a></li>
-                                <li><a href="https://www.facebook.com/classcentral">Facebook</a></li>
-                                <li><a href="https://twitter.com/classcentral">Twitter</a></li>
-                                <li><a href="https://plus.google.com/+ClassCentral">Google+</a></li>
-                                <li><a href="http://www.youtube.com/channel/UC0VOktSaVdm_YIUa4X5mBTQ">Youtube</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 col-lg-4 col-sm-7 col-xs-8 newsletter-column">
-                            <div class="newsletter-wrap">
-                                <h4><span>Newsletter. </span>Never miss a course.</h4>
-                                <form class="newsletter-subscription" action="{{ path('newsletter_subscribe_to',{code: 'mooc-report'}) }}" method="post">
-                                    <p>
-                                        <input type="email" placeholder="your@email.com" name="email" required>
-                                        <input type="submit" value="SUBSCRIBE">
-                                    </p>
-                                </form>
-                                <span class="reminder">No spam. Unsubscribe any time.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <span class="copyright">©Class Central 2011-2014</span>
-                            <iframe src="{{ path('github_btn') }}?user=dhawalhshah&repo=class-central&type=watch&count=true"
-                                    allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-                        </div>
-                    </div>
-                </div>
-            {% endblock %}
-
-            {# Session flash messages #}
-            <div class="flash-messages hidden">
-                {% for type, messages in app.session.flashbag.all() %}
-                    {% for message in messages %}
-                        <div class="flash-message" data-type="{{ type }}" data-title="{{ message.title }}" data-delay="{{ message.delay }}">{{ message.text }}</div>
-                    {% endfor %}
-                {% endfor %}
-            </div>
-        </footer>
-
-        {# All the javascript goes in here #}
-        
-        {% javascripts filter='yui_js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.7.1.min.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modalmanager.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modal.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/list.min.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.swiftype.autocomplete.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.raty.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.autosize.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.pnotify.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/enquire.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/classcentral.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/course-filter.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-formhelpers-number.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.floatThead.min.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/purl.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/countUp.min.js'
-        '@ClassCentralSiteBundle/Resources/public/slashpixel/js/addThisEvent.js'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-
-        {% endjavascripts %}
-
-
-
+        <!-- Including google analytics. The parameter ganalytics_id must be set in parameters.ini -->
         <script type="text/javascript">
-            $(document).ready(function(){
 
-                var customRenderFunction = function(document_type, item) {
-                    var title = '<p class="title">' + item['name'] + '</p>';
-                    if(document_type == 'courses') {
-                        var ins = '';
-                        if(typeof item['institutions'] !== 'undefined' && item['institutions'] != '' ) {
-                            ins = item['institutions'][0] + ' - ';
-                        }
-                        var provider = '';
-                        if(typeof item['provider'] !== 'undefined' && item['provider'] != '' ) {
-                            provider = ' | ' + item['provider'];
-                        }
+            var _gaq = _gaq || [];
+            var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+            _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+            _gaq.push(['_setAccount', '{{ ganalytics_id }}']);
+            _gaq.push(['_setSiteSpeedSampleRate', 20]);
+            _gaq.push(['_trackPageview']);
 
-                        return title.concat('<p>' + ins + item['displayDate'] + provider + '</p>');
-                    } else if (document_type == 'universities' || document_type == 'subjects') {
-                        return title.concat('<p class="genre">' + item['courseCount'] + ' courses </p>');
-                    }
-                };
+            {% set userType = 'Visitor' %}
+            {% if app.user %}
+            {% set userType = 'Member' %}
+            {% endif %}
+            _gaq.push(['_setCustomVar',
+                1,
+                'User Type',
+                '{{ userType }}',
+                2
+            ]);
 
-                $('#st-search-input').swiftype({
-                    renderFunction: customRenderFunction,
-                    engineKey: '{{ swiftype_engine_key }}',
-                    filters: {
-                        'courses' : {'status':{
-                            'type' : 'range',
-                            'to' : 99
-                        }},
-                        'universities': {'courseCount':{
-                            'type' : 'range',
-                            'from' : '1'
-                        }}
-                    }
-                });
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
 
+            function recordOutboundLink(link, initiative, coursename, stream) {
+                try {
+                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
+                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
+                    window.open(link);
+                }catch(err){}
+            }
 
-            });
+            function recordOutboundLinkWithoutRedirect( initiative, coursename, stream) {
+                try {
+                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
+                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
+                }catch(err){}
+            }
 
+            function recordInboundLink(link, initiative, coursename, section) {
+                try {
+                    _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Initiative' , initiative, coursename ]);
+                    _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Section' , section, coursename ]);
+                }catch(err){}
+            }
 
+            function recordTaglineClicks(link, initiative) {
+                try {
+                    _gaq.push(['_trackEvent', 'Tagline Clicks' , initiative ]);
+                    window.open(link);
+                }catch(err){}
+            }
 
-            $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
-
-
-
-            {% block customJS %}
-            {% endblock %}
         </script>
 
-        {% if page is defined %}
-		<script type="text/javascript">
+    {% endif %}
 
-            {# feedback #}
-            enquire.register("screen and (min-width:768px)", {
-              match : function() {
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
+    <link rel="apple-touch-icon" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-114x114.png" />
 
-                    // Include the UserVoice JavaScript SDK (only needed once on a page)
-                                              UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/7PImip9uoSSB0ObLsrpRow.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+</head>
 
-                    //
-                    // UserVoice Javascript SDK developer documentation:
-                    // https://www.uservoice.com/o/javascript-sdk
-                    //
-
-                    // Set colors
-                                      UserVoice.push(['set', {
-                                          accent_color: '#448dd6',
-                                          trigger_color: 'white',
-                                          trigger_background_color: 'rgba(46, 49, 51, 0.6)'
-                                      }]);
-
-                    // Identify the user and pass traits
-                    // To enable, replace sample data with actual user traits and uncomment the line
-                                      UserVoice.push(['identify', {
-                                          //email:      'john.doe@example.com', // User’s email address
-                                          //name:       'John Doe', // User’s real name
-                                          //created_at: 1364406966, // Unix timestamp for the date the user signed up
-                                          //id:         123, // Optional: Unique id of the user (if set, this should not change)
-                                          //type:       'Owner', // Optional: segment your users by type
-                                          //account: {
-                                          //  id:           123, // Optional: associate multiple users with a single account
-                                          //  name:         'Acme, Co.', // Account name
-                                          //  created_at:   1364406966, // Unix timestamp for the date the account was created
-                                          //  monthly_rate: 9.99, // Decimal; monthly rate of the account
-                                          //  ltv:          1495.00, // Decimal; lifetime value of the account
-                                          //  plan:         'Enhanced' // Plan name for the account
-                                          //}
-                                      }]);
-
-                    // Add default trigger to the bottom-right corner of the window:
-                                      UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
-
-                    // Or, use your own custom trigger:
-                    //UserVoice.push(['addTrigger', '#id', { mode: 'contact' }]);
-
-                    // Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
-                                      UserVoice.push(['autoprompt', {}]);
-
-              }
-
-          });
-
-
-		</script>
+<body>
+{% include 'ClassCentralSiteBundle:Helpers:sprites.svg.twig' %}
+{% if page is defined %}
+    {% render controller('ClassCentralSiteBundle:Navigation:index', {'page': page}) %}
+{% else %}
+    {% render controller('ClassCentralSiteBundle:Navigation:index', {'page':'admin'}) %}
+{% endif %}
+{%  block contentheader %}
+{% endblock %}
+<div class="container cc-body-content">
+    <div class="cc-page">
+        {# Content pages go here #}
+        {% if breadcrumbs is defined %}
+            {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
         {% endif %}
+        {%  block content %}
+        {% endblock %}
+    </div>
+    {%  block contentfooter %}
+    {% endblock %}
+</div> <!-- /container -->
 
-        <!-- clicky tracking code-->
-            <script type="text/javascript">
-                {% if app.user %}
-                    var clicky_custom = clicky_custom || {};
-                    clicky_custom.visitor = {
-                        user_id: '{{ app.user.id }}',
-                        email: '{{ app.user.email }}'
-                    };
-                {% endif %}
+{% block abovefooter %}
+{% endblock %}
 
-                var clicky_site_ids = clicky_site_ids || [];
-                clicky_site_ids.push({{ clicky_site_id }});
-                (function() {
-                    var s = document.createElement('script');
-                    s.type = 'text/javascript';
-                    s.async = true;
-                    s.src = '//static.getclicky.com/js';
-                    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
-                })();
-            </script>
-            <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100717250ns.gif" /></p></noscript>
 
-         {% block beforeClosingBody %}
-         {% endblock %}
-    </body>
+<footer>
+    {% block footer %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-sm-4 col-xs-4 link-column">
+                    <h5 class="list-heading">Browse courses by</h5>
+                    <ul>
+                        <li><a href="{{ path('subjects') }}">Subjects</a></li>
+                        <li><a href="{{ path('languages') }}">Languages</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-4 link-column">
+                    <h5 class="list-heading">More</h5>
+                    <ul>
+                        <li><a href="http://www.blog.class-central.com">Blog</a></li>
+                        <li><a href="{{ path('ClassCentralSiteBundle_news') }}" title="MOOC News">News</a></li>
+                        <li><a href="{{ path('ClassCentralSiteBundle_faq') }}" title="Frequently asked questions about MOOCs">FAQ</a></li>
+                        <li><a href="{{ path('ClassCentralSiteBundle_privacy') }}"> Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-4 link-column">
+                    <h5 class="list-heading">Connect</h5>
+                    <ul>
+                        <li><a href="mailto:contact@class-central.com" title="Class Central contact">Email</a></li>
+                        <li><a href="https://www.facebook.com/classcentral">Facebook</a></li>
+                        <li><a href="https://twitter.com/classcentral">Twitter</a></li>
+                        <li><a href="https://plus.google.com/+ClassCentral">Google+</a></li>
+                        <li><a href="http://www.youtube.com/channel/UC0VOktSaVdm_YIUa4X5mBTQ">Youtube</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-lg-4 col-sm-7 col-xs-8 newsletter-column">
+                    <div class="newsletter-wrap">
+                        <h4><span>Newsletter. </span>Never miss a course.</h4>
+                        <form class="newsletter-subscription" action="{{ path('newsletter_subscribe_to',{code: 'mooc-report'}) }}" method="post">
+                            <p>
+                                <input type="email" placeholder="your@email.com" name="email" required>
+                                <input type="submit" value="SUBSCRIBE">
+                            </p>
+                        </form>
+                        <span class="reminder">No spam. Unsubscribe any time.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <span class="copyright">©Class Central 2011-2014</span>
+                    <iframe src="{{ path('github_btn') }}?user=dhawalhshah&repo=class-central&type=watch&count=true"
+                            allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {# Session flash messages #}
+    <div class="flash-messages hidden">
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-message" data-type="{{ type }}" data-title="{{ message.title }}" data-delay="{{ message.delay }}">{{ message.text }}</div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</footer>
+
+{# All the javascript goes in here #}
+
+{% javascripts filter='yui_js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.11.0.min.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/list.min.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.swiftype.autocomplete.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.raty.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.autosize.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.pnotify.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/enquire.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/classcentral.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/course-filter.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-formhelpers-number.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.floatThead.min.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/purl.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/countUp.min.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/addThisEvent.js'
+%}
+
+{#
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modalmanager.js'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modal.js'
+#}
+
+<script type="text/javascript" src="{{ asset_url }}"></script>
+
+{% endjavascripts %}
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var customRenderFunction = function(document_type, item) {
+            var title = '<p class="title">' + item['name'] + '</p>';
+            if(document_type == 'courses') {
+                var ins = '';
+                if(typeof item['institutions'] !== 'undefined' && item['institutions'] != '' ) {
+                    ins = item['institutions'][0] + ' - ';
+                }
+                var provider = '';
+                if(typeof item['provider'] !== 'undefined' && item['provider'] != '' ) {
+                    provider = ' | ' + item['provider'];
+                }
+
+                return title.concat('<p>' + ins + item['displayDate'] + provider + '</p>');
+            } else if (document_type == 'universities' || document_type == 'subjects') {
+                return title.concat('<p class="genre">' + item['courseCount'] + ' courses </p>');
+            }
+        };
+
+        $('#st-search-input').swiftype({
+            renderFunction: customRenderFunction,
+            engineKey: '{{ swiftype_engine_key }}',
+            filters: {
+                'courses' : {'status':{
+                    'type' : 'range',
+                    'to' : 99
+                }},
+                'universities': {'courseCount':{
+                    'type' : 'range',
+                    'from' : '1'
+                }}
+            }
+        });
+
+
+    });
+
+
+
+    $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+
+
+
+    {% block customJS %}
+    {% endblock %}
+</script>
+
+{% if page is defined %}
+    <script type="text/javascript">
+
+        {# feedback #}
+        enquire.register("screen and (min-width:768px)", {
+            match : function() {
+
+                // Include the UserVoice JavaScript SDK (only needed once on a page)
+                UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/7PImip9uoSSB0ObLsrpRow.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+
+                //
+                // UserVoice Javascript SDK developer documentation:
+                // https://www.uservoice.com/o/javascript-sdk
+                //
+
+                // Set colors
+                UserVoice.push(['set', {
+                    accent_color: '#448dd6',
+                    trigger_color: 'white',
+                    trigger_background_color: 'rgba(46, 49, 51, 0.6)'
+                }]);
+
+                // Identify the user and pass traits
+                // To enable, replace sample data with actual user traits and uncomment the line
+                UserVoice.push(['identify', {
+                    //email:      'john.doe@example.com', // User’s email address
+                    //name:       'John Doe', // User’s real name
+                    //created_at: 1364406966, // Unix timestamp for the date the user signed up
+                    //id:         123, // Optional: Unique id of the user (if set, this should not change)
+                    //type:       'Owner', // Optional: segment your users by type
+                    //account: {
+                    //  id:           123, // Optional: associate multiple users with a single account
+                    //  name:         'Acme, Co.', // Account name
+                    //  created_at:   1364406966, // Unix timestamp for the date the account was created
+                    //  monthly_rate: 9.99, // Decimal; monthly rate of the account
+                    //  ltv:          1495.00, // Decimal; lifetime value of the account
+                    //  plan:         'Enhanced' // Plan name for the account
+                    //}
+                }]);
+
+                // Add default trigger to the bottom-right corner of the window:
+                UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
+
+                // Or, use your own custom trigger:
+                //UserVoice.push(['addTrigger', '#id', { mode: 'contact' }]);
+
+                // Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
+                UserVoice.push(['autoprompt', {}]);
+
+            }
+
+        });
+
+
+    </script>
+{% endif %}
+
+<!-- clicky tracking code-->
+<script type="text/javascript">
+    {% if app.user %}
+    var clicky_custom = clicky_custom || {};
+    clicky_custom.visitor = {
+        user_id: '{{ app.user.id }}',
+        email: '{{ app.user.email }}'
+    };
+    {% endif %}
+
+    var clicky_site_ids = clicky_site_ids || [];
+    clicky_site_ids.push({{ clicky_site_id }});
+    (function() {
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = '//static.getclicky.com/js';
+        ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
+    })();
+</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100717250ns.gif" /></p></noscript>
+
+{% block beforeClosingBody %}
+{% endblock %}
+</body>
 </html>

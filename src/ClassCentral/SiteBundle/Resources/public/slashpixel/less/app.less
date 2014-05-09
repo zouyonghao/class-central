@@ -747,7 +747,7 @@ body {
 @media (max-width: 340px) {
   .page-tabs ul > .learn-more-tab,
   .page-tabs ul > .subjects-tab {
-    width: 100px;
+    width: 105px;
   }
 
   .page-tabs ul > li > a {
@@ -1565,6 +1565,17 @@ thead {
   }
 }
 
+@media (max-width: 470px) {
+  #filter-wrap .course-rating-column {
+    display: none;
+  }
+
+  #filter-wrap tbody tr td:last-child {
+    display: none;
+  }
+}
+
+
 /* ==========================================================================
    =Course filter
    ========================================================================== */
@@ -1918,7 +1929,6 @@ input.filter-search:focus {
   .table-column {
     position: relative;
     left: 0;
-    .transition(0.5s);
     z-index: 1002;
     min-height: 700px;
     background: @beige;
@@ -1956,7 +1966,7 @@ input.filter-search:focus {
    ========================================================================== */
 
 .course-meta-main-wrap {
-  padding-right: 50px;
+  padding-right: 30px;
 }
 
 .course-meta-main {
@@ -2038,12 +2048,14 @@ input.filter-search:focus {
   font-family: @font-family-small-text;
   color: @purple-gray;
   padding-left: 45px;
+  margin-bottom: 10px;
 }
 
 .course-provider-wrap .institution-list {
   list-style: none;
   padding: 0;
   float: left;
+  margin: 0;
 }
 
 .institution-list li,
@@ -2111,11 +2123,19 @@ input.filter-search:focus {
   padding-right: 30px;
 }
 
-//course sidebar styles
+@media (max-width: 400px) {
+  .course-block .course-title {
+    display: block;
+    font-size: 24px;
+  }
 
-.course-data {
-  .border-top-radius();
+  .course-block .course-desc {
+    font-size: 16px;
+  }
+
 }
+
+//course sidebar styles
 
 .course-data .course-data-row {
   position: relative;
@@ -2390,6 +2410,87 @@ input.filter-search:focus {
   background: #f1f0e9;
   padding: 20px 10px 20px 40px;
   min-height: 120px;
+}
+
+.course-bottom-wrap {
+  padding-right: 30px;
+  margin-top: 40px;
+}
+
+.course-bottom-wrap .faq-wrap,
+.course-bottom-wrap .course-reviews {
+  background: @white;
+  border: 1px solid @gray-border;
+}
+
+.course-bottom-wrap .faq-wrap {
+  padding: 0 20px 30px 20px;
+  margin-bottom: 30px;
+}
+
+.course-bottom-wrap .faq-wrap h5 {
+  font-size: 24px;
+  position: relative;
+  padding-left: 15px;
+}
+
+.course-bottom-wrap .faq-wrap h5 a {
+  color: @blue;
+  font-size: 10px;
+  text-transform: uppercase;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.course-bottom-wrap .faq-wrap .faq-question {
+  font-size: 18px;
+}
+
+.course-bottom-wrap .faq-wrap .faq-answer {
+  font-size: 16px;
+}
+
+.course-bottom-wrap .course-reviews {
+  padding: 0 40px 40px 40px;
+}
+
+.course-bottom-wrap .course-reviews h2 {
+  font-size: 24px;
+  margin: 30px 0 5px 0;
+}
+
+.course-bottom-wrap .course-reviews .review-date {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.course-bottom-wrap .course-reviews .reviews-header,
+.course-bottom-wrap .course-reviews .review-title,
+.course-bottom-wrap .course-reviews .review-content {
+  margin-bottom: 20px;
+}
+
+.course-bottom-wrap .course-reviews .yes-no {
+  margin-left: 10px;
+}
+
+@media (max-width: @screen-md-min) {
+  .course-meta-main-wrap {
+    padding-right: 15px;
+  }
+
+  .course-bottom-wrap {
+    padding-right: 15px;
+  }
+}
+
+
+@media (max-width: @screen-sm-min) {
+  .course-meta-sidebar {
+    margin-top: 30px;
+  }
+
 }
 
 /* ==========================================================================
