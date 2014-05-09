@@ -3,7 +3,9 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\Spotlight;
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,13 +30,19 @@ class DefaultController extends Controller {
                         array( new StreamController(), 'getSubjectsList'),
                         array( $this->container )
         );
+
+        $signupForm   = $this->createForm(new SignupType(), new User(),array(
+            'action' => $this->generateUrl('signup_create_user')
+        ));
+
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
                 'recentCourses'   => $recent['response']['results'],
                 'spotlights' => $spotlights,
                 'spotlightMap' => Spotlight::$spotlightMap,
-                'subjects' => $subjects
+                'subjects' => $subjects,
+                'signupForm' => $signupForm->createView()
                ));
     }
 

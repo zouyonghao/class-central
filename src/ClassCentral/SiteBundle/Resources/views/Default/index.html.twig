@@ -22,7 +22,7 @@
             <a href="https://www.class-central.com/initiative/others" title="Other MOOC initiatives" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.class-central.com/initiative/others','Others');return false" target="_blank" >others</a>. <span><a href="{{ path('ClassCentralSiteBundle_faq') }}">Learn More ></a></span>
         </h2>-->
 
-                <!--{% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} %}-->
+
 
                 <!--
                 <ul class="socialcount" data-url="www.class-central.com" data-share-text=".@classcentral is a free online course/#MOOC aggregator from Coursera, Udacity, edx, & others class-central.com">
@@ -48,7 +48,7 @@
                             <a href="#" data-target-section="subjects-tab-section">The Subjects</a>
                         </li>
                         <li class="create-account-tab">
-                            <a href="">Create Free Account</a>
+                            <a href="" id="home-create-free-account">Create free account</a>
                         </li>
                     </ul>
                 </nav>
@@ -58,7 +58,9 @@
 {% endblock %}
 
 {% block content %}
-
+    <div class="search-wrapper visible-xs visible-sm">
+        {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {keywords: null} %}
+    </div>
     {% include 'ClassCentralSiteBundle:Helpers:spotlight.html.twig' with{ spotlights:spotlights, spotlightMap : spotlightMap } %}
     <section class="learn-more-tab-section section-tab-content">
         {% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{ } %}
@@ -77,6 +79,8 @@
 {% endblock %}
 
 {% block abovefooter %}
+
+
     <section class="blog-spotlight">
         <div class="container">
             <h2 class="section-heading"><span>Latest From The Blog</span></h2>
@@ -113,8 +117,8 @@
     <section class="convincer">
         <div class="container">
             <div class="convincer-wrap">
-                <span>Create your free account today</span>
-                <a class="create-free-account" href="#">Create free account</a>
+                        <span>Never miss a course with MOOC Tracker</span>
+                <a class="create-free-account" id="convincer-create-free-account" href="">Create free account</a>
             </div>
         </div>
     </section>
@@ -130,4 +134,10 @@
             <li><a class="harvard-logo" href="#">Harvard University</a></li>
         </ul>
     </section>
+
+    {% if signupForm is defined %}
+        {% include 'ClassCentralSiteBundle:Helpers:signupform.html.twig' with {
+        signupForm : signupForm,
+        } %}
+    {% endif %}
 {% endblock %}

@@ -610,4 +610,14 @@ jQuery(function($) {
         $('#navbar-search-form').submit();
     });
 
+
+    $('#home-create-free-account').click( function(e){
+        e.preventDefault();
+        $('#signupForm').modal('show');
+    });
+
+    $('#convincer-create-free-account').click( function(e){
+        e.preventDefault();
+        $('#signupForm').modal('show');
+    });
 });
