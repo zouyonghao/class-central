@@ -1,8 +1,8 @@
-<section class="spotlight section-tab-content">
+
     <div class="spotlight-logo-wrap">
-        <a href="#" class="spot-logo coursera-logo">Coursera</a>
-        <a href="#" class="spot-logo udacity-logo">Udacity</a>
-        <a href="#" class="spot-logo edx-logo">edX</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'coursera'}) }}" class="spot-logo coursera-logo">Coursera</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'udacity'}) }}" class="spot-logo udacity-logo">Udacity</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'edx'}) }}" class="spot-logo edx-logo">edX</a>
         <a href="#" class="no-logo">Plus Many More</a>
     </div>
     <h2 class="section-heading">
@@ -12,7 +12,11 @@
     <div class="row">
 
         {% for spotlight in spotlights %}
-            <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap">
+            <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
+               {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}
+            "
+
+                 id="home-spotlight-{{ spotlight.position }}">
                 <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}">
                     <div class="img-wrap">
                         <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">
@@ -29,4 +33,3 @@
         {% endfor %}
 
     </div>
-</section>

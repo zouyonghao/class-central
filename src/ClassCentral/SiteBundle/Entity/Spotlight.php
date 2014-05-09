@@ -46,11 +46,11 @@ class Spotlight
     const SPOTLIGHT_TYPE_AD = 5;
 
     public static $spotlightMap = array(
-        self::SPOTLIGHT_TYPE_DEMO => array( 'class' => 'spotlight-article','text' => 'View Demo'),
-        self::SPOTLIGHT_TYPE_COURSE => array( 'class' => 'spotlight-course','text' => 'View Course'),
-        self::SPOTLIGHT_TYPE_NEWS => array( 'class' => 'spotlight-article','text' => 'Read Article'),
-        self::SPOTLIGHT_TYPE_INTERVIEW => array( 'class' => 'spotlight-interview','text' => 'Read Interview'),
-        self::SPOTLIGHT_TYPE_AD => array( 'class' => 'spotlight-sponsor','text' => 'View Sponsor'),
+        self::SPOTLIGHT_TYPE_DEMO => array( 'class' => 'spotlight-article','text' => 'View Demo', 'visible'=>"") ,
+        self::SPOTLIGHT_TYPE_COURSE => array( 'class' => 'spotlight-course','text' => 'View Course', 'visible'=>"") ,
+        self::SPOTLIGHT_TYPE_NEWS => array( 'class' => 'spotlight-article','text' => 'Read Article', 'visible' => ""),
+        self::SPOTLIGHT_TYPE_INTERVIEW => array( 'class' => 'spotlight-interview','text' => 'Read Interview', 'visible' => ""),
+        self::SPOTLIGHT_TYPE_AD => array( 'class' => 'spotlight-sponsor','text' => 'View Sponsor', 'visible' => "visible-lg"),
     );
 
     public static $spotlights = array(

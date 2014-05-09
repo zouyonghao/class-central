@@ -13,14 +13,9 @@
         <div class="container">
             <div class="header-content">
                 <h1 class='free-online-ed'>Free Online Education</h1>
-                <h2>Discover free online classes (MOOCs) from top universities like Stanford, MIT, Harvard, etc.</h2>
-                <!--<h2>Class Central is a free online course aka MOOC aggregator from top universities like Stanford, MIT, Harvard, etc. offered via
-            <a href="http://www.coursera.org" title="Coursera" class="tagline-initiative-links" onclick="recordTaglineClicks('http://www.coursera.org','Coursera');return false" target="_blank" >Coursera</a>,
-            <a href="https://www.udacity.com/" title="Udacity" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.udacity.com/','Udacity');return false" target="_blank" >Udacity</a>,
-            <a href="https://www.edx.org/" title="edX" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.edx.org/','edX');return false" target="_blank" >edX</a>,
-            <a href="https://novoed.com/" title="NovoED" class="tagline-initiative-links" onclick="recordTaglineClicks('https://novoed.com/','NovoED');return false" target="_blank" >NovoED</a>, &
-            <a href="https://www.class-central.com/initiative/others" title="Other MOOC initiatives" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.class-central.com/initiative/others','Others');return false" target="_blank" >others</a>. <span><a href="{{ path('ClassCentralSiteBundle_faq') }}">Learn More ></a></span>
-        </h2>-->
+                <h2>Discover free online classes (MOOCs) from top universities like <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}">Stanford</a>, <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"> MIT</a>,
+                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}">Harvard</a>, etc.</h2>
+
 
 
 
@@ -58,10 +53,14 @@
 {% endblock %}
 
 {% block content %}
-    <div class="search-wrapper visible-xs visible-sm">
-        {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {keywords: null} %}
-    </div>
-    {% include 'ClassCentralSiteBundle:Helpers:spotlight.html.twig' with{ spotlights:spotlights, spotlightMap : spotlightMap } %}
+    <section class="spotlight section-tab-content">
+        <div class="search-wrapper visible-xs visible-sm">
+            {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {keywords: null} %}
+        </div>
+        {% include 'ClassCentralSiteBundle:Helpers:spotlight.html.twig' with{ spotlights:spotlights, spotlightMap : spotlightMap } %}
+    </section>
+
+
     <section class="learn-more-tab-section section-tab-content">
         {% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{ } %}
     </section>
