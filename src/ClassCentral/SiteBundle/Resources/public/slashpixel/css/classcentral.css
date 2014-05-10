@@ -291,7 +291,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .single-tile button {
     border: none;
     padding: 0 15px;
-    font-family: "Open Sans";
     line-height: 25px;
     color: #fff;
     font-size: 12px;
@@ -341,7 +340,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .cc-form label {
     color: #066666;
-    font-family: "Open Sans",sans-serif;
     font-size: 12px;
     font-weight: 400;
 }
@@ -377,7 +375,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .hero-unit h1{
-    font-family: 'Open Sans';
     color: #1663a3;
     font-size:18px;
     font-weight: 400;
@@ -398,7 +395,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .hero-unit .free-online-ed {
-    font-family: "Open Sans";
     font-size: 50px;
     font-weight: 400;
     color: #3a759a;
@@ -534,14 +530,12 @@ a.social4:hover {
 
 .classcentralfooter li {
     display: inline;
-    font-family: "Open Sans";
     font-weight: 600;
     font-size: 12px;
 }
 
 .classcentralfooter li:after {
     content: " | ";
-    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     font-size: 12px;
     color: #0662a1;
@@ -644,7 +638,6 @@ footer {
 
 
 .course-offeringtype-block h4 {
-    font-family: "Open Sans",sans-serif;
     font-size: 12px;
     color: #066666;
     font-weight: 600;
@@ -659,7 +652,6 @@ footer {
 }
 
 .offering-start-date {
-    font-family: "Open Sans",sans-serif;
     font-size: 12px;
     color: #066666;
     font-weight: 400;
@@ -668,7 +660,6 @@ footer {
 }
 
 .course-sessions {
-    font-family: "Open Sans",sans-serif;
     font-size: 14px;
     color: #0662a1;
     font-weight: 600;
@@ -709,8 +700,6 @@ footer {
 =============================================*/
 
 .course-button-group {
-    font-family: "Open Sans", sans-serif;
-    list-style: none;
     float: left;
     margin: 0;
     margin-bottom: 40px;
@@ -813,7 +802,6 @@ footer {
     background-color: #fff;
     float: left;
     margin: 25px 10px 25px 0;
-    font-family: "Open Sans", sans-serif;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;box-sizing: border-box;
 }
@@ -830,7 +818,6 @@ footer {
     font-size: 18px;
     line-height: 60px;
     margin: 0;
-    font-family: "Open Sans", sans-serif;
     font-weight: 400;
     color: #a2a2a2;
 }
@@ -929,7 +916,6 @@ footer {
     border-radius: 0;
     border-bottom: 3px solid #6fc9c2;
     background-color: #1663a3;
-    font-family: "Open Sans", sans-serif;
     padding: 8px 15px;
 }
 
@@ -944,7 +930,6 @@ footer {
     border-radius: 0;
     border-bottom: 3px solid #6fc9c2;
     background-color: #808080;
-    font-family: "Open Sans", sans-serif;
     padding: 8px 15px;
 }
 
@@ -953,7 +938,6 @@ footer {
     min-width: 400px;
     min-height: 140px;
     font-size: 12px;
-    font-family: "Open Sans", sans-serif;
     font-weight: 400;
     border-radius: 0;
     border: 1px solid #c7c8ca;
@@ -1032,7 +1016,6 @@ footer {
     vertical-align: top;
     padding-top: 5px;
     padding-right: 10px;
-    font-family: "Open Sans",sans-serif;
 }
 
 .course-share-button {
@@ -1067,7 +1050,6 @@ footer {
 }
 
 #sendMailModal .modal-body h4 {
-    font-family: "Open Sans",sans-serif;
     font-size: 12px;
     color: #0662a1;
     font-weight: bold;
@@ -1076,7 +1058,6 @@ footer {
 
 #sendMailModal .modal-body h3 {
     color: #0662a1;
-    font-family: "Nixie One";
     font-weight: normal;
 }
 
@@ -1086,7 +1067,6 @@ footer {
 
 #share-course-form-error {
     font-size: 12px;
-    font-family: "Open Sans";
     color: #066666;
     line-height: 1.5;
 }
@@ -1126,7 +1106,6 @@ footer {
 }
 #mooc-tracker-course-box-content-title {
     font-size: 20px;
-    font-family: "Open Sans";
     margin-top: 20px;
     line-height: 1.5;
 }
@@ -1156,7 +1135,6 @@ footer {
     background-image: none;
     background-color: #3a759a;
     color: inherit;
-    font-family: "Open Sans";
     font-weight: bold;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -1179,7 +1157,6 @@ footer {
     background-image: none;
     background-color: #5ca8a3;
     color: #ffffff;
-    font-family: "Open Sans";
     font-weight: bold;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -1220,7 +1197,6 @@ footer {
 
 #subject-name {
     font-size: 26px;
-    font-family: "Open Sans";
     font-weight: bold;
 }
 
@@ -1233,7 +1209,6 @@ footer {
 }
 
 #recentlyViewed h1 {
-    font-family: 'Open Sans';
     font-weight: bold;
     line-height: 0;
     font-size: 18px;
@@ -1374,7 +1349,6 @@ Newsletter subscribe pages
 }
 
 .mooc-news-description span {
-    font-family: 'Open Sans';
     font-size: 14px;
     font-weight: bold;
     color: #0662a1;
@@ -1460,7 +1434,6 @@ Newsletter subscribe pages
     text-align: center;
     line-height: 25px;
     margin: 0 auto;
-    font-family: 'Open Sans';
     font-size: 12px;
     font-weight: 600;
 }
