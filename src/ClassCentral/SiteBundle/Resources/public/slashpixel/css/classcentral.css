@@ -1258,22 +1258,6 @@ footer {
     padding-right: 20px;
 }
 
-.signup-copy .signup-copy-line1 {
-    font-family: "Open Sans",sans-serif;
-    color: #3a759a;
-    font-weight: 300;
-    font-size: 50px;
-    line-height: 1;
-}
-
-.signup-copy .signup-copy-line2 {
-    font-family: "Open Sans",sans-serif;
-    color: #5ca8a3;
-    font-weight: 400;
-    font-size: 20px;
-    margin-top: 20px;
-}
-
 .signup-box .cc-form-box {
     display: inline-block;
     vertical-align: top;
@@ -1314,6 +1298,25 @@ footer {
 Newsletter subscribe pages
 **/
 
+.signup-copy .signup-copy-line1 {
+    color: #3a759a;
+    font-weight: 300;
+    font-size: 50px;
+    line-height: 1;
+}
+
+.signup-copy .signup-copy-line2 {
+    color: #5ca8a3;
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.signup-box label {
+    display: block;
+    font-weight: 400;
+}
+
 #newsletter-subscribe .signup-copy {
     width: inherit;
 }
@@ -1321,10 +1324,12 @@ Newsletter subscribe pages
 #newsletter-subscribe-button {
     padding-left: 30px;
     padding-right: 30px;
+    margin-top: 10px  ;
 }
 
 #newsletter-subscribe .cc-form-input {
     width: 300px;
+    margin-bottom: 15px;
 }
 
 #newsletter-subscribe .cc-form-input::-webkit-input-placeholder {

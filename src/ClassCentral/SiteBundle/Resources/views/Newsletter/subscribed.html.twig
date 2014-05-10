@@ -20,7 +20,7 @@
     <meta name="twitter:domain" content="www.class-central.com">
 {% endblock %}
 
-{% block contentheader %}
+{% block content %}
     <div class="signup-box" id="newsletter-subscribe">
         <div class="signup-copy">
             <p class="signup-copy-line1">
@@ -37,7 +37,7 @@
                     </div>
                 {% endfor %}
                 <form action="{{ path('newsletter_mooc_tracker_signup') }}" method="post">
-                        <label for="email">Email:</label>
+                        <label for="email">Email</label>
                         <input type="email" readonly value="{{ newsletterEmail }}" class="cc-form-input"/>
                         <label for="name">Name</label>
                         <input type="text" required value="" class="cc-form-input" name="name"/>
@@ -49,9 +49,4 @@
             {% endif %}
         </div>
     </div>
-    <style type="text/css">
-        .cc-page {
-            display: none;
-        }
-    </style>
 {% endblock %}
