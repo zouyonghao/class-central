@@ -575,7 +575,7 @@
 
 {% block customJS %}
     $( document ).ready(function() {
-
+    $.scrollTo('.section-heading',{ duration: 500 });
     addthisevent.settings(window.addthisevent_settings);
 
     $("#share-course-form-submit").click(function(){

@@ -557,6 +557,7 @@ jQuery(function($) {
             $("nav.page-tabs ul > li").removeClass("active-tab");
             $this.closest("li").addClass("active-tab");
         }
+        $.scrollTo('.page-tabs',{ duration: 1000 });
     });
 
     $('.course-data-row .dropdown-menu input').click(function(e) {
