@@ -1350,26 +1350,22 @@ Newsletter subscribe pages
 /* News page */
 
 .mooc-news {
-    padding: 0px 0px 50px;
+
 }
 
 .mooc-news-title a{
-    font-family: "Open Sans",sans-serif;
     font-size: 15px;
-    color: #066666;
     font-weight: 600;
 }
 
 
-.mooc-news-description {
-    font-family: "Open Sans",sans-serif;
-    font-size: 14px;
-    color: #066666;
-    font-weight: 400;
-}
-
 .mooc-news-item {
-    margin-bottom: 20px
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e9e9e9;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    min-height: 150px;
 }
 
 .mooc-news-description span {
