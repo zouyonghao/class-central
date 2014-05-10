@@ -1558,16 +1558,40 @@ thead {
 
 /* Fix for tables not showing up in IE 8*/
 /*.table {background-color:#ffffff;}*/
+.course-name-column-start-date {
+  display: none;
+  margin-top: 10px;
+  font-weight: 400;
+}
 
-@media (max-width: @screen-md-min) {
-  #filter-wrap .start-date {
+.course-name-column-rating {
+  display: none;
+  margin-bottom: 10px;
+}
+
+@media (max-width: @screen-lg-min) {
+  .front-page-table .subject-column {
     display: none;
   }
 }
 
-@media (max-width: 470px) {
-  #filter-wrap .course-rating-column {
+@media (max-width: @screen-md-min) {
+  #filter-wrap .start-date, .front-page-table .start-date, .front-page-table .subject-column {
     display: none;
+  }
+
+  .course-name-column-start-date {
+    display: block;
+  }
+}
+
+@media (max-width: 470px) {
+  #filter-wrap .course-rating-column, .front-page-table .course-rating-column {
+    display: none;
+  }
+
+  .course-name-column-rating {
+    display: block;
   }
 
   #filter-wrap tbody tr td:last-child {

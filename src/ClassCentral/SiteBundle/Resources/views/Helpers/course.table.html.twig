@@ -19,7 +19,7 @@
         {#<th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>#}
         {# hide the stream column on stream pages #}
         {% if page is defined and page != 'stream' and page=='home' %}
-            <th class="sorting subject" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])" data-sort="subjectSlug">
+            <th class="sorting subject subject-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])" data-sort="subjectSlug">
                 <div class="arrow-wrap">
                     Subject
                     <p class="sorting-arrows">
@@ -69,15 +69,6 @@
         {% set course = result._source %}
 
         <tr itemscope itemtype="http://schema.org/Event">
-            {#
-            <td class="introcolumn" style="padding: 5px 0px 0px 5px">
-                {% if offering['videoIntro'] is not null %}
-                    <a href="{{ offering['videoIntro'] }}" rel="intro" title=" {{ offering['name'] }}">
-                        <img src="{{ asset('bundles/classcentralsite/images/youtube.png') }}" alt="" height="25" width="25"/>
-                    </a>
-                {% endif %}
-            </td>
-            #}
 
             {# add to profile column #}
             <td class="add-column">
@@ -126,12 +117,18 @@
             </td>
 
             <td class="course-name-column">
+
+                <div class="course-name-column-rating">
+                    <div class="course-rating" data-score="{{ course.rating }}"></div>
+                </div>
+
                 <a class="course-name" itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}"
                    onmousedown='recordInboundLink(
                            "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
                            "{{course.provider.name}}","{{course.name}}","{{ tableId }}");return false'
 
                    title="{{ course.name }} - MOOC" class="course-name"><span itemprop="name">{{ course.name }}</span></a>
+
 
                 {# showing institutions and universities #}
                 {% if course.institutions |length > 0 and showInstitution is not defined  %}
@@ -152,42 +149,21 @@
                     </ul>
                 {% endif %}
 
-            </td>
-            {#
-            <td class="instructors">
-                {% set i = 0 %}
-                {% for instructor in offering['instructors'] %}
-                    {% if i > 0 %}
-                        <br />{{ instructor }}
-                    {% else %}
-                        {{ instructor }}
-                    {% endif %}
-                    {% set i = i + 1 %}
-                {% endfor %}
+                <div class="course-name-column-start-date">Start Date:  {{ course.nextSession.displayDate  }}</div>
 
             </td>
-            #}
-            {# hide the stream column on stream pages #}
+
             {# hide the stream/subject column for all pages except home page #}
 
 
             {% if page is defined and page != 'stream' and page=='home' %}
-                <td> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}'])" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
+                <td class="subject-column"> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}'])" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
                 </td>
             {% endif %}
 
 
             <td class="start-date" {% if course.nextSession.status == 1 %} itemprop="startDate" content="{{ course.nextSession.microdataDate }}" {% endif %} data-timestamp="{{ course.nextSession.startTimeStamp }}">{{ course.nextSession.displayDate  }}</td>
 
-            {#
-            <td class="offering-length" data-timestamp = {% if offering['length'] is null %} 100 {% else %} {{ offering['length'] }} {% endif %}}>
-            {% if offering['length'] is not null %}
-                {{ offering['length'] }} weeks
-            {% else %}
-                NA
-            {% endif %}
-            </td>
-            #}
 
             {# hide the initiative column on every page #}
             {% if page is defined and page != 'initiative' and false %}
