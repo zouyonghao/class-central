@@ -10,6 +10,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Course {
 
+    public static $providersWithFavicons = array(
+        'canvas','coursera','edraak','edx','futurelearn','iversity',
+        'novoed','open2study','janux','openhpi','10gen','ce','stanford',
+        'gatech-oms-cs','miriadax','acumen'
+    );
+
     public function __construct() {
         $this->offerings = new ArrayCollection();   
         $this->institutions = new ArrayCollection();

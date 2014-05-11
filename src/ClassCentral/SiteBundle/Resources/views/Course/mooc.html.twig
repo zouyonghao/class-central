@@ -92,14 +92,14 @@
                 #}
 
                 <div class="course-provider-wrap">
-                    {#
-                    {% if course['initiative']['name']|length > 0 %}
+
+                    {% if course['initiative']['name']|length > 0 and course.initiative.code in providersWithLogos %}
 
                         <a class="provider-logo" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
                            onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
-                           title="{{ course['initiative']['name'] }}"><img src="" alt="provider logo"></a>
+                           title="{{ course['initiative']['name'] }}"><img src="/bundles/classcentralsite/slashpixel/images/providers/{{ course.initiative.code }}" alt="provider logo"></a>
                     {% endif %}
-                    #}
+
 
                     {% if course['institutions']|length > 0 %}
                         {# Output the institutions with links #}
@@ -114,8 +114,10 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                    <span class="with-separator"> &nbsp;with&nbsp;</span>
-                    <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
+                    {% if course['instructorsSingleLineDisplay'] %}
+                        <span class="with-separator"> &nbsp;with&nbsp;</span>
+                        <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
+                    {% endif %}
                 </div>
                 <p class="course-desc" itemprop="description">
                     {{ course['longDesc'] }}

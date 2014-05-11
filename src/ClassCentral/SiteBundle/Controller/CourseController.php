@@ -365,7 +365,8 @@ class CourseController extends Controller
                  'reviews' => $reviews,
                  'breadcrumbs' => $breadcrumbs,
                  'news' => $news,
-                 'recommendations' => $recommendations
+                 'recommendations' => $recommendations,
+                 'providersWithLogos' => Course::$providersWithFavicons
        ));
     }
 
