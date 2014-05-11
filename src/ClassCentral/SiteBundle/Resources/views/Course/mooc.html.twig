@@ -575,7 +575,7 @@
 
 {% block customJS %}
     $( document ).ready(function() {
-    $.scrollTo('.section-heading',{ duration: 500 });
+    $.scrollTo('.section-heading',{ duration: 500    });
     addthisevent.settings(window.addthisevent_settings);
 
     $("#share-course-form-submit").click(function(){
@@ -612,8 +612,11 @@
     });
 
     // Counter for the numbers
-    var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3);
-    numAnim.start();
+    setTimeout( function() {
+        var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3    );
+        numAnim.start();
+    }, 1000);
+
 
     });
 {% endblock %}
