@@ -696,6 +696,7 @@ body {
 
   .header-area h2 {
     font-size: 18px;
+    line-height: 30px;
   }
 
   .page-tabs ul > .learn-more-tab,
@@ -714,7 +715,7 @@ body {
   }
 
   .header-area h1 {
-    font-size: 42px;
+    font-size: 32px;
   }
 }
 
@@ -2063,6 +2064,7 @@ input.filter-search:focus {
   color: @gray-dark;
   line-height: 1.7;
   font-family: @font-family-small-text;
+  text-align: justify;
 }
 
 .course-provider-wrap {
@@ -2147,14 +2149,21 @@ input.filter-search:focus {
   padding-right: 30px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: @screen-sm-min) {
   .course-block .course-title {
     display: block;
-    font-size: 24px;
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-left: 20px;
   }
 
+  .course-block .course-provider-wrap {
+    margin-bottom: 20px;
+    padding-left: 20px;
+  }
   .course-block .course-desc {
-    font-size: 16px;
+    font-size: 14px;
+    padding-left: 20px;
   }
 
 }
@@ -2507,15 +2516,13 @@ input.filter-search:focus {
   .course-bottom-wrap {
     padding-right: 15px;
   }
-}
 
-
-@media (max-width: @screen-sm-min) {
   .course-meta-sidebar {
     margin-top: 30px;
   }
 
 }
+
 
 /* ==========================================================================
    =Convincer
