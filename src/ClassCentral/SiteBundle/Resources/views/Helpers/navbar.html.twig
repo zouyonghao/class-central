@@ -108,7 +108,16 @@
                             <svg viewBox="0 0 32 32" class="icon-user">
                                 <use xlink:href="#icon-user"></use>
                             </svg>
-                            User Menu
+                            {% if app.user.name %}
+                              {% if app.user.name|length > 10 %}
+                                {{ app.user.name|slice(0,9) }}..
+                              {% else %}
+                                {{ app.user.name  }}
+                             {% endif %}
+
+                            {% else %}
+                                User Menu
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu user-menu">
                             <li>
