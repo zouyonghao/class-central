@@ -94,6 +94,10 @@ class SpotlightController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            // Flush the cache
+            $cache = $this->get('Cache');
+            $cache->deleteCache ('spotlight_cache');
+
             return $this->redirect($this->generateUrl('spotlight_edit', array('id' => $id)));
         }
 
