@@ -111,7 +111,7 @@ class Offering {
         'recent' => array('desc' => 'Recently started or starting soon','nav'=>'Recently started or starting soon','sessionDesc' => 'Recently started or starting soon'),
         'recentlyAdded' => array('desc' => 'Just Announced','nav'=>'Just Announced','sessionDesc' => 'Just Announced'),
         'ongoing' => array('desc' => 'In Progress', 'nav'=>'Courses in Progress', 'sessionDesc' => 'In progress'),
-        'upcoming' => array('desc' => 'Upcoming courses', 'nav'=>'Future courses', 'sessionDesc' => 'Next'),
+        'upcoming' => array('desc' => 'Upcoming courses', 'nav'=>'Future courses', 'sessionDesc' => 'Upcoming'),
         'selfpaced' => array('desc' => 'Self Paced', 'nav'=>'Self Paced', 'sessionDesc' => 'Self Paced'),
         'past' => array('desc' => 'Finished', 'nav'=>'Finished courses', 'sessionDesc' =>'Finished')
     );

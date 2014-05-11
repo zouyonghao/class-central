@@ -32,6 +32,14 @@ class CourseRepository extends EntityRepository{
         if($nextOffering) {
             $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
             $courseDetails['nextOffering']['id'] = $nextOffering->getId();
+
+            // Get the state of this session
+            $courseDetails['state'] = null;
+            $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $nextOffering ));
+            if(!empty($states))
+            {
+                $courseDetails['nextOffering']['state'] = array_pop($states);
+            }
         }
         $courseDetails['tags'] = array();
         foreach( $course->getTags() as $tag)

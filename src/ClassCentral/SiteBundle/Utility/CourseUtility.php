@@ -203,7 +203,7 @@ class CourseUtility {
      * @param $state integer
      * @return array
      */
-    public function getStatesFromState ($state)
+    public static function getStatesFromState ($state)
     {
         $stateMap = array_flip(Offering::$stateMap);
         $states = array();

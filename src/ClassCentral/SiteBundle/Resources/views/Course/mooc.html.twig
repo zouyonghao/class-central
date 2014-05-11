@@ -92,12 +92,14 @@
                 #}
 
                 <div class="course-provider-wrap">
+                    {#
                     {% if course['initiative']['name']|length > 0 %}
 
                         <a class="provider-logo" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
                            onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
                            title="{{ course['initiative']['name'] }}"><img src="" alt="provider logo"></a>
                     {% endif %}
+                    #}
 
                     {% if course['institutions']|length > 0 %}
                         {# Output the institutions with links #}
@@ -142,13 +144,15 @@
 
     <div class ="course-meta-sidebar col-sm-4 col-lg-3">
         <div class="course-data">
+            {% if course.nextOffering is defined and course.nextOffering.state %}
             <div class="course-data-row course-pace">
                     <span class="course-data-icon">
                         <svg class="icon icon-pace-icon" viewBox="0 0 36 32"><use xlink:href="#icon-pace-icon"></use></svg>
                         Pace
                     </span>
-                <span class="course-data-value">Self paced</span>
+               <a href="{{ path('ClassCentralSiteBundle_courses',{type: course.nextOffering.state}) }}" class="course-data-value">{{ offeringTypes[course.nextOffering.state].sessionDesc }}</a>
             </div>
+            {% endif %}
             {% if course.lang is not empty %}
                 <div class="course-data-row course-language">
                         <span class="course-data-icon">
@@ -230,7 +234,7 @@
                     <span class="course-data-value">
                         <div class="average-rating course-rating" data-score="{{ rating }}"></div>
                         <span class="review-count">
-                            {{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}
+                            <a href="#course-all-reviews" class="review-button">{{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
                         </span>
                         {% if not user_session.isCourseReviewed(course.id) %}
                             <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
@@ -273,12 +277,14 @@
                    onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
             </div>
         </div>
-        <div class="ad-wrap">
-            <div class="ad-content">
-                <!-- ad here -->
+        {#
+            <div class="ad-wrap">
+                <div class="ad-content">
+                    <!-- ad here -->
+                </div>
+                <span class="ad-note">Advertisement</span>
             </div>
-            <span class="ad-note">Advertisement</span>
-        </div>
+        #}
 
 
     </div>
@@ -398,8 +404,8 @@
                     {% endif %}
                     #}
 
-                    <div class="course-reviews" id="course-reviews">
-                        <header class="reviews-header">
+                    <div class="course-reviews" id="course-all-reviews">
+                        <header class="reviews-header" >
                             <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</h2>
                             <div class="average-rating course-rating" data-score="{{ rating }}">
                             </div>
