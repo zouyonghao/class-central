@@ -120,7 +120,7 @@
                     {% endif %}
                 </div>
                 <p class="course-desc" itemprop="description">
-                    {{ course['longDesc'] }}
+                    {{ course['longDesc']|raw }}
                 </p>
                 <div class="course-footer-wrap">
                     {% if course.tags|length > 0 %}

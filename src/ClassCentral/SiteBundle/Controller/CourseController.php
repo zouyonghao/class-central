@@ -303,7 +303,7 @@ class CourseController extends Controller
         }
         $course['pageTitle'] = $course['name'] . $titlePrefix;
 
-        $course['longDesc'] = $course['desc'];
+        $course['longDesc'] = nl2br( $course['desc']);;
         if(strlen($course['desc']) > 500)
         {
             $course['desc'] = substr($course['desc'],0,497) . '...';
