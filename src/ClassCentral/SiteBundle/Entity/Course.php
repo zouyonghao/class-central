@@ -13,7 +13,7 @@ class Course {
     public static $providersWithFavicons = array(
         'canvas','coursera','edraak','edx','futurelearn','iversity',
         'novoed','open2study','janux','openhpi','10gen','ce','stanford',
-        'gatech-oms-cs','miriadax','acumen'
+        'gatech-oms-cs','miriadax','acumen', 'udacity'
     );
 
     public function __construct() {
