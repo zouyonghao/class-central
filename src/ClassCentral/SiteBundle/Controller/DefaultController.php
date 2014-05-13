@@ -20,9 +20,17 @@ class DefaultController extends Controller {
         $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
 
         $spotlights = $cache->get('spotlight_cache',function(){
-           return $this
+           $s = $this
                 ->getDoctrine()->getManager()
                 ->getRepository('ClassCentralSiteBundle:Spotlight')->findAll();
+
+            $spotlights = array();
+            foreach($s as $item)
+            {
+                $spotlights[$item->getPosition()] = $item;
+            }
+
+            return $spotlights;
         }, array());
 
 

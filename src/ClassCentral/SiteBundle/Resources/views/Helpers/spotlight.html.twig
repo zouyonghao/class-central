@@ -11,7 +11,8 @@
 
     <div class="row">
 
-        {% for spotlight in spotlights %}
+        {% for position in 1..10 %}
+            {% set spotlight = spotlights[position] %}
             <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
                {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}
             "

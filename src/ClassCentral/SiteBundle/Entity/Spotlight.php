@@ -44,6 +44,7 @@ class Spotlight
     const SPOTLIGHT_TYPE_NEWS = 3;
     const SPOTLIGHT_TYPE_INTERVIEW = 4;
     const SPOTLIGHT_TYPE_AD = 5;
+    const SPOTLIGHT_TYPE_BLOG = 100; // This is for the spotlight blog section on the homepage
 
     public static $spotlightMap = array(
         self::SPOTLIGHT_TYPE_DEMO => array( 'class' => 'spotlight-article','text' => 'View Demo', 'visible'=>"") ,
@@ -51,6 +52,7 @@ class Spotlight
         self::SPOTLIGHT_TYPE_NEWS => array( 'class' => 'spotlight-article','text' => 'Read Article', 'visible' => ""),
         self::SPOTLIGHT_TYPE_INTERVIEW => array( 'class' => 'spotlight-interview','text' => 'Read Interview', 'visible' => ""),
         self::SPOTLIGHT_TYPE_AD => array( 'class' => 'spotlight-sponsor','text' => 'View Sponsor', 'visible' => "visible-lg"),
+        self::SPOTLIGHT_TYPE_BLOG => array('class' =>'','text','View Blog','visible' => '')
     );
 
     public static $spotlights = array(
@@ -59,6 +61,7 @@ class Spotlight
         self::SPOTLIGHT_TYPE_NEWS => 'News',
         self::SPOTLIGHT_TYPE_INTERVIEW => 'Interview',
         self::SPOTLIGHT_TYPE_AD => 'Advertisement',
+        self::SPOTLIGHT_TYPE_BLOG => 'Blog'
     );
 
 

@@ -29,7 +29,7 @@
                         <li class="learn-more-tab">
                             <a href="#" data-target-section="learn-more-tab-section">Learn More</a>
                         </li>
-                        <li class="subjects-tab">
+                            <li class="subjects-tab">
                             <a href="#" data-target-section="subjects-tab-section">The Subjects</a>
                         </li>
                         <li class="create-account-tab">
@@ -69,37 +69,38 @@
 
 {% block abovefooter %}
 
-
+    {% set blog1 = spotlights[100] %}
+    {% set blog2 = spotlights[101] %}
     <section class="blog-spotlight">
         <div class="container">
             <h2 class="section-heading"><span>Latest From The Blog</span></h2>
         </div>
-        <a href="#" class="single-post single-post-left">
+        <a href="{{ blog1.url }}" class="single-post single-post-left">
             <div class="post-bg-left post-bg">
-                <img src="/bundles/classcentralsite/slashpixel/images/post-bg-1.jpg" alt="post-background">
+                <img src="{{ blog1.imageUrl }}" alt="post-background">
             </div>
             <div class="single-post-content">
                 <h3>
-                    Just after it all began, the universe sent
-                    us a text message. We just Decoded it.
+                    {{ blog1.title }}
                 </h3>
                 <p class="excerpt">
-                    Sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+                  {{ blog1.description }}
                 </p>
                 <span class="read-more">READ MORE</span>
             </div>
         </a>
-        <a href="#" class="single-post single-post-right">
+
+
+        <a href="{{ blog2.url }}" class="single-post single-post-right">
             <div class="post-bg-right post-bg">
-                <img src="/bundles/classcentralsite/slashpixel/images/post-bg-2.jpg" alt="post-background">
+                <img src="{{ blog2.imageUrl }}" alt="post-background">
             </div>
             <div class="single-post-content">
                 <h3>
-                    Sed ut perspiciatis unde omnis iste
-                    natus error sit volup tatem.
+                   {{ blog2.title }}
                 </h3>
                 <p class="excerpt">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    {{ blog2.description }}
                 </p>
                 <span class="read-more">READ MORE</span>
             </div>
