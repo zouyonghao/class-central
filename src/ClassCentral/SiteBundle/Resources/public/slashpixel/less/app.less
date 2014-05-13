@@ -1140,7 +1140,6 @@ body {
   padding-bottom: 10px;
   margin-top: 50px;
   clear: both;
-  overflow: hidden;
 }
 
 /*.cc-page h1 {
@@ -1294,7 +1293,7 @@ table td a {
 
 .sorting-arrows .icon-arrow-up,
 .sorting-arrows .icon-arrow-down {
-  fill: @purple;
+  fill: @blue;
   width: 12px;
   height: 12px;
 }
@@ -1683,8 +1682,11 @@ thead {
 }
 
 #filter-wrap {
-  overflow: hidden;
   position: relative;
+}
+
+#filter-wrap.show-filter {
+  overflow: hidden;
 }
 
 .category-filter {
@@ -2618,22 +2620,29 @@ input.filter-search:focus {
 
 .blog-spotlight .single-post {
   display: block;
+  width: 100%;
+  float: left;
   position: relative;
   z-index: 900;
   .transition();
   color: @white;
   overflow: hidden;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .post-bg {
   position: absolute;
   z-index: 1;
   background: @gray-dark;
+  width: 100%;
 }
 
 .post-bg img {
   opacity: 0.6;
   .transition();
+  width: 100%;
+  min-width: 800px;
 }
 
 .post-bg-left {
@@ -2650,7 +2659,6 @@ input.filter-search:focus {
 .post-bg img {
   min-height: 390px;
 }
-
 
 .single-post h3,
 .single-post p,
@@ -2696,6 +2704,10 @@ input.filter-search:focus {
 @media (min-width: @screen-sm-min) {
 
   .blog-spotlight .single-post {
+    width: 50%;
+  }
+
+  .blog-spotlight .single-post {
     overflow: visible;
   }
 
@@ -2703,12 +2715,14 @@ input.filter-search:focus {
     left: auto;
     right: 0;
   }
-  .single-post-left {
+  .blog-spotlight .single-post-left {
     padding-right: 100px;
+    padding-left: 0;
   }
 
-  .single-post-right {
+  .blog-spotlight .single-post-right {
     padding-left: 100px;
+    padding-right: 0;
   }
 
   .single-post,
@@ -2724,9 +2738,12 @@ input.filter-search:focus {
     line-height: 1.3;
   }
 
-  .post-bg,
-  .post-bg img {
-    height: 100%;
+  .single-post-content {
+    width: 260px;
+  }
+
+  .single-post-left .single-post-content {
+    float: right;
   }
 
 }
@@ -2740,6 +2757,10 @@ input.filter-search:focus {
   .single-post,
   .post-bg img {
     min-height: 475px;
+  }
+
+  .single-post-content {
+    width: 370px;
   }
 
 }
@@ -2762,6 +2783,11 @@ input.filter-search:focus {
     font-size: 18px;
     margin-bottom: 60px;
   }
+
+  .single-post-content {
+    width: 500px;
+  }
+
 }
 
 /* ==========================================================================
