@@ -173,7 +173,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 /*==========  Misc  ==========*/
-
+/*
 .breadcrumbs {
     list-style: none;
     overflow: hidden;
@@ -250,6 +250,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .breadcrumbs li:last-child a:after {
     display: none;
 }
+
+*/
 
 /*==========  tiles styles  ==========*/
 
@@ -1643,10 +1645,3 @@ Newsletter subscribe pages
     }
 }
 
-@media (max-width: 680px) {
-
-}
-
-@media (max-width: 480px) {
-
-}

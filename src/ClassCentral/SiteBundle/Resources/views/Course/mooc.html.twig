@@ -147,13 +147,13 @@
     <div class ="course-meta-sidebar col-sm-4 col-lg-3">
         <div class="course-data">
             {% if course.nextOffering is defined and course.nextOffering.state %}
-            <div class="course-data-row course-pace">
+                <div class="course-data-row course-pace">
                     <span class="course-data-icon">
                         <svg class="icon icon-pace-icon" viewBox="0 0 36 32"><use xlink:href="#icon-pace-icon"></use></svg>
                         Pace
                     </span>
-               <a href="{{ path('ClassCentralSiteBundle_courses',{type: course.nextOffering.state}) }}" class="course-data-value">{{ offeringTypes[course.nextOffering.state].sessionDesc }}</a>
-            </div>
+                    <a href="{{ path('ClassCentralSiteBundle_courses',{type: course.nextOffering.state}) }}" class="course-data-value">{{ offeringTypes[course.nextOffering.state].sessionDesc }}</a>
+                </div>
             {% endif %}
             {% if course.lang is not empty %}
                 <div class="course-data-row course-language">
@@ -307,7 +307,7 @@
     <div class="row">
         <div class="col-sm-8 col-lg-9 course-bottom-wrap">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 course-col">
 
                     <div class="faq-wrap">
                         <h5 class="faq-heading">
@@ -358,17 +358,15 @@
                         </div>
                     </div>
                 </div>
+                {# Show courses recommendationss #}
 
-                <div class="col-md-6">
-
-                    {# Show courses recommendationss #}
-                    {#
-                    {% if recommendations|length > 0 %}
-                        <div class="recommended-courses">
-                            <table class="table table-striped table-bordered">
+                {% if recommendations|length > 0 %}
+                    <div class="col-md-6 course-col">
+                        <div class="recommended-courses course-col-inner">
+                            <table>
                                 <thead>
                                 <tr>
-                                    <th>People who viewed this course also viewed</th>
+                                    <th>Related courses</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -393,6 +391,60 @@
                                                         {% endif %}
                                                         <li>
                                                             <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                                                            <span class="via">via</span>
+                                                            {% if course['initiative'] %}
+                                                                <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"  class="initiativelinks" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.initiative.name }}', '{{course.name}}'])"> {{ course.initiative.name }}</a>
+                                                            {% endif %}
+                                                        </li>
+
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <a class="browse-more-courses"
+                               href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
+                               title="List of {{ course['stream']['name'] }} MOOCs"
+                               onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+                                    > » Browse more <span>{{ course['stream']['name'] }} courses</span></a>
+                        </div>
+                    </div>
+                {% endif %}
+                {#
+                {% if recentlyViewedCourses|length > 0 %}
+                     <div class="col-md-6 course-col">
+                        <div class="recent-courses-wrap">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Recently Viewed</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for course in recentlyViewedCourses %}
+                                    <tr>
+                                        <td>
+                                            {% if course.initiative is not null %}
+                                                {% set initiative=course.initiative.name %}
+                                            {% else %}
+                                                {% set initiative='Others' %}
+                                            {% endif %}
+                                            <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
+                                               onmousedown='recordInboundLink(
+                                                       "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
+                                                       "{{initiative}}","{{course.name}}","recentlyViewed");return false' ><span itemprop="name">{{ course.name }}</span></a>
+                                            {% if course.institutions|length %}
+                                                <ul class="table-uni-list">
+                                                    {% for institution in course.institutions %}
+                                                        {% set route = 'ClassCentralSiteBundle_university' %}
+                                                        {% if not institution['isUniversity'] %}
+                                                            {% set route = 'ClassCentralSiteBundle_institution' %}
+                                                        {% endif %}
+                                                        <li>
+                                                            <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -403,17 +455,22 @@
                                 </tbody>
                             </table>
                         </div>
-                    {% endif %}
-                    #}
+                    </div>
+                {% endif %}
+                #}
 
-                    <div class="course-reviews" id="course-all-reviews">
+                <div class="col-sm-12 course-col">
+                    <div class="course-all-reviews" id="course-all-reviews">
                         <header class="reviews-header" >
-                            <h2><span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</h2>
-                            <div class="average-rating course-rating" data-score="{{ rating }}">
-                            </div>
+                            <h2>
+                                <span class="review-count">{{ reviews.reviews|length }} </span>{% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}
+                                <span class="average-rating course-rating" data-score="{{ rating }}"></span>
+                            </h2>
+                            {#                            
                             {% if not user_session.isCourseReviewed(course.id) %}
                                 <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
                             {% endif %}
+                            #}
                         </header>
 
                         {% if reviews.count > 0 %}
@@ -430,53 +487,12 @@
                         {% endif %}
                     </div>
                 </div>
+
+
+
             </div>
         </div>
     </div>
-    {#
-
-    {% if recentlyViewedCourses|length > 0 %}
-        <div class="related-courses-wrap">
-            <table class="table table-striped table-bordered">
-                <thead>
-                <tr>
-                    <th>Recently Viewed</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for course in recentlyViewedCourses %}
-                    <tr>
-                        <td>
-                            {% if course.initiative is not null %}
-                                {% set initiative=course.initiative.name %}
-                            {% else %}
-                                {% set initiative='Others' %}
-                            {% endif %}
-                            <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
-                               onmousedown='recordInboundLink(
-                                       "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
-                                       "{{initiative}}","{{course.name}}","recentlyViewed");return false' ><span itemprop="name">{{ course.name }}</span></a>
-                            {% if course.institutions|length %}
-                                <ul class="table-uni-list">
-                                    {% for institution in course.institutions %}
-                                        {% set route = 'ClassCentralSiteBundle_university' %}
-                                        {% if not institution['isUniversity'] %}
-                                            {% set route = 'ClassCentralSiteBundle_institution' %}
-                                        {% endif %}
-                                        <li>
-                                            <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
-    #}
 
     {#
     {% if news|length > 0 %}
@@ -583,7 +599,12 @@
 
 {% block customJS %}
     $( document ).ready(function() {
-    $.scrollTo('.section-heading',{ duration: 500    });
+    console.log(window.location.hash);
+    if(!window.location.hash)
+    {
+        $.scrollTo('.section-heading',{ duration: 500    });
+    }
+
     addthisevent.settings(window.addthisevent_settings);
 
     $("#share-course-form-submit").click(function(){
@@ -621,8 +642,8 @@
 
     // Counter for the numbers
     setTimeout( function() {
-        var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3    );
-        numAnim.start();
+    var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3    );
+    numAnim.start();
     }, 1000);
 
 

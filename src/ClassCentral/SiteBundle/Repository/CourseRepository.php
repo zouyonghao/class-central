@@ -72,6 +72,7 @@ class CourseRepository extends EntityRepository{
         {
             $courseDetails['initiative']['name'] = 'Independent';
             $courseDetails['initiative']['code'] = 'independent';
+            $courseDetails['initiative']['tooltip'] = 'Independent';
         }
 
         // Language

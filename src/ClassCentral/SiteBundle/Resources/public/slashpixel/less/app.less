@@ -8,6 +8,7 @@
     1.2 =Section Base Styles
     1.3 =Search Form
     1.4 =Modals
+    1.5 =Breadcrumbs
   2. =Navbar
   3. =Header Area
     3.1 =Tab Nav
@@ -15,6 +16,8 @@
   5. =Tables
   6. =Course filter
   7. =Course page
+    7.1 =Reviews all
+    7.2 =Star rating small
   8. =Spotlight
   9. =Learn More section
   10. =Subjects section
@@ -328,6 +331,51 @@ body {
   }
 }
 
+/* =Breadcrumbs
+----------------------------------------------------------------------------- */
+
+.breadcrumbs {
+  display: block;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  font-family: @font-family-small-text;
+}
+
+.breadcrumbs li {
+  display: block;
+  float: left;
+}
+
+.breadcrumbs li a {
+  color: @gray-tab;
+}
+
+.breadcrumbs li + li {
+  margin-left: 10px;
+}
+
+.breadcrumbs .arrow-right {
+  display: block;
+  float: left;
+  overflow: hidden;
+  margin-right: 10px;
+  margin-top: 7px;
+}
+
+.breadcrumbs li + li .icon-cc-arrow-right {
+  display: block;
+  height: 10px;
+  width: 10px;
+  fill: @gray-tab;
+}
+
+
+
+.breadcrumbs li:last-child a {
+  color: @gray-breadcrumb;
+}
+
 /* ==========================================================================
    =Navbar
    ========================================================================== */
@@ -547,7 +595,7 @@ body {
 
 .header-area {
   overflow: hidden;
-  background: url("/bundles/classcentralsite/slashpixel/images/header-bg.jpg") center top no-repeat;
+  background: url("/bundles/classcentralsite/slashpixel/images/header-bg2.jpg") center top no-repeat;
   background-size: cover;
 }
 
@@ -2457,8 +2505,51 @@ input.filter-search:focus {
   margin-top: 40px;
 }
 
+.course-bottom-wrap .course-col {
+  margin-bottom: 30px;
+}
+
+.course-col-inner {
+  padding: 15px 40px;
+}
+
+.course-col-inner table {
+  background: transparent;
+}
+
+.course-col-inner th {
+  font-size: 24px;
+  padding: 15px 0 20px 0;
+  font-weight: 400;
+}
+
+.course-col-inner table td {
+  padding: 10px 0;
+}
+
+.course-col-inner table td a {
+  font-weight: 400;
+}
+
+.course-col-inner .browse-more-courses {
+  display: block;
+  padding: 15px 0;
+  color: @gray-dark;
+  font-size: 13px;
+  font-family: @font-family-small-text;
+}
+
+.course-col-inner .browse-more-courses span {
+  color: @blue;
+}
+
+.course-col-inner .table-uni-list {
+  line-height: 0.8;
+}
+
+.course-bottom-wrap .course-col-inner,
 .course-bottom-wrap .faq-wrap,
-.course-bottom-wrap .course-reviews {
+.course-bottom-wrap .course-all-reviews {
   background: @white;
   border: 1px solid @gray-border;
 }
@@ -2491,29 +2582,6 @@ input.filter-search:focus {
   font-size: 16px;
 }
 
-.course-bottom-wrap .course-reviews {
-  padding: 0 40px 40px 40px;
-}
-
-.course-bottom-wrap .course-reviews h2 {
-  font-size: 24px;
-  margin: 30px 0 5px 0;
-}
-
-.course-bottom-wrap .course-reviews .review-date {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.course-bottom-wrap .course-reviews .reviews-header,
-.course-bottom-wrap .course-reviews .review-title,
-.course-bottom-wrap .course-reviews .review-content {
-  margin-bottom: 20px;
-}
-
-.course-bottom-wrap .course-reviews .yes-no {
-  margin-left: 10px;
-}
 
 @media (max-width: @screen-md-min) {
   .course-meta-main-wrap {
@@ -2530,6 +2598,97 @@ input.filter-search:focus {
 
 }
 
+/* =Reviews all
+----------------------------------------------------------------------------- */
+
+.course-bottom-wrap .course-all-reviews {
+  padding: 0 40px 40px 40px;
+}
+
+.course-bottom-wrap .course-all-reviews .single-review {
+  font-family: @font-family-small-text;
+  margin-bottom: 70px;
+}
+
+.course-bottom-wrap .course-all-reviews h2 {
+  font-size: 24px;
+  margin: 60px 0 5px 0;
+}
+
+.course-bottom-wrap .course-all-reviews .average-rating {
+  float: right;
+}
+
+.course-bottom-wrap .course-all-reviews .review-date {
+  display: block;
+  margin-bottom: 10px;
+  color: @gray-review;
+  font-size: 11px;
+}
+
+.course-bottom-wrap .course-all-reviews .review-content {
+  padding-left: 5px;
+  border-left: 2px solid @gray-review-border;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.course-bottom-wrap .course-all-reviews .review-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.course-bottom-wrap .course-all-reviews .reviews-header,
+.course-bottom-wrap .course-all-reviews .review-content {
+  margin-bottom: 25px;
+}
+
+.course-bottom-wrap .course-all-reviews .question {
+  color: @blue;
+  font-size: 13px;
+}
+
+.course-bottom-wrap .course-all-reviews .yes-no {
+  margin-left: 10px;
+}
+
+.course-bottom-wrap .course-all-reviews .yes-no a {
+  color: @blue;
+}
+
+/* =Star rating small
+----------------------------------------------------------------------------- */
+.small-star-rating {
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+.small-star-rating span {
+  float: left;
+  display: block;
+  padding-right: 2px;
+  margin: 0;
+  width: 15px;
+  height: 14px;
+  background: url('/bundles/classcentralsite/slashpixel/images/small_rating_stars_gray.png') 0 0;
+  background-repeat: no-repeat;
+}
+
+.small-rating-1 .star-rating-1,
+.small-rating-2 .star-rating-1,
+.small-rating-2 .star-rating-2,
+.small-rating-3 .star-rating-1,
+.small-rating-3 .star-rating-2,
+.small-rating-3 .star-rating-3,
+.small-rating-4 .star-rating-1,
+.small-rating-4 .star-rating-2,
+.small-rating-4 .star-rating-3,
+.small-rating-4 .star-rating-4,
+.small-rating-5 span {
+  background-position: 0 -22px;
+  background-repeat: no-repeat;
+}
 
 /* ==========================================================================
    =Convincer
