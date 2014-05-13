@@ -23,7 +23,7 @@
 
     {% if review.externalReviewLink is not empty %}
         <span class="author">
-            <a href="{{ review.externalReviewLink }}" target="_blank">  &nbsp;External Review <span class="glyphicon glyphicon-new-window"></span></a>
+            <a href="{{ review.externalReviewLink }}" target="_blank">  &nbsp;External Review {# <span class="glyphicon glyphicon-new-window"></span>#}</a>
         </span>
     {% endif %}
 
@@ -36,7 +36,7 @@
         <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
         {% if review.externalReviewLink is not empty %}
             <div id="ext-review-link">
-                <a href="{{ review.externalReviewLink }}" target="_blank"> <span class="glyphicon glyphicon-new-window"></span> Full Review
+                <a href="{{ review.externalReviewLink }}" target="_blank"> {#<span class="glyphicon glyphicon-new-window"></span>#} Full Review
                 </a>
             </div>
         {% endif %}

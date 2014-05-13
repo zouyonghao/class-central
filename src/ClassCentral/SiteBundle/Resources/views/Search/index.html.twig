@@ -2,11 +2,13 @@
 
 {% block headmeta %} 
     {% if keywords is not null and keywords|length %}
-        <title> {{keywords}} - MOOC search results | Class Central</title>
+        <title> {{keywords}} - free online courses/MOOC search results | Class Central</title>
+        <meta name="description" content="{{keywords}} - free online courses/MOOC search results | Class Central"/>
     {% else %}
-        <title>Search for free online courses AKA MOOCs | Class Central</title>
+        <title>Search for free online courses/MOOCs | Class Central</title>
+        <meta name="description" content="Free MOOC (Massive Open Online Course) Search"/>
     {% endif %}
-    <meta name="description" content="Free MOOC (Massive Open Online Course) Search"/>
+
 {% endblock %}  
 
 {% block customJS %}
@@ -54,8 +56,10 @@
     <div class="searchresultsheader">
         <h2>Search Results</h2>
         <div><b>{{total}}</b> result(s) found for <b>{{keywords}}</b></div>
-        <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-black icon-link" value="YES"></i> <i class="icon-remove icon-black icon-link" value="NO"></i></div>
-     </div>
+        {#
+            <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-black icon-link" value="YES"></i> <i class="icon-remove icon-black icon-link" value="NO"></i></div>
+        #}
+    </div>
      {% if total != 0 %}
          <section class="courses">
              <h2 class="section-heading">
