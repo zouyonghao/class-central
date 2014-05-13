@@ -13,8 +13,10 @@
         <div class="container">
             <div class="header-content">
                 <h1 class='free-online-ed'>Free Online Education</h1>
-                <h2>Discover free online classes (MOOCs) from top universities like <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}">Stanford</a>, <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"> MIT</a>,
-                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}">Harvard</a>, etc.</h2>
+                <h2>Discover free online classes (MOOCs) from top universities like
+                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}" onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','University','Stanford'])">Stanford</a>,
+                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"  onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','University','MIT'])"> MIT</a>,
+                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}"  onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','University','Harvard'])">Harvard</a>, etc.</h2>
 
                 <nav class="page-tabs">
                     <ul>
@@ -75,7 +77,9 @@
         <div class="container">
             <h2 class="section-heading"><span>Latest From The Blog</span></h2>
         </div>
-        <a href="{{ blog1.url }}" class="single-post single-post-left">
+        <a href="{{ blog1.url }}" class="single-post single-post-left"
+           onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ blog1.position }}','{{ blog1.title }}']);"
+                >
             <div class="post-bg-left post-bg">
                 <img src="{{ blog1.imageUrl }}" alt="post-background">
             </div>
@@ -91,7 +95,9 @@
         </a>
 
 
-        <a href="{{ blog2.url }}" class="single-post single-post-right">
+        <a href="{{ blog2.url }}" class="single-post single-post-right"
+           onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ blog2.position }}','{{ blog2.title }}']);"
+        >
             <div class="post-bg-right post-bg">
                 <img src="{{ blog2.imageUrl }}" alt="post-background">
             </div>

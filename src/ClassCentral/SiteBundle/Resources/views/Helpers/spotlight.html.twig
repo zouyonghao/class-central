@@ -1,9 +1,15 @@
 
     <div class="spotlight-logo-wrap">
-        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'coursera'}) }}" class="spot-logo coursera-logo">Coursera</a>
-        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'udacity'}) }}" class="spot-logo udacity-logo">Udacity</a>
-        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'edx'}) }}" class="spot-logo edx-logo">edX</a>
-        <a href="#" class="no-logo">Plus Many More</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'coursera'}) }}" class="spot-logo coursera-logo"
+           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','Coursera'])"
+                >Coursera</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'udacity'}) }}" class="spot-logo udacity-logo"
+           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','Udacity'])"
+                >Udacity</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'edx'}) }}" class="spot-logo edx-logo"
+           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','edX'])"
+                >edX</a>
+        <span  class="no-logo">Plus Many More</span>
     </div>
     <h2 class="section-heading">
         <span>Spotlight</span>
@@ -18,7 +24,9 @@
             "
 
                  id="home-spotlight-{{ spotlight.position }}">
-                <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}">
+                <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
+                        onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ spotlight.position }}','{{ spotlight.title }}']);"
+                        >
                     <div class="img-wrap">
                         <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">
                         <h3>

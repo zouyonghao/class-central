@@ -556,8 +556,16 @@ jQuery(function($) {
             $("." + targetTab).show();
             $("nav.page-tabs ul > li").removeClass("active-tab");
             $this.closest("li").addClass("active-tab");
+            $.scrollTo('.page-tabs',{ duration: 400 });
         }
-        $.scrollTo('.page-tabs',{ duration: 200 });
+        else {
+            targetTab = 'create-free-account'; // signup button
+        }
+       try {
+           _gaq.push(['_trackEvent','Homepage Tab clicks',targetTab]);
+       } catch (e) {
+           console.log("error");
+       }
     });
 
     $('.course-data-row .dropdown-menu input').click(function(e) {
@@ -615,10 +623,16 @@ jQuery(function($) {
     $('#home-create-free-account').click( function(e){
         e.preventDefault();
         $('#signupForm').modal('show');
+        try {
+            _gaq.push(['_trackEvent','Create Free Account','Home Tab']);
+        }catch (e){}
     });
 
     $('#convincer-create-free-account').click( function(e){
         e.preventDefault();
         $('#signupForm').modal('show');
+        try {
+            _gaq.push(['_trackEvent','Create Free Account','Convincer']);
+        }catch (e){}
     });
 });
