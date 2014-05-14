@@ -180,6 +180,8 @@ class Courses {
                         "fields" => array(
                             'name^2',
                             'description',
+                            'longDescription',
+                            'syllabus',
                             'institutions.name',
                             'institutions.slug',
                             'instructors',

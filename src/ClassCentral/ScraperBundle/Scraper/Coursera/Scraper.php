@@ -12,6 +12,7 @@ class Scraper extends ScraperAbstractInterface {
     const COURSES_JSON = 'https://www.coursera.org/maestro/api/topic/list?full=1';
     const INSTRUCTOR_URL = 'https://www.coursera.org/maestro/api/user/instructorprofile?topic_short_name=%s&exclude_topics=1';
     const BASE_URL = 'https://www.coursera.org/course/';
+    const COURSE_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/courses?id=%d&fields=language,aboutTheCourse,courseSyllabus';
 
     protected static $languageMap = array(
         'en' => "English",
@@ -31,7 +32,7 @@ class Scraper extends ScraperAbstractInterface {
     );
 
     private $courseFields = array(
-        'Url', 'VideoIntro', 'SearchDesc', 'Description', 'Length', 'Name', 'Language'
+        'Url', 'SearchDesc', 'Description', 'Length', 'Name', 'Language','LongDescription','Syllabus'
     );
 
     private $offeringFields = array(
@@ -48,12 +49,15 @@ class Scraper extends ScraperAbstractInterface {
 
         foreach($courseraCourses as $courseraCourse)
         {
+
             $selfServingId = $courseraCourse['self_service_course_id'];
             $courseraCourseId = $courseraCourse['id'];
             $courseraCourseShortName = $courseraCourse['short_name'];
             $courseShortName = 'coursera_' .$courseraCourseShortName;
             $courseUrl = $this->getCourseLink($courseraCourse);
             $courseLang = isset(self::$languageMap[$courseraCourse['language']]) ? self::$languageMap[$courseraCourse['language']] : null ;
+
+            $catalogDetails = $this->getDetailsFromCourseraCatalog( $courseraCourseId );
 
 
             // Create a course object
@@ -62,6 +66,8 @@ class Scraper extends ScraperAbstractInterface {
             $course->setInitiative($this->initiative);
             $course->setName($courseraCourse['name']);
             $course->setDescription($courseraCourse['short_description']);
+            $course->setLongDescription( $catalogDetails['aboutTheCourse']);
+            $course->setSyllabus( $catalogDetails['courseSyllabus']);
             $course->setStream($defaultStream); // Default to Computer Science
             $course->setVideoIntro($this->getYoutubeVideoUrl($courseraCourse['video']));
             $course->setUrl($courseUrl);
@@ -339,6 +345,15 @@ class Scraper extends ScraperAbstractInterface {
 
         return $save;
     }
+
+    private function getDetailsFromCourseraCatalog( $id )
+    {
+        $url =sprintf(self::COURSE_CATALOG_URL,$id);
+        $content = json_decode(file_get_contents( $url ), true);
+
+        return array_pop( $content['elements'] );
+    }
+
 
     /**
      * Used to print the field values which have been modified for both offering and courses

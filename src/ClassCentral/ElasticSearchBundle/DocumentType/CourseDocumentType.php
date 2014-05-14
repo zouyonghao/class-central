@@ -90,6 +90,8 @@ class CourseDocumentType extends DocumentType {
         $body['length'] = $c->getLength();
         $body['slug'] = $c->getSlug();
         $body['description'] = $c->getDescription();
+        $body['longDescription'] = $c->getLongDescription();
+        $body['syllabus'] = $c->getSyllabus();
         $body['searchDesc'] = $c->getSearchDesc();
         $body['status'] = $c->getStatus();
 
