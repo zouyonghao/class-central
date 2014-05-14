@@ -29,6 +29,11 @@ ClassCentral\SiteBundle\Entity\Course:
      type: text
     description:
       type: text
+    long_description:
+     type: text
+     column: long_description
+    syllabus:
+      type: text
     videoIntro:
      type: text
      nullable: true

@@ -141,6 +141,17 @@ class Course {
      */
     private $tags;
 
+
+    /**
+     * @var string
+     */
+    private $long_description;
+
+    /**
+     * @var string
+     */
+    private $syllabus;
+
     /**
      * Set name
      *
@@ -528,6 +539,55 @@ class Course {
     {
         return $this->tags;
     }
+
+
+
+    /**
+     * Set long_description
+     *
+     * @param string $longDescription
+     * @return Course
+     */
+    public function setLongDescription($longDescription)
+    {
+        $this->long_description = $longDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get long_description
+     *
+     * @return string
+     */
+    public function getLongDescription()
+    {
+        return $this->long_description;
+    }
+
+    /**
+     * Set syllabus
+     *
+     * @param string $syllabus
+     * @return Course
+     */
+    public function setSyllabus($syllabus)
+    {
+        $this->syllabus = $syllabus;
+
+        return $this;
+    }
+
+    /**
+     * Get syllabus
+     *
+     * @return string
+     */
+    public function getSyllabus()
+    {
+        return $this->syllabus;
+    }
+
 
 }
 
