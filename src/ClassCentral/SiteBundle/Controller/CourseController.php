@@ -186,6 +186,8 @@ class CourseController extends Controller
             $courseTags =  explode(',', $request->request->get('course-tags'));
             $ts->saveCourseTags($entity,$courseTags);
 
+            // invalidate the cache
+            $this->get('cache')->deleteCache( 'course_'.$id );
             return $this->redirect($this->generateUrl('course_edit', array('id' => $id)));
         }
 
@@ -302,12 +304,6 @@ class CourseController extends Controller
             $titlePrefix = ' from ' . $course['initiative']['name'];
         }
         $course['pageTitle'] = $course['name'] . $titlePrefix;
-
-        $course['longDesc'] = nl2br( $course['desc']);;
-        if(strlen($course['desc']) > 500)
-        {
-            $course['desc'] = substr($course['desc'],0,497) . '...';
-        }
 
         // Figure out if there is course in the future.
         $nextSession = null;

@@ -14,6 +14,8 @@ class CourseType extends AbstractType {
         $builder
             ->add('name')
             ->add('description', null, array('required'=>false))
+            ->add('longDescription', null, array('required'=>false))
+            ->add('syllabus', null, array('required'=>false))
             ->add('shortName',null, array('required'=>false))
             ->add('status','choice',array('choices' => CourseStatus::getStatuses()))
             ->add('stream', 'entity', array(

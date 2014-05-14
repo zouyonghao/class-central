@@ -145,7 +145,7 @@ class Course {
     /**
      * @var string
      */
-    private $long_description;
+    private $longDescription;
 
     /**
      * @var string
@@ -543,26 +543,26 @@ class Course {
 
 
     /**
-     * Set long_description
+     * Set longDescription
      *
      * @param string $longDescription
      * @return Course
      */
     public function setLongDescription($longDescription)
     {
-        $this->long_description = $longDescription;
+        $this->longDescription = $longDescription;
 
         return $this;
     }
 
     /**
-     * Get long_description
+     * Get longDescription
      *
      * @return string
      */
     public function getLongDescription()
     {
-        return $this->long_description;
+        return $this->longDescription;
     }
 
     /**

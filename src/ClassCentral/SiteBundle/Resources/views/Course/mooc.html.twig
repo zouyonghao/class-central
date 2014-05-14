@@ -4,7 +4,7 @@
  {% block headmeta %}
      <title>{{ course['pageTitle'] }} | MOOC reviews and ratings</title>
      <meta name="description"
-           content="{{ course['desc'] }}"/>
+           content="{{ course['shortDesc'] }}"/>
      <meta property="og:title" content="{{ course['pageTitle'] }} | MOOC reviews and ratings" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
 
@@ -14,7 +14,7 @@
          <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      {% endif %}
      <meta property="og:site_name" content="Class Central"/>
-     <meta property="og:description" content="{{ course['desc'] }}" />
+     <meta property="og:description" content="{{ course['shortDesc'] }}" />
      <meta property="og:type" content="website" />
      {% if course['videoIntro'] is not null %}
          <meta property="og:video" content="{{  course['videoIntro'] }}" />
@@ -25,7 +25,7 @@
      <meta name="twitter:card" content="summary">
      <meta name="twitter:site" content="@classcentral">
      <meta name="twitter:title" content="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %}">
-     <meta name="twitter:description" content="{{ course['desc'] }}">
+     <meta name="twitter:description" content="{{ course['shortDesc'] }}">
      <meta name="twitter:domain" content="www.class-central.com">
 
  {% endblock %}
@@ -119,9 +119,14 @@
                         <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                     {% endif %}
                 </div>
-                <p class="course-desc" itemprop="description">
-                    {{ course['longDesc']|raw }}
-                </p>
+                <div class="course-desc" itemprop="description">
+                    {{ course.desc|raw }}
+
+                    {% if course.syllabus %}
+                        <h2>Syllabus</h2>
+                        {{ course.syllabus|raw }}
+                    {% endif %}
+                </div>
                 <div class="course-footer-wrap">
                     {% if course.tags|length > 0 %}
                         <div class="taglist">

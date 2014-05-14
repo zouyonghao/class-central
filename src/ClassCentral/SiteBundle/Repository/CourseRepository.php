@@ -23,11 +23,36 @@ class CourseRepository extends EntityRepository{
         $courseDetails['videoIntro'] = $course->getVideoIntro();
         $courseDetails['videoEmbedUrl'] = $this->getVideoEmbedUrl($course->getVideoIntro());
         $courseDetails['length'] = $course->getLength();
-        $courseDetails['desc'] = $course->getDescription();
         $courseDetails['slug'] = $course->getSlug();
         $courseDetails['url'] = $course->getUrl();
         $courseDetails['nextOffering'] = null;
         $courseDetails['imageUrl'] = CourseUtility::getImageUrl($course);
+
+        // Get the descriptions
+        $desc = null;
+        $shortDesc = $course->getDescription(); // this text only. No html. Goes in the head description
+        $longDesc = $course->getLongDescription(); //html
+        $syllabus = $course->getSyllabus(); // html
+
+        if(empty($longDesc))
+        {
+            $desc = nl2br( $shortDesc );
+        }
+        else
+        {
+            $desc = $longDesc;
+        }
+
+        if(strlen($shortDesc) > 500)
+        {
+            $shortDesc = substr($shortDesc,0,497) . '...';
+        }
+
+        $courseDetails['shortDesc'] =$shortDesc;
+        $courseDetails['syllabus'] = $syllabus;
+        $courseDetails['longDesc'] = $longDesc;
+        $courseDetails['desc'] = $desc;
+
         $nextOffering = $course->getNextOffering();
         if($nextOffering) {
             $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
