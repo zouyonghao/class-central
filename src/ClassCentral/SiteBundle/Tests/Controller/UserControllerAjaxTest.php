@@ -31,7 +31,7 @@ class UserControllerAjaxTest extends WebTestCase{
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /signup");
 
         // Fill the signup form
-        $form = $crawler->selectButton('Sign up')->form(array(
+        $form = $crawler->selectButton('Sign Up')->form(array(
                 'classcentral_sitebundle_signuptype[email]' => self::$email,
                 'classcentral_sitebundle_signuptype[name]' => "Dhawal Shah",
                 'classcentral_sitebundle_signuptype[password][password]' =>  self::$password,

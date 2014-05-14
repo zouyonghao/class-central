@@ -31,7 +31,8 @@ class NewsletterControllerTest extends WebTestCase {
 
         // Subscribed. Now it should ask for a password
         $mtSignupForm = $crawler->selectButton('Sign up')->form(array(
-                'password' => 'Test1234'
+                'password' => 'Test1234',
+                'name'     => 'John Smith'
         ));
         $client->submit($mtSignupForm);
         $crawler = $client->followRedirect();

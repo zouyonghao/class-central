@@ -43,25 +43,9 @@
     </div>
     <div class="clearfix"></div>
     {% if signupForm is defined %}
-        <div class="cc-form-box modal hide fade" id="signupForm">
-            <h3>Sign Up to post your review</h3>
-            <a href="{{ path('fb_authorize_start') }}"
-               onmousedown="_gaq.push(['_trackEvent','Sign In with Facebook', 'Login Form']);"
-                    ><img style="margin-bottom: 40px;margin-left: 90px;" src="/bundles/classcentralsite/slashpixel/images/sign_in_with_fb.png"></a>
-
-            <div style="height: 1px; background-color: black; text-align: center; font-size: 20px">
-                <span style="background-color: white; position: relative; top: -0.5em;">
-                    OR
-                </span>
-            </div>
-
-            <br/>
-
-            {{ form(signupForm) }}
-
-            <p id="cc-form-box-additional-link">
-                Already have an account? <a href="{{ path('login')  }}" title="Login">Login>></a>
-            </p>
-        </div>
+        {% include 'ClassCentralSiteBundle:Helpers:signupform.html.twig' with {
+            signupForm : signupForm,
+            formTitle  : 'Signup to post your review'
+        } %}
     {% endif %}
 {% endblock %}

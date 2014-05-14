@@ -12,8 +12,14 @@ class SignupType extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email','email')
-            ->add('name', null, array('required' => true))
+            ->add('email','email', array(
+                   'attr' => array(
+                        'placeholder' => 'Email'
+                )
+            ))
+            ->add('name', null, array('required' => true,'attr'=>array(
+                'placeholder' => 'Full name'
+    )       ))
         ;
 
          $builder->add('password', 'repeated', array(
@@ -21,11 +27,11 @@ class SignupType extends AbstractType{
              'second_name' => 'confirm_password',
              'type'        => 'password',
              'invalid_message' => "The password fields must match",
-             "first_options" => array('label' => 'Password'),
-             "second_options" => array('label' => 'Confirm Password')
+             "first_options" => array('label' => 'Password','attr'=>array('placeholder' => 'Password')),
+             "second_options" => array('label' => 'Confirm Password', 'attr' => array('placeholder' => 'Confirm password'))
          ));
         $builder->add('save', 'submit',array(
-            'label' => 'Sign up',
+            'label' => 'Sign Up',
             'attr' => array(
                 'class' => 'btn btn-primary btn-course-cc'
             )

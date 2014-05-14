@@ -68,6 +68,10 @@ class CourseDocumentType extends DocumentType {
             ),
             'nextSession' => array(
                 'properties' => $nsMapping
+            ),
+            'tags' => array(
+                'type' => "string",
+                "index" => "not_analyzed"
             )
         );
     }
@@ -88,6 +92,14 @@ class CourseDocumentType extends DocumentType {
         $body['description'] = $c->getDescription();
         $body['searchDesc'] = $c->getSearchDesc();
         $body['status'] = $c->getStatus();
+
+        // Tags
+        $tags = array();
+        foreach($c->getTags() as $tag)
+        {
+            $tags[] = strtolower($tag->getName());
+        }
+        $body['tags'] = $tags;
 
         // Instructors
         $body['instructors'] = array();

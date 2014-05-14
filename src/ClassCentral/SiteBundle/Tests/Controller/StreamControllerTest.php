@@ -20,7 +20,7 @@ class StreamControllerTest extends WebTestCase {
         $crawler = $client->request('GET','/subjects');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /");
         // Simple check to see if there are subjecsts being displayed
-        $this->assertTrue($crawler->filter('div[class=single-category]')->count() > 0);
+        $this->assertTrue($crawler->filter('div[class=category-header]')->count() > 0);
 
     }
 } 

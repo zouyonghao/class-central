@@ -1,44 +1,143 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
- {% block headmeta %}               
-<title>Free online courses/MOOC aggregator - Class Central</title>
-<meta name="description" 
-      content="Class Central is a free online course aka MOOC aggregator from top universities like Stanford, MIT, Harvard, etc. offered via Coursera, Udacity, edX, NovoED, & others."/>
+ {% block headmeta %}
+     <title>Free online courses/MOOC aggregator - Class Central</title>
+     <meta name="description"
+           content="Class Central is a free online course aka MOOC aggregator from top universities like Stanford, MIT, Harvard, etc. offered via Coursera, Udacity, edX, NovoED, & others."/>
 
-{% include 'ClassCentralSiteBundle:Helpers:fb_opengraph.html.twig' %}
-{% endblock %}
+     {% include 'ClassCentralSiteBundle:Helpers:fb_opengraph.html.twig' %}
+ {% endblock %}
 
 {% block contentheader %}
-<div class="main-background"></div>
-<div class="hero-unit span12">
-        <p class='free-online-ed'>Free Online Education</p>
-        <h1>Class Central is a free online course aka MOOC aggregator from top universities like Stanford, MIT, Harvard, etc. offered via
-            <a href="http://www.coursera.org" title="Coursera" class="tagline-initiative-links" onclick="recordTaglineClicks('http://www.coursera.org','Coursera');return false" target="_blank" >Coursera</a>,
-            <a href="https://www.udacity.com/" title="Udacity" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.udacity.com/','Udacity');return false" target="_blank" >Udacity</a>,
-            <a href="https://www.edx.org/" title="edX" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.edx.org/','edX');return false" target="_blank" >edX</a>,
-            <a href="https://novoed.com/" title="NovoED" class="tagline-initiative-links" onclick="recordTaglineClicks('https://novoed.com/','NovoED');return false" target="_blank" >NovoED</a>, &
-            <a href="https://www.class-central.com/initiative/others" title="Other MOOC initiatives" class="tagline-initiative-links" onclick="recordTaglineClicks('https://www.class-central.com/initiative/others','Others');return false" target="_blank" >others</a>. <span><a href="{{ path('ClassCentralSiteBundle_faq') }}">Learn More ></a></span>
-        </h1>
+    <section class="header-area">
+        <div class="container">
+            <div class="header-content">
+                <h1 class='free-online-ed'>Free Online Education</h1>
+                <h2>Discover free online classes (MOOCs) from top universities like
+                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}" onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','University','Stanford'])">Stanford</a>,
+                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"  onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','University','MIT'])"> MIT</a>,
+                    <a href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}"  onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','University','Harvard'])">Harvard</a>, etc.</h2>
 
-    {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {'keywords': null} %}
-
-
-    <ul class="socialcount" data-url="www.class-central.com" data-share-text=".@classcentral is a free online course/#MOOC aggregator from Coursera, Udacity, edx, & others class-central.com">
-        <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/classcentral" title="Share on Facebook"><span class="social-icon icon-facebook"></span><span class="count">Like</span></a></li>
-        <li class="twitter"><a href="https://twitter.com/intent/tweet?text=www.class-central.com" title="Share on Twitter"><span class="social-icon icon-twitter"></span><span class="count">Tweet</span></a></li>
-        <li class="googleplus"><a href="https://plus.google.com/share?url=www.class-central.com" title="Share on Google Plus"><span class="social-icon icon-googleplus"></span><span class="count">+1</span></a></li>
-    </ul>
-
-</div>
+                <nav class="page-tabs">
+                    <ul>
+                        <li class="home-tab active-tab"><!-- the ".active-tab" class has active styles-->
+                            <a href="#" data-target-section="spotlight">
+                                <svg viewBox="0 0 32 32" class="icon-home">
+                                    <use xlink:href="#icon-home"></use>
+                                </svg>
+                                Home
+                            </a>
+                        </li>
+                        <li class="learn-more-tab">
+                            <a href="#" data-target-section="learn-more-tab-section">Learn More</a>
+                        </li>
+                            <li class="subjects-tab">
+                            <a href="#" data-target-section="subjects-tab-section">The Subjects</a>
+                        </li>
+                        <li class="create-account-tab">
+                            <a href="" id="home-create-free-account">Create free account</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div><!-- /container -->
+    </section>
 {% endblock %}
 
 {% block content %}
-<div class="course-table-wrapper" id="course-table-wrapper">
-    <h2 class="tabletitle" >Recently Started or Starting Soon ({{ recentCourses.hits.total }})</h2>
+    <section class="spotlight section-tab-content">
+        <div class="search-wrapper visible-xs visible-sm">
+            {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {keywords: null} %}
+        </div>
+        {% include 'ClassCentralSiteBundle:Helpers:spotlight.html.twig' with{ spotlights:spotlights, spotlightMap : spotlightMap } %}
+    </section>
 
+
+    <section class="learn-more-tab-section section-tab-content">
+        {% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{ } %}
+    </section>
+    <section class="subjects-tab-section section-tab-content">
+        <div class="subjects">
+        {% include 'ClassCentralSiteBundle:Helpers:subjects.html.twig' with{ subjects : subjects } %}
+        </div>
+    </section>
+    <section class="upcoming-courses front-page-table">
+        <h2 class="section-heading"><span>Starting Soon</span></h2>
         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recentCourses,'tableId':'statustable'} %}
+        <a href="{{ path('ClassCentralSiteBundle_courses', {type:'recent'}) }}" class="expand-table-btn">View All {{ recentCourses.hits.total }} courses</a>
+    </section>
+
+{% endblock %}
+
+{% block abovefooter %}
+
+    {% set blog1 = spotlights[100] %}
+    {% set blog2 = spotlights[101] %}
+    <section class="blog-spotlight">
+        <div class="container">
+            <h2 class="section-heading"><span>Latest From The Blog</span></h2>
+        </div>
+        <a href="{{ blog1.url }}" class="single-post single-post-left"
+           onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ blog1.position }}','{{ blog1.title }}']);"
+                >
+            <div class="post-bg-left post-bg">
+                <img src="{{ blog1.imageUrl }}" alt="post-background">
+            </div>
+            <div class="single-post-content">
+                <h3>
+                    {{ blog1.title }}
+                </h3>
+                <p class="excerpt">
+                  {{ blog1.description }}
+                </p>
+                <span class="read-more">READ MORE</span>
+            </div>
+        </a>
 
 
-</div>
+        <a href="{{ blog2.url }}" class="single-post single-post-right"
+           onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ blog2.position }}','{{ blog2.title }}']);"
+        >
+            <div class="post-bg-right post-bg">
+                <img src="{{ blog2.imageUrl }}" alt="post-background">
+            </div>
+            <div class="single-post-content">
+                <h3>
+                   {{ blog2.title }}
+                </h3>
+                <p class="excerpt">
+                    {{ blog2.description }}
+                </p>
+                <span class="read-more">READ MORE</span>
+            </div>
+        </a>
+        </div>
+    </section>
 
-{% endblock %}  
+    <section class="convincer">
+        <div class="container">
+            <div class="convincer-wrap">
+                        <span>Receive course recommendations & reminders with MOOC Tracker</span>
+                <a class="create-free-account" id="convincer-create-free-account" href="">Create free account</a>
+            </div>
+        </div>
+    </section>
+    <section class="footer-logos">
+        <ul>
+            <li><a class="stanford-logo" href="#">Stanford University</a></li>
+            <li><a class="harvard-logo" href="#">Harvard University</a></li>
+            <li><a class="mit-logo" href="#">Massachusetts Institute of Technology</a></li>
+            <li><a class="berkeley-logo" href="#">Berkeley University of California</a></li>
+            <li><a class="uts-logo" href="#">University of Texas System</a></li>
+            <li><a class="cornell-logo" href="#">Cornell University</a></li>
+            <li><a class="boston-logo" href="#">Boston University</a></li>
+            <li><a class="harvard-logo" href="#">Harvard University</a></li>
+        </ul>
+    </section>
+
+    {% if signupForm is defined %}
+        {% include 'ClassCentralSiteBundle:Helpers:signupform.html.twig' with {
+        signupForm : signupForm,
+        } %}
+    {% endif %}
+{% endblock %}

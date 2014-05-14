@@ -43,15 +43,15 @@
         {% endif %}
 
         {# Actual subject information #}
-        <div class="single-category" style="background-color: {% if language.color %} {{ language.color }} {% else %}#f15f45 {% endif %}">
+        <div class="single-category col-xs-6 col-md-4" style="min-height: 120px">
             <div class="category-header">
                 <div class="course-count">
                     <span class="count">{{ language.courseCount }}</span>
                     <span class="count-title">courses</span>
                 </div>
-                <span class="category-title">{{ language.name }}</span>
-                <a href="{{ path('lang', {'slug': language.slug } ) }}" title="List of {{ language.name }} language MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Inbound Clicks - Language', '{{language.name}}', 'Languages'])"
-                   class="view-all-courses">View All Courses</a>
+
+                <a class="show-all-subjects" st href="{{ path('lang', {'slug': language.slug } ) }}" title="List of {{ language.name }} language MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Inbound Clicks - Language', '{{language.name}}', 'Languages'])"
+                   class="view-all-courses"><span class="category-title">{{ language.name }}</span></a>
             </div>
         </div>
         {% set i = i +1 %}

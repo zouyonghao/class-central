@@ -3,15 +3,65 @@
     <tr>
         {#<th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro Video</th>#}
         <th class="add-column">Add</th>
-        <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])" data-sort="course-name">Course Name</th>
+        <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])" data-sort="course-name">
+            <div class="arrow-wrap">
+                Course Name
+                <p class="sorting-arrows">
+                    <span>
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span>
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </p>
+            </div>
+        </th>
         {#<th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>#}
         {# hide the stream column on stream pages #}
-        {% if page is defined and page != 'stream' and page=='home' %}<th class="sorting subject" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])" data-sort="subjectSlug">Subject</th> {% endif %}
-        <th class="sorting start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])" data-sort="course-startdate">Start Date</th>
+        {% if page is defined and page != 'stream' and page=='home' %}
+            <th class="sorting subject subject-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])" data-sort="subjectSlug">
+                <div class="arrow-wrap">
+                    Subject
+                    <p class="sorting-arrows">
+                    <span>
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span>
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                    </p>
+                </div>
+            </th>
+        {% endif %}
+        <th class="sorting start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])" data-sort="course-startdate">
+            <div class="arrow-wrap">
+                Start Date
+                <p class="sorting-arrows">
+                    <span>
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span>
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </p>
+            </div>
+        </th>
         {# <th class="sorting offering-length" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Length'])">Length</th> #}
-        {# hide the initiative column on initiative pages #}
-        {% if page is defined and page != 'initiative' %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])" data-sort="course-provider">Provider</th> {% endif %}
-        <th class="sorting course-rating-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Rating'])" data-sort="course-rating-value">Rating</th>
+        {# hide the initiative column on all pages #}
+        {% if page is defined and page != 'initiative' and false %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])" data-sort="course-provider">Provider</th> {% endif %}
+        <th class="sorting course-rating-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Rating'])" data-sort="course-rating-value">
+            <div class="arrow-wrap">
+                Rating
+                <p class="sorting-arrows">
+                    <span>
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span>
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </p>
+            </div>
+        </th>
     </tr>
     </thead>
     <tbody class="table-body-{{ tableId }}">
@@ -19,15 +69,6 @@
         {% set course = result._source %}
 
         <tr itemscope itemtype="http://schema.org/Event">
-            {#
-            <td class="introcolumn" style="padding: 5px 0px 0px 5px">
-                {% if offering['videoIntro'] is not null %}
-                    <a href="{{ offering['videoIntro'] }}" rel="intro" title=" {{ offering['name'] }}">
-                        <img src="{{ asset('bundles/classcentralsite/images/youtube.png') }}" alt="" height="25" width="25"/>
-                    </a>
-                {% endif %}
-            </td>
-            #}
 
             {# add to profile column #}
             <td class="add-column">
@@ -52,7 +93,15 @@
                 <div class="dropdown">
                     {% set userListIds = user_session.getCourseListIds(course.id) %}
                     {# span id is same as the name of the input checkbox#}
-                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown"><span id="check-{{ tableId }}-{{ course.id }}">{% if userListIds is empty %}+{% else %}-{% endif %}</span></a>
+                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
+                        <span id="check-{{ tableId }}-{{ course.id }}">
+                            {% if userListIds is empty %}
+                                <svg class="icon-plus" viewBox="0 0 32 32"><use xlink:href="#icon-plus"></use></svg>
+                            {% else %}
+                                <svg class="icon-minus" viewBox="0 0 32 32"><use xlink:href="#icon-minus"></use></svg>
+                            {% endif %}
+                        </span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-list-header">My Courses</li>
                         {% for listId, list in listTypes %}
@@ -68,12 +117,18 @@
             </td>
 
             <td class="course-name-column">
+
+                <div class="course-name-column-rating">
+                    <div class="course-rating" data-score="{{ course.rating }}"></div>
+                </div>
+
                 <a class="course-name" itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}"
                    onmousedown='recordInboundLink(
                            "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
                            "{{course.provider.name}}","{{course.name}}","{{ tableId }}");return false'
 
                    title="{{ course.name }} - MOOC" class="course-name"><span itemprop="name">{{ course.name }}</span></a>
+
 
                 {# showing institutions and universities #}
                 {% if course.institutions |length > 0 and showInstitution is not defined  %}
@@ -85,50 +140,33 @@
                             {% endif %}
                             <li>
                                 <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                                <span class="via">via</span>
+                                {% if course['provider'] %}
+                                    <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
                 {% endif %}
 
-            </td>
-            {#
-            <td class="instructors">
-                {% set i = 0 %}
-                {% for instructor in offering['instructors'] %}
-                    {% if i > 0 %}
-                        <br />{{ instructor }}
-                    {% else %}
-                        {{ instructor }}
-                    {% endif %}
-                    {% set i = i + 1 %}
-                {% endfor %}
+                <div class="course-name-column-start-date">Start Date:  {{ course.nextSession.displayDate  }}</div>
 
             </td>
-            #}
-            {# hide the stream column on stream pages #}
+
             {# hide the stream/subject column for all pages except home page #}
 
 
             {% if page is defined and page != 'stream' and page=='home' %}
-                <td> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}'])" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
+                <td class="subject-column"> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}'])" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
                 </td>
             {% endif %}
 
 
             <td class="start-date" {% if course.nextSession.status == 1 %} itemprop="startDate" content="{{ course.nextSession.microdataDate }}" {% endif %} data-timestamp="{{ course.nextSession.startTimeStamp }}">{{ course.nextSession.displayDate  }}</td>
 
-            {#
-            <td class="offering-length" data-timestamp = {% if offering['length'] is null %} 100 {% else %} {{ offering['length'] }} {% endif %}}>
-            {% if offering['length'] is not null %}
-                {{ offering['length'] }} weeks
-            {% else %}
-                NA
-            {% endif %}
-            </td>
-            #}
 
-            {# hide the initiative column on initiative pages #}
-            {% if page is defined and page != 'initiative'  %}
+            {# hide the initiative column on every page #}
+            {% if page is defined and page != 'initiative' and false %}
                 <td>
                     {% if course['provider'] %}
                         <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
@@ -136,7 +174,7 @@
                 </td>
             {% endif %}
 
-            <td data-timestamp="{{ course.rating }}">
+            <td data-timestamp="{{ course.rating }}" class="course-rating-column">
                 <div class="course-rating" data-score="{{ course.rating }}">
                     <meta itemprop="ratingValue" content="{{ course.rating }}">
                 </div>

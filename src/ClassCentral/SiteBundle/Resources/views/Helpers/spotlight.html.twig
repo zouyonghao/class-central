@@ -1,0 +1,44 @@
+
+    <div class="spotlight-logo-wrap">
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'coursera'}) }}" class="spot-logo coursera-logo"
+           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','Coursera'])"
+                >Coursera</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'udacity'}) }}" class="spot-logo udacity-logo"
+           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','Udacity'])"
+                >Udacity</a>
+        <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'edx'}) }}" class="spot-logo edx-logo"
+           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','edX'])"
+                >edX</a>
+        <span  class="no-logo">Plus Many More</span>
+    </div>
+    <h2 class="section-heading">
+        <span>Spotlight</span>
+    </h2>
+
+    <div class="row">
+
+        {% for position in 1..10 %}
+            {% set spotlight = spotlights[position] %}
+            <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
+               {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}
+            "
+
+                 id="home-spotlight-{{ spotlight.position }}">
+                <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
+                        onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ spotlight.position }}','{{ spotlight.title }}']);"
+                        >
+                    <div class="img-wrap">
+                        <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">
+                        <h3>
+                            {{ spotlight.title }}
+                        </h3>
+                    </div>
+                    <p class="excerpt">
+                        {{ spotlight.description }}
+                    </p>
+                    <span class="action">{{ spotlightMap[spotlight.type].text }}</span>
+                </a>
+            </div>
+        {% endfor %}
+
+    </div>

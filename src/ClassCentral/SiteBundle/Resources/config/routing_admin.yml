@@ -30,6 +30,10 @@ ClassCentralSiteBundle_language:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/language.yml"
   prefix: /language
 
+ClassCentralSiteBundle_spotlight:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/spotlight.yml"
+  prefix: /spotlight
+
 ClassCentralSiteBundle_clearcache:
   pattern: /clearcache
   defaults: { _controller: ClassCentralSiteBundle:Default:clearCache}

@@ -1,0 +1,17 @@
+spotlight:
+    pattern:  /
+    defaults: { _controller: "ClassCentralSiteBundle:Spotlight:index" }
+
+spotlight_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ClassCentralSiteBundle:Spotlight:show" }
+
+
+spotlight_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ClassCentralSiteBundle:Spotlight:edit" }
+
+spotlight_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ClassCentralSiteBundle:Spotlight:update" }
+    requirements: { _method: post|put }

@@ -1,0 +1,29 @@
+{# modal signup form #}
+
+<div class="modal fade" id="signupForm" role="dialog" aria-labelledby="Sign Up to post your review" aria-hidden="true">
+    <div class="cc-form-box">
+        <div class="cc-form-box-inner">
+            <div class="form-box-header">
+                <svg class="icon icon-cc-logo-circle" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo-circle"></use></svg>
+            </div>
+            <div class="form-box-body">
+                {% if formTitle is defined %}
+                    <h3>{{ formTitle }}</h3>
+                {% endif %}
+                <a class="sign-in-with-facebook" href="{{ path('fb_authorize_start') }}" onmousedown="_gaq.push(['_trackEvent','Sign In with Facebook', 'Login Form']);">
+                    <svg class="icon icon-facebook2" viewBox="0 0 32 32"><use xlink:href="#icon-facebook2"></use></svg>
+                    Sign in with Facebook
+                </a>
+
+                <div class="or-separator">
+                    <span>OR</span>
+                </div>
+
+                {{ form(signupForm) }}
+            </div>
+        </div>
+        <p id="cc-form-box-additional-link">
+            Already have an account? <a href="{{ path('login')  }}" title="Login">Login</a>
+        </p>
+    </div>
+</div>

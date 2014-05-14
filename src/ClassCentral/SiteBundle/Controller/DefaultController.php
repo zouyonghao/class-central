@@ -2,7 +2,10 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Spotlight;
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,10 +19,42 @@ class DefaultController extends Controller {
         $cache = $this->get('Cache');
         $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
 
+        $spotlights = $cache->get('spotlight_cache',function(){
+           $s = $this
+                ->getDoctrine()->getManager()
+                ->getRepository('ClassCentralSiteBundle:Spotlight')->findAll();
+
+            $spotlights = array();
+            foreach($s as $item)
+            {
+                $spotlights[$item->getPosition()] = $item;
+            }
+
+            return $spotlights;
+        }, array());
+
+
+        // limit the results to 10 courses
+        $recent['response']['results']['hits']['hits'] =
+            array_splice($recent['response']['results']['hits']['hits'],0,10);
+
+        $subjects = $cache->get('stream_list_count',
+                        array( new StreamController(), 'getSubjectsList'),
+                        array( $this->container )
+        );
+
+        $signupForm   = $this->createForm(new SignupType(), new User(),array(
+            'action' => $this->generateUrl('signup_create_user')
+        ));
+
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
-                'recentCourses'   => $recent['response']['results']
+                'recentCourses'   => $recent['response']['results'],
+                'spotlights' => $spotlights,
+                'spotlightMap' => Spotlight::$spotlightMap,
+                'subjects' => $subjects,
+                'signupForm' => $signupForm->createView()
                ));
     }
 
@@ -168,6 +203,15 @@ class DefaultController extends Controller {
         $this->get('cache')->clear();
         // Just adding a dummy page
         return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array('page' => 'faq'));
+    }
+
+    public function githubButtonAction()
+    {
+        if ($this->container->has('profiler'))
+        {
+            $this->container->get('profiler')->disable();
+        }
+        return $this->render('ClassCentralSiteBundle:Default:githubbtn.html.twig');
     }
     
 }

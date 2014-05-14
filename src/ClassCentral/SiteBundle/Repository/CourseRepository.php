@@ -32,9 +32,26 @@ class CourseRepository extends EntityRepository{
         if($nextOffering) {
             $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
             $courseDetails['nextOffering']['id'] = $nextOffering->getId();
+
+            // Get the state of this session
+            $courseDetails['state'] = null;
+            $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $nextOffering ));
+            if(!empty($states))
+            {
+                $courseDetails['nextOffering']['state'] = array_pop($states);
+            }
+        }
+        $courseDetails['tags'] = array();
+        foreach( $course->getTags() as $tag)
+        {
+            $name = $tag->getName();
+            if( !empty($name) ) // To account for bug which adds empty tags to courses
+            {
+                $courseDetails['tags'][] = $name;
+            }
         }
 
-
+        $courseDetails['listed'] = $this->getListedCount($course);
         // Stream
         $stream = $course->getStream();
         $courseDetails['stream']['name'] = $stream->getName();
@@ -51,6 +68,24 @@ class CourseRepository extends EntityRepository{
             $courseDetails['initiative']['tooltip'] = $initiative->getTooltip();
             $courseDetails['initiative']['code'] = strtolower($initiative->getCode());
         }
+        else
+        {
+            $courseDetails['initiative']['name'] = 'Independent';
+            $courseDetails['initiative']['code'] = 'independent';
+            $courseDetails['initiative']['tooltip'] = 'Independent';
+        }
+
+        // Language
+        $lang = array();
+        if($course->getLanguage())
+        {
+            $l = $course->getLanguage();
+            $lang['name'] = $l->getName();
+            $lang['slug'] = $l->getSlug();
+            $lang['code'] = $l->getCode();
+        }
+        $courseDetails['lang'] = $lang;
+
 
         // Institutions
         $courseDetails['institutions'] = array();
@@ -146,5 +181,25 @@ class CourseRepository extends EntityRepository{
             ->setParameter('date', $dt->format("Y-m-d"));
 
         return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Gets the count of number of times the course has been
+     * added to the users list
+     */
+    public function getListedCount( Course $course)
+    {
+        $query = $this->getEntityManager()->createQueryBuilder();
+        $query
+            ->add('select', 'count(uc.id) as listed')
+            ->add('from', 'ClassCentralSiteBundle:UserCourse uc')
+            ->join('uc.course','c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $course->getId())
+            ;
+
+        $listed = $query->getQuery()->getSingleScalarResult();
+
+        return $listed;
     }
 }

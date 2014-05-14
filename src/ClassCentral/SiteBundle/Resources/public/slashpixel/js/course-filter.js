@@ -26,29 +26,27 @@ jQuery(function($) {
     });
 
 
-    //toggle = true;
-
-    $(".mobile-filter-btn").click(function() {
-
+    $(".mobile-filter-btn").click(function(event) {
+        event.preventDefault();
         var filterWrap = $("#filter-wrap");
         var catWrap = $("#filter-wrap .cat-filter-wrap");
 
         //if (toggle) {
-        if (catWrap.hasClass("opened")) {
-            catWrap.removeClass("opened");
+        if (catWrap.hasClass("show-filter")) {
+            catWrap.removeClass("show-filter");
         }   else   {
-            catWrap.addClass("opened");
+            catWrap.addClass("show-filter");
         }
 
-        if (filterWrap.hasClass("opened")) {
+        if (filterWrap.hasClass("show-filter")) {
             //toggle = false;
             //setTimeout(function() {
-            filterWrap.removeClass("opened");
+            filterWrap.removeClass("show-filter");
             //toggle = true;
             //}, 900);
 
         }   else   {
-            filterWrap.addClass("opened");
+            filterWrap.addClass("show-filter");
         }
         //}
 
@@ -82,7 +80,20 @@ jQuery(function($) {
 
 
     $(".sub-category").click(function(e) {
-        toggleActive(e, $(this));
+        e.preventDefault();
+        var span = $(this).parent().find('span')[0];
+        var parentLi = $(span).parent().parent();
+        if(parentLi.find('.filter-dropdown')[0]) {
+            // Has sub categories. Expand collapse the sub categories
+            toggleActive(e, $(this));
+        } else{
+            // No sub-categories. Check the box and filter the courses
+            $(span).toggleClass('ticked');
+            var type = $(this).data('type');
+            var value = $(this).data(type);
+            filterCourses();
+            gaqPush(type, value);
+        }
     });
 
     $(".sort").click(function(e) {
@@ -99,7 +110,7 @@ jQuery(function($) {
         gaqPush(type, value);
     });
 
-    var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable'];
+    var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable','tagtable'];
 
     var lists = {};
     for(var i = 0; i < tableTypes.length; i++)
@@ -146,6 +157,9 @@ jQuery(function($) {
             } else {
                 listTable.show();
             }
+
+            // Update the count on course listing pages
+            $('#number-of-courses').html( count );
 
         }
     }
@@ -331,7 +345,7 @@ jQuery(function($) {
     // SORTING
     var sortDescClass = 'headerSortUp';
     var sortAscClass = 'headerSortDown';
-    $('th.sorting').clicglok(function(){
+    $('th.sorting').click(function(){
         var table = $(this).parent().parent().parent().attr('id');
         var list = table.substring(0, table.indexOf('list'));
         var sortBy = $(this).data('sort');

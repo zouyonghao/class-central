@@ -52,6 +52,12 @@ assetic:
           apply_to: "\.less$"
           formatter: "compressed"
           preserve_comments: false
+    assets:
+      bootstrap_css:
+          inputs:
+              - %kernel.root_dir%/../src/ClassCentral/SiteBundle/Resources/public/slashpixel/less/app.less
+          filters:
+              - lessphp
 # Doctrine Configuration
 doctrine:
     dbal:

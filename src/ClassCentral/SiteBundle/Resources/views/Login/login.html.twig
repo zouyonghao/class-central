@@ -22,51 +22,53 @@
  {% endblock %}
 
 {% block contentheader %}
-<div class="cc-form-box">
-    <h3>Login</h3>
-    {% if error %}
-        <div>{{ error.message }}</div>
-    {% endif %}
+    <div class="cc-form-bg-wrap">
+        <div class="cc-form-box">
+            <div class="cc-form-box-inner">
+                <div class="form-box-header">
+                    <svg class="icon icon-cc-logo-circle" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo-circle"></use></svg>
+                </div>
+                <div class="form-box-body">
 
-    <a href="{{ path('fb_authorize_start') }}"
-            onmousedown="_gaq.push(['_trackEvent','Sign In with Facebook', 'Login Form']);">
-        <img style="margin-bottom: 40px;margin-left: 90px;" src="/bundles/classcentralsite/slashpixel/images/sign_in_with_fb.png"></a>
+                    <a class="sign-in-with-facebook" href="{{ path('fb_authorize_start') }}" onmousedown="_gaq.push(['_trackEvent','Sign In with Facebook', 'Login Form']);">
+                        <svg class="icon icon-facebook2" viewBox="0 0 32 32"><use xlink:href="#icon-facebook2"></use></svg>
+                        Sign in with Facebook
+                    </a>
 
-    <div style="height: 1px; background-color: black; text-align: center; font-size: 20px; margin-bottom: 20px">
-            <span style="background-color: white; position: relative; top: -0.5em;">
-                OR
-            </span>
+                    <div class="or-separator">
+                        <span>OR</span>
+                    </div>
+
+                    {% if error %}
+                        <div>{{ error.message }}</div>
+                    {% endif %}
+
+                    <form action="{{ path('login_check') }}" method="post">
+                        <label for="username">Email:</label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Email" />
+
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="_password" placeholder="Password"/>
+
+                        {#
+                            If you want to control the URL the user
+                            is redirected to on success (more details below)
+                            <input type="hidden" name="_target_path" value="/account" />
+                        #}
+
+                        {% if redirectUrl is not empty %}
+                            <input type="hidden" name="_target_path" value="{{ redirectUrl }}" />
+                        {% endif %}
+
+                        <button class="btn btn-primary btn-course-cc" type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+            <p id="cc-form-box-additional-link">
+                <a class="forgot-password-link" href="{{ path('forgotpassword') }}" title="Forgot password">Forgot password?</a>
+                <span class="sign-up-link">Don't have an account? <a href="{{ path('signup') }}" title="Sign up for Class Central">Sign up</a></span>
+            </p>
+        </div>
     </div>
 
-
-    <form action="{{ path('login_check') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" />
-
-        {#
-            If you want to control the URL the user
-            is redirected to on success (more details below)
-            <input type="hidden" name="_target_path" value="/account" />
-        #}
-
-        {% if redirectUrl is not empty %}
-            <input type="hidden" name="_target_path" value="{{ redirectUrl }}" />
-        {% endif %}
-
-        <button class="btn btn-primary btn-course-cc" type="submit">Login</button>
-    </form>
-
-    <p id="cc-form-box-additional-link">
-        Don't have an account? <a href="{{ path('signup') }}" title="Sign up for Class Central">Sign up >></a> <br/>
-        Forgot your password? <a href="{{ path('forgotpassword') }}" title="Forgot password">Reset Password >></a>
-    </p>
-</div>
-<style type="text/css">
-    .cc-page {
-        display: none;
-    }
-</style>
 {% endblock %}

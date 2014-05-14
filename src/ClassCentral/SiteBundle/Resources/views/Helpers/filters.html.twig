@@ -1,19 +1,14 @@
-<div class="mobile-filter-btn-wrap">
-    <span>Filter</span>
-    <a class="mobile-filter-btn">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </a>
-</div>
 <div class="cat-filter-wrap">
     <div class="category-filter">
-        <span class="filter-title">Filter by:</span>
         {# hide search box on search pages #}
         {% if page is defined and page != 'search' %}
             <div class="filter-search-wrap">
                 <input class="filter-search" placeholder="Search for a course"/>
-                <div class="filter-search-icon"></div>
+                <div class="filter-search-icon">
+                <svg viewBox="0 0 33 32" class="icon-search">
+                    <use xlink:href="#icon-cc-logo2"></use>
+                    </svg>
+                </div>
             </div>
         {% endif %}
         <ul class="filter-nav">
@@ -21,12 +16,24 @@
         {# user course lists #}
         {% if userLists is defined and userLists|length > 0 %}
             <li class="filter-courses active">
-                <a href="#" class="filter-dropdown-toggle main-category">My Courses<span class="arrow-up"></span><span class="arrow-down"></span></a>
+                <a href="#" class="filter-dropdown-toggle main-category">
+                    My Courses
+                    <span class="arrow-up">
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span class="arrow-down">
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </a>
                 <ul class="main-filter-dropdown">
                     {% for list in listTypes if list.slug in userLists %}
                         <li>
                             <div class="tick-wrap">
-                                <span class="tick">√</span>
+                                <span class="tick tick-icon-bg">
+                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                        <use xlink:href="#icon-cc-tick"></use>
+                                    </svg>
+                                </span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="{{ list.slug }}" data-type="course-list">{{ list.desc  }}</a>
                             </div>
                         </li>
@@ -35,7 +42,11 @@
                     {% if searchTerms|length > 0 %}
                         <li>
                             <div class="tick-wrap">
-                                <span class="tick">√</span>
+                               <span class="tick tick-icon-bg">
+                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                        <use xlink:href="#icon-cc-tick"></use>
+                                    </svg>
+                                </span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm" data-type="course-list">Search Terms</a>
                             </div>
                         </li>
@@ -50,13 +61,25 @@
         {# sessions #}
         {% if offSessions is defined and offSessions|length > 0 %}
             <li class="filter-sessions active">
-                <a href="#" class="filter-dropdown-toggle main-category">Course Status<span class="arrow-up"></span><span class="arrow-down"></span></a>
+                <a href="#" class="filter-dropdown-toggle main-category">
+                    By start date
+                    <span class="arrow-up">
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span class="arrow-down">
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </a>
 
                 <ul class="main-filter-dropdown">
                     {% for slug,session in offSessions %}
                         <li id="session-{{ slug }}">
                             <div class="tick-wrap">
-                                <span class="tick">√</span>
+                               <span class="tick tick-icon-bg">
+                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                        <use xlink:href="#icon-cc-tick"></use>
+                                    </svg>
+                                </span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-session="{{ slug }}" data-type="session"> {{ session.nav  }}</a>
                             </div>
                         </li>
@@ -68,19 +91,40 @@
 
         {# subjects #}
         {% if offSubjects is defined and offSubjects|length > 0  %}
-            <li class="filter-subjects active">
-                <a href="#" class="filter-dropdown-toggle main-category">Subjects<span class="arrow-up"></span><span class="arrow-down"></span></a>
+            <li class="filter-subjects">
+                <a href="#" class="filter-dropdown-toggle main-category">
+                    By subject
+                    <span class="arrow-up">
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span class="arrow-down">
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </a>
                 <ul class="main-filter-dropdown">
                     {% for pSub in offSubjects %}
                         <li id="subject-{{ pSub.slug }}" data-type="parent-sub">
                             <div class="tick-wrap">
-                                <span class="tick">√</span>
+                                 <span class="tick tick-icon-bg">
+                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                        <use xlink:href="#icon-cc-tick"></use>
+                                    </svg>
+                                </span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}" data-type="subject"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
                             </div>
                             {% if pSub.children|length > 0 %}
                                 <ul class="filter-dropdown">
                                     {% for cSub in pSub.children %}
-                                        <li id="subject-{{ cSub.slug }}" data-type="child-sub"><a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}" data-type="subject"><span class="tick">√</span>{{ cSub.name }}</a></li>
+                                        <li id="subject-{{ cSub.slug }}" data-type="child-sub">
+                                            <a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}">
+                                                <span class="tick tick-icon-bg">
+                                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                                        <use xlink:href="#icon-cc-tick"></use>
+                                                    </svg>
+                                                </span>
+                                                {{ cSub.name }}
+                                            </a>
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
@@ -92,13 +136,25 @@
 
         {# languages #}
         {% if offLanguages is defined and offLanguages|length > 0 %}
-            <li class="filter-languages active">
-                <a href="#" class="filter-dropdown-toggle main-category">Languages<span class="arrow-up"></span><span class="arrow-down"></span></a>
+            <li class="filter-languages">
+                <a href="#" class="filter-dropdown-toggle main-category">
+                    By languages
+                    <span class="arrow-up">
+                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                    </span>
+                    <span class="arrow-down">
+                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </a>
                 <ul class="main-filter-dropdown">
                     {% for language in offLanguages %}
                         <li id="lang-{{ language.name|lower }}">
                             <div class="tick-wrap">
-                                <span class="tick">√</span>
+                               <span class="tick tick-icon-bg">
+                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                        <use xlink:href="#icon-cc-tick"></use>
+                                    </svg>
+                                </span>
                                 <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}" data-type="lang"> {{ language.name  }}</a>
                             </div>
                         </li>
