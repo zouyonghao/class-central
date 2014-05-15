@@ -33,9 +33,11 @@
     <div style="clear:both"></div>
     <div itemprop="description">
         <div class="review-title"><span class="author">{% if review.externalReviewerName is not empty %} {{ review.externalReviewerName }}  {% else %} {{ review.user.name }} {% endif %}</span> {{ review.reviewTitle|raw }}</div>
+
         <div class="review-content">
+        {% if review.reviewText and review.reviewText|length >400 %}
             <div class="review-preview">
-                This course helped me get a job. Before doing this course, I had trouble clearing technical interviews. Infact, I couldn't even clear the phone interviews. "Algorithms: Design and Analysis, Part 1" was instrumental in clearing my first technical interview and helped me get a job as a Software Engineer in Silicon Valley.
+                {{ review.reviewText|striptags|slice[0:320] }}
                 <a class="expand-preview" href="#">
                     Read More
                     <span class="icon-down-arrow">
@@ -43,16 +45,18 @@
                     </span>
                 </a>
             </div>
-            <div class="review-full">
-                {{ review.reviewText|striptags('<br>')|raw }}
-            </div>
+        {% endif %}
+        <div class="review-full">
+            {{ review.reviewText|striptags('<br>')|raw }}
+        </div>
         </div>
         {% if review.externalReviewLink is not empty %}
             <div id="ext-review-link">
-                <a href="{{ review.externalReviewLink }}" target="_blank"> {#<span class="glyphicon glyphicon-new-window"></span>#} Full Review
+                <a href="{{ review.externalReviewLink }}" target="_blank"> <span class="glyphicon glyphicon-new-window"></span> Full Review
                 </a>
             </div>
         {% endif %}
+
 
     </div>
     {% if app.user and user_session.isUserReview(review.id) %}
