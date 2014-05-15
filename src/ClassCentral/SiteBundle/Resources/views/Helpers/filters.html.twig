@@ -13,7 +13,7 @@
         {% endif %}
         <div class="ribbon-wrap">
             <div class="ribbon">
-                <span class="number-of-courses">75 courses available</span>
+                <span class="number-of-courses"><span id="number-of-courses">{{  results.hits.total }} </span> courses available</span>
             </div>
         </div>
         <ul class="filter-nav">
@@ -65,7 +65,7 @@
 
             {# sessions #}
             {% if offSessions is defined and offSessions|length > 0 %}
-                <li class="filter-sessions active">
+                <li class="filter-sessions">
                     <a href="#" class="filter-dropdown-toggle main-category">
                         By start date
                     <span class="arrow-up">
