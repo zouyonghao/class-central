@@ -33,7 +33,20 @@
     <div style="clear:both"></div>
     <div itemprop="description">
         <div class="review-title"><span class="author">{% if review.externalReviewerName is not empty %} {{ review.externalReviewerName }}  {% else %} {{ review.user.name }} {% endif %}</span> {{ review.reviewTitle|raw }}</div>
-        <div class="review-content">{{ review.reviewText|striptags('<br>')|raw }}</div>
+        <div class="review-content">
+            <div class="review-preview">
+                This course helped me get a job. Before doing this course, I had trouble clearing technical interviews. Infact, I couldn't even clear the phone interviews. "Algorithms: Design and Analysis, Part 1" was instrumental in clearing my first technical interview and helped me get a job as a Software Engineer in Silicon Valley.
+                <a class="expand-preview" href="#">
+                    Read More
+                    <span class="icon-down-arrow">
+                        <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                </a>
+            </div>
+            <div class="review-full">
+                {{ review.reviewText|striptags('<br>')|raw }}
+            </div>
+        </div>
         {% if review.externalReviewLink is not empty %}
             <div id="ext-review-link">
                 <a href="{{ review.externalReviewLink }}" target="_blank"> {#<span class="glyphicon glyphicon-new-window"></span>#} Full Review

@@ -18,6 +18,7 @@
   7. =Course page
     7.1 =Reviews all
     7.2 =Star rating small
+    7.3 =Write a review
   8. =Spotlight
   9. =Learn More section
   10. =Subjects section
@@ -849,22 +850,22 @@ body {
 
 .spotlight-logo-wrap .spot-logo {
   .hide-text;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/uni_sprites.png");
+  background-image: url("/bundles/classcentralsite/slashpixel/images/uni_sprites2.png");
   background-repeat: no-repeat;
 }
 
 .spotlight-logo-wrap .coursera-logo {
-  background-position: 0 -42px;
+  background-position: 1px -49px;
   width: 29px;
 }
 
 .spotlight-logo-wrap .udacity-logo {
-  background-position: -58px -42px;
+  background-position: -57px -49px;
   width: 16px;
 }
 
 .spotlight-logo-wrap .edx-logo {
-  background-position: -102px -41px;
+  background-position: -101px -48px;
   width: 32px;
 }
 
@@ -1655,7 +1656,7 @@ thead {
 
 .cat-filter-wrap {
   position: relative;
-  overflow-x: hidden;
+  //overflow-x: hidden;
 }
 
 .cat-filter-wrap.opened {
@@ -1734,12 +1735,12 @@ thead {
 }
 
 #filter-wrap.show-filter {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .category-filter {
   background: @gray-tab;
-  padding: 20px;
+  padding: 20px 0;
   .border-radius(5px);
   font-family: @font-family-small-text;
 }
@@ -1749,6 +1750,10 @@ thead {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.filter-nav {
+  margin: 0 20px;
 }
 
 .filter-nav > li {
@@ -1924,7 +1929,7 @@ li a.sort {
   overflow: hidden;
   .border-radius(5px);
   height: 50px;
-  margin: 0 0 20px 0;
+  margin: 0 20px 20px 20px;
   border: 1px solid @gray-yellow;
   background: @white;
 }
@@ -1979,6 +1984,45 @@ input.filter-search:focus {
   display: none;
 }
 
+.ribbon-wrap {
+  margin-bottom: 20px;
+  font-size: 18px;
+  position: relative;
+  background: @purple;
+  font-family: @font-family-small-text;
+  color: @white;
+}
+
+.ribbon-wrap:after {
+  border: 20px solid @gray-ribbon;
+  right: -24px;
+  z-index: 1000;
+}
+
+.ribbon-wrap:before {
+  border: 20px solid @purple;
+  right: -20px;
+  z-index: 1001;
+}
+
+.ribbon-wrap:after,
+.ribbon-wrap:before {
+  content: "";
+  display: block;
+  position: absolute;
+  border-left-width: 20px;
+  border-right-color: transparent;
+  top: 0;
+}
+
+.ribbon-wrap .ribbon {
+  padding: 0 0 0 40px;
+}
+
+.ribbon-wrap .number-of-courses {
+  line-height: 40px;
+  height: 40px;
+}
 
 /** Class Central styles for modal */
 .cc-modal {
@@ -2034,6 +2078,11 @@ input.filter-search:focus {
 
   .mobile-filter-btn .icon-bar + .icon-bar {
     margin-top: 5px;
+  }
+
+  .ribbon-wrap:after,
+  .ribbon-wrap:before {
+    display: none;
   }
 }
 
@@ -2434,16 +2483,14 @@ input.filter-search:focus {
   margin-top: 4px;
 }
 
-.course-data .course-sessions .course-data-value {
-  padding: 0;
+.course-sessions .course-length {
+  margin-left: 3px;
 }
 
 #sessionOptions {
-  height: 50px;
   border: 0;
   width: 100%;
   background: transparent;
-  padding: 12px;
   font-weight: 400;
 }
 
@@ -2487,11 +2534,34 @@ input.filter-search:focus {
 
 .ad-wrap {
   margin-top: 60px;
+  font-family: @font-family-small-text;
+}
+
+.ad-wrap .ad-title {
+  display: block;
+  font-size: 18px;
+  color: @blue-ad;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.ad-wrap .ad-link {
+  display: block;
+  font-size: 13px;
+  color: @green-ad-link;
+  line-height: 2.2;
+}
+
+.ad-wrap .ad-text {
+  font-size: 13px;
+  display: block;
+  color: #4d4d49;
 }
 
 .ad-wrap .ad-note {
   color: #aeaeac;
   float: right;
+  font-size: 10px;
 }
 
 .ad-wrap .ad-content {
@@ -2633,6 +2703,25 @@ input.filter-search:focus {
   line-height: 1.7;
 }
 
+.course-bottom-wrap .course-all-reviews .review-content .review-preview + .review-full {
+  display: none;
+}
+
+.course-bottom-wrap .course-all-reviews .review-content .expand-preview {
+  margin-left: 10px;
+  text-transform: uppercase;
+  color: @gray-read-more;
+  font-size: 13px;
+}
+
+.course-bottom-wrap .course-all-reviews .review-content .expand-preview .icon-cc-logo7 {
+  width: 10px;
+  height: 10px;
+  fill: @gray-light-purple;
+  margin-left: 5px;
+}
+
+
 .course-bottom-wrap .course-all-reviews .review-title {
   font-size: 14px;
   font-weight: 700;
@@ -2688,6 +2777,284 @@ input.filter-search:focus {
 .small-rating-5 span {
   background-position: 0 -22px;
   background-repeat: no-repeat;
+}
+
+.star-rating-wrap {
+  float: left;
+  margin: 0;
+}
+
+.star-rating-wrap:hover .rating-star:hover,
+.star-rating-wrap:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+  background-position: 0 -28px;
+}
+.rating-star,
+.star-rating-wrap:hover .rating-star {
+  float: right;
+  display: block;
+  padding-right: 2px;
+  margin: 0;
+  width: 21px;
+  height: 20px;
+  background: url('/bundles/classcentralsite/sitebundle/slashpixel/images/rating_stars.png') 0 0;
+  background-repeat: no-repeat;
+}
+
+/* =Write a review
+----------------------------------------------------------------------------- */
+
+.course-all-reviews .new-review {
+  width: 410px;
+}
+
+.course-all-reviews .course-quality {
+  overflow: hidden;
+  padding: 15px 0;
+}
+
+.course-bottom-wrap .course-all-reviews .new-review h2 {
+  margin: 60px 0 15px 0;
+}
+
+.course-all-reviews .course-quality .review-field-label,
+.course-all-reviews .review-text .review-field-label,
+.course-all-reviews .course-progress .review-field-label {
+  display: block;
+  color: @blue;
+  font-size: 18px;
+}
+
+.course-all-reviews .course-progress .review-field-label {
+  margin-bottom: 5px;
+}
+
+.course-all-reviews .review-text .review-field-label {
+  padding: 15px 0;
+}
+
+.course-all-reviews .course-quality .review-field-label {
+  float: left;
+}
+
+.course-all-reviews .review-text #review-text {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid @gray-border-dark;
+  .border-radius();
+}
+
+.course-all-reviews .course-quality #rating {
+  float: right;
+  width: 110px !important;
+}
+
+.course-all-reviews .new-review #submit-review {
+  display: block;
+  float: left;
+  padding: 0 17px;
+  line-height: 42px;
+  .border-radius();
+  background: @gray-review-button;
+  color: @white;
+  font-size: 16px;
+  margin: 10px 25px 10px 0;
+}
+
+.course-all-reviews .new-review #cancel-review {
+  display: block;
+  float: left;
+  color: @gray-brown;
+  font-size: 12px;
+  margin: 10px 25px 10px 0;
+  line-height: 42px;
+}
+
+.course-all-reviews .new-review .review-form-error {
+  display: block;
+}
+
+.course-progress input[type="radio"] {
+  display: none;
+}
+
+.progress-radio-group {
+  overflow: hidden;
+}
+
+/*==========  review form  ==========*/
+/*
+    this style block goes with the .add-review html block
+*/
+
+.add-review {
+  width: 100%;
+  background-color: #fff;
+  float: left;
+  margin: 25px 10px 25px 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;box-sizing: border-box;
+}
+
+.add-review header {
+  background-color: #f8f8f8;
+  margin: 4px 4px 0 4px;
+  overflow: hidden;
+  padding: 0 25px;
+}
+
+.add-review header h2 {
+  float: left;
+  font-size: 18px;
+  line-height: 60px;
+  margin: 0;
+  font-weight: 400;
+  color: #a2a2a2;
+}
+
+.add-review header h2 span {
+  margin-right: 5px;
+  font-weight: 700;
+  color: #3a759a;
+}
+
+.add-review p .review-field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1663a3;
+  margin-bottom: 7px;
+}
+
+.add-review p {
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.course-progress label {
+  float: left;
+}
+
+.add-review p input[type="radio"] {
+  display: none;
+}
+
+.add-review p input[type="radio"] + label {
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-out;
+  -moz-transition-duration: 0.2s;
+  -moz-transition-timing-function: ease-out;
+  -o-transition-duration: 0.2s;
+  -o-transition-timing-function: ease;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+}
+
+.add-review .course-quality {
+  margin-bottom: 0px;
+}
+
+.course-progress label {
+  border: 1px solid #c7c8ca;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  color: #a1a1a1;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-weight: 400;
+}
+
+.course-progress label:hover,
+.course-progress input[type="radio"]:checked + label {
+  background-color: #1663a3;
+  color: #fff;
+  cursor: pointer;
+}
+
+#taking-now + label {
+  border-right: none;
+}
+
+#dropped + label {
+  border-left: none;
+}
+
+.add-review .text-wrap {
+  margin-bottom: 20px;
+}
+
+.add-review .text-wrap p {
+  margin: 0;
+}
+
+/*
+.review-form-wrap {
+    padding: 25px 50px;
+}
+*/
+#comments {
+  display: none;
+}
+
+/*
+#submit-review, #submit-signup-review {
+    font-size: 12px;
+    font-weight: 600;
+    width: 124px;
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    border-bottom: 3px solid #6fc9c2;
+    background-color: #1663a3;
+    padding: 8px 15px;
+}
+
+#cancel-review {
+    font-size: 12px;
+    font-weight: 600;
+    width: 124px;
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    border-bottom: 3px solid #6fc9c2;
+    background-color: #808080;
+    padding: 8px 15px;
+}
+
+
+#review-form textarea {
+    min-width: 400px;
+    min-height: 140px;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 0;
+    border: 1px solid #c7c8ca;
+    margin: 0;
+}
+*/
+
+
+/*-----  End of course review  ------*/
+
+@media (max-width: 546px) {
+  .course-all-reviews .new-review {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .course-all-reviews .course-quality #rating {
+    float: left;
+  }
+
+  .course-bottom-wrap .course-all-reviews {
+    padding: 0 15px 30px 15px;
+  }
 }
 
 /* ==========================================================================
@@ -2750,7 +3117,7 @@ input.filter-search:focus {
   }
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: 1420px) {
   .convincer-wrap {
     display: inline-block;
   }
@@ -2967,13 +3334,13 @@ input.filter-search:focus {
   padding: 0;
   overflow: hidden;
   text-align: center;
-  margin: 26px 0 0 0;
+  margin: 0;
 }
 
 .footer-logos ul > li {
   display: block;
   float: left;
-  margin: 0 15px;
+  margin: 0 7px;
 }
 
 .footer-logos ul > li:first-child {
@@ -2988,14 +3355,14 @@ input.filter-search:focus {
 .footer-logos ul > li > a {
   display: block;
   height: 28px;
-  opacity: 0.6;
   .hide-text;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/uni_sprites.png");
+  background-image: url("/bundles/classcentralsite/slashpixel/images/uni_sprites2.png");
   background-repeat: no-repeat;
+  margin-top: 26px;
 }
 
 .footer-logos ul > li > .berkeley-logo {
-  background-position: 0 0;
+  background-position: -366px -11px;
   width: 74px;
 }
 
@@ -3005,38 +3372,52 @@ input.filter-search:focus {
 }
 
 .footer-logos ul > li > .cornell-logo {
-  background-position: -200px 0;
+  background-position: -599px -11px;
   width: 114px;
   opacity: 1;
 }
 
 .footer-logos ul > li > .harvard-logo {
-  background-position: -349px 0;
+  background-position: -93px -11px;
   width: 96px;
 }
 
 .footer-logos ul > li > .mit-logo {
-  background-position: -500px 0;
+  background-position: -225px -11px;
   width: 106px;
 }
 
 .footer-logos ul > li > .stanford-logo {
-  background-position: -650px 0;
+  background-position: 0 -11px;
   width: 58px;
-  opacity: 0.5;
 }
 
 .footer-logos ul > li > .uts-logo {
-  background-position: -750px 0;
+  background-position: -476px -11px;
   width: 87px;
 }
 
-.footer-logos ul > li > a:hover,
-.footer-logos ul > li > a:focus {
-  opacity: 1;
+.footer-logos ul > li > .princeton-logo {
+  background-position: -750px -7px;
+  width: 114px;
+  height: 34px;
+  margin-top: 21px;
 }
 
-@media (min-width: 950px) {
+
+.footer-logos ul > li > .git-logo {
+  background-position: -898px 0px;
+  width: 122px;
+  height: 43px;
+  margin-top: 15px;
+}
+
+.footer-logos ul > li > .jhu-logo {
+  background-position: -1056px -11px;
+  width: 141px;
+}
+
+@media (min-width: 1080px) {
   .footer-logos {
     display: block;
   }
@@ -3044,7 +3425,7 @@ input.filter-search:focus {
 
 @media (min-width: @screen-lg-min) {
   .footer-logos ul > li {
-    margin: 0 35px;
+    margin: 0 17px;
   }
 }
 

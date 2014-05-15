@@ -31,7 +31,7 @@
                         <li class="learn-more-tab">
                             <a href="#" data-target-section="learn-more-tab-section">Learn More</a>
                         </li>
-                            <li class="subjects-tab">
+                        <li class="subjects-tab">
                             <a href="#" data-target-section="subjects-tab-section">The Subjects</a>
                         </li>
                         <li class="create-account-tab">
@@ -58,7 +58,7 @@
     </section>
     <section class="subjects-tab-section section-tab-content">
         <div class="subjects">
-        {% include 'ClassCentralSiteBundle:Helpers:subjects.html.twig' with{ subjects : subjects } %}
+            {% include 'ClassCentralSiteBundle:Helpers:subjects.html.twig' with{ subjects : subjects } %}
         </div>
     </section>
     <section class="upcoming-courses front-page-table">
@@ -88,7 +88,7 @@
                     {{ blog1.title }}
                 </h3>
                 <p class="excerpt">
-                  {{ blog1.description }}
+                    {{ blog1.description }}
                 </p>
                 <span class="read-more">READ MORE</span>
             </div>
@@ -97,13 +97,13 @@
 
         <a href="{{ blog2.url }}" class="single-post single-post-right"
            onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ blog2.position }}','{{ blog2.title }}']);"
-        >
+                >
             <div class="post-bg-right post-bg">
                 <img src="{{ blog2.imageUrl }}" alt="post-background">
             </div>
             <div class="single-post-content">
                 <h3>
-                   {{ blog2.title }}
+                    {{ blog2.title }}
                 </h3>
                 <p class="excerpt">
                     {{ blog2.description }}
@@ -117,7 +117,7 @@
     <section class="convincer">
         <div class="container">
             <div class="convincer-wrap">
-                        <span>Receive course recommendations & reminders with MOOC Tracker</span>
+                <span>Receive course recommendations & reminders with MOOC Tracker</span>
                 <a class="create-free-account" id="convincer-create-free-account" href="">Create free account</a>
             </div>
         </div>
@@ -130,8 +130,9 @@
             <li><a class="berkeley-logo" href="#">Berkeley University of California</a></li>
             <li><a class="uts-logo" href="#">University of Texas System</a></li>
             <li><a class="cornell-logo" href="#">Cornell University</a></li>
-            <li><a class="boston-logo" href="#">Boston University</a></li>
-            <li><a class="harvard-logo" href="#">Harvard University</a></li>
+            <li><a class="princeton-logo" href="#">Princeton University</a></li>
+            <li><a class="git-logo" href="#">Georgia Tech</a></li>
+            <li><a class="jhu-logo" href="#">Johns Hopkins University</a></li>
         </ul>
     </section>
 

@@ -576,8 +576,17 @@ jQuery(function($) {
         e.stopPropagation();
     });
 
+    // expand single reviews
+    $('.course-all-reviews').on('click', '.expand-preview', function(event) {
+        event.preventDefault();
+        $this = $(this);
+        $this.parent().hide();
+        $this.closest(".review-content").find(".review-full").show();
+        $this.hide();
+    });
+
     /*
-    Search functionality
+     Search functionality
      */
     var customRenderFunction = function(document_type, item) {
         var title = '<p class="title">' + item['name'] + '</p>';

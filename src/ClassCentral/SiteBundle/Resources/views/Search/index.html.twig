@@ -1,6 +1,6 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
-{% block headmeta %} 
+{% block headmeta %}
     {% if keywords is not null and keywords|length %}
         <title> {{keywords}} - free online courses/MOOC search results | Class Central</title>
         <meta name="description" content="{{keywords}} - free online courses/MOOC search results | Class Central"/>
@@ -53,39 +53,37 @@
 
 
 
-    <div class="searchresultsheader">
-        <h2>Search Results</h2>
-        <div><b>{{total}}</b> result(s) found for <b>{{keywords}}</b></div>
-        {#
-            <div id='search-feedback'>Are these results helpful? <i class="icon-ok icon-black icon-link" value="YES"></i> <i class="icon-remove icon-black icon-link" value="NO"></i></div>
-        #}
-    </div>
-     {% if total != 0 %}
-         <section class="courses">
-             <h2 class="section-heading">
-                 <span>Courses</span>
-             </h2>
-             <div id="filter-wrap">
-                 <div class="mobile-filter-btn-wrap">
-                     <a href="#" class="mobile-filter-btn">
-                         <span class="icon-bar"></span>
-                         <span class="icon-bar"></span>
-                         <span class="icon-bar"></span>
-                     </a>
-                 </div>
-                 <div class="row">
-                     <div class="col-sm-4 col-lg-3 filter-column">
-                         {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
-                     </div>
-                     <div class="col-sm-8 col-lg-9 table-column">
-                         <div class="tables-wrap">
-                             {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </section>
+        <div class="searchresultsheader">
+            <h2>Search Results</h2>          
+            <div id='search-feedback'>Are these results helpful? <i class="glyphicon glyphicon-ok icon-black icon-link" value="YES"></i> <i class="glyphicon glyphicon-remove icon-black icon-link" value="NO"></i></div>
+
+        </div>
+        {% if total != 0 %}
+            <section class="courses">
+                <h2 class="section-heading">
+                    <span>Courses</span>
+                </h2>
+                <div id="filter-wrap">
+                    <div class="mobile-filter-btn-wrap">
+                        <a href="#" class="mobile-filter-btn">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-lg-3 filter-column">
+                            {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
+                        </div>
+                        <div class="col-sm-8 col-lg-9 table-column">
+                            <div class="tables-wrap">
+                                {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
     {% endif %}
-   {% endif %}             
 {% endblock %}  
         
