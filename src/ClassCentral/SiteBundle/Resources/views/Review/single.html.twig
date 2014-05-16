@@ -37,7 +37,7 @@
         <div class="review-content">
         {% if review.reviewText and review.reviewText|length >400 %}
             <div class="review-preview">
-                {{ review.reviewText|striptags|slice[0:320] }}
+                {{ review.reviewText|striptags|slice(0,320) }}
                 <a class="expand-preview" href="#">
                     Read More
                     <span class="icon-down-arrow">
