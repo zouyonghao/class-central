@@ -9,6 +9,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ path('ClassCentralSiteBundle_homepage')}}" title="MOOC aggregator">
+                <span class="cc-logo-navbar"></span>
                 <svg role="logo" aria-label="class central logo" viewBox="0 0 332 32" class="class-central-logo">
                     <use xlink:href="#icon-cc-logo"></use>
                 </svg>
@@ -71,6 +72,7 @@
                     <div id='nav-search-form'>
                         {# <input  id="prependedInput" type="text" name="q"> #}
                         <a href="/search" class="search-button" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])" id="navbar-search-btn">
+                            <span class="icon-search-png"></span>
                             <svg viewBox="0 0 33 32" class="icon-search">
                                 <use xlink:href="#icon-cc-logo2"></use>
                             </svg>
@@ -86,18 +88,21 @@
                 <li class="social-icon">
                     <a href="http://www.facebook.com/classcentral" target="_blank" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Social Media','Facebook'])">
                         Facebook
+                        <span class="fb-icon-png"></span>
                         <svg class="icon icon-facebook" viewBox="0 0 32 32"><use xlink:href="#icon-facebook"></use></svg>
                     </a>
                 </li>
                 <li class="social-icon">
                     <a href="https://twitter.com/classcentral" target="_blank" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Social Media','Twitter'])">
                         Twitter
+                        <span class="twitter-icon-png"></span>
                         <svg class="icon icon-twitter" viewBox="0 0 32 32"><use xlink:href="#icon-twitter"></use></svg>
                     </a>
                 </li>
                 <li class="social-icon">
                     <a href="https://plus.google.com/+ClassCentral" target="_blank" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Social Media','Google+'])">
                         Google plus
+                        <span class="gplus-icon-png"></span>
                         <svg class="icon icon-google_follow" viewBox="0 0 32 32"><use xlink:href="#icon-google_follow"></use></svg>
                     </a>
                 </li>
@@ -105,15 +110,16 @@
 
                     {% if app.user %}
                         <a href="#" class="dropdown-toggle"  data-toggle="dropdown">
+                            <span class="icon-user-png"></span>
                             <svg viewBox="0 0 32 32" class="icon-user">
                                 <use xlink:href="#icon-user"></use>
                             </svg>
                             {% if app.user.name %}
-                              {% if app.user.name|length > 10 %}
-                                {{ app.user.name|slice(0,9) }}..
-                              {% else %}
-                                {{ app.user.name  }}
-                             {% endif %}
+                                {% if app.user.name|length > 10 %}
+                                    {{ app.user.name|slice(0,9) }}..
+                                {% else %}
+                                    {{ app.user.name  }}
+                                {% endif %}
 
                             {% else %}
                                 User Menu
@@ -143,6 +149,7 @@
 
                     {% else %}
                         <a href="{{ path('login') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Login'])">
+                            <span class="icon-lock-png"></span>
                             <svg viewBox="0 0 32 32" class="icon-lock">
                                 <use xlink:href="#icon-lock"></use>
                             </svg>

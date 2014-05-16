@@ -107,6 +107,7 @@
     <link rel="apple-touch-icon" sizes="72x72" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-72x72.png" />
     <link rel="apple-touch-icon" sizes="114x114" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-114x114.png" />
 
+
 </head>
 
 <body>
@@ -202,6 +203,8 @@
 {# All the javascript goes in here #}
 
 {% javascripts filter='yui_js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/modernizr.custom.min.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/respond.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.11.0.min.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/list.min.js'
