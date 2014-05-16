@@ -105,7 +105,10 @@ class CourseController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm(new CourseType(), $entity);
         $form->handleRequest($request);
-        if ($form->isValid()) {                                  
+        if ($form->isValid()) {
+            $entity->setLongDescription( $this->replaceHtmlTags( $entity->getLongDescription() ));
+            $entity->setSyllabus( $this->replaceHtmlTags( $entity->getSyllabus()) );
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -120,6 +123,24 @@ class CourseController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+    }
+
+    /**
+     * Replaces h1...h6 tags with headers <strong></strong>
+     * @param $text
+     */
+    private function replaceHtmlTags($text)
+    {
+        $search = array();
+        $replace = array();
+        for($i = 1; $i <=6; $i++)
+        {
+            $search[] = "h$i";
+            $replace[] = 'strong';
+
+        }
+
+       return str_replace( $search, $replace, $text, $count);
     }
 
     /**
@@ -179,7 +200,10 @@ class CourseController extends Controller
 
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($editForm->isValid())
+        {
+            $entity->setLongDescription( $this->replaceHtmlTags( $entity->getLongDescription() ));
+            $entity->setSyllabus( $this->replaceHtmlTags( $entity->getSyllabus()) );
             $em->persist($entity);
             $em->flush();
 
