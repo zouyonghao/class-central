@@ -201,7 +201,7 @@
                             {% set offeringUrl = null %}
                         {% set selectedOfferingDetails = null %}
                         {% if offeringTypesOrder|length > 0 %}
-                            <select id="sessionOptions">
+                            <select id="sessionOptions"  {% if course.length > 0 %} style="margin-bottom: 15px;" {% endif %}>
                                 {% for offeringType in offeringTypesOrder %}
                                     {% if course['offerings'][offeringType]|length > 0 %}
                                         <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>

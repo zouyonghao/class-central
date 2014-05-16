@@ -11,11 +11,14 @@
                 </div>
             </div>
         {% endif %}
+
+        {% if results is defined and results.hits is defined %}
         <div class="ribbon-wrap">
             <div class="ribbon">
                 <span class="number-of-courses"><span id="number-of-courses">{{  results.hits.total }} </span> courses available</span>
             </div>
         </div>
+        {% endif %}
         <ul class="filter-nav">
 
             {# user course lists #}
