@@ -20,7 +20,7 @@
     {% stylesheets filter='lessphp'
     '@bootstrap_css'
     %}
-    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset(asset_url) }}" type="text/css" rel="stylesheet" />
     {% endstylesheets %}
     <!-- Le styles -->
     {% stylesheets filter='yui_css'
@@ -29,11 +29,8 @@
     '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.pnotify.default.css'
     '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.pnotify.default.icons.css'
     %}
-    {#
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal-bs3patch.css'
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/bootstrap-modal.css'
-    #}
-    <link rel="stylesheet" href="{{ asset_url }}" />
+
+    <link rel="stylesheet" href="{{ asset(asset_url) }}" />
     {% endstylesheets %}
 
     {% if app.environment == 'prod' %}
@@ -103,11 +100,6 @@
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
-    <link rel="apple-touch-icon" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ baseurl }}/bundles/classcentralsite/slashpixel/images/apple-touch-icon-114x114.png" />
-
-
 </head>
 
 <body>
@@ -228,7 +220,7 @@
     '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modal.js'
 #}
 
-<script type="text/javascript" src="{{ asset_url }}"></script>
+<script type="text/javascript" src="{{ asset(asset_url) }}"></script>
 
 {% endjavascripts %}
 
