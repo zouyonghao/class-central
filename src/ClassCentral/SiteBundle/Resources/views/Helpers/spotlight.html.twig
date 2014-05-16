@@ -29,9 +29,11 @@
                         >
                     <div class="img-wrap">
                         <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">
-                        <h3>
-                            {{ spotlight.title }}
-                        </h3>
+                        {% if spotlight.title %}
+                            <h3>
+                                {{ spotlight.title }}
+                            </h3>
+                        {% endif %}
                     </div>
                     <p class="excerpt">
                         {{ spotlight.description }}

@@ -13,7 +13,7 @@ class SpotlightType extends AbstractType
     {
         $builder
             //->add('position')
-            ->add('title')
+            ->add('title',null,array('required' => false))
             ->add('description')
             ->add('url')
             ->add('imageUrl')
