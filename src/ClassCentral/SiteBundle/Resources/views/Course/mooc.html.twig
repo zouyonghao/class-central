@@ -280,7 +280,7 @@
                    onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
             </div>
         </div>
-        {% include'ClassCentralSiteBundle:Helpers:text.ad.html.twig' %}
+        {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
 
 
     </div>

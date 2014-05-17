@@ -1,0 +1,20 @@
+{% for ad in ads %}
+    {%  if ad.visible %}
+        <div class="ad-wrap">
+            <div class="ad-content">
+
+                <a class="ad-title" href="{{ ad.url }}" target="_blank"
+                   onmousedown="_gaq.push(['_trackEvent', 'Text Ad', '{{ ad.title }}', '{{ pageName }}'])">
+                {{ ad.title }}
+                </a>
+
+                <a class="ad-link" href="{{ ad.url }}" target="_blank"
+                   onmousedown="_gaq.push(['_trackEvent', 'Text Ad', '{{ ad.title }}', '{{ pageName }}'])">
+                    {{ ad.displayUrl }}
+                </a>
+                <p class="ad-text">{{ ad.description }}</p>
+            </div>
+            <span class="ad-note">Advertisement</span>
+        </div>
+    {% endif %}
+{% endfor %}

@@ -174,4 +174,8 @@
     </div>
 </div>
 
-{% include'ClassCentralSiteBundle:Helpers:text.ad.html.twig' %}
+{% set pageName = 'na' %}
+{% if page is defined %}
+    {% set pageName = page %}
+{% endif %}
+{% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}

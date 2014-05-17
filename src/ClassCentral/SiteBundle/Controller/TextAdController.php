@@ -82,6 +82,7 @@ class TextAdController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $cache = $this->get('cache');
 
         $entity = $em->getRepository('ClassCentralSiteBundle:TextAd')->find($id);
 
@@ -96,12 +97,32 @@ class TextAdController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $cache->deleteCache('ads_cache');
             return $this->redirect($this->generateUrl('textad_edit', array('id' => $id)));
         }
 
         return $this->render('ClassCentralSiteBundle:TextAd:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
+        ));
+    }
+
+    public function showAdsAction(Request $request, $pageName)
+    {
+        $cache = $this->get('Cache');
+
+        $ads = $cache->get('ads_cache',function(){
+            $a = $this
+                ->getDoctrine()->getManager()
+                ->getRepository('ClassCentralSiteBundle:TextAd')
+                ->findAll();
+
+            return $a;
+        });
+
+        return $this->render('ClassCentralSiteBundle:TextAd:showAds.html.twig',array(
+            'ads' => $ads,
+            'pageName' => $pageName
         ));
     }
 
