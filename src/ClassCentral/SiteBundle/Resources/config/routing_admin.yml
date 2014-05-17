@@ -54,3 +54,7 @@ ClassCentralSiteBundle_newsletter:
 reviews_by_status:
   pattern: /review/status/view/{statusId}
   defaults: { _controller: ClassCentralSiteBundle:Review:reviewsByStatus }
+
+ClassCentralSiteBundle_textad:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/textad.yml"
+  prefix:   /textad
