@@ -25,7 +25,8 @@
 
                  id="home-spotlight-{{ spotlight.position }}">
                 <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
-                        onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ spotlight.position }}','{{ spotlight.title }}']);"
+                        onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ spotlight.position }}',
+                                '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}']);"
                         >
                     <div class="img-wrap">
                         <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">
