@@ -671,4 +671,34 @@ EOD;
                 'tag' => $tag
             ));
     }
+
+    /**
+     * Random
+     * @param Request $request
+     */
+    public function randomAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query =$em->createQueryBuilder();
+
+        $query
+            ->add('select', 'MAX(c.id)')
+            ->add('from','ClassCentralSiteBundle:Course c')
+            ;
+        $max = $query->getQuery()->getSingleScalarResult();
+        $id = rand(300, $max);
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
+
+        if( $course && $course->getStatus() == CourseStatus::AVAILABLE)
+        {
+            return $this->redirect($this->generateUrl('ClassCentralSiteBundle_mooc', array(
+                'id' => $id,
+                'slug' => $course->getSlug()
+            )));
+        }
+        else
+        {
+            return $this->randomAction($request);
+        }
+    }
 }

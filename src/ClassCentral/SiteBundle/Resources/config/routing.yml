@@ -75,7 +75,11 @@ ClassCentralSiteBundle_news:
   
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
-    prefix: /admin    
+    prefix: /admin
+
+random:
+  pattern: /random
+  defaults: { _controller: ClassCentralSiteBundle:Course:random}
 
 top10:
   pattern: /ten-most-popular-moocs/{month}-{year}
