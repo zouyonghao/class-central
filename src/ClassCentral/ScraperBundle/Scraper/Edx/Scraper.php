@@ -10,7 +10,7 @@ class Scraper extends ScraperAbstractInterface
 {
     const BASE_URL = "https://www.edx.org";
     const COURSE_CATALOGUE = "https://www.edx.org/course-list/allschools/allsubjects/allcourses";
-    const EDX_COURSE_LIST_CSV = "/tmp/edx.csv";
+    const EDX_COURSE_LIST_CSV = "https://www.edx.org/api/report/course-feed/export";
 
     private $courseFields = array(
         'Url', 'Description', 'Length', 'Name','LongDescription','VideoIntro'
