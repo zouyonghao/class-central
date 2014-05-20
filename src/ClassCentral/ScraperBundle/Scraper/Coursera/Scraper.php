@@ -28,7 +28,7 @@ class Scraper extends ScraperAbstractInterface {
         "ar" => "Arabic",
         "ru" => "Russian",
         "tr" => "Turkish",
-        "he" => "Herbrew"
+        "he" => "Hebrew"
     );
 
     private $courseFields = array(

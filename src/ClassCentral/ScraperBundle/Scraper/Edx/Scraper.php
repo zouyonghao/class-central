@@ -13,7 +13,7 @@ class Scraper extends ScraperAbstractInterface
     const EDX_COURSE_LIST_CSV = "/tmp/edx.csv";
 
     private $courseFields = array(
-        'Url', 'SearchDesc', 'Description', 'Length', 'Name','LongDescription','VideoIntro'
+        'Url', 'Description', 'Length', 'Name','LongDescription','VideoIntro'
     );
 
     private $offeringFields = array(
@@ -41,11 +41,11 @@ class Scraper extends ScraperAbstractInterface
             $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
             if( !$dbCourse )
             {
-                $this->out("NEW COURSE - " . $course->getName());
-                // NEW COURSE
+
                 if($this->doCreate())
                 {
-
+                    $this->out("NEW COURSE - " . $course->getName());
+                    // NEW COURSE
                     if ($this->doModify())
                     {
                         $em->persist($course);
@@ -82,31 +82,26 @@ class Scraper extends ScraperAbstractInterface
 
                 if($courseModified && $this->doUpdate())
                 {
+                    //$this->out( "Database course changed " . $dbCourse->getName());
                     // Course has been modified
-                    $this->out("UPDATE COURSE - " . $dbCourse->getName());
-                    $this->outputChangedFields($changedFields);
+                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
+                    //$this->outputChangedFields($changedFields);
                     if ($this->doModify())
                     {
                         $em->persist($dbCourse);
                         $em->flush();
 
                         // Update tags
-                        $tagService->saveCourseTags( $course, $cTags);
+                        $tagService->saveCourseTags( $dbCourse, $cTags);
                     }
 
                 }
-
                 $course = $dbCourse;
             }
 
-            continue;
             /***************************
              * CREATE OR UPDATE OFFERING
              ***************************/
-            if(empty($c['url']))
-            {
-                var_dump( $c ); exit();
-            }
             $offering = new Offering();
             $osn = $this->getOfferingShortName( $c );
             $offering->setShortName( $osn );
@@ -114,7 +109,18 @@ class Scraper extends ScraperAbstractInterface
             $offering->setUrl( $c['url'] );
             $offering->setStatus( Offering::START_DATES_KNOWN );
             $offering->setStartDate( new \DateTime( $c['startDate'] ) );
-            $offering->setEndDate( new \DateTime( $c['endDate'] ) );
+
+            if( empty($c['endDate']) )
+            {
+                // Put an end date for 4 weeks in the future
+                $endDate = new \DateTime(  $c['startDate'] );
+                $endDate->add(new \DateInterval("P30D") );
+            }
+            else
+            {
+                $endDate = new \DateTime( $c['endDate'] );
+            }
+            $offering->setEndDate( $endDate );
 
             $dbOffering = $this->dbHelper->getOfferingByShortName($osn);
 
@@ -194,9 +200,18 @@ class Scraper extends ScraperAbstractInterface
         $c['description'] = $line[13];
 
         // Calculate length
-        $start = new \DateTime( $line['8'] );
-        $end = new \DateTime( $line['9'] );
-        $c['length'] = floor( $start->diff($end)->days/7 );
+        if( !empty($c['endDate']))
+        {
+            $start = new \DateTime( $line['8'] );
+            $end = new \DateTime( $line['9'] );
+            $c['length'] = floor( $start->diff($end)->days/7 );
+        }
+        else
+        {
+            $c['length'] = null;
+        }
+
+
 
         return $c;
     }
@@ -229,7 +244,7 @@ class Scraper extends ScraperAbstractInterface
 
     private function getShortName( $details )
     {
-        return 'edx_' . strtolower( $details['code'] );
+        return 'edx_' . strtolower( $details['code'] . '_' . $details['school'] );
     }
 
     /**
@@ -252,7 +267,7 @@ class Scraper extends ScraperAbstractInterface
         parse_str($parsedUrl['query'], $getParams);
         if(isset($getParams['v']))
         {
-            return 'https://www.youtube.com/embed/' .  $getParams['v'] . '?wmode=transparent';
+            return 'https://www.youtube.com/watch?v=' .  $getParams['v'];
         }
 
         return null;

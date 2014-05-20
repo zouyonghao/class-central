@@ -7,6 +7,7 @@
  */
 
 namespace ClassCentral\SiteBundle\Command\DataMigration;
+use ClassCentral\SiteBundle\Entity\Course;
 
 /***
  * Class Version6
@@ -30,8 +31,10 @@ class Version6 extends VersionAbstractInterface {
         while( !feof($file) )
         {
             $c = $this->getEdxArray( fgetcsv($file) );
+            if( empty($c['name']) ) continue; // skip the last line
             $edxCourseId = $this->getEdxCourseId( $c['url'] );
-            $sn = 'edx_' . $edxCourseId;
+            $sn = 'edx_' . strtolower( $c['code'] );
+            $newSn = 'edx_' . strtolower( $c['code'] . '_' . $c['school'] );
 
             $courseFound = false;
 
@@ -44,6 +47,7 @@ class Version6 extends VersionAbstractInterface {
                 $courseFound = true;
                 //$this->output->writeln( $c['name'] );
                 // Update the edx code
+                $this->updateShortName($course,$newSn);
 
             }
             if ($courseFound) continue;
@@ -58,6 +62,7 @@ class Version6 extends VersionAbstractInterface {
                 $courseFound = true;
                 //$this->output->writeln( $c['name'] );
                 // Update the edx code
+                $this->updateShortName($course,$newSn);
 
             }
 
@@ -73,6 +78,7 @@ class Version6 extends VersionAbstractInterface {
                 $courseFound = true;
                 //$this->output->writeln( $c['name'] );
                 // Update the edx code
+                $this->updateShortName($course,$newSn);
 
             }
             if ($courseFound) continue;
@@ -87,10 +93,28 @@ class Version6 extends VersionAbstractInterface {
                 $courseFound = true;
                 //$this->output->writeln( $c['name'] );
                 // Update the edx code
+                $this->updateShortName($course,$newSn);
 
             }
             if ($courseFound) continue;
 
+            $query = $em->createQueryBuilder();
+            $query
+                ->add('select', 'c')
+                ->add('from','ClassCentralSiteBundle:Course c')
+                ->andWhere('c.name LIKE  :cname')
+                ->setParameter('cname', '%' . $c['name'] . '%')
+                ;
+            $course = $query->getQuery()->getResult();
+            if( $course )
+            {
+                $courseFound = true;
+                //$this->output->writeln( $c['name'] );
+                // Update the edx code
+                $this->updateShortName($course[0],$newSn);
+
+            }
+            if ($courseFound) continue;
 
             // Not found
             $notFound++;
@@ -99,8 +123,14 @@ class Version6 extends VersionAbstractInterface {
         }
 
         $this->output->writeln( "Not found - $notFound");
+        $em->flush();
+    }
 
-        exit();
+    private function updateShortName(Course $course, $sn)
+    {
+        $em = $this->container->get('Doctrine')->getManager();
+        $course->setShortName( $sn );
+        $em->persist( $course );
     }
 
     private function getEdxArray( $line )
