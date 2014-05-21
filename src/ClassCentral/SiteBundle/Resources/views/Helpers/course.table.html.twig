@@ -131,23 +131,26 @@
 
 
                 {# showing institutions and universities #}
-                {% if course.institutions |length > 0 and showInstitution is not defined  %}
+
                     <ul class="table-uni-list">
-                        {% for institution in course['institutions'] %}
-                            {% set route = 'ClassCentralSiteBundle_university' %}
-                            {% if not institution['isUniversity'] %}
-                                {% set route = 'ClassCentralSiteBundle_institution' %}
-                            {% endif %}
-                            <li>
-                                <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
-                                <span class="via">via</span>
-                                {% if course['provider'] %}
-                                    <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
+                        {% if course.institutions |length > 0 and showInstitution is not defined  %}
+                            {% for institution in course['institutions'] %}
+                                {% set route = 'ClassCentralSiteBundle_university' %}
+                                {% if not institution['isUniversity'] %}
+                                    {% set route = 'ClassCentralSiteBundle_institution' %}
                                 {% endif %}
-                            </li>
-                        {% endfor %}
+                                <li>
+                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                        {% if course['provider'] and page != 'initiative' %}
+                            <span class="via">via</span>
+                            <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
+                        {% endif %}
                     </ul>
-                {% endif %}
+
 
                 <div class="course-name-column-start-date">Start Date:  {{ course.nextSession.displayDate  }}</div>
 

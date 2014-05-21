@@ -547,13 +547,16 @@ jQuery(function($) {
     });
 
     // front page tab nav
+    $(".section-tab-content").css("height", "0");
+    defaultTab = $(".active-tab > a").data("target-section");
+    $("." + defaultTab).css("height", "auto");
     $('nav.page-tabs').on('click', 'ul > li > a', function(event) {
         event.preventDefault();
         $this = $(this);
         targetTab = $this.data("target-section");
         if (targetTab !== undefined) {
-            $(".section-tab-content").hide();
-            $("." + targetTab).show();
+            $(".section-tab-content").css("height", "0");
+            $("." + targetTab).css("height", "auto");
             $("nav.page-tabs ul > li").removeClass("active-tab");
             $this.closest("li").addClass("active-tab");
             $.scrollTo('.page-tabs',{ duration: 400 });
@@ -561,11 +564,11 @@ jQuery(function($) {
         else {
             targetTab = 'create-free-account'; // signup button
         }
-       try {
-           _gaq.push(['_trackEvent','Homepage Tab clicks',targetTab]);
-       } catch (e) {
-           console.log("error");
-       }
+        try {
+            _gaq.push(['_trackEvent','Homepage Tab clicks',targetTab]);
+        } catch (e) {
+            console.log("error");
+        }
     });
 
     $('.course-data-row .dropdown-menu input').click(function(e) {

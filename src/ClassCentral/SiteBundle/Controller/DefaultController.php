@@ -181,11 +181,12 @@ class DefaultController extends Controller {
     }
 
     public function faqAction() {
-        $breadcrumbs = array();
-        $breadcrumbs[] = Breadcrumb::getBreadCrumb('FAQ','');
+        $breadcrumbs = array(
+            Breadcrumb::getBreadCrumb('FAQ', $this->container->get('router')->generate('ClassCentralSiteBundle_faq')),
+        );
         return $this->render('ClassCentralSiteBundle:Default:faq.html.twig', array(
             'page' => 'faq',
-            'breadcrumb' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs
         ));
     }
 

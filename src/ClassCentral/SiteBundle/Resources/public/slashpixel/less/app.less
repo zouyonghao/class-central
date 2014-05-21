@@ -157,6 +157,142 @@ body {
   background-position: -499px 0;
 }
 
+.no-svg .icon-home-png {
+  display: block;
+  width: 25px;
+  height: 21px;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -360px 0;
+}
+
+.no-svg .active-tab .icon-home-png {
+  background-position: -410px 0;
+}
+
+
+.no-svg .table .add-button span {
+  display: block;
+  width: 26px;
+  height: 26px;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -745px 2px;
+  background-repeat: no-repeat;
+}
+
+.no-svg .sorting-arrows span {
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -1px 0;
+  width: 12px;
+  height: 12px;
+}
+
+.no-svg .sorting-arrows span + span {
+  background-position: -37px 0;
+}
+
+.no-svg .headerSortUp .sorting-arrows span:first-child {
+  background: transparent;
+}
+
+.no-svg .headerSortDown .sorting-arrows span + span {
+  background: transparent;
+}
+
+.no-svg .faq-question .arrow-down,
+.no-svg .faq-question .arrow-up,
+.no-svg .filter-nav .arrow-down,
+.no-svg .filter-nav .arrow-up {
+  width: 12px;
+  height: 12px;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -73px 0;
+  top: 28px;
+}
+
+.no-svg .filter-nav .arrow-down,
+.no-svg .filter-nav .arrow-up {
+  margin-top: 21px;
+}
+
+.no-svg .faq-question .arrow-up,
+.no-svg .filter-nav .arrow-up {
+  background-position: -73px -17px;
+}
+
+.no-svg .tick-icon-bg.ticked,
+.no-svg .active > .sort > .tick-icon-bg {
+  background-color: @blue;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -674px -61px;
+}
+
+.no-svg .filter-search-icon {
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -438px 15px;
+}
+
+.no-svg .breadcrumbs .arrow-right {
+  width: 10px;
+  height: 10px;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -109px -17px;
+}
+
+.no-svg .course-data-row .course-data-icon {
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+}
+
+.no-svg .course-data-row.course-pace .course-data-icon {
+  background-position: -128px 17px;
+}
+
+.no-svg .course-data-row.course-language .course-data-icon {
+  background-position: -169px 18px;
+}
+
+.no-svg .course-data-row.course-provider .course-data-icon {
+  background-position: -308px 17px;
+}
+
+.no-svg .course-data-row.course-institution .course-data-icon {
+  background-position: -258px 13px;
+}
+
+.no-svg .course-data-row.course-sessions .course-data-icon {
+  background-position: -216px 18px;
+}
+
+.no-svg .course-data-row.course-reviews .course-data-icon {
+  background-image: none;
+}
+
+.no-svg .sign-in-with-facebook .icon-facebook2-png {
+  width: 42px;
+  height: 42px;
+  display: block;
+  float: left;
+  margin: 10px 20px 0 0;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -568px -1px ;
+}
+
+.no-svg .cc-form-box .icon-cc-logo-png {
+  width: 62px;
+  height: 62px;
+  position: absolute;
+  margin-left: -31px;
+  left: 50%;
+  top: 39px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 6px solid #fff;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-position: -376px -45px ;
+}
 
 /* =Section Base Styles
 ----------------------------------------------------------------------------- */
@@ -944,11 +1080,13 @@ body {
 
 .spotlight {
   position: relative;
+  overflow: hidden;
 }
 
 .spotlight-logo-wrap {
   position: absolute;
   right: 0;
+  top: 30px;
 }
 
 .spotlight-logo-wrap a {
@@ -1015,6 +1153,8 @@ body {
 
 .spotlight-item .img-wrap {
   position: relative;
+  height: 162px;
+  background: @gray-light;
 }
 
 .spotlight-item:hover,
@@ -1153,7 +1293,6 @@ body {
    ========================================================================== */
 
 .learn-more-tab-section {
-  display: none;
   overflow: hidden;
   margin-bottom: 100px;
 }
@@ -1218,7 +1357,6 @@ body {
    ========================================================================== */
 
 .subjects-tab-section {
-  display: none;
   overflow: hidden;
 }
 
@@ -1306,6 +1444,12 @@ body {
 @media (max-width: 500px) {
   .subjects .single-category {
     width: 100%;
+  }
+}
+
+@media (max-width: @screen-md-min) {
+  .section-tab-content .faq-sidebar {
+    display: none;
   }
 }
 /* ==========================================================================
@@ -1409,29 +1553,25 @@ body {
   display: inline;
 }
 
-.table-uni-list li:after {
+.table-uni-list li + li:before {
   content: ', ';
   color: @gray-cyan;
   font-weight: 400;
   font-size: 11px;
 }
 
-.table-uni-list li:last-child:after {
-  content: "";
-}
-
-.table-uni-list li a {
+.table-uni-list a {
   color: @gray-cyan;
   font-weight: 400;
   font-size: 11px;
 }
 
-.table-uni-list li .initiativelinks {
+.table-uni-list .initiativelinks {
   color: @blue;
   font-weight: 600;
 }
 
-.table-uni-list li .via {
+.table-uni-list .via {
   color: @gray-blue-light;
   font-size: 11px;
   font-weight: 400;
@@ -3227,7 +3367,7 @@ input.filter-search:focus {
   border: 1px solid @beige;
   border-right-color: @gray;
   border-bottom-color: @gray;
-  padding: 24px 0;
+  padding: 21px 0;
   text-align: center;
   width: 250px;
   .border-radius(5px);
