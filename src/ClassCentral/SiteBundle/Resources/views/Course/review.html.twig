@@ -8,6 +8,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>View</th>
+            <th>Edit</th>
         </tr>
      </thead>
      <tbody>
@@ -16,6 +17,7 @@
             <td>{{ course.id }}</td>
             <td><a href="{{ path('ClassCentralSiteBundle_mooc', {'id':course.id,'slug':course.slug}) }}">{{ course.name }}</a></td>
             <td><a href="{{ path('course_show', {'id':course.id}) }}"> Admin View</a></td>
+             <td><a href="{{ path('course_edit', {'id':course.id}) }}"> Edit</a></td>
          </tr>
      {% endfor %}
 
