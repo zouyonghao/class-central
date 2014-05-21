@@ -34,3 +34,10 @@
         <a id="cancel-review"  onmousedown="_gaq.push(['_trackEvent', 'Create Review Page', 'Cancel', '{{course.name}}'])" href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id,slug:course.slug}) }}">Cancel</a>
     </form>
 </div>
+
+{% if signupForm is defined %}
+    {% include 'ClassCentralSiteBundle:Helpers:signupform.html.twig' with {
+    signupForm : signupForm,
+    formTitle  : 'Signup to post your review'
+    } %}
+{% endif %}

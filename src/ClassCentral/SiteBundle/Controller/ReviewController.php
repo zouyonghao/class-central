@@ -72,11 +72,29 @@ class ReviewController extends Controller {
      */
     public function newAction(Request $request, $courseId) {
         $em = $this->getDoctrine()->getManager();
+        $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
+        $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
 
         // Get the course
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
+        }
+
+        // IF the review is already created redirect to an edit review
+        if($loggedIn)
+        {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
+                'user' => $user,
+                'course' => $course
+            ));
+
+            if(!$isAdmin && $review)
+            {
+                // redirect to edit page
+                return $this->redirect($this->generateUrl('review_edit', array('reviewId' => $review->getId() )));
+            }
         }
 
         // Breadcrumbs
@@ -137,9 +155,9 @@ class ReviewController extends Controller {
             }
 
             // Either the user is an admin or the person who created the review
-            $admin =  $this->get('security.context')->isGranted('ROLE_ADMIN');
-            if(!$admin && $user->getId() != $review->getUser()->getId())
+            if(!$isAdmin && $user->getId() != $review->getUser()->getId())
             {
+                exit("dfadsfasfsf");
                 return "You do not have access to this page";
             }
             $course = $review->getCourse();
@@ -167,11 +185,6 @@ class ReviewController extends Controller {
                 'course' => $course
             ));
 
-            if(!$isAdmin && $review)
-            {
-                // redirect to edit page
-                return $this->redirect($this->generateUrl('review_edit', array('reviewId' => $review->getId() )));
-            }
             return $this->render('ClassCentralSiteBundle:Review:helpers\fullReviewForm.html.twig', $formData);
         }
         else
