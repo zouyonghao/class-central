@@ -234,6 +234,12 @@ class CourseUtility {
             return 12;
         }
 
+        // recent = +2 while recent + just announced = +3. Equalize them
+        if( in_array('recent',$states) && in_array('recentlyAdded',$states) )
+        {
+            return 4;
+        }
+
         if( in_array('recent',$states) )
         {
             return 5;
