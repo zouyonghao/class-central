@@ -483,60 +483,13 @@
                     </div>
                 -->
             {% endif %}
-           <!--
+
+            {% if not app.user %}
             <div class="new-review">
-                <header>
-                    <h2>Write a review</h2>
-                </header>
-
-                <span id="courseId" data-value="{{ course.id }}" class="hidden"></span>
-                {#
-                <span id="reviewid" data-value="{{ review.id }}" class="hidden"></span>
-                #}
-                <span id="courseUrl" data-value="{{ path('ClassCentralSiteBundle_mooc',{id:course.id,slug:course.slug }) }}" class="hidden"></span>
-
-
-                <div class="review-form-wrap">
-                    <form id="review-form" class="clearfix" method="post" action="#review-form">
-                        <div class="course-quality">
-                            <span class="review-form-error" id="rating-error" style="display:none;">Rating is required</span>
-                            <span class="review-field-label">How would you rate this course?<span style="color: red"> *</span></span>
-                            <div id="rating" {#data-score ={{ review.rating }} #}></div>
-                        </div>
-
-                        <div class="course-progress">
-                            <span class="review-field-label">How much of the course did you finish?<span style="color: red"> *</span></span>
-                            <span class="review-form-error" id="progress-error" style="display:none;">This is a required field</span>
-                            <div class="progress-radio-group">
-                                <input type="radio" id="current" name="progress" value="7" >
-                                <label for="current">Taking right now</label>
-                                <input type="radio" id="partially_completed" name="progress" value="5" >
-                                <label for="partially_completed">Partially Completed</label>
-                                <input type="radio" id="completed" name="progress" value="3" >
-                                <label for="completed">Completed</label>
-                                <input type="radio" id="audited" name="progress" value="4" >
-                                <label for="audited">Audited</label>
-                                <input type="radio" id="dropped" name="progress" value="6" >
-                                <label for="dropped">Dropped</label>
-                            </div>
-                        </div>
-
-                        <div class="text-wrap">
-                            <div class="review-text">
-                                <span class="review-field-label">Your Review</span>
-                                <span class="review-form-error" id="review-text-error" style="display:none;">Review should be at least 20 words</span>
-                                <textarea id="review-text" name="review-text" placeholder="" class="expandable">{# {{ review.review }} #}</textarea>
-                            </div>
-                        </div>
-
-                        <a id="submit-review"  name="cc-send" href="#">Review Course</a>
-                        <a id="cancel-review"  onmousedown="_gaq.push(['_trackEvent', 'Create Review Page', 'Cancel', '{{course.name}}'])" href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id,slug:course.slug}) }}">Cancel</a>
-                    </form>
-
-                </div>
-
+                {% render controller('ClassCentralSiteBundle:Review:reviewForm', {'courseId': course.id, page : page}) %}
             </div>
-            -->
+            {% endif %}
+
         </div>
     </div>
 

@@ -71,20 +71,13 @@ class ReviewController extends Controller {
      * @param $courseId
      */
     public function newAction(Request $request, $courseId) {
-
-        $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
         $em = $this->getDoctrine()->getManager();
-        $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
 
         // Get the course
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
         if (!$course) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
-
-        $formData = $this->getReviewFormData($course);
-        $formData['page'] = 'write_review';
-        $formData['review'] = new Review(); // Empty review object
 
         // Breadcrumbs
         $breadcrumbs = array();
@@ -110,7 +103,61 @@ class ReviewController extends Controller {
 
         $breadcrumbs[] = Breadcrumb::getBreadCrumb('Review');
 
-        $formData['breadcrumbs'] = $breadcrumbs;
+        return $this->render('ClassCentralSiteBundle:Review:review.html.twig', array(
+            'page' => 'write_review',
+            'course' => $course,
+            'breadcrumbs' => $breadcrumbs,
+            'reviewId' => null
+        ));
+    }
+
+    /**
+     * Route to generate review forms
+     * @param Request $request
+     * @param $courseId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function reviewFormAction(Request $request, $courseId, $page, $reviewId = null)
+    {
+        $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
+        $em = $this->getDoctrine()->getManager();
+        $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $course = null;
+        $review = null;
+        if( $reviewId != null )
+        {
+            $review = $em->getRepository('ClassCentralSiteBundle:Review')->find($reviewId);
+            if(!$review)
+            {
+                // Show an error page
+                throw $this->createNotFoundException('Unable to find Review entity.');
+            }
+
+            // Either the user is an admin or the person who created the review
+            $admin =  $this->get('security.context')->isGranted('ROLE_ADMIN');
+            if(!$admin && $user->getId() != $review->getUser()->getId())
+            {
+                return "You do not have access to this page";
+            }
+            $course = $review->getCourse();
+        }
+        else
+        {
+            // Get the course
+            $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+            if (!$course) {
+                throw $this->createNotFoundException('Unable to find Course entity.');
+            }
+            $review = new Review();
+        }
+
+        $formData = $this->getReviewFormData($course);
+        $formData['page'] = $page;
+        $formData['review'] = $review;
+
         if($loggedIn)
         {
 
@@ -125,7 +172,7 @@ class ReviewController extends Controller {
                 // redirect to edit page
                 return $this->redirect($this->generateUrl('review_edit', array('reviewId' => $review->getId() )));
             }
-            return $this->render('ClassCentralSiteBundle:Review:new.html.twig', $formData);
+            return $this->render('ClassCentralSiteBundle:Review:helpers\fullReviewForm.html.twig', $formData);
         }
         else
         {
@@ -133,9 +180,8 @@ class ReviewController extends Controller {
                 'action' => $this->generateUrl('signup_create_user')
             ));
             $formData['signupForm'] = $signupForm->createView();
-            return $this->render('ClassCentralSiteBundle:Review:newUserReview.html.twig', $formData);
+            return $this->render('ClassCentralSiteBundle:Review:helpers\partialReviewForm.html.twig', $formData);
         }
-
     }
 
 
@@ -146,7 +192,6 @@ class ReviewController extends Controller {
      */
     public function editAction(Request $request, $reviewId)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
         $review = $em->getRepository('ClassCentralSiteBundle:Review')->find($reviewId);
@@ -156,17 +201,38 @@ class ReviewController extends Controller {
             return null;
         }
 
-        // Either the user is an admin or the person who created the review
-        $admin =  $this->get('security.context')->isGranted('ROLE_ADMIN');
-        if(!$admin && $user->getId() != $review->getUser()->getId())
+        $course = $review->getCourse();
+
+        // Breadcrumbs
+        $breadcrumbs = array();
+        $initiative = $course->getInitiative();
+        if(!empty($initiative))
         {
-            return "You do not have access to this page";
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                $initiative->getName(),
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => $initiative->getCode() ))
+            );
+        }
+        else
+        {
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                'Others',
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => 'others'))
+            );
         }
 
-        $formData = $this->getReviewFormData($review->getCourse());
-        $formData['page'] = 'edit_review';
-        $formData['review'] = $review;
-        return $this->render('ClassCentralSiteBundle:Review:new.html.twig', $formData);
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+            $course->getName(), $this->generateUrl('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()))
+        );
+
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb('Review');
+
+        return $this->render('ClassCentralSiteBundle:Review:review.html.twig', array(
+            'page' => 'edit_course',
+            'course' => $course,
+            'reviewId' => $reviewId,
+            'breadcrumbs' => $breadcrumbs
+        ));
     }
 
 
@@ -314,7 +380,7 @@ class ReviewController extends Controller {
         {
             // Logged in user
             $user = $this->get('security.context')->getToken()->getUser();
-            
+
             // Check if it already exists or not
             $rf = $em->getRepository('ClassCentralSiteBundle:ReviewFeedback')->findOneBy(array(
                 'user' => $user,
