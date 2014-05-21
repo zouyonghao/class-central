@@ -269,13 +269,6 @@ class ReviewController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
 
-        $user = $this->get('security.context')->getToken()->getUser();
-        if(!$user)
-        {
-            // No logged in user
-            return $this->getAjaxResponse(false, "User is not logged in");
-        }
-
         // Get the review
         $review = $em->getRepository('ClassCentralSiteBundle:Review')->find($reviewId);
         if(!$review)
@@ -285,24 +278,61 @@ class ReviewController extends Controller {
 
         // Normalize the feedback
         $fb = ($feedback == 1) ? true: false;
+        $rf = null;
+        if(!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            // Not logged in
+            // Get the session
+            $session = $this->getRequest()->getSession();
+            if(!$session->isStarted())
+            {
+                // Start the session if its not already started
+                $session->start();
+            }
+            $sessionId = $session->getId();
 
-        // Check if it already exists or not
-        $rf = $em->getRepository('ClassCentralSiteBundle:ReviewFeedback')->findOneBy(array(
+
+            $rf = $em->getRepository('ClassCentralSiteBundle:ReviewFeedback')->findOneBy(array(
+                'sessionId' => $sessionId,
+                'review'=>$review
+            ));
+            if ($rf)
+            {
+                $rf->setHelpful($fb);
+            }
+            else
+            {
+                // Create a new feedback
+                $rf = new ReviewFeedback();
+                $rf->setSessionId( $sessionId );
+                $rf->setHelpful($fb);
+                $rf->setReview($review);
+            }
+
+        }
+        else
+        {
+            // Logged in user
+            $user = $this->get('security.context')->getToken()->getUser();
+            
+            // Check if it already exists or not
+            $rf = $em->getRepository('ClassCentralSiteBundle:ReviewFeedback')->findOneBy(array(
                 'user' => $user,
                 'review'=>$review
-        ));
+            ));
 
-        if($rf)
-        {
-            $rf->setHelpful($fb);
-        } else
-        {
+            if($rf)
+            {
+                $rf->setHelpful($fb);
+            } else
+            {
 
-            // Create a new feedback
-            $rf = new ReviewFeedback();
-            $rf->setUser($user);
-            $rf->setHelpful($fb);
-            $rf->setReview($review);
+                // Create a new feedback
+                $rf = new ReviewFeedback();
+                $rf->setUser($user);
+                $rf->setHelpful($fb);
+                $rf->setReview($review);
+            }
         }
         $em->persist($rf);
         $em->flush();

@@ -15,6 +15,10 @@ ClassCentral\SiteBundle\Entity\ReviewFeedback:
         created:
             type: datetime
             nullable: true
+        sessionId:
+            type: string
+            length: 50
+            column: session_id
     manyToOne:
         review:
             targetEntity: Review

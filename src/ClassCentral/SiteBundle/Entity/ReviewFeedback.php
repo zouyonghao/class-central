@@ -141,4 +141,32 @@ class ReviewFeedback
     {
         return $this->user;
     }
+    /**
+     * @var string
+     */
+    private $sessionId;
+
+
+    /**
+     * Set sessionId
+     *
+     * @param string $sessionId
+     * @return ReviewFeedback
+     */
+    public function setSessionId($sessionId)
+    {
+        $this->sessionId = $sessionId;
+    
+        return $this;
+    }
+
+    /**
+     * Get sessionId
+     *
+     * @return string 
+     */
+    public function getSessionId()
+    {
+        return $this->sessionId;
+    }
 }

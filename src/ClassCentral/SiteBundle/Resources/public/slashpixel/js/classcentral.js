@@ -479,22 +479,9 @@ jQuery(function($) {
         var reviewId = $(this).data('reviewid');
         var feedback = (helpful === 'NO') ? 0 : 1;
 
-        // Check if the user is logged in
-        $.ajax({
-            url: "/ajax/isLoggedIn",
-            cache: true
-        })
+        $.ajax("/ajax/review/feedback/"+ reviewId+"/"+feedback)
             .done(function(result){
-                var loggedInResult = $.parseJSON(result);
-                if(loggedInResult.loggedIn) {
-                    $.ajax("/ajax/review/feedback/"+ reviewId+"/"+feedback)
-                        .done(function(result){
-                            $('#review-feedback-'+reviewId).text("Thank you for your feedback.");
-                        });
-                } else {
-                    // redirect to login page
-                    window.location.replace("/login");
-                }
+                $('#review-feedback-'+reviewId).text("Thank you for your feedback.");
             });
 
     });
