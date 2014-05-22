@@ -16,6 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface, \Serializable
 {
+    const REVIEW_USER_EMAIL = 'reviews@class-central.com';
+
     /**
      * @var integer
      */

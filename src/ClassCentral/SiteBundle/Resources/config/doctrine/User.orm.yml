@@ -1,6 +1,7 @@
 ClassCentral\SiteBundle\Entity\User:
     type: entity
     table: users
+    repositoryClass: ClassCentral\SiteBundle\Repository\UserRepository
     fields:
         id:
             id: true
