@@ -32,6 +32,12 @@
  {% endblock %}
 
 {% block content %}
+    {# whether to display create review/review form for logged out users  #}
+    {% set hideCreateReview = false %}
+    {% if app.session.get('user_course_reviewed_for') is defined and app.session.get('user_course_reviewed_for') == course.id %}
+        {% set hideCreateReview = true %}
+    {% endif %}
+
     <h2 class="section-heading"><span>Course Details</span></h2>
 
     {% set reviewUrl = path('review_new',{courseId: course.id})%}
@@ -240,7 +246,7 @@
                         <span class="review-count">
                             <a href="#course-all-reviews" class="review-button">{{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
                         </span>
-                        {% if not user_session.isCourseReviewed(course.id) %}
+                        {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
                             <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
                         {% endif %}
                     </span>
@@ -484,7 +490,7 @@
                 -->
             {% endif %}
 
-            {% if not app.user %}
+            {% if not app.user and not hideCreateReview %}
             <div class="new-review">
                 {% render controller('ClassCentralSiteBundle:Review:reviewForm', {'courseId': course.id, page : page}) %}
             </div>

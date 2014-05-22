@@ -364,36 +364,31 @@ jQuery(function($) {
         var validationError = validateReviewForm(review);
 
         if(!validationError) {
-            // Check if the user is logged in
+            $('#signupForm').on('hidden.bs.modal',function(e){
+                location.reload();
+            });
             $.ajax({
-                url: "/ajax/isLoggedIn",
-                cache: true
+                type:"post",
+                url:"/review/save/" + $('#courseId').data("value"),
+                data:JSON.stringify(review)
             })
-                .done(function(result){
-                    var loggedInResult = $.parseJSON(result);
-                    if(!loggedInResult.loggedIn) {
-                        // Not logged in. Continue
-                        $.ajax({
-                            type:"post",
-                            url:"/review/save/" + $('#courseId').data("value"),
-                            data:JSON.stringify(review)
-                        })
-                            .done(
-                            function(result){
-                                result = JSON.parse(result);
-                                if(result['success']) {
-                                    // Redirect to the course page
-                                    $('#signupForm').modal('show');
-                                } else {
-                                    // Show an error message
-                                    showPinesNotification('error','Some error occurred',result['message']);
-                                }
-                            }
-                        );
+                .done(
+                function(result){
+                    result = JSON.parse(result);
+                    if(result['success']) {
+                        // Clear the form
+                        var rating = $('#rating').raty('score');
+                        $('textarea[name=review-text]').val("");
+                        $('input:radio[name=progress]:checked').prop('checked',false);
 
+                        // Redirect to the course page
+                        $('#signupForm').modal('show');
+                    } else {
+                        // Show an error message
+                        showPinesNotification('error','Some error occurred',result['message']);
                     }
-                });
-
+                }
+            );
 
         }
 

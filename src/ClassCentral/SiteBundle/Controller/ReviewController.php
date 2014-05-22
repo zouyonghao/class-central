@@ -332,11 +332,26 @@ class ReviewController extends Controller {
             return $this->getAjaxResponse(false,'Progress is required');
         }
 
-        // Save it in the session
-        $reviewData['courseId'] = $courseId;
-        $session->set('user_review',$reviewData);
+        // Save the review
 
-        return $this->getAjaxResponse(true);
+        $user = $em->getRepository('ClassCentralSiteBundle:User')->getReviewUser();
+        $result = $ru->saveReview($courseId, $user, $reviewData, true);
+
+        if(is_string($result))
+        {
+            // Error. Json response. I know this is wrong
+            return new Response($result);
+        }
+
+        // result is a review object
+        $review = $result;
+
+        //$session->set('user_review',$reviewData);
+        // save the review id in the session.
+        $session->set('user_review_id', $review->getId());
+        $session->set('user_course_reviewed_for', $review->getCourse()->getId() ); // don't allow the user to write a review
+
+        return $this->getAjaxResponse(true,$review->getId());
     }
 
     /**

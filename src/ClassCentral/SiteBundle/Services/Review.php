@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Entity\Review as ReviewEntity;
@@ -265,25 +266,29 @@ class Review {
 
         $this->clearCache($courseId);
 
-        // Update the users review history in session
-        $userSession = $this->container->get('user_session');
-        $userSession->saveUserInformationInSession();
+        // If its an actual user and not an anonymous user update the session information
+        if($user->getEmail() != User::REVIEW_USER_EMAIL)
+        {
+            //Update the users review history in session
+            $userSession = $this->container->get('user_session');
+            $userSession->saveUserInformationInSession();
 
-        if($newReview)
-        {
-            $userSession->notifyUser(
-                UserSession::FLASH_TYPE_SUCCESS,
-                'Review created',
-                sprintf("Review for <i>%s</i> created successfully", $review->getCourse()->getName())
-            );
-        }
-        else
-        {
-            $userSession->notifyUser(
-                UserSession::FLASH_TYPE_SUCCESS,
-                'Review updated',
-                sprintf("Your review for <i>%s</i> has been updated successfully", $review->getCourse()->getName())
-            );
+            if($newReview)
+            {
+                $userSession->notifyUser(
+                    UserSession::FLASH_TYPE_SUCCESS,
+                    'Review created',
+                    sprintf("Review for <i>%s</i> created successfully", $review->getCourse()->getName())
+                );
+            }
+            else
+            {
+                $userSession->notifyUser(
+                    UserSession::FLASH_TYPE_SUCCESS,
+                    'Review updated',
+                    sprintf("Your review for <i>%s</i> has been updated successfully", $review->getCourse()->getName())
+                );
+            }
         }
         return $review;
     }

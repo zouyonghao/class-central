@@ -109,13 +109,12 @@ class User {
         }
 
         // Check if it was the review first signup later flow
-        $review = $this->createReviewFromSession($user);
+        $review = $this->addUserToReview($user);
         if($review instanceof \ClassCentral\SiteBundle\Entity\Review)
         {
-            // Review created successfully. Redirect to the router page
+            // Review created successfully. Redirect to the course page
             return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug() ));
         }
-
 
         return $router->generate('user_library');
     }
@@ -130,7 +129,7 @@ class User {
     public function createReviewFromSession($user)
     {
         $session = $this->container->get('session');
-        $userReview = $session->get('user_review');
+        $userReview = $session->get('user_review_id');
         $ru = $this->container->get('review');
 
         if(!empty($userReview))
@@ -142,6 +141,35 @@ class User {
             return $review;
         }
 
+
+    }
+
+    /**
+     * Adds the newly signed up user to the anonymous review created before
+     * @param $user
+     */
+    public function addUserToReview($user)
+    {
+        $session = $this->container->get('session');
+        $reviewId = $session->get('user_review_id');
+        $ru = $this->container->get('review');
+        $em = $this->container->get('doctrine')->getManager();
+        $userSession = $this->container->get('user_session');
+
+
+        if( !empty( $reviewId) )
+        {
+            $review = $em->getRepository('ClassCentralSiteBundle:Review')->find( $reviewId );
+            $review->setUser( $user );
+            $user->addReview( $review );
+            $em->persist( $review );
+            $em->flush();
+            $session->remove('user_review_id'); // Delete the review id from cache
+            $ru->clearCache( $review->getCourse()->getId() ); // update the course page
+            $userSession->saveReviewInformationInSession(); // Update the users review history in session
+
+            return $review;
+        }
         return false;
     }
 

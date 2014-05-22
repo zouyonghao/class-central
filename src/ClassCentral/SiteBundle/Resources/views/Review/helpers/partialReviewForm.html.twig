@@ -2,6 +2,10 @@
     <header>
         <h2><span>Review </span>{{ course.name }}</h2>
     </header>
+{% else %}
+    <header>
+        <h2><span>Write a review</span></h2>
+    </header>
 {% endif %}
 <span id="courseId" data-value="{{ course.id }}" class="hidden"></span>
 <span id="reviewid" data-value="{{ review.id }}" class="hidden"></span>
@@ -30,14 +34,16 @@
             </div>
         </div>
 
-        <a id="submit-signup-review"  name="cc-send" href="#">Signup and Post</a>
-        <a id="cancel-review"  onmousedown="_gaq.push(['_trackEvent', 'Create Review Page', 'Cancel', '{{course.name}}'])" href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id,slug:course.slug}) }}">Cancel</a>
+        <a id="submit-signup-review"  name="cc-send" href="#">Create Review</a>
+        {% if page=='write_review' %}
+            <a id="cancel-review"  onmousedown="_gaq.push(['_trackEvent', 'Create Review Page', 'Cancel', '{{course.name}}'])" href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id,slug:course.slug}) }}">Cancel</a>
+        {% endif %}
     </form>
 </div>
 
 {% if signupForm is defined %}
     {% include 'ClassCentralSiteBundle:Helpers:signupform.html.twig' with {
     signupForm : signupForm,
-    formTitle  : 'Signup to post your review'
+    formTitle  : 'Review created. Signup to update/edit it later'
     } %}
 {% endif %}

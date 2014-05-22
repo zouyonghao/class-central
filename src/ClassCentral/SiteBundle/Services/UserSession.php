@@ -134,7 +134,7 @@ class UserSession
 
         // Create a review for this user if it exists
         $us = $this->container->get('user_service');
-        $us->createReviewFromSession($user);
+        $us->addUserToReview($user);
 
         // user has just logged in. Update the session
         $this->saveUserInformationInSession();
