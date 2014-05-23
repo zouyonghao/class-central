@@ -1903,9 +1903,14 @@ thead {
   .course-name-column-start-date {
     display: block;
   }
+
 }
 
-@media (max-width: 470px) {
+@media (max-width:@screen-sm-min) {
+  .add-column {
+    display: none;
+  }
+  
   #filter-wrap .course-rating-column, .front-page-table .course-rating-column {
     display: none;
   }
