@@ -75,6 +75,14 @@ class ReviewController extends Controller {
         $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
         $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
 
+        // Check if log in is required
+        $login = $request->query->get('login');
+        if($login && $login == 1 && !$loggedIn)
+        {
+            // Redirect to the login screen
+            return $this->redirect( $this->generateUrl('login') );
+        }
+
         // Get the course
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
         if (!$course) {

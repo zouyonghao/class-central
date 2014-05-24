@@ -44,7 +44,7 @@ class UserSession
         'signup', 'signup_mooc', 'signup_search_term', 'signup_create_user',
         'forgotpassword', 'forgotpassword_sendemail', 'resetPassword', 'resetPassword_save',
         'fb_authorize_start', 'fb_authorize_redirect',
-        'review_save', 'review_create','review_new',
+        'review_save', 'review_create',
         'login','github_btn'
     );
 

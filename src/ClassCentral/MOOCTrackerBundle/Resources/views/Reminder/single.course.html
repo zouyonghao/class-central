@@ -1118,7 +1118,7 @@ body.outlook p {
                                                     {% else %}
                                                     {% set courseUrlText='Access the course' %}
                                                     {% endif %}
-                                                    <p><a href="{{ course.nextOffering.url }}">{{ courseUrlText }} »</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}"> Write a review »</a></p>
+                                                    <p><a href="{{ course.nextOffering.url }}">{{ courseUrlText }} »</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1">Write a review »</a></p>
                                                 </td>
                                             </tr>
                                         </table>
