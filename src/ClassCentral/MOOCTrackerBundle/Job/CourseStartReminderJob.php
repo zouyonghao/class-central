@@ -13,6 +13,7 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobAbstract;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
+use InlineStyle\InlineStyle;
 
 /**
  * Sends a reminder email for the course. Emails are sent on 2 occasion
@@ -50,10 +51,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 "User with id $userId not found"
             );
         }
-        else
-        {
 
-        }
         // TODO: Implement this
        //var_dump( $args);
         $numCourses = 0;
@@ -80,7 +78,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 $courseId = array_pop( $args[UserCourse::LIST_TYPE_ENROLLED] );
             }
 
-            $html = $this->getCourseView( $courseId );
+            $html = $this->getCourseView( $courseId, $isInterested, $user );
 
             $response = $mailgun->sendMessage( array(
                 'from' => '"MOOC Tracker" <no-reply@class-central.com>',
@@ -123,11 +121,21 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
     }
 
-    private function getCourseView($courseId)
+    private function getCourseView($courseId, $isInterested, $user)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
-        $nextSession = CourseUtility::getNextSession( $course );
+        $courseDetails = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+
+        $templating = $this->getContainer()->get('templating');
+        return $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:single.course.inlined.html', array(
+            'course' => $courseDetails,
+            'baseUrl' => $this->getContainer()->getParameter('baseurl'),
+            'interested' => $isInterested,
+            'user' => $user
+        ))->getContent();;
+
+            $nextSession = CourseUtility::getNextSession( $course );
 
         return sprintf( "<a href='%s'>%s (%s) </a>", $nextSession->getUrl(), $course->getName(), $nextSession->getDisplayDate() );
     }

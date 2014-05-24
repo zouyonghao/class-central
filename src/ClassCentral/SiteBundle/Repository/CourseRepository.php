@@ -57,6 +57,7 @@ class CourseRepository extends EntityRepository{
         if($nextOffering) {
             $courseDetails['nextOffering']['displayDate'] = $nextOffering->getDisplayDate();
             $courseDetails['nextOffering']['id'] = $nextOffering->getId();
+            $courseDetails['nextOffering']['url'] = $nextOffering->getUrl();
 
             // Get the state of this session
             $courseDetails['state'] = null;

@@ -23,6 +23,7 @@ class Courses {
         $this->esClient = $esClient;
     }
 
+
     /**
      * Returns a list of all the courses for a particular provider
      * @param $slug
