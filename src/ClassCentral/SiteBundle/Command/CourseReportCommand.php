@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Command;
 
 use ClassCentral\SiteBundle\Command\Network\RedditNetwork;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -65,7 +66,7 @@ class CourseReportCommand extends ContainerAwareCommand
             // Skip self paced courses
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
-                //continue;
+                continue;
             }
 
 
@@ -111,8 +112,21 @@ class CourseReportCommand extends ContainerAwareCommand
                     $network->outOffering( $offering );
                     // Count the number of times its been added to my courses
                     $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
-                    $timesAdded = count($added);
-                    $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                    $timesOffered = 0;
+                    foreach($offering->getCourse()->getOfferings() as $o)
+                    {
+                        $states = CourseUtility::getStates( $o );
+                        if( in_array( 'past', $states) || in_array( 'ongoing', $states) )
+                        {
+                            $timesOffered++;
+                        }
+                    }
+                    if ($timesOffered <2 )
+                    {
+                        $timesAdded = count($added);
+                        $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                    }
+
                 }
             }
         }
@@ -135,8 +149,20 @@ class CourseReportCommand extends ContainerAwareCommand
                     $network->outOffering( $offering );
                     // Count the number of times its been added to my courses
                     $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
-                    $timesAdded = count($added);
-                    $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                    $timesOffered = 0;
+                    foreach($offering->getCourse()->getOfferings() as $o)
+                    {
+                        $states = CourseUtility::getStates( $o );
+                        if( in_array( 'past', $states) || in_array( 'ongoing', $states) )
+                        {
+                            $timesOffered++;
+                        }
+                    }
+                    if ($timesOffered <2 )
+                    {
+                        $timesAdded = count($added);
+                        $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                    }
                 }
             }
         }
