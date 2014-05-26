@@ -1053,11 +1053,11 @@ body.outlook p {
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    <h6>{{ course.name }} is
+                                                    <h6>{{ courses|length }} courses are
                                                         {% if jobType=='email_reminder_course_start_1day' %}
-                                                            starting tomorrow
+                                                        starting tomorrow
                                                         {% else %}
-                                                            starting soon
+                                                        starting soon
                                                         {% endif %}
                                                     </h6>
                                                 </td>
@@ -1076,7 +1076,7 @@ body.outlook p {
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    A course added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"My Courses"</a> list is about to start. To understand how these courses work, please take a look at our <a href="{{baseUrl}}/faq">FAQ</a>
+                                                    Course(s) added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"My Courses"</a> list are about to start. To understand how these courses work, please take a look at our <a href="{{ baseUrl }}/faq">FAQ page.</a>
                                                     <br/><br/>
                                                     Note: Class Central is not involved in the running of courses. To access the course, you need to visit the providers website. Course content might not be available until after the start date.
                                                 </td>
@@ -1088,11 +1088,13 @@ body.outlook p {
                                 </tr>
                             </table>
                             <br/>
-
+                            {# courses block start #}
+                            {% for c in courses %}
+                            {% set course = c.course %}
+                            {% set interested = c.interested %}
                             <table class="row">
                                 <tr>
                                     <td class="wrapper last">
-
                                         <table class="twelve columns">
                                             <tr>
                                                 <td class="panel">
@@ -1132,6 +1134,9 @@ body.outlook p {
                                     </td>
                                 </tr>
                             </table>
+                            {% endfor %}
+                            {# courses block end #}
+
                             <br/><br/>
                             <table class="row">
                                 <tr>

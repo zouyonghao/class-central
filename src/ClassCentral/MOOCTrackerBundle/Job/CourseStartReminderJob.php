@@ -67,6 +67,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
         if( $numCourses == 1)
         {
+           // Single course
             $courseId = null;
 
             $isInterested = empty( $args[UserCourse::LIST_TYPE_INTERESTED] ) ? false : true;
@@ -105,26 +106,73 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 );
             }
 
+            return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
+
         }
         else
         {
-            // Multiple courses
+            // Multiple courses. Build a array
+            $courses = array();
+            if(isset( $args[UserCourse::LIST_TYPE_INTERESTED]) )
+            {
+                foreach( $args[UserCourse::LIST_TYPE_INTERESTED] as $courseId)
+                {
+                    $course =  $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+                    $courses[] = array(
+                        'interested' => true,
+                        'id' => $courseId,
+                        'course' => $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course )
+                    );
+                }
+            }
+            if( isset($args[UserCourse::LIST_TYPE_ENROLLED]) )
+            {
+                foreach( $args[UserCourse::LIST_TYPE_ENROLLED] as $courseId)
+                {
+                    $course =  $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+                    $courses[] = array(
+                        'interested' => false,
+                        'id' => $courseId,
+                        'course' => $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course )
+                    );
+                }
+            }
 
+            $templating = $this->getContainer()->get('templating');
+            $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
+                'courses' => $courses,
+                'baseUrl' => $this->getContainer()->getParameter('baseurl'),
+                'user' => $user,
+                'jobType' => $this->getJob()->getJobType()
+            ))->getContent();
+
+
+            $subject = "Reminder : $numCourses courses are";
+            $subject .= ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
+                " starting tomorrow" : " starting soon";
+
+            $response = $mailgun->sendMessage( array(
+                'from' => '"MOOC Tracker" <no-reply@class-central.com>',
+                //'to' => $user->getEmail(),
+                'to' => 'dhawalhshah@gmail.com',
+                'subject' => $subject,
+                'html' => $html
+            ));
+
+            if( !($response && $response->http_response_code == 200))
+            {
+                // Failed
+                return SchedulerJobStatus::getStatusObject(
+                    SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
+                    ($response && $response->http_response_body)  ?
+                        $response->http_response_body->message : "Mailgun error"
+                );
+            }
+
+            return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
 
         }
 
-
-        /*
-        Different scenarios
-        1. 1 interested course
-        2. 1 enrolled course
-        3. Multiple interested course
-        4. Multiple enrolled course
-        5. Mix of interested and enrolled
-        6. Start today or Starting Soon
-        */
-
-        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
 
     }
 
@@ -141,7 +189,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'interested' => $isInterested,
             'user' => $user,
             'jobType' => $jobType
-        ))->getContent();;
+        ))->getContent();
 
     }
 
