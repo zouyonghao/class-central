@@ -85,7 +85,7 @@ class Scraper extends ScraperAbstractInterface
                     //$this->out( "Database course changed " . $dbCourse->getName());
                     // Course has been modified
                     $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
-                    //$this->outputChangedFields($changedFields);
+                    $this->outputChangedFields($changedFields);
                     if ($this->doModify())
                     {
                         $em->persist($dbCourse);
