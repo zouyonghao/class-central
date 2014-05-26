@@ -68,6 +68,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         if( $numCourses == 1)
         {
             $courseId = null;
+
             $isInterested = empty( $args[UserCourse::LIST_TYPE_INTERESTED] ) ? false : true;
             if( $isInterested )
             {
@@ -77,14 +78,20 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             {
                 $courseId = array_pop( $args[UserCourse::LIST_TYPE_ENROLLED] );
             }
+            $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+            $html = $this->getCourseView( $course, $isInterested, $user, $this->getJob()->getJobType() );
 
-            $html = $this->getCourseView( $courseId, $isInterested, $user );
+            $subject = "Reminder : ";
+            $subject .= $course->getName() ;
+            $subject .= ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
+                " starts tomorrow" : " starts soon";
 
             $response = $mailgun->sendMessage( array(
                 'from' => '"MOOC Tracker" <no-reply@class-central.com>',
                 //'to' => $user->getEmail(),
-                'to' => 'dhawalhshah@gmail.com',
-                'subject' => 'Course Starting soon',
+                //'to' => 'dhawalhshah@gmail.com',
+                'to' => 'dhawal@class-central.com',
+                'subject' => $subject,
                 'html' => $html
             ));
 
@@ -121,10 +128,10 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
     }
 
-    private function getCourseView($courseId, $isInterested, $user)
+    private function getCourseView($course, $isInterested, $user, $jobType)
     {
+
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
         $courseDetails = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
 
         $templating = $this->getContainer()->get('templating');
@@ -132,12 +139,10 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'course' => $courseDetails,
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
             'interested' => $isInterested,
-            'user' => $user
+            'user' => $user,
+            'jobType' => $jobType
         ))->getContent();;
 
-            $nextSession = CourseUtility::getNextSession( $course );
-
-        return sprintf( "<a href='%s'>%s (%s) </a>", $nextSession->getUrl(), $course->getName(), $nextSession->getDisplayDate() );
     }
 
     public function tearDown()

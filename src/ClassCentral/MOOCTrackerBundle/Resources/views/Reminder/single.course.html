@@ -1053,7 +1053,13 @@ body.outlook p {
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    <h6>{{ course.name }} is starting soon</h6>
+                                                    <h6>{{ course.name }} is
+                                                        {% if jobType=='email_reminder_course_start_1day' %}
+                                                            starting tomorrow
+                                                        {% else %}
+                                                            starting soon
+                                                        {% endif %}
+                                                    </h6>
                                                 </td>
 
                                             </tr>
@@ -1070,7 +1076,7 @@ body.outlook p {
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    The course(s) mentioned in your <a href="{{ baseUrl }}{{ path('user_library') }}">"My Courses"</a> list are about to start. To understand how these courses work, visit our <a href="#faq">FAQ page.</a>
+                                                    Course(s) added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"My Courses"</a> list are about to start. To understand how these courses work, visit our <a href="#faq">FAQ page.</a>
                                                     <br/><br/>
                                                     Note: Class Central is not involved in the running of courses. To access the course, you need to visit the providers website. Course content might not be available until after the start date.
                                                 </td>

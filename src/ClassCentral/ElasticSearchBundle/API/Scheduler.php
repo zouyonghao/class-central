@@ -111,6 +111,7 @@ class Scheduler {
         );
 
         $params['body']['query'] = $query;
+        $params['body']['size'] = 10000;
 
         $results = $this->esClient->search( $params );
 
