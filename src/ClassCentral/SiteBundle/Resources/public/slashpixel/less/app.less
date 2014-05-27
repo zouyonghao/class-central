@@ -1078,6 +1078,9 @@ body {
 @cyan-bg: rgba(105, 191, 184, 0.9);
 @red-bg: rgba(205, 33, 39, 0.9);
 
+.home-spotlight-wrapper {
+  margin-top: -80px;
+}
 .spotlight {
   position: relative;
   overflow: hidden;
@@ -1086,7 +1089,6 @@ body {
 .spotlight-logo-wrap {
   position: absolute;
   right: 0;
-  top: 30px;
 }
 
 .spotlight-logo-wrap a {
@@ -1273,6 +1275,23 @@ body {
   .spotlight-item-wrap {
     width: 25%;
   }
+  .spotlight-logo-wrap {
+    top: 30px;
+  }
+}
+
+@media (max-width: @screen-sm-min) {
+
+  .home-spotlight-wrapper {
+    margin-top: -30px;
+  }
+}
+
+@media (max-width:@screen-md-min) {
+
+  .home-spotlight-wrapper {
+    margin-top: -120px;
+  }
 }
 
 @media (min-width: @screen-lg-min) {
@@ -1286,6 +1305,8 @@ body {
     padding-right: 25px;
     width: 20%;
   }
+
+
 }
 
 
@@ -1461,7 +1482,7 @@ body {
 .cc-page {
   margin-bottom: 50px;
   padding-bottom: 10px;
-  margin-top: 50px;
+  margin-top: 130px;
   clear: both;
 }
 
