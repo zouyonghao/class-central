@@ -35,9 +35,11 @@
                         <li class="subjects-tab">
                             <a href="#" data-target-section="subjects-tab-section">The Subjects</a>
                         </li>
-                        <li class="create-account-tab">
-                            <a href="" id="home-create-free-account">Create free account</a>
-                        </li>
+                        {% if not app.user %}
+                            <li class="create-account-tab">
+                                <a href="" id="home-create-free-account">Create free account</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
@@ -116,14 +118,16 @@
         </a>
     </section>
 
-    <section class="convincer">
-        <div class="container">
-            <div class="convincer-wrap">
-                <span>Receive course recommendations & reminders with MOOC Tracker</span>
-                <a class="create-free-account" id="convincer-create-free-account" href="">Create free account</a>
+    {% if not app.user %}
+        <section class="convincer">
+            <div class="container">
+                <div class="convincer-wrap">
+                    <span>Receive course recommendations & reminders with MOOC Tracker</span>
+                    <a class="create-free-account" id="convincer-create-free-account" href="">Create free account</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
     <section class="footer-logos">
         <ul>
             <li><a class="stanford-logo" href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}">Stanford University</a></li>
