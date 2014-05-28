@@ -21,7 +21,7 @@ class CryptUtility {
      */
     public static function encrypt($string , $key)
     {
-            return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))));
+            return self::base64url_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))));
     }
 
     /**
@@ -32,7 +32,15 @@ class CryptUtility {
      */
     public static function decrypt($encrypted, $key)
     {
-           return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($encrypted), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+           return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), self::base64url_decode($encrypted), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+    }
+
+    public  static function base64url_encode($data) {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+
+    public  static function base64url_decode($data) {
+        return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
     }
 
     public static function getUnsubscribeToken(User $user,$preference, $key)

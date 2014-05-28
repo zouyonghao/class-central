@@ -9,6 +9,7 @@ use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Services\UserSession;
+use ClassCentral\SiteBundle\Utility\CryptUtility;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -915,6 +916,54 @@ class UserController extends Controller
             'mtSearchTermsPrefId' => UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM,
             'page' => 'preferences'
         ));
+    }
+
+    /**
+     * Unsubscribes the user mentioned in the token
+     * @param Request $request
+     * @param $token
+     */
+    public function oneClickUnsubscribeAction(Request $request, $token)
+    {
+        // Unsubscribe the user
+        $this->updateSubscriptionFromToken($token, 0);
+
+        return $this->render('ClassCentralSiteBundle:User:oneclickunsubscribe.html.twig',array(
+            'page' => 'oneclickunsubscribe',
+            'token' => $token
+        ));
+    }
+
+    public function oneClickSubscribeAction(Request $request, $token)
+    {
+        // Subscribe the user
+        $this->updateSubscriptionFromToken($token, 1);
+
+        return $this->render('ClassCentralSiteBundle:User:oneclicksubscribe.html.twig',array(
+            'page' => 'oneclicksubscribe'
+        ));
+    }
+
+    /**
+     * Updates the subscription for the user encoded in the token
+     * @param $token
+     * @param $subValue
+     */
+    private function updateSubscriptionFromToken($token, $subValue)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userService = $this->get('user_service');
+
+        $details = CryptUtility::decryptUnsubscibeToken(
+            $token,
+            $this->container->getParameter('secret')
+        );
+        $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $details['userId'] );
+        $prefId = $details['prefId'];
+
+        // Unsubscribe the user
+        $userService->updatePreference($user, $prefId, $subValue);
+
     }
 
 }

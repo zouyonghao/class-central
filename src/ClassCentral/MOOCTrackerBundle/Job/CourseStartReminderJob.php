@@ -12,7 +12,9 @@ namespace ClassCentral\MOOCTrackerBundle\Job;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobAbstract;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
+use ClassCentral\SiteBundle\Utility\CryptUtility;
 use InlineStyle\InlineStyle;
 
 /**
@@ -143,7 +145,11 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 'courses' => $courses,
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'user' => $user,
-                'jobType' => $this->getJob()->getJobType()
+                'jobType' => $this->getJob()->getJobType(),
+                'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
+                        UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
+                        $this->getContainer()->getParameter('secret')
+                    )
             ))->getContent();
 
 
@@ -173,7 +179,6 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
         }
 
-
     }
 
     private function getCourseView($course, $isInterested, $user, $jobType)
@@ -188,7 +193,11 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
             'interested' => $isInterested,
             'user' => $user,
-            'jobType' => $jobType
+            'jobType' => $jobType,
+            'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
+                    UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
+                    $this->getContainer()->getParameter('secret')
+                )
         ))->getContent();
 
     }

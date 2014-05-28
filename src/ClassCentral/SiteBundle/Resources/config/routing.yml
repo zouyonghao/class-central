@@ -160,6 +160,13 @@ email_verify:
   pattern: /verify/{token}
   defaults: {_controller: ClassCentralSiteBundle:User:verifyEmail}
 
+oneclick_unsubscribe:
+  pattern: /u/unsubscribe/{token}
+  defaults: { _controller: ClassCentralSiteBundle:User:oneClickUnsubscribe }
+
+oneclick_subscribe:
+  pattern: /u/subscribe/{token}
+  defaults: { _controller: ClassCentralSiteBundle:User:oneClickSubscribe }
 #mooc tracker
 mooctracker:
   pattern: /mooc-tracker
