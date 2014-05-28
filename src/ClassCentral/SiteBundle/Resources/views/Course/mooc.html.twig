@@ -657,6 +657,13 @@
     numAnim.start();
     }, 1000);
 
+    {# global state to help decide when the counter is to be updated #}
+    {% set userListIds = user_session.getCourseListIds(course['id']) %}
+    {% if userListIds is empty %}
+        courseAdded = false;
+    {% else %}
+        courseAdded = true;
+    {% endif %}
 
     });
 {% endblock %}

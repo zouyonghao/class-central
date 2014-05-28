@@ -57,6 +57,20 @@ jQuery(function($) {
         2,7
     ];
 
+    function updateCounter( incr )
+    {
+        var start = parseInt( $('#mycourses-listed-count').text() );
+        var end;
+        if(incr) {
+            end = start + 1;
+        } else {
+            end = start - 1;
+        }
+
+        var numAnim = new countUp("mycourses-listed-count", start, end, 0, 1);
+        numAnim.start();
+    }
+
     function addRemoveCourse(listId, courseId, checked,name) {
         try{
             if(checked){
@@ -72,6 +86,11 @@ jQuery(function($) {
                     var r = JSON.parse(result);
                     if(r.success)
                     {
+                        if(!courseAdded) {
+                            updateCounter(true);
+                            courseAdded = true;
+                        }
+
                         if($.inArray(Number(listId), listCourseDone) >= 0)
                         {
                             // Ask them to review the course
@@ -118,6 +137,9 @@ jQuery(function($) {
                     var r = JSON.parse(result);
                     if(r.success)
                     {
+                        // Decrement count
+                        updateCounter(false);
+                        courseAdded = false;
                         notify(
                             'Course removed',
                             '<i>'+ name +'</i> removed from <a href="/user/courses">My Courses</a> successfully',
