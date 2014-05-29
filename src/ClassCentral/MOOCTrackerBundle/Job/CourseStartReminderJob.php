@@ -30,6 +30,10 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
     const JOB_TYPE_2_WEEKS_BEFORE = 'email_reminder_course_start_2weeks';
     const JOB_TYPE_1_DAY_BEFORE   = 'email_reminder_course_start_1day';
 
+    // Mailgun campaign ids
+    const MAILGUN_2_WEEKS_BEFORE_CAMPAIGN_ID = 'mt_mooc_start_two_weeks';
+    const MAILGUN_1_DAY_BEFORE_CAMPAIGN_ID = 'mt_mooc_start_1_day';
+
     public function setUp()
     {
         // TODO: Implement setUp() method.
@@ -54,6 +58,9 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 "User with id $userId not found"
             );
         }
+
+        $campaignId = ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
+                           self::MAILGUN_1_DAY_BEFORE_CAMPAIGN_ID : self::MAILGUN_2_WEEKS_BEFORE_CAMPAIGN_ID;
 
        //var_dump( $args);
         $numCourses = 0;
@@ -89,7 +96,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             $subject .= ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
                 " starts tomorrow" : " starts soon";
 
-            return $this->sendEmail( $subject, $html, $user);
+            return $this->sendEmail( $subject, $html, $user,$campaignId);
 
         }
         else
@@ -121,13 +128,13 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 }
             }
 
-            $html = $this->getMultipleCouressEmail( $courses, $user);
+            $html = $this->getMultipleCouresEmail( $courses, $user);
             $subject = "Reminder : $numCourses courses are";
             $subject .= ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
                 " starting tomorrow" : " starting soon";
 
             return $this->sendEmail(
-                $subject, $html, $user
+                $subject, $html, $user,$campaignId
             );
 
         }
@@ -155,7 +162,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
     }
 
-    private function getMultipleCouressEmail( $courses, User $user )
+    private function getMultipleCouresEmail( $courses, User $user )
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
@@ -179,7 +186,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
      * @param User $user
      * @return SchedulerJobStatus
      */
-    private function sendEmail( $subject, $html, User $user)
+    private function sendEmail( $subject, $html, User $user, $campaignId)
     {
         $mailgun = $this->getContainer()->get('mailgun');
 
@@ -188,7 +195,8 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             //'to' => $user->getEmail(),
             'to' => 'dhawalhshah@gmail.com',
             'subject' => $subject,
-            'html' => $html
+            'html' => $html,
+            'o:campaign' => $campaignId
         ));
 
         if( !($response && $response->http_response_code == 200))
