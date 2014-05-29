@@ -11,6 +11,7 @@ namespace ClassCentral\MOOCTrackerBundle\Job;
 
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobAbstract;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
@@ -44,7 +45,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         $em = $this->getContainer()->get('doctrine')->getManager();
         $userId = $this->getJob()->getUserId();
         $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array( 'id' => $userId) );
-        $mailgun = $this->getContainer()->get('mailgun');
+
 
         if(!$user)
         {
@@ -54,7 +55,6 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             );
         }
 
-        // TODO: Implement this
        //var_dump( $args);
         $numCourses = 0;
         if(isset( $args[UserCourse::LIST_TYPE_INTERESTED]) )
@@ -82,33 +82,14 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 $courseId = array_pop( $args[UserCourse::LIST_TYPE_ENROLLED] );
             }
             $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
-            $html = $this->getCourseView( $course, $isInterested, $user, $this->getJob()->getJobType() );
+            $html = $this->getSingleCourseEmail( $course, $isInterested, $user, $this->getJob()->getJobType() );
 
             $subject = "Reminder : ";
             $subject .= $course->getName() ;
             $subject .= ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
                 " starts tomorrow" : " starts soon";
 
-            $response = $mailgun->sendMessage( array(
-                'from' => '"MOOC Tracker" <no-reply@class-central.com>',
-                //'to' => $user->getEmail(),
-                //'to' => 'dhawalhshah@gmail.com',
-                'to' => 'dhawal@class-central.com',
-                'subject' => $subject,
-                'html' => $html
-            ));
-
-            if( !($response && $response->http_response_code == 200))
-            {
-                // Failed
-                return SchedulerJobStatus::getStatusObject(
-                    SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
-                    ($response && $response->http_response_body)  ?
-                        $response->http_response_body->message : "Mailgun error"
-                );
-            }
-
-            return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
+            return $this->sendEmail( $subject, $html, $user);
 
         }
         else
@@ -140,48 +121,20 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 }
             }
 
-            $templating = $this->getContainer()->get('templating');
-            $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
-                'courses' => $courses,
-                'baseUrl' => $this->getContainer()->getParameter('baseurl'),
-                'user' => $user,
-                'jobType' => $this->getJob()->getJobType(),
-                'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
-                        UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
-                        $this->getContainer()->getParameter('secret')
-                    )
-            ))->getContent();
-
-
+            $html = $this->getMultipleCouressEmail( $courses, $user);
             $subject = "Reminder : $numCourses courses are";
             $subject .= ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
                 " starting tomorrow" : " starting soon";
 
-            $response = $mailgun->sendMessage( array(
-                'from' => '"MOOC Tracker" <no-reply@class-central.com>',
-                //'to' => $user->getEmail(),
-                'to' => 'dhawalhshah@gmail.com',
-                'subject' => $subject,
-                'html' => $html
-            ));
-
-            if( !($response && $response->http_response_code == 200))
-            {
-                // Failed
-                return SchedulerJobStatus::getStatusObject(
-                    SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
-                    ($response && $response->http_response_body)  ?
-                        $response->http_response_body->message : "Mailgun error"
-                );
-            }
-
-            return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
+            return $this->sendEmail(
+                $subject, $html, $user
+            );
 
         }
 
     }
 
-    private function getCourseView($course, $isInterested, $user, $jobType)
+    private function getSingleCourseEmail($course, $isInterested, $user, $jobType)
     {
 
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -200,6 +153,55 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 )
         ))->getContent();
 
+    }
+
+    private function getMultipleCouressEmail( $courses, User $user )
+    {
+        $templating = $this->getContainer()->get('templating');
+        $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
+            'courses' => $courses,
+            'baseUrl' => $this->getContainer()->getParameter('baseurl'),
+            'user' => $user,
+            'jobType' => $this->getJob()->getJobType(),
+            'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
+                    UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
+                    $this->getContainer()->getParameter('secret')
+                )
+        ))->getContent();
+
+        return $html;
+    }
+
+    /**
+     * Sends the MOOC Tracker email
+     * @param $subject
+     * @param $html
+     * @param User $user
+     * @return SchedulerJobStatus
+     */
+    private function sendEmail( $subject, $html, User $user)
+    {
+        $mailgun = $this->getContainer()->get('mailgun');
+
+        $response = $mailgun->sendMessage( array(
+            'from' => '"MOOC Tracker" <no-reply@class-central.com>',
+            //'to' => $user->getEmail(),
+            'to' => 'dhawalhshah@gmail.com',
+            'subject' => $subject,
+            'html' => $html
+        ));
+
+        if( !($response && $response->http_response_code == 200))
+        {
+            // Failed
+            return SchedulerJobStatus::getStatusObject(
+                SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
+                ($response && $response->http_response_body)  ?
+                    $response->http_response_body->message : "Mailgun error"
+            );
+        }
+
+        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
     }
 
     public function tearDown()
