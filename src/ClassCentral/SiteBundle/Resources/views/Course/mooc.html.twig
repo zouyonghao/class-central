@@ -17,7 +17,7 @@
      <meta property="og:description" content="{{ course['shortDesc'] }}" />
      <meta property="og:type" content="website" />
      {% if course['videoIntro'] is not null %}
-         <meta property="og:video" content="{{  course['videoIntro'] }}" />
+         <meta property="og:video" content="{{  course['videoIntro']|replace({'https' : 'http'}) }}" />
          <meta property="og:video:secure_url" content="{{  course['videoIntro'] }}" />
      {% endif %}
      <meta property="fb:admins" content="{{ fb_admins }}" />
