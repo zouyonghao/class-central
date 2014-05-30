@@ -27,6 +27,7 @@
                 <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
                         onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ spotlight.position }}',
                                 '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}']);"
+                        {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
                         >
                     <div class="img-wrap">
                         <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">

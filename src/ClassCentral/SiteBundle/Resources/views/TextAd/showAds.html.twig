@@ -4,12 +4,12 @@
             <div class="ad-content">
 
                 <a class="ad-title" href="{{ ad.url }}" target="_blank"
-                   onmousedown="_gaq.push(['_trackEvent', 'Text Ad', '{{ ad.title }}', '{{ pageName }}'])">
+                   onmousedown="_gaq.push(['_trackEvent', 'Text Ad', '{{ ad.title }}', '{{ pageName }}'])" rel="nofollow">
                 {{ ad.title }}
                 </a>
 
                 <a class="ad-link" href="{{ ad.url }}" target="_blank"
-                   onmousedown="_gaq.push(['_trackEvent', 'Text Ad', '{{ ad.title }}', '{{ pageName }}'])">
+                   onmousedown="_gaq.push(['_trackEvent', 'Text Ad', '{{ ad.title }}', '{{ pageName }}'])" rel="nofollow">
                     {{ ad.displayUrl }}
                 </a>
                 <p class="ad-text">{{ ad.description }}</p>
