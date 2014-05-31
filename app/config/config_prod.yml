@@ -1,5 +1,6 @@
-  imports:
+imports:
     - { resource: config.yml }
+
 
 #framework:
 #    validation:
@@ -21,10 +22,10 @@ monolog:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
-scheduler:
-    type: stream
-    path: %kernel.logs_dir%/scheduler.%kernel.environment%.log
-    channels: [ scheduler ]
+        scheduler:
+            type: stream
+            path: %kernel.logs_dir%/scheduler.%kernel.environment%.log
+            channels: [ scheduler ]
 
 services:
  mailgun:
