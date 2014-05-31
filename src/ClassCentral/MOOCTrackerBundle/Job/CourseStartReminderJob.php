@@ -192,8 +192,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
         $response = $mailgun->sendMessage( array(
             'from' => '"MOOC Tracker" <no-reply@class-central.com>',
-            //'to' => $user->getEmail(),
-            'to' => 'dhawalhshah@gmail.com',
+            'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
             'o:campaign' => $campaignId
