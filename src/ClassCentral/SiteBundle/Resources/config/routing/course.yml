@@ -41,3 +41,7 @@ course_bulk_edit:
     pattern:  /bulkEdit
     defaults: { _controller: "ClassCentralSiteBundle:Course:bulkEdit" }
 
+course_mt:
+    pattern: /mt/{type}/{date}
+    defaults: { _controller: "ClassCentralSiteBundle:Course:moocTrackerCourses" }
+

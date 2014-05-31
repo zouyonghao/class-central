@@ -701,4 +701,48 @@ EOD;
             return $this->randomAction($request);
         }
     }
+
+    /**
+     * Shows courses for which mooc tracker notifications are being sent
+     * @param Request $request
+     * @param $type - 2weeks/1day
+     * @param $dt
+     */
+    public function moocTrackerCoursesAction(Request $request, $type, $date)
+    {
+        $esCourses = $this->container->get('es_courses');
+
+        $dateParts = explode('-', $date);
+        if( !checkdate( $dateParts[1], $dateParts[2], $dateParts[0] ) )
+        {
+            return null; // Invalid date
+        }
+
+        $dt = new \DateTime( $date );
+        if($type == '2weeks')
+        {
+            // Find courses starting 2 weeks (14 days after the current date)
+            $dt->add( new \DateInterval('P14D') );
+        }
+        else
+        {
+            // Find courses starting 1 day later
+            $dt->add( new \DateInterval('P1D') );
+        }
+
+        $response = $esCourses->findByNextSessionStartDate($dt, $dt);
+        $filter =$this->get('filter');
+        $allSubjects = $filter->getCourseSubjects( $response['subjectIds'] );
+        $allLanguages = $filter->getCourseLanguages( $response['languageIds'] );
+        $allSessions  = $filter->getCourseSessions( $response['sessions'] );
+
+        return $this->render('ClassCentralSiteBundle:Course:mtcourses.html.twig',array(
+            'results' => $response['results'],
+            'listTypes' => UserCourse::$lists,
+            'allSubjects' => $allSubjects,
+            'allLanguages' => $allLanguages,
+            'allSessions' => $allSessions ,
+            'page' => 'moocTrackerCourses',
+        ));
+    }
 }
