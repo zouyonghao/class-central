@@ -1,4 +1,7 @@
 #!/bin/sh
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+cd $DIR
+cd ../
 env=$1
 cd /usr/share/nginx/class-central
 echo "Running Class Central daily cron for $env environment"
