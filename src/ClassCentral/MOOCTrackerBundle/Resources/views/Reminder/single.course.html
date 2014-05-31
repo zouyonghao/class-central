@@ -1001,6 +1001,26 @@ body.outlook p {
             padding-right: 10px !important;
         }
     }
+    .cc-go-to-class.button {
+        width: auto;
+    }
+    .cc-go-to-class.button td {
+        background-color: #33da72;
+        border-bottom: 4px solid #29c062;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .cc-go-to-class.button td:hover {
+        background-color: #5BE48F;
+    }
+
+    .cc-write-a-review {
+        background-color: transparent;
+        margin-bottom: 0;
+        color: #616161;
+        font-size: 12px;
+    }
 
 </style>
 </head>
@@ -1076,9 +1096,9 @@ body.outlook p {
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    A course added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"My Courses"</a> list is about to start. To understand how these courses work, please take a look at our <a href="{{baseUrl}}/faq">FAQ</a>
+                                                    A course added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"My Courses"</a> list is about to start.
                                                     <br/><br/>
-                                                    Note: Class Central is not involved in the running of courses. To access the course, you need to visit the providers website. Course content might not be available until after the start date.
+                                                    Note: Class Central is a directory and does not directly operate courses. Click on 'Go to Class' to go to the providers course web page. Content might not be available until the course start date. You can see our general <a href="{{baseUrl}}/faq">FAQ about MOOCs here</a>.
                                                 </td>
 
                                             </tr>
@@ -1092,7 +1112,6 @@ body.outlook p {
                             <table class="row">
                                 <tr>
                                     <td class="wrapper last">
-
                                         <table class="twelve columns">
                                             <tr>
                                                 <td class="panel">
@@ -1102,7 +1121,7 @@ body.outlook p {
                                                         {% else %}
                                                         {% set initiative='Others' %}
                                                         {% endif %}
-                                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }} style="color: #24313a;font-size: 15px; font-weight: 700"> {{ course.name }} | Starts {{ course.nextOffering.displayDate }}</a> <br />
+                                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}" style="color: #24313a;font-size: 17px; font-weight: 700"> {{ course.name }} | Starts {{ course.nextOffering.displayDate }}</a> <br />
                                                         {% if course.institutions|length %}
                                                         {% set institution = course.institutions[0] %}
                                                         {% set route = 'ClassCentralSiteBundle_university' %}
@@ -1124,7 +1143,31 @@ body.outlook p {
                                                     {% else %}
                                                     {% set courseUrlText='Access the course' %}
                                                     {% endif %}
-                                                    <p><a href="{{ course.nextOffering.url }}">{{ courseUrlText }} »</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1">Write a review »</a></p>
+                                                    <table class="row">
+                                                        <tr>
+                                                            <td class="wrapper last">
+                                                                <table class="button radius cc-go-to-class" >
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a href="{{ course.nextOffering.url }}" >Go to Class</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <table class="row">
+                                                        <tr>
+                                                            <td class="wrapper last">
+                                                                <table>
+                                                                    <tr>
+                                                                        <td><a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1" class="cc-write-a-review">Write a review »</a></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
                                                 </td>
                                             </tr>
                                         </table>
