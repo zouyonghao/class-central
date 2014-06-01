@@ -98,7 +98,15 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         }
 
 
-        if( $numCourses == 1)
+        if( $numCourses == 0 )
+        {
+            // Don't send an email
+            return SchedulerJobStatus::getStatusObject(
+                SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
+                "No courses found for user $userId"
+            );
+        }
+        elseif( $numCourses == 1)
         {
            // Single course
             $courseId = null;
