@@ -1182,6 +1182,28 @@ body.outlook p {
                             {# courses block end #}
 
                             <br/><br/>
+
+                            <table class="row">
+                                <tr>
+                                    <td class="wrapper last">
+
+                                        <table class="twelve columns">
+                                            <tr>
+                                                <td>
+                                                    <h6>More courses you can start right now</h6>
+                                                    <p>
+                                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent'})}}">{{ counts.offeringCount.recent }} courses recently started or starting soon</a> <br/>
+                                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced'})}}">{{ counts.offeringCount.selfpaced }} self paced courses that you can start any time</a>
+                                                    </p>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+
                             <table class="row">
                                 <tr>
                                     <td class="wrapper last">

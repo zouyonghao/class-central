@@ -11,6 +11,7 @@ namespace ClassCentral\MOOCTrackerBundle\Job;
 
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobAbstract;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
+use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
@@ -49,7 +50,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         $em = $this->getContainer()->get('doctrine')->getManager();
         $userId = $this->getJob()->getUserId();
         $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array( 'id' => $userId) );
-
+        $cache = $this->getContainer()->get('cache');
 
         if(!$user)
         {
@@ -62,7 +63,30 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         $campaignId = ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
                            self::MAILGUN_1_DAY_BEFORE_CAMPAIGN_ID : self::MAILGUN_2_WEEKS_BEFORE_CAMPAIGN_ID;
 
-       //var_dump( $args);
+       // Get counts for self paced and recently started courses
+        $counts = $cache->get( 'mt_courses_count', function( $container){
+            $esCourses = $container->get('es_courses');
+            $counts = $esCourses->getCounts();
+            $em = $container->get('doctrine')->getManager();
+
+            $offeringCount = array();
+            foreach (array_keys(Offering::$types) as $type)
+            {
+                if(isset($counts['sessions'][strtolower($type)]))
+                {
+                    $offeringCount[$type] = $counts['sessions'][strtolower($type)];
+                }
+                else
+                {
+                    $offeringCount[$type] = 0;
+                }
+            }
+
+            return compact('offeringCount');
+
+        }, array( $this->getContainer() ) );
+
+
         $numCourses = 0;
         if(isset( $args[UserCourse::LIST_TYPE_INTERESTED]) )
         {
@@ -89,7 +113,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 $courseId = array_pop( $args[UserCourse::LIST_TYPE_ENROLLED] );
             }
             $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
-            $html = $this->getSingleCourseEmail( $course, $isInterested, $user, $this->getJob()->getJobType() );
+            $html = $this->getSingleCourseEmail( $course, $isInterested, $user, $this->getJob()->getJobType(), $counts );
 
             $subject = "Reminder : ";
             $subject .= $course->getName() ;
@@ -128,7 +152,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 }
             }
 
-            $html = $this->getMultipleCouresEmail( $courses, $user);
+            $html = $this->getMultipleCouresEmail( $courses, $user, $counts );
             $subject = "Reminder : $numCourses courses are";
             $subject .= ( $this->getJob()->getJobType() == self::JOB_TYPE_1_DAY_BEFORE )  ?
                 " starting tomorrow" : " starting soon";
@@ -141,7 +165,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
     }
 
-    private function getSingleCourseEmail($course, $isInterested, $user, $jobType)
+    private function getSingleCourseEmail($course, $isInterested, $user, $jobType, $counts)
     {
 
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -154,6 +178,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'interested' => $isInterested,
             'user' => $user,
             'jobType' => $jobType,
+            'counts' => $counts,
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                     $this->getContainer()->getParameter('secret')
@@ -162,7 +187,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
     }
 
-    private function getMultipleCouresEmail( $courses, User $user )
+    private function getMultipleCouresEmail( $courses, User $user, $counts )
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
@@ -170,6 +195,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
             'user' => $user,
             'jobType' => $this->getJob()->getJobType(),
+            'counts' => $counts,
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                     $this->getContainer()->getParameter('secret')

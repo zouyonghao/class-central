@@ -68,12 +68,19 @@ class MOOCTrackerMailTemplateT extends \PHPUnit_Framework_TestCase {
             'course' => $course,
 
         );
+        $counts = array(
+            'offeringCount' => array(
+                'recent' => '50',
+                'selfpaced' => '100'
+            )
+        );
 
         $html = $t->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
             'courses' => $courses,
             'baseUrl' => $this->container->getParameter('baseurl'),
             'user' => $u,
             'jobType' => CourseStartReminderJob::JOB_TYPE_1_DAY_BEFORE,
+            'counts' => $counts,
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $u,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                     $this->container->getParameter('secret')
@@ -87,6 +94,7 @@ class MOOCTrackerMailTemplateT extends \PHPUnit_Framework_TestCase {
             'baseUrl' => $this->container->getParameter('baseurl'),
             'interested' => false,
             'user' => $u,
+            'counts' => $counts,
             'jobType' => CourseStartReminderJob::JOB_TYPE_1_DAY_BEFORE,
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $u,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
