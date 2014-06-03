@@ -745,4 +745,56 @@ EOD;
             'page' => 'moocTrackerCourses',
         ));
     }
+
+    /**
+     * Renders the merge course form
+     * @param Request $request
+     */
+    public function mergeCoursesFormAction(Request $request)
+    {
+        return $this->render('ClassCentralSiteBundle:Course:mergecourses.html.twig',array());
+    }
+
+    public function mergeCoursesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userService = $this->get('user_service');
+        $type = $request->request->get('type');
+
+        $orig = $em->getRepository('ClassCentralSiteBundle:Course')->find( $request->request->get('orig') );
+        $dup = $em->getRepository('ClassCentralSiteBundle:Course')->find( $request->request->get('dup') );
+
+        if( !$orig || !$dup)
+        {
+            echo "Invalid course"; exit();
+        }
+
+        // get all the UserCourses for the duplicate course
+        $userCourses = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy( array('course'=> $dup) );
+        foreach($userCourses as $uc)
+        {
+             $userService->addCourse($uc->getUser(), $orig, $uc->getListId() );
+             $userService->removeCourse($uc->getUser(), $dup, $uc->getListId() );
+
+        }
+
+        // Move the offerings
+        if($type == 2)
+        {
+            foreach($dup->getOfferings() as $o )
+            {
+                $o->setCourse( $orig );
+                $em->persist( $o );
+            }
+        }
+
+        $dup->setStatus( CourseStatus::NOT_AVAILABLE );
+        $em->persist( $dup );
+        $em->flush();
+
+        echo "Completed";
+        return;
+
+    }
+
 }

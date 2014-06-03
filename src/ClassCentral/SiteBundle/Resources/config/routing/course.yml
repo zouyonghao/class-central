@@ -45,3 +45,10 @@ course_mt:
     pattern: /mt/{type}/{date}
     defaults: { _controller: "ClassCentralSiteBundle:Course:moocTrackerCourses" }
 
+course_merge:
+  pattern: /merge
+  defaults: { _controller: "ClassCentralSiteBundle:Course:mergeCoursesForm" }
+
+course_merge_save:
+  pattern: /merge_save
+  defaults: { _controller: "ClassCentralSiteBundle:Course:mergeCourses" }
