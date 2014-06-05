@@ -195,7 +195,7 @@ class Courses {
      * Searches the term
      * @param $q
      */
-    public function search ( $q )
+    public function search ( $q, $sessions = array() )
     {
         $params = array();
         $qValues = $this->getDefaultQueryValues();
@@ -203,6 +203,28 @@ class Courses {
         $params['index'] = $this->indexName;
         $params['type'] = 'course';
         $params['body']['size'] = 1000;
+
+        if( $sessions )
+        {
+            $filter = array(
+                'and' => array(
+                    array(
+                        "terms" => array(
+                            'nextSession.states' => $sessions,
+                            'execution' => 'and'
+                        )
+                    ),
+                    array(
+                        'range' => $qValues['filter']['range']
+                    )
+                )
+            );
+        }
+        else
+        {
+            $filter = $qValues['filter'];
+        }
+
 
         $query = array(
            "filtered" => array(
@@ -230,7 +252,7 @@ class Courses {
                     ),
                ),
                // Remove courses that ar not valid
-               'filter' => $qValues['filter']
+               'filter' => $filter
            )
         );
 
