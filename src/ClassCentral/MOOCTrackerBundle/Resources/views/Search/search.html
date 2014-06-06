@@ -1097,7 +1097,7 @@ body.outlook p {
                         <table class="twelve columns">
                             <tr>
                                 <td>
-                                    You have new results for the MOOC Tracker Search Terms added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"profile"</a>. To understand how these courses work, please take a look at our <a href="{{ baseUrl }}/faq">FAQ page.</a>
+                                    You have new results for the MOOC Tracker Search Terms added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"profile"</a>.
                                     <br/><br/>
                                     Note: Class Central is a directory and does not directly operate courses. Click on 'Go to Class' to go to the providers course web page. Content might not be available until the course start date. You can see our general <a href="{{baseUrl}}/faq">FAQ about MOOCs here</a>.
                                 </td>
@@ -1108,15 +1108,16 @@ body.outlook p {
                     </td>
                 </tr>
             </table>
-            <br/>
+
             {% for result in results %}
-            <h6>{{ result.query }}</h6>
+            <br/><br/>
+            <h6><a href="{{baseUrl}}{{ path('ClassCentralSiteBundle_search', {'q' : result.query }) }}">{{ result.query }}</a> - {{ result.count }} course(s) found </h6>
             {# courses block start #}
             {% for course in result.courses %}
             <table class="row">
                 <tr>
                     <td class="wrapper last">
-                        <table class="twelve columns">
+                            <table class="twelve columns">
                             <tr>
                                 <td class="panel">
                                     <p>
@@ -1134,9 +1135,11 @@ body.outlook p {
                                         <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  style="color: #0662a1;font-weight: 700;font-size: 11px">{{ course.provider.name }}</a>
                                         {% endif %}
                                     </p>
+                                    {% if showDesc  %}
                                     <p>
-                                        {{ course.description|slice(0,500) }}
+                                            {{ course.description|slice(0,500) }}
                                     </p>
+                                    {% endif %}
                                     <table class="row">
                                         <tr>
                                             <td class="wrapper last">

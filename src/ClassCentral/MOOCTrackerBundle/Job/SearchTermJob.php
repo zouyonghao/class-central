@@ -56,6 +56,7 @@ class SearchTermJob extends SchedulerJobAbstract {
 
         $session = array();
         $session[] = 'upcoming';
+
         if ( $jobType == self::JOB_TYPE_NEW_COURSES )
         {
             // upcoming, recentlyAdded
@@ -104,6 +105,14 @@ class SearchTermJob extends SchedulerJobAbstract {
         }
 
         // Courses found. Get the template and send the email
+        if ( $jobType == self::JOB_TYPE_NEW_COURSES )
+        {
+            $subject = "{$count} new courses found";
+        }
+        elseif ( $jobType == self::JOB_TYPE_RECENT_COURSES )
+        {
+            $subject = "{$count} courses starting soon";
+        }
 
         $templating = $this->getContainer()->get('templating');
 
@@ -114,6 +123,7 @@ class SearchTermJob extends SchedulerJobAbstract {
             'user' => $user,
             'jobType' => $jobType,
             'numCourses' => $count,
+            'showDesc' => ($count <= 10),
             'counts' => $this->getCounts(),
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM,
@@ -122,14 +132,15 @@ class SearchTermJob extends SchedulerJobAbstract {
         ))->getContent();
 
         return $this->sendEmail(
-            'Search Terms',
+            $subject,
             $html,
             $user,
-            ''
+            '',
+            $count
         );
     }
 
-    private function sendEmail( $subject, $html, User $user, $campaignId)
+    private function sendEmail( $subject, $html, User $user, $campaignId, $count)
     {
         $mailgun = $this->getContainer()->get('mailgun');
 
@@ -152,7 +163,9 @@ class SearchTermJob extends SchedulerJobAbstract {
             );
         }
 
-        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
+        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS,
+            "Search notification sent for {$count} courses to user with id {$user->getId()}"
+        );
     }
 
     /***
