@@ -47,6 +47,23 @@ ClassCentral\SiteBundle\Entity\Course:
      column: search_desc
     status:
       type: integer
+    certificate:
+      type: boolean
+      nullable: true
+    verifiedCertificate:
+      type: boolean
+      nullable: true
+      column: verified_certificate
+    workloadMin:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: workload_min
+    workloadMax:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: workload_max
   manyToOne:
     stream:
       targetEntity: Stream

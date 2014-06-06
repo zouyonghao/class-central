@@ -153,6 +153,27 @@ class Course {
     private $syllabus;
 
     /**
+     * @var boolean
+     */
+    private $certificate;
+
+    /**
+     * @var boolean
+     */
+    private $verifiedCertificate;
+
+    /**
+     * @var integer
+     */
+    private $workloadMin;
+
+    /**
+     * @var integer
+     */
+    private $workloadMax;
+
+
+    /**
      * Set name
      *
      * @param string $name
@@ -586,6 +607,98 @@ class Course {
     public function getSyllabus()
     {
         return $this->syllabus;
+    }
+
+    /**
+     * Set certificate
+     *
+     * @param boolean $certificate
+     * @return Course
+     */
+    public function setCertificate($certificate)
+    {
+        $this->certificate = $certificate;
+
+        return $this;
+    }
+
+    /**
+     * Get certificate
+     *
+     * @return boolean
+     */
+    public function getCertificate()
+    {
+        return $this->certificate;
+    }
+
+    /**
+     * Set verifiedCertificate
+     *
+     * @param boolean $verifiedCertificate
+     * @return Course
+     */
+    public function setVerifiedCertificate($verifiedCertificate)
+    {
+        $this->verifiedCertificate = $verifiedCertificate;
+
+        return $this;
+    }
+
+    /**
+     * Get verifiedCertificate
+     *
+     * @return boolean
+     */
+    public function getVerifiedCertificate()
+    {
+        return $this->verifiedCertificate;
+    }
+
+    /**
+     * Set workloadMin
+     *
+     * @param integer $workloadMin
+     * @return Course
+     */
+    public function setWorkloadMin($workloadMin)
+    {
+        $this->workloadMin = $workloadMin;
+
+        return $this;
+    }
+
+    /**
+     * Get workloadMin
+     *
+     * @return integer
+     */
+    public function getWorkloadMin()
+    {
+        return $this->workloadMin;
+    }
+
+    /**
+     * Set workloadMax
+     *
+     * @param integer $workloadMax
+     * @return Course
+     */
+    public function setWorkloadMax($workloadMax)
+    {
+        $this->workloadMax = $workloadMax;
+
+        return $this;
+    }
+
+    /**
+     * Get workloadMax
+     *
+     * @return integer
+     */
+    public function getWorkloadMax()
+    {
+        return $this->workloadMax;
     }
 
 

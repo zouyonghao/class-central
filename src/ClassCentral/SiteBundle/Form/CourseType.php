@@ -56,7 +56,10 @@ class CourseType extends AbstractType {
                     return $er->createQueryBuilder('i')->orderBy('i.id','DESC');
                 }
             ))
-
+            ->add('certificate')
+            ->add('verifiedCertificate')
+            ->add('workloadMin')
+            ->add('workloadMax')
             ->add('searchDesc')
         ;
        
