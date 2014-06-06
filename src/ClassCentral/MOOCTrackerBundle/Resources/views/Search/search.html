@@ -1074,7 +1074,7 @@ body.outlook p {
                         <table class="twelve columns">
                             <tr>
                                 <td>
-                                    <h6>{{ numCourses }} course(s) related to your search terms
+                                    <h6>{{ numCourses }} {% if numCourses == 1 %} course {% else %} courses {% endif %} related to your search terms
                                         {% if jobType=='mt_search_new_courses' %}
                                         have been added
                                         {% else %}
@@ -1082,7 +1082,6 @@ body.outlook p {
                                         {% endif %}
                                     </h6>
                                 </td>
-
                             </tr>
                         </table>
 
@@ -1111,7 +1110,18 @@ body.outlook p {
 
             {% for result in results %}
             <br/><br/>
-            <h6><a href="{{baseUrl}}{{ path('ClassCentralSiteBundle_search', {'q' : result.query }) }}">{{ result.query }}</a> - {{ result.count }} course(s) found </h6>
+            <h6>
+                <a href="{{baseUrl}}{{ path('ClassCentralSiteBundle_search', {'q' : result.query }) }}">{{ result.query|capitalize }}</a>
+                -
+                <span style="color: #808080; font-size: 14px">
+                    {{ result.count }} {% if result.count == 1 %} course {% else %} courses {% endif %}
+                    {% if jobType=='mt_search_new_courses' %}
+                        added
+                    {% else %}
+                        starting soon
+                    {% endif %}
+                </span>
+            </h6>
             {# courses block start #}
             {% for course in result.courses %}
             <table class="row">
@@ -1150,17 +1160,7 @@ body.outlook p {
                                                         </td>
                                                     </tr>
                                                 </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <table class="row">
-                                        <tr>
-                                            <td class="wrapper last">
-                                                <table>
-                                                    <tr>
-                                                        <td><a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1" class="cc-write-a-review">Write a review »</a></td>
-                                                    </tr>
-                                                </table>
+                                                <a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1" class="cc-write-a-review">Write a review »</a>
                                             </td>
                                         </tr>
                                     </table>

@@ -353,7 +353,7 @@ background: #CC0000 !important;
             <br /><table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
 
                         <table class="twelve columns" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 580px; margin: 0 auto; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
-                                    <h6 style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 1.3; word-break: normal; font-size: 20px; margin: 0; padding: 0;" align="left">{{ numCourses }} course(s) related to your search terms
+                                    <h6 style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 1.3; word-break: normal; font-size: 20px; margin: 0; padding: 0;" align="left">{{ numCourses }} {% if numCourses == 1 %} course {% else %} courses {% endif %} related to your search terms
                                         {% if jobType=='mt_search_new_courses' %}
                                         have been added
                                         {% else %}
@@ -361,7 +361,6 @@ background: #CC0000 !important;
                                         {% endif %}
                                     </h6>
                                 </td>
-
                             </tr></table></td>
                 </tr></table><table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
 
@@ -375,7 +374,18 @@ background: #CC0000 !important;
                 </tr></table>
 
             {% for result in results %}
-            <br /><br /><h6 style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 1.3; word-break: normal; font-size: 20px; margin: 0; padding: 0;" align="left"><a href="{{baseUrl}}{{ path('ClassCentralSiteBundle_search', {'q' : result.query }) }}" style="color: #2ba6cb; text-decoration: none;">{{ result.query }}</a> - {{ result.count }} course(s) found </h6>
+            <br /><br /><h6 style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 1.3; word-break: normal; font-size: 20px; margin: 0; padding: 0;" align="left">
+                <a href="{{baseUrl}}{{ path('ClassCentralSiteBundle_search', {'q' : result.query }) }}" style="color: #2ba6cb; text-decoration: none;">{{ result.query|capitalize }}</a>
+                -
+                <span style="color: #808080; font-size: 14px;">
+                    {{ result.count }} {% if result.count == 1 %} course {% else %} courses {% endif %}
+                    {% if jobType=='mt_search_new_courses' %}
+                        added
+                    {% else %}
+                        starting soon
+                    {% endif %}
+                </span>
+            </h6>
             {# courses block start #}
             {% for course in result.courses %}
             <table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 10px 0px 0px;" align="left" valign="top">
@@ -404,10 +414,8 @@ background: #CC0000 !important;
                                                 <table class="button radius cc-go-to-class" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; overflow: hidden; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: center; color: #ffffff; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; display: block; width: auto !important; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background: #33da72; margin: 0; padding: 8px; border-color: #2284a1#2284a1#29c062; border-style: solid; border-width: 1px 1px 4px;" align="center" bgcolor="#33da72" valign="top">
                                                             <a href="{{ course.nextSession.url }}" style="color: #ffffff; text-decoration: none; font-weight: bold; font-family: Helvetica, Arial, sans-serif; font-size: 16px;">Go to Class</a>
                                                         </td>
-                                                    </tr></table></td>
-                                        </tr></table><table class="row" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: block; padding: 0px;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td class="wrapper last" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; position: relative; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top">
-                                                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; line-height: 19px; font-size: 14px; margin: 0; padding: 0px 0px 10px;" align="left" valign="top"><a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1" class="cc-write-a-review" style="color: #616161; text-decoration: none; margin-bottom: 0; font-size: 12px; background: transparent;">Write a review »</a></td>
-                                                    </tr></table></td>
+                                                    </tr></table><a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1" class="cc-write-a-review" style="color: #616161; text-decoration: none; margin-bottom: 0; font-size: 12px; background: transparent;">Write a review »</a>
+                                            </td>
                                         </tr></table></td>
                             </tr></table></td>
                 </tr></table>
