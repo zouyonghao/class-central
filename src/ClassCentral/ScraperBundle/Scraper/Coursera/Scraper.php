@@ -12,8 +12,8 @@ class Scraper extends ScraperAbstractInterface {
     const COURSES_JSON = 'https://www.coursera.org/maestro/api/topic/list?full=1';
     const INSTRUCTOR_URL = 'https://www.coursera.org/maestro/api/user/instructorprofile?topic_short_name=%s&exclude_topics=1';
     const BASE_URL = 'https://www.coursera.org/course/';
-    const COURSE_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/courses?id=%d&fields=language,aboutTheCourse,courseSyllabus';
-
+    const COURSE_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/courses?id=%d&fields=language,aboutTheCourse,courseSyllabus,estimatedClassWorkload&includes=sessions';
+    const SESSION_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/sessions?id=%d&fields=eligibleForCertificates,eligibleForSignatureTrack';
     protected static $languageMap = array(
         'en' => "English",
         'en,pt' => "English",
@@ -32,7 +32,8 @@ class Scraper extends ScraperAbstractInterface {
     );
 
     private $courseFields = array(
-        'Url', 'SearchDesc', 'Description', 'Length', 'Name', 'Language','LongDescription','Syllabus'
+        'Url', 'SearchDesc', 'Description', 'Length', 'Name', 'Language','LongDescription','Syllabus', 'WorkloadMin', 'WorkloadMax',
+        'Certificate', 'VerifiedCertificate'
     );
 
     private $offeringFields = array(
@@ -49,7 +50,6 @@ class Scraper extends ScraperAbstractInterface {
 
         foreach($courseraCourses as $courseraCourse)
         {
-
             $selfServingId = $courseraCourse['self_service_course_id'];
             $courseraCourseId = $courseraCourse['id'];
             $courseraCourseShortName = $courseraCourse['short_name'];
@@ -77,6 +77,21 @@ class Scraper extends ScraperAbstractInterface {
                 $this->out("Language not found " . $courseraCourse['language']);
             }
 
+            // Get the workload
+            if( !empty($catalogDetails['estimatedClassWorkload']) && $workload = $this->getWorkLoad($catalogDetails['estimatedClassWorkload']) )
+            {
+                $course->setWorkloadMin( $workload[0] );
+                $course->setWorkloadMax( $workload[1] );
+            }
+
+            // Get the certificate information
+            $sid = $this->getLatestSessionId( $catalogDetails );
+            if( $sid )
+            {
+                $sDetails  = $this->getDetailsFromSessionCatalog( $sid );
+                $course->setCertificate( $sDetails['eligibleForCertificates'] );
+                $course->setVerifiedCertificate( $sDetails['eligibleForSignatureTrack'] );
+            }
 
             // Add the university
             foreach ($courseraCourse['universities'] as $university)
@@ -354,6 +369,13 @@ class Scraper extends ScraperAbstractInterface {
         return array_pop( $content['elements'] );
     }
 
+    private function getDetailsFromSessionCatalog( $id )
+    {
+        $url =sprintf(self::SESSION_CATALOG_URL,$id);
+        $content = json_decode(file_get_contents( $url ), true);
+
+        return array_pop( $content['elements'] );
+    }
 
     /**
      * Used to print the field values which have been modified for both offering and courses
@@ -368,6 +390,30 @@ class Scraper extends ScraperAbstractInterface {
             $new = is_a($changed['new'], 'DateTime') ? $changed['new']->format('jS M, Y') : $changed['new'];
 
             $this->out("$field changed from - '$old' to '$new'");
+        }
+    }
+
+    /**
+     * Parses the coursera workload string into min and max hours
+     * @param $workLoad
+     */
+    private function getWorkLoad( $workload )
+    {
+        $pos = strpos($workload, 'hours/week');
+        if( $pos )
+        {
+            $workload = substr( $workload, 0, $pos-1);
+            return explode( '-', $workload);
+        }
+
+        return false;
+    }
+
+    private function getLatestSessionId( $catalog )
+    {
+        if( !empty($catalog['links']['sessions']) )
+        {
+            return array_pop( $catalog['links']['sessions'] );
         }
     }
 }
