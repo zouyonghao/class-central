@@ -129,6 +129,7 @@ class SearchTermJob extends SchedulerJobAbstract {
             'jobType' => $jobType,
             'numCourses' => $count,
             'showDesc' => ($count <= 10),
+            'coursesHidden' => ($count > 40),
             'counts' => $this->getCounts(),
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM,
@@ -151,8 +152,7 @@ class SearchTermJob extends SchedulerJobAbstract {
 
         $response = $mailgun->sendMessage( array(
             'from' => '"MOOC Tracker" <no-reply@class-central.com>',
-            // 'to' => $user->getEmail(),
-            'to' => 'dhawalhshah@gmail.com',
+            'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
             'o:campaign' => $campaignId

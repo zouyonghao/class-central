@@ -1074,12 +1074,13 @@ body.outlook p {
                         <table class="twelve columns">
                             <tr>
                                 <td>
-                                    <h6>{{ numCourses }} {% if numCourses == 1 %} course {% else %} courses {% endif %} related to your search terms
+                                    <h6>{{ numCourses }} {% if numCourses == 1 %} course {% else %} courses {% endif %} matching your search terms
                                         {% if jobType=='mt_search_new_courses' %}
-                                        {% if numCourses == 1 %} has {% else %} have {% endif %} been added
+                                        {% if numCourses == 1 %} has {% else %} have {% endif %} been added.
                                         {% else %}
-                                        {% if numCourses == 1 %} is {% else %} are {% endif %} starting soon
+                                        {% if numCourses == 1 %} is {% else %} are {% endif %} starting soon.
                                         {% endif %}
+                                        {% if coursesHidden %} Showing 40 of {{ numCourses }} courses.{% endif %}
                                     </h6>
                                 </td>
                             </tr>
@@ -1108,7 +1109,9 @@ body.outlook p {
                 </tr>
             </table>
 
-            {% for result in results %}
+            {% set showCourse = true %}
+            {% set counter = 0 %}
+            {% for result in results if showCourse %}
             <br/><br/>
             <h6>
                 <a href="{{baseUrl}}{{ path('ClassCentralSiteBundle_search', {'q' : result.query }) }}">{{ result.query|capitalize }}</a>
@@ -1123,7 +1126,7 @@ body.outlook p {
                 </span>
             </h6>
             {# courses block start #}
-            {% for course in result.courses %}
+            {% for course in result.courses if showCourse %}
             <table class="row">
                 <tr>
                     <td class="wrapper last">
@@ -1171,6 +1174,10 @@ body.outlook p {
                     </td>
                 </tr>
             </table>
+            {% set counter = counter + 1 %}
+            {% if counter == 40 %}
+                {% set showCourse = false %}
+            {% endif %}
             {% endfor %}
             {% endfor %}
             {# courses block end #}
