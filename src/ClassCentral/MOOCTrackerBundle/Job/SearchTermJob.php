@@ -21,6 +21,9 @@ class SearchTermJob extends SchedulerJobAbstract {
     const JOB_TYPE_NEW_COURSES = 'mt_search_new_courses'; // Send notification for newly added courses
     const JOB_TYPE_RECENT_COURSES = 'mt_search_recent_courses'; // Send notifications for courses that are about to start
 
+    // Mailgun Campaign ids
+    const MAILGUN_MT_SEARCH_NEW_COURSES = 'mt_search_new_courses';
+    const MAILGUN_MT_SEARCH_RECENT_COURSES = 'mt_search_recent_courses';
     public function setUp()
     {
         // TODO: Implement setUp() method.
@@ -48,8 +51,8 @@ class SearchTermJob extends SchedulerJobAbstract {
             );
         }
 
-        // TODO: Get a campaign id
-        $campaignId = 'null';
+        // Sets a campaign id
+        $campaignId = '';
 
         // Get all the search terms for the user
         $searchTerms = $this->getSearchTerms( $user );
@@ -60,21 +63,23 @@ class SearchTermJob extends SchedulerJobAbstract {
         if ( $jobType == self::JOB_TYPE_NEW_COURSES )
         {
             // upcoming, recentlyAdded
-            // $session[] = 'recentlyAdded';
+            $session[] = 'recentlyadded'; // Lowercase because of how elastic search tokenizes it
+            $campaignId = self::MAILGUN_MT_SEARCH_NEW_COURSES;
         }
         elseif ( $jobType == self::JOB_TYPE_RECENT_COURSES )
         {
             // recent, upcoming
             $session[] = 'recent';
+            $campaignId = self::MAILGUN_MT_SEARCH_RECENT_COURSES;
         }
 
-        $session[] = 'recent';
 
         $courses = array();
         $count = 0;
 
         foreach( $searchTerms as $q )
         {
+
            $results = $esCourses->search( $q, $session );
            $total = $results['results']['hits']['total'];
            if( $total > 0)
@@ -107,11 +112,11 @@ class SearchTermJob extends SchedulerJobAbstract {
         // Courses found. Get the template and send the email
         if ( $jobType == self::JOB_TYPE_NEW_COURSES )
         {
-            $subject = "{$count} new courses found";
+            $subject = "Search Notification: {$count} new courses found";
         }
         elseif ( $jobType == self::JOB_TYPE_RECENT_COURSES )
         {
-            $subject = "{$count} courses starting soon";
+            $subject = "Search Notification: {$count} courses starting soon";
         }
 
         $templating = $this->getContainer()->get('templating');

@@ -1076,9 +1076,9 @@ body.outlook p {
                                 <td>
                                     <h6>{{ numCourses }} {% if numCourses == 1 %} course {% else %} courses {% endif %} related to your search terms
                                         {% if jobType=='mt_search_new_courses' %}
-                                        have been added
+                                        {% if numCourses == 1 %} has {% else %} have {% endif %} been added
                                         {% else %}
-                                        starting soon
+                                        {% if numCourses == 1 %} is {% else %} are {% endif %} starting soon
                                         {% endif %}
                                     </h6>
                                 </td>
@@ -1098,7 +1098,7 @@ body.outlook p {
                                 <td>
                                     You have new results for the MOOC Tracker Search Terms added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"profile"</a>.
                                     <br/><br/>
-                                    Note: Class Central is a directory and does not directly operate courses. Click on 'Go to Class' to go to the providers course web page. Content might not be available until the course start date. You can see our general <a href="{{baseUrl}}/faq">FAQ about MOOCs here</a>.
+                                    Note: Class Central is a directory and does not directly operate courses. Click on 'Go to Class' to go to the providers course page. Content might not be available until the course start date. You can see our general <a href="{{baseUrl}}/faq">FAQ about MOOCs here</a>.
                                 </td>
 
                             </tr>
