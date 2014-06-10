@@ -270,7 +270,7 @@ class UserControllerTest extends WebTestCase
     {
         $crawler = $client->request('GET', '/search?q=machine+learning');
         // Add to MOOC tracker
-        $client->click($crawler->selectLink('add "machine learning" to MOOC tracker')->link());
+        $client->click($crawler->selectLink('create alerts for "machine learning"')->link());
         $crawler = $client->followRedirect();
         $this->assertGreaterThan(0, $crawler->filter('a:contains("added "machine learning" to MOOC tracker")')->count());
     }
