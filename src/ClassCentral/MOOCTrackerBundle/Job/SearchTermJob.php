@@ -141,7 +141,7 @@ class SearchTermJob extends SchedulerJobAbstract {
             $subject,
             $html,
             $user,
-            '',
+            $campaignId,
             $count
         );
     }
