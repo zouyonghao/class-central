@@ -10,11 +10,11 @@ echo "Reindexing all the courses"
 php app/console classcentral:elasticsearch:indexer --env=$env --no-debug
 today=`date +%F`
 
-#sleep for 60 seconds
 echo "Indexing done. Going to sleep for a while"
 sleep 300s
 
 echo "Create jobs"
+php app/console mooctracker:notification:search $2 $today --env=$env --no-debug
 
 echo "All jobs created. Going to sleep for a while"
 #sleep for index to be updated
