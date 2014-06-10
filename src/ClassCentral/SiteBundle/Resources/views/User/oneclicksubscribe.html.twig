@@ -17,7 +17,11 @@
                 </div>
 
                 <div class="form-box-body">
-                    <p>You have been subscribed to MOOC Tracker Course Reminders.</p>
+                    {% if prefId == 100 %}
+                        <p>You have been subscribed to MOOC Tracker Course Reminders.</p>
+                    {% else %}
+                        <p>You have been subscribed to MOOC Tracker Search Notifications.</p>
+                    {% endif %}
                 </div>
 
             </div>

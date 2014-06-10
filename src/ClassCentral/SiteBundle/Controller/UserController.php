@@ -926,21 +926,23 @@ class UserController extends Controller
     public function oneClickUnsubscribeAction(Request $request, $token)
     {
         // Unsubscribe the user
-        $this->updateSubscriptionFromToken($token, 0);
+        $prefId = $this->updateSubscriptionFromToken($token, 0);
 
         return $this->render('ClassCentralSiteBundle:User:oneclickunsubscribe.html.twig',array(
             'page' => 'oneclickunsubscribe',
-            'token' => $token
+            'token' => $token,
+            'prefId' => $prefId
         ));
     }
 
     public function oneClickSubscribeAction(Request $request, $token)
     {
         // Subscribe the user
-        $this->updateSubscriptionFromToken($token, 1);
+        $prefId = $this->updateSubscriptionFromToken($token, 1);
 
         return $this->render('ClassCentralSiteBundle:User:oneclicksubscribe.html.twig',array(
-            'page' => 'oneclicksubscribe'
+            'page' => 'oneclicksubscribe',
+            'prefId' => $prefId
         ));
     }
 
@@ -964,6 +966,7 @@ class UserController extends Controller
         // Unsubscribe the user
         $userService->updatePreference($user, $prefId, $subValue);
 
+        return $prefId;
     }
 
 }

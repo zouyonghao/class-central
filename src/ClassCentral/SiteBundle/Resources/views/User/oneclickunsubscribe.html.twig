@@ -17,7 +17,11 @@
                 </div>
 
                 <div class="form-box-body">
-                    <p>You have been unsubscribed from *all* MOOC Tracker Course Reminders. If this was a mistake please <a href="{{ path('oneclick_subscribe', { 'token': token }) }}">click here to enable your subscription</a></p>
+                    {% if prefId == 100 %}
+                        <p>You have been unsubscribed from *all* MOOC Tracker Course Reminders. If this was a mistake please <a href="{{ path('oneclick_subscribe', { 'token': token }) }}">click here to enable your subscription</a></p>
+                    {% else %}
+                        <p>You have been unsubscribed from *all* MOOC Tracker Search Notifications. If this was a mistake please <a href="{{ path('oneclick_subscribe', { 'token': token }) }}">click here to enable your subscription</a></p>
+                    {% endif %}
                 </div>
 
             </div>
