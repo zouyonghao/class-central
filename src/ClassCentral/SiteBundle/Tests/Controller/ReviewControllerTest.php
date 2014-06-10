@@ -182,6 +182,7 @@ class ReviewControllerTest extends WebTestCase {
         ));
         $client->submit($form);
         $crawler = $client->followRedirect();
+        $crawler = $client->followRedirect();
         $this->isSignedIn($crawler);
 
         // User is signed in. Check if the review has been created
