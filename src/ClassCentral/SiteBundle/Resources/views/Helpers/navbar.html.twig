@@ -115,10 +115,12 @@
                                 <use xlink:href="#icon-user"></use>
                             </svg>
                             {% if app.user.name %}
-                                {% if app.user.name|length > 10 %}
-                                    {{ app.user.name|slice(0,9) }}..
+                                {% set n =  app.user.name|split(' ') %}
+                                {% set name = n[0] %}
+                                {% if name|length > 10 %}
+                                    {{ name|slice(0,9) }}..
                                 {% else %}
-                                    {{ app.user.name  }}
+                                    {{ name  }}
                                 {% endif %}
 
                             {% else %}
