@@ -18,6 +18,7 @@ class DefaultController extends Controller {
   
         $cache = $this->get('Cache');
         $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
+        $esCourses = $this->get('es_courses');
 
         $spotlights = $cache->get('spotlight_cache',function(){
            $s = $this
@@ -47,6 +48,29 @@ class DefaultController extends Controller {
             'action' => $this->generateUrl('signup_create_user')
         ));
 
+        // Get a list of courses taken by the signed in user
+        $uc = array();
+        $ucCount = 0;
+        if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') )
+        {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $userCourses = $user->getUserCourses();
+            $courseIds = array();
+
+            foreach($userCourses as $userCourse)
+            {
+                $courseIds[] = $userCourse->getCourse()->getId();
+            }
+            $ucCount = count( $courseIds );
+            if( !empty($courseIds) )
+            {
+                $courseIds = array_splice( $courseIds, 0 , 10);
+            }
+            $response = $esCourses->findByIds( $courseIds );
+            $uc = $response['results'];
+        }
+
+
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
@@ -54,7 +78,9 @@ class DefaultController extends Controller {
                 'spotlights' => $spotlights,
                 'spotlightMap' => Spotlight::$spotlightMap,
                 'subjects' => $subjects,
-                'signupForm' => $signupForm->createView()
+                'signupForm' => $signupForm->createView(),
+                'uc' => $uc,
+                'ucCount' => $ucCount
                ));
     }
 
