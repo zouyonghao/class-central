@@ -19,6 +19,7 @@ class DefaultController extends Controller {
         $cache = $this->get('Cache');
         $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
         $esCourses = $this->get('es_courses');
+        $em = $this->getDoctrine()->getManager();
 
         $spotlights = $cache->get('spotlight_cache',function(){
            $s = $this
@@ -54,13 +55,23 @@ class DefaultController extends Controller {
         if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') )
         {
             $user = $this->get('security.context')->getToken()->getUser();
-            $userCourses = $user->getUserCourses();
-            $courseIds = array();
 
-            foreach($userCourses as $userCourse)
+            $qb = $em->createQueryBuilder();
+            $qb
+                ->add('select', 'c.id as cid')
+                ->add('from','ClassCentralSiteBundle:UserCourse uc')
+                ->join('uc.course', 'c')
+                ->andWhere('uc.user = :userId')
+                ->setParameter('userId',$user->getId() )
+                ->add('orderBy', 'uc.id DESC') // newest one top
+                ;
+            $results = $qb->getQuery()->getArrayResult();
+            $courseIds = array();
+            foreach($results as $result)
             {
-                $courseIds[] = $userCourse->getCourse()->getId();
+                $courseIds[] = $result['cid'];
             }
+
             $ucCount = count( $courseIds );
             if( !empty($courseIds) )
             {
