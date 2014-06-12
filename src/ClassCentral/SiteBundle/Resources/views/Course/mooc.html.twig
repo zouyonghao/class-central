@@ -22,11 +22,48 @@
      <meta property="fb:admins" content="{{ fb_admins }}" />
 
      <!-- Twitter card integration -->
-     <meta name="twitter:card" content="summary">
+     {#
+         <meta name="twitter:card" content="summary">
+         <meta name="twitter:site" content="@classcentral">
+         <meta name="twitter:title" content="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %}">
+         <meta name="twitter:description" content="{{ course['shortDesc'] }}">
+         <meta name="twitter:domain" content="www.class-central.com">
+     #}
+     <meta name="twitter:card" content="product">
      <meta name="twitter:site" content="@classcentral">
-     <meta name="twitter:title" content="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %}">
+     <meta name="twitter:title" content="{{ course['pageTitle'] }}">
      <meta name="twitter:description" content="{{ course['shortDesc'] }}">
      <meta name="twitter:domain" content="www.class-central.com">
+     {% if course.imageUrl %}
+         <meta property="twitter:image:src" content="{{ rackspace_cdn_base_url }}{{ course.imageUrl }}">
+     {% else %}
+         <meta property="twitter:image:src" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
+     {% endif %}
+
+     {% set twData = [] %}
+
+     {% if course.nextOffering is defined %}
+        {% set twData = twData|merge( [{ 'label': 'NEXT SESSION',  'data':course.nextOffering.displayDate  }] ) %}
+     {% endif %}
+
+     {% if rating > 0 %}
+         {% set twData = twData|merge( [{  'label': 'RATING',  'data': rating|round(1, 'common')   }] ) %}
+     {% endif %}
+
+     {% if course.length > 0 %}
+         {% set twData = twData|merge( [{  'label': 'LENGTH',  'data': course.length ~ ' weeks'   }] ) %}
+     {% endif %}
+
+
+     {% if twData[0] is defined %}
+         <meta name="twitter:data1" content="{{ twData[0].data }}">
+         <meta name="twitter:label1" content="{{ twData[0].label }}">
+     {% endif %}
+
+     {% if twData[1] is defined %}
+         <meta name="twitter:data2" content="{{ twData[1].data }}">
+         <meta name="twitter:label2" content="{{twData[1].label }}">
+     {% endif %}
 
  {% endblock %}
 
