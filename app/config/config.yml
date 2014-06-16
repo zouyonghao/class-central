@@ -94,6 +94,12 @@ services:
   es_courses:
       class: ClassCentral\ElasticSearchBundle\API\Courses
       arguments: [ '@es_client', '%es_index_name%']
+  es_cp:
+      class: ClassCentral\ElasticSearchBundle\API\CoursePaginated
+      arguments: [ '@es_client', '%es_index_name%']
+  course_finder:
+      class: ClassCentral\ElasticSearchBundle\Finder
+      arguments: ['@service_container']
   # Used to retrive jobs
   es_scheduler:
         class: ClassCentral\ElasticSearchBundle\API\Scheduler
