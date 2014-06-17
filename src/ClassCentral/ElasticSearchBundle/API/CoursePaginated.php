@@ -20,18 +20,39 @@ class CoursePaginated {
         $this->esClient = $esClient;
     }
 
-    public function find( $query = array(), $filters = array(), $facets = array(), $offset = 0 )
+    public function find( $query = array(), $filters = array(), $facets = array(), $page = 1 )
     {
         $params = array();
 
         $params['index'] = $this->indexName;
         $params['type'] = 'course';
-        $params['body']['size'] = self::PAGE_SIZE;
+        $params['body']['size'] = self::PAGE_SIZE ;
+        // TODO: Check this calculation
+        //$params['body']['from'] = self::PAGE_SIZE * ($page - 1);
 
-        $params['body']['query'] = $query;
+        $params['body']['query'] = array(
+            'bool' => array(
+                'must' => array(
+                    array(
+                        "range" => array(
+                            'status' => array(
+                                "lt" => 100
+                            )
+                        ),
+                    ),
+                    $query
+
+
+            )
+
+        ));
         $params['body']['facets'] = $facets;
-        $params['body']['filter'] = $filters;
+        if( !empty($filters) )
+        {
+            $params['body']['filter'] = $filters;
+        }
 
+        //var_dump( json_encode( $params['body']));
         $results = $this->esClient->search($params);
 
         return $results;

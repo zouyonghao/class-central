@@ -20,6 +20,7 @@ class Finder {
     private $container;
     private $cp; // CoursePaginated - retrieve courses
 
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -34,7 +35,60 @@ class Finder {
             )
         );
 
-        return $this->cp->find( $query );
+        $filters = array();
+        return $this->cp->find( $query, $filters, $this->getFacets(),2 );
 
+    }
+
+    public function getFacetCounts($results)
+    {
+        $subjectIds = array();
+        foreach($results['facets']['subjects']['terms'] as $term)
+        {
+            $subjectIds[$term['term']] = $term['count'];
+        }
+
+        $languageIds = array();
+        foreach($results['facets']['language']['terms'] as $term)
+        {
+            $languageIds[ $term['term'] ] = $term['count'];
+        }
+
+        $sessions = array();
+        foreach( $results['facets']['sessions']['terms'] as $term )
+        {
+            $sessions[ $term['term'] ] = $term['count'];
+        }
+        return array(
+            'subjectIds' => $subjectIds,
+            'languageIds' => $languageIds,
+            'sessions'    => $sessions,
+        );
+    }
+
+    private function getFacets()
+    {
+        $facets = array(
+            "subjects" => array(
+                'terms' => array(
+                    'field' => 'subjects.id',
+                    'size' => 40
+                )
+            ),
+            "language" => array(
+                'terms' => array(
+                    'field' => 'language.id',
+                    'size' => 40
+                )
+            ),
+            "sessions" => array(
+                "terms" => array(
+                    'field' => 'nextSession.states',
+                    'size' => 10
+                )
+            ),
+        );
+
+        return $facets;
     }
 } 
