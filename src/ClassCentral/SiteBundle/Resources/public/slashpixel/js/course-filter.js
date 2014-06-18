@@ -237,65 +237,14 @@ jQuery(function($) {
         // updates the url
         updateUrl(tickedSubjects, filterLang, sessions);
 
-        // Go through all the lists and filter the courses which don't
-        // have subjects in filterCats
-        for (var key in lists)
-        {
-            if (!lists.hasOwnProperty(key)) {
-
-                continue;
-            }
-            var list = lists[key];
-            list.filter(function (item) {
-                // Match subjects
-                var subMatch = true;
-                if (filterCats.length > 0) {
-                    var subject = $.trim(item.values().subjectSlug);
-
-                    if ($.inArray(subject, filterCats) == -1) {
-                        subMatch = false;
-                    }
-                }
-
-                // Match languages
-                var langMatch = true;
-                if (filterLang.length > 0) {
-                    var language = $.trim(item.values().languageSlug);
-                    if ($.inArray(language, filterLang) == -1) {
-                        langMatch = false;
-                    }
-                }
-
-                var sessionMatch = true;
-                if (sessions.length > 0) {
-                    sessionMatch = false;
-                    var itemSessionsStr = $.trim(item.values().sessionSlug);
-                    var itemSessions = itemSessionsStr.split(',');
-
-                    for(i = 0; i < itemSessions.length; ++i)
-                    {
-                        if ($.inArray(itemSessions[i], sessions) > -1) {
-                            sessionMatch = true;
-                            break;
-                        }
-                    }
-                }
-
-                return subMatch && langMatch && sessionMatch;
+        // Ajax query
+        $.ajax({
+            url: "/maestro/provider/udacity",
+            cache: true
+        })
+            .done(function(result){
+                $('.tables-wrap').html( result );
             });
-
-            var tableWrapper = $('#' + key + '-table-wrapper');
-            if(courseLists.length > 0 )
-            {
-                if( $.inArray(key, courseLists) != -1) {
-                    tableWrapper.show();
-                } else {
-                    tableWrapper.hide();
-                }
-            } else {
-                tableWrapper.show();
-            }
-        }
     }
 
 
@@ -339,7 +288,7 @@ jQuery(function($) {
         }
     }
 
-    filterCourses();
+
 
 
     // SORTING

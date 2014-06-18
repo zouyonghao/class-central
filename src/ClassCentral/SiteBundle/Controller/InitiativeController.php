@@ -202,6 +202,7 @@ class InitiativeController extends Controller
             'provider_' . $type,
              function ( $slug, $container ) {
                  $esCourses = $this->get('es_courses');
+                 $finder = $this->get('course_finder');
                  $filter =$this->get('filter');
                  $em = $container->get('doctrine')->getManager();
 
@@ -228,6 +229,8 @@ class InitiativeController extends Controller
 
                  $pageInfo =  PageHeaderFactory::get($provider);
 
+                 $courses = $finder->byProvider( $slug );
+
                  $response = $esCourses->findByProvider($slug);
                  $allSubjects = $filter->getCourseSubjects( $response['subjectIds'] );
                  $allLanguages = $filter->getCourseLanguages( $response['languageIds'] );
@@ -239,7 +242,8 @@ class InitiativeController extends Controller
                      'pageInfo' => $pageInfo,
                      'allSubjects' => $allSubjects,
                      'allLanguages' => $allLanguages,
-                     'allSessions'  => $allSessions
+                     'allSessions'  => $allSessions,
+                     'courses' => $courses
                  );
              },
             array( $type, $this->container)
@@ -252,7 +256,7 @@ class InitiativeController extends Controller
         }
 
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
-            'results' => $data['response']['results'],
+            'results' => $data['courses'],
             'listTypes' => UserCourse::$lists,
             'allSubjects' => $data['allSubjects'],
             'allLanguages' => $data['allLanguages'],

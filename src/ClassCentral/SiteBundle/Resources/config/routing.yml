@@ -277,3 +277,9 @@ fb_authorize_start:
 fb_authorize_redirect:
   pattern: /facebook/oauth/authorize
   defaults: {_controller: ClassCentralSiteBundle:Login:fbReceiveAuthorizationCode }
+
+
+# maestro api
+maestro_provider:
+  pattern: /maestro/provider/{slug}
+  defaults: { _controller: ClassCentralSiteBundle:Maestro:provider }
