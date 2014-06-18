@@ -235,15 +235,16 @@ jQuery(function($) {
         });
 
         // updates the url
-        updateUrl(tickedSubjects, filterLang, sessions);
+        var url = updateUrl(tickedSubjects, filterLang, sessions);
 
         // Ajax query
         $.ajax({
-            url: "/maestro/provider/udacity",
-            cache: true
+            url: "/maestro" + url
         })
             .done(function(result){
-                $('.tables-wrap').html( result );
+                var response = $.parseJSON(result);
+                $('.tables-wrap').html( response.table );
+                $('#number-of-courses').html( response.numCourses );
             });
     }
 
@@ -324,7 +325,7 @@ jQuery(function($) {
         if( sessions.length > 0 ) {
             params['session'] = sessions.join();
         }
-
+        var url = $.url().attr('path');
         var lowerCaseLangs = [];
         if( langs.length > 0 ) {
             for(i=0; i < langs.length; i++) {
@@ -341,13 +342,12 @@ jQuery(function($) {
                 }
             }
 
-            if( $.isEmptyObject(params) ) {
-                history.replaceState(null, null, $.url().attr('path'));
-            } else {
-                history.replaceState(null, null, $.url().attr('path') + '?' + $.param(params));
+            if( !$.isEmptyObject(params) ) {
+                url = url+'?' + $.param(params)
             }
         } catch(e){};
-
+        history.replaceState(null, null, url);
+        return url;
     }
 
     function gaqPush(type, value) {

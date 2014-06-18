@@ -215,4 +215,47 @@ class Filter {
 
         return $s;
     }
+
+    /**
+     * Generate filters from query string for elastic search
+     * @param $params
+     */
+    public static function getQueryFilters( $params = array() )
+    {
+        $and = array();
+        if( isset($params['session']) )
+        {
+            $and[] = self::getTermsQuery( 'nextSession.states',$params['session']);
+        }
+
+        if( isset($params['lang']) )
+        {
+            $and[] = self::getTermsQuery( 'language.slug',$params['lang']);
+        }
+
+        if ( isset( $params['subject'] ) )
+        {
+            $and[] = self::getTermsQuery('subjects.slug', $params['subject']);
+        }
+
+        if( !empty($and) )
+        {
+            return array(
+                'and' => $and
+            );
+        }
+
+        return array();
+    }
+
+    private static function getTermsQuery( $key, $values )
+    {
+        return array(
+          'terms' => array(
+              $key => explode(',',$values),
+              'execution' => "or"
+          )
+        );
+    }
+
 } 

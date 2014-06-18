@@ -10,8 +10,10 @@ namespace ClassCentral\SiteBundle\Controller;
 
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Services\Filter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MaestroController extends Controller {
 
@@ -40,14 +42,23 @@ class MaestroController extends Controller {
                 throw new \Exception("Provider not found");
             }
 
-            $courses = $finder->byProvider( $slug );
         }
 
-        return $this->render('ClassCentralSiteBundle:Helpers:course.table.html.twig',array(
+        $filters = Filter::getQueryFilters( $request->query->all() );
+        $courses = $finder->byProvider( $slug, $filters  );
+
+        $table =  $this->render('ClassCentralSiteBundle:Helpers:course.table.html.twig',array(
             'results' => $courses,
             'tableId' => 'providertable',
             'listTypes' => UserCourse::$lists,
             'page' => 'initiative',
-        ));
+        ))->getContent();
+        $response = array(
+            'table' => $table,
+            'numCourses' => $courses['hits']['total']
+        );
+
+        return new Response( json_encode( $response ) );
+
     }
 } 

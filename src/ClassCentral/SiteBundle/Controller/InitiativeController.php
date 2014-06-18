@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Services\Filter;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -199,8 +200,8 @@ class InitiativeController extends Controller
         $cache = $this->get('cache');
 
         $data = $cache->get(
-            'provider_' . $type,
-             function ( $slug, $container ) {
+            'provider_' . $type . $request->server->get('QUERY_STRING'),
+             function ( $slug, $container, $request ) {
                  $esCourses = $this->get('es_courses');
                  $finder = $this->get('course_finder');
                  $filter =$this->get('filter');
@@ -229,7 +230,8 @@ class InitiativeController extends Controller
 
                  $pageInfo =  PageHeaderFactory::get($provider);
 
-                 $courses = $finder->byProvider( $slug );
+                 $filters = Filter::getQueryFilters( $request->query->all() );
+                 $courses = $finder->byProvider( $slug, $filters );
 
                  $response = $esCourses->findByProvider($slug);
                  $allSubjects = $filter->getCourseSubjects( $response['subjectIds'] );
@@ -246,7 +248,7 @@ class InitiativeController extends Controller
                      'courses' => $courses
                  );
              },
-            array( $type, $this->container)
+            array( $type, $this->container, $request)
         );
 
         if( empty($data) )
