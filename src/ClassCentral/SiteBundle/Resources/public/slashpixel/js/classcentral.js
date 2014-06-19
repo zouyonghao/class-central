@@ -308,32 +308,36 @@ jQuery(function($) {
 
     $('#review-text').autosize();
 
-    var ratyDefaults = {
-        starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-gray.png',
-        starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-gray.png',
-        starOn      : '/bundles/classcentralsite/slashpixel/images/star-on-gray.png',
-        hints       : ['','','','',''],
-        size        : 21,
-        score       : function() {
-            return $(this).attr('data-score');
-        }
-    };
+    loadRaty = function() {
+        var ratyDefaults = {
+            starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-gray.png',
+            starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-gray.png',
+            starOn      : '/bundles/classcentralsite/slashpixel/images/star-on-gray.png',
+            hints       : ['','','','',''],
+            size        : 21,
+            score       : function() {
+                return $(this).attr('data-score');
+            }
+        };
 
-    $('#rating').raty(ratyDefaults);
+        $('#rating').raty(ratyDefaults);
 
-    $('.course-rating').raty($.extend(
-        {
-            readOnly: true
-        },
-        ratyDefaults
-    ));
+        $('.course-rating').raty($.extend(
+            {
+                readOnly: true
+            },
+            ratyDefaults
+        ));
 
-    $('.user-rating').raty($.extend(
-        {
-            readOnly: true
-        },
-        ratyDefaults
-    ));
+        $('.user-rating').raty($.extend(
+            {
+                readOnly: true
+            },
+            ratyDefaults
+        ));
+    }
+
+    loadRaty();
 
     /**
      * Review course

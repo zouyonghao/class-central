@@ -72,6 +72,15 @@ class CourseDocumentType extends DocumentType {
             'tags' => array(
                 'type' => "string",
                 "index" => "not_analyzed"
+            ),
+            "name" => array(
+                "type" => "string",
+                "fields" => array(
+                    "raw" => array(
+                        "type" => "string",
+                        "index" => 'not_analyzed'
+                    )
+                )
             )
         );
     }

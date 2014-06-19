@@ -110,132 +110,39 @@ jQuery(function($) {
         gaqPush(type, value);
     });
 
-    var tableTypes = ['subjectstable','searchtable','statustable','providertable','institutiontable','languagetable','tagtable'];
-
-    var lists = {};
-    for(var i = 0; i < tableTypes.length; i++)
-    {
-        var tableType = tableTypes[i];
-        var listClass = 'table-body-' + tableType;
-        if($('.' +listClass)[0])
-        {
-            var options = {
-                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list', 'sessionSlug', 'course-startdate', "course-rating-value","course-provider"],
-                searchClass: ['filter-search'],
-                listClass: [listClass],
-                page:2000
-            };
-            if($('#course-table-wrapper').length > 0)
-            {
-                var list = new List('course-table-wrapper',options);
-            }
-            else
-            {
-                var list = new List('filter-wrap',options);
-            }
-
-            lists[tableType] = list;
-            try {
-                // No filters on the homepage
-                list.on("updated",updated(tableType));
-            } catch(err) {
-
-            }
-
+    // SORTING
+    var tableSort = function tableSort() {
+        var sortDescClass = 'headerSortUp';
+        var sortAscClass = 'headerSortDown';
+        var table = $(this).parent().parent().parent().attr('id');
+        var sortBy = $(this).data('sort');
+        if(!$(this).hasClass(sortDescClass)) {
+            $(this).removeClass(sortAscClass);
+            $(this).addClass(sortDescClass);
+        } else {
+            $(this).removeClass(sortDescClass);
+            $(this).addClass(sortAscClass);
         }
-    }
 
-    // Callback thats called whenver the results are updated
-    // Updates the count among other things
-    function updated(tableType) {
-        return function() {
-            var count = lists[tableType].visibleItems.length;
-            $('#' + tableType + "-count").html(count);
-            var listTable = $('#' + tableType + 'list');
-            if(count == 0) {
-                listTable.hide();
-            } else {
-                listTable.show();
+        $('th.sorting').each( function(){
+            var s = $(this).data('sort');
+            if( s != sortBy) {
+                $(this).removeClass( sortDescClass );
+                $(this).removeClass( sortAscClass );
             }
-
-            // Update the count on course listing pages
-            $('#number-of-courses').html( count );
-
-        }
+        } );
+        filterCourses();
     }
-
-    /**
-     * Glogal function for my courses tables
-     * @param tableType
-     */
-    listifyTable = function (tableType)
-    {
-
-        var listClass = 'table-body-' + tableType;
-        if($('.' +listClass)[0]) {
-            var options = {
-                valueNames: [ 'course-name','subjectSlug','languageSlug','table-uni-list','sessionSlug','course-startdate', "course-rating-value","course-provider"],
-                searchClass: ['filter-search'],
-                listClass: [listClass],
-                page:2000
-            };
-
-            var list = new List('filter-wrap',options);
-            lists[tableType] = list;
-            try {
-                // No filters on the homepage
-                list.on("updated",updated(tableType));
-            } catch(err) {
-
-            }
-        }
-    }
+    $('th.sorting').click( tableSort );
 
     function filterCourses() {
 
         if(!$('.cat-filter-wrap').length) {
-
             return;
         }
-        var filterCats = [];
-        var tickedSubjects = []; // for the pushstate url
-        // Sub subjects
-        $(".filter-subjects .active > .sort").each(function() {
-            filterCats.push($.trim($(this).data("subject")));
-            tickedSubjects.push($.trim($(this).data("subject")));
-        });
-
-        // Parent subjects
-        $(".filter-subjects .ticked + .sub-category").each(function() {
-            var parentCat = $.trim($(this).data("subject"));
-            filterCats.push(parentCat);
-            tickedSubjects.push(parentCat);
-            // Get the subjects for this parent category
-            $("a[data-parent='" + parentCat +"']").each(function(){
-               filterCats.push( $.trim($(this).data("subject"))) ;
-            });
-        });
-
-        // Languages
-        var filterLang = [];
-        $(".filter-languages .ticked + .sub-category").each(function() {
-            filterLang.push($.trim($(this).data("lang")));
-        });
-
-        // Course Lists
-        var courseLists = [];
-        $(".filter-courses .ticked + .sub-category").each(function () {
-            courseLists.push($.trim($(this).data("course-list")));
-        });
-
-        // Session list
-        var sessions = [];
-        $(".filter-sessions .ticked + .sub-category").each(function () {
-            sessions.push($.trim($(this).data("session")));
-        });
 
         // updates the url
-        var url = updateUrl(tickedSubjects, filterLang, sessions);
+        var url = updateUrl( );
 
         // Ajax query
         $.ajax({
@@ -245,6 +152,10 @@ jQuery(function($) {
                 var response = $.parseJSON(result);
                 $('.tables-wrap').html( response.table );
                 $('#number-of-courses').html( response.numCourses );
+
+                // Reload after adding the dom back
+                $('th.sorting').click( tableSort );
+                loadRaty();
             });
     }
 
@@ -292,24 +203,7 @@ jQuery(function($) {
 
 
 
-    // SORTING
-    var sortDescClass = 'headerSortUp';
-    var sortAscClass = 'headerSortDown';
-    $('th.sorting').click(function(){
-        var table = $(this).parent().parent().parent().attr('id');
-        var list = table.substring(0, table.indexOf('list'));
-        var sortBy = $(this).data('sort');
-        if(!$(this).hasClass(sortAscClass)) {
-            lists[list].sort(sortBy,{'asc':true});
-            $(this).removeClass(sortDescClass);
-            $(this).addClass(sortAscClass);
-        } else {
-            lists[list].sort(sortBy,{'desc':true});
-            $(this).removeClass(sortAscClass);
-            $(this).addClass(sortDescClass);
-        }
 
-    });
 
     /**
      * Updates the url to reflect the filters using pushstate
@@ -317,19 +211,75 @@ jQuery(function($) {
      * @param langs
      * @param sessions
      */
-    function updateUrl(subjects, langs, sessions) {
+    function updateUrl() {
+
+        var filterCats = [];
+        var tickedSubjects = []; // for the pushstate url
+        // Sub subjects
+        $(".filter-subjects .active > .sort").each(function() {
+            filterCats.push($.trim($(this).data("subject")));
+            tickedSubjects.push($.trim($(this).data("subject")));
+        });
+
+        // Parent subjects
+        $(".filter-subjects .ticked + .sub-category").each(function() {
+            var parentCat = $.trim($(this).data("subject"));
+            filterCats.push(parentCat);
+            tickedSubjects.push(parentCat);
+            // Get the subjects for this parent category
+            $("a[data-parent='" + parentCat +"']").each(function(){
+                filterCats.push( $.trim($(this).data("subject"))) ;
+            });
+        });
+
+        // Languages
+        var filterLang = [];
+        $(".filter-languages .ticked + .sub-category").each(function() {
+            filterLang.push($.trim($(this).data("lang")));
+        });
+
+        // Course Lists
+        var courseLists = [];
+        $(".filter-courses .ticked + .sub-category").each(function () {
+            courseLists.push($.trim($(this).data("course-list")));
+        });
+
+        // Session list
+        var sessions = [];
+        $(".filter-sessions .ticked + .sub-category").each(function () {
+            sessions.push($.trim($(this).data("session")));
+        });
+
         var params = {};
-        if( subjects.length > 0 ) {
-            params['subject'] = subjects.join();
+        if( tickedSubjects.length > 0 ) {
+            params['subject'] = tickedSubjects.join();
         }
         if( sessions.length > 0 ) {
             params['session'] = sessions.join();
         }
+        var sorting = [];
+        $('th.sorting').each(function(){
+            var fieldName = $(this).data('sort');
+            var sortType='';
+            if( $(this).hasClass('headerSortDown') ) {
+                sortType = 'down';
+            }
+            if( $(this).hasClass('headerSortUp') ) {
+                sortType = 'up';
+            }
+            if(sortType.length > 0) {
+                sorting.push( fieldName + '-' + sortType );
+            }
+         });
+        if( sorting.length > 0) {
+            params['sort'] = sorting.join();
+        }
+
         var url = $.url().attr('path');
         var lowerCaseLangs = [];
-        if( langs.length > 0 ) {
-            for(i=0; i < langs.length; i++) {
-                lowerCaseLangs.push(langs[i].toLowerCase());
+        if( filterLang.length > 0 ) {
+            for(i=0; i < filterLang.length; i++) {
+                lowerCaseLangs.push(filterLang[i].toLowerCase());
             }
             params['lang'] = lowerCaseLangs.join();
         }
@@ -337,7 +287,7 @@ jQuery(function($) {
             // Check if there is a search param
             $qParams = $.url().param();
             for(var param in $qParams) {
-                if($.inArray(param,['session','subject','lang']) == -1 ) {
+                if($.inArray(param,['session','subject','lang','sort']) == -1 ) {
                     params[param ] = $qParams[param];
                 }
             }

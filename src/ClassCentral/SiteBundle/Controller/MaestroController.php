@@ -44,14 +44,26 @@ class MaestroController extends Controller {
 
         }
 
-        $filters = Filter::getQueryFilters( $request->query->all() );
-        $courses = $finder->byProvider( $slug, $filters  );
+        $params = $request->query->all();
+        $filters = Filter::getQueryFilters( $params );
+        $sort    = Filter::getQuerySort( $params );
+        $courses = $finder->byProvider( $slug, $filters, $sort  );
 
+        $sortField = '';
+        $sortClass = '';
+        if( isset($params['sort']) )
+        {
+            $sortDetails = Filter::getSortFieldAndDirection( $params['sort'] );
+            $sortField = $sortDetails['field'];
+            $sortClass = Filter::getSortClass( $sortDetails['direction'] );
+        }
         $table =  $this->render('ClassCentralSiteBundle:Helpers:course.table.html.twig',array(
             'results' => $courses,
             'tableId' => 'providertable',
             'listTypes' => UserCourse::$lists,
             'page' => 'initiative',
+            'sortField' => $sortField,
+            'sortClass' => $sortClass,
         ))->getContent();
         $response = array(
             'table' => $table,

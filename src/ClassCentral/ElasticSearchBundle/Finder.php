@@ -27,7 +27,7 @@ class Finder {
         $this->cp = $container->get( 'es_cp');
     }
 
-    public function byProvider( $provider, $filters= array() )
+    public function byProvider( $provider, $filters= array(), $sort = array() )
     {
         $query = array(
             'term' => array(
@@ -35,7 +35,7 @@ class Finder {
             )
         );
 
-        return $this->cp->find( $query, $filters, $this->getFacets(),2 );
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,2 );
 
     }
 

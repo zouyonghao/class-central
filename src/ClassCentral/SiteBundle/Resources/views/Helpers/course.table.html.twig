@@ -3,7 +3,11 @@
     <tr>
         {#<th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro Video</th>#}
         <th class="add-column">Add</th>
-        <th class="sorting course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])" data-sort="course-name">
+        {% set nameSortClass = '' %}
+        {% if sortField is defined and sortField =='name'  %}
+            {% set nameSortClass = sortClass %}
+        {% endif %}
+        <th class="sorting {{ nameSortClass }} course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])" data-sort="name">
             <div class="arrow-wrap">
                 Course Name
                 <p class="sorting-arrows">
@@ -33,7 +37,12 @@
                 </div>
             </th>
         {% endif %}
-        <th class="sorting start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])" data-sort="course-startdate">
+
+        {% set dateSortClass = '' %}
+        {% if sortField is defined and sortField =='date'  %}
+            {% set dateSortClass = sortClass %}
+        {% endif %}
+        <th class="sorting {{ dateSortClass  }} start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])" data-sort="date">
             <div class="arrow-wrap">
                 Start Date
                 <p class="sorting-arrows">
@@ -49,7 +58,12 @@
         {# <th class="sorting offering-length" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Length'])">Length</th> #}
         {# hide the initiative column on all pages #}
         {% if page is defined and page != 'initiative' and false %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])" data-sort="course-provider">Provider</th> {% endif %}
-        <th class="sorting course-rating-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Rating'])" data-sort="course-rating-value">
+
+        {% set ratingSortClass = '' %}
+        {% if sortField is defined and sortField =='rating'  %}
+            {% set ratingSortClass = sortClass %}
+        {% endif %}
+        <th class="sorting {{ ratingSortClass }} course-rating-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Rating'])" data-sort="rating">
             <div class="arrow-wrap">
                 Rating
                 <p class="sorting-arrows">

@@ -20,7 +20,7 @@ class CoursePaginated {
         $this->esClient = $esClient;
     }
 
-    public function find( $query = array(), $filters = array(), $facets = array(), $page = 1 )
+    public function find( $query = array(), $filters = array(), $facets = array(), $sort = array(), $page = 1 )
     {
         $params = array();
 
@@ -51,8 +51,13 @@ class CoursePaginated {
         {
             $params['body']['filter'] = $filters;
         }
+        if( !empty($sort) )
+        {
+            $params['body']['sort'] = $sort;
+        }
 
-        //var_dump( json_encode( $params['body']));
+        //var_dump( json_encode( $params['body'])); exit();
+
         $results = $this->esClient->search($params);
 
         return $results;

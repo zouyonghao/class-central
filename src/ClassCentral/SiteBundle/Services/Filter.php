@@ -252,10 +252,98 @@ class Filter {
     {
         return array(
           'terms' => array(
-              $key => explode(',',$values),
+              $key => array_map( "strtolower",explode(',',$values) ),
               'execution' => "or"
           )
         );
+    }
+
+
+    public static function getQuerySort($params = array())
+    {
+        $sortOrder = array();
+        $addedStartDate = false;
+
+        if (isset($params['sort'])) {
+            // Split the field and direction
+            $lastHypen = strrpos($params['sort'], '-');
+            $field = substr($params['sort'], 0, $lastHypen);
+            $direction = substr($params['sort'], $lastHypen + 1);
+
+            $sortType = self::getSortOrder( $sortOrder );
+
+            $sort = self::getSortOrder($direction);
+            if ($field == 'rating') {
+                $sortOrder [] = array(
+                    'rating' => array(
+                        'order' => $sort
+                    )
+                );
+            }
+
+            if ($field == 'name') {
+                $sortOrder [] = array(
+                    'name.raw' => array(
+                        'order' => $sort
+                    )
+                );
+            }
+
+            if( $field == 'date') {
+                $addedStartDate = true;
+                $sortOrder[] = array(
+                    "nextSession.startDate" => array(
+                        "order" => $sort
+                    ));
+            }
+        }
+
+        $sortOrder[] = array(
+            "nextSession.state" => array(
+                "order" => "desc"
+            ));
+
+        if( !$addedStartDate )
+        {
+            $sortOrder[] = array(
+                "nextSession.startDate" => array(
+                    "order" => "asc"
+            ));
+        }
+
+        return $sortOrder;
+
+    }
+
+    /**
+     *
+     * @param $sort
+     * @return array
+     */
+    public static function getSortFieldAndDirection( $sort )
+    {
+        $lastHyphen = strrpos($sort, '-');
+        $field = substr($sort, 0, $lastHyphen);
+        $direction = substr($sort, $lastHyphen + 1);
+
+        return array(
+            'field' => $field,
+            'direction' => $direction
+        );
+    }
+
+    public static function getSortClass( $direction )
+    {
+        return ( $direction == 'down' ) ? 'headerSortDown' : 'headerSortUp';
+    }
+
+    private static function getSortOrder($direction)
+    {
+        if( empty($direction) )
+        {
+            return '';
+        }
+        return ($direction == 'down') ? 'asc' : 'desc';
     }
 
 } 

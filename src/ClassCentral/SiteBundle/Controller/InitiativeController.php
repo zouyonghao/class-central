@@ -230,8 +230,19 @@ class InitiativeController extends Controller
 
                  $pageInfo =  PageHeaderFactory::get($provider);
 
-                 $filters = Filter::getQueryFilters( $request->query->all() );
-                 $courses = $finder->byProvider( $slug, $filters );
+                 $params = $request->query->all();
+                 $filters = Filter::getQueryFilters( $params );
+                 $sort    = Filter::getQuerySort( $params );
+                 $courses = $finder->byProvider( $slug, $filters, $sort );
+
+                 $sortField = '';
+                 $sortClass = '';
+                 if( isset($params['sort']) )
+                 {
+                     $sortDetails = Filter::getSortFieldAndDirection( $params['sort'] );
+                     $sortField = $sortDetails['field'];
+                     $sortClass = Filter::getSortClass( $sortDetails['direction'] );
+                 }
 
                  $response = $esCourses->findByProvider($slug);
                  $allSubjects = $filter->getCourseSubjects( $response['subjectIds'] );
@@ -245,7 +256,9 @@ class InitiativeController extends Controller
                      'allSubjects' => $allSubjects,
                      'allLanguages' => $allLanguages,
                      'allSessions'  => $allSessions,
-                     'courses' => $courses
+                     'courses' => $courses,
+                     'sortField' => $sortField,
+                     'sortClass' => $sortClass,
                  );
              },
             array( $type, $this->container, $request)
@@ -265,7 +278,9 @@ class InitiativeController extends Controller
             'allSessions' => $data['allSessions'],
             'page' => 'initiative',
             'provider' => $data['provider'],
-            'pageInfo' => $data['pageInfo']
+            'pageInfo' => $data['pageInfo'],
+            'sortField' => $data['sortField'],
+            'sortClass' => $data['sortClass'],
         ));
     }
 }
