@@ -1,3 +1,7 @@
+{% if pageNo is not defined %}
+    {% set pageNo = 1 %}
+{% endif %}
+{% if pageNo == 1 %}
 <table class="table table-striped table-bordered" id='{{ tableId}}list'>
     <thead>
     <tr>
@@ -78,7 +82,8 @@
         </th>
     </tr>
     </thead>
-    <tbody class="table-body-{{ tableId }}">
+    <tbody class="table-body-{{ tableId }}" id="course-listing-tbody">
+{% endif %}
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
@@ -199,6 +204,11 @@
 
         </tr>
     {% endfor %}
-
+{% if pageNo == 1 %}
     </tbody>
+
 </table>
+    <div id="show-more-courses" data-page="2">
+        Show more
+    </div>
+{% endif %}

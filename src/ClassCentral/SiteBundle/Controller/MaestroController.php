@@ -47,7 +47,8 @@ class MaestroController extends Controller {
         $params = $request->query->all();
         $filters = Filter::getQueryFilters( $params );
         $sort    = Filter::getQuerySort( $params );
-        $courses = $finder->byProvider( $slug, $filters, $sort  );
+        $pageNo = Filter::getPage( $params );
+        $courses = $finder->byProvider( $slug, $filters, $sort, $pageNo  );
 
         $sortField = '';
         $sortClass = '';
@@ -64,6 +65,7 @@ class MaestroController extends Controller {
             'page' => 'initiative',
             'sortField' => $sortField,
             'sortClass' => $sortClass,
+            'pageNo'=>$pageNo
         ))->getContent();
         $response = array(
             'table' => $table,

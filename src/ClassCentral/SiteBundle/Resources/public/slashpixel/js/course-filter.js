@@ -142,22 +142,38 @@ jQuery(function($) {
         }
 
         // updates the url
-        var url = updateUrl( );
+        var params = updateUrl( );
+        updateCourses(params,1);
+    }
 
+    function updateCourses( params, page ) {
         // Ajax query
+        params['page'] = page;
+        var url = $.url().attr('path');
+        url = url+'?' + $.param(params);
         $.ajax({
             url: "/maestro" + url
         })
             .done(function(result){
                 var response = $.parseJSON(result);
-                $('.tables-wrap').html( response.table );
-                $('#number-of-courses').html( response.numCourses );
+                if( page > 1 ) {
+                    $('#course-listing-tbody').append(response.table);
+                } else {
+                    $('.tables-wrap').html( response.table );
+                    $('#number-of-courses').html( response.numCourses );
+                }
 
                 // Reload after adding the dom back
                 $('th.sorting').click( tableSort );
                 loadRaty();
             });
     }
+
+    $('#show-more-courses').click( function(){
+        var page = $(this).data('page');
+        var params = updateUrl( );
+        updateCourses(params,2);
+    });
 
 
     // for page load done with filters
@@ -211,7 +227,7 @@ jQuery(function($) {
      * @param langs
      * @param sessions
      */
-    function updateUrl() {
+    function updateUrl( ) {
 
         var filterCats = [];
         var tickedSubjects = []; // for the pushstate url
@@ -275,7 +291,7 @@ jQuery(function($) {
             params['sort'] = sorting.join();
         }
 
-        var url = $.url().attr('path');
+
         var lowerCaseLangs = [];
         if( filterLang.length > 0 ) {
             for(i=0; i < filterLang.length; i++) {
@@ -283,6 +299,8 @@ jQuery(function($) {
             }
             params['lang'] = lowerCaseLangs.join();
         }
+
+        var url = $.url().attr('path');
         try{
             // Check if there is a search param
             $qParams = $.url().param();
@@ -297,7 +315,7 @@ jQuery(function($) {
             }
         } catch(e){};
         history.replaceState(null, null, url);
-        return url;
+        return params;
     }
 
     function gaqPush(type, value) {

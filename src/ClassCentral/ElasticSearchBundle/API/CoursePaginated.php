@@ -28,7 +28,7 @@ class CoursePaginated {
         $params['type'] = 'course';
         $params['body']['size'] = self::PAGE_SIZE ;
         // TODO: Check this calculation
-        //$params['body']['from'] = self::PAGE_SIZE * ($page - 1);
+        $params['body']['from'] = self::PAGE_SIZE * ($page - 1);
 
         $params['body']['query'] = array(
             'bool' => array(
@@ -62,6 +62,8 @@ class CoursePaginated {
 
         return $results;
     }
+
+
 
 
 } 

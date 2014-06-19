@@ -346,4 +346,16 @@ class Filter {
         return ($direction == 'down') ? 'asc' : 'desc';
     }
 
+    public  static function getPage($params)
+    {
+        if( empty($params['page']) )
+        {
+            return 1;
+        }
+
+        $page = intval( $params['page']);
+
+        return $page;
+    }
+
 } 
