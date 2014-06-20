@@ -283,7 +283,8 @@ class InitiativeController extends Controller
             'pageInfo' => $data['pageInfo'],
             'sortField' => $data['sortField'],
             'sortClass' => $data['sortClass'],
-            'pageNo' => $data['pageNo']
+            'pageNo' => $data['pageNo'],
+            'showHeader' => true
         ));
     }
 }

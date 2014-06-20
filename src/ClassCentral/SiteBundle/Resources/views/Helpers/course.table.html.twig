@@ -1,7 +1,10 @@
 {% if pageNo is not defined %}
     {% set pageNo = 1 %}
 {% endif %}
-{% if pageNo == 1 %}
+{% if showHeader is not defined %}
+    {% set showHeader = true %}
+{% endif %}
+{% if pageNo == 1 or showHeader %}
 <table class="table table-striped table-bordered" id='{{ tableId}}list'>
     <thead>
     <tr>
@@ -204,7 +207,7 @@
 
         </tr>
     {% endfor %}
-{% if pageNo == 1 %}
+{% if pageNo == 1 or showHeader %}
     </tbody>
 </table>
 {% endif %}

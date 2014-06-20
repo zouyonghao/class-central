@@ -65,7 +65,8 @@ class MaestroController extends Controller {
             'page' => 'initiative',
             'sortField' => $sortField,
             'sortClass' => $sortClass,
-            'pageNo'=>$pageNo
+            'pageNo'=>$pageNo,
+            'showHeader' => false
         ))->getContent();
         $response = array(
             'table' => $table,
