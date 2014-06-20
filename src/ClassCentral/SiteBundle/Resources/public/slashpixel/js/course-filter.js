@@ -142,15 +142,13 @@ jQuery(function($) {
         }
 
         // updates the url
-        var params = updateUrl( );
-        updateCourses(params,1);
+        var pg = 1;
+        var url = updateUrl( pg );
+        updateCourses(url, pg);
     }
 
-    function updateCourses( params, page ) {
+    function updateCourses( url, page ) {
         // Ajax query
-        params['page'] = page;
-        var url = $.url().attr('path');
-        url = url+'?' + $.param(params);
         $.ajax({
             url: "/maestro" + url
         })
@@ -166,13 +164,16 @@ jQuery(function($) {
                 // Reload after adding the dom back
                 $('th.sorting').click( tableSort );
                 loadRaty();
+
+                updateLoadMore( page + 1, response.numCourses);
             });
     }
 
+    // button click to show more courses
     $('#show-more-courses').click( function(){
-        var page = $(this).data('page');
-        var params = updateUrl( );
-        updateCourses(params,2);
+        var page = $(this).attr('data-page');
+        var url = updateUrl( page );
+        updateCourses(url,parseInt(page));
     });
 
 
@@ -227,7 +228,7 @@ jQuery(function($) {
      * @param langs
      * @param sessions
      */
-    function updateUrl( ) {
+    function updateUrl( pg ) {
 
         var filterCats = [];
         var tickedSubjects = []; // for the pushstate url
@@ -305,17 +306,35 @@ jQuery(function($) {
             // Check if there is a search param
             $qParams = $.url().param();
             for(var param in $qParams) {
-                if($.inArray(param,['session','subject','lang','sort']) == -1 ) {
+                if($.inArray(param,['session','subject','lang','sort','page']) == -1 ) {
                     params[param ] = $qParams[param];
                 }
             }
 
+            if(pg > 1) {
+                params['page'] = pg;
+            }
             if( !$.isEmptyObject(params) ) {
                 url = url+'?' + $.param(params)
             }
         } catch(e){};
         history.replaceState(null, null, url);
-        return params;
+        return url;
+    }
+
+    function updateLoadMore( nextPage, totalCourses) {
+        var moreCourses = totalCourses - (nextPage-1) * 50;
+        var show_more = $('#show-more-courses');
+        $(show_more).attr('data-page', nextPage);
+        if( moreCourses <= 0 ) {
+            $(show_more).hide();
+        } else if( moreCourses <=50 ) {
+            $(show_more).show();
+            $(show_more).html("Load the next " + moreCourses + " courses ");
+        } else {
+            $(show_more).show();
+            $(show_more).html("Load the next 50 courses of " + moreCourses);
+        }
     }
 
     function gaqPush(type, value) {

@@ -233,7 +233,8 @@ class InitiativeController extends Controller
                  $params = $request->query->all();
                  $filters = Filter::getQueryFilters( $params );
                  $sort    = Filter::getQuerySort( $params );
-                 $courses = $finder->byProvider( $slug, $filters, $sort );
+                 $pageNo = Filter::getPage( $params );
+                 $courses = $finder->byProvider( $slug, $filters, $sort, $pageNo );
 
                  $sortField = '';
                  $sortClass = '';
@@ -259,6 +260,7 @@ class InitiativeController extends Controller
                      'courses' => $courses,
                      'sortField' => $sortField,
                      'sortClass' => $sortClass,
+                     'pageNo' => $pageNo
                  );
              },
             array( $type, $this->container, $request)
@@ -281,6 +283,7 @@ class InitiativeController extends Controller
             'pageInfo' => $data['pageInfo'],
             'sortField' => $data['sortField'],
             'sortClass' => $data['sortClass'],
+            'pageNo' => $data['pageNo']
         ));
     }
 }
