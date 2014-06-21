@@ -88,7 +88,7 @@
                                         <use xlink:href="#icon-cc-tick"></use>
                                     </svg>
                                 </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-session="{{ slug }}" data-type="session"> {{ session.nav  }}</a>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-session="{{ slug }}" data-type="session"> {{ session.nav  }} ({{ session.count }})</a>
                                 </div>
                             </li>
                         {% endfor %}
@@ -118,7 +118,7 @@
                                         <use xlink:href="#icon-cc-tick"></use>
                                     </svg>
                                 </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}" data-type="subject"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }}</a>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}" data-type="subject"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }} ({{ pSub.count }})</a>
                                 </div>
                                 {% if pSub.children|length > 0 %}
                                     <ul class="filter-dropdown">
@@ -163,7 +163,7 @@
                                         <use xlink:href="#icon-cc-tick"></use>
                                     </svg>
                                 </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}" data-type="lang"> {{ language.name  }}</a>
+                                    <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}" data-type="lang"> {{ language.name  }} ({{ language.count }})</a>
                                 </div>
                             </li>
                         {% endfor %}

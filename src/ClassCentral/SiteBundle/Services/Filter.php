@@ -14,57 +14,6 @@ class Filter {
         $this->container = $container;
     }
 
-    /**
-     * Given an array of offerings, it returns the subject tree containing only the subjects
-     * from the offerings
-     * @param $offerings
-     */
-    public function getOfferingSubjects($offerings)
-    {
-        $cache = $this->container->get('cache');
-
-        // Get all the subjects for this offering and build a map
-        $offSubjects = array();
-        foreach($offerings as $section => $sectionOfferings)
-        {
-            foreach($sectionOfferings as $offering)
-            {
-                $sub = $offering['stream']['slug'];
-                if(!isset($offSubjects[$sub]))
-                {
-                    $offSubjects[$sub] = true;
-                }
-            }
-        }
-
-        // Get the entire subject tree
-        $allSubjects = $cache->get('allSubjects', array($this,'getSubjectsTree'));
-
-        // Filter out the subjects that are not mentioned in these offerings
-        foreach($allSubjects as $parent)
-        {
-            $hasChild = false;
-            foreach($parent['children'] as $child)
-            {
-                if(!isset($offSubjects[$child['slug']]))
-                {
-                    unset($allSubjects[$parent['slug']]['children'][$child['slug']]);
-                }
-                else
-                {
-                    $hasChild = true;
-                }
-            }
-
-            if(!$hasChild && !isset($offSubjects[$parent['slug']]))
-            {
-                unset($allSubjects[$parent['slug']]);
-            }
-        }
-
-        return $allSubjects;
-    }
-
     public function getCourseSubjects( $subjectIds = array())
     {
         $cache = $this->container->get('cache');
@@ -72,12 +21,13 @@ class Filter {
         $allSubjects = $cache->get('allSubjects', array($this,'getSubjectsTree'));
 
         // Filter out the subjects that are not mentioned in these offerings
+        $courseSubjectIds = array_keys( $subjectIds );
         foreach($allSubjects as $parent)
         {
             $hasChild = false;
             foreach($parent['children'] as $child)
             {
-                if(!in_array($child['id'],$subjectIds))
+                if(!in_array($child['id'],$courseSubjectIds))
                 {
                     unset($allSubjects[$parent['slug']]['children'][$child['slug']]);
                 }
@@ -87,9 +37,13 @@ class Filter {
                 }
             }
 
-            if(!$hasChild && !in_array($parent['id'],$subjectIds))
+            if(!$hasChild && !in_array($parent['id'],$courseSubjectIds))
             {
                 unset($allSubjects[$parent['slug']]);
+            }
+            else
+            {
+                $allSubjects[$parent['slug']]['count'] = $subjectIds[$parent['id']];
             }
         }
 
@@ -109,17 +63,18 @@ class Filter {
         {
             if($subject->getParentStream())
             {
-                $childSubjects[$subject->getParentStream()->getId()][] = $subject;
+                //$childSubjects[$subject->getParentStream()->getId()][] = $subject;
             }
             else
             {
                 $subjects[$subject->getSlug()] = array(
                     'name' => $subject->getName(),
                     'id' => $subject->getId(),
-                    'slug'=> $subject->getSlug()
+                    'slug'=> $subject->getSlug(),
                 );
 
                 $children = array();
+                /*
                 foreach($subject->getChildren() as $childSub)
                 {
                     $children[$childSub->getSlug()] = array(
@@ -129,6 +84,7 @@ class Filter {
                     );
 
                 }
+                */
                 $subjects[$subject->getSlug()]['children'] = $children;
             }
         }
@@ -136,37 +92,6 @@ class Filter {
         return $subjects;
     }
 
-    public function getOfferingLanguages($offerings)
-    {
-        $cache = $this->container->get('cache');
-
-        // Get all the languages for this offering and build a map
-        $offLang = array();
-        foreach($offerings as $section => $sectionOfferings)
-        {
-            foreach($sectionOfferings as $offering)
-            {
-                $lang = $offering['language']['name'];
-                if(!isset($offLang[$lang]))
-                {
-                    $offLang[$lang] = true;
-                }
-            }
-        }
-
-        // Get language info
-        $allLanguages = $cache->get('allLanguages', array($this,'getLanguages'));
-        foreach($allLanguages as $lang)
-        {
-            $name = $lang['name'];
-            if(!isset($offLang[$name]))
-            {
-                unset($allLanguages[$name]);
-            }
-        }
-
-        return $allLanguages;
-    }
 
     public function getCourseLanguages($languageIds = array())
     {
@@ -174,12 +99,17 @@ class Filter {
 
         // Get language info
         $allLanguages = $cache->get('allLanguages', array($this,'getLanguages'));
+        $courseLangIds = array_keys( $languageIds );
         foreach($allLanguages as $lang)
         {
             $name = $lang['name'];
-            if( !in_array($lang['id'],$languageIds) )
+            if( !in_array($lang['id'],$courseLangIds) )
             {
                 unset($allLanguages[$name]);
+            }
+            else
+            {
+                $allLanguages[$name]['count'] = $languageIds[ $lang['id'] ];
             }
         }
 
@@ -205,10 +135,12 @@ class Filter {
     {
         $s = array();
         $allSessions = Offering::$types;
+        $sessionKeys = array_keys( $sessions );
         foreach($allSessions as $key => $value)
         {
-            if ( in_array(strtolower($key),$sessions) )
+            if ( in_array(strtolower($key),$sessionKeys) )
             {
+                $value['count'] = $sessions[ strtolower($key) ];
                 $s[$key] = $value;
             }
         }

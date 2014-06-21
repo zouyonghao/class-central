@@ -235,6 +235,7 @@ class InitiativeController extends Controller
                  $sort    = Filter::getQuerySort( $params );
                  $pageNo = Filter::getPage( $params );
                  $courses = $finder->byProvider( $slug, $filters, $sort, $pageNo );
+                 $facets = $finder->getFacetCounts( $courses );
 
                  $sortField = '';
                  $sortClass = '';
@@ -246,9 +247,9 @@ class InitiativeController extends Controller
                  }
 
                  $response = $esCourses->findByProvider($slug);
-                 $allSubjects = $filter->getCourseSubjects( $response['subjectIds'] );
-                 $allLanguages = $filter->getCourseLanguages( $response['languageIds'] );
-                 $allSessions  = $filter->getCourseSessions( $response['sessions'] );
+                 $allSubjects = $filter->getCourseSubjects( $facets['subjectIds'] );
+                 $allLanguages = $filter->getCourseLanguages( $facets['languageIds'] );
+                 $allSessions  = $filter->getCourseSessions( $facets['sessions'] );
 
                  return array(
                      'response' => $response,
