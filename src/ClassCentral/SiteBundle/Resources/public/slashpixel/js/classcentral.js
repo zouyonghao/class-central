@@ -86,7 +86,7 @@ jQuery(function($) {
                     var r = JSON.parse(result);
                     if(r.success)
                     {
-                        if(!courseAdded) {
+                        if( typeof courseAdded != 'undefined' && !courseAdded) {
                             updateCounter(true);
                             courseAdded = true;
                         }
@@ -137,9 +137,12 @@ jQuery(function($) {
                     var r = JSON.parse(result);
                     if(r.success)
                     {
-                        // Decrement count
-                        updateCounter(false);
-                        courseAdded = false;
+                        // Decrement count - Course page
+                        if( typeof courseAdded != 'undefined')
+                        {
+                            updateCounter(false);
+                            courseAdded = false;
+                        }
                         notify(
                             'Course removed',
                             '<i>'+ name +'</i> removed from <a href="/user/courses">My Courses</a> successfully',

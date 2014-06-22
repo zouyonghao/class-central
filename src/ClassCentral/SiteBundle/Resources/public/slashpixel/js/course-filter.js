@@ -43,7 +43,7 @@ jQuery(function($) {
             //setTimeout(function() {
             filterWrap.removeClass("show-filter");
             //toggle = true;
-            //}, 900);
+            //}, 900);co
 
         }   else   {
             filterWrap.addClass("show-filter");
