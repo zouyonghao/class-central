@@ -262,23 +262,20 @@ class CourseListing {
 
         $userCourses = $user->getUserCourses();
         $courseIds = array();
-        $courseIdsByList = array();
-        foreach(UserCourse::getListTypes() as $list)
+        $listCounts = array();
+
+        $lists = Filter::getUserList( $request->query->all() );
+        foreach($lists as $list)
         {
-            $courseIdsByList[$list] = array();
+            $listCounts[$list] = 0;
         }
         foreach($userCourses as $userCourse)
         {
             $list = $userCourse->getList();
-            $courseIds[] = $userCourse->getCourse()->getId();
-            $courseIdsByList[$list['slug']][] = $userCourse->getCourse()->getId();
-        }
-        $lists = array();
-        foreach(UserCourse::getListTypes() as $list)
-        {
-            if( !empty($courseIdsByList[$list]) )
+            if( in_array( $list['slug'],$lists) )
             {
-                $lists[] = $list;
+                $courseIds[] = $userCourse->getCourse()->getId();
+                $listCounts[$list['slug']]++;
             }
         }
 
@@ -288,7 +285,7 @@ class CourseListing {
 
         return compact(
             'allSubjects', 'allLanguages', 'allSessions', 'courses',
-            'sortField', 'sortClass', 'pageNo','lists'
+            'sortField', 'sortClass', 'pageNo','lists', 'listCounts'
         );
     }
 

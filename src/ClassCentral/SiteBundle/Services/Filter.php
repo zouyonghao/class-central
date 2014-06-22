@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Filter {
@@ -288,6 +289,16 @@ class Filter {
         $page = intval( $params['page']);
 
         return $page;
+    }
+
+    public static function getUserList( $params )
+    {
+        if(empty($params) || empty($params['list']))
+        {
+            return UserCourse::getListTypes();
+        }
+
+        return explode( ',', $params['list']);
     }
 
 } 

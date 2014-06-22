@@ -224,11 +224,6 @@ jQuery(function($) {
         }
     }
 
-
-
-
-
-
     /**
      * Updates the url to reflect the filters using pushstate
      * @param subjects
@@ -311,6 +306,9 @@ jQuery(function($) {
         if( sessions.length > 0 ) {
             params['session'] = sessions.join();
         }
+        if( courseLists.length > 0 ) {
+            params['list'] = courseLists.join();
+        }
         var sorting = [];
         $('th.sorting').each(function(){
             var fieldName = $(this).data('sort');
@@ -340,7 +338,7 @@ jQuery(function($) {
 
         $qParams = $.url().param();
         for(var param in $qParams) {
-            if($.inArray(param,['session','subject','lang','sort','page']) == -1 ) {
+            if($.inArray(param,['session','subject','lang','sort','page','list']) == -1 ) {
                 params[param ] = $qParams[param];
             }
         }

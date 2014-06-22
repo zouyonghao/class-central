@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-sm-4 col-lg-3 filter-column">
                     {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with
-                    {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions' : allSessions, 'userLists' : userLists } %}
+                    {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions' : allSessions, 'userLists' : userLists,'results':courses } %}
                 </div>
                 <div class="col-sm-8 col-lg-9 table-column">
                     <div class="tables-wrap">
@@ -31,6 +31,7 @@
 
 
                         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':courses,'tableId':'myCourses'} %}
+                        {% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': courses.hits.total } %}
 
                         {# search terms #}
                         {% if searchTerms|length > 0 %}

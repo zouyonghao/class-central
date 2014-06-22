@@ -840,6 +840,10 @@ class UserController extends Controller
                 'allSessions' => $allSessions,
                 'searchTerms' => $searchTerms,
                 'showInstructions' => $showInstructions,
+                'sortField' => $sortField,
+                'sortClass' => $sortClass,
+                'pageNo' => $pageNo,
+                'showHeader' => true
         ));
 
     }

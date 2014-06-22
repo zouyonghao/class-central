@@ -102,7 +102,7 @@ class Finder {
             )
         );
 
-        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,-1 );
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
 
     public function search( $keyword, $filters= array(), $sort = array(), $page = 1 )

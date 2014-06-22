@@ -27,17 +27,9 @@ class CoursePaginated {
         $params['index'] = $this->indexName;
         $params['type'] = 'course';
 
-        if($page == -1)
-        {
-            // This is for the user library
-            $params['body']['size'] = 1000 ;
-            $params['body']['from'] = 0;
-        }
-        else
-        {
-            $params['body']['size'] = self::PAGE_SIZE ;
-            $params['body']['from'] = self::PAGE_SIZE * ($page - 1);
-        }
+
+        $params['body']['size'] = self::PAGE_SIZE ;
+        $params['body']['from'] = self::PAGE_SIZE * ($page - 1);
 
 
         $params['body']['query'] = array(
