@@ -15,10 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller {
                
-    public function indexAction() {
+    public function indexAction(Request $request) {
   
         $cache = $this->get('Cache');
-        $recent = $cache->get('course_status_recent', array($this, 'getCoursesByStatus'), array('recent', $this->container));
+        $cl = $this->get('course_listing');
+        $recent = $cl->byTime('recent',$request);
         $esCourses = $this->get('es_courses');
         $em = $this->getDoctrine()->getManager();
 
@@ -38,8 +39,8 @@ class DefaultController extends Controller {
 
 
         // limit the results to 10 courses
-        $recent['response']['results']['hits']['hits'] =
-            array_splice($recent['response']['results']['hits']['hits'],0,10);
+        $recent['courses']['hits']['hits'] =
+            array_splice($recent['courses']['hits']['hits'],0,10);
 
         $subjects = $cache->get('stream_list_count',
                         array( new StreamController(), 'getSubjectsList'),
@@ -82,11 +83,10 @@ class DefaultController extends Controller {
             $uc = $response['results'];
         }
 
-
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
-                'recentCourses'   => $recent['response']['results'],
+                'recentCourses'   => $recent['courses'],
                 'spotlights' => $spotlights,
                 'spotlightMap' => Spotlight::$spotlightMap,
                 'subjects' => $subjects,

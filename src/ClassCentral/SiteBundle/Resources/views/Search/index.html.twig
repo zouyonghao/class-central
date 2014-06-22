@@ -4,6 +4,10 @@
     {% if keywords is not null and keywords|length %}
         <title> {{keywords}} - free online courses/MOOC search results | Class Central</title>
         <meta name="description" content="{{keywords}} - free online courses/MOOC search results | Class Central"/>
+        {# paginated content #}
+        {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
+            { 'pageNo': pageNo, 'totalCourses': results.hits.total }
+        %}
     {% else %}
         <title>Search for free online courses/MOOCs | Class Central</title>
         <meta name="description" content="Free MOOC (Massive Open Online Course) Search"/>
@@ -78,6 +82,7 @@
                         <div class="col-sm-8 col-lg-9 table-column">
                             <div class="tables-wrap">
                                 {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
+                                {% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': results.hits.total } %}
                             </div>
                         </div>
                     </div>
