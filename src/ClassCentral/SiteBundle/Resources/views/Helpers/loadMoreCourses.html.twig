@@ -1,9 +1,11 @@
 {# determine if the show more courses block is to be displaed #}
 {% set moreCourses = totalCourses - (nextPage-1) * 50 %}
 
-<div id="show-more-courses" data-page="{{ nextPage }}">
+<div id="show-more-courses" class="alert alert-info" data-page="{{ nextPage }}"
+    {% if moreCourses <= 0  %} style="display: none" {% endif %}
+>
     {% if moreCourses <= 0 %}
-
+        {# do nothing #}
     {% elseif moreCourses <= 50 %}
         Load the next {{ moreCourses }} courses
     {% else %}
