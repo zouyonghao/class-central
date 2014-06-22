@@ -102,6 +102,28 @@ class MaestroController extends Controller {
         );
     }
 
+    public function libraryAction(Request $request)
+    {
+        $userSession = $this->get('user_session');
+
+        // Check if user is already logged in.
+        if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('login'));
+        }
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $cl = $this->get('course_listing');
+        $data = $cl->userLibrary( $user, $request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'myCourses',
+            'user-library'
+        );
+
+    }
+
     private function returnJsonResponse($data, $tableName, $page )
     {
         extract( $data );

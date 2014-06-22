@@ -8,6 +8,8 @@
 
 namespace ClassCentral\SiteBundle\Services;
 use ClassCentral\SiteBundle\Entity\Initiative;
+use ClassCentral\SiteBundle\Entity\User;
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -251,6 +253,42 @@ class CourseListing {
         return compact(
             'allSubjects', 'allLanguages', 'allSessions', 'courses',
             'sortField', 'sortClass', 'pageNo'
+        );
+    }
+
+    public function userLibrary(User $user, Request $request)
+    {
+        $finder = $this->container->get('course_finder');
+
+        $userCourses = $user->getUserCourses();
+        $courseIds = array();
+        $courseIdsByList = array();
+        foreach(UserCourse::getListTypes() as $list)
+        {
+            $courseIdsByList[$list] = array();
+        }
+        foreach($userCourses as $userCourse)
+        {
+            $list = $userCourse->getList();
+            $courseIds[] = $userCourse->getCourse()->getId();
+            $courseIdsByList[$list['slug']][] = $userCourse->getCourse()->getId();
+        }
+        $lists = array();
+        foreach(UserCourse::getListTypes() as $list)
+        {
+            if( !empty($courseIdsByList[$list]) )
+            {
+                $lists[] = $list;
+            }
+        }
+
+        extract($this->getInfoFromParams($request->query->all()));
+        $courses = $finder->byCourseIds($courseIds, $filters, $sort, $pageNo);
+        extract($this->getFacets($courses));
+
+        return compact(
+            'allSubjects', 'allLanguages', 'allSessions', 'courses',
+            'sortField', 'sortClass', 'pageNo','lists'
         );
     }
 

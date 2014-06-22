@@ -94,6 +94,17 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
+    public function byCourseIds( $ids = array(), $filters= array(), $sort = array(), $page = 1 )
+    {
+        $query = array(
+            'terms' => array(
+                'id' => $ids
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,-1 );
+    }
+
     public function search( $keyword, $filters= array(), $sort = array(), $page = 1 )
     {
         $query = array(

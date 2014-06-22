@@ -29,15 +29,8 @@
                             No courses found
                         {% endif %}
 
-                        {% for listId, listDetails in listTypes %}
-                            {% set listType=listDetails['slug'] %}
-                            {% if courses[listType] is defined %}
-                                <div id ="{{ listType }}-table-wrapper">
-                                    <h2 class="tabletitle" id="{{listType}}">{{listDetails.desc}} (<span id="{{ listType }}-count">{{ courses[listType]['results']['hits']['total'] }}</span>)</h2>
-                                    {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {'results':courses[listType]['results'],'tableId':listType} %}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+
+                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':courses,'tableId':'myCourses'} %}
 
                         {# search terms #}
                         {% if searchTerms|length > 0 %}

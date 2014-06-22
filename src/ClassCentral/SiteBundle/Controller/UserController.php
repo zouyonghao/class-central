@@ -809,10 +809,7 @@ class UserController extends Controller
      */
     public function libraryAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $esCourses = $this->get('es_courses');
         $userSession = $this->get('user_session');
-        $filter = $this->get('Filter');
 
         // Check if user is already logged in.
         if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
@@ -822,43 +819,13 @@ class UserController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
 
 
-        $userCourses = $user->getUserCourses();
-        $courseIds = array();
-        $courseIdsByList = array();
-        foreach(UserCourse::getListTypes() as $list)
-        {
-            $courseIdsByList[$list] = array();
-        }
-        foreach($userCourses as $userCourse)
-        {
-            $list = $userCourse->getList();
-
-            $courseIds[] = $userCourse->getCourse()->getId();
-            $courseIdsByList[$list['slug']][] = $userCourse->getCourse()->getId();
-        }
-
-        $courses = array();
-        foreach( UserCourse::getListTypes() as $listSlug )
-        {
-            if ( empty($courseIdsByList[$listSlug]) )
-            {
-                continue;
-            }
-
-            $courses[$listSlug] = $esCourses->findByIds( $courseIdsByList[$listSlug] );
-        }
-
-        // Generate filter based on all courses
-        $response = $esCourses->findByIds( $courseIds );
-        $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
-        $allLanguages = $filter->getCourseLanguages($response['languageIds']);
-        $allSessions  = $filter->getCourseSessions( $response['sessions'] );
+        $cl = $this->get('course_listing');
+        extract( $cl->userLibrary( $user, $request));
 
         // Get the search terms
         $searchTerms = $userSession->getMTSearchTerms();
-
         $showInstructions = false;
-        if(empty($searchTerms) && $userCourses->count()==0)
+        if( empty($searchTerms) && empty($lists) )
         {
             $showInstructions = true;
         }
@@ -866,7 +833,7 @@ class UserController extends Controller
         return $this->render('ClassCentralSiteBundle:User:library.html.twig', array(
                 'page' => 'user-library',
                 'courses' => $courses,
-                'userLists' => array_keys($courses), // List of courses that user has
+                'userLists' => $lists, // List of courses that user has
                 'listTypes' => UserCourse::$lists,
                 'allSubjects' => $allSubjects,
                 'allLanguages' => $allLanguages,
