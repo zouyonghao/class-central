@@ -197,11 +197,8 @@ class InitiativeController extends Controller
      */
     public function providerAction(Request $request, $type)
     {
-        $cache = $this->get('cache');
         $cl = $this->get('course_listing');
         $data = $cl->byProvider($type,$request);
-
-
 
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
             'results' => $data['courses'],

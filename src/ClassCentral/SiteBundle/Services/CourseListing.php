@@ -7,6 +7,7 @@
  */
 
 namespace ClassCentral\SiteBundle\Services;
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,9 +34,7 @@ class CourseListing {
      */
     public function byProvider($slug, Request $request)
     {
-
         $cache = $this->container->get('cache');
-
         $data = $cache->get(
             'provider_' . $slug . $request->server->get('QUERY_STRING'), function ($slug, $request) {
 
@@ -71,8 +70,66 @@ class CourseListing {
         }, array($slug, $request));
 
         return $data;
-
     }
+
+    /**
+     * Retrieves all the data required for a particular provider
+     * @param $slug
+     * @param Request $request
+     */
+    public function bySubject($slug, Request $request)
+    {
+        $cache = $this->container->get('cache');
+        $data = $cache->get(
+            'subject_' . $slug . $request->server->get('QUERY_STRING'), function ($slug, $request) {
+
+            $finder = $this->container->get('course_finder');
+
+            $em = $this->container->get('doctrine')->getManager();
+
+            $subject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBySlug($slug);
+
+            if(!$subject)
+            {
+                throw new \Exception("Provider $slug not found");
+                return;
+            }
+
+            extract($this->getInfoFromParams($request->query->all()));
+            $courses = $finder->bySubject($slug, $filters, $sort, $pageNo);
+            extract($this->getFacets($courses));
+
+            $pageInfo = PageHeaderFactory::get($subject);
+            $pageInfo->setPageUrl(
+               $this->container->getParameter('baseurl'). $this->container->get('router')->generate('ClassCentralSiteBundle_stream', array('slug' => $slug))
+            );
+
+            $breadcrumbs = array(
+                Breadcrumb::getBreadCrumb('Subjects', $this->container->get('router')->generate('subjects')),
+            );
+
+            // Add parent stream to the breadcrumb if it exists
+            if($subject->getParentStream())
+            {
+                $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                    $subject->getParentStream()->getName(),
+                    $this->container->get('router')->generate('ClassCentralSiteBundle_stream', array( 'slug' => $subject->getParentStream()->getSlug()))
+                );
+            }
+
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb($subject->getName());
+            $subject->setParentStream( null ); // To avoid cache errors
+
+            return compact(
+                'subject', 'allSubjects', 'allLanguages', 'allSessions', 'courses',
+                'sortField', 'sortClass', 'pageNo', 'pageInfo','breadcrumbs'
+            );
+        }, array($slug, $request));
+
+        return $data;
+    }
+
+
 
     public function getInfoFromParams($params = array())
     {

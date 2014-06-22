@@ -39,6 +39,18 @@ class Finder {
 
     }
 
+    public function bySubject( $subject, $filters= array(), $sort = array(), $page = 1 )
+    {
+        $query = array(
+            'term' => array(
+                'subjects.slug' => $subject
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+
+    }
+
     public function getFacetCounts($results)
     {
         $subjectIds = array();

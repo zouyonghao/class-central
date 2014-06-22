@@ -20,7 +20,29 @@ class MaestroController extends Controller {
     public function providerAction(Request $request, $slug)
     {
         $cl = $this->get('course_listing');
-        extract ($cl->byProvider($slug,$request));
+        $data = $cl->byProvider($slug,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'providertable'
+        );
+
+    }
+
+    public function subjectAction(Request $request, $slug)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->bySubject($slug,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'subjectstable'
+        );
+    }
+
+    private function returnJsonResponse($data, $tableName )
+    {
+        extract( $data );
 
         $table =  $this->render('ClassCentralSiteBundle:Helpers:course.table.html.twig',array(
             'results' => $courses,

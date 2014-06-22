@@ -20,6 +20,11 @@
     <meta name="twitter:title" content="List of {{subject.name}} free online courses/MOOCs">
     <meta name="twitter:description" content="List of {{subject.name}} free online courses/MOOCs aggregated by Class Central">
     <meta name="twitter:domain" content="www.class-central.com">
+
+    {# paginated content #}
+    {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
+        { 'pageNo': pageNo, 'totalCourses': results.hits.total }
+    %}
 {% endblock %} 
 
 {%  block content %}
@@ -45,6 +50,7 @@
                 <div class="col-sm-8 col-lg-9 table-column">
                     <div class="tables-wrap">
                         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'subjectstable'} %}
+                        {% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': results.hits.total } %}
                     </div>
                 </div>
             </div>

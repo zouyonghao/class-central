@@ -283,3 +283,7 @@ fb_authorize_redirect:
 maestro_provider:
   pattern: /maestro/provider/{slug}
   defaults: { _controller: ClassCentralSiteBundle:Maestro:provider }
+
+maestro_subject:
+  pattern: /maestro/subject/{slug}
+  defaults: { _controller: ClassCentralSiteBundle:Maestro:subject }
