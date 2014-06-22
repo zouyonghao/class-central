@@ -198,80 +198,10 @@ class InitiativeController extends Controller
     public function providerAction(Request $request, $type)
     {
         $cache = $this->get('cache');
+        $cl = $this->get('course_listing');
+        $data = $cl->byProvider($type,$request);
 
-        $data = $cache->get(
-            'provider_' . $type . $request->server->get('QUERY_STRING'),
-             function ( $slug, $container, $request ) {
-                 $esCourses = $this->get('es_courses');
-                 $finder = $this->get('course_finder');
-                 $filter =$this->get('filter');
-                 $em = $container->get('doctrine')->getManager();
 
-                 if( $slug == 'others')
-                 {
-                     $provider = new Initiative();
-                     $provider->setName('Others');
-                     $provider->setCode('others');
-                 }
-                 elseif ( $slug == 'independent')
-                 {
-                     $provider = new Initiative();
-                     $provider->setName('Independent');
-                     $provider->setCode('independent');
-                 }
-                 else
-                 {
-                     $provider  = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code'=>$slug ) );
-                     if(!$provider)
-                     {
-                         return array();
-                     }
-                 }
-
-                 $pageInfo =  PageHeaderFactory::get($provider);
-
-                 $params = $request->query->all();
-                 $filters = Filter::getQueryFilters( $params );
-                 $sort    = Filter::getQuerySort( $params );
-                 $pageNo = Filter::getPage( $params );
-                 $courses = $finder->byProvider( $slug, $filters, $sort, $pageNo );
-                 $facets = $finder->getFacetCounts( $courses );
-
-                 $sortField = '';
-                 $sortClass = '';
-                 if( isset($params['sort']) )
-                 {
-                     $sortDetails = Filter::getSortFieldAndDirection( $params['sort'] );
-                     $sortField = $sortDetails['field'];
-                     $sortClass = Filter::getSortClass( $sortDetails['direction'] );
-                 }
-
-                 $response = $esCourses->findByProvider($slug);
-                 $allSubjects = $filter->getCourseSubjects( $facets['subjectIds'] );
-                 $allLanguages = $filter->getCourseLanguages( $facets['languageIds'] );
-                 $allSessions  = $filter->getCourseSessions( $facets['sessions'] );
-
-                 return array(
-                     'response' => $response,
-                     'provider' => $provider,
-                     'pageInfo' => $pageInfo,
-                     'allSubjects' => $allSubjects,
-                     'allLanguages' => $allLanguages,
-                     'allSessions'  => $allSessions,
-                     'courses' => $courses,
-                     'sortField' => $sortField,
-                     'sortClass' => $sortClass,
-                     'pageNo' => $pageNo
-                 );
-             },
-            array( $type, $this->container, $request)
-        );
-
-        if( empty($data) )
-        {
-            // Show an error message
-            return;
-        }
 
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
             'results' => $data['courses'],

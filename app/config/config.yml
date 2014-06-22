@@ -100,6 +100,9 @@ services:
   course_finder:
       class: ClassCentral\ElasticSearchBundle\Finder
       arguments: ['@service_container']
+  course_listing:
+      class: ClassCentral\SiteBundle\Services\CourseListing
+      arguments: ['@service_container']
   # Used to retrive jobs
   es_scheduler:
         class: ClassCentral\ElasticSearchBundle\API\Scheduler
