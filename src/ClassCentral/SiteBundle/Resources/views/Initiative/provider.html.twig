@@ -23,22 +23,9 @@
     <meta name="twitter:domain" content="www.class-central.com">
 
     {# paginated content #}
-    {% set totalPages = (results.hits.total/50)|round(0,'ceil')  %}
-    {{ app.request.baseUrl }}
-    {% if pageNo < totalPages %}
-        <link rel="next" href="{{ path(app.request.attributes.get('_route'),
-            app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'page':pageNo + 1})))  }}" />
-    {% endif %}
-    {% if pageNo > 1 %}
-        {% if pageNo == 2 %}
-            {# remove page=1 from the url #}
-            <link rel="prev" href="{{ path(app.request.attributes.get('_route'),
-            app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'page':null})))  }}" />
-        {% else %}
-            <link rel="prev" href="{{ path(app.request.attributes.get('_route'),
-            app.request.attributes.get('_route_params')|merge(app.request.query.all|merge({'page':pageNo - 1})))  }}" />
-        {% endif %}
-    {% endif %}
+    {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
+        { 'pageNo': pageNo, 'totalCourses': results.hits.total }
+    %}
 
 {% endblock %}
 
