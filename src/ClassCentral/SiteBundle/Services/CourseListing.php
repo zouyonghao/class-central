@@ -240,6 +240,20 @@ class CourseListing {
         return $data;
     }
 
+    public function search($keyword, Request $request)
+    {
+        $finder = $this->container->get('course_finder');
+
+        extract($this->getInfoFromParams($request->query->all()));
+        $courses = $finder->search($keyword, $filters, $sort, $pageNo);
+        extract($this->getFacets($courses));
+
+        return compact(
+            'allSubjects', 'allLanguages', 'allSessions', 'courses',
+            'sortField', 'sortClass', 'pageNo'
+        );
+    }
+
     public function getInfoFromParams($params = array())
     {
         $filters = Filter::getQueryFilters($params);

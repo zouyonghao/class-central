@@ -94,6 +94,36 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
+    public function search( $keyword, $filters= array(), $sort = array(), $page = 1 )
+    {
+        $query = array(
+            "multi_match" => array(
+                "query" => $keyword,
+                "type" => "best_fields",
+                "fields" => array(
+                    'name^2',
+                    'description',
+                    'longDescription',
+                    'syllabus',
+                    'institutions.name',
+                    'institutions.slug',
+                    'instructors',
+                    'provider.slug',
+                    'provider.name',
+                    "subjects.name",
+                    "subject.slug",
+                    "searchDesc"
+                ),
+                "tie_breaker" => 0.1,
+                "minimum_should_match" => "2<75%"
+
+            ),
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+    }
+
+
     public function getFacetCounts($results)
     {
         $subjectIds = array();

@@ -90,6 +90,18 @@ class MaestroController extends Controller {
         );
     }
 
+    public function searchAction(Request $request)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->search( $request->get('q'),$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'searchtable',
+            'search'
+        );
+    }
+
     private function returnJsonResponse($data, $tableName, $page )
     {
         extract( $data );

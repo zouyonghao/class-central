@@ -307,3 +307,7 @@ maestro_lang:
 maestro_tag_courses:
   pattern: /maestro/tag/{tag}
   defaults: { _controller: ClassCentralSiteBundle:Maestro:tag }
+
+maestro_search:
+  pattern: /maestro/search
+  defaults: { _controller: ClassCentralSiteBundle:Maestro:search}
