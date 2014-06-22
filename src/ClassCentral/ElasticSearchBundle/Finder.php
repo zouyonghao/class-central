@@ -50,6 +50,17 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
+    public function byInstitution( $institution, $filters= array(), $sort = array(), $page = 1 )
+    {
+        $query = array(
+            'term' => array(
+                'institutions.slug' => strtolower($institution)
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+    }
+
     public function byTime( $status, $filters= array(), $sort = array(), $page = 1 )
     {
         $query = array(

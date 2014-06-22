@@ -267,27 +267,5 @@ class StreamController extends Controller
 
         return array('parent'=>$parentSubjects,'children'=>$childSubjects);
     }
-    
-    public function getOfferingsByStream(\ClassCentral\SiteBundle\Entity\Stream $stream) {
-        $courses = $stream->getCourses();
 
-        $courseIds = array();
-        foreach ($courses as $course)
-        {
-            $courseIds[] = $course->getId();
-        }
-
-        if($stream->getChildren())
-        {
-            foreach($stream->getChildren() as $child)
-            {
-                foreach($child->getCourses() as $course)
-                {
-                    $courseIds[] = $course->getId();
-                }
-            }
-        }
-
-        return $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds($courseIds);
-    }
 }

@@ -24,7 +24,8 @@ class MaestroController extends Controller {
 
         return $this->returnJsonResponse(
             $data,
-            'providertable'
+            'providertable',
+            'initiative'
         );
 
     }
@@ -37,7 +38,7 @@ class MaestroController extends Controller {
         return $this->returnJsonResponse(
             $data,
             'subjectstable',
-            'provider'
+            'subject'
         );
     }
 
@@ -50,6 +51,18 @@ class MaestroController extends Controller {
             $data,
             'statustable',
             'courses'
+        );
+    }
+
+    public function institutionAction(Request $request, $slug)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->byInstitution($slug,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'institutiontable',
+            'institution'
         );
     }
 

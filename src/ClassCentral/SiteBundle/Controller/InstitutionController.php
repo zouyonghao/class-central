@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Form\InstitutionType;
 use ClassCentral\SiteBundle\Entity\Offering;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Institution controller.
@@ -187,11 +188,9 @@ class InstitutionController extends Controller
             ->getForm()
         ;
     }
-    
-    public function viewAction($slug) {
 
-
-        $cache = $this->get('cache');
+    public function viewAction(Request $request, $slug)
+    {
 
         if($slug !== strtolower($slug))
         {
@@ -202,72 +201,25 @@ class InstitutionController extends Controller
             return $this->redirect( $url, 301);
         }
 
-        $data = $cache->get(
-            'institution_' . $slug,
-            function($slug, $container) {
-                $esCourses = $this->get('es_courses');
-                $filter =$this->get('filter');
-                $em = $container->get('doctrine')->getManager();
-
-                $institution = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBySlug($slug);
-                if(!$institution) {
-                    // TODO: render an error page
-                    return array();
-                }
-
-                $pageInfo =  PageHeaderFactory::get($institution);
-                $pageInfo->setPageUrl(
-                    $container->getParameter('baseurl'). $container->get('router')->generate('ClassCentralSiteBundle_institution', array('slug' => $slug))
-                );
-
-                $response = $esCourses->findByInstitution($slug);
-                $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
-                $allLanguages = $filter->getCourseLanguages($response['languageIds']);
-                $allSessions  = $filter->getCourseSessions( $response['sessions'] );
-
-                return array(
-                    'response' => $response,
-                    'institution' => $institution,
-                    'pageInfo' => $pageInfo,
-                    'allSubjects' => $allSubjects,
-                    'allLanguages' => $allLanguages,
-                    'allSessions'  => $allSessions
-                );
-            },
-            array($slug, $this->container)
-        );
-
-        if( empty($data) )
-        {
-            // Show an error message
-            return;
-        }
-
+        $cl = $this->get('course_listing');
+        $data = $cl->byInstitution($slug,$request);
 
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
                     'institution' => $data['institution'],
                     'page'=>'institution',
                     'slug' => $slug,
-                    'results' => $data['response']['results'],
+                    'results' => $data['courses'],
                     'listTypes' => UserCourse::$lists,
                     'allSubjects' => $data['allSubjects'],
                     'allLanguages' => $data['allLanguages'],
                     'allSessions' => $data['allSessions'],
-                    'pageInfo' => $data['pageInfo']
+                    'pageInfo' => $data['pageInfo'],
+                    'sortField' => $data['sortField'],
+                    'sortClass' => $data['sortClass'],
+                    'pageNo' => $data['pageNo'],
+                    'showHeader' => true
                 ));                
     }
-    
-    public function getOfferingsByInstitution( \ClassCentral\SiteBundle\Entity\Institution $institution) {
-        // List of all the courses offered by the this particular institution
-        $courses = $institution->getCourses();
-        
-        // Get all the course id
-        $courseIds = array();
-        foreach ($courses as $course){
-            $courseIds[] = $course->getId();
-        }
-        
-        return $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds($courseIds);
-    }
+
 }

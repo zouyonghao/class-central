@@ -7,6 +7,7 @@
  */
 
 namespace ClassCentral\SiteBundle\Services;
+use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -143,9 +144,41 @@ class CourseListing {
 
             return compact(
                'allSubjects', 'allLanguages', 'courses',
-                'sortField', 'sortClass', 'pageNo', 'pageInfo'
+                'sortField', 'sortClass', 'pageNo'
             );
         }, array($status, $request));
+
+        return $data;
+    }
+
+    public function byInstitution($slug, Request $request)
+    {
+        $cache = $this->container->get('cache');
+        $data = $cache->get(
+            'institution_' . $slug . $request->server->get('QUERY_STRING'), function ($slug, $request) {
+
+            $finder = $this->container->get('course_finder');
+            $em = $this->container->get('doctrine')->getManager();
+
+            $institution = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBySlug($slug);
+            if(!$institution) {
+                throw new \Exception("Institution/University $slug not found");
+            }
+
+            $pageInfo =  PageHeaderFactory::get($institution);
+            $pageInfo->setPageUrl(
+                $this->container->getParameter('baseurl'). $this->container->get('router')->generate('ClassCentralSiteBundle_institution', array('slug' => $slug))
+            );
+
+            extract($this->getInfoFromParams($request->query->all()));
+            $courses = $finder->byInstitution($slug, $filters, $sort, $pageNo);
+            extract($this->getFacets($courses));
+
+            return compact(
+                'allSubjects', 'allLanguages', 'allSessions', 'courses',
+                'sortField', 'sortClass', 'pageNo', 'pageInfo', 'institution'
+            );
+        }, array($slug, $request));
 
         return $data;
     }

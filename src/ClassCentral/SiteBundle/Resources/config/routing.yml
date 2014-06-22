@@ -291,3 +291,11 @@ maestro_subject:
 maestro_courses:
     pattern:  /maestro/courses/{type}
     defaults: { _controller: ClassCentralSiteBundle:Maestro:courses }
+
+maestro_university:
+    pattern:  /maestro/university/{slug}
+    defaults: { _controller: ClassCentralSiteBundle:Maestro:institution }
+
+maestro_institution:
+    pattern:  /maestro/institution/{slug}
+    defaults: { _controller: ClassCentralSiteBundle:Maestro:institution }
