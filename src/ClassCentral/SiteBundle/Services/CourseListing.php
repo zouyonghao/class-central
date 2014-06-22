@@ -219,6 +219,27 @@ class CourseListing {
         return $data;
     }
 
+    public function byTag($tag, Request $request)
+    {
+        $cache = $this->container->get('cache');
+        $data = $cache->get(
+            'tag_' . $tag . $request->server->get('QUERY_STRING'), function ($tag, $request) {
+
+            $finder = $this->container->get('course_finder');
+
+            extract($this->getInfoFromParams($request->query->all()));
+            $courses = $finder->byTag($tag, $filters, $sort, $pageNo);
+            extract($this->getFacets($courses));
+
+            return compact(
+                'allSubjects', 'allLanguages', 'allSessions', 'courses',
+                'sortField', 'sortClass', 'pageNo'
+            );
+        }, array($tag, $request));
+
+        return $data;
+    }
+
     public function getInfoFromParams($params = array())
     {
         $filters = Filter::getQueryFilters($params);

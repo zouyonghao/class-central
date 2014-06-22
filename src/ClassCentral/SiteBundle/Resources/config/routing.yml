@@ -303,3 +303,7 @@ maestro_institution:
 maestro_lang:
     pattern:  /maestro/language/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Maestro:language }
+
+maestro_tag_courses:
+  pattern: /maestro/tag/{tag}
+  defaults: { _controller: ClassCentralSiteBundle:Maestro:tag }

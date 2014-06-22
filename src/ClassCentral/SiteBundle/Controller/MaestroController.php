@@ -78,6 +78,18 @@ class MaestroController extends Controller {
         );
     }
 
+    public function tagAction(Request $request, $tag)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->byTag($tag,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'tagtable',
+            'tag'
+        );
+    }
+
     private function returnJsonResponse($data, $tableName, $page )
     {
         extract( $data );

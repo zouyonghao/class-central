@@ -83,6 +83,17 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
+    public function byTag( $tag, $filters= array(), $sort = array(), $page = 1 )
+    {
+        $query = array(
+            'term' => array(
+                'tags' => strtolower($tag)
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+    }
+
     public function getFacetCounts($results)
     {
         $subjectIds = array();
