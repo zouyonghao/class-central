@@ -3,8 +3,8 @@ jQuery(function($) {
     $.ajaxSetup ({
         cache: false
     });
-    // Handle calls to add/remove courses to users library
-    $('input[class="course-list-checkbox"]').change(function(){
+
+    courseListCheckboxHandler = function(){
         var clicked = this;
         // Check if the user is logged in
         $.ajax({
@@ -15,7 +15,6 @@ jQuery(function($) {
                 var loggedInResult = $.parseJSON(result);
                 if(loggedInResult.loggedIn) {
                     var name = $(clicked).attr("name");
-                    console.log($(clicked).is(':checked'));
                     if($(clicked).is(':checked')) {
                         if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
                             $('span[id=' + name + ']').html('-');
@@ -45,7 +44,10 @@ jQuery(function($) {
                     window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/"+ $(clicked).val());
                 }
             });
-    });
+    }
+
+    // Handle calls to add/remove courses to users library
+    $('input[class="course-list-checkbox"]').change( courseListCheckboxHandler );
 
     // Completed, Audited, Partially Completed, Drooped
     var listCourseDone = [

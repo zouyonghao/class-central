@@ -166,11 +166,14 @@ jQuery(function($) {
                 } else {
                     $('.tables-wrap').html( response.table );
                     $('#number-of-courses').html( response.numCourses );
+
                 }
 
                 // Reload after adding the dom back
                 $('th.sorting').click( tableSort );
                 loadRaty();
+                // Attach handlers to checkboxes
+                $('input[class="course-list-checkbox"]').change( courseListCheckboxHandler );
 
                 updateLoadMore( page + 1, response.numCourses);
             });
