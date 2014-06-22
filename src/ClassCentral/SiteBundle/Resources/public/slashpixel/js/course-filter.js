@@ -143,11 +143,18 @@ jQuery(function($) {
 
         // updates the url
         var pg = 1;
-        var url = updateUrl( pg );
-        updateCourses(url, pg);
+        var params = updateUrl( pg );
+        updateCourses(params, pg);
     }
 
-    function updateCourses( url, page ) {
+    function updateCourses( params, page ) {
+        if(page > 1 ) {
+            params['page'] = page;
+        }
+        var url = $.url().attr('path');
+        if( !$.isEmptyObject(params) ) {
+            url = url+'?' + $.param(params)
+        }
         // Ajax query
         $.ajax({
             url: "/maestro" + url
@@ -172,8 +179,8 @@ jQuery(function($) {
     // button click to show more courses
     $('#show-more-courses').click( function(){
         var page = $(this).attr('data-page');
-        var url = updateUrl( page );
-        updateCourses(url,parseInt(page));
+        var params = updateUrl( page );
+        updateCourses(params,parseInt(page));
     });
 
 
@@ -229,7 +236,37 @@ jQuery(function($) {
      * @param sessions
      */
     function updateUrl( pg ) {
+        var params = getParams();
+        var url = $.url().attr('path');
+        if( !$.isEmptyObject(params) ) {
+            url = url+'?' + $.param(params)
+        }
+        history.replaceState(null, null, url);
+        return params;
+    }
 
+    function updateLoadMore( nextPage, totalCourses) {
+        var moreCourses = totalCourses - (nextPage-1) * 50;
+        var show_more = $('#show-more-courses');
+        $(show_more).attr('data-page', nextPage);
+        if( moreCourses <= 0 ) {
+            $(show_more).hide();
+        } else if( moreCourses <=50 ) {
+            $(show_more).show();
+            $(show_more).html("Load the next " + moreCourses + " courses ");
+        } else {
+            $(show_more).show();
+            $(show_more).html("Load the next 50 courses of " + moreCourses);
+        }
+    }
+
+    function gaqPush(type, value) {
+        try {
+            _gaq.push(['_trackEvent','Filters',type, value]);
+        }catch (err) {}
+    }
+
+    function getParams() {
         var filterCats = [];
         var tickedSubjects = []; // for the pushstate url
         // Sub subjects
@@ -287,7 +324,7 @@ jQuery(function($) {
             if(sortType.length > 0) {
                 sorting.push( fieldName + '-' + sortType );
             }
-         });
+        });
         if( sorting.length > 0) {
             params['sort'] = sorting.join();
         }
@@ -301,46 +338,14 @@ jQuery(function($) {
             params['lang'] = lowerCaseLangs.join();
         }
 
-        var url = $.url().attr('path');
-        try{
-            // Check if there is a search param
-            $qParams = $.url().param();
-            for(var param in $qParams) {
-                if($.inArray(param,['session','subject','lang','sort','page']) == -1 ) {
-                    params[param ] = $qParams[param];
-                }
+        $qParams = $.url().param();
+        for(var param in $qParams) {
+            if($.inArray(param,['session','subject','lang','sort','page']) == -1 ) {
+                params[param ] = $qParams[param];
             }
-
-            if(pg > 1) {
-                params['page'] = pg;
-            }
-            if( !$.isEmptyObject(params) ) {
-                url = url+'?' + $.param(params)
-            }
-        } catch(e){};
-        history.replaceState(null, null, url);
-        return url;
-    }
-
-    function updateLoadMore( nextPage, totalCourses) {
-        var moreCourses = totalCourses - (nextPage-1) * 50;
-        var show_more = $('#show-more-courses');
-        $(show_more).attr('data-page', nextPage);
-        if( moreCourses <= 0 ) {
-            $(show_more).hide();
-        } else if( moreCourses <=50 ) {
-            $(show_more).show();
-            $(show_more).html("Load the next " + moreCourses + " courses ");
-        } else {
-            $(show_more).show();
-            $(show_more).html("Load the next 50 courses of " + moreCourses);
         }
-    }
 
-    function gaqPush(type, value) {
-        try {
-            _gaq.push(['_trackEvent','Filters',type, value]);
-        }catch (err) {}
+        return params;
     }
 });
 
