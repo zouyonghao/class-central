@@ -183,6 +183,42 @@ class CourseListing {
         return $data;
     }
 
+    public function byLanguage($slug, Request $request)
+    {
+        $cache = $this->container->get('cache');
+        $data = $cache->get(
+            'language_' . $slug . $request->server->get('QUERY_STRING'), function ($slug, $request) {
+
+            $finder = $this->container->get('course_finder');
+            $em = $this->container->get('doctrine')->getManager();
+
+            $language = $em->getRepository('ClassCentralSiteBundle:Language')->findOneBySlug($slug);
+            if(!$language) {
+                throw new \Exception("Language $slug not found");
+            }
+            $pageInfo =  PageHeaderFactory::get($language);
+            $pageInfo->setPageUrl(
+                $this->container->getParameter('baseurl'). $this->container->get('router')->generate('lang', array('slug' => $slug))
+            );
+
+            $breadcrumbs = array(
+                Breadcrumb::getBreadCrumb('Languages',$this->container->get('router')->generate('languages')),
+                Breadcrumb::getBreadCrumb($language->getName(), $this->container->get('router')->generate('lang',array('slug' => $language->getSlug())))
+            );
+
+            extract($this->getInfoFromParams($request->query->all()));
+            $courses = $finder->byLanguage($slug, $filters, $sort, $pageNo);
+            extract($this->getFacets($courses));
+
+            return compact(
+                'allSubjects', 'allSessions', 'courses',
+                'sortField', 'sortClass', 'pageNo', 'pageInfo', 'breadcrumbs','language'
+            );
+        }, array($slug, $request));
+
+        return $data;
+    }
+
     public function getInfoFromParams($params = array())
     {
         $filters = Filter::getQueryFilters($params);

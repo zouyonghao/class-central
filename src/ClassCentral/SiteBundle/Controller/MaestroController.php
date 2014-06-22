@@ -66,6 +66,18 @@ class MaestroController extends Controller {
         );
     }
 
+    public function languageAction(Request $request, $slug)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->byLanguage($slug,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'languagetable',
+            'language'
+        );
+    }
+
     private function returnJsonResponse($data, $tableName, $page )
     {
         extract( $data );

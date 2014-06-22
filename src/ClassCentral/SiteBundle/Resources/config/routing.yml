@@ -299,3 +299,7 @@ maestro_university:
 maestro_institution:
     pattern:  /maestro/institution/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Maestro:institution }
+
+maestro_lang:
+    pattern:  /maestro/language/{slug}
+    defaults: { _controller: ClassCentralSiteBundle:Maestro:language }
