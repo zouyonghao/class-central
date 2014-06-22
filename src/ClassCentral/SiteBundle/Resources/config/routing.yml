@@ -287,3 +287,7 @@ maestro_provider:
 maestro_subject:
   pattern: /maestro/subject/{slug}
   defaults: { _controller: ClassCentralSiteBundle:Maestro:subject }
+
+maestro_courses:
+    pattern:  /maestro/courses/{type}
+    defaults: { _controller: ClassCentralSiteBundle:Maestro:courses }

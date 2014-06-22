@@ -36,19 +36,32 @@ class MaestroController extends Controller {
 
         return $this->returnJsonResponse(
             $data,
-            'subjectstable'
+            'subjectstable',
+            'provider'
         );
     }
 
-    private function returnJsonResponse($data, $tableName )
+    public function coursesAction(Request $request, $type)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->byTime($type,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'statustable',
+            'courses'
+        );
+    }
+
+    private function returnJsonResponse($data, $tableName, $page )
     {
         extract( $data );
 
         $table =  $this->render('ClassCentralSiteBundle:Helpers:course.table.html.twig',array(
             'results' => $courses,
-            'tableId' => 'providertable',
+            'tableId' => $tableName,
             'listTypes' => UserCourse::$lists,
-            'page' => 'initiative',
+            'page' => $page,
             'sortField' => $sortField,
             'sortClass' => $sortClass,
             'pageNo'=>$pageNo,

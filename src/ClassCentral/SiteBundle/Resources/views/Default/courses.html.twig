@@ -9,6 +9,11 @@
     <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
     <meta property="og:description" content="List of {{offeringTypes[offeringType]['desc']}} free online courses/MOOCs aggregated by Class Central." />
     <meta property="og:type" content="website" />
+
+    {# paginated content #}
+    {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
+        { 'pageNo': pageNo, 'totalCourses': results.hits.total }
+    %}
 {% endblock %}  
 
 {%  block content %}
@@ -41,6 +46,7 @@
                 <div class="col-sm-8 col-lg-9 table-column">
                     <div class="tables-wrap">
                         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'statustable'} %}
+                        {% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': results.hits.total } %}
                     </div>
                 </div>
             </div>

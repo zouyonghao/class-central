@@ -48,7 +48,17 @@ class Finder {
         );
 
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+    }
 
+    public function byTime( $status, $filters= array(), $sort = array(), $page = 1 )
+    {
+        $query = array(
+            'term' => array(
+                'nextSession.states' => strtolower($status)
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
     public function getFacetCounts($results)

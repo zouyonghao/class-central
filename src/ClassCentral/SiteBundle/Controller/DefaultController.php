@@ -11,6 +11,7 @@ use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Offering;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller {
                
@@ -96,125 +97,30 @@ class DefaultController extends Controller {
     }
 
 
-    public function getCoursesByStatus($type, $container)
-    {
-        $esCourses = $container->get('es_courses');
-        $filter =$container->get('filter');
-        $response = $esCourses->findByTime($type);
-        $allSubjects = $filter->getCourseSubjects($response['subjectIds']);
-        $allLanguages = $filter->getCourseLanguages($response['languageIds']);
-
-        return array(
-            'response' => $response,
-            'allSubjects' => $allSubjects,
-            'allLanguages' => $allLanguages
-        );
-    }
-    
-    public function coursesAction($type = 'upcoming')
+    public function coursesAction(Request $request, $type = 'upcoming')
     {
         if(!in_array($type, array_keys(Offering::$types))){
             // TODO: render an error page
             return false;
         }
 
-        $cache = $this->get('cache');
-
-
-        $data = $cache->get(
-            'course_status_' . $type,
-            array($this, 'getCoursesByStatus'),
-            array($type, $this->container)
-        );
-
-        if( empty($data) )
-        {
-            // Show an error message
-            return;
-        }
+        $cl = $this->get('course_listing');
+        $data = $cl->byTime($type,$request);
 
         return $this->render('ClassCentralSiteBundle:Default:courses.html.twig', 
                 array(
                     'offeringType' => $type,
                     'page'=>'courses',
-                    'results' => $data['response']['results'],
+                    'results' => $data['courses'],
                     'listTypes' => UserCourse::$lists,
                     'allSubjects' => $data['allSubjects'],
                     'allLanguages' => $data['allLanguages'],
-                     'offeringTypes' => Offering::$types
+                     'offeringTypes' => Offering::$types,
+                    'sortField' => $data['sortField'],
+                    'sortClass' => $data['sortClass'],
+                    'pageNo' => $data['pageNo'],
+                    'showHeader' => true
                 ));
-    }
-
-    /**
-     * Initiative is now referred to as provider
-     * @param string $type
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function initiativeAction($type='coursera')
-    {
-        $cache = $this->get('Cache');
-        $filterService = $this->get('Filter');
-
-        $initiativeInfo = $cache->get('default_initative_ids_'. $type, array($this, 'getInitiativeIds'), array($type));
-        if(empty($initiativeInfo)) {
-            return;
-        }
-
-        $offerings = $cache->get('default_initiative_offerings_' . $type,
-                    array ($this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering'),'findAllByInitiative'), array($initiativeInfo['ids']));
-
-        // TODO: All Subjects and offerings should be in sync
-        $subjects = $cache->get('initiative_subjects_' . $type,array($filterService, 'getOfferingSubjects'), array($offerings));
-        $lang = $cache->get('initiative_languages_' . $type, array($filterService,'getOfferingLanguages'),array($offerings));
-
-
-        $pageInfo =  PageHeaderFactory::get($initiativeInfo['initiative']);
-        $pageInfo->setPageUrl(
-            $this->container->getParameter('baseurl'). $this->get('router')->generate('ClassCentralSiteBundle_initiative', array('type' => $type))
-        );
-        return $this->render('ClassCentralSiteBundle:Default:initiative.html.twig', 
-                array(
-                    'initiative' =>$initiativeInfo['initiative'],
-                    'offerings' => $offerings,
-                    'pageInfo' => $pageInfo,
-                    'page'=>'initiative',
-                    'initiativeType' => $type,
-                    'offeringTypes'=> Offering::$types,
-                    'offSubjects' => $subjects,
-                    'offLanguages' => $lang,
-                    'listTypes' => UserCourse::$lists
-                ));
-    }
-    
-    public function getInitiativeIds($type)
-    {
-        $initiativeTypes = Initiative::$types;
-        $em = $this->getDoctrine()->getManager();
-
-        // Get the initiative id
-        $initiativeIds = array();        
-        if( $type != 'others'){
-            $initiative = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Initiative')
-                    ->findOneByCode(strtoupper($type));
-            if(!$initiative)
-            {
-                return null;
-            }
-            $em->detach($initiative);
-            $initiativeName = $initiative->getName();
-            $initiativeIds[] = $initiative->getId();
-        } else {
-            $initiativeName = 'Others';
-            $initiatives = implode("','", array_values($initiativeTypes));
-            $query = $em->createQuery("SELECT i FROM ClassCentralSiteBundle:Initiative i WHERE i.code NOT IN ('$initiatives')");
-            foreach($query->getResult() as $initiative){
-                $initiativeIds[] = $initiative->getId();
-            }
-            $initiative = new Initiative();
-            $initiative->setName($initiativeName);
-        }
-        
-        return array('initiative' => $initiative, 'ids' =>$initiativeIds);
     }
 
     public function faqAction() {

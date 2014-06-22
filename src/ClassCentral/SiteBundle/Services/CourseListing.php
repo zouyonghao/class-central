@@ -91,7 +91,7 @@ class CourseListing {
 
             if(!$subject)
             {
-                throw new \Exception("Provider $slug not found");
+                throw new \Exception("Subject $slug not found");
                 return;
             }
 
@@ -129,7 +129,26 @@ class CourseListing {
         return $data;
     }
 
+    public function byTime($status, Request $request)
+    {
+        $cache = $this->container->get('cache');
+        $data = $cache->get(
+            'course_status_' . $status . $request->server->get('QUERY_STRING'), function ($status, $request) {
 
+            $finder = $this->container->get('course_finder');
+
+            extract($this->getInfoFromParams($request->query->all()));
+            $courses = $finder->byTime($status, $filters, $sort, $pageNo);
+            extract($this->getFacets($courses));
+
+            return compact(
+               'allSubjects', 'allLanguages', 'courses',
+                'sortField', 'sortClass', 'pageNo', 'pageInfo'
+            );
+        }, array($status, $request));
+
+        return $data;
+    }
 
     public function getInfoFromParams($params = array())
     {
