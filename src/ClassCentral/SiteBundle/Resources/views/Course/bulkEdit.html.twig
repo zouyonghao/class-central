@@ -1,6 +1,8 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
-
 {% block content %}
+    {% javascripts '@ClassCentralSiteBundle/Resources/public/slashpixel/js/list.min.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <h1>Course list</h1>
     <div id="filter-wrap">
     <input class="filter-search" placeholder="Search for a course"/><br/>
