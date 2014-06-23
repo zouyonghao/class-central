@@ -191,8 +191,12 @@ class Filter {
         );
     }
 
-
-    public static function getQuerySort($params = array())
+    /**
+     * @param array $params
+     * @param array $default when params are empty this one is used
+     * @return array
+     */
+    public static function getQuerySort($params = array(),$default = array())
     {
         $sortOrder = array();
         $addedStartDate = false;
@@ -231,6 +235,10 @@ class Filter {
             }
         }
 
+        if( !empty($default))
+        {
+            $sortOrder[] = $default;
+        }
         $sortOrder[] = array(
             "nextSession.state" => array(
                 "order" => "desc"

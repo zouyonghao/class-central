@@ -247,6 +247,10 @@ class CourseListing {
         $finder = $this->container->get('course_finder');
 
         extract($this->getInfoFromParams($request->query->all()));
+        $sort = Filter::getQuerySort($request->query->all(),array(
+            "_score" => array(
+                "order" => "desc"
+            )));
         $courses = $finder->search($keyword, $filters, $sort, $pageNo);
         extract($this->getFacets($courses));
 
