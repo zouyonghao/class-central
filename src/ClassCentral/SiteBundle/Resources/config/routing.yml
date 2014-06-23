@@ -53,6 +53,14 @@ ClassCentralSiteBundle_stream_redirect:
       route: ClassCentralSiteBundle_stream
       permanent: true # this is for 301
 
+ClassCentralSiteBundle_stream_statistics_and_data_analysis:
+    pattern:  /subject/statistics-and-data-analysis
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: statistics  
+
 ClassCentralSiteBundle_stream:
     pattern:  /subject/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Stream:view }  
