@@ -2,7 +2,7 @@
 {% set moreCourses = totalCourses - (nextPage-1) * 50 %}
 
 <div id="show-more-courses" class="alert alert-info" data-page="{{ nextPage }}"
-    {% if moreCourses <= 0  %} style="display: none" {% endif %}
+     style="cursor: pointer;{% if moreCourses <= 0  %}display: none;{% endif %}"
 >
     {% if moreCourses <= 0 %}
         {# do nothing #}
