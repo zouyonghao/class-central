@@ -266,12 +266,15 @@ class CourseListing {
 
         $userCourses = $user->getUserCourses();
         $courseIds = array();
+        $courseIdsByList = array();
+        $coursesByLists = array();
         $listCounts = array();
 
         $lists = Filter::getUserList( $request->query->all() );
         foreach($lists as $list)
         {
             $listCounts[$list] = 0;
+            $courseIdsByList[ $list ] = array();
         }
         foreach($userCourses as $userCourse)
         {
@@ -280,16 +283,39 @@ class CourseListing {
             {
                 $courseIds[] = $userCourse->getCourse()->getId();
                 $listCounts[$list['slug']]++;
+                $courseIdsByList[ $list['slug'] ][] = $userCourse->getCourse()->getId();
             }
         }
 
         extract($this->getInfoFromParams($request->query->all()));
+        foreach($lists as $list)
+        {
+            if( !empty(  $courseIdsByList[ $list ] ) )
+            {
+                $coursesByLists[$list] = $finder->byCourseIds( $courseIdsByList[ $list ], $filters, $sort, -1 );
+            }
+            else
+            {
+                $coursesByLists[$list] = array();
+            }
+        }
+
         $courses = $finder->byCourseIds($courseIds, $filters, $sort, $pageNo);
         extract($this->getFacets($courses));
 
+        // Get the search terms
+        $userSession = $this->container->get('user_session');
+        $searchTerms = $userSession->getMTSearchTerms();
+        $showInstructions = false;
+        if( empty($searchTerms) && empty($lists) )
+        {
+            $showInstructions = true;
+        }
+
         return compact(
             'allSubjects', 'allLanguages', 'allSessions', 'courses',
-            'sortField', 'sortClass', 'pageNo','lists', 'listCounts'
+            'sortField', 'sortClass', 'pageNo','lists', 'listCounts','coursesByLists','showInstructions',
+            'searchTerms'
         );
     }
 

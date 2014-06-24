@@ -809,8 +809,6 @@ class UserController extends Controller
      */
     public function libraryAction(Request $request)
     {
-        $userSession = $this->get('user_session');
-
         // Check if user is already logged in.
         if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
@@ -822,17 +820,12 @@ class UserController extends Controller
         $cl = $this->get('course_listing');
         extract( $cl->userLibrary( $user, $request));
 
-        // Get the search terms
-        $searchTerms = $userSession->getMTSearchTerms();
-        $showInstructions = false;
-        if( empty($searchTerms) && empty($lists) )
-        {
-            $showInstructions = true;
-        }
+
 
         return $this->render('ClassCentralSiteBundle:User:library.html.twig', array(
                 'page' => 'user-library',
                 'courses' => $courses,
+                'coursesByLists' => $coursesByLists,
                 'userLists' => $lists, // List of courses that user has
                 'listTypes' => UserCourse::$lists,
                 'allSubjects' => $allSubjects,

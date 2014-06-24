@@ -24,46 +24,9 @@
                     {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions' : allSessions, 'userLists' : userLists,'results':courses } %}
                 </div>
                 <div class="col-sm-8 col-lg-9 table-column">
-                    <div class="tables-wrap">
-                        {% if showInstructions %}
-                            No courses found
-                        {% endif %}
-
-
-                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':courses,'tableId':'myCourses'} %}
-                        {% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': courses.hits.total } %}
-
-                        {# search terms #}
-                        {% if searchTerms|length > 0 %}
-                            <div id="searchTerm-table-wrapper">
-                                <h2 class="tabletitle" id="searchTerm">Search Terms (<span id="searchTerm-count">{{searchTerms|length }}</span>)</h2>
-                                <div class="table-body-searchTerm">
-                                    {% for searchTerm in searchTerms %}
-                                        <div class="profile-search-term">
-                                            <a href="{{ path("ClassCentralSiteBundle_search", {'q' : searchTerm }) }}">{{ searchTerm }}</a>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
+                    {% include 'ClassCentralSiteBundle:User:libraryTable.html.twig' %}
                 </div>
             </div>
         </div>
     </section>
-{% endblock %}
-
-
-{% block customJS %}
-    $(document).ready(function() {
-
-    {% for listId, listDetails in listTypes %}
-        {% set listType=listDetails['slug'] %}
-        listifyTable("{{ listType }}");
-    {% endfor %}
-
-    {% if searchTerms|length > 0 %}
-        listifyTable("searchTerm");
-    {% endif %}
-    });
 {% endblock %}

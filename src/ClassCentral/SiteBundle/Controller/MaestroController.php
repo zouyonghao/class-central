@@ -115,6 +115,31 @@ class MaestroController extends Controller {
 
         $cl = $this->get('course_listing');
         $data = $cl->userLibrary( $user, $request);
+        extract( $data );
+
+        $table =  $this->render('ClassCentralSiteBundle:User:libraryTable.html.twig', array(
+            'page' => 'user-library',
+            'courses' => $courses,
+            'coursesByLists' => $coursesByLists,
+            'userLists' => $lists, // List of courses that user has
+            'listTypes' => UserCourse::$lists,
+            'allSubjects' => $allSubjects,
+            'allLanguages' => $allLanguages,
+            'allSessions' => $allSessions,
+            'searchTerms' => $searchTerms,
+            'showInstructions' => $showInstructions,
+            'sortField' => $sortField,
+            'sortClass' => $sortClass,
+            'pageNo' => $pageNo,
+            'showHeader' => true
+        ))->getContent();
+
+        $response = array(
+            'table' => $table,
+            'numCourses' => $courses['hits']['total']
+        );
+
+        return new Response( json_encode( $response ) );
 
         return $this->returnJsonResponse(
             $data,
