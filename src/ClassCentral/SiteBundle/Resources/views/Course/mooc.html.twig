@@ -275,12 +275,16 @@
                     </span>
             </div>
 
-            <div class="course-data-row course-reviews" id="course-reviews">
+            <div class="course-data-row course-reviews" id="course-reviews"  itemscope itemtype="http://schema.org/AggregateRating">
                 <span class="course-data-icon"></span>
                     <span class="course-data-value">
-                        <div class="average-rating course-rating" data-score="{{ rating }}"></div>
+                        <div class="average-rating course-rating" data-score="{{ rating }}">
+                            <meta itemprop="ratingValue" content="{{ rating }}">
+                            <meta itemprop="worstRating" content = "1"/>
+                            <meta itemprop="bestRating" content = "5"/>
+                        </div>
                         <span class="review-count">
-                            <a href="#course-all-reviews" class="review-button">{{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
+                            <a href="#course-all-reviews" itemprop="reviewCount" class="review-button">{{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
                         </span>
                         {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
                             <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
