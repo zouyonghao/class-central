@@ -38,7 +38,7 @@
     <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
     <div style="clear:both"></div>
     <div itemprop="description">
-        <div class="review-title"><span class="author">reviewer</span> {{ review.reviewTitle|raw }}</div>
+        <div class="review-title"><span class="author">{{ reviewer  }}</span> {{ review.reviewTitle|raw }}</div>
 
         <div class="review-content">
         {% if review.reviewText and review.reviewText|length >400 %}
