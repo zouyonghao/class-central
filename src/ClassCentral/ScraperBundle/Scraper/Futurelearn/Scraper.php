@@ -33,6 +33,8 @@ class Scraper extends ScraperAbstractInterface {
             $courseName = $course['name']['text'];
             $url = $course['name']['href'];
             $startDate = $course['start_date'];
+//            $this->out( $courseName .' - ' . $startDate);
+//            continue;
 
             // Offering short name
             $osn = $this->getShortName($url);
@@ -56,9 +58,12 @@ class Scraper extends ScraperAbstractInterface {
                         $this->out("INCORRECT START DATE");
                         $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
                         $this->out("Offering Date - {$offering->getDisplayDate()}");
+                        $this->out("Course Page Start Date - $startDate");
                         $this->out($url);
                         $this->out("");
                     }
+                    continue;
+
 
                 }
 
@@ -69,7 +74,16 @@ class Scraper extends ScraperAbstractInterface {
                     $this->out("Offering Date - {$offering->getDisplayDate()}");
                     $this->out($url);
                     $this->out("");
+                    continue;
                 }
+
+                // Incorrect Date
+                $this->out("INCORRECT START DATE");
+                $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
+                $this->out("Offering Date - {$offering->getDisplayDate()}");
+                $this->out("Course Page Start Date - $startDate");
+                $this->out($url);
+                $this->out("");
 
             } catch(\Exception $e) {
                 $this->out("Error parsing dates");
