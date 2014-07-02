@@ -1207,17 +1207,15 @@ body {
 }
 
 .spotlight-item img {
-  filter: url(/bundles/classcentralsite/slashpixel/images/filters.svg#grayscale); /* Firefox 3.5+ */
-  filter: gray; /* IE6-9 */
-  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
   .transition();
   width: 100%;
 }
 
 .spotlight-item:hover img,
 .spotlight-item:focus img {
-  filter: none;
-  -webkit-filter: grayscale(0);
+  filter: url(/bundles/classcentralsite/slashpixel/images/filters.svg#grayscale); /* Firefox 3.5+ */
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
 }
 
 .spotlight-item .excerpt {
