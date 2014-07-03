@@ -27,6 +27,10 @@ ClassCentralSiteBundle_initiative:
   pattern: /provider/{type}
   defaults: { _controller: ClassCentralSiteBundle:Initiative:provider }
 
+providers:
+  pattern: /providers
+  defaults: { _controller: ClassCentralSiteBundle:Initiative:providers }
+
 ClassCentralSiteBundle_initiative_redirect:
   pattern: /initiative/{type}
   defaults:

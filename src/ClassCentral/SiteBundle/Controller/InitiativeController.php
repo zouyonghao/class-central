@@ -215,4 +215,20 @@ class InitiativeController extends Controller
             'showHeader' => true
         ));
     }
+
+    /**
+     * Shows a list with all the providers page
+     * @param Request $request
+     */
+    public function providersAction(Request $request)
+    {
+        $providers = $this->getDoctrine()
+            ->getRepository('ClassCentralSiteBundle:Initiative')
+            ->findAll();
+        ;
+
+        return $this->render('ClassCentralSiteBundle:Initiative:providers.html.twig',array(
+            'providers' => $providers
+        ));
+    }
 }

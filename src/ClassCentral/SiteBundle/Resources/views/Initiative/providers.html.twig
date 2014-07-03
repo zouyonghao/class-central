@@ -1,0 +1,18 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{%  block content %}
+    <style>
+        .provider-name {
+            color: #24313a;
+            font-family: "myriad-pro", Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+        }
+    </style>
+    <div class="providers-list">
+        {% for provider in providers %}
+            <div class="provider-name">{{ provider.name }}</div>
+            <hr />
+        {% endfor %}
+    </div>
+{% endblock %}
