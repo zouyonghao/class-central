@@ -204,7 +204,7 @@ class Scraper extends ScraperAbstractInterface
         {
             $start = new \DateTime( $line['8'] );
             $end = new \DateTime( $line['9'] );
-            $c['length'] = floor( $start->diff($end)->days/7 );
+            $c['length'] = ceil( $start->diff($end)->days/7 );
         }
         else
         {
