@@ -263,6 +263,10 @@
                                                     >
                                                 {{ offering['displayDate'] }}
                                             </option>
+
+                                            {% if course.nextOffering.id == offering.id %}
+                                                {% set offeringUrl = offering['url']  %}
+                                            {% endif %}
                                         {% endfor %}
                                     {% endif %}
                                 {% endfor %}
