@@ -158,7 +158,7 @@ jQuery(function($) {
 
     function notify( title, text, type)
     {
-        $.pnotify({
+        new PNotify({
             title: title,
             text: text,
             type: type,
@@ -168,7 +168,7 @@ jQuery(function($) {
 
     function notifyWithDelay( title, text, type, delay)
     {
-        $.pnotify({
+        new PNotify({
             title: title,
             text: text,
             type: type,
@@ -513,10 +513,10 @@ jQuery(function($) {
     });
 
     // Default notification false
-    $.pnotify.defaults.history = false;
+    //$.pnotify.defaults.history = false;
 
     var showPinesNotification = function(type,title,text){
-        $.pnotify({
+        new PNotify({
             title: title,
             text: text,
             type: type,
@@ -527,7 +527,7 @@ jQuery(function($) {
     // Pines notification
     $('.flash-message').each(function(index,element){
 
-        $.pnotify({
+        new PNotify({
             title: $(element).data('title'),
             text: $(element).text(),
             type: $(element).data('type'),
