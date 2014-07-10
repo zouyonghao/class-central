@@ -120,7 +120,9 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             'Parent Subject',
             'Child Subject',
             'Url',
-            'Next Session Date'
+            'Next Session Date',
+            'Length',
+            'Video(Url)'
         );
         fputcsv($fp,$title);
 
@@ -166,7 +168,9 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
                 $parent,
                 $subject,
                 $url,
-                $date
+                $date,
+                $course->getLength(),
+                $course->getVideoIntro()
             );
 
             fputcsv($fp,$line);
