@@ -286,7 +286,7 @@ class CourseController extends Controller
             return $this->redirect($url,301);
         }
 
-        if ( $course['status'] == CourseStatus::NOT_AVAILABLE )
+        if ( $course['status'] == 100 )
         {
             throw new NotFoundHttpException("Course not found");
         }
