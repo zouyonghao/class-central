@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Form\CourseType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\HttpFoundation\Request;
 /**
@@ -283,6 +284,11 @@ class CourseController extends Controller
         {
             $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
             return $this->redirect($url,301);
+        }
+
+        if ( $course['status'] == CourseStatus::NOT_AVAILABLE )
+        {
+            throw new NotFoundHttpException("Course not found");
         }
 
 

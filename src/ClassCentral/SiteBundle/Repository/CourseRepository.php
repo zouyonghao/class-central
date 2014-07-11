@@ -27,6 +27,7 @@ class CourseRepository extends EntityRepository{
         $courseDetails['url'] = $course->getUrl();
         $courseDetails['nextOffering'] = null;
         $courseDetails['imageUrl'] = CourseUtility::getImageUrl($course);
+        $courseDetails['status'] = $course->getStatus();
 
         // Get the descriptions
         $desc = null;
