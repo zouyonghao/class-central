@@ -457,4 +457,51 @@ class Courses {
     }
 
 
+    public function getInstitutionCounts( $isUniversity = true)
+    {
+        $params = array();
+        $qValues = $this->getDefaultQueryValues();
+        $facets = $qValues['facets'];
+
+        $params['index'] = $this->indexName;
+        $params['type'] = 'course';
+        $params['body']['size'] = 1;
+
+
+        $query = array(
+            'filtered' => array(
+
+                'query' => array(
+                    'match' => array(
+                        'institutions.isUniversity' => $isUniversity
+                    )
+                ),
+                // Remove courses that ar not valid
+                'filter' => $qValues['filter']
+            )
+        );
+
+        // Add provider and providerNav counts to the facets
+        $facets['institutions'] = array(
+            "terms" => array(
+                'field' => 'institutions.slug',
+                'size' => 1000
+            )
+        );
+
+        $params['body']['query'] = $query;
+        $params['body']['facets'] = $facets;
+
+//       var_dump( json_encode($params['body']) ); exit();
+        $results = $this->esClient->search($params);
+
+        $institutions = array();
+        foreach ($results['facets']['institutions']['terms'] as $term)
+        {
+            $institutions[ $term['term'] ] = $term['count'];
+        }
+
+        return compact( 'institutions');
+    }
+
 } 

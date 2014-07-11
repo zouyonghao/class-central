@@ -214,12 +214,65 @@ class InstitutionController extends Controller
                     'allSubjects' => $data['allSubjects'],
                     'allLanguages' => $data['allLanguages'],
                     'allSessions' => $data['allSessions'],
+                    'breadcrumbs' => $data['breadcrumbs'],
                     'pageInfo' => $data['pageInfo'],
                     'sortField' => $data['sortField'],
                     'sortClass' => $data['sortClass'],
                     'pageNo' => $data['pageNo'],
                     'showHeader' => true
                 ));                
+    }
+
+    /**
+     * Show list of universities
+     * @param Request $request
+     */
+    public function universitiesAction(Request $request)
+    {
+        return $this->getInstitutionsView(true);
+    }
+
+    public function institutionsAction(Request $request)
+    {
+        return $this->getInstitutionsView(false);
+    }
+
+    /**
+     * Returns a view listing universities or institutions
+     * @param bool $isUniversity
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function getInstitutionsView($isUniversity = true)
+    {
+        $cache = $this->get('cache');
+
+        $data = $cache->get('institutions_with_count_' . $isUniversity, function($container, $isUniversity){
+            $esCourses = $container->get('es_courses');
+            $counts = $esCourses->getInstitutionCounts( $isUniversity );
+            $em = $container->get('doctrine')->getManager();
+
+            arsort( $counts['institutions'] );
+            $institutions = array();
+            foreach( $counts['institutions'] as $slug => $count )
+            {
+                $entity = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy( array('slug' => $slug) );
+
+                $institution = array();
+                $institution['count'] = $count;
+                $institution['slug'] = $slug;
+                $institution['name'] = $entity->getName();
+                $institutions[ $slug ] = $institution;
+
+            }
+
+            return compact('institutions');
+
+        }, array($this->container,$isUniversity));
+
+        return $this->render('ClassCentralSiteBundle:Institution:institutions.html.twig',array(
+            'institutions' => $data['institutions'],
+            'isUniversity' => $isUniversity
+        ));
     }
 
 }

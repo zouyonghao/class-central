@@ -181,9 +181,25 @@ class CourseListing {
             $courses = $finder->byInstitution($slug, $filters, $sort, $pageNo);
             extract($this->getFacets($courses));
 
+            if( $institution->getIsUniversity() )
+            {
+                $breadcrumbs = array(
+                    Breadcrumb::getBreadCrumb('Universities', $this->container->get('router')->generate('universities')),
+                );
+            }
+            else
+            {
+                $breadcrumbs = array(
+                    Breadcrumb::getBreadCrumb('Institutions', $this->container->get('router')->generate('institutions')),
+                );
+            }
+
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb($institution->getName());
+
+
             return compact(
                 'allSubjects', 'allLanguages', 'allSessions', 'courses',
-                'sortField', 'sortClass', 'pageNo', 'pageInfo', 'institution'
+                'sortField', 'sortClass', 'pageNo', 'pageInfo', 'institution', 'breadcrumbs'
             );
         }, array($slug, $request));
 

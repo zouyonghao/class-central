@@ -42,9 +42,17 @@ ClassCentralSiteBundle_university:
     pattern:  /university/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Institution:view }    
 
+universities:
+    pattern:  /universities
+    defaults: { _controller: ClassCentralSiteBundle:Institution:universities }
+
 ClassCentralSiteBundle_institution:
     pattern:  /institution/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Institution:view }
+
+institutions:
+    pattern:  /institutions
+    defaults: { _controller: ClassCentralSiteBundle:Institution:institutions }
 
 tag_courses:
   pattern: /tag/{tag}
