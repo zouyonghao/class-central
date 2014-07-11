@@ -1,0 +1,33 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{%  block content %}
+    {% set h1Title='Universities' %}
+    {% set urlPath = 'ClassCentralSiteBundle_university' %}
+    {% set btnTitle ='University' %}
+    {% if not isUniversity %}
+        {% set h1Title='Institutions' %}
+        {% set urlPath = 'ClassCentralSiteBundle_institution' %}
+        {% set btnTitle ='Institution' %}
+    {% endif %}
+    <div class="universities">
+        <div class="intro-wrap">
+            <div class="description-wrap">
+                <h1 class='cc-page-header'>{{ h1Title }} ({{ institutions|length  }})</h1>
+            </div>
+        </div>
+
+        <table class="list-of-universities">
+            <tbody>
+            {% for institution in institutions %}
+                <tr>
+                    <td><a href="{{ path(urlPath, {'slug' : institution.slug}) }}" title="{{ institution.name }} MOOCs and Reviews" class="university-name">{{ institution.name }}</a></td>
+                    <td><span class="courses-number">{{ institution.count }}{% if institution.count == 1 %} course {% else %} courses {% endif %}</span></td>
+                    <td><a  href="{{ path(urlPath, {'slug' : institution.slug}) }}" title="{{ institution.name }} MOOCs and Reviews" class="btn">View {{ btnTitle }} Page</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+{% endblock %}
