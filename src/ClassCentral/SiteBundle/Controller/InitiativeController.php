@@ -212,7 +212,8 @@ class InitiativeController extends Controller
             'sortField' => $data['sortField'],
             'sortClass' => $data['sortClass'],
             'pageNo' => $data['pageNo'],
-            'showHeader' => true
+            'showHeader' => true,
+            'breadcrumbs' => $data['breadcrumbs'],
         ));
     }
 
@@ -222,13 +223,43 @@ class InitiativeController extends Controller
      */
     public function providersAction(Request $request)
     {
-        $providers = $this->getDoctrine()
-            ->getRepository('ClassCentralSiteBundle:Initiative')
-            ->findAll();
-        ;
+        $cache = $this->get('cache');
+
+        $data = $cache->get('providers_with_count', function($container){
+            $esCourses = $container->get('es_courses');
+            $counts = $esCourses->getCounts();
+            $em = $container->get('doctrine')->getManager();
+
+            arsort( $counts['providers'] );
+            $providers = array();
+            foreach( $counts['providers'] as $code => $count )
+            {
+                if($code == 'independent')
+                {
+                    $entity = new Initiative();
+                    $entity->setCode($code);
+                    $entity->setName( 'Independent' );
+                }
+                else
+                {
+                    $entity = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code' => $code) );
+                }
+
+                $provider = array();
+                $provider['count'] = $count;
+                $provider['code'] = $code;
+                $provider['name'] = $entity->getName();
+                $providers[ $code ] = $provider;
+            }
+
+
+
+            return compact('providers');
+
+        }, array($this->container));
 
         return $this->render('ClassCentralSiteBundle:Initiative:providers.html.twig',array(
-            'providers' => $providers
+            'providers' => $data['providers']
         ));
     }
 }

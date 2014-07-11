@@ -1,18 +1,25 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {%  block content %}
-    <style>
-        .provider-name {
-            color: #24313a;
-            font-family: "myriad-pro", Helvetica, Arial, sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-        }
-    </style>
-    <div class="providers-list">
-        {% for provider in providers %}
-            <div class="provider-name">{{ provider.name }}</div>
-            <hr />
-        {% endfor %}
+    <div class="universities">
+        <div class="intro-wrap">
+            <div class="description-wrap">
+                <h1 class='cc-page-header'>Providers ({{ providers|length  }})</h1>
+            </div>
+        </div>
+
+        <table class="list-of-universities">
+           <tbody>
+                {% for provider in providers %}
+                <tr>
+                    <td><a href="{{ path('ClassCentralSiteBundle_initiative', {'type' : provider.code}) }}" title="{{ provider.name }} MOOCs and Reviews" class="university-name">{{ provider.name }}</a></td>
+                    <td><span class="courses-number">{{ provider.count }}{% if provider.count == 1 %} course {% else %} courses {% endif %}</span></td>
+                    <td><a  href="{{ path('ClassCentralSiteBundle_initiative', {'type' : provider.code}) }}" title="{{ provider.name }} MOOCs and Reviews" class="btn">View Provider Page</a></td>
+                </tr>
+                {% endfor %}
+           </tbody>
+
+        </table>
+
     </div>
 {% endblock %}

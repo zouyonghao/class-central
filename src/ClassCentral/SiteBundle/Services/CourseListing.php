@@ -66,9 +66,14 @@ class CourseListing {
 
             $pageInfo = PageHeaderFactory::get($provider);
 
+            $breadcrumbs = array(
+                Breadcrumb::getBreadCrumb('Providers', $this->container->get('router')->generate('providers')),
+            );
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb($provider->getName());
+
             return compact(
                 'provider', 'allSubjects', 'allLanguages', 'allSessions', 'courses',
-                'sortField', 'sortClass', 'pageNo', 'pageInfo'
+                'sortField', 'sortClass', 'pageNo', 'pageInfo','breadcrumbs'
             );
         }, array($slug, $request));
 
