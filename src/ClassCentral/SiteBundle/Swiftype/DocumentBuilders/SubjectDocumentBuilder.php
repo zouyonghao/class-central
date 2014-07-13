@@ -21,7 +21,7 @@ class SubjectDocumentBuilder extends DocumentBuilder{
 
         // Use the same count as
         $controller = new StreamController();
-        $subjects = $controller->getSubjectsList($em);
+        $subjects = $controller->getSubjectsList( $this->getContainer() );
         $docs = array();
 
         foreach($subjects['parent'] as $subject)

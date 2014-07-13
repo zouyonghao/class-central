@@ -45,18 +45,24 @@ class SwiftypeDocumentIndexerCommand extends ContainerAwareCommand {
         $indexer = new SwiftypeIndexer($token, $engine);
 
         $docBuilder = DocumentBuilderFactory::getDocumentBuilder($this->getContainer(),$type);
-        $docs = $docBuilder->getDocuments();
-
-        $result = $indexer->bulkCreateOrUpdate($docs,$type);
-        if(count(array_unique($result)) == 1)
+        $allDocs = $docBuilder->getDocuments();
+        $numDocs = count( $allDocs);
+        $totalIndexed = 0;
+        $batch_size = 100;
+        while($totalIndexed < $numDocs)
         {
-            $output->writeLn(count($result) . " documents indexed successfully");
+            $docs = array_slice($allDocs,$totalIndexed,$batch_size);
+            $result = $indexer->bulkCreateOrUpdate($docs,$type);
+            $totalIndexed += $batch_size;
+            if(count(array_unique($result)) == 1)
+            {
+                $output->writeLn(count($result) . " documents indexed successfully");
+            }
+            else
+            {
+                $output->writeLn("Some documents may have failed indexing. Total attempted " . count($result));
+            }
         }
-        else
-        {
-            $output->writeLn("Some documents may have failed indexing. Total attempted " . count($result));
-        }
-
 
     }
 } 
