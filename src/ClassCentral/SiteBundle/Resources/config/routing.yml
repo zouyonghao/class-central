@@ -81,6 +81,9 @@ ClassCentralSiteBundle_search:
   pattern: /search
   defaults: { _controller: ClassCentralSiteBundle:Search:index}
 
+autocomplete:
+  pattern: /autocomplete/{query}
+  defaults: { _controller: ClassCentralSiteBundle:Search:autocomplete }
 ClassCentralSiteBundle_mooc_share:
   pattern: /mooc/{id}/share
   defaults: { _controller: ClassCentralSiteBundle:Course:share}

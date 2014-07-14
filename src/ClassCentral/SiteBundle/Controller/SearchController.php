@@ -6,6 +6,7 @@ use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller{
        
@@ -43,5 +44,28 @@ class SearchController extends Controller{
             'pageNo' => $pageNo,
             'showHeader' => true
         ));        
+    }
+
+    /**
+     * Returns the results for search box autocomplete
+     * @param Request $request
+     * @param $query
+     */
+    public function autocompleteAction(Request $request, $query)
+    {
+        $esClient = $this->container->get('es_client');
+        $indexName = $this->container->getParameter( 'es_index_name' );
+
+        $params['index'] = $indexName;
+        $params['body'] = array();
+        $params['body']['autocomplete'] = array(
+            "text" => $query,
+            "completion" => array(
+                "field" => "name_suggest"
+            )
+        );
+
+        $results = $esClient->suggest( $params );
+        return new Response( json_encode($results) );
     }
 }
