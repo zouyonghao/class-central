@@ -12,6 +12,7 @@ namespace ClassCentral\ElasticSearchBundle\Command;
 use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobLogDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\SuggestDocumentType;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJobLog;
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
@@ -60,6 +61,8 @@ class ElasticSearchMappingCommand extends ContainerAwareCommand {
     private function updateDirectoryMapping( $deleteMapping)
     {
         $es = $this->getContainer()->get('es_client'); // Elastic Search client
+
+        // Do it for the course mapping
         $params = array();
         $params['index'] = $this->getContainer()->getParameter('es_index_name');
         $params['type']  = 'course';
@@ -81,6 +84,28 @@ class ElasticSearchMappingCommand extends ContainerAwareCommand {
         );
         $params['body']['course'] = $mapping;
 
+        $es->indices()->putMapping($params);
+
+        // Suggest Document mapping
+        $params = array();
+        $params['index'] = $this->getContainer()->getParameter('es_index_name');
+        $params['type']  = 'suggest';
+
+        if( $deleteMapping )
+        {
+            $es->indices()->deleteMapping($params);
+        }
+
+        // Get the mapping
+        $sDoc = new SuggestDocumentType(new Course(), $this->getContainer());
+        $mapping = array(
+            '_source' => array(
+                'enabled' => true
+            ),
+            'properties' => $sDoc->getMapping()
+
+        );
+        $params['body']['suggest'] = $mapping;
         $es->indices()->putMapping($params);
     }
 

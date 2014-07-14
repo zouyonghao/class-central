@@ -12,7 +12,9 @@ namespace ClassCentral\ElasticSearchBundle;
 use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobLogDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\SessionDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\SubjectDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\SuggestDocumentType;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJobLog;
 use ClassCentral\SiteBundle\Entity\Course;
@@ -48,6 +50,16 @@ class Indexer {
             $cDoc = new CourseDocumentType($entity,$this->container);
             $doc = $cDoc->getDocument( $this->getIndexName('es_index_name') );
             $this->esClient->index($doc);
+
+            // Add the course to the Suggest documents
+            if($entity->getStatus() < 100)
+            {
+                $csDoc = new SuggestDocumentType( $entity, $this->container);
+                $doc = $csDoc->getDocument( $this->getIndexName('es_index_name') );
+                $this->esClient->index($doc);
+            }
+
+
         }
 
         // Index the institution
@@ -64,6 +76,11 @@ class Indexer {
             $sDoc = new SubjectDocumentType($entity, $this->container);
             $doc = $sDoc->getDocument( $this->getIndexName('es_index_name') );
 
+            $this->esClient->index($doc);
+
+            // Add the subject to document suggestions
+            $ssDoc = new SuggestDocumentType( $entity, $this->container );
+            $doc = $ssDoc->getDocument( $this->getIndexName('es_index_name') );
             $this->esClient->index($doc);
         }
 
