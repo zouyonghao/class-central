@@ -740,6 +740,15 @@ body {
   background: transparent;
 }
 
+.nav-fb-like {
+  padding-top: 30px;
+}
+@media (max-width: @screen-md-min) {
+  .navbar-default .navbar-right > .nav-fb-like {
+    display: none;
+  }
+}
+
 @media (min-width: @screen-md-min) {
   .navbar-default:after {
     content: "";
@@ -752,6 +761,7 @@ body {
     right: 0;
     z-index: 1;
   }
+
 
   .navbar-default .navbar-right {
     background: @gray-dark;
