@@ -1412,7 +1412,15 @@ body {
   color: @gray-dark;
   line-height: 1;
   margin-bottom: 10px;
-  border-bottom: 1px solid #d6d5ce;
+  border-bottom: 1px solid @gray-tab;
+}
+
+.subjects .single-category .show-all-subjects .category-title:hover {
+  border-bottom: 1px solid #c3c2bb;
+}
+
+.subjects .single-category a:hover {
+  text-decoration: none;
 }
 
 .subjects .single-category .show-all-subjects {
@@ -1435,6 +1443,10 @@ body {
 .subjects .single-category a > span {
   color: @gray-tag;
   border-bottom: 1px solid #d6d5ce
+}
+
+.subjects .single-category a:hover > span {
+  border-bottom: 1px solid #c3c2bb;
 }
 
 .subjects .subject-list > li {
