@@ -46,7 +46,6 @@
                 <div class="col-sm-8 col-lg-9 table-column">
                     <div class="tables-wrap">
                         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'statustable'} %}
-                        {% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': results.hits.total } %}
                     </div>
                 </div>
             </div>

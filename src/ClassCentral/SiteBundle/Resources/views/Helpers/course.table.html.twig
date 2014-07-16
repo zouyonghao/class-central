@@ -210,5 +210,6 @@
 {% if pageNo == 1 or showHeader %}
     </tbody>
 </table>
+{% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': results.hits.total } %}
 {% endif %}
 

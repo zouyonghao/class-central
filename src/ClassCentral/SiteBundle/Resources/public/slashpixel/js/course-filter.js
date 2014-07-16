@@ -166,7 +166,6 @@ jQuery(function($) {
                 } else {
                     $('.tables-wrap').html( response.table );
                     $('#number-of-courses').html( response.numCourses );
-
                 }
 
                 // Reload after adding the dom back
@@ -179,12 +178,14 @@ jQuery(function($) {
             });
     }
 
-    // button click to show more courses
-    $('#show-more-courses').click( function(){
+    var showMoreOnClick =  function(){
         var page = $(this).attr('data-page');
         var params = updateUrl( page );
         updateCourses(params,parseInt(page));
-    });
+    }
+
+    // button click to show more courses
+    $('#show-more-courses').click( showMoreOnClick );
 
 
     // for page load done with filters
@@ -256,6 +257,7 @@ jQuery(function($) {
             $(show_more).show();
             $(show_more).html("Load the next 50 courses of " + moreCourses);
         }
+        $('#show-more-courses').click( showMoreOnClick );
     }
 
     function gaqPush(type, value) {
