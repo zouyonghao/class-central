@@ -210,6 +210,11 @@
 {% if pageNo == 1 or showHeader %}
     </tbody>
 </table>
-{% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': results.hits.total } %}
+    {% if hideLoadMore is defined and hideLoadMore == true %}
+        {# don't show the load more#}
+    {% else %}
+        {% include 'ClassCentralSiteBundle:Helpers:loadMoreCourses.html.twig' with{'nextPage':pageNo + 1,'totalCourses': results.hits.total } %}
+    {% endif %}
+
 {% endif %}
 
