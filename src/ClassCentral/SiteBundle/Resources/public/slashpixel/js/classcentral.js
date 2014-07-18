@@ -623,6 +623,7 @@ jQuery(function($) {
     };
 
     // Autocomplete
+    /*
     $('#st-search-input').swiftype({
         renderFunction: customRenderFunction,
         engineKey: '{{ swiftype_engine_key }}',
@@ -637,6 +638,9 @@ jQuery(function($) {
             }}
         }
     });
+    */
+
+
 
     // Navbar search button
     $('#navbar-search-btn').click(function(e){
@@ -660,4 +664,61 @@ jQuery(function($) {
             _gaq.push(['_trackEvent','Create Free Account','Convincer']);
         }catch (e){}
     });
+
+    // Typeahead
+    var testSearch = new Bloodhound({
+        datumTokenizer: function (datum) {
+            return Bloodhound.tokenizers.whitespace(datum.value);
+        },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/autocomplete/%QUERY',
+            filter: function (data) {
+
+                return $.map(data.autocomplete[0].options, function (option) {
+                    return {
+                        payload: option.payload
+
+                    };
+                });
+
+            }
+        }
+    });
+
+    testSearch.initialize();
+
+    $('#navbar-search-form .cc-search-box').typeahead(null, {
+        name: '',
+        displayKey: 'payload.name',
+        source: testSearch.ttAdapter(),
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'unable to find any subjects or courses that match the current query',
+                '</div>'
+            ].join('\n'),
+            suggestion: Handlebars.compile(
+                '<a class="type-{{payload.type}}" href="{{payload.url}}">'
+                    + '<span class="name">{{payload.name}}</span>'
+                    + '{{#if payload.nextSession}}'
+                    + '<span class="next-session">{{payload.nextSession}}</span>'
+                    + '{{/if}}'
+                    + '{{#if payload.count}}'
+                    + '<span class="course-count">{{payload.count}} courses</span>'
+                    + '{{/if}}'
+                    + '</a>'
+            )
+        }
+    });
+
+    $('#navbar-search-form .tt-dropdown-menu').bind("DOMSubtreeModified", function() {
+        if  ($('#navbar-search-form .tt-dropdown-menu .tt-suggestions').length) {
+            $('body').addClass('tt-is-open');
+        } else {
+            $('body.tt-is-open').removeClass('tt-is-open');
+        }
+    });
+
+
 });
