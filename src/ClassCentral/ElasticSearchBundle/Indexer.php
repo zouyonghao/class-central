@@ -18,6 +18,7 @@ use ClassCentral\ElasticSearchBundle\DocumentType\SuggestDocumentType;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJobLog;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Swiftype\DocumentType\InstitutionDocumentType;
@@ -79,6 +80,13 @@ class Indexer {
             $this->esClient->index($doc);
 
             // Add the subject to document suggestions
+            $ssDoc = new SuggestDocumentType( $entity, $this->container );
+            $doc = $ssDoc->getDocument( $this->getIndexName('es_index_name') );
+            $this->esClient->index($doc);
+        }
+
+        if($entity instanceof Initiative)
+        {
             $ssDoc = new SuggestDocumentType( $entity, $this->container );
             $doc = $ssDoc->getDocument( $this->getIndexName('es_index_name') );
             $this->esClient->index($doc);

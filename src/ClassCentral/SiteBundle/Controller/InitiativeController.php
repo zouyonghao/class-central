@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Form\InitiativeType;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -223,7 +224,21 @@ class InitiativeController extends Controller
      */
     public function providersAction(Request $request)
     {
-        $cache = $this->get('cache');
+
+        $data = $this->getProvidersList( $this->container );
+        return $this->render('ClassCentralSiteBundle:Initiative:providers.html.twig',array(
+            'providers' => $data['providers']
+        ));
+    }
+
+    /**
+     * Builds a list of providers with counts
+     * @param ContainerInterface $container
+     * @return mixed
+     */
+    public function getProvidersList( ContainerInterface $container)
+    {
+        $cache = $container->get('cache');
 
         $data = $cache->get('providers_with_count', function($container){
             $esCourses = $container->get('es_courses');
@@ -256,10 +271,8 @@ class InitiativeController extends Controller
 
             return compact('providers');
 
-        }, array($this->container));
+        }, array($container));
 
-        return $this->render('ClassCentralSiteBundle:Initiative:providers.html.twig',array(
-            'providers' => $data['providers']
-        ));
+        return $data;
     }
 }

@@ -12,6 +12,7 @@ namespace ClassCentral\ElasticSearchBundle\DocumentType;
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Controller\StreamController;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 
@@ -90,7 +91,7 @@ class SuggestDocumentType extends DocumentType{
         {
 
             $payload['type'] = 'subject';
-            $body['name_suggest']['input'] =  array_merge(array($entity->getName()), $this->tokenize( $entity->getName() )) ;
+            $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
             $body['name_suggest']['weight'] = 20;
 
@@ -100,6 +101,23 @@ class SuggestDocumentType extends DocumentType{
             $payload['count'] = $entity->getCourseCount();
             // Url
             $payload['url'] = $router->generate('ClassCentralSiteBundle_stream', array('slug' => $entity->getSlug()));
+            $body['name_suggest']['payload'] = $payload;
+        }
+
+        // Providers
+        if($this->entity instanceof Initiative)
+        {
+            $payload['type'] = 'provider';
+
+            $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getCode()), $this->tokenize( $entity->getName() )) ;
+            $body['name_suggest']['output'] = $entity->getName();
+            $body['name_suggest']['weight'] = 18;
+
+            $this->tokenize( $entity->getName() );
+            $payload['name'] = $entity->getName();
+            $payload['count'] = $entity->getCount();
+            // Url
+            $payload['url'] = $router->generate('ClassCentralSiteBundle_initiative', array('type' => strtolower($entity->getCode()) ));
             $body['name_suggest']['payload'] = $payload;
         }
 

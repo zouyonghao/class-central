@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Initiative
 {
+
     /**
      * @var integer $id
      */
@@ -43,6 +44,13 @@ class Initiative
      * @var string $imageUrl
      */
     private $imageUrl;
+
+
+    /**
+     * Number of courses
+     * @var int
+     */
+    private $count;
 
     
     /**
@@ -230,5 +238,21 @@ class Initiative
     public function getImageDir()
     {
         return "providers";
+    }
+
+    /**
+     * @param int $count
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        return $this->count;
     }
 }

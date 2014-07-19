@@ -10,7 +10,9 @@ namespace ClassCentral\ElasticSearchBundle\Command;
 
 
 use ClassCentral\ElasticSearchBundle\Indexer;
+use ClassCentral\SiteBundle\Controller\InitiativeController;
 use ClassCentral\SiteBundle\Controller\StreamController;
+use ClassCentral\SiteBundle\Entity\Initiative;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,6 +38,35 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         $em = $this->getContainer()->get('doctrine')->getManager();
         $cache = $this->getContainer()->get('cache');
 
+        /****
+         * Index providers
+         */
+        $providerController = new InitiativeController();
+        $data = $providerController->getProvidersList( $this->getContainer() );
+        foreach($data['providers'] as $provider)
+        {
+            if($provider['count'] > 0)
+            {
+                if($provider['code'] == 'independent')
+                {
+                    $p = new Initiative();
+                    $p->setCode('independent');
+                    $p->setName( 'Independent' );
+                }
+                else
+                {
+                    $p = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy( array('code' => $provider['code']));
+                }
+
+                $p->setCount( $provider['count'] );
+                $indexer->index($p);
+            }
+        }
+        $output->writeln("All Providers indexed");
+
+        /****
+         * Index subjects
+         */
         $subjects = $cache->get('stream_list_count',
             array( new StreamController(), 'getSubjectsList'),
             array( $this->getContainer() )
@@ -54,9 +85,12 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
 
         $output->writeln("All subjects indexed");
 
+
+        /****
+         * Index courses
+         */
         $courses = $this->getContainer()->get('doctrine')->getManager()
                     ->getRepository('ClassCentralSiteBundle:Course')->findAll();
-
         $count = 0;
         foreach($courses as $course)
         {
@@ -67,7 +101,7 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
                 $output->writeLn("$count courses indexed");
             }
         }
-
+        $output->writeln("$count courses indexed");
 
     }
 } 
