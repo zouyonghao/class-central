@@ -123,7 +123,7 @@ class SuggestDocumentType extends DocumentType{
 
             $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getCode()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
-            $body['name_suggest']['weight'] = 18;
+            $body['name_suggest']['weight'] = round(18 + $entity->getCount()/100); // boosting the score for providers with more courses
 
             $this->tokenize( $entity->getName() );
             $payload['name'] = $entity->getName();
@@ -140,7 +140,7 @@ class SuggestDocumentType extends DocumentType{
 
             $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
-            $body['name_suggest']['weight'] = 18;
+            $body['name_suggest']['weight'] = round(18 + $entity->getCount()/100); // boosting the score for institutions with more courses
 
             $this->tokenize( $entity->getName() );
             $payload['name'] = $entity->getName();
