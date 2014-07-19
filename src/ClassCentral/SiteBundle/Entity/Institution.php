@@ -50,6 +50,13 @@ class Institution
     private $imageUrl;
 
 
+    /**
+     * Number of courses for this institutions
+     * @var Int
+     */
+    private $count;
+
+
 
     public function __construct()
     {
@@ -210,6 +217,23 @@ class Institution
     {
         return "institutions";
     }
+
+    /**
+     * @param Int $count
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+    }
+
+    /**
+     * @return Int
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
 
 
 }

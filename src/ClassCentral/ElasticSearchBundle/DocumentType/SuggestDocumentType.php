@@ -13,6 +13,7 @@ use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Controller\StreamController;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
+use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 
@@ -41,6 +42,17 @@ class SuggestDocumentType extends DocumentType{
        return get_class($this->entity) . '_' . $this->entity->getId();
     }
 
+
+    /**
+     * Weights:
+     * Subjects - 20
+     * Provider, Institution - 18
+     * Recent - 25,
+     * Upcoming - 15 within a month, 10 otherwise
+     * Self paced - 14
+     *
+     * @return array
+     */
     public function getBody()
     {
         $indexer = $this->container->get('es_indexer');
@@ -118,6 +130,32 @@ class SuggestDocumentType extends DocumentType{
             $payload['count'] = $entity->getCount();
             // Url
             $payload['url'] = $router->generate('ClassCentralSiteBundle_initiative', array('type' => strtolower($entity->getCode()) ));
+            $body['name_suggest']['payload'] = $payload;
+        }
+
+        // Institutions
+        if($this->entity instanceof Institution)
+        {
+            $payload['type'] = 'institution';
+
+            $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug()), $this->tokenize( $entity->getName() )) ;
+            $body['name_suggest']['output'] = $entity->getName();
+            $body['name_suggest']['weight'] = 18;
+
+            $this->tokenize( $entity->getName() );
+            $payload['name'] = $entity->getName();
+            $payload['count'] = $entity->getCount();
+            // Url
+            $path = '';
+            if($entity->getIsUniversity())
+            {
+                $path = 'ClassCentralSiteBundle_university';
+            }
+            else
+            {
+                $path = 'ClassCentralSiteBundle_institution';
+            }
+            $payload['url'] = $router->generate($path, array('slug' => strtolower( $entity->getSlug() ) ));
             $body['name_suggest']['payload'] = $payload;
         }
 

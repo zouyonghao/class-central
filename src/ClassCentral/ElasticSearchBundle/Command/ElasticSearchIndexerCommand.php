@@ -11,6 +11,7 @@ namespace ClassCentral\ElasticSearchBundle\Command;
 
 use ClassCentral\ElasticSearchBundle\Indexer;
 use ClassCentral\SiteBundle\Controller\InitiativeController;
+use ClassCentral\SiteBundle\Controller\InstitutionController;
 use ClassCentral\SiteBundle\Controller\StreamController;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -37,6 +38,29 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         $indexer->setContainer($this->getContainer());
         $em = $this->getContainer()->get('doctrine')->getManager();
         $cache = $this->getContainer()->get('cache');
+
+        /***
+         * Index universities/institutions
+         */
+        $insController = new InstitutionController();
+        // Get institutions
+        $data = $insController->getInstitutions( $this->getContainer(), false);
+        $institutions = $data['institutions'];
+        // Get Universities
+        $data = $insController->getInstitutions( $this->getContainer(), true);
+        $universities = $data['institutions'];
+        $all = array_merge( $institutions, $universities);
+        foreach($all as $ins)
+        {
+            if( $ins['count'] > 0)
+            {
+                $i = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy( array('slug' => $ins['slug']));
+                $i->setCount( $ins['count'] );
+                $indexer->index($i);
+            }
+
+        }
+        $output->writeln("All Institutions indexed");
 
         /****
          * Index providers

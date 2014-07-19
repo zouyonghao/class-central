@@ -66,9 +66,10 @@ class Indexer {
         // Index the institution
         if($entity instanceof Institution)
         {
-            $iDoc = new InstitutionDocumentType($entity, $this->container);
-            $doc = $iDoc->getDocument( $this->getIndexName('es_index_name') );
 
+            // Add the institution to document suggestions
+            $isDoc = new SuggestDocumentType( $entity, $this->container );
+            $doc = $isDoc->getDocument( $this->getIndexName('es_index_name') );
             $this->esClient->index($doc);
         }
 

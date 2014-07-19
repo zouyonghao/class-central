@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Form\InstitutionType;
 use ClassCentral\SiteBundle\Entity\Offering;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -244,7 +245,22 @@ class InstitutionController extends Controller
      */
     private function getInstitutionsView($isUniversity = true)
     {
-        $cache = $this->get('cache');
+        $data = $this->getInstitutions( $this->container, $isUniversity);
+
+        return $this->render('ClassCentralSiteBundle:Institution:institutions.html.twig',array(
+            'institutions' => $data['institutions'],
+            'isUniversity' => $isUniversity
+        ));
+    }
+
+    /**
+     * Returns a list of institutions/universities with count
+     * @param ContainerInterface $container
+     * @param bool $isUniversity
+     */
+    public function getInstitutions(ContainerInterface $container,$isUniversity = true)
+    {
+        $cache = $container->get('cache');
 
         $data = $cache->get('institutions_with_count_' . $isUniversity, function($container, $isUniversity){
             $esCourses = $container->get('es_courses');
@@ -267,12 +283,9 @@ class InstitutionController extends Controller
 
             return compact('institutions');
 
-        }, array($this->container,$isUniversity));
+        }, array($container,$isUniversity));
 
-        return $this->render('ClassCentralSiteBundle:Institution:institutions.html.twig',array(
-            'institutions' => $data['institutions'],
-            'isUniversity' => $isUniversity
-        ));
+        return $data;
     }
 
 }
