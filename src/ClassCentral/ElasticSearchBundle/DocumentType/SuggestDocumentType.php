@@ -14,6 +14,7 @@ use ClassCentral\SiteBundle\Controller\StreamController;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
+use ClassCentral\SiteBundle\Entity\Language;
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 
@@ -107,8 +108,6 @@ class SuggestDocumentType extends DocumentType{
             $body['name_suggest']['output'] = $entity->getName();
             $body['name_suggest']['weight'] = 20;
 
-            $this->tokenize( $entity->getName() );
-
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCourseCount();
             // Url
@@ -133,6 +132,22 @@ class SuggestDocumentType extends DocumentType{
             $body['name_suggest']['payload'] = $payload;
         }
 
+        // Languages
+        if($this->entity instanceof Language)
+        {
+            $payload['type'] = 'language';
+            $body['name_suggest']['input'] =  array($entity->getName(), $entity->getCode(),$entity->getSlug() )   ;
+            $body['name_suggest']['output'] = $entity->getName();
+            $body['name_suggest']['weight'] = 30;
+
+            $payload['name'] = $entity->getName();
+            $payload['count'] = $entity->getCourseCount();
+            // Url
+            $payload['url'] = $router->generate('lang', array('slug' => strtolower($entity->getSlug()) ));
+            $body['name_suggest']['payload'] = $payload;
+
+        }
+
         // Institutions
         if($this->entity instanceof Institution)
         {
@@ -142,7 +157,6 @@ class SuggestDocumentType extends DocumentType{
             $body['name_suggest']['output'] = $entity->getName();
             $body['name_suggest']['weight'] = round(18 + $entity->getCount()/100); // boosting the score for institutions with more courses
 
-            $this->tokenize( $entity->getName() );
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCount();
             // Url

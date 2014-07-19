@@ -267,8 +267,6 @@ class InitiativeController extends Controller
                 $providers[ $code ] = $provider;
             }
 
-
-
             return compact('providers');
 
         }, array($container));

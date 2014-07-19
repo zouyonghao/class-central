@@ -12,6 +12,7 @@ namespace ClassCentral\ElasticSearchBundle\Command;
 use ClassCentral\ElasticSearchBundle\Indexer;
 use ClassCentral\SiteBundle\Controller\InitiativeController;
 use ClassCentral\SiteBundle\Controller\InstitutionController;
+use ClassCentral\SiteBundle\Controller\LanguageController;
 use ClassCentral\SiteBundle\Controller\StreamController;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -38,6 +39,17 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         $indexer->setContainer($this->getContainer());
         $em = $this->getContainer()->get('doctrine')->getManager();
         $cache = $this->getContainer()->get('cache');
+
+        /***
+         * Index languages
+         */
+        $langController = new LanguageController();
+        $languages = $cache->get('language_list_count', array($langController, 'getLanguagesList'),array($this->getContainer()));
+        foreach($languages as $language)
+        {
+            $indexer->index($language);
+        }
+        $output->writeln("All Languages indexed");
 
         /***
          * Index universities/institutions

@@ -20,6 +20,7 @@ use ClassCentral\ElasticSearchBundle\Scheduler\ESJobLog;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
+use ClassCentral\SiteBundle\Entity\Language;
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Swiftype\DocumentType\InstitutionDocumentType;
 use Elasticsearch\Client;
@@ -68,6 +69,16 @@ class Indexer {
         {
 
             // Add the institution to document suggestions
+            $isDoc = new SuggestDocumentType( $entity, $this->container );
+            $doc = $isDoc->getDocument( $this->getIndexName('es_index_name') );
+            $this->esClient->index($doc);
+        }
+
+        // Index the Language
+        if($entity instanceof Language)
+        {
+
+            // Add Language to document suggestions
             $isDoc = new SuggestDocumentType( $entity, $this->container );
             $doc = $isDoc->getDocument( $this->getIndexName('es_index_name') );
             $this->esClient->index($doc);
