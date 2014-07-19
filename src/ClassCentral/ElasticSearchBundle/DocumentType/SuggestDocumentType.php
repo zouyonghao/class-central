@@ -54,8 +54,15 @@ class SuggestDocumentType extends DocumentType{
         if($this->entity instanceof Course)
         {
             $payload['type'] = 'course';
-            $body['name_suggest']['input'] = array($entity->getName());
+            $body['name_suggest']['input'] = array_merge(array($entity->getName()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
+
+            // Boost the scores of upcoming, recent courses
+            $weight = $this->getCourseWeight( $entity );
+            if($weight > 0)
+            {
+                $body['name_suggest']['weight'] = $weight;
+            }
             $payload['rating'] = $rs->calculateRatings($entity->getId());
             $rArray = $rs->getReviewsArray($entity->getId());
             $payload['reviewsCount'] = $rArray['count'];
@@ -66,6 +73,13 @@ class SuggestDocumentType extends DocumentType{
             {
                 $payload['nextSession'] = $ns->getDisplayDate();
             }
+            // $provider
+            $provider = 'Independent';
+            if($entity->getInitiative())
+            {
+                $provider = $entity->getInitiative()->getName();
+            }
+            $payload['provider'] = $provider;
             // Url
             $payload['url'] = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $entity->getId(), 'slug' => $entity->getSlug()));
             $body['name_suggest']['payload'] = $payload;
@@ -76,12 +90,14 @@ class SuggestDocumentType extends DocumentType{
         {
 
             $payload['type'] = 'subject';
-            $body['name_suggest']['input'] = array($entity->getName());
+            $body['name_suggest']['input'] =  array_merge(array($entity->getName()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
+            $body['name_suggest']['weight'] = 20;
+
+            $this->tokenize( $entity->getName() );
 
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCourseCount();
-            $payload['weight'] = 10;
             // Url
             $payload['url'] = $router->generate('ClassCentralSiteBundle_stream', array('slug' => $entity->getSlug()));
             $body['name_suggest']['payload'] = $payload;
@@ -106,5 +122,53 @@ class SuggestDocumentType extends DocumentType{
                 "preserve_separators"=> false
             )
         );
+    }
+
+    private function tokenize( $text )
+    {
+        $result = preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/', $text, -1, PREG_SPLIT_NO_EMPTY);
+        return array_filter( $result, function($str){
+            return (strlen($str) > 3) && (bool) preg_match('//u', $str);
+        });
+    }
+
+    /**
+     * Boost the weight of courses that are upcoming or recent
+     * @param Course $course
+     */
+    private function getCourseWeight(Course $course)
+    {
+        $weight = 0;
+        $ns = CourseUtility::getNextSession( $course );
+        if($ns) {
+            $states = CourseUtility::getStates($ns);
+            $date = $ns->getStartDate();
+            if( in_array('recent',$states) )
+            {
+                return 25;
+            }
+
+            if ( in_array( 'upcoming', $states) )
+            {
+                $dt = new \DateTime();
+                $dt->add(new \DateInterval('P30D'));
+
+                if( $date < $dt)
+                {
+                    return 15;
+                }
+
+                // Upcoming but later than a month
+                return 10;
+            }
+
+            if( in_array('selfpaced', $states) )
+            {
+                return 14;
+            }
+
+        }
+
+        return $weight;
     }
 }

@@ -36,7 +36,6 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         $em = $this->getContainer()->get('doctrine')->getManager();
         $cache = $this->getContainer()->get('cache');
 
-
         $subjects = $cache->get('stream_list_count',
             array( new StreamController(), 'getSubjectsList'),
             array( $this->getContainer() )
@@ -53,12 +52,20 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
             }
         }
 
+        $output->writeln("All subjects indexed");
+
         $courses = $this->getContainer()->get('doctrine')->getManager()
                     ->getRepository('ClassCentralSiteBundle:Course')->findAll();
 
+        $count = 0;
         foreach($courses as $course)
         {
             $indexer->index($course);
+            $count++;
+            if($count % 50 == 0)
+            {
+                $output->writeLn("$count courses indexed");
+            }
         }
 
 

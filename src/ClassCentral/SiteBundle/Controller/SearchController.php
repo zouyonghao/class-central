@@ -61,6 +61,7 @@ class SearchController extends Controller{
         $params['body']['autocomplete'] = array(
             "text" => $query,
             "completion" => array(
+                'size' => 10,
                 "field" => "name_suggest"
             )
         );

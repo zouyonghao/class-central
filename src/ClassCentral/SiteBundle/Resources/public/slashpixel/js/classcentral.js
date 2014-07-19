@@ -671,6 +671,7 @@ jQuery(function($) {
             return Bloodhound.tokenizers.whitespace(datum.value);
         },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 10,
         remote: {
             url: '/autocomplete/%QUERY',
             filter: function (data) {
