@@ -155,6 +155,7 @@ jQuery(function($) {
         if( !$.isEmptyObject(params) ) {
             url = url+'?' + $.param(params)
         }
+
         // Ajax query
         $.ajax({
             url: "/maestro" + url
@@ -166,6 +167,9 @@ jQuery(function($) {
                 } else {
                     $('.tables-wrap').html( response.table );
                     $('#number-of-courses').html( response.numCourses );
+                    // The show more courses is part of the response returned
+                    // attach the event click handler
+                    $('#show-more-courses').click( showMoreOnClick );
                 }
 
                 // Reload after adding the dom back
@@ -257,7 +261,6 @@ jQuery(function($) {
             $(show_more).show();
             $(show_more).html("Load the next 50 courses of " + moreCourses);
         }
-        $('#show-more-courses').click( showMoreOnClick );
     }
 
     function gaqPush(type, value) {
