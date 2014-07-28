@@ -145,7 +145,6 @@ class SuggestDocumentType extends DocumentType{
             // Url
             $payload['url'] = $router->generate('lang', array('slug' => strtolower($entity->getSlug()) ));
             $body['name_suggest']['payload'] = $payload;
-
         }
 
         // Institutions
@@ -215,6 +214,10 @@ class SuggestDocumentType extends DocumentType{
             $date = $ns->getStartDate();
             if( in_array('recent',$states) )
             {
+                if(in_array('ongoing',$states))
+                {
+                    return 23; // this means it has already started. Push it slightly down
+                }
                 return 25;
             }
 

@@ -272,7 +272,10 @@ class InstitutionController extends Controller
             foreach( $counts['institutions'] as $slug => $count )
             {
                 $entity = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy( array('slug' => $slug) );
-
+                if(empty($entity))
+                {
+                    continue;
+                }
                 $institution = array();
                 $institution['count'] = $count;
                 $institution['slug'] = $slug;
