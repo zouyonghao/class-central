@@ -338,3 +338,7 @@ maestro_search:
 maestro_user_library:
   pattern: /maestro/user/courses
   defaults: {_controller: ClassCentralSiteBundle:Maestro:library }
+
+profile:
+  pattern: /profile
+  defaults: {_controller: ClassCentralSiteBundle:User:profile }

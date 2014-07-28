@@ -933,4 +933,10 @@ class UserController extends Controller
         return $prefId;
     }
 
+    public function profileAction(Request $request)
+    {
+        return $this->render('ClassCentralSiteBundle:User:profile.html.twig',array());
+    }
+
+
 }
