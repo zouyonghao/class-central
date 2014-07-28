@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 
+use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,27 +54,63 @@ class NewCoursesCommand extends ContainerAwareCommand {
         $groups = array();
         foreach($courses as $course)
         {
-            $ins = $course->getInstitutions();
-            $group = 'Others';
-            if($ins[0])
+            if($course->getStatus() >= 100)
             {
-                $group = $ins[0]->getName();
+                // Course is not available or is under review
+                continue;
+            }
+            $ins = $course->getInitiative();
+            $group = 'Independent';
+            if($ins)
+            {
+                $group = $ins->getName();
             }
             $groups[$group][] = $course;
 
         }
 
+        $count = 0;
         foreach($groups as $insName => $insCourses)
         {
-            $output->writeln(strtoupper($insName));
+            $output->writeln(strtoupper($insName)."<br/>");
             foreach($insCourses as $course)
             {
-                $path = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug'=>$course->getSlug()));
-                $output->writeln($course->getName());
 
-                $output->writeln('https://www.class-central.com'. $path);
-                $output->writeln('');
+                $count++;
+                $path = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug'=>$course->getSlug()));
+                $name = $course->getName();
+                $url = 'https://www.class-central.com'. $path;
+                $output->writeln("<a href='$url'>$name</a><br/>");
+
+                $secondLine = array();
+                $nextSession = $course->getNextOffering();
+                if ($nextSession->getStatus() == Offering::START_DATES_KNOWN)
+                {
+                    $secondLine[] = $nextSession->getStartDate()->format('M jS, Y');
+                }
+                elseif($nextSession->getStatus() == Offering::COURSE_OPEN)
+                {
+                    $secondLine[] = 'Self Paced';
+                }
+
+
+                $ins = $course->getInstitutions();
+                $insName ='';
+                if($ins[0])
+                {
+                    $insName = $ins[0]->getName();
+
+                }
+                $secondLine[] = $insName;
+                if (!empty($secondLine))
+                {
+                    $output->writeln("<i>" . implode(' | ', $secondLine) . "</i><br/>");
+                }
             }
+
+            $output->writeln( "<br/>");
         }
+
+        $output->writeLn( " $count courses added " );
 }
 }
