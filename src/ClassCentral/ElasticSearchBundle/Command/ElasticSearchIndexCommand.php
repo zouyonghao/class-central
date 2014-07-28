@@ -31,7 +31,7 @@ class ElasticSearchIndexCommand extends ContainerAwareCommand {
         $esClient = $this->getContainer()->get('es_client');
 
         $index = null;
-        if($this == 'directory')
+        if($type == 'directory')
         {
             $index = $this->getContainer()->getParameter('es_index_name');
         }
