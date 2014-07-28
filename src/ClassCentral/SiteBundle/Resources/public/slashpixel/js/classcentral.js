@@ -624,21 +624,21 @@ jQuery(function($) {
 
     // Autocomplete
     /*
-    $('#st-search-input').swiftype({
-        renderFunction: customRenderFunction,
-        engineKey: '{{ swiftype_engine_key }}',
-        filters: {
-            'courses' : {'status':{
-                'type' : 'range',
-                'to' : 99
-            }},
-            'universities': {'courseCount':{
-                'type' : 'range',
-                'from' : '1'
-            }}
-        }
-    });
-    */
+     $('#st-search-input').swiftype({
+     renderFunction: customRenderFunction,
+     engineKey: '{{ swiftype_engine_key }}',
+     filters: {
+     'courses' : {'status':{
+     'type' : 'range',
+     'to' : 99
+     }},
+     'universities': {'courseCount':{
+     'type' : 'range',
+     'from' : '1'
+     }}
+     }
+     });
+     */
 
 
 
@@ -666,20 +666,59 @@ jQuery(function($) {
     });
 
     // Typeahead
-    var testSearch = new Bloodhound({
+
+    $('#navbar-search-form #st-search-input').on("keydown.cc", function (e) {
+        $this = $(this);
+        if (e.which == 13) {
+
+            if ($('#navbar-search-form .tt-suggestion.tt-cursor a').attr('href') !== undefined && $('#navbar-search-form .tt-suggestion.tt-cursor .search-view-all').length === 0) {
+                var dataType = $('#navbar-search-form .tt-suggestion.tt-cursor a').data("type");
+                var dataName = $('#navbar-search-form .tt-suggestion.tt-cursor a').data("name");
+                window.location = $('#navbar-search-form .tt-suggestion.tt-cursor a').attr('href');
+                try {
+                    _gaq.push(['_trackEvent', 'Search Autocomplete' , dataType, dataName ]);
+                }catch (e){}
+            } else if ($('#navbar-search-form .tt-suggestion.tt-cursor .search-view-all').length ) {
+                $('#navbar-search-form').submit();
+                return false;
+            } else if ( $this.is(":focus") ) {
+                $('#navbar-search-form').submit();
+            }
+        }
+    });
+
+    var ccSearch = new Bloodhound({
         datumTokenizer: function (datum) {
             return Bloodhound.tokenizers.whitespace(datum.value);
         },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        limit: 10,
+        limit: 11,
         remote: {
             url: '/autocomplete/%QUERY',
             filter: function (data) {
 
+
+
+                if (data.autocomplete[0].options.length > 0) {
+                    var footerItem = {payload:{type:'footer-template', name: ''}};
+                    var autoOptions = data.autocomplete[0].options;
+                    var footerInArray = false;
+
+                    $.each(autoOptions, function(key, value) {
+                        if (value.payload.type === "footer-template") {
+                            footerInArray = true;
+                        }
+                    });
+
+                    if (footerInArray === false) {
+                        autoOptions.push(footerItem)
+                    }
+                }
+
                 return $.map(data.autocomplete[0].options, function (option) {
                     return {
-                        payload: option.payload
-
+                        payload: option.payload,
+                        name: option.payload.name
                     };
                 });
 
@@ -687,39 +726,158 @@ jQuery(function($) {
         }
     });
 
-    testSearch.initialize();
+    ccSearch.initialize();
 
-    $('#navbar-search-form .cc-search-box').typeahead(null, {
-        name: '',
-        displayKey: 'payload.name',
-        source: testSearch.ttAdapter(),
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'unable to find any subjects or courses that match the current query',
-                '</div>'
-            ].join('\n'),
-            suggestion: Handlebars.compile(
-                '<a class="type-{{payload.type}}" href="{{payload.url}}">'
-                    + '<span class="name">{{payload.name}}</span>'
-                    + '{{#if payload.nextSession}}'
-                    + '<span class="next-session">{{payload.nextSession}}</span>'
-                    + '{{/if}}'
-                    + '{{#if payload.count}}'
-                    + '<span class="course-count">{{payload.count}} courses</span>'
-                    + '{{/if}}'
-                    + '</a>'
-            )
+    $('#navbar-search-form .cc-search-box')
+        .typeahead(null, {
+            name: '',
+            displayKey: 'name',
+            source: ccSearch.ttAdapter(),
+            templates: {
+                empty: [],
+                suggestion: function (data) {
+                    var templateScript;
+
+                    if (data.payload.type === "course") {
+                        templateScript = $("#course-template").html();
+                    } else if (data.payload.type === "subject") {
+                        templateScript = $("#subject-template").html();
+                    } else if (data.payload.type === "provider") {
+                        templateScript = $("#provider-template").html();
+                    } else if (data.payload.type === "institution") {
+                        templateScript = $("#uni-template").html();
+                    } else if (data.payload.type === "footer-template") {
+                        templateScript = $("#footer-template").html();
+                    } else {
+                        templateScript = $("#base-template").html();
+                    }
+
+                    var suggestionTemplate = Handlebars.compile(templateScript);
+                    return suggestionTemplate(data);
+                }
+            }
+        })
+        .on('typeahead:closed', function() {
+            $('body.tt-is-open').removeClass('tt-is-open');
         }
+    );
+
+    $('#navbar-search-form .tt-dropdown-menu').on('click', '.search-view-all', function(e) {
+        e.preventDefault();
+        $('#navbar-search-form #st-search-input').val($('#navbar-search-form #st-search-input').typeahead('val'));
+        $('#navbar-search-form').submit();
+        return false;
     });
 
+
     $('#navbar-search-form .tt-dropdown-menu').bind("DOMSubtreeModified", function() {
-        if  ($('#navbar-search-form .tt-dropdown-menu .tt-suggestions').length) {
+        if  ($('#navbar-search-form .tt-dropdown-menu .tt-suggestion').length) {
             $('body').addClass('tt-is-open');
         } else {
             $('body.tt-is-open').removeClass('tt-is-open');
         }
     });
 
+    $('#navbar-search-form #st-search-input').on("keydown.cc", function (e) {
+        $this = $(this);
+        if (e.which == 38 || e.which == 40 ) {
+            if ($('#navbar-search-form .tt-suggestion.tt-cursor .suggestions-footer').length) {
+                $this.val($this.typeahead('val'));
+            }
+        }
+    });
+
+    $(document).bind('keydown', function(e) {
+        if(e.ctrlKey && (e.which == 76)) {
+            e.preventDefault();
+            $( "#navbar-search-form #st-search-input" ).focus();
+            return false;
+        }
+    });
+
+
+    //general search form typeahead
+
+
+    $('#general-search #st-search-input').on("keydown.cc", function (e) {
+        $this = $(this);
+        if (e.which == 13) {
+
+            if ($('#general-search .tt-suggestion.tt-cursor a').attr('href') !== undefined && $('#general-search .tt-suggestion.tt-cursor .search-view-all').length === 0) {
+                var dataType = $('#general-search .tt-suggestion.tt-cursor a').data("type");
+                var dataName = $('#general-search .tt-suggestion.tt-cursor a').data("name");
+
+                window.location = $('#general-search .tt-suggestion.tt-cursor a').attr('href');
+
+                try {
+                    _gaq.push(['_trackEvent', 'Search Autocomplete' , dataType, dataName ]);
+                }catch (e){}
+            } else if ($('#general-search .tt-suggestion.tt-cursor .search-view-all').length ) {
+                $('#general-search form').submit();
+                return false;
+            } else if ( $this.is(":focus") ) {
+                $('#general-search form').submit();
+            }
+        }
+    });
+
+    $('#general-search .cc-search-box')
+        .typeahead(null, {
+            name: '',
+            displayKey: 'name',
+            source: ccSearch.ttAdapter(),
+            templates: {
+                empty: [],
+                suggestion: function (data) {
+                    var templateScript;
+
+                    if (data.payload.type === "course") {
+                        templateScript = $("#course-template").html();
+                    } else if (data.payload.type === "subject") {
+                        templateScript = $("#subject-template").html();
+                    } else if (data.payload.type === "provider") {
+                        templateScript = $("#provider-template").html();
+                    } else if (data.payload.type === "institution") {
+                        templateScript = $("#uni-template").html();
+                    } else if (data.payload.type === "footer-template") {
+                        templateScript = $("#footer-template").html();
+                    } else {
+                        templateScript = $("#base-template").html();
+                    }
+
+                    var suggestionTemplate = Handlebars.compile(templateScript);
+                    return suggestionTemplate(data);
+                }
+            }
+        })
+        .on('typeahead:closed', function() {
+            $('body.tt-is-open').removeClass('tt-is-open');
+        }
+    );
+
+    $('#general-search .tt-dropdown-menu').on('click', '.search-view-all', function(e) {
+        e.preventDefault();
+        $('#general-search #st-search-input').val($('#general-search #st-search-input').typeahead('val'));
+        $('#general-search form').submit();
+        return false;
+    });
+
+
+    $('#general-search .tt-dropdown-menu').bind("DOMSubtreeModified", function() {
+        if  ($('#general-search .tt-dropdown-menu .tt-suggestion').length) {
+            $('body').addClass('general-drop-is-open');
+        } else {
+            $('body.general-drop-is-open').removeClass('general-drop-is-open');
+        }
+    });
+
+    $('#general-search #st-search-input').on("keydown.cc", function (e) {
+        $this = $(this);
+        if (e.which == 38 || e.which == 40 ) {
+            if ($('#general-search .tt-suggestion.tt-cursor .suggestions-footer').length) {
+                $this.val($this.typeahead('val'));
+            }
+        }
+    });
 
 });
