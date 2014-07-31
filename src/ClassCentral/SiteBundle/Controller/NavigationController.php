@@ -19,11 +19,27 @@ class NavigationController extends Controller{
     
     public function indexAction($page)
     {
-        $cache = $this->get('cache');
-        $em = $this->getDoctrine()->getManager();
+        $data = $this->getNavigationCounts( $this->container );
+        // Start the session for every user
+        $session = $this->getRequest()->getSession();
+        if(!$session->isStarted())
+        {
+            // Start the session if its not already started
+            $session->start();
+        }
 
+        return $this->render('ClassCentralSiteBundle:Helpers:navbar.html.twig', 
+                            array( 'offeringCount' => $data['offeringCount'],'initiativeCount'=>$data['initiativeCount'],
+                                   'page' => $page, 'offeringTypes'=> Offering::$types, 
+                                    'initiativeTypes' => Initiative::$types,
+                                    'navEventName' => $this->navEventName
+                                ));  
+    }
 
-
+    public function getNavigationCounts( $container )
+    {
+        $cache = $container->get('cache');
+        $em = $container->get('doctrine')->getManager();
         $data = $cache->get('navigation_counts', function($container){
             $esCourses = $container->get('es_courses');
             $counts = $esCourses->getCounts();
@@ -61,22 +77,9 @@ class NavigationController extends Controller{
 
             return compact('offeringCount','initiativeCount');
 
-        }, array($this->container));
+        }, array($container));
 
-        // Start the session for every user
-        $session = $this->getRequest()->getSession();
-        if(!$session->isStarted())
-        {
-            // Start the session if its not already started
-            $session->start();
-        }
-
-        return $this->render('ClassCentralSiteBundle:Helpers:navbar.html.twig', 
-                            array( 'offeringCount' => $data['offeringCount'],'initiativeCount'=>$data['initiativeCount'],
-                                   'page' => $page, 'offeringTypes'=> Offering::$types, 
-                                    'initiativeTypes' => Initiative::$types,
-                                    'navEventName' => $this->navEventName
-                                ));  
+        return $data;
     }
 
 }
