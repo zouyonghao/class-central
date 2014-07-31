@@ -86,7 +86,8 @@ class NewSessionNotificationJobSchedulerCommand extends ContainerAwareCommand {
         {
             // Send notification for courses which have new sessions, not the ones that
             // were just added
-            if ( count($course['_source']['sessions']) > 1)
+            $sessions = count($course['_source']['sessions']);
+            if ( $sessions > 1 && $sessions <= 6) // Ignore sessions that are repeated often
             {
                 $courseIds[] = $course['_source']['id'];
             }
