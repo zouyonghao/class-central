@@ -69,8 +69,8 @@ ClassCentral\SiteBundle\Entity\Profile:
         user:
             targetEntity: User
             cascade: {  }
-            mappedBy: profile
-            inversedBy: null
+            mappedBy: null
+            inversedBy: profile
             joinColumns:
                 user_id:
                     referencedColumnName: id

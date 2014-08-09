@@ -70,7 +70,7 @@ class Profile
     private $photo;
 
     /**
-     * @var \ClassCentral\SiteBundle\Entity\Users
+     * @var \ClassCentral\SiteBundle\Entity\User
      */
     private $user;
 
@@ -341,10 +341,10 @@ class Profile
     /**
      * Set user
      *
-     * @param \ClassCentral\SiteBundle\Entity\Users $user
+     * @param \ClassCentral\SiteBundle\Entity\User $user
      * @return Profile
      */
-    public function setUser(\ClassCentral\SiteBundle\Entity\Users $user = null)
+    public function setUser(\ClassCentral\SiteBundle\Entity\User $user = null)
     {
         $this->user = $user;
     
@@ -354,7 +354,7 @@ class Profile
     /**
      * Get user
      *
-     * @return \ClassCentral\SiteBundle\Entity\Users 
+     * @return \ClassCentral\SiteBundle\Entity\User
      */
     public function getUser()
     {
