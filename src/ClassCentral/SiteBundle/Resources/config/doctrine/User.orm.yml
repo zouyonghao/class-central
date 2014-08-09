@@ -54,9 +54,17 @@ ClassCentral\SiteBundle\Entity\User:
             unsigned: false
             nullable: true
             column: signup_type
+        username:
+            type: string
+            length: 25
+            fixed: false
+            nullable: true
     oneToOne:
         fb:
             targetEntity: UserFb
+            mappedBy: user
+        profile:
+            targetEntity: Profile
             mappedBy: user
     oneToMany:
         moocTrackerSearchTerms:

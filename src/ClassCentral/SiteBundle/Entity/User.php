@@ -110,6 +110,17 @@ class User implements UserInterface, \Serializable
      */
     private $fb;
 
+    /**
+     * @var string
+     */
+    private $username;
+
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\Profile
+     */
+    private $profile;
+
+
     const SIGNUP_TYPE_FORM = 1;
     const SIGNUP_TYPE_FACEBOOK = 2;
 
@@ -729,5 +740,42 @@ class User implements UserInterface, \Serializable
     public function getFb()
     {
         return $this->fb;
+    }
+
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    
+        return $this;
+    }
+
+    /**
+     * Set profile
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Profile $profile
+     * @return User
+     */
+    public function setProfile(\ClassCentral\SiteBundle\Entity\Profile $profile = null)
+    {
+        $this->profile = $profile;
+    
+        return $this;
+    }
+
+    /**
+     * Get profile
+     *
+     * @return \ClassCentral\SiteBundle\Entity\Profile 
+     */
+    public function getProfile()
+    {
+        return $this->profile;
     }
 }
