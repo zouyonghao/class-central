@@ -182,4 +182,32 @@ class ProfileController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     *
+     * @param $slug user id or username
+     */
+    public function profileAction($slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user_id = intval( $slug );
+
+        $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $user_id );
+        if(!$user)
+        {
+            // User not found
+            throw new \Exception("User $slug not found");
+        }
+        $profile = ($user->getProfile()) ? $user->getProfile() : new Profile();
+
+
+        return $this->render('ClassCentralSiteBundle:Profile:profile.html.twig', array(
+                'user' => $user,
+                'profile'=> $profile,
+            )
+        );
+
+    }
+
+
 }
