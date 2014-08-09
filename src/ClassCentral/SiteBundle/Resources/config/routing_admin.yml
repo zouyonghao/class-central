@@ -58,3 +58,7 @@ reviews_by_status:
 ClassCentralSiteBundle_textad:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/textad.yml"
   prefix:   /textad
+
+ClassCentralSiteBundle_profile:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/profile.yml"
+  prefix:   /profile
