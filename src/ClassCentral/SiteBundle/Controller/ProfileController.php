@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -187,9 +188,11 @@ class ProfileController extends Controller
      *
      * @param $slug user id or username
      */
-    public function profileAction($slug)
+    public function profileAction(Request $request,$slug)
     {
         $em = $this->getDoctrine()->getManager();
+        $cl = $this->get('course_listing');
+
         $user_id = intval( $slug );
 
         $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $user_id );
@@ -200,14 +203,21 @@ class ProfileController extends Controller
         }
         $profile = ($user->getProfile()) ? $user->getProfile() : new Profile();
 
+        // Get users course listing. This is the same function on My Courses page
+        // and contains additional information related to pagination
+        $clDetails = $cl->userLibrary( $user, $request);
+
 
         return $this->render('ClassCentralSiteBundle:Profile:profile.html.twig', array(
                 'user' => $user,
                 'profile'=> $profile,
+                'listTypes' => UserCourse::$lists,
+                'coursesByLists' => $clDetails['coursesByLists']
             )
         );
 
     }
+
 
 
 }
