@@ -211,7 +211,7 @@ class ProfileController extends Controller
         return $this->render('ClassCentralSiteBundle:Profile:profile.html.twig', array(
                 'user' => $user,
                 'profile'=> $profile,
-                'listTypes' => UserCourse::$lists,
+                'listTypes' => UserCourse::$transcriptList,
                 'coursesByLists' => $clDetails['coursesByLists']
             )
         );

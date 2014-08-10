@@ -5,6 +5,9 @@
        <span class="item-title">
            <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}">{{ course.name }}</a>
        </span>
+       {% if userStatus is defined %}
+       {#  <span class="item-status">{{ userStatus }}</span> #}
+       {% endif %}
 
     </h3>
     <span class="item-info">

@@ -1,7 +1,7 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 
-{% block content %}
+{% block content -%}
 
     <h2 class="section-heading"><span>Profile</span></h2>
 
@@ -75,11 +75,19 @@
             {%  set interestedCount = coursesByLists['interested']['hits']['total'] %}
         {% endif %}
 
+        {% set transcriptCount = 0 %}
+        {% for list in listTypes %}
+            {% set courses =  coursesByLists[list.slug] %}
+            {% if courses is not empty %}
+                {% set transcriptCount = transcriptCount + courses['hits']['total'] %}
+            {% endif %}
+        {% endfor %}
+
 
         <div class="col-md-8 profile-content">
             <div class="tabbed-content">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#transcripts" role="tab" data-toggle="tab">Transcripts (67)</a></li>
+                    <li class="active"><a href="#transcripts" role="tab" data-toggle="tab">Transcripts ({{ transcriptCount }})</a></li>
                     <li><a href="#interested" role="tab" data-toggle="tab">Interested ({{ interestedCount }})</a></li>
                     <li><a href="#reviews" role="tab" data-toggle="tab">Reviews (7)</a></li>
                     <li><a href="#collections" role="tab" data-toggle="tab">Collections (24)</a></li>
@@ -89,62 +97,20 @@
                 <div class="tab-content">
 
                     <div class="tab-pane active" id="transcripts">
-                        <div class="tab-pane-item">
-                            <h3>
-                                <span class="item-title">Introduction to Databases</span>
-                                <span class="item-status">Completed</span>
-                            </h3>
-                            <span class="item-info">Jennifer Widom, Stanford OpenEdX, January–March 2014</span>
-                            <div class="rating-wrap">
-                                <span class="rating-text">I rate this course</span>
-                                <span class="course-rating" data-score="3"></span>
-                            </div>
+                        {% for list in listTypes %}
+                            {% set courses =  coursesByLists[list.slug] %}
+                            {% if courses is not empty %}
+                               <h2>{{ list.desc }} ( {{ courses['hits']['total'] }} )</h2>
+                                {% for result in courses['hits']['hits']  %}
+                                    {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
+                                    'course': result._source,
+                                    'userStatus' : list.desc
+                                    }) }}
+                                {% endfor %}
+                            {% endif %}
 
-                            <a href="#" class="read-review">Read review</a>
+                        {% endfor %}
 
-                            <span class="review-date">Written 3 months ago</span>
-                            <div itemprop="description">
-
-                                <div class="review-content">
-                                    <div class="review-full">
-                                        <span class="review-border"></span>
-                                        This course helped me get a job. Before doing this course, I had trouble clearing technical interviews. Infact, I couldn't even clear the phone interviews. "Algorithms: Design and Analysis, Part 1" was instrumental in clearing my first technical interview and helped me get a job as a Software Engineer in Silicon Valley.
-                                    </div>
-                                </div>
-
-                                <div class="review-info">
-                                    Benedict completed this course, spending 12 hours a week on it and
-                                    found the course difficulty to be medium.
-                                </div>
-                                <div class="question">Was this review helpful to you?
-						    	    <span class="yes-no">
-						    	    	<a href="#" class="review-feedback">YES</a> | <a href="#" class="review-feedback">NO</a>
-						    	    </span>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="tab-pane-item">
-                            <h3>
-                                <span class="item-title">Principles of Reactive Programming</span>
-                                <span class="item-status">Audited</span>
-                            </h3>
-                            <span class="item-info">Martin Odersky, Erik Meijer, Roland Kuhn, Coursera, November–December 2013</span>
-                        </div>
-                        <div class="tab-pane-item">
-                            <h3>
-                                <span class="item-title">Tales from the Genome</span>
-                                <span class="item-status">Dropped</span>
-                            </h3>
-                            <span class="item-info">Matthew Cook & Lauren Castellano, Udacity, December 2013</span>
-                        </div>
-                        <div class="tab-pane-item">
-                            <h3>
-                                <span class="item-title">Functional Prgoramming Principles in Scala</span>
-                                <span class="item-status">Completed</span>
-                            </h3>
-                            <span class="item-info">Martin Odersky, Coursera, September–November 2013</span>
-                        </div>
                     </div>
 
                     {# interested tab #}
