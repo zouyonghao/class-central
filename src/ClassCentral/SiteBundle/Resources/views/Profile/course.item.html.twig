@@ -30,4 +30,28 @@
                 {% endif %}
             </ul>
     </span>
+
+    {%  if review is defined and review is not empty %}
+    <div class="rating-wrap">
+        <span class="rating-text">I rate this course</span>
+        <span class="course-rating" data-score="{{ review.rating}}"></span>
+    </div>
+
+    <a href="#" class="read-review">Read review</a>
+        <span class="review-date">Written {{ review.displayDate }}</span>
+        <div itemprop="description">
+
+            <div class="review-content">
+                <div class="review-full">
+                    <span class="review-border"></span>
+                    {{ review.reviewText|striptags('<br>')|raw }}
+                </div>
+            </div>
+
+            <div class="review-info">
+                {{ user.displayName }} {{ review.reviewTitle|raw }}
+            </div>
+
+        </div>
+    {% endif %}
 </div>

@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -207,12 +208,19 @@ class ProfileController extends Controller
         // and contains additional information related to pagination
         $clDetails = $cl->userLibrary( $user, $request);
 
+        $reviews = array();
+        foreach($user->getReviews() as $review)
+        {
+            $r = ReviewUtility::getReviewArray($review);
+            $reviews[$r['course']['id']] = $r;
+        }
 
         return $this->render('ClassCentralSiteBundle:Profile:profile.html.twig', array(
                 'user' => $user,
                 'profile'=> $profile,
                 'listTypes' => UserCourse::$transcriptList,
-                'coursesByLists' => $clDetails['coursesByLists']
+                'coursesByLists' => $clDetails['coursesByLists'],
+                'reviews' => $reviews
             )
         );
 

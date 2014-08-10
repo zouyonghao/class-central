@@ -89,7 +89,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#transcripts" role="tab" data-toggle="tab">Transcripts ({{ transcriptCount }})</a></li>
                     <li><a href="#interested" role="tab" data-toggle="tab">Interested ({{ interestedCount }})</a></li>
-                    <li><a href="#reviews" role="tab" data-toggle="tab">Reviews (7)</a></li>
+                    <li><a href="#reviews" role="tab" data-toggle="tab">Reviews ({{ reviews|length }})</a></li>
                     <li><a href="#collections" role="tab" data-toggle="tab">Collections (24)</a></li>
                 </ul>
 
@@ -102,9 +102,16 @@
                             {% if courses is not empty %}
                                <h2>{{ list.desc }} ( {{ courses['hits']['total'] }} )</h2>
                                 {% for result in courses['hits']['hits']  %}
+                                    {% set review = null %}
+                                    {% set course = result._source %}
+                                    {% if reviews[course.id] is defined %}
+                                        {% set review = reviews[course.id] %}
+                                    {% endif %}
+
                                     {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
-                                    'course': result._source,
-                                    'userStatus' : list.desc
+                                        'course': course,
+                                        'userStatus' : list.desc,
+                                        'review': review
                                     }) }}
                                 {% endfor %}
                             {% endif %}
@@ -125,7 +132,21 @@
 
 
                     </div>
-                    <div class="tab-pane" id="reviews">reviews</div>
+                    <div class="tab-pane" id="reviews">
+                        <div class="course-all-reviews">
+                            {% if reviews|length >  0 %}
+                                <div class="single-reviews-wrap">
+                                    {% for review in reviews %}
+                                        {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review} %}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <header class="reviews-header">
+                                    <h2><span class="review-count">User hasent reviewed anything</span></h2>
+                                </header>
+                            {% endif %}
+                        </div>
+                    </div>
                     <div class="tab-pane" id="collections">collections</div>
                 </div>
             </div>
