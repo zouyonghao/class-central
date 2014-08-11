@@ -95,7 +95,7 @@ class ProfileController extends Controller
      * Displays a form to edit an existing Profile entity.
      *
      */
-    public function editAction($id)
+    public function editAdminAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -226,6 +226,28 @@ class ProfileController extends Controller
 
     }
 
+    /**
+     * Renders a page for the user  show the edit their profile
+     * Note: The firewall takes care of whether the user is logged in
+     * @param Request $request
+     */
+    public function editAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.context')->getToken()->getUser();
 
+        return $this->render('ClassCentralSiteBundle:Profile:profile.edit.html.twig',array(
+            'page' => 'edit_profile'
+        ));
+    }
+
+    /**
+     * Creates a profile for a particular user
+     * @param Request $request
+     */
+    public function createProfile(Request $request)
+    {
+
+    }
 
 }

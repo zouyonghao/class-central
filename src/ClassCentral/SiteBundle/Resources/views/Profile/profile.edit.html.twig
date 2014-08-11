@@ -1,0 +1,75 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+{% block headmeta %}
+    <title>Edit Profile</title>
+    <meta name="robots" content="noindex" />
+{% endblock %}
+
+{% block content %}
+    <div class="new-review full-new-review col-md-6">
+        <header>
+            <h2>Edit profile</h2>
+        </header>
+        <div class="review-form-wrap">
+            <form id="review-form" class="clearfix" method="post" action="#review-form">
+                <div class="text-wrap">
+                    <div class="review-text">
+                        <span class="review-field-label">About Me</span>
+                        <textarea id="review-text" name="review-text" placeholder=""></textarea>
+                    </div>
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Username</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Location</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Field of Study</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Highest Degree Obtained</span>
+                    <select id="highest-degree-obtained">
+                        <option>High School</option>
+                        <option>Associates Degree</option>
+                        <option>Bachelor's Degree</option>
+                        <option>Master's Degree</option>
+                        <option>Master of Business Administration (M.B.A)</option>
+                        <option>Juris Doctor (J.D.)</option>
+                        <option>Doctor of Medicine (M.D)</option>
+                        <option>Doctor of Philosophy</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Website</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Twitter</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Facebook</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Coursera</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">LinkedIn</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <div class="course-progress">
+                    <span class="review-field-label">Google Plus</span>
+                    <input type="text" id="ext-reviewer-name" value="" />
+                </div>
+                <a id="submit-review"  name="cc-send" href="#">Save</a>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

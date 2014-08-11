@@ -346,3 +346,7 @@ user_profile_dummy:
 user_profile:
   pattern: /u/{slug}
   defaults: {_controller: ClassCentralSiteBundle:Profile:profile}
+
+user_profile_edit:
+  pattern: /user/edit
+  defaults: {_controller: ClassCentralSiteBundle:Profile:edit }

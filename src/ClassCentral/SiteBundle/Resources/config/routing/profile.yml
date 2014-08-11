@@ -17,7 +17,7 @@ profile_create:
 
 profile_edit:
     pattern:  /{id}/edit
-    defaults: { _controller: "ClassCentralSiteBundle:Profile:edit" }
+    defaults: { _controller: "ClassCentralSiteBundle:Profile:editAdmin" }
 
 profile_update:
     pattern:  /{id}/update
