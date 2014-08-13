@@ -83,7 +83,7 @@
         <p><b>Links for Admin</b></p>
         <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
     {% endif %}
-    <div class="course-block row" itemscope itemtype="http://schema.org/Product">
+    <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
         <div class="course-meta-main">
@@ -97,7 +97,7 @@
                 {% endif %}
             </div>
             <div class='course-info'>
-                <h1 class="course-title" itemprop="name">{{ course['name'] }}</h1>
+                <h1 class="course-title" itemprop="itemreviewed">{{ course['name'] }}</h1>
                 {#
                 <div class="course-rating-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
                     <div class="course-rating" data-score="{{ rating }}">
@@ -162,7 +162,7 @@
                         <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                     {% endif %}
                 </div>
-                <div class="course-desc" itemprop="description">
+                <div class="course-desc">
                     {{ course.desc|raw }}
 
                     {% if course.syllabus %}
@@ -279,14 +279,14 @@
                     </span>
             </div>
 
-            <div class="course-data-row course-reviews" id="course-reviews"  itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+            <div class="course-data-row course-reviews" id="course-reviews" itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating">
                 <span class="course-data-icon"></span>
                     <span class="course-data-value">
                         <div class="average-rating course-rating" data-score="{{ rating }}">
-                            <meta itemprop="ratingValue" content="{{ rating }}">
-                            <meta itemprop="worstRating" content = "1"/>
-                            <meta itemprop="bestRating" content = "5"/>
-                            <meta itemprop="reviewCount" content = "{{ reviews.reviews|length }}"/>
+                            <meta itemprop="average" content="{{ rating }}">
+                            <meta itemprop="best" content = "5"/>
+                            <meta itemprop="count" content = "{{ reviews.reviews|length }}"/>
+                            <meta itemprop="votes" content = "{{ reviews.reviews|length }}"/>
                         </div>
                         <span class="review-count">
                             <a href="#course-all-reviews"  class="review-button">{{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
@@ -427,7 +427,7 @@
                                 <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
                                    onmousedown='recordInboundLink(
                                            "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
-                                           "{{initiative}}","{{course.name}}","recommended");return false' ><span itemprop="name">{{ course.name }}</span></a>
+                                           "{{initiative}}","{{course.name}}","recommended");return false' ><span>{{ course.name }}</span></a>
 
                                     <ul class="table-uni-list">
                                         {% if course.institutions|length %}

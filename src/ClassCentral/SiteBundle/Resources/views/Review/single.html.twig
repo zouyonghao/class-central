@@ -1,21 +1,19 @@
 
-<div class="single-review" itemprop="review" itemscope itemtype="http://schema.org/Review">
+<div class="single-review"  itemscope itemtype="http://data-vocabulary.org/Review">
     {% if review.fb.total > 0 %}
         <div class="review-feedback">{{review.fb.positive }} out of {{ review.fb.total  }} people found the following review useful</div>
     {% endif %}
     {# <span class="author" itemprop="author">{{ review.user.name }}</span> #}
-    <div class="small-star-rating small-rating-{{ review.rating }}" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+    <div class="small-star-rating small-rating-{{ review.rating }}">
         <span class="star-rating-1"></span>
         <span class="star-rating-2"></span>
         <span class="star-rating-3"></span>
         <span class="star-rating-4"></span>
         <span class="star-rating-5"></span>
-        <meta itemprop="ratingValue" content="{{ review.rating }}">
-        <meta itemprop="worstRating" content = "1"/>
-        <meta itemprop="bestRating" content = "5"/>
+        <meta itemprop="rating" content="{{ review.rating }}">
     </div>
     {% if course is defined %}
-        <meta itemprop="about" content="{{ course.name}}">
+        <meta itemprop="itemreviewed" content="{{ course.name}}">
     {% else %}
         {# This is for My Reviews page#}
         <span class="author"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}"> {{ review.course.name }}</a></span>
@@ -33,12 +31,11 @@
         {% set reviewer = review.user.name  %}
     {% endif %}
 
-    <meta itemprop="author" content = "{{reviewer}}"/>
-    <meta itemprop="name" content="{{ reviewer }} {{ review.reviewTitle|raw }}">
-    <span class="review-date">{{ review.displayDate }}<meta itemprop="datePublished" content="{{ review.publishedDate }}"></span>
+    <meta itemprop="reviewer" content = "{{reviewer}}"/>
+    <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" datetime="{{ review.publishedDate }}"></span>
     <div style="clear:both"></div>
-    <div itemprop="description">
-        <div class="review-title"><span class="author">{{ reviewer  }}</span> {{ review.reviewTitle|raw }}</div>
+    <div>
+        <div class="review-title"  itemprop="summary"><span class="author">{{ reviewer  }}</span> {{ review.reviewTitle|raw }}</div>
 
         <div class="review-content">
         {% if review.reviewText and review.reviewText|length >400 %}
@@ -52,7 +49,7 @@
                 </a>
             </div>
         {% endif %}
-        <div class="review-full">
+        <div class="review-full" itemprop="description">
             {{ review.reviewText|striptags('<br>')|raw }}
         </div>
         </div>
