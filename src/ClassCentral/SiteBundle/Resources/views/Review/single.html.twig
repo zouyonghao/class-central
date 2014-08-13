@@ -32,7 +32,7 @@
     {% endif %}
 
     <meta itemprop="reviewer" content = "{{reviewer}}"/>
-    <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" datetime="{{ review.publishedDate }}"></span>
+    <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
     <div style="clear:both"></div>
     <div>
         <div class="review-title"  itemprop="summary"><span class="author">{{ reviewer  }}</span> {{ review.reviewTitle|raw }}</div>
