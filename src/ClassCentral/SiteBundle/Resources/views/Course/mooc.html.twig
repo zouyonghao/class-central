@@ -285,11 +285,10 @@
                         <div class="average-rating course-rating" data-score="{{ rating }}">
                             <meta itemprop="average" content="{{ rating }}">
                             <meta itemprop="best" content = "5"/>
-                            <meta itemprop="count" content = "{{ reviews.reviews|length }}"/>
                             <meta itemprop="votes" content = "{{ reviews.reviews|length }}"/>
                         </div>
                         <span class="review-count">
-                            <a href="#course-all-reviews"  class="review-button">{{ reviews.reviews|length }} {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
+                            <a href="#course-all-reviews"  class="review-button"><span itemprop="count">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
                         </span>
                         {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
                             <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
