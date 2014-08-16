@@ -622,26 +622,6 @@ jQuery(function($) {
         }
     };
 
-    // Autocomplete
-    /*
-     $('#st-search-input').swiftype({
-     renderFunction: customRenderFunction,
-     engineKey: '{{ swiftype_engine_key }}',
-     filters: {
-     'courses' : {'status':{
-     'type' : 'range',
-     'to' : 99
-     }},
-     'universities': {'courseCount':{
-     'type' : 'range',
-     'from' : '1'
-     }}
-     }
-     });
-     */
-
-
-
     // Navbar search button
     $('#navbar-search-btn').click(function(e){
         e.preventDefault();

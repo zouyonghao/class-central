@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
+use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -421,6 +422,55 @@ class User {
 
             $userSession->saveUserInformationInSession();
         }
+    }
+
+    /**
+     *
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @param $profileData Data collected from the form
+     */
+    public function saveProfile(\ClassCentral\SiteBundle\Entity\User $user, $profileData)
+    {
+        $em = $this->em;
+
+        $profile = $user->getProfile();
+        if(!$profile)
+        {
+            $profile = new Profile();
+            $profile->setUser( $user );
+        }
+
+        $profile->setAboutMe( $profileData['aboutMe'] );
+        $profile->setLocation( $profileData['location'] );
+        $profile->setFieldOfStudy( $profileData['fieldOfStudy']);
+        if(!empty($profileData['highestDegree']) && is_int($profileData['highestDegree']))
+        {
+            $degreeId = intval( $profileData['highestDegree'] );
+            if( isset(Profile::$degrees[$degreeId]))
+            {
+                $profile->setHighestDegree( Profile::$degrees[$degreeId] );
+            }
+        }
+
+        // Profile links
+        $profile->setTwitter( $profileData['twitter'] );
+        $profile->setCoursera( $profileData['coursera']);
+        $profile->setLinkedin( $profileData['linkedin'] );
+        $profile->setWebsite( $profileData['website']);
+        $profile->setGplus( $profileData['gplus']);
+        $profile->setFacebook( $profileData['facebook']);
+
+        $em->persist( $profile );
+        $em->flush();
+
+
+        $userSession = $this->container->get('user_session');
+        $user->notifyUser(
+            UserSession::FLASH_TYPE_SUCCESS,
+            'Profile updated',
+            ''
+        );
+        return $user;
     }
 
 

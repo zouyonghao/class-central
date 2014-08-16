@@ -242,12 +242,21 @@ class ProfileController extends Controller
     }
 
     /**
-     * Creates a profile for a particular user
+     * Ajax call that takes a
      * @param Request $request
      */
-    public function createProfile(Request $request)
+    public function saveProfileAction(Request $request )
     {
+        $user = $this->container->get('security.context')->getToken()->getUser();
 
+        // Get the json post data
+        $content = $this->getRequest("request")->getContent();
+        if(empty($content))
+        {
+            return $this->getAjaxResponse(false, "Error retrieving profile details from form");
+        }
+        $profileData = json_decode($content, true);
+        $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
     }
 
 }

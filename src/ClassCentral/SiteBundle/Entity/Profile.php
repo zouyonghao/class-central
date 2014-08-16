@@ -75,6 +75,18 @@ class Profile
     private $user;
 
 
+    public static $degrees = array(
+        'High School',
+        'Associates Degree',
+        'Bachelors Degree',
+        'Masters Degree',
+        'Master of Business Administration (M.B.A)',
+        'Juris Doctor (J.D.)',
+        'Doctor of Medicine (M.D)',
+        'Doctor of Philosophy',
+        'Others'
+    );
+
     /**
      * Get id
      *
