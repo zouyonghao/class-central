@@ -440,6 +440,15 @@ class User {
             $profile->setUser( $user );
         }
 
+        // Update the name
+        $name = $profileData['name'];
+        if(empty($name) || strlen($name) < 3)
+        {
+            // Name validation failed
+            return false;
+        }
+        $user->setName($name);
+
         $profile->setAboutMe( $profileData['aboutMe'] );
         $profile->setLocation( $profileData['location'] );
         $profile->setFieldOfStudy( $profileData['fieldOfStudy']);
@@ -463,6 +472,14 @@ class User {
 
         $em->persist( $profile );
         $em->flush();
+
+        // Put a flash message to notify the user that the profile has been updated
+        $userSession = $this->container->get('user_session');
+        $userSession->notifyUser(
+            UserSession::FLASH_TYPE_SUCCESS,
+            'Profile Updated',
+            ''
+        );
 
         return true;
     }

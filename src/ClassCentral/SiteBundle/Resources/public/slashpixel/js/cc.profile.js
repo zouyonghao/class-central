@@ -1,4 +1,4 @@
-var CC = {
+var CC = CC || {
     Class : {}
 }
 
@@ -6,6 +6,7 @@ CC.Class['Profile'] = (function(){
 
     var postUrl = '/user/profile/save';
     var button = null;
+    var utilities = CC.Class['Utilities'];
 
     function getFormFields() {
         var aboutMe =  $('textarea[name=about-me]').val();
@@ -48,22 +49,34 @@ CC.Class['Profile'] = (function(){
     }
 
     function validate( profile ){
-
+        var validationError = false;
+        // Name cannot be empty and should be
+        // atleast 3 letters long
+        if(utilities.isEmpty(profile.name) && profile.name.length < 3 ) {
+            validationError = true;
+            $('#full-name-error').show();
+        } else {
+            $('#full-name-error').hide();
+        }
+        return validationError;
     }
 
-    function handler() {
+    function handler(event) {
+        event.preventDefault();
         // Disable the save profile button
         button.attr('disabled',true);
         var profile = getFormFields();
-        console.log(profile);
-        console.log( JSON.stringify(profile) );
         var validationError = validate(profile);
 
         if(!validationError) {
             // Ajax post to save the profile
             save(profile);
         } else {
-
+            utilities.notify(
+                "Profile Validation Error",
+                "Please make sure to enter only valid values in the form",
+                "error"
+            );
         }
 
     }
@@ -82,9 +95,16 @@ CC.Class['Profile'] = (function(){
                 function(result) {
                     result = JSON.parse(result);
                     if( result['success'] ){
-                        // Show a success result
+                        // Refresh the page
+                        location.reload(true);
                     } else {
                         // Show an error message
+                        utilities.notifyWithDelay(
+                            'Error saving profile',
+                            'Some error occurred, please try again later',
+                            'error',
+                            60
+                        );
                     }
                 }
             );
@@ -97,4 +117,3 @@ CC.Class['Profile'] = (function(){
 })();
 
 CC.Class['Profile'].init('#save-profile');
-console.log('Profile');
