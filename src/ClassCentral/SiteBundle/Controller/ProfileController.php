@@ -195,9 +195,24 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $cl = $this->get('course_listing');
 
-        $user_id = intval( $slug );
 
-        $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $user_id );
+        if(is_numeric($slug))
+        {
+            $user_id = intval( $slug );
+            $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $user_id );
+            if($user->getHandle())
+            {
+                // Redirect the user to the profile url
+                $url = $this->get('router')->generate('user_profile_handle', array('slug' => $user->getHandle()));
+                return $this->redirect($url,301);
+            }
+        }
+        else
+        {
+            $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array('handle'=> $slug) );
+        }
+
+
         if(!$user)
         {
             // User not found

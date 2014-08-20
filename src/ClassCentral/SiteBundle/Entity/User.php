@@ -113,12 +113,13 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      */
-    private $username;
+    private $handle;
 
     /**
      * @var \ClassCentral\SiteBundle\Entity\Profile
      */
     private $profile;
+
 
 
     const SIGNUP_TYPE_FORM = 1;
@@ -744,16 +745,24 @@ class User implements UserInterface, \Serializable
 
 
     /**
-     * Set username
+     * Set handle
      *
-     * @param string $username
+     * @param string $handle
      * @return User
      */
-    public function setUsername($username)
+    public function setHandle($handle)
     {
-        $this->username = $username;
+        $this->handle = $handle;
     
         return $this;
+    }
+
+    /**
+     * @return string username field stored in the database
+     */
+    public function getHandle()
+    {
+        return $this->handle;
     }
 
     /**

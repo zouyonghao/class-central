@@ -54,7 +54,7 @@ ClassCentral\SiteBundle\Entity\User:
             unsigned: false
             nullable: true
             column: signup_type
-        username:
+        handle:
             type: string
             length: 25
             fixed: false

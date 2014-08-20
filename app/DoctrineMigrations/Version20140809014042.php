@@ -41,7 +41,7 @@ class Version20140809014042 extends AbstractMigration
         // Add a username column to the users table
         $this->addSql("
             ALTER TABLE users
-            ADD COLUMN username VARCHAR(25) NULL UNIQUE
+            ADD COLUMN handle VARCHAR(25) NULL UNIQUE
         ");
 
     }
