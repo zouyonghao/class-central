@@ -431,7 +431,7 @@ class User {
      */
     public function saveProfile(\ClassCentral\SiteBundle\Entity\User $user, $profileData)
     {
-        $em = $this->em;
+        $em = $this->container->get('doctrine')->getManager();
 
         $profile = $user->getProfile();
         if(!$profile)
@@ -443,7 +443,8 @@ class User {
         $profile->setAboutMe( $profileData['aboutMe'] );
         $profile->setLocation( $profileData['location'] );
         $profile->setFieldOfStudy( $profileData['fieldOfStudy']);
-        if(!empty($profileData['highestDegree']) && is_int($profileData['highestDegree']))
+
+        if(!empty($profileData['highestDegree']))
         {
             $degreeId = intval( $profileData['highestDegree'] );
             if( isset(Profile::$degrees[$degreeId]))
@@ -463,14 +464,7 @@ class User {
         $em->persist( $profile );
         $em->flush();
 
-
-        $userSession = $this->container->get('user_session');
-        $user->notifyUser(
-            UserSession::FLASH_TYPE_SUCCESS,
-            'Profile updated',
-            ''
-        );
-        return $user;
+        return true;
     }
 
 

@@ -32,15 +32,9 @@
                 <div class="course-progress">
                     <span class="review-field-label">Highest Degree Obtained</span>
                     <select id="highest-degree-obtained" name="highest-degree">
-                        <option value="1">High School</option>
-                        <option>Associates Degree</option>
-                        <option>Bachelor's Degree</option>
-                        <option>Master's Degree</option>
-                        <option>Master of Business Administration (M.B.A)</option>
-                        <option>Juris Doctor (J.D.)</option>
-                        <option>Doctor of Medicine (M.D)</option>
-                        <option>Doctor of Philosophy</option>
-                        <option>Other</option>
+                        {% for id,degree in degrees%}
+                            <option value="{{ id }}">{{ degree }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="course-progress">

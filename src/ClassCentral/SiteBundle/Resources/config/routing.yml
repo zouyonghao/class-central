@@ -350,3 +350,7 @@ user_profile:
 user_profile_edit:
   pattern: /user/edit
   defaults: {_controller: ClassCentralSiteBundle:Profile:edit }
+
+user_profile_save:
+  pattern: /user/profile/save
+  defaults: {_controller: ClassCentralSiteBundle:Profile:Save }

@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -237,7 +238,8 @@ class ProfileController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
 
         return $this->render('ClassCentralSiteBundle:Profile:profile.edit.html.twig',array(
-            'page' => 'edit_profile'
+            'page' => 'edit_profile',
+            'degrees' => Profile::$degrees
         ));
     }
 
@@ -245,9 +247,10 @@ class ProfileController extends Controller
      * Ajax call that takes a
      * @param Request $request
      */
-    public function saveProfileAction(Request $request )
+    public function saveAction(Request $request )
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
+        $userService = $this->get('user_service');
 
         // Get the json post data
         $content = $this->getRequest("request")->getContent();
@@ -257,6 +260,10 @@ class ProfileController extends Controller
         }
         $profileData = json_decode($content, true);
         $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');
+
+        $response = $userService->saveProfile( $user, $profileData);
+
+        return UniversalHelper::getAjaxResponse($response);
     }
 
 }

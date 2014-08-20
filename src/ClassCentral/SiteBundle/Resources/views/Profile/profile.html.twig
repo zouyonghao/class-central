@@ -17,22 +17,35 @@
                     </a>
                 {% endif %}
 
-                <a href="#" class="profile-social-icon profile-twitter">
-                    <svg class="icon icon-twitter" viewBox="0 0 32 32"><use xlink:href="#icon-twitter"></use></svg>
-                </a>
-                <a href="#" class="profile-social-icon profile-facebook">
-                    <svg class="icon icon-facebook" viewBox="0 0 32 32"><use xlink:href="#icon-facebook"></use></svg>
-                </a>
+                {% if profile.twitter %}
+                    <a href="https://twitter.com/{{ profile.twitter }}" class="profile-social-icon profile-twitter">
+                        <svg class="icon icon-twitter" viewBox="0 0 32 32"><use xlink:href="#icon-twitter"></use></svg>
+                    </a>
+                {% endif %}
 
-                <a href="#" class="profile-social-icon profile-linkedin">
-                    <svg class="icon icon-linkedin" viewBox="0 0 32 32"><use xlink:href="#icon-linkedin"></use></svg>
-                </a>
-                <a href="#" class="profile-social-icon coursera-profile">
-                    <svg class="icon icon-coursera" viewBox="0 0 32 32"><use xlink:href="#icon-coursera"></use></svg>
-                </a>
-                <a href="#" class="profile-social-icon google-profile">
-                    <svg class="icon icon-googleplus" viewBox="0 0 32 32"><use xlink:href="#icon-googleplus"></use></svg>
-                </a>
+                {% if profile.facebook %}
+                    <a href="https://facebook.com/{{ profile.facebook }}" class="profile-social-icon profile-facebook">
+                        <svg class="icon icon-facebook" viewBox="0 0 32 32"><use xlink:href="#icon-facebook"></use></svg>
+                    </a>
+                {% endif %}
+
+                {% if profile.linkedin %}
+                    <a href="http://www.linkedin.com/in/{{ profile.linkedin }}/" class="profile-social-icon profile-linkedin">
+                        <svg class="icon icon-linkedin" viewBox="0 0 32 32"><use xlink:href="#icon-linkedin"></use></svg>
+                    </a>
+                {% endif %}
+
+                {% if profile.coursera %}
+                    <a href="https://www.coursera.org/user/i/{{ profile.coursera }}" class="profile-social-icon coursera-profile">
+                        <svg class="icon icon-coursera" viewBox="0 0 32 32"><use xlink:href="#icon-coursera"></use></svg>
+                    </a>
+                {% endif %}
+
+                {% if profile.gplus %}
+                    <a href="https://plus.google.com/{{ profile.gplus }}" class="profile-social-icon google-profile">
+                        <svg class="icon icon-googleplus" viewBox="0 0 32 32"><use xlink:href="#icon-googleplus"></use></svg>
+                    </a>
+                {% endif %}
             </div>
 
 
