@@ -29,7 +29,8 @@
         "facebook/php-sdk": " ~3.2.3",
         "elasticsearch/elasticsearch": "~1.0",
 	    "leafo/lessphp": "dev-master",
-        "oyejorge/less.php": "dev-master"
+        "oyejorge/less.php": "dev-master",
+        "aws/aws-sdk-php": "2.6.15"
     },
     "repositories" : [
 	{
