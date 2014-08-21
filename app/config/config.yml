@@ -161,6 +161,9 @@ services:
   tag:
         class: ClassCentral\SiteBundle\Services\Tag
         arguments: ['@service_container']
+  kuber:
+        class: ClassCentral\SiteBundle\Services\Kuber
+        arguments: ['@service_container','%kuber_aws_access_key%','%kuber_aws_access_secret%','%kuber_bucket_name%']
   # elastic serach indexer
   es_indexer:
         class: ClassCentral\ElasticSearchBundle\Indexer

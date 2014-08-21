@@ -64,3 +64,8 @@ parameters:
     #elastic search
     es_index_name: ~
     es_scheduler_index_name: ~
+
+    # Kuber setting:
+    kuber_aws_access_key: ~
+    kuber_aws_access_secret: ~
+    kuber_bucket_name: ~
