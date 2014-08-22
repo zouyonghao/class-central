@@ -8,6 +8,7 @@
 
 namespace ClassCentral\SiteBundle\Services;
 use Aws\S3\S3Client;
+use ClassCentral\SiteBundle\Entity\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -23,6 +24,8 @@ class Kuber {
     private  $awsAccessKey;
     private  $awsAccessSecret;
     private  $s3Bucket;
+
+    const KUBER_ENTITY_USER = 'User';
 
     private function getS3Client()
     {
@@ -47,7 +50,7 @@ class Kuber {
 
     /**
      * Uploads the file
-     * @param $file
+     * @param $file Path of the file
      * @param $entity
      * @param $type
      * @param $entity_id
@@ -55,11 +58,71 @@ class Kuber {
     public function upload( $file, $entity, $type, $entity_id)
     {
         $client = $this->getS3Client();
-        return $client->putObject(array(
-            'Bucket' => $this->s3Bucket,
-            'Key' => 'random_key',
-            'Body' => 'hello world!'
+        $em = $this->container->get('doctrine')->getManager();
+        $logger = $this->getLogger();
+
+        $name = $this->generateFileName( $file );
+        // Check if the file already exists
+        $fileRecord = $em->getRepository('ClassCentralSiteBundle:File')->findOneBy(array(
+            'entity' => $entity,
+            'type'   => $type,
+            'entityId' => $entity_id
         ));
+        if( $fileRecord )
+        {
+            // Delete the original file
+            try
+            {
+                $result = $client->deleteObject(array(
+                    'Bucket' => $this->s3Bucket,
+                    'Key'    => $fileRecord->getFileName()
+                ));
+            } catch(\Exception $e)
+            {
+                $logger->error( "Error trying to delete file during upload " . $e->getMessage(),array(
+                    'Entity' => $entity,
+                    'Entity_Id'=> $entity_id,
+                    'Type' => $type
+                ));
+            }
+
+
+            // Update the name
+            $fileRecord->setFileName( $name );
+            $fileRecord->setFileType( mime_content_type($file) );
+        }
+        else
+        {
+            $fileRecord =  new File();
+            $fileRecord->setEntity( $entity );
+            $fileRecord->setType( $type );
+            $fileRecord->setEntityId( $entity_id );
+            $fileRecord->setFileName( $name );
+            $fileRecord->setFileType( mime_content_type($file) );
+        }
+        try
+        {
+            $result = $client->putObject(array(
+                'Bucket' => $this->s3Bucket,
+                'Key' => $name,
+                'SourceFile' => $file
+            ));
+            $logger->info( "File uploaded for Entity $entity with type $type and Entity Id $entity_id",  (array)$result);
+
+            $em->persist($fileRecord);
+            $em->flush();
+
+            return $fileRecord;
+        } catch ( \Exception $e) {
+            // Log the exception
+            $logger->error( "Exception occurred while uploading file - " . $e->getMessage(),array(
+                'Entity' => $entity,
+                'Entity_Id'=> $entity_id,
+                'Type' => $type
+            ));
+            return false;
+        }
+
     }
 
     /**
@@ -71,5 +134,22 @@ class Kuber {
     public function getUrl($entity,$type,$entity_id)
     {
 
+    }
+
+    private function  generateFileName( $filePath )
+    {
+        $fileParts = pathinfo($filePath);
+        $time = microtime();
+
+        return substr(md5( $this->generateRandomString() + $time ),0,12). '.' . $fileParts['extension'] ;
+    }
+
+    private function getLogger()
+    {
+        return $this->container->get('logger');
+    }
+
+    private function generateRandomString($length = 10) {
+        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
     }
 } 
