@@ -24,8 +24,9 @@ class Kuber {
     private  $awsAccessKey;
     private  $awsAccessSecret;
     private  $s3Bucket;
+    private  $baseUrl;
 
-    const KUBER_ENTITY_USER = 'User';
+    const KUBER_ENTITY_USER = 'users';
 
     private function getS3Client()
     {
@@ -40,42 +41,40 @@ class Kuber {
         return $this->s3Client;
     }
 
-    public function __construct(ContainerInterface $container, $aws_access_key, $aws_access_secret, $s3_bucket)
+    public function __construct(ContainerInterface $container, $aws_access_key, $aws_access_secret, $s3_bucket,$base_url)
     {
         $this->container = $container;
         $this->awsAccessKey = $aws_access_key;
         $this->awsAccessSecret = $aws_access_secret;
         $this->s3Bucket = $s3_bucket;
+        $this->baseUrl = $base_url;
     }
 
     /**
-     * Uploads the file
-     * @param $file Path of the file
-     * @param $entity
-     * @param $type
-     * @param $entity_id
+     * Uploads the file to the Amazon s3.
+     * Entity, type, and entityId are the unique keys
+     * @param $filePath Path of the file
+     * @param $entity type of entity i.e User
+     * @param $type type of file related to the entity i.e Spotlight, Profile Pic etc
+     * @param $entity_id i.e user_id, course_id
      */
-    public function upload( $file, $entity, $type, $entity_id)
+    public function upload( $filePath, $entity, $type, $entity_id)
     {
         $client = $this->getS3Client();
         $em = $this->container->get('doctrine')->getManager();
         $logger = $this->getLogger();
 
-        $name = $this->generateFileName( $file );
+        $name = $this->generateFileName( $filePath );
         // Check if the file already exists
-        $fileRecord = $em->getRepository('ClassCentralSiteBundle:File')->findOneBy(array(
-            'entity' => $entity,
-            'type'   => $type,
-            'entityId' => $entity_id
-        ));
-        if( $fileRecord )
+        $file = $this->getFile( $entity,$type,$entity_id);
+        if( $file )
         {
             // Delete the original file
             try
             {
                 $result = $client->deleteObject(array(
                     'Bucket' => $this->s3Bucket,
-                    'Key'    => $fileRecord->getFileName()
+                    'Key'    => $this->getKeyName( $file )
                 ));
             } catch(\Exception $e)
             {
@@ -86,33 +85,33 @@ class Kuber {
                 ));
             }
 
-
-            // Update the name
-            $fileRecord->setFileName( $name );
-            $fileRecord->setFileType( mime_content_type($file) );
+            // Update the file name
+            $file->setFileName( $name );
+            $file->setFileType( mime_content_type($filePath) );
         }
         else
         {
-            $fileRecord =  new File();
-            $fileRecord->setEntity( $entity );
-            $fileRecord->setType( $type );
-            $fileRecord->setEntityId( $entity_id );
-            $fileRecord->setFileName( $name );
-            $fileRecord->setFileType( mime_content_type($file) );
+            $file =  new File();
+            $file->setEntity( $entity );
+            $file->setType( $type );
+            $file->setEntityId( $entity_id );
+            $file->setFileName( $name );
+            $file->setFileType( mime_content_type($filePath) );
         }
         try
         {
+            // Upload the file
             $result = $client->putObject(array(
                 'Bucket' => $this->s3Bucket,
-                'Key' => $name,
-                'SourceFile' => $file
+                'Key' => $this->getKeyName( $file),
+                'SourceFile' => $filePath
             ));
             $logger->info( "File uploaded for Entity $entity with type $type and Entity Id $entity_id",  (array)$result);
 
-            $em->persist($fileRecord);
+            $em->persist($file);
             $em->flush();
 
-            return $fileRecord;
+            return $file;
         } catch ( \Exception $e) {
             // Log the exception
             $logger->error( "Exception occurred while uploading file - " . $e->getMessage(),array(
@@ -122,7 +121,6 @@ class Kuber {
             ));
             return false;
         }
-
     }
 
     /**
@@ -133,15 +131,64 @@ class Kuber {
      */
     public function getUrl($entity,$type,$entity_id)
     {
-
+        $file = $this->getFile($entity,$type,$entity_id);
+        if($file)
+        {
+            return $this->getUrlFromFile($file);
+        }
     }
 
+    /**
+     * Returns the url for particular file
+     * @param File $file
+     * @return string
+     */
+    public function getUrlFromFile(File $file)
+    {
+        $keyName = $this->getKeyName( $file );
+        return $this->baseUrl . '/' . $keyName;
+    }
+
+    /**
+     * Gets the file entity from the data base
+     * @param $entity
+     * @param $type
+     * @param $entity_id
+     * @return mixed
+     */
+    public function getFile($entity,$type,$entity_id)
+    {
+        $client = $this->getS3Client();
+        $em = $this->container->get('doctrine')->getManager();
+
+        return $em->getRepository('ClassCentralSiteBundle:File')->findOneBy(array(
+            'entity' => $entity,
+            'type'   => $type,
+            'entityId' => $entity_id
+        ));
+    }
+
+    /**
+     * Generates a unique filename
+     * @param $filePath
+     * @return string
+     */
     private function  generateFileName( $filePath )
     {
         $fileParts = pathinfo($filePath);
         $time = microtime();
 
         return substr(md5( $this->generateRandomString() + $time ),0,12). '.' . $fileParts['extension'] ;
+    }
+
+    /**
+     * Builds a key name for S3.
+     * @param File $file
+     * @return string
+     */
+    private function getKeyName( File $file)
+    {
+        return strtolower( $file->getEntity() . '/' . $file->getType() . '/' . $file->getFileName() );
     }
 
     private function getLogger()
