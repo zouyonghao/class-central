@@ -16,7 +16,7 @@
             >
 
             <!-- modal for showing crop photo -->
-            <div id="crop-photo-modal" class="modal fade">
+            <div id="crop-photo-modal" class="modal fade" data-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -24,7 +24,9 @@
                             <h4 class="modal-title">Crop photo</h4>
                         </div>
                         <div class="modal-body">
-                            <img id="profile-pic-crop" src="" />
+                            <div id="spinner-wrapper" style="height:200px">
+                                <span id="searching_spinner_center" style="position: absolute;display: block;top: 50%;left: 50%;"></span>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

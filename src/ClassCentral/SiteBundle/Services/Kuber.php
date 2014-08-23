@@ -181,7 +181,7 @@ class Kuber {
 
             if(isset($fileParts['extension']))
             {
-                $ext = $fileParts['extension'];
+                $extension = $fileParts['extension'];
             }
         }
         $time = microtime();

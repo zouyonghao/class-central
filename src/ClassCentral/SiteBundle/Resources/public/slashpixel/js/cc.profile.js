@@ -13,6 +13,15 @@ CC.Class['Profile'] = (function(){
         w: 100,
         h: 100
     }
+    var cropProfilePicSettings = {
+        imgDiv: "profile-pic-crop",
+        modal: '#crop-photo-modal',
+        spinner:'searching_spinner_center',
+        spinnerWrapper:'#spinner-wrapper'
+
+    }
+
+    var jcropApi = null;
 
     function getFormFields() {
         var aboutMe =  $('textarea[name=about-me]').val();
@@ -59,6 +68,33 @@ CC.Class['Profile'] = (function(){
 
         // Bind fileupload plugin callbacks
         $(profile_image_upload_btn_id)
+            .bind('fileuploadstart', function(){
+                var opts = {
+                    lines: 13, // The number of lines to draw
+                    length: 20, // The length of each line
+                    width: 10, // The line thickness
+                    radius: 30, // The radius of the inner circle
+                    corners: 1, // Corner roundness (0..1)
+                    rotate: 0, // The rotation offset
+                    direction: 1, // 1: clockwise, -1: counterclockwise
+                    color: '#000', // #rgb or #rrggbb or array of colors
+                    speed: 1, // Rounds per second
+                    trail: 60, // Afterglow percentage
+                    shadow: false, // Whether to render a shadow
+                    hwaccel: false, // Whether to use hardware acceleration
+                    className: 'spinner', // The CSS class to assign to the spinner
+                    zIndex: 2e9, // The z-index (defaults to 2000000000)
+                    top: 'auto', // Top position relative to parent in px
+                    left:'auto' // Left position relative to parent in px
+                };
+                var target = document.getElementById(cropProfilePicSettings.spinner);
+                var spinner = new Spinner(opts).spin(target);
+                $(target).data('spinner', spinner);
+                $(cropProfilePicSettings.spinnerWrapper).show();
+                $(cropProfilePicSettings.modal).modal('show');
+
+
+            })
             .bind('fileuploaddone', postStep1)
             .bind('fileuploadfail', function (e, data) {
                 // File upload failed. Show an error message
@@ -71,6 +107,8 @@ CC.Class['Profile'] = (function(){
 
         // Crop button
         $(btn_crop).click(cropButtonHandler);
+
+        $(cropProfilePicSettings.modal).on('hidden.bs.modal', hideModalHandler);
     }
 
     function showCoords(c) {
@@ -83,12 +121,16 @@ CC.Class['Profile'] = (function(){
 
     };
 
+
     /**
      * This function is called after the step 1 of profile image
      * upload is executed on the backend
      */
     function postStep1(e,data ){
         var result = JSON.parse(data.result);
+        // Hide the spinner
+        $('#'+ cropProfilePicSettings.spinner).data('spinner').stop();
+        $(cropProfilePicSettings.spinnerWrapper).hide();
         if(!result.success){
             utilities.notify(
                 "Profile photo upload error",
@@ -98,22 +140,22 @@ CC.Class['Profile'] = (function(){
         } else {
             // Image uploaded. Load the crop plugin
             var imgUrl = result.message.imgUrl;
-            var imgDiv = "#profile-pic-crop";
-            $( imgDiv ).attr(
-                'src',
-                imgUrl
-            );
-            $(imgDiv).Jcrop({
-                minSize:      [100,100],
-                bgColor:      'black',
-                boxWidth:     400,
-                bgOpacity:   .4,
-                aspectRatio: 1,
-                setSelect:   [0,0,100,100],
-                onSelect:    showCoords,
-                onChange:    showCoords
-            });
-            $('#crop-photo-modal').modal('show')
+            $("<img src='" + imgUrl+"' id='" + cropProfilePicSettings.imgDiv + "'/>").load(function() {
+                $(this).appendTo(cropProfilePicSettings.modal + " .modal-body");
+                $('#'+cropProfilePicSettings.imgDiv).Jcrop({
+                        minSize:      [200,200],
+                        maxSize:      [800,800],
+                        bgColor:      'black',
+                        boxWidth:     400,
+                        bgOpacity:   .4,
+                        aspectRatio: 1,
+                        setSelect:   [0,0,400,400],
+                        onSelect:    showCoords,
+                        onChange:    showCoords
+                    },function(){
+                        jcropApi = this;
+                    });
+                });
         }
     }
 
@@ -140,6 +182,17 @@ CC.Class['Profile'] = (function(){
                 );
             }
         });
+    }
+
+    /**
+     * Its called modal is hidden. The goal here is up
+     * the jcrop plugin
+     *
+     */
+    function hideModalHandler(){
+        jcropApi.destroy();
+        // Remove the image from the dom
+        $('#'+ cropProfilePicSettings.imgDiv).remove();
     }
 
     /**
