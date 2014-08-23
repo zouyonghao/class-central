@@ -58,13 +58,13 @@ class Kuber {
      * @param $type type of file related to the entity i.e Spotlight, Profile Pic etc
      * @param $entity_id i.e user_id, course_id
      */
-    public function upload( $filePath, $entity, $type, $entity_id)
+    public function upload( $filePath, $entity, $type, $entity_id,$extension = null)
     {
         $client = $this->getS3Client();
         $em = $this->container->get('doctrine')->getManager();
         $logger = $this->getLogger();
 
-        $name = $this->generateFileName( $filePath );
+        $name = $this->generateFileName( $filePath,$extension );
         // Check if the file already exists
         $file = $this->getFile( $entity,$type,$entity_id);
         if( $file )
@@ -173,12 +173,19 @@ class Kuber {
      * @param $filePath
      * @return string
      */
-    private function  generateFileName( $filePath )
+    private function  generateFileName( $filePath,$extension )
     {
-        $fileParts = pathinfo($filePath);
-        $time = microtime();
+        if(!$extension)
+        {
+            $fileParts = pathinfo($filePath);
 
-        return substr(md5( $this->generateRandomString() + $time ),0,12). '.' . $fileParts['extension'] ;
+            if(isset($fileParts['extension']))
+            {
+                $ext = $fileParts['extension'];
+            }
+        }
+        $time = microtime();
+        return substr(md5( $this->generateRandomString() + $time ),0,12). '.'.$extension ;
     }
 
     /**

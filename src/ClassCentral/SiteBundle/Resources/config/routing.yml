@@ -358,3 +358,13 @@ user_profile_edit:
 user_profile_save:
   pattern: /user/profile/save
   defaults: {_controller: ClassCentralSiteBundle:Profile:Save }
+
+user_profile_image_upload_step_1:
+  pattern: /user/profile/image/step1
+  defaults: {_controller: ClassCentralSiteBundle:Profile:profileImageStep1 }
+  methods: [POST]
+
+user_profile_image_upload_step_2:
+  pattern: /user/profile/image/step2
+  defaults: {_controller: ClassCentralSiteBundle:Profile:profileImageStep2 }
+  methods: [POST]

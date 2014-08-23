@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Component\HttpFoundation\Request;
@@ -281,4 +282,119 @@ class ProfileController extends Controller
         return UniversalHelper::getAjaxResponse($response);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function profileImageStep1Action(Request $request)
+    {
+        $kuber = $this->get('kuber');
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        // Get the image
+        $img = $request->files->get('profile-pic-uploaded');
+        if(!$img)
+        {
+            return UniversalHelper::getAjaxResponse(false,'No image found');
+        }
+
+        // Check mime type
+        $mimeType = $img->getMimeType();
+        if( !in_array($mimeType,array("image/jpeg","image/png")) )
+        {
+            return UniversalHelper::getAjaxResponse(false,'Only image of type jpeg and png allowed');
+        }
+
+        // File size limit check
+        $fileSize = $img->getClientSize()/1024;
+        // 1 mb limit
+        if($fileSize > 1024 )
+        {
+            return UniversalHelper::getAjaxResponse(false,'Max file size is 1 mb');
+        }
+
+        $file = $kuber->upload( $img->getPathname(), Kuber::KUBER_ENTITY_USER,'PROFILE_PIC_TMP',$user->getId(),$img->getClientOriginalExtension());
+
+        if($file)
+        {
+            return UniversalHelper::getAjaxResponse( true, array(
+                'imgUrl' => $kuber->getUrlFromFile($file)
+            ) );
+        }
+        else
+        {
+            return UniversalHelper::getAjaxResponse( false,"Sorry we are having technical difficulties. Please try again later" );
+        }
+
+    }
+
+    /**
+     * Receives the co-ordinates, crops the image and saves it as
+     * profile image
+     * @param Request $request
+     */
+    public function profileImageStep2Action(Request $request)
+    {
+        $kuber = $this->get('kuber');
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $content = $this->getRequest("request")->getContent();
+        if(empty($content))
+        {
+            return UniversalHelper::getAjaxResponse(false, "Crop photo failed. Please try again later");
+        }
+        $data = json_decode($content, true);
+
+        // Check if the image from step1 exists
+        $file = $kuber->getFile( Kuber::KUBER_ENTITY_USER,'PROFILE_PIC_TMP',$user->getId() );
+        if(!$file)
+        {
+            return UniversalHelper::getAjaxResponse(false, "Crop photo failed. Please try again later");
+        }
+
+        $croppedImage = $this->cropImage($file,$data);
+        // Upload the file as profile image
+        $newProfilePic = $kuber->upload( $croppedImage, Kuber::KUBER_ENTITY_USER,'PROFILE_PIC',$user->getId());
+        unlink($croppedImage); // Delete the temporary file
+        if(!$newProfilePic)
+        {
+            return UniversalHelper::getAjaxResponse(false, "Crop photo failed. Please try again later");
+        }
+        else
+        {
+            return UniversalHelper::getAjaxResponse(true);
+        }
+    }
+
+    /**
+     * Crops the image and returns a filepath with the location of a temporary
+     * image
+     * @param $file
+     * @param $coords
+     * @return string
+     */
+    private function cropImage($file, $coords)
+    {
+        $kuber = $this->get('kuber');
+
+        //Download the file and create a temporary copy of the original
+        $imgUrl = $kuber->getUrlFromFile($file);
+        $imgFile = '/tmp/'.$file->getFileName();
+        file_put_contents($imgFile,file_get_contents($imgUrl));
+
+
+        $img = new \Imagick($imgFile);
+        $img->cropimage(
+            $coords['w'],
+            $coords['h'],
+            $coords['x'],
+            $coords['y']
+        );
+        $croppedFile = '/tmp/crop-'. $file->getFileName();
+        $img->writeimage( $croppedFile );
+
+        // Delete the original file
+        unlink($imgFile);
+        return $croppedFile;
+    }
 }

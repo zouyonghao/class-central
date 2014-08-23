@@ -52,5 +52,3 @@ CC.Class['Utilities'] = (function(){
         isEmpty:isEmpty
     };
 })();
-
-CC.Class['Profile'].init('#save-profile');
