@@ -48,7 +48,7 @@ CC.Class['Profile'] = (function(){
      *
      * @param button id of the save profile button
      */
-    function init( btn_id, profile_image_upload_btn_id ) {
+    function init( btn_id, profile_image_upload_btn_id, btn_crop ) {
         // Attach event handler
         button = $(btn_id);
         button.click( handler );
@@ -57,38 +57,9 @@ CC.Class['Profile'] = (function(){
             maxFileSize: 1000000
         });
 
+        // Bind fileupload plugin callbacks
         $(profile_image_upload_btn_id)
-
-            .bind('fileuploaddone', function (e, data) {
-                var result = JSON.parse(data.result);
-                if(!result.success){
-                    utilities.notify(
-                        "Profile photo upload error",
-                        result.message,
-                        "error"
-                    )
-                } else {
-                    // Image uploaded. Load the crop plugin
-                    var imgUrl = result.message.imgUrl;
-                    var imgDiv = "#profile-pic-crop";
-                    $( imgDiv ).attr(
-                        'src',
-                        imgUrl
-                    );
-                    $(imgDiv).Jcrop({
-                        minSize:      [100,100],
-                        bgColor:      'black',
-                        boxWidth:     400,
-                        bgOpacity:   .4,
-                        aspectRatio: 1,
-                        setSelect:   [0,0,100,100],
-                        onSelect:    showCoords,
-                        onChange:    showCoords
-                    });
-                    $('#crop-photo-modal').modal('show')
-
-                }
-            })
+            .bind('fileuploaddone', postStep1)
             .bind('fileuploadfail', function (e, data) {
                 // File upload failed. Show an error message
                 utilities.notify(
@@ -96,36 +67,13 @@ CC.Class['Profile'] = (function(){
                     "Error uploading file. Max file size is 1mb",
                     "error"
                 );
-            })
-
-            // Crop button
-            $('#btn-crop').click(function(){
-
-                $.ajax({
-                    type:"post",
-                    url: "/user/profile/image/step2",
-                    data: JSON.stringify(cords)
-                }).done(function(result){
-                    result = JSON.parse(result);
-                    if( result['success'] ){
-                        // Refresh the page
-                        location.reload(true);
-                    } else {
-                        // Show an error message
-                        utilities.notifyWithDelay(
-                            'Error Cropping photo',
-                            'Some error occurred, please try again later',
-                            'error',
-                            60
-                        );
-                    }
-                });
-
             });
+
+        // Crop button
+        $(btn_crop).click(cropButtonHandler);
     }
 
-    function showCoords(c)
-    {
+    function showCoords(c) {
         // variables can be accessed here as
         // c.x, c.y, c.x2, c.y2, c.w, c.h
         cords.x = c.x;
@@ -135,6 +83,71 @@ CC.Class['Profile'] = (function(){
 
     };
 
+    /**
+     * This function is called after the step 1 of profile image
+     * upload is executed on the backend
+     */
+    function postStep1(e,data ){
+        var result = JSON.parse(data.result);
+        if(!result.success){
+            utilities.notify(
+                "Profile photo upload error",
+                result.message,
+                "error"
+            )
+        } else {
+            // Image uploaded. Load the crop plugin
+            var imgUrl = result.message.imgUrl;
+            var imgDiv = "#profile-pic-crop";
+            $( imgDiv ).attr(
+                'src',
+                imgUrl
+            );
+            $(imgDiv).Jcrop({
+                minSize:      [100,100],
+                bgColor:      'black',
+                boxWidth:     400,
+                bgOpacity:   .4,
+                aspectRatio: 1,
+                setSelect:   [0,0,100,100],
+                onSelect:    showCoords,
+                onChange:    showCoords
+            });
+            $('#crop-photo-modal').modal('show')
+        }
+    }
+
+    /**
+     * Handles the click event for crop button
+     */
+    function cropButtonHandler(){
+        $.ajax({
+            type:"post",
+            url: "/user/profile/image/step2",
+            data: JSON.stringify(cords)
+        }).done(function(result){
+            result = JSON.parse(result);
+            if( result['success'] ){
+                // Refresh the page
+                location.reload(true);
+            } else {
+                // Show an error message
+                utilities.notifyWithDelay(
+                    'Error Cropping photo',
+                    'Some error occurred, please try again later',
+                    'error',
+                    60
+                );
+            }
+        });
+    }
+
+    /**
+     * Validates the profile form fields and shows
+     * the respective error messages
+     * @param profile
+     * @returns {boolean}
+     */
     function validate( profile ){
         var validationError = false;
         // Name cannot be empty and should be
@@ -148,6 +161,10 @@ CC.Class['Profile'] = (function(){
         return validationError;
     }
 
+    /**
+     * handler which is called when save profile button is clicked
+     * @param event
+     */
     function handler(event) {
         event.preventDefault();
         // Disable the save profile button
@@ -197,10 +214,9 @@ CC.Class['Profile'] = (function(){
             );
     }
 
-
     return {
         init: init
     };
 })();
 
-CC.Class['Profile'].init('#save-profile','#fileupload');
+CC.Class['Profile'].init('#save-profile','#fileupload','#btn-crop');
