@@ -7,6 +7,7 @@ CC.Class['Profile'] = (function(){
     var postUrl = '/user/profile/save';
     var button = null;
     var utilities = CC.Class['Utilities'];
+    var user = CC.Class['User'];
     var cords = {
         x: 0,
         y: 0,
@@ -69,6 +70,9 @@ CC.Class['Profile'] = (function(){
         // Bind fileupload plugin callbacks
         $(profile_image_upload_btn_id)
             .bind('fileuploadstart', function(){
+                // Check if the user is logged in
+                user.isLoggedIn(true); // Redirects the user to login if not logged in
+
                 showSpinner(); // Show loading
                 $('#crop-photo-modal .modal-title').text("Crop Photo");
                 $(cropProfilePicSettings.modal).modal('show');
@@ -171,7 +175,9 @@ CC.Class['Profile'] = (function(){
      * Handles the click event for crop button
      */
     function cropButtonHandler(){
-
+        // Check if the user is logged in
+        user.isLoggedIn(true); // Redirects the user to login if not logged in
+        
         // Remove the photo
         clearImage();
 
