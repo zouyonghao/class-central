@@ -313,7 +313,7 @@ class ProfileController extends Controller
             return UniversalHelper::getAjaxResponse(false,'Max file size is 1 mb');
         }
 
-        $file = $kuber->upload( $img->getPathname(), Kuber::KUBER_ENTITY_USER,'PROFILE_PIC_TMP',$user->getId(),$img->getClientOriginalExtension());
+        $file = $kuber->upload( $img->getPathname(), Kuber::KUBER_ENTITY_USER,Kuber::KUBER_TYPE_USER_PROFILE_PIC_TMP,$user->getId(),$img->getClientOriginalExtension());
 
         if($file)
         {
@@ -346,7 +346,7 @@ class ProfileController extends Controller
         $data = json_decode($content, true);
 
         // Check if the image from step1 exists
-        $file = $kuber->getFile( Kuber::KUBER_ENTITY_USER,'PROFILE_PIC_TMP',$user->getId() );
+        $file = $kuber->getFile( Kuber::KUBER_ENTITY_USER,Kuber::KUBER_TYPE_USER_PROFILE_PIC_TMP,$user->getId() );
         if(!$file)
         {
             return UniversalHelper::getAjaxResponse(false, "Crop photo failed. Please try again later");
@@ -354,8 +354,12 @@ class ProfileController extends Controller
 
         $croppedImage = $this->cropImage($file,$data);
         // Upload the file as profile image
-        $newProfilePic = $kuber->upload( $croppedImage, Kuber::KUBER_ENTITY_USER,'PROFILE_PIC',$user->getId());
+        $newProfilePic = $kuber->upload( $croppedImage, Kuber::KUBER_ENTITY_USER,Kuber::KUBER_TYPE_USER_PROFILE_PIC,$user->getId());
         unlink($croppedImage); // Delete the temporary file
+
+        // Delete the temporary file from S3 and the database
+        $kuber->delete( $file );
+
         if(!$newProfilePic)
         {
             return UniversalHelper::getAjaxResponse(false, "Crop photo failed. Please try again later");

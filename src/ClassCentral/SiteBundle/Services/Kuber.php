@@ -28,6 +28,10 @@ class Kuber {
 
     const KUBER_ENTITY_USER = 'users';
 
+    const KUBER_TYPE_USER_PROFILE_PIC = "profile_pic";
+    const KUBER_TYPE_USER_PROFILE_PIC_TMP = "profile_pic_tmp";
+
+
     private function getS3Client()
     {
         if(!$this->s3Client)
@@ -121,6 +125,39 @@ class Kuber {
             ));
             return false;
         }
+    }
+
+    /**
+     * Deletes a file from S3 as well as the
+     * database
+     * @param File $file
+     */
+    public function delete(File $file)
+    {
+        $client = $this->getS3Client();
+        $em = $this->container->get('doctrine')->getManager();
+        $logger = $this->getLogger();
+
+        // Remove the file from S3
+        try
+        {
+            $client->deleteObject(array(
+                'Bucket' => $this->s3Bucket,
+                'Key' => $this->getKeyName( $file),
+            ));
+        } catch(\Exception $e) {
+            // Log the exception
+            $logger->error( "Exception occurred whle deleting file - " . $e->getMessage(),array(
+                'Entity' => $file->getEntity(),
+                'Entity_Id'=> $file->getEntityId(),
+                'Type' => $file->getType()
+            ));
+        }
+
+        // Delete the record in the files table
+        $em->remove( $file);
+        $em->flush();
+
     }
 
     /**
