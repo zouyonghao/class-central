@@ -69,30 +69,9 @@ CC.Class['Profile'] = (function(){
         // Bind fileupload plugin callbacks
         $(profile_image_upload_btn_id)
             .bind('fileuploadstart', function(){
-                var opts = {
-                    lines: 13, // The number of lines to draw
-                    length: 20, // The length of each line
-                    width: 10, // The line thickness
-                    radius: 30, // The radius of the inner circle
-                    corners: 1, // Corner roundness (0..1)
-                    rotate: 0, // The rotation offset
-                    direction: 1, // 1: clockwise, -1: counterclockwise
-                    color: '#000', // #rgb or #rrggbb or array of colors
-                    speed: 1, // Rounds per second
-                    trail: 60, // Afterglow percentage
-                    shadow: false, // Whether to render a shadow
-                    hwaccel: false, // Whether to use hardware acceleration
-                    className: 'spinner', // The CSS class to assign to the spinner
-                    zIndex: 2e9, // The z-index (defaults to 2000000000)
-                    top: 'auto', // Top position relative to parent in px
-                    left:'auto' // Left position relative to parent in px
-                };
-                var target = document.getElementById(cropProfilePicSettings.spinner);
-                var spinner = new Spinner(opts).spin(target);
-                $(target).data('spinner', spinner);
-                $(cropProfilePicSettings.spinnerWrapper).show();
+                showSpinner(); // Show loading
+                $('#crop-photo-modal .modal-title').text("Crop Photo");
                 $(cropProfilePicSettings.modal).modal('show');
-
 
             })
             .bind('fileuploaddone', postStep1)
@@ -108,7 +87,7 @@ CC.Class['Profile'] = (function(){
         // Crop button
         $(btn_crop).click(cropButtonHandler);
 
-        $(cropProfilePicSettings.modal).on('hidden.bs.modal', hideModalHandler);
+        $(cropProfilePicSettings.modal).on('hidden.bs.modal', clearImage);
     }
 
     function showCoords(c) {
@@ -121,6 +100,36 @@ CC.Class['Profile'] = (function(){
 
     };
 
+    function showSpinner() {
+        var opts = {
+            lines: 13, // The number of lines to draw
+            length: 20, // The length of each line
+            width: 10, // The line thickness
+            radius: 30, // The radius of the inner circle
+            corners: 1, // Corner roundness (0..1)
+            rotate: 0, // The rotation offset
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            color: '#000', // #rgb or #rrggbb or array of colors
+            speed: 1, // Rounds per second
+            trail: 60, // Afterglow percentage
+            shadow: false, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+            className: 'spinner', // The CSS class to assign to the spinner
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            top: 'auto', // Top position relative to parent in px
+            left:'auto' // Left position relative to parent in px
+        };
+        var target = document.getElementById(cropProfilePicSettings.spinner);
+        var spinner = new Spinner(opts).spin(target);
+        $(target).data('spinner', spinner);
+        $(cropProfilePicSettings.spinnerWrapper).show();
+    }
+
+    function hideSpinner() {
+        $('#'+ cropProfilePicSettings.spinner).data('spinner').stop();
+        $(cropProfilePicSettings.spinnerWrapper).hide();
+    }
+
 
     /**
      * This function is called after the step 1 of profile image
@@ -129,8 +138,7 @@ CC.Class['Profile'] = (function(){
     function postStep1(e,data ){
         var result = JSON.parse(data.result);
         // Hide the spinner
-        $('#'+ cropProfilePicSettings.spinner).data('spinner').stop();
-        $(cropProfilePicSettings.spinnerWrapper).hide();
+        hideSpinner();
         if(!result.success){
             utilities.notify(
                 "Profile photo upload error",
@@ -163,6 +171,16 @@ CC.Class['Profile'] = (function(){
      * Handles the click event for crop button
      */
     function cropButtonHandler(){
+
+        // Remove the photo
+        clearImage();
+
+        // Update the modal title
+        $('#crop-photo-modal .modal-title').text("Cropping...");
+        // Show the spinner
+        showSpinner();
+
+        // Post the co-ordinates  to the server
         $.ajax({
             type:"post",
             url: "/user/profile/image/step2",
@@ -180,16 +198,17 @@ CC.Class['Profile'] = (function(){
                     'error',
                     60
                 );
+                hideSpinner();
             }
         });
     }
 
     /**
-     * Its called modal is hidden. The goal here is up
+     * Its clears the image in the modal
      * the jcrop plugin
      *
      */
-    function hideModalHandler(){
+    function clearImage(){
         jcropApi.destroy();
         // Remove the image from the dom
         $('#'+ cropProfilePicSettings.imgDiv).remove();
