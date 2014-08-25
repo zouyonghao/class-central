@@ -141,8 +141,7 @@ CC.Class['Profile'] = (function(){
      */
     function postStep1(e,data ){
         var result = JSON.parse(data.result);
-        // Hide the spinner
-        hideSpinner();
+
         if(!result.success){
             utilities.notify(
                 "Profile photo upload error",
@@ -153,6 +152,10 @@ CC.Class['Profile'] = (function(){
             // Image uploaded. Load the crop plugin
             var imgUrl = result.message.imgUrl;
             $("<img src='" + imgUrl+"' id='" + cropProfilePicSettings.imgDiv + "'/>").load(function() {
+                // Hide the spinner
+                hideSpinner();
+                
+                // Show the image
                 $(this).appendTo(cropProfilePicSettings.modal + " .modal-body");
                 $('#'+cropProfilePicSettings.imgDiv).Jcrop({
                         minSize:      [200,200],
