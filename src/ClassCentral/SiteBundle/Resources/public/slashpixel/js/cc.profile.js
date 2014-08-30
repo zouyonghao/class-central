@@ -295,9 +295,71 @@ CC.Class['Profile'] = (function(){
             );
     }
 
+    // =====================================================
+    //      Edit Pofile - Private form
+    // ======================================================
+
+
+    /**
+     * Initialize private info
+     * @param privateFormSubmit id of the form button
+     */
+    function initPrivateForm( privateFormSubmit ) {
+        $(privateFormSubmit).click( savePrivateForm );
+    }
+
+    function getPrivateDataFormValues() {
+        var currentEmail = $('input:text[name=edit-profile-email]').data('current-email') || '';
+        var email = $('input:text[name=edit-profile-email]').val() || '';
+        var curPassword = $('input:password[name=edit-profile-current-password]').val() || '';
+        var newPassword = $('input:password[name=edit-profile-new-password]').val() || '';
+        var confirmPassword = $('input:password[name=edit-profile-confirm-password]').val() || '';
+
+        return {
+            currentEmail: currentEmail.trim(),
+            email: email.trim(),
+            currentPassword: curPassword.trim(),
+            newPassword: newPassword.trim(),
+            confirmPassword: confirmPassword.trim()
+        }
+    }
+
+    function savePrivateForm( event ){
+        event.preventDefault();
+        pInfo = getPrivateDataFormValues();
+        console.log(pInfo);
+
+        // Check if it is an email change
+        var isEmailChange = ( pInfo.currentEmail != pInfo.email ) ;
+
+        // Check if password is being changed
+        var isPasswordChange = (pInfo.newPassword != null && pInfo.newPassword.trim() != '');
+
+        if(isEmailChange || isPasswordChange) {
+            if(!pInfo.currentPassword) {
+                // Cannot be empty show an error message.
+            } else {
+                if(isPasswordChange) {
+                    // Check if the new and old passwords are equal
+                    if( pInfo.newPassword != pInfo.confirmPassword ) {
+                        // Show an error message
+                    } else {
+                        // Call the api to change password
+                    }
+                } else {
+                    // Call the api to update email address
+                }
+            }
+        } else {
+            // Nothing is being changed
+        }
+    }
+
     return {
-        init: init
+        init: init,
+        initPrivateForm: initPrivateForm
     };
 })();
 
 CC.Class['Profile'].init('#save-profile','#fileupload','#btn-crop');
+CC.Class['Profile'].initPrivateForm( '#save-profile-private' );
