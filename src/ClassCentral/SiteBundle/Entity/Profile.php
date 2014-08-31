@@ -86,7 +86,7 @@ class Profile
         'Juris Doctor (J.D.)',
         'Doctor of Medicine (M.D)',
         'Doctor of Philosophy',
-        'Others'
+        'Other'
     );
 
     /**
