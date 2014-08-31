@@ -299,6 +299,7 @@ CC.Class['Profile'] = (function(){
                 "Please make sure to enter only valid values in the form",
                 "error"
             );
+            button.attr('disabled',false);
         }
 
     }
@@ -327,6 +328,7 @@ CC.Class['Profile'] = (function(){
                             'error',
                             60
                         );
+                        button.attr('disabled',false);
                     }
                 }
             );

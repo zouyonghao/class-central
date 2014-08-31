@@ -4,6 +4,9 @@
 
             <div class="row">
                 <div class="col-lg-6">
+                    <span class="review-form-error" id="full-name-error" style="display:none;">
+                            Should be atleast three letters
+                   </span>
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-full-name">Full Name</label>
                         <input class="plain-input" type="text" name="full-name" placeholder="Full name" id="edit-profile-full-name">
@@ -22,13 +25,12 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
-                        <label class="cc-input-label" for="edit-profile-qualifications">Qualifications</label>
+                        <label class="cc-input-label" for="edit-profile-qualifications">Highest Degree obtained</label>
                         <select class="plain-input plain-input--select js-colorize-select" name="highest-degree" id="edit-profile-qualifications">
-                            <option value="" class="select-placeholder">Add qualification(s)</option>
-                            <option value="option1">option1</option>
-                            <option value="option2">option2</option>
-                            <option value="option3">option3</option>
-                            <option value="option4">option4</option>
+                            <option value="" class="select-placeholder">Degrees</option>
+                            {% for id,degree in degrees%}
+                                <option value="{{ id }}">{{ degree }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -75,7 +77,7 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-facebook">Facebook</label>
-                        <input class="plain-input" type="text" name="location" placeholder="facebook.com/profile" id="edit-profile-facebook">
+                        <input class="plain-input" type="text" name="profile-facebook" placeholder="facebook.com/profile" id="edit-profile-facebook">
                     </div>
                 </div>
 
@@ -85,14 +87,14 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-website">My Website</label>
-                        <input class="plain-input" type="text" name="full-name" placeholder="mywebsite.com" id="edit-profile-website">
+                        <input class="plain-input" type="text" name="profile-website" placeholder="mywebsite.com" id="edit-profile-website">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-linkedin">Linkedin</label>
-                        <input class="plain-input" type="text" name="location" placeholder="linkedin.comn/profile" id="edit-profile-linkedin">
+                        <input class="plain-input" type="text" name="profile-linkedin" placeholder="linkedin.comn/profile" id="edit-profile-linkedin">
                     </div>
                 </div>
 
@@ -102,21 +104,21 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-gplus">Google Plus</label>
-                        <input class="plain-input" type="text" name="full-name" placeholder="google.com/+profile" id="edit-profile-gplus">
+                        <input class="plain-input" type="text" name="profile-gplus" placeholder="google.com/+profile" id="edit-profile-gplus">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-coursera">Coursera</label>
-                        <input class="plain-input" type="text" name="location" placeholder="coursera.org/profile" id="edit-profile-coursera">
+                        <input class="plain-input" type="text" name="profile-coursera" placeholder="coursera.org/profile" id="edit-profile-coursera">
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <input class="full-width-button" type="submit" name="submit" value="Update my public profile">
+        <input class="full-width-button" type="submit" name="submit" id="save-profile" value="Update my public profile">
     </form>
 
 

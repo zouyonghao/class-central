@@ -237,7 +237,8 @@ class ProfileController extends Controller
                 'profile'=> $profile,
                 'listTypes' => UserCourse::$transcriptList,
                 'coursesByLists' => $clDetails['coursesByLists'],
-                'reviews' => $reviews
+                'reviews' => $reviews,
+                'degrees' => Profile::$degrees
             )
         );
 
