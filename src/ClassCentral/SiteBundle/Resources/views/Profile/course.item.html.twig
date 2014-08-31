@@ -31,51 +31,46 @@
             </ul>
     </span>
 
-    {%  if review is defined and review is not empty %}
+        {# Overall reviews/ratings for this course #}
         <div class="rating-wrap">
-            <div class="small-star-rating small-rating-{{ review.rating}}" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+            <div class="small-star-rating small-rating-{{ course.rating|round }}">
                 <span class="star-rating-1"></span>
                 <span class="star-rating-2"></span>
                 <span class="star-rating-3"></span>
                 <span class="star-rating-4"></span>
                 <span class="star-rating-5"></span>
-                <meta itemprop="ratingValue" content="{{ review.rating}}">
-                <meta itemprop="worstRating" content = "1"/>
-                <meta itemprop="bestRating" content = "5"/>
             </div>
-
-            <a href="#" class="read-review colored">16 Reviews</a>
+            <a href="#" class="read-review colored">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</a>
         </div>
 
-
+        {%  if review is defined and review is not empty %}
         <span class="review-date">Written {{ review.displayDate }}</span>
         <div itemprop="description">
-
             <div class="review-content">
-                <div class="review-preview wide-border-left">
-                    <span class="wide-border-left__border"></span>
-                    Instructor with solid knowledge of the material presented. Clear explanations, somehow slow paced with wrong calculations here and there. Appealing way of delivery, super tight policing of the forums by instructor herself. Helpful TAs in an constant walking on egg shells environment where instructor is endlessly correc
-                    <a class="expand-preview" href="#">
-                        Read More
-                    <span class="icon-down-arrow">
-                        <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                    </a>
-                </div>
+                {#
+                    <div class="review-preview wide-border-left">
+                        <span class="wide-border-left__border"></span>
+                        {{ review.reviewText }}
+
+                            <a class="expand-preview" href="#">
+                                Read More
+                            <span class="icon-down-arrow">
+                                <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                            </span>
+                            </a>
+                    </div>
+                #}
                 <div class="review-full wide-border-left">
                     <span class="wide-border-left__border"></span>
                     {{ review.reviewText|striptags('<br>')|raw }}
                     <div class="rating-container">
                         <span class="rating-text--small">My rating</span>
-                        <div class="small-star-rating small-rating-{{ review.rating}}" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+                        <div class="small-star-rating small-rating-{{ review.rating}}">
                             <span class="star-rating-1"></span>
                             <span class="star-rating-2"></span>
                             <span class="star-rating-3"></span>
                             <span class="star-rating-4"></span>
                             <span class="star-rating-5"></span>
-                            <meta itemprop="ratingValue" content="{{ review.rating}}">
-                            <meta itemprop="worstRating" content = "1"/>
-                            <meta itemprop="bestRating" content = "5"/>
                         </div>
                     </div>
                 </div>
@@ -84,12 +79,15 @@
             <div class="review-info">
                 {{ user.displayName }} {{ review.reviewTitle|raw }}
             </div>
-            <div class="question" id="">
-                Was this review helpful to you?
-            <span class="yes-no">
-                <a href="#" class="review-feedback" data-reviewid="66" onmousedown="_gaq.push(['_trackEvent','Review Feedback','Yes']);">YES</a> | <a href="#" class="review-feedback" data-reviewid="66" onmousedown="_gaq.push(['_trackEvent','Review Feedback','No']);">NO</a>
-            </span>
-            </div>
+            {#
+                <div class="question" id="">
+                    Was this review helpful to you?
+                <span class="yes-no">
+                    <a href="#" class="review-feedback" data-reviewid="{{ review.id }}" onmousedown="_gaq.push(['_trackEvent','Review Feedback','Yes']);">YES</a> | <a href="#" class="review-feedback" data-reviewid="66" onmousedown="_gaq.push(['_trackEvent','Review Feedback','No']);">NO</a>
+                </span>
+                </div>
+            #}
+
 
         </div>
     {% endif %}

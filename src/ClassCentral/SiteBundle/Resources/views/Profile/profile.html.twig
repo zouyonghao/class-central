@@ -387,7 +387,7 @@
     <div class="col-md-8 profile-content">
     <div class="tabbed-content">
     <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#transcripts" role="tab" data-toggle="tab">Transcripts ({{ transcriptCount }})</a></li>
+        <li class="active"><a href="#transcripts" role="tab" data-toggle="tab">Transcript ({{ transcriptCount }})</a></li>
         <li><a href="#interested" role="tab" data-toggle="tab">Interested ({{ interestedCount }})</a></li>
         <li><a href="#reviews" role="tab" data-toggle="tab">Reviews ({{ reviews|length }})</a></li>
         <li><a href="#collections" role="tab" data-toggle="tab">Collections (24)</a></li>
@@ -397,7 +397,12 @@
     <!-- Tab panes -->
     <div class="tab-content">
 
+    {# Transcript tab #}
     <div class="tab-pane active" id="transcripts">
+
+        {% if transcriptCount == 0 %}
+            <h2 class="large-thin-title">No courses found</h2>
+        {% endif %}
         {% for list in listTypes %}
             {% set courses =  coursesByLists[list.slug] %}
             {% if courses is not empty %}
@@ -417,24 +422,23 @@
                         }) }}
                     {% endfor %}
                 </div>
-
             {% endif %}
-
         {% endfor %}
-
     </div>
 
     {# interested tab #}
     <div class="tab-pane" id="interested">
         {% if interestedCount > 0 %}
-            {% for result in coursesByLists['interested'] ['hits']['hits'] %}
-                {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
-                'course': result._source
-                }) }}
-            {% endfor %}
+            <div class="line-with-points color-scheme--blue">
+                {% for result in coursesByLists['interested'] ['hits']['hits'] %}
+                    {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
+                    'course': result._source
+                    }) }}
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2 class="large-thin-title">No courses found</h2>
         {% endif %}
-
-
     </div>
     <div class="tab-pane" id="reviews">
         <div class="course-all-reviews">
