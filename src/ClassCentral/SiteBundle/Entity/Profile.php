@@ -74,6 +74,8 @@ class Profile
      */
     private $user;
 
+    const DEFAULT_PROFILE_PIC = '/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png';
+
 
     public static $degrees = array(
         'High School',

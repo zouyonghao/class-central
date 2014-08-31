@@ -484,5 +484,13 @@ class User {
         return true;
     }
 
+    public function getProfilePic( \ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $kuber = $this->container->get('kuber');
+        $url = $kuber->getUrl( Kuber::KUBER_ENTITY_USER,Kuber::KUBER_TYPE_USER_PROFILE_PIC, $user->getId());
+
+        return ($url) ? $url : Profile::DEFAULT_PROFILE_PIC;
+    }
+
 
 } 

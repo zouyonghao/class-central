@@ -56,8 +56,11 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-photo">Profile Photo</label>
-                        <img src="/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png" class="photo-preview-thumb" id="edit-profile-photo-preview" alt="your image">
-                        <input class="file-input file-input--photo" type="file" name="profile-photo" id="edit-profile-photo">
+                        <img src="{{ profilePic }}" class="photo-preview-thumb" id="edit-profile-photo-preview" alt="your image">
+                        <input class="file-input file-input--photo" type="file" name="profile-pic-uploaded" id="profile-photo-upload"
+                               data-url="/user/profile/image/step1" single
+                               accept="image/jpeg,image/png"
+                        >
                     </div>
                 </div>
             </div>
@@ -120,5 +123,24 @@
 
         <input class="full-width-button" type="submit" name="submit" id="save-profile" value="Update my public profile">
     </form>
-
+ <!-- modal for showing crop photo -->
+ <div id="crop-photo-modal" class="modal fade" data-backdrop="static">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                 <h4 class="modal-title">Crop photo</h4>
+             </div>
+             <div class="modal-body">
+                 <div id="spinner-wrapper" style="height:200px">
+                     <span id="searching_spinner_center" style="position: absolute;display: block;top: 50%;left: 50%;"></span>
+                 </div>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                 <button type="button" id="btn-crop" class="btn btn-primary">Crop</button>
+             </div>
+         </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+ </div><!-- /.modal -->
 

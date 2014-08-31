@@ -400,5 +400,5 @@ CC.Class['Profile'] = (function(){
     };
 })();
 
-CC.Class['Profile'].init('#save-profile','#fileupload','#btn-crop');
+CC.Class['Profile'].init('#save-profile','#profile-photo-upload','#btn-crop');
 CC.Class['Profile'].initPrivateForm( '#save-profile-private' );

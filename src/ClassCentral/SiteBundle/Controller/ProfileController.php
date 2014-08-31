@@ -195,6 +195,7 @@ class ProfileController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $cl = $this->get('course_listing');
+        $userService = $this->get('user_service');
 
 
         if(is_numeric($slug))
@@ -238,7 +239,8 @@ class ProfileController extends Controller
                 'listTypes' => UserCourse::$transcriptList,
                 'coursesByLists' => $clDetails['coursesByLists'],
                 'reviews' => $reviews,
-                'degrees' => Profile::$degrees
+                'degrees' => Profile::$degrees,
+                'profilePic' => $userService->getProfilePic($user)
             )
         );
 

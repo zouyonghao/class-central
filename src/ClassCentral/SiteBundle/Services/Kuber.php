@@ -173,6 +173,9 @@ class Kuber {
         {
             return $this->getUrlFromFile($file);
         }
+
+        // No file exists
+        return null;
     }
 
     /**

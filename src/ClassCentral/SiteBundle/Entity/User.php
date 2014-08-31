@@ -370,7 +370,7 @@ class User implements UserInterface, \Serializable
     {
         if(empty($this->name))
         {
-            return 'A Class Central user';
+            return 'Class Central user';
         }
         else
         {
