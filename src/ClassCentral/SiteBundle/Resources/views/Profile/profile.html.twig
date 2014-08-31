@@ -440,22 +440,39 @@
             <h2 class="large-thin-title">No courses found</h2>
         {% endif %}
     </div>
+
+    {#  reviews tab #}
     <div class="tab-pane" id="reviews">
-        <div class="course-all-reviews">
-            {% if reviews|length >  0 %}
-                <div class="single-reviews-wrap">
-                    {% for review in reviews %}
-                        {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review} %}
+        {% if transcriptCount == 0 %}
+            <h2 class="large-thin-title">No courses found</h2>
+        {% endif %}
+        {% for list in listTypes %}
+            {% set courses =  coursesByLists[list.slug] %}
+            {% if courses is not empty %}
+                <div class="line-with-points color-scheme--blue">
+                    {% for result in courses['hits']['hits']  %}
+                        {% set review = null %}
+                        {% set course = result._source %}
+                        {% if reviews[course.id] is defined %}
+                            {% set review = reviews[course.id] %}
+                        {% endif %}
+
+                        {% if review %}
+                            {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
+                                'course': course,
+                                'userStatus' : list.desc,
+                                'review': review
+                            }) }}
+                        {% endif %}
                     {% endfor %}
                 </div>
-            {% else %}
-                <header class="reviews-header">
-                    <h2><span class="review-count">User hasent reviewed anything</span></h2>
-                </header>
             {% endif %}
-        </div>
+        {% endfor %}
     </div>
-    <div class="tab-pane" id="collections">collections</div>
+
+    {#
+        <div class="tab-pane" id="collections">collections</div>
+    #}
     <div class="tab-pane tab-pane--no-styling" id="edit-profile">
         {% include 'ClassCentralSiteBundle:Profile:public.profile.edit.form.html.twig' %}
         {% include 'ClassCentralSiteBundle:Profile:private.profile.edit.form.html.twig' %}
@@ -463,29 +480,31 @@
 
     </div>
     </div>
-    <!--
-    <div class="timeline-wrap">
-        <div class="timeline">
-            <div class="timeline-content">
-                <h2 class="timeline-heading">Benedict's Activity Timeline</h2>
-                <div class="timeline-item">
-                    <span class="item-type">Programming Collection</span>
-                    <h3 class="item-title"><span class="user-action">Benedict added</span> Introduction to Databases</h3>
-                    <span class="item-info">Jennifer Widom, Stanford OpenEdX, January–March 2014</span>
-                </div>
-                <div class="timeline-item">
-                    <span class="item-type">Review</span>
-                    <h3 class="item-title"><span class="user-action">Benedict Reviewed</span> Tales from the Genome</h3>
-                    <span class="item-info">Matthew Cook & Lauren Castellano, Udacity, December 2013</span>
-                    <p class="item-quote">
-                        It was a mammouth ambition to cover the basics of data science in fewer days than Phileas Fogg took to travel around the world. The lectures, at time, felt disjointed, since there was so much material to cover.
-                    </p>
-                    <div class="rating-wrap"><span class="rating-text">I rate this course</span> <span class="course-rating" data-score="3"></span></div>
+    {#
+        <!--
+        <div class="timeline-wrap">
+            <div class="timeline">
+                <div class="timeline-content">
+                    <h2 class="timeline-heading">Benedict's Activity Timeline</h2>
+                    <div class="timeline-item">
+                        <span class="item-type">Programming Collection</span>
+                        <h3 class="item-title"><span class="user-action">Benedict added</span> Introduction to Databases</h3>
+                        <span class="item-info">Jennifer Widom, Stanford OpenEdX, January–March 2014</span>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="item-type">Review</span>
+                        <h3 class="item-title"><span class="user-action">Benedict Reviewed</span> Tales from the Genome</h3>
+                        <span class="item-info">Matthew Cook & Lauren Castellano, Udacity, December 2013</span>
+                        <p class="item-quote">
+                            It was a mammouth ambition to cover the basics of data science in fewer days than Phileas Fogg took to travel around the world. The lectures, at time, felt disjointed, since there was so much material to cover.
+                        </p>
+                        <div class="rating-wrap"><span class="rating-text">I rate this course</span> <span class="course-rating" data-score="3"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    -->
+        -->
+    #}
     </div>
     </div>
 {% endblock %}
