@@ -125,6 +125,9 @@ class User implements UserInterface, \Serializable
     const SIGNUP_TYPE_FORM = 1;
     const SIGNUP_TYPE_FACEBOOK = 2;
 
+    // Special User - George P Burdell used for including external reviews
+    const SPECIAL_USER_ID = 6915;
+
     public function  __construct()
     {
         $this->role = "ROLE_STUDENT";

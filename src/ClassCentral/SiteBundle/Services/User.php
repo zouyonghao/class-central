@@ -484,12 +484,49 @@ class User {
         return true;
     }
 
-    public function getProfilePic( \ClassCentral\SiteBundle\Entity\User $user)
+    /**
+     * Given a user id it returns a profile pic.
+     * If no profile pic exists it returns an upload profile picture
+     * @param $userId
+     * @return mixed
+     */
+    public function getProfilePic( $userId )
     {
-        $kuber = $this->container->get('kuber');
-        $url = $kuber->getUrl( Kuber::KUBER_ENTITY_USER,Kuber::KUBER_TYPE_USER_PROFILE_PIC, $user->getId());
+        $cache =$this->container->get('cache');
 
-        return ($url) ? $url : Profile::DEFAULT_PROFILE_PIC;
+        $url = $cache->get( 'user_profile_pic_'. $userId,function( $uid ){
+            $kuber = $this->container->get('kuber');
+            $url = $kuber->getUrl( Kuber::KUBER_ENTITY_USER,Kuber::KUBER_TYPE_USER_PROFILE_PIC, $uid );
+            return ($url) ? $url : Profile::DEFAULT_PROFILE_PIC;
+        }, array($userId));
+
+        return $url;
+    }
+
+    /**
+     * Gets the profile url for a user
+     * @param $userId
+     * @param $handle
+     * @return string url
+     */
+    public function getProfileUrl( $userId, $handle = null )
+    {
+        if($userId == \ClassCentral\SiteBundle\Entity\User::SPECIAL_USER_ID)
+        {
+            return null;
+        }
+
+        $router = $this->container->get('router');
+
+        // If user has an handle then generate their awesome @ url
+        if( $handle )
+        {
+           return $router->generate( 'user_profile_handle',array( 'slug' => $handle ) );
+        }
+
+        return $router->generate( 'user_profile',array( 'slug' => $userId ) );
+
+
     }
 
 

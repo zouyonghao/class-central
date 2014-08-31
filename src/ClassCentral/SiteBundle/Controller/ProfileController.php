@@ -240,7 +240,7 @@ class ProfileController extends Controller
                 'coursesByLists' => $clDetails['coursesByLists'],
                 'reviews' => $reviews,
                 'degrees' => Profile::$degrees,
-                'profilePic' => $userService->getProfilePic($user)
+                'profilePic' => $userService->getProfilePic($user->getId())
             )
         );
 

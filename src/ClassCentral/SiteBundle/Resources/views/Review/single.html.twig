@@ -20,11 +20,13 @@
         <span class="author"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}"> {{ review.course.name }}</a></span>
     {% endif %}
 
-    {% if review.externalReviewLink is not empty %}
-        <span class="author">
-            <a href="{{ review.externalReviewLink }}" target="_blank">  &nbsp;External Review {# <span class="glyphicon glyphicon-new-window"></span>#}</a>
-        </span>
-    {% endif %}
+    {#
+        {% if review.externalReviewLink is not empty %}
+            <span class="author">
+                <a href="{{ review.externalReviewLink }}" target="_blank">  &nbsp;External Review</a>
+            </span>
+        {% endif %}
+    #}
 
     {% if review.externalReviewerName is not empty %}
         {% set reviewer = review.externalReviewerName %}
@@ -32,15 +34,22 @@
         {% set reviewer = review.user.name  %}
     {% endif %}
 
+
     <div>
+    {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle) %}
+
 
         <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
-
         <div class="review-title title-with-image" itemprop="summary">
             <div class="crop-circle crop-circle--bordered">
-                <img src="/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png" alt="profile picture">
+                {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}"> {% endif %}
+                    <img src="{{  user_service.getProfilePic(review.user.id) }}" alt="profile picture">
+                {% if reviewerProfileUrl %}</a> {% endif %}
             </div>
-            <span class="author" itemprop="reviewer">{{ reviewer  }}</span>
+
+            {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}"> {% endif %}
+                <span class="author" itemprop="reviewer">{{ reviewer  }}</span>
+            {% if reviewerProfileUrl %}</a> {% endif %}
             {{ review.reviewTitle|raw }}
         </div>
 
