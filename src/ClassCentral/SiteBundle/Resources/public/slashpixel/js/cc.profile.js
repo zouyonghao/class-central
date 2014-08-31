@@ -270,7 +270,7 @@ CC.Class['Profile'] = (function(){
         var validationError = false;
         // Name cannot be empty and should be
         // atleast 3 letters long
-        if(utilities.isEmpty(profile.name) && profile.name.length < 3 ) {
+        if(utilities.isEmpty(profile.name) || profile.name.length < 3 ) {
             validationError = true;
             $('#full-name-error').show();
         } else {
