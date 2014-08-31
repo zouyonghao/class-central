@@ -40,7 +40,7 @@
                 <span class="star-rating-4"></span>
                 <span class="star-rating-5"></span>
             </div>
-            <a href="#" class="read-review colored">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</a>
+            <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" class="read-review colored">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</a>
         </div>
 
         {%  if review is defined and review is not empty %}
