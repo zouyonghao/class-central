@@ -4,6 +4,7 @@
         <div class="review-feedback">{{review.fb.positive }} out of {{ review.fb.total  }} people found the following review useful</div>
     {% endif %}
     {# <span class="author" itemprop="author">{{ review.user.name }}</span> #}
+
     <div class="small-star-rating small-rating-{{ review.rating }}">
         <span class="star-rating-1"></span>
         <span class="star-rating-2"></span>
@@ -31,22 +32,42 @@
         {% set reviewer = review.user.name  %}
     {% endif %}
 
-    <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
-    <div style="clear:both"></div>
     <div>
-        <div class="review-title"  itemprop="summary"><span class="author" itemprop="reviewer">{{ reviewer  }}</span> {{ review.reviewTitle|raw }}</div>
 
-        <div class="review-content">
-        {% if review.reviewText and review.reviewText|length >400 %}
-            <div class="review-preview">
-                {{ review.reviewText|striptags|slice(0,320) }}
-                <a class="expand-preview" href="#">
-                    Read More
+        <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
+
+        <div class="review-title title-with-image" itemprop="summary">
+            <div class="crop-circle crop-circle--bordered">
+                <img src="/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png" alt="profile picture">
+            </div>
+            <span class="author" itemprop="reviewer">{{ reviewer  }}</span>
+            {{ review.reviewTitle|raw }}
+        </div>
+
+        <div class="small-star-rating small-rating-{{ review.rating }}" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+            <span class="star-rating-1"></span>
+            <span class="star-rating-2"></span>
+            <span class="star-rating-3"></span>
+            <span class="star-rating-4"></span>
+            <span class="star-rating-5"></span>
+            <meta itemprop="ratingValue" content="{{ review.rating }}">
+            <meta itemprop="worstRating" content = "1"/>
+            <meta itemprop="bestRating" content = "5"/>
+        </div>
+
+        <div class="review-content wide-border-left">
+            <span class="wide-border-left__border"></span>
+            {% if review.reviewText and review.reviewText|length >400 %}
+                <div class="review-preview">
+                    {{ review.reviewText|striptags|slice(0,320) }}
+                    <a class="expand-preview" href="#">
+                        Read More
                     <span class="icon-down-arrow">
                         <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
                     </span>
-                </a>
-            </div>
+                    </a>
+                </div>
+
         {% endif %}
         <div class="review-full" itemprop="description">
             {{ review.reviewText|striptags('<br>')|raw }}

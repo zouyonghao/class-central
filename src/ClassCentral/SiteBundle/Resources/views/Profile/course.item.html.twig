@@ -1,13 +1,13 @@
 {# renders a single line of course item in interested tabs and transcripts #}
-<div class="tab-pane-item">
+<div class="tab-pane-item left-point">
     <h3>
 
        <span class="item-title">
-           <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}">{{ course.name }}</a>
+           <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}" class="colored">{{ course.name }}</a>
        </span>
-       {% if userStatus is defined %}
-       {#  <span class="item-status">{{ userStatus }}</span> #}
-       {% endif %}
+        {% if userStatus is defined %}
+            {#  <span class="item-status">{{ userStatus }}</span> #}
+        {% endif %}
 
     </h3>
     <span class="item-info">
@@ -26,30 +26,69 @@
                 {% endif %}
                 {% if course['provider'] %}
                     <span class="via">via</span>
-                    <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
+                    <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks colored" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
                 {% endif %}
             </ul>
     </span>
 
     {%  if review is defined and review is not empty %}
-    <div class="rating-wrap">
-        <span class="rating-text">I rate this course</span>
-        <span class="course-rating" data-score="{{ review.rating}}"></span>
-    </div>
+        <div class="rating-wrap">
+            <div class="small-star-rating small-rating-{{ review.rating}}" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                <span class="star-rating-1"></span>
+                <span class="star-rating-2"></span>
+                <span class="star-rating-3"></span>
+                <span class="star-rating-4"></span>
+                <span class="star-rating-5"></span>
+                <meta itemprop="ratingValue" content="{{ review.rating}}">
+                <meta itemprop="worstRating" content = "1"/>
+                <meta itemprop="bestRating" content = "5"/>
+            </div>
 
-    <a href="#" class="read-review">Read review</a>
+            <a href="#" class="read-review colored">16 Reviews</a>
+        </div>
+
+
         <span class="review-date">Written {{ review.displayDate }}</span>
         <div itemprop="description">
 
             <div class="review-content">
-                <div class="review-full">
-                    <span class="review-border"></span>
+                <div class="review-preview wide-border-left">
+                    <span class="wide-border-left__border"></span>
+                    Instructor with solid knowledge of the material presented. Clear explanations, somehow slow paced with wrong calculations here and there. Appealing way of delivery, super tight policing of the forums by instructor herself. Helpful TAs in an constant walking on egg shells environment where instructor is endlessly correc
+                    <a class="expand-preview" href="#">
+                        Read More
+                    <span class="icon-down-arrow">
+                        <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                    </span>
+                    </a>
+                </div>
+                <div class="review-full wide-border-left">
+                    <span class="wide-border-left__border"></span>
                     {{ review.reviewText|striptags('<br>')|raw }}
+                    <div class="rating-container">
+                        <span class="rating-text--small">My rating</span>
+                        <div class="small-star-rating small-rating-{{ review.rating}}" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+                            <span class="star-rating-1"></span>
+                            <span class="star-rating-2"></span>
+                            <span class="star-rating-3"></span>
+                            <span class="star-rating-4"></span>
+                            <span class="star-rating-5"></span>
+                            <meta itemprop="ratingValue" content="{{ review.rating}}">
+                            <meta itemprop="worstRating" content = "1"/>
+                            <meta itemprop="bestRating" content = "5"/>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="review-info">
                 {{ user.displayName }} {{ review.reviewTitle|raw }}
+            </div>
+            <div class="question" id="">
+                Was this review helpful to you?
+            <span class="yes-no">
+                <a href="#" class="review-feedback" data-reviewid="66" onmousedown="_gaq.push(['_trackEvent','Review Feedback','Yes']);">YES</a> | <a href="#" class="review-feedback" data-reviewid="66" onmousedown="_gaq.push(['_trackEvent','Review Feedback','No']);">NO</a>
+            </span>
             </div>
 
         </div>

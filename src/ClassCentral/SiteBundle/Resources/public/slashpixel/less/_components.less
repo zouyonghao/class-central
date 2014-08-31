@@ -1,0 +1,661 @@
+/*
+  TABLE OF CONTENTS
+
+  =Form related components
+    =padded-input-group
+    =heading-colored
+    =bordered-box
+    =plain-input
+    =cc-input-label
+    =photo-preview-thumb
+    =full-width-button
+    =cc-note
+    =small-link
+    =color-schemes
+    =form
+   =MISC components
+    =line-with-points
+    =large-thin-title
+    =expand-preview
+    =wide-border-left
+    =ratings
+    =margin-10
+    =padding-10
+    =flip-card
+    =card-front
+    =card-back
+    =crop-circle
+*/
+
+/* ==========================================================================
+   =Form related components
+   ========================================================================== */
+
+/* =padded-input-group
+----------------------------------------------------------------------------- */
+.padded-input-group {
+  .clearfix;
+  padding: 20px 40px;
+  border-left: 1px solid @gray-border;
+  border-right: 1px solid @gray-border;
+  background: #fff;
+}
+
+.padded-input-group--border-bot {
+  border-bottom: 1px solid #f6f6f3;
+}
+
+.padded-input-group--border-top {
+  border-top: 1px solid @gray-border;
+}
+
+
+@media (min-width: 480px) {
+  .padded-input-group {
+    padding: 30px 60px 30px 70px;
+  }
+}
+
+
+
+/* =heading-colored
+----------------------------------------------------------------------------- */
+
+.heading-colored {
+  font-weight: 400;
+  font-size: 42px;
+  display: block;
+  margin: 30px 0;
+  font-family: @font-family-large-text;
+  padding-left: 15px;
+}
+
+.heading-colored--blue {
+  color: @brand-primary;
+}
+
+
+
+
+/* =bordered-box
+----------------------------------------------------------------------------- */
+
+.bordered-box {
+  display: block;
+  padding: 7px 17px 7px 20px;
+  border: 1px solid #efeded;
+  background: #fefefe;
+  margin-bottom: 30px;
+  .clearfix;
+}
+
+.bordered-box--input {
+  padding: 0;
+}
+
+.bordered-box--input .plain-input,
+.bordered-box--input .cc-input-label {
+  padding-left: 20px;
+  padding-right: 17px;
+}
+
+.bordered-box--input .plain-input {
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+
+.bordered-box--input .plain-input--textarea {
+  margin: 0;
+  padding-top: 5px;
+  padding-bottom: 7px;
+}
+
+.bordered-box--input .cc-input-label {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+
+/* =plain-input
+----------------------------------------------------------------------------- */
+
+.plain-input {
+  display: block;
+  border: none;
+  color: #473a4c;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  width: 100%;
+  font-family: @font-family-large-text;
+  font-weight: 400;
+  max-width: 100%;
+  background: #fefefe;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+.plain-input--textarea {
+  min-height: 100px;
+}
+
+.plain-input--select.empty,
+.plain-input--select .select-placeholder {
+  color: #AAA9A9;
+}
+
+.plain-input--select option {
+  color: #473a4c;
+
+}
+
+
+/* =cc-input-label
+----------------------------------------------------------------------------- */
+
+.cc-input-label {
+  display: block;
+  color: @brand-primary;
+  font-size: 12px;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+  font-family: @font-family-large-text;
+  font-weight: 400;
+}
+
+
+
+/* =photo-preview-thumb
+----------------------------------------------------------------------------- */
+
+.photo-preview-thumb {
+  width: 100px;
+  height: 100px;
+  margin-left: 20px;
+  margin-top: 12px;
+  float: left;
+}
+
+
+
+/* =file-input
+----------------------------------------------------------------------------- */
+
+.file-input--photo {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  float: left;
+}
+
+
+
+/* =full-submit-button
+----------------------------------------------------------------------------- */
+
+.full-width-button {
+  display: block;
+  width: 100%;
+  font-size: 22px;
+  color: #fff;
+  font-family: @font-family-large-text;
+  text-align: center;
+  line-height: 60px;
+  padding: 10px;
+  border: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+.full-width-button--blue {
+  background: @brand-primary;
+
+  &:hover,
+  &:focus {
+    background: darken(@brand-primary, 5%);
+  }
+}
+
+.full-width-button--red {
+  background: @red-pink;
+
+  &:hover,
+  &:focus {
+    background: darken(@red-pink, 5%);
+  }
+}
+
+/* =cc-note
+----------------------------------------------------------------------------- */
+.cc-note {
+  font-size: 20px;
+  font-family: @font-family-large-text;
+  line-height: 1.8;
+  display: inline;
+}
+
+.cc-note--red-yellow {
+  color: @red-pink;
+  background: #ffffda;
+}
+
+
+/* =small-link
+----------------------------------------------------------------------------- */
+
+.small-link {
+  font-size: 11px;
+  color: #b8b7ad;
+  text-decoration: none;
+  font-family: @font-family-small-text;
+  display: block;
+  clear: both;
+}
+
+
+/* =color-schemes
+----------------------------------------------------------------------------- */
+
+.color-scheme-brand .heading-colored,
+.color-scheme-brand .cc-input-label {
+  color: @brand-primary;
+}
+
+.color-scheme-brand .full-width-button {
+  background: @brand-primary;
+
+  &:hover,
+  &:focus {
+    background: darken(@brand-primary, 5%);
+  }
+}
+
+.color-scheme-red .heading-colored,
+.color-scheme-red .cc-input-label {
+  color: @red-pink;
+}
+
+.color-scheme-red .full-width-button {
+  background: @red-pink;
+
+  &:hover,
+  &:focus {
+    background: darken(@red-pink, 5%);
+  }
+}
+
+.color-scheme--blue .colored {
+  color: @brand-primary;
+}
+
+.color-scheme--blue a.colored {
+  color: @brand-primary;
+  &:hover,
+  &:focus {
+    color: darken(@brand-primary, 10%);
+  }
+}
+
+/* =form
+----------------------------------------------------------------------------- */
+
+.form {
+  margin-bottom: 40px;
+}
+
+/* ==========================================================================
+   =MISC components
+   ========================================================================== */
+
+/* =line-with-points
+----------------------------------------------------------------------------- */
+
+.line-with-points {
+  position: relative;
+  margin-left: 30px;
+}
+
+.line-with-points:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  left: -27px;
+  top: 9px;
+  background: #bebebe;
+}
+
+
+.left-point {
+  position: relative;
+}
+
+.left-point:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #bebebe;
+  top: 9px;
+  left: -29px;
+}
+
+.left-point:last-child:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 6px;
+  height: 100%;
+  left: -29px;
+  top: 15px;
+  background: #fff;
+}
+
+/* =large-thin-title
+----------------------------------------------------------------------------- */
+
+.large-thin-title {
+  font-size: 30px;
+  font-weight: 300;
+  font-family: @font-family-large-text;
+  text-transform: uppercase;
+  margin-top: 60px;
+}
+
+/* =expand-preview
+----------------------------------------------------------------------------- */
+.expand-preview {
+  margin-left: 10px;
+  text-transform: uppercase;
+  color: @gray-read-more;
+  font-size: 13px;
+  font-weight: bold;
+  &:hover,
+  &:focus {
+    color: @gray-read-more;
+  }
+}
+
+.expand-preview .icon-cc-logo7 {
+  width: 10px;
+  height: 10px;
+  fill: #dfdae1;
+  margin-left: 5px;
+}
+
+
+/* =review-preview
+----------------------------------------------------------------------------- */
+
+.review-preview + .review-full {
+  display: none;
+}
+
+
+/* =wide-border-left
+----------------------------------------------------------------------------- */
+.wide-border-left {
+  position: relative;
+}
+
+.wide-border-left__border {
+  display: block;
+  width: 2px;
+  height: 100%;
+  position: absolute;
+  padding: 7px 0;
+  left: -10px;
+}
+
+.wide-border-left__border:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #4c4c4c;
+}
+
+/* =ratings
+----------------------------------------------------------------------------- */
+.rating-container {
+  .clearfix;
+  margin-top: 7px;
+}
+
+.rating-container .small-star-rating {
+  float: left;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.rating-text--small {
+  display: block;
+  float: left;
+  font-size: 13px;
+}
+
+/* =margin-10
+----------------------------------------------------------------------------- */
+
+.margin-10 {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+/* =padding-10
+----------------------------------------------------------------------------- */
+
+.padding-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* =col-200
+----------------------------------------------------------------------------- */
+.col-220 {
+  display: block;
+  float: left;
+  width: 220px;
+}
+
+/* =flip-card
+----------------------------------------------------------------------------- */
+
+.row-flip-cards {
+  max-width: 910px;
+}
+
+.flip-card {
+  display: block;
+  width: 100%;
+  background: #fff;
+  border: 1px solid @table-border-color;
+  border-top: none;
+  height: 180px;
+  position: relative;
+  margin-bottom: 20px;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.flip-card .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  .transition(0.2s);
+  display: none;
+}
+
+.flip-card:hover .card-back,
+.flip-card:focus .card-back {
+  display: block;
+  opacity: 1;
+}
+
+/* =card-front
+----------------------------------------------------------------------------- */
+.card-front {
+  display: block;
+  width: 100%;
+  font-family: @font-family-small-text;
+}
+
+.card-front,
+a:hover .card-front__title,
+a:focus .card-front__title,
+a:hover .card-front__meta,
+a:focus .card-front__meta {
+  text-decoration: none;
+  color: @black-light;
+}
+
+.card-front__img-section {
+  .clearfix;
+}
+
+.card-front__title {
+  font-size: 17px;
+  display: block;
+  text-align: center;
+  line-height: 1.1;
+}
+
+
+.card-front__text-section {
+  display: block;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 60px;
+  padding: 0 15px;
+}
+
+.card-front__meta {
+  display: block;
+  text-align: center;
+}
+
+.card-front .crop-circle {
+  margin: 20px auto 12px auto;
+}
+
+/* =card-back
+----------------------------------------------------------------------------- */
+
+.card-back__info-section {
+  padding: 15px;
+  color: @black-light;
+  font-size: 12px;
+  font-family: @font-family-small-text;
+  height: 120px;
+  background: #fff;
+}
+
+a:hover .card-back__info-section,
+a:focus .card-back__info-section,
+a:focus .card-back__interaction-text,
+a:focus .card-back__interaction-text {
+  text-decoration: none;
+  color: @black-light;
+}
+
+.card-back__interaction {
+  display: block;
+  height: 60px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 10px 15px;
+  background: #f9f9f9;
+  border-top: 1px solid @table-border-color;
+}
+
+.card-back__interaction .triangle {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -4px;
+  border: 7px solid transparent;
+  border-top: 8px solid @table-border-color;
+  top: 0;
+}
+
+.card-back__interaction .triangle:before {
+  content: "";
+  display: block;
+  position: absolute;
+  border: 7px solid transparent;
+  border-top: 8px solid #fff;
+  top: -9px;
+  left: -7px;
+}
+
+.card-back__interaction:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+.card-back__interaction-text {
+  font-family: @font-family-large-text;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 11px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+  text-align: center;
+  color: @black-light;
+}
+
+/* =crop-cricle
+----------------------------------------------------------------------------- */
+
+.crop-circle {
+  display: block;
+  width: 85px;
+  height: 85px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.crop-circle img {
+  width: 100%;
+}
+
+.crop-circle--bordered {
+  border: 5px solid #f4f4f4;
+}
+
+/* =title-with-image
+----------------------------------------------------------------------------- */
+
+.title-with-image {
+  position: relative;
+}
+
+.title-with-image .crop-circle {
+  position: absolute;
+  left: -76px;
+  width: 60px;
+  height: 60px;
+  top: -20px;
+}

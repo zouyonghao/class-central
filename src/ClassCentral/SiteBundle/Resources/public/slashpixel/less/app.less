@@ -1,4 +1,6 @@
 @import "bootstrap_custom.less";
+@import "_components.less";
+
 
 /* 
   TABLE OF CONTENTS
@@ -36,7 +38,6 @@
   18. =Footer
     18.1 =Link Columns
     18.2 =Newsletter
-
 
 */
 
@@ -1736,13 +1737,13 @@ body {
 
 .table-uni-list li + li:before {
   content: ', ';
-  color: @gray-cyan;
+  color: @gray-blue-light;
   font-weight: 400;
   font-size: 11px;
 }
 
 .table-uni-list a {
-  color: @gray-cyan;
+  color: @gray-blue-light;
   font-weight: 400;
   font-size: 11px;
 }
@@ -1753,7 +1754,7 @@ body {
 }
 
 .table-uni-list .via {
-  color: @gray-blue-light;
+  color: @gray-cyan;
   font-size: 11px;
   font-weight: 400;
 }
@@ -2413,6 +2414,7 @@ li a.sort {
 input.filter-search:focus {
   outline: 0;
 }
+
 
 .filter.search-wrap-placeholder {
   font-family: @font-family-small-text;
@@ -3136,7 +3138,7 @@ input.filter-search:focus {
 ----------------------------------------------------------------------------- */
 
 .course-bottom-wrap .course-all-reviews {
-  padding: 0 40px 40px 40px;
+  padding: 0 40px 40px 95px;
 }
 
 .course-bottom-wrap .course-all-reviews .single-review {
@@ -3150,21 +3152,21 @@ input.filter-search:focus {
 }
 
 .course-bottom-wrap .course-all-reviews .average-rating {
-  float: right;
+  float: left;
+  margin-right: 20px;
 }
 
 .course-bottom-wrap .course-all-reviews .review-date {
   display: block;
-  margin-bottom: 10px;
   color: @gray-review;
   font-size: 11px;
 }
 
 .course-bottom-wrap .course-all-reviews .review-content {
-  padding-left: 5px;
-  border-left: 2px solid @gray-review-border;
   font-size: 16px;
   line-height: 1.7;
+  margin-left: 10px;
+  margin-top: 20px;
 }
 
 .course-bottom-wrap .course-all-reviews .review-content .review-preview + .review-full {
@@ -3186,16 +3188,19 @@ input.filter-search:focus {
   margin-left: 5px;
 }
 
-
 .course-bottom-wrap .course-all-reviews .review-title {
   font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 12px;
+  font-weight: 400;
+  color: @gray-breadcrumb;
+}
+
+.course-bottom-wrap .course-all-reviews .review-title .author {
+  color: @brand-primary;
 }
 
 .course-bottom-wrap .course-all-reviews .reviews-header,
 .course-bottom-wrap .course-all-reviews .review-content {
-  margin-bottom: 25px;
+  margin-bottom: 40px;
 }
 
 .course-bottom-wrap .course-all-reviews .question {
@@ -3520,6 +3525,10 @@ input.filter-search:focus {
   .course-bottom-wrap .course-all-reviews {
     padding: 0 15px 30px 15px;
   }
+
+  .course-bottom-wrap .course-all-reviews .crop-circle {
+    display: none;
+  }
 }
 
 /* ==========================================================================
@@ -3574,6 +3583,7 @@ input.filter-search:focus {
   overflow: hidden;
   float: left;
   .border-radius(50%);
+  margin-bottom: 15px;
 }
 
 .profile-info .profile-img {
@@ -3597,13 +3607,16 @@ input.filter-search:focus {
 }
 
 .profile-description {
+  display: block;
   margin-top: 10px;
   margin-bottom: 24px;
+  clear: both;
 }
 
 .info-row {
   margin-bottom: 10px;
   overflow: hidden;
+  clear: both;
 }
 
 .info-row .info-icon {
@@ -3632,14 +3645,17 @@ input.filter-search:focus {
 /* =Tabbed content
 ----------------------------------------------------------------------------- */
 
-.profile-content .tab-content {
-  background: #fff;
-}
-
 .profile-content .tab-pane {
   border: 1px solid @gray-border;
   border-top: none;
   padding: 20px 40px;
+  background: #fff;
+}
+
+.profile-content .tab-pane--no-styling {
+  padding: 0;
+  background: transparent;
+  border: 0;
 }
 
 .tabbed-content .nav-tabs {
@@ -3686,22 +3702,10 @@ input.filter-search:focus {
 
 .tab-pane-item h3 {
   font-size: 20px;
-  position: relative;
   margin-top: 35px;
   margin-bottom: 5px;
   .clearfix;
   font-weight: 400;
-}
-
-.tab-pane-item h3:before {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #bebebe;
-  top: 9px;
-  left: -20px;
 }
 
 .tab-pane-item h3 span {
@@ -3727,19 +3731,31 @@ input.filter-search:focus {
   display: block;
 }
 
+
 .tab-pane-item .rating-wrap .rating-text {
   color: #434648;
   margin-top: 1px;
 }
 
+.tab-pane-item .rating-wrap .small-star-rating,
+.tab-pane-item .rating-wrap .read-review {
+  float: left;
+}
+
+.tab-pane-item .rating-wrap .small-star-rating {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
 .tab-pane-item .course-rating {
-    margin-right: 20px;
-    display: block;
-    clear: both;
+  margin-right: 20px;
+  display: block;
+  clear: both;
 }
 
 .tab-pane-item .rating-wrap {
-  float: left;
+  margin-top: 10px;
+  .clearfix;
 }
 
 .tab-pane-item .read-review {
@@ -3787,11 +3803,10 @@ input.filter-search:focus {
 }
 
 .tab-pane-item .review-info {
-  font-weight: 700;
   font-size: 14px;
-  max-width: 430px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
+
 
 .tab-pane-item .question {
   color: @blue;
@@ -3809,8 +3824,8 @@ input.filter-search:focus {
 
 @media (min-width: 380px) {
   .tab-pane-item .course-rating {
-      display: inline;
-      clear: none;
+    display: inline;
+    clear: none;
   }
   .tab-pane-item .read-review {
     clear: none;
@@ -3820,11 +3835,15 @@ input.filter-search:focus {
 
 @media (min-width: 480px) {
   .profile-content .tab-pane {
-    padding: 30px 60px 30px 70px;
+    padding: 30px 56px 30px 70px;
+  }
+
+  .profile-content .tab-pane--no-styling {
+    padding: 0;
   }
 }
 
-@media (min-width: 550px) {
+@media (min-width: 700px) {
   .tabbed-content .nav-tabs > li {
     float: left;
   }
@@ -3834,11 +3853,42 @@ input.filter-search:focus {
   .profile-content {
     float: right;
   }
+}
 
+@media (min-width: @screen-lg-min) {
   .tabbed-content .nav-tabs > li > a {
     min-width: 150px;
   }
+}
 
+
+/* =Edit profile
+----------------------------------------------------------------------------- */
+
+.forgot-password-wrap {
+  margin-bottom: 30px;
+}
+
+.forgot-password-wrap .bordered-box {
+  margin-bottom: 5px;
+}
+
+.forgot-password-link {
+  color: @purple;
+  font-family: @font-family-large-text;
+  margin: 0;
+  padding-left: 15px;
+  display: block;
+  text-decoration: underline;
+
+  &:hover,
+  &:focus {
+    color: darken(@brand-primary, 15%);
+  }
+}
+
+.cc-note + .small-link {
+  margin-top: 35px;
 }
 
 /* =Timeline

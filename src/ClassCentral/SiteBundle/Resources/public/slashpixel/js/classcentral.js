@@ -593,13 +593,14 @@ jQuery(function($) {
     });
 
     // expand single reviews
-    $('.course-all-reviews').on('click', '.expand-preview', function(event) {
-        event.preventDefault();
+    $('.expand-preview').on('click', function(e) {
+        e.preventDefault();
         $this = $(this);
         $this.parent().hide();
         $this.closest(".review-content").find(".review-full").show();
         $this.hide();
     });
+
 
     /*
      Search functionality

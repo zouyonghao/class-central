@@ -24,6 +24,43 @@ CC.Class['Profile'] = (function(){
 
     var jcropApi = null;
 
+
+    function readURL(input) {
+        var $prev = $(input).parent().find('img');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $prev.attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+
+        } else {
+            $prev.attr('src', '/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png');
+        }
+    }
+
+    $('#edit-profile-photo').on('change',function(){
+        readURL(this);
+    });
+
+
+
+    // Function to add a class for styling purposes to select list
+    function colorizeSelect(){
+        if($(this).val() == "") $(this).addClass("empty");
+        else $(this).removeClass("empty")
+    }
+
+    $(".js-colorize-select")
+        .on('change keyup', colorizeSelect)
+        .change();
+
+
+
+
     function getFormFields() {
         var aboutMe =  $('textarea[name=about-me]').val();
         var name    =  $('input:text[name=full-name]').val();
