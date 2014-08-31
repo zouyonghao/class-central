@@ -391,7 +391,9 @@
         <li><a href="#interested" role="tab" data-toggle="tab">Interested ({{ interestedCount }})</a></li>
         <li><a href="#reviews" role="tab" data-toggle="tab">Reviews ({{ reviews|length }})</a></li>
         {# <li><a href="#collections" role="tab" data-toggle="tab">Collections (24)</a></li> #}
-        <li><a href="#edit-profile" role="tab" data-toggle="tab">Edit Profile</a></li>
+        {% if app.user and app.user.id == user.id %}
+            <li><a href="#edit-profile" role="tab" data-toggle="tab">Edit Profile</a></li>
+        {% endif %}
     </ul>
 
     <!-- Tab panes -->
@@ -444,7 +446,7 @@
     {#  reviews tab #}
     <div class="tab-pane" id="reviews">
         {% if transcriptCount == 0 %}
-            <h2 class="large-thin-title">No courses found</h2>
+            <h2 class="large-thin-title">{{ user.displayName }} hasn't written any reviews</h2>
         {% endif %}
         {% for list in listTypes %}
             {% set courses =  coursesByLists[list.slug] %}
@@ -473,10 +475,14 @@
     {#
         <div class="tab-pane" id="collections">collections</div>
     #}
-    <div class="tab-pane tab-pane--no-styling" id="edit-profile">
-        {% include 'ClassCentralSiteBundle:Profile:public.profile.edit.form.html.twig' %}
-        {% include 'ClassCentralSiteBundle:Profile:private.profile.edit.form.html.twig' %}
-    </div>
+
+   {# only show it to loggein users #}
+    {% if app.user and app.user.id == user.id %}
+        <div class="tab-pane tab-pane--no-styling" id="edit-profile">
+            {% include 'ClassCentralSiteBundle:Profile:public.profile.edit.form.html.twig' %}
+            {% include 'ClassCentralSiteBundle:Profile:private.profile.edit.form.html.twig' %}
+        </div>
+    {% endif %}
 
     </div>
     </div>

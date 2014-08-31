@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Services\Kuber;
+use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Component\HttpFoundation\Request;
@@ -363,12 +364,24 @@ class ProfileController extends Controller
         // Delete the temporary file from S3 and the database
         $kuber->delete( $file );
 
+        // Clear the cache for profile pic
+        $this->get('cache')->deleteCache('user_profile_pic_' . $user->getId());
+
         if(!$newProfilePic)
         {
             return UniversalHelper::getAjaxResponse(false, "Crop photo failed. Please try again later");
         }
         else
         {
+            // Set a notification message
+            $this->get('user_session')->notifyUser(
+                UserSession::FLASH_TYPE_SUCCESS,
+                'Profile Photo updated',
+                ''
+            );
+
+
+
             return UniversalHelper::getAjaxResponse(true);
         }
     }
