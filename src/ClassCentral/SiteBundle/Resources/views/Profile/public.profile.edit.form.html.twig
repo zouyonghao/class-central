@@ -9,14 +9,14 @@
                    </span>
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-full-name">Full Name</label>
-                        <input class="plain-input" type="text" name="full-name" placeholder="Full name" id="edit-profile-full-name">
+                        <input class="plain-input" type="text" name="full-name" placeholder="Full name" id="edit-profile-full-name" value="{{ user.getDisplayName }}">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-location">Location</label>
-                        <input class="plain-input" type="text" name="location" placeholder="My location" id="edit-profile-location">
+                        <input class="plain-input" type="text" name="location" placeholder="My location" id="edit-profile-location" value="{{ profile.location }}">
                     </div>
                 </div>
 
@@ -29,7 +29,7 @@
                         <select class="plain-input plain-input--select js-colorize-select" name="highest-degree" id="edit-profile-qualifications">
                             <option value="" class="select-placeholder">Degrees</option>
                             {% for id,degree in degrees%}
-                                <option value="{{ id }}">{{ degree }}</option>
+                                <option value="{{ id }}" {% if profile.highestDegree == degree %} selected="selected" {% endif %}>{{ degree }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -38,7 +38,7 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-field-of-study">Field of Study</label>
-                        <input class="plain-input" type="text" name="field-of-study" placeholder="Add field of study" id="edit-profile-field-of-study">
+                        <input class="plain-input" type="text" name="field-of-study" placeholder="Add field of study" id="edit-profile-field-of-study" value="{{ profile.fieldOfStudy }}">
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <div class="col-lg-12">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-about-me">About me</label>
-                        <textarea class="plain-input plain-input--textarea" name="about-me" id="edit-profile-about-me" placeholder="A little about me..."></textarea>
+                        <textarea class="plain-input plain-input--textarea" name="about-me" id="edit-profile-about-me" placeholder="A little about me...">{{ profile.aboutMe }}</textarea>
                     </div>
                 </div>
             </div>
@@ -70,14 +70,14 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-twitter">Twitter</label>
-                        <input class="plain-input" type="text" name="profile-twitter" placeholder="@username" id="edit-profile-twitter">
+                        <input class="plain-input" type="text" name="profile-twitter" placeholder="@username" id="edit-profile-twitter" value="{{ profile.twitter }}">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-facebook">Facebook</label>
-                        <input class="plain-input" type="text" name="profile-facebook" placeholder="facebook.com/profile" id="edit-profile-facebook">
+                        <input class="plain-input" type="text" name="profile-facebook" placeholder="facebook.com/profile" id="edit-profile-facebook" value="{{ profile.facebook }}">
                     </div>
                 </div>
 
@@ -87,14 +87,14 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-website">My Website</label>
-                        <input class="plain-input" type="text" name="profile-website" placeholder="mywebsite.com" id="edit-profile-website">
+                        <input class="plain-input" type="text" name="profile-website" placeholder="mywebsite.com" id="edit-profile-website" value="{{ profile.website }}">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-linkedin">Linkedin</label>
-                        <input class="plain-input" type="text" name="profile-linkedin" placeholder="linkedin.comn/profile" id="edit-profile-linkedin">
+                        <input class="plain-input" type="text" name="profile-linkedin" placeholder="linkedin.comn/profile" id="edit-profile-linkedin" value="{{ profile.linkedin }}">
                     </div>
                 </div>
 
@@ -104,14 +104,14 @@
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-gplus">Google Plus</label>
-                        <input class="plain-input" type="text" name="profile-gplus" placeholder="google.com/+profile" id="edit-profile-gplus">
+                        <input class="plain-input" type="text" name="profile-gplus" placeholder="google.com/+profile" id="edit-profile-gplus" value="{{ profile.gplus }}">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-coursera">Coursera</label>
-                        <input class="plain-input" type="text" name="profile-coursera" placeholder="coursera.org/profile" id="edit-profile-coursera">
+                        <input class="plain-input" type="text" name="profile-coursera" placeholder="coursera.org/profile" id="edit-profile-coursera" value="{{ profile.coursera }}">
                     </div>
                 </div>
 
