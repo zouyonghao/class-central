@@ -1837,6 +1837,11 @@ td.add-column .dropdown {
   height: 23px;
   width: 23px;
   display: inline-block;
+  width: 100%;
+  margin-bottom: 0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+
 }
 
 .add-column .dropdown-toggle span {
@@ -1927,7 +1932,7 @@ td.add-column .dropdown {
   line-height: 12px;
   position: absolute;
   text-align: center;
-  top: 2px;
+  top: 5px;
   width: 12px;
 }
 
@@ -2802,8 +2807,13 @@ input.filter-search:focus {
   background: @gray-blue-dark;
 }
 
+.course-data-row .dropdown {
+  display: block;
+  .clearfix;
+}
+
 .course-data-row .dropdown-menu {
-  position: static;
+  position: relative;
   width: 100%;
 }
 
