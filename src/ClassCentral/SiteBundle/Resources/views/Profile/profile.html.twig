@@ -1,5 +1,22 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+ {% block headmeta %}
+    <title>{{ user.displayName }} | Class Central </title>
+    <meta name="description" content="View {{ user.displayName }}'s MOOC Record on Class Central. Class Central profile pages makes it easy for you to learn about {{ user.displayName }}'s interest in MOOCs." />
+    <meta name="author" content="{{ user.displayName }}" />
+     {%  if profilePic  %}
+         <meta property="og:image" content="{{ profilePic }}">
+     {% else %}
+         <meta property="og:image" content="/bundles/classcentralsite/slashpixel/images/profile-dummy-img.jpg">
+     {% endif %}
+
+     <meta property="og:title" content="{{ user.displayName }}'s MOOC record on Class Central "/>
+     <meta property="og:site_name" content="Class Central"/>
+     <meta property="og:description" content="View {{ user.displayName }}'s MOOC Record on Class Central. Class Central profile pages makes it easy for you to learn about {{ user.displayName }}'s interest in MOOCs. " />
+     <meta property="og:type" content="website" />
+     <meta property="fb:admins" content="{{ fb_admins }}" />
+
+{% endblock %}
 
 {% block content -%}
     <h2 class="section-heading"><span>340 Class Members</span></h2>
