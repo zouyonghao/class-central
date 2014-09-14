@@ -30,10 +30,10 @@ class Scraper extends ScraperAbstractInterface {
         foreach($result['results']['collection1'] as $course)
         {
 
+            $collection2 = array_shift($result['results']['collection2']);
             $courseName = $course['name']['text'];
             $url = $course['name']['href'];
-            $startDate = $course['start_date'];
-//            $this->out( $courseName .' - ' . $startDate);
+            $startDate = $collection2['start_date'];
 //            continue;
 
             // Offering short name
