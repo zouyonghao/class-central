@@ -79,7 +79,7 @@ class GenerateExcelCommand extends ContainerAwareCommand {
     private function getPHPExcel()
     {
         // TODO: Load the excel library correctly
-        require_once(dirname(__FILE__) . "//..//..//..//..//vendor//phpexcel//Classes//PHPExcel.php" );
+        require_once(dirname(__FILE__) . '/../../../../vendor/phpexcel/Classes//PHPExcel.php' );
         $phpExcel = new \PHPExcel();
         $now = new \DateTime();
 
