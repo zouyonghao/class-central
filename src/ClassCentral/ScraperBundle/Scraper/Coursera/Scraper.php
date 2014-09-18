@@ -28,7 +28,8 @@ class Scraper extends ScraperAbstractInterface {
         "ar" => "Arabic",
         "ru" => "Russian",
         "tr" => "Turkish",
-        "he" => "Hebrew"
+        "he" => "Hebrew",
+        'pt-br' => 'Portuguese'
     );
 
     private $courseFields = array(
@@ -89,8 +90,8 @@ class Scraper extends ScraperAbstractInterface {
             if( $sid )
             {
                 $sDetails  = $this->getDetailsFromSessionCatalog( $sid );
-                $course->setCertificate( $sDetails['eligibleForCertificates'] );
-                $course->setVerifiedCertificate( $sDetails['eligibleForSignatureTrack'] );
+                // $course->setCertificate( $sDetails['eligibleForCertificates'] );
+                // $course->setVerifiedCertificate( $sDetails['eligibleForSignatureTrack'] );
             }
 
             // Add the university
@@ -364,6 +365,7 @@ class Scraper extends ScraperAbstractInterface {
     private function getDetailsFromCourseraCatalog( $id )
     {
         $url =sprintf(self::COURSE_CATALOG_URL,$id);
+        var_dump( $url );
         $content = json_decode(file_get_contents( $url ), true);
 
         return array_pop( $content['elements'] );
