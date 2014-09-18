@@ -90,8 +90,8 @@ class Scraper extends ScraperAbstractInterface {
             if( $sid )
             {
                 $sDetails  = $this->getDetailsFromSessionCatalog( $sid );
-                // $course->setCertificate( $sDetails['eligibleForCertificates'] );
-                // $course->setVerifiedCertificate( $sDetails['eligibleForSignatureTrack'] );
+                $course->setCertificate( $sDetails['eligibleForCertificates'] );
+                $course->setVerifiedCertificate( $sDetails['eligibleForSignatureTrack'] );
             }
 
             // Add the university
