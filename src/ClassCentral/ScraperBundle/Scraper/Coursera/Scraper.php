@@ -365,7 +365,6 @@ class Scraper extends ScraperAbstractInterface {
     private function getDetailsFromCourseraCatalog( $id )
     {
         $url =sprintf(self::COURSE_CATALOG_URL,$id);
-        var_dump( $url );
         $content = json_decode(file_get_contents( $url ), true);
 
         return array_pop( $content['elements'] );
