@@ -659,6 +659,11 @@
 {% endblock %}
 
 {% block customJS %}
+    var addthis_share = {
+        templates: {
+            twitter: 'Check out this free online course "{{ course.name }}" via @classcentral \{\{url}} ',
+        }
+    };
     $( document ).ready(function() {
     console.log(window.location.hash);
     if(!window.location.hash)
