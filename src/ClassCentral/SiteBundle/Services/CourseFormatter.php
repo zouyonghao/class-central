@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Services;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
@@ -33,10 +34,14 @@ class CourseFormatter {
     public function blogFormat( Course $course )
     {
         $router = $this->container->get('router');
+        $rs = $this->container->get('review');
 
         $line1 = '';  // Course name
         $line2 = '';  // Institution name
         $line3 = '';  // Next Session
+
+
+        $ratings = $rs->getRatings( $course->getId() );
 
         // LINE 1
         $url = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
@@ -44,7 +49,7 @@ class CourseFormatter {
         $line1 = "<a href='$url'><b>$name</b></a>";
 
         // LINE 2
-        if($course->getInstitutions())
+        if($course->getInstitutions()->count() > 0)
         {
             $ins = $course->getInstitutions()->first();
             $insName = $ins->getName();
@@ -56,20 +61,21 @@ class CourseFormatter {
         if( $nextOffering )
         {
             $displayDate = $nextOffering->getDisplayDate();
+            $directUrl = $nextOffering->getUrl();
             $states = CourseUtility::getStates( $nextOffering );
             if( in_array('past',$states) )
             {
-                $displayDate = 'NA';
+                $displayDate = 'TBA';
             }
             if( in_array('selfpaced',$states) )
             {
                 $displayDate = 'Self Paced';
             }
 
-            $line3 = "<b>Next Session : $displayDate </b>";
+            $line3 = "<b> <a href='$url' target='_blank'>Go To Class</a> | Next Session : $displayDate </b>";
         }
 
-        return $line1 . '<br/>' . $line2 . '<br/>' . $line3;
+        return $line1 . '<br/>' . $line2 . '<br/>' . $line3 . '<br/>';
 
     }
 } 
