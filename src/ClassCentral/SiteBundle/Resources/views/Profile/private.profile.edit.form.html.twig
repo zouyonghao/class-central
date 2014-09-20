@@ -1,29 +1,31 @@
 <form class="color-scheme-red" action="#" method="post">
     <div class="padded-input-group padded-input-group--border-top">
         <h2 class="heading-colored">Private info.</h2>
+        <div class="alert alert-danger hide" id="private-form-error" role="alert">
+        </div>
 
         <div class="row">
             <div class="col-lg-6">
                 <div class="bordered-box bordered-box--input">
                     <label class="cc-input-label" for="edit-profile-email">Email</label>
-                    <input class="plain-input" type="email" name="email" placeholder="Full name" id="edit-profile-email">
+                    <input class="plain-input" data-current-email= "{{ user.email }}" type="email" name="edit-profile-email" placeholder="Email"  value="{{ user.email }}">
                 </div>
                 <div class="forgot-password-wrap">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-current-password">Current Password</label>
-                        <input class="plain-input" type="password" name="current-password" placeholder="" id="edit-profile-current-password">
+                        <input class="plain-input" type="password" placeholder="" name="edit-profile-current-password">
                     </div>
                     <a href="" class="forgot-password-link">Forgot your password?</a>
                 </div>
 
                 <div class="bordered-box bordered-box--input">
                     <label class="cc-input-label" for="edit-profile-new-password">New Password</label>
-                    <input class="plain-input" type="password" name="new-password" placeholder="" id="edit-profile-new-password">
+                    <input class="plain-input" type="password"  placeholder="" name="edit-profile-new-password">
                 </div>
 
                 <div class="bordered-box bordered-box--input">
                     <label class="cc-input-label" for="edit-profile-verify-password">Verify Password</label>
-                    <input class="plain-input" type="password" name="verify-password" placeholder="" id="edit-profile-verify-password">
+                    <input class="plain-input" type="password" placeholder="" name="edit-profile-confirm-password">
                 </div>
             </div>
             <div class="col-lg-6 pull-right">
@@ -35,5 +37,5 @@
         </div>
     </div>
 
-    <input class="full-width-button" type="submit" name="submit" value="Update my private info">
+    <input class="full-width-button" id="save-profile-private" type="submit" name="submit" value="Update my private info">
 </form>

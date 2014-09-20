@@ -348,8 +348,8 @@ CC.Class['Profile'] = (function(){
     }
 
     function getPrivateDataFormValues() {
-        var currentEmail = $('input:text[name=edit-profile-email]').data('current-email') || '';
-        var email = $('input:text[name=edit-profile-email]').val() || '';
+        var currentEmail = $('input[name=edit-profile-email]').data('current-email') || '';
+        var email = $('input[name=edit-profile-email]').val() || '';
         var curPassword = $('input:password[name=edit-profile-current-password]').val() || '';
         var newPassword = $('input:password[name=edit-profile-new-password]').val() || '';
         var confirmPassword = $('input:password[name=edit-profile-confirm-password]').val() || '';
@@ -363,25 +363,35 @@ CC.Class['Profile'] = (function(){
         }
     }
 
+    function showPrivateFormError(msg) {
+        $('#private-form-error').html( msg );
+        $('#private-form-error').removeClass('hide');
+    }
+
+    function hidePrivateFormError() {
+        $('#private-form-error').addClass('hide');
+    }
+
     function savePrivateForm( event ){
         event.preventDefault();
-        pInfo = getPrivateDataFormValues();
-        console.log(pInfo);
+        var pInfo = getPrivateDataFormValues();
+        console.log( pInfo );
 
         // Check if it is an email change
         var isEmailChange = ( pInfo.currentEmail != pInfo.email ) ;
 
         // Check if password is being changed
         var isPasswordChange = (pInfo.newPassword != null && pInfo.newPassword.trim() != '');
-
+        hidePrivateFormError(); // Hide the error
         if(isEmailChange || isPasswordChange) {
             if(!pInfo.currentPassword) {
-                // Cannot be empty show an error message.
+                showPrivateFormError("Current password cannot be empty");
             } else {
                 if(isPasswordChange) {
                     // Check if the new and old passwords are equal
                     if( pInfo.newPassword != pInfo.confirmPassword ) {
                         // Show an error message
+                        showPrivateFormError("New Password and Verify Password do not match");
                     } else {
                         // Call the api to change password
                     }
@@ -391,6 +401,7 @@ CC.Class['Profile'] = (function(){
             }
         } else {
             // Nothing is being changed
+            showPrivateFormError("Nothing to update");
         }
     }
 
