@@ -6,6 +6,7 @@ CC.Class['Profile'] = (function(){
 
     var postUrl = '/user/profile/save';
     var button = null;
+    var privateButton = null;
     var utilities = CC.Class['Utilities'];
     var user = CC.Class['User'];
     var cords = {
@@ -345,6 +346,7 @@ CC.Class['Profile'] = (function(){
      */
     function initPrivateForm( privateFormSubmit ) {
         $(privateFormSubmit).click( savePrivateForm );
+        privateButton = $(privateFormSubmit);
     }
 
     function getPrivateDataFormValues() {
@@ -374,8 +376,12 @@ CC.Class['Profile'] = (function(){
 
     function savePrivateForm( event ){
         event.preventDefault();
+
+        // Disable the update my private info button
+        var savePrivateButton = $('#save-profile-private');
+        savePrivateButton.attr('disabled',true);
+
         var pInfo = getPrivateDataFormValues();
-        console.log( pInfo );
 
         // Check if it is an email change
         var isEmailChange = ( pInfo.currentEmail != pInfo.email ) ;
@@ -386,12 +392,14 @@ CC.Class['Profile'] = (function(){
         if(isEmailChange || isPasswordChange) {
             if(!pInfo.currentPassword) {
                 showPrivateFormError("Current password cannot be empty");
+                privateButton.attr('disabled',false); // Enable the update private info button
             } else {
                 if(isPasswordChange) {
                     // Check if the new and old passwords are equal
                     if( pInfo.newPassword != pInfo.confirmPassword ) {
                         // Show an error message
                         showPrivateFormError("New Password and Verify Password do not match");
+                        privateButton.attr('disabled',false); // Enable the update private info button
                     } else {
                         // Call the api to change password
                         updatePassword( pInfo );
@@ -404,6 +412,7 @@ CC.Class['Profile'] = (function(){
         } else {
             // Nothing is being changed
             showPrivateFormError("Nothing to update");
+            privateButton.attr('disabled',false); // Enable the update private info button
         }
     }
 
@@ -420,6 +429,7 @@ CC.Class['Profile'] = (function(){
             } else {
                 showPrivateFormError( result['message'] );
             }
+            privateButton.attr('disabled',false); // Enable the update private info button
         });
     }
 
@@ -436,6 +446,7 @@ CC.Class['Profile'] = (function(){
             } else {
                 showPrivateFormError( result.message );
             }
+            privateButton.attr('disabled',false); // Enable the update private info button
         });
     }
 
