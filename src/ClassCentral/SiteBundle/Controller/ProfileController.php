@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
@@ -519,7 +520,16 @@ class ProfileController extends Controller
         }
 
         // Send an email to confirm the new email address
+       $this->sendChangeEmailAddressVerificationEmail( $user, $email);
 
+        // Notify the user of change of email address
+        $this->get('user_session')->notifyUser(
+            UserSession::FLASH_TYPE_SUCCESS,
+            'Verification Email Sent to '. $email,
+            'Please click the link in the email within 7 days to verify and update your email address to '. $email
+        );
+
+        return UniversalHelper::getAjaxResponse(true);
     }
 
     private  function isPasswordValid($password, User $user)
@@ -530,5 +540,34 @@ class ProfileController extends Controller
     private function getPasswordEncoder(User $user)
     {
         return $this->get('security.encoder_factory')->getEncoder($user);
+    }
+
+    /**
+     * Sends an email to verify the email address
+     * @param User $user
+     * @param $newEmail
+     */
+    private function sendChangeEmailAddressVerificationEmail(User $user, $newEmail)
+    {
+        $tokenService = $this->get('verification_token');
+        $mailgun = $this->get('mailgun');
+        $templating = $this->get('templating');
+        $logger = $this->get('logger');
+
+        $token = $tokenService->create("change_email=$newEmail&user_id=".$user->getId(), VerificationToken::EXPIRY_1_WEEK);
+        if ($this->container->getParameter('kernel.environment') != 'test' )
+        {
+            // Don't send email in test environment
+            $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:changeOfEmailAddressVerification.html.twig', array('token' => $token->getToken()))->getContent();
+            $mailgunResponse = $mailgun->sendSimpleText($newEmail,"no-reply@class-central.com","Change of email address",$html);
+            if( !isset($mailgunResponse['id']) )
+            {
+                $logger->error('Error sending change of email address verification email', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
+            }
+            else
+            {
+                $logger->info('Change of email address verification mail sent', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
+            }
+        }
     }
 }
