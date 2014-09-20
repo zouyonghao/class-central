@@ -585,7 +585,12 @@ class ProfileController extends Controller
         $templating = $this->get('templating');
         $logger = $this->get('logger');
 
-        $token = $tokenService->create("change_email=$newEmail&user_id=".$user->getId(), VerificationToken::EXPIRY_1_WEEK);
+        $value = array(
+            'email' => $newEmail,
+            'verify_change' => 1,
+            'user_id' => $user->getId()
+        );
+        $token = $tokenService->create($value, VerificationToken::EXPIRY_1_WEEK);
         if ($this->container->getParameter('kernel.environment') != 'test' )
         {
             // Don't send email in test environment
@@ -611,6 +616,58 @@ class ProfileController extends Controller
      */
     public function verifyNewEmailAction( Request $request, $token)
     {
+        $em = $this->getDoctrine()->getManager();
+        $verifyTokenService = $this->get('verification_token');
+        $newsletterService = $this->get('newsletter');
+        $logger = $this->get('logger');
 
+        // check if the token is valid
+        $tokenEntity = $verifyTokenService->get($token);
+        if( !$tokenEntity  )
+        {
+            // Token is not valid
+            return $this->renderChangeEmailVerificationPage("Invalid or expired token");
+        }
+
+        $tokenValue = $tokenEntity->getTokenValueArray();
+        if( !$tokenValue['verify_change'] || !$tokenValue['email'] || !$tokenValue['user_id'] )
+        {
+            // Invalid token
+            return $this->renderChangeEmailVerificationPage("Invalid or expired token");
+        }
+
+        $newEmail = $tokenValue['email'];
+        $uid = $tokenValue['user_id'];
+        $user = $em->getRepository('ClassCentralSiteBundle:user')->find( $uid );
+        if($user)
+        {
+            $oldEmail = $user->getEmail();
+            $user->setIsverified(1);
+            $user->setEmail( $newEmail );
+            $em->persist($user);
+            $em->flush();
+
+            // Subscribe the email to different mailing list and unsubscribe from the old ones
+            foreach($user->getNewsletters() as $newsletter)
+            {
+                if ($this->container->getParameter('kernel.environment') != 'test')
+                {
+                    // Subscribe to the new newsletter
+                   $newsletterService->subscribe($newsletter->getCode(), $newEmail);
+
+                    // Unsubscribe from the old newsletter
+                    $newsletterService->unSubscribe($newsletter->getCode(), $oldEmail);
+                }
+            }
+        }
+        $verifyTokenService->delete($tokenEntity);
+        return $this->renderChangeEmailVerificationPage("Email address successfully updated. You can now log in with the new email address");
+    }
+
+    private function renderChangeEmailVerificationPage( $msg )
+    {
+        return $this->render('ClassCentralSiteBundle:Profile:updateEmailAddress.html.twig',array(
+            'msg' => $msg
+        ));
     }
 }
