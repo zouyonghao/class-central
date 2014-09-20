@@ -417,4 +417,56 @@ class ProfileController extends Controller
         unlink($imgFile);
         return $croppedFile;
     }
+
+    /**
+     * Ajax call to update the password. User is authenticated by the route config
+     */
+    public function updatePasswordAction(Request $request) {
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $em   = $this->getDoctrine()->getManager();
+
+        // Get the json request
+        $content = $this->getRequest("request")->getContent();
+        if(empty($content))
+        {
+            return UniversalHelper::getAjaxResponse(false, "Invalid Request. Please try again later");
+        }
+        $data = json_decode($content, true);
+        $currentPassword = $data['currentPassword'];
+        $newPassword =  $data['newPassword'];
+        $confirmPassword = $data['confirmPassword'];
+
+        // Check if the current password is valid
+        $factory = $this->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($user);
+        $valid = $encoder->isPasswordValid( $user->getPassword(), $currentPassword,$user->getSalt() ) ;
+
+        if ( !$valid )
+        {
+            return UniversalHelper::getAjaxResponse(false, 'Invalid current password');
+        }
+
+        // Check if the new and confirm password are the same
+        if( $newPassword != $confirmPassword )
+        {
+            return UniversalHelper::getAjaxResponse(false, 'Passwords do not match');
+        }
+
+        // All good - update the password
+        $password = $encoder->encodePassword($newPassword, $user->getSalt());
+        $user->setPassword($password);
+        $em->persist($user);
+        $em->flush();
+
+        // Notify the user of successful password reset
+        // Set a notification message
+        $this->get('user_session')->notifyUser(
+            UserSession::FLASH_TYPE_SUCCESS,
+            'Password Updated Successfully',
+            'Use the new password when you login next time'
+        );
+
+        return UniversalHelper::getAjaxResponse(true);
+    }
 }

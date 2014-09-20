@@ -335,7 +335,7 @@ CC.Class['Profile'] = (function(){
     }
 
     // =====================================================
-    //      Edit Pofile - Private form
+    //      Edit Profile - Private form
     // ======================================================
 
 
@@ -394,6 +394,7 @@ CC.Class['Profile'] = (function(){
                         showPrivateFormError("New Password and Verify Password do not match");
                     } else {
                         // Call the api to change password
+                        updatePassword( pInfo );
                     }
                 } else {
                     // Call the api to update email address
@@ -403,6 +404,22 @@ CC.Class['Profile'] = (function(){
             // Nothing is being changed
             showPrivateFormError("Nothing to update");
         }
+    }
+
+    function updatePassword( pInfo ){
+        $.ajax({
+            type:"post",
+            url: "/user/profile/updatePassword",
+            data: JSON.stringify(pInfo)
+        }).done(function(result){
+            result = JSON.parse(result);
+            if( result['success'] ){
+                // Refresh the page
+                location.reload(true);
+            } else {
+                showPrivateFormError( result['message'] );
+            }
+        });
     }
 
     return {
