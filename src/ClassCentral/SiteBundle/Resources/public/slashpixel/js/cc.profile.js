@@ -398,6 +398,7 @@ CC.Class['Profile'] = (function(){
                     }
                 } else {
                     // Call the api to update email address
+                    updateEmail( pInfo );
                 }
             }
         } else {
@@ -418,6 +419,22 @@ CC.Class['Profile'] = (function(){
                 location.reload(true);
             } else {
                 showPrivateFormError( result['message'] );
+            }
+        });
+    }
+
+    function updateEmail(pInfo){
+        $.ajax({
+            type: "post",
+            url: "/user/profile/updateEmail",
+            data: JSON.stringify(pInfo)
+        }).done( function(result){
+            result = JSON.parse( result );
+            if( result['success'] ){
+                // Refersh the page
+                location.reload(true);
+            } else {
+                showPrivateFormError( result.message );
             }
         });
     }

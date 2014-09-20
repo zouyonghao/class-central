@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Services\UserSession;
@@ -12,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Form\ProfileType;
+use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * Profile controller.
@@ -468,5 +470,65 @@ class ProfileController extends Controller
         );
 
         return UniversalHelper::getAjaxResponse(true);
+    }
+
+    /**
+     * Ajax call to update the email
+     * @param Request $request
+     */
+    public function updateEmailAction(Request $request)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $em   = $this->getDoctrine()->getManager();
+
+        // Get the json request
+        $content = $this->getRequest("request")->getContent();
+        if(empty($content))
+        {
+            return UniversalHelper::getAjaxResponse(false, "Invalid Request. Please try again later");
+        }
+        $data = json_decode($content, true);
+        $currentPassword = $data['currentPassword'];
+        $email = strtolower($data['email']);
+
+        // Confirm if the current password is valid
+        if ( !$this->isPasswordValid($currentPassword, $user) )
+        {
+            return UniversalHelper::getAjaxResponse(false,'Invalid current password');
+        }
+
+        // Confirm if the email address is valid
+        $emailConstraint = new Email();
+        $emailConstraint->message = 'Please enter a valid email address';
+        $errors = $this->get('validator')->validateValue(
+            $email,
+            $emailConstraint
+        );
+        if($errors->count() > 0) {
+            foreach ($errors as $error)
+            {
+                return UniversalHelper::getAjaxResponse(false,$error->getMessage());
+            }
+        }
+
+        // Confirm whether the email address does not exits
+        $u = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array('email'=>$email) );
+        if($u)
+        {
+            return UniversalHelper::getAjaxResponse(false,'An account with this email address already exists');
+        }
+
+        // Send an email to confirm the new email address
+
+    }
+
+    private  function isPasswordValid($password, User $user)
+    {
+        return $this->getPasswordEncoder($user)->isPasswordValid( $user->getPassword(), $password,$user->getSalt() ) ;
+    }
+
+    private function getPasswordEncoder(User $user)
+    {
+        return $this->get('security.encoder_factory')->getEncoder($user);
     }
 }

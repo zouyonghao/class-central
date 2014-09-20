@@ -363,6 +363,10 @@ user_profile_update_password:
   pattern: /user/profile/updatePassword
   defaults: {_controller: ClassCentralSiteBundle:Profile:updatePassword }
 
+user_profile_update_email:
+  pattern: /user/profile/updateEmail
+  defaults: {_controller: ClassCentralSiteBundle:Profile:updateEmail }
+
 user_profile_image_upload_step_1:
   pattern: /user/profile/image/step1
   defaults: {_controller: ClassCentralSiteBundle:Profile:profileImageStep1 }
