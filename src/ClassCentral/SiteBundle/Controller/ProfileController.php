@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Services\UserSession;
@@ -237,6 +238,23 @@ class ProfileController extends Controller
             $reviews[$r['course']['id']] = $r;
         }
 
+        // Check if a change of email has been issued
+        $changeEmail = null;
+        $userPrefs = $user->getUserPreferencesByTypeMap();
+        if( isset($userPrefs[ UserPreference::USER_PROFILE_UPDATE_EMAIL ]) )
+        {
+            // An change of email request was issued. Check whether it is still valid
+            $pref = $userPrefs[ UserPreference::USER_PROFILE_UPDATE_EMAIL ];
+            $values = json_decode ( $pref->getValue(),true );
+            $verifyTokenService = $this->get('verification_token');
+            $tokenEntity = $verifyTokenService->get( $values['token'] );
+            if( $tokenEntity )
+            {
+                // Email has been changed and the token is still valid
+                $changeEmail = $values['email'];
+            }
+        }
+
         return $this->render('ClassCentralSiteBundle:Profile:profile.html.twig', array(
                 'user' => $user,
                 'profile'=> $profile,
@@ -244,7 +262,8 @@ class ProfileController extends Controller
                 'coursesByLists' => $clDetails['coursesByLists'],
                 'reviews' => $reviews,
                 'degrees' => Profile::$degrees,
-                'profilePic' => $userService->getProfilePic($user->getId())
+                'profilePic' => $userService->getProfilePic($user->getId()),
+                'changeEmail' => $changeEmail
             )
         );
 
@@ -262,7 +281,7 @@ class ProfileController extends Controller
 
         return $this->render('ClassCentralSiteBundle:Profile:profile.edit.html.twig',array(
             'page' => 'edit_profile',
-            'degrees' => Profile::$degrees
+            'degrees' => Profile::$degrees,
         ));
     }
 
@@ -481,6 +500,7 @@ class ProfileController extends Controller
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
         $em   = $this->getDoctrine()->getManager();
+        $userService = $this->get('user_service');
 
         // Get the json request
         $content = $this->getRequest("request")->getContent();
@@ -520,7 +540,18 @@ class ProfileController extends Controller
         }
 
         // Send an email to confirm the new email address
-       $this->sendChangeEmailAddressVerificationEmail( $user, $email);
+       $token = $this->sendChangeEmailAddressVerificationEmail( $user, $email);
+
+        // Save the token and email
+        $userService->updatePreference(
+            $user,
+            UserPreference::USER_PROFILE_UPDATE_EMAIL,
+            json_encode(array(
+                'email' => $email,
+                'token' => $token
+            ))
+        );
+
 
         // Notify the user of change of email address
         $this->get('user_session')->notifyUser(
@@ -569,5 +600,17 @@ class ProfileController extends Controller
                 $logger->info('Change of email address verification mail sent', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
             }
         }
+
+        return $token->getToken();
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @param $token
+     */
+    public function verifyNewEmailAction( Request $request, $token)
+    {
+
     }
 }
