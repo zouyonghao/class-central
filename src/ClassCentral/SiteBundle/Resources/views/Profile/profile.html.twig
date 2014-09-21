@@ -437,7 +437,8 @@
                         {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
                         'course': course,
                         'userStatus' : list.desc,
-                        'review': review
+                        'review': null,
+                        'showOverAllRating': false
                         }) }}
                     {% endfor %}
                 </div>
@@ -451,7 +452,8 @@
             <div class="line-with-points color-scheme--blue">
                 {% for result in coursesByLists['interested'] ['hits']['hits'] %}
                     {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
-                    'course': result._source
+                    'course': result._source,
+                    'showOverAllRating':true
                     }) }}
                 {% endfor %}
             </div>
@@ -480,7 +482,8 @@
                             {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
                                 'course': course,
                                 'userStatus' : list.desc,
-                                'review': review
+                                'review': review,
+                                'showOverAllRating': true
                             }) }}
                         {% endif %}
                     {% endfor %}

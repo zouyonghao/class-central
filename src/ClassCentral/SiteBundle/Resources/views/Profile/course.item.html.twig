@@ -32,6 +32,7 @@
     </span>
 
         {# Overall reviews/ratings for this course #}
+        {% if showOverAllRating  %}
         <div class="rating-wrap">
             <div class="small-star-rating small-rating-{{ course.rating|round }}">
                 <span class="star-rating-1"></span>
@@ -42,6 +43,7 @@
             </div>
             <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" class="read-review colored">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</a>
         </div>
+        {% endif %}
 
         {%  if review is defined and review is not empty %}
         <span class="review-date">Written {{ review.displayDate }}</span>
