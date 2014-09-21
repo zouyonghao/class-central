@@ -206,6 +206,14 @@ class ProfileController extends Controller
         if(is_numeric($slug))
         {
             $user_id = intval( $slug );
+
+            // Do not show profile pages for these user ids
+            if( $user_id == User::SPECIAL_USER_ID || $user_id == User::REVIEW_USER_ID )
+            {
+                // User not found
+                throw new \Exception("User $slug not found");
+            }
+
             $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $user_id );
             if($user->getHandle())
             {

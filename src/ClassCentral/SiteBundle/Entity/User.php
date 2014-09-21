@@ -16,8 +16,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface, \Serializable
 {
-    const REVIEW_USER_EMAIL = 'reviews@class-central.com';
-
     /**
      * @var integer
      */
@@ -127,6 +125,10 @@ class User implements UserInterface, \Serializable
 
     // Special User - George P Burdell used for including external reviews
     const SPECIAL_USER_ID = 6915;
+
+    // Review user attached to anonymous review
+    const REVIEW_USER_EMAIL = 'reviews@class-central.com';
+    const REVIEW_USER_ID = 12486;
 
     public function  __construct()
     {

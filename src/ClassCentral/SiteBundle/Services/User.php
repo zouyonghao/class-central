@@ -511,7 +511,7 @@ class User {
      */
     public function getProfileUrl( $userId, $handle = null )
     {
-        if($userId == \ClassCentral\SiteBundle\Entity\User::SPECIAL_USER_ID)
+        if($userId == \ClassCentral\SiteBundle\Entity\User::SPECIAL_USER_ID || $userId == \ClassCentral\SiteBundle\Entity\User::REVIEW_USER_ID)
         {
             return null;
         }

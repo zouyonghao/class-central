@@ -74,10 +74,10 @@ class ReviewUtility {
         }
         else
         {
-            $title = sprintf(" %s this course", strtolower($review->getProgress()) );
+            $title = sprintf(" <strong>%s</strong> this course", strtolower($review->getProgress()) );
         }
-        $title .=  ($review->getHours() > 0) ? sprintf(", spending %s hours a week on it",  $review->getHours() ) : '';
-        $title .= ($review->getDifficultyId()) ? sprintf(" and found the course difficulty to be %s", strtolower($review->getDifficulty())  ) : '';
+        $title .=  ($review->getHours() > 0) ? sprintf(", spending <strong>%s hours</strong> a week on it",  $review->getHours() ) : '';
+        $title .= ($review->getDifficultyId()) ? sprintf(" and found the course difficulty to be <strong>%s</strong>", strtolower($review->getDifficulty())  ) : '';
         $title .= '.';
         return $title;
     }
