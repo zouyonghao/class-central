@@ -143,6 +143,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ user_service.getProfileUrl( app.user.id, app.user.handle ) }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central User Menu - My Profile'])" title="My Profile">
+                                    My Profile
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ path('user_reviews') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central User Menu - My Reviews'])" title="My Reviews">
                                     My Reviews
                                 </a>
