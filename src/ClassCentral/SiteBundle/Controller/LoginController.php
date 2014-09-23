@@ -11,6 +11,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserFb;
+use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -190,6 +191,12 @@ class LoginController extends Controller{
                 // Update the profile from FB data
                 $this->updateUserProfile( $user, $fbUser);
 
+                // Upload the fb profile picture
+                if( !empty($fbUser['username']) )
+                {
+                    $this->uploadFacebookProfilePic( $user, $fbUser['username'] );
+                }
+
                 // Subscribe to newsletter
                 $subscribed = $newsletterService->subscribeUser($newsletter, $user);
                 $logger->info("preferences subscribed : email newsletter subscription", array(
@@ -221,24 +228,56 @@ class LoginController extends Controller{
         $profileData = $userService->getProfileDataArray();
 
         $profileData['name'] = $fbUser['name'];
-        if( isset($fbUser['username']) )
+        if( !empty($fbUser['username']) )
         {
             $profileData['facebook'] = $fbUser['username'];
         }
-        if( isset($fbUser['website']) )
+        if( !empty($fbUser['website']) )
         {
             $profileData['website'] = $fbUser['website'];
         }
-        if( isset($fbUser['location']) )
+        if( !empty($fbUser['location']) )
         {
             $profileData['location'] = $fbUser['location'];
         }
-        if ( isset($fbUser['about']) )
+        if ( !empty($fbUser['about']) )
         {
             $profileData['aboutMe'] = substr($fbUser['about'],0,200); // Limit it to 200 characters
         }
 
         $userService->saveProfile( $user, $profileData);
+    }
+
+    /**
+     * Uploads the facebook profile picture as a users profile picture
+     * @param User $user
+     * @param $username
+     */
+    private function uploadFacebookProfilePic( User $user, $username)
+    {
+        try{
+            $kuber = $this->get('kuber');
+            $url = "https://graph.facebook.com/$username/picture?width=400&height=400";
+
+            //Get the extension
+            $size = getimagesize($url);
+            $extension = image_type_to_extension($size[2]);
+
+            $imgFile = '/tmp/'. $username;
+            file_put_contents( $imgFile, file_get_contents($url));
+
+            // Upload the file to S3 using Kuber
+            $kuber->upload( $imgFile, Kuber::KUBER_ENTITY_USER, Kuber::KUBER_TYPE_USER_PROFILE_PIC, $user->getId(), ltrim($extension,'.'));
+            // Clear the cache for profile pic
+            $this->get('cache')->deleteCache('user_profile_pic_' . $user->getId());
+            // Delete the temporary file
+            unlink( $imgFile );
+        } catch ( \Exception $e ) {
+            $this->get('logger')->error(
+                "Failed uploading Facebook Profile Picture for user id " . $user->getId() .
+                ' with error: ' . $e->getMessage()
+            );
+        }
 
     }
 
