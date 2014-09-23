@@ -193,16 +193,24 @@ class ProfileController extends Controller
     }
 
     /**
-     *
+     * Renders the users profile
      * @param $slug user id or username
      */
-    public function profileAction(Request $request,$slug)
+    public function profileAction(Request $request,$slug, $tab)
     {
+        $tabs = array('transcript','interested','reviews','edit-profile');
         $em = $this->getDoctrine()->getManager();
         $cl = $this->get('course_listing');
         $userService = $this->get('user_service');
 
-
+        if(! in_array($tab,$tabs) )
+        {
+            // Invalid tab. Do a 301 redirect
+            return $this->redirect(
+                $this->get('router')->generate('user_profile', array('slug' => $slug)),
+                301
+            );
+        }
         if(is_numeric($slug))
         {
             $user_id = intval( $slug );
@@ -218,7 +226,11 @@ class ProfileController extends Controller
             if($user->getHandle())
             {
                 // Redirect the user to the profile url
-                $url = $this->get('router')->generate('user_profile_handle', array('slug' => $user->getHandle()));
+
+                $url = $this->get('router')->generate('user_profile_handle', array(
+                    'slug' => $user->getHandle(),
+                    'tab' => ($tab == 'transcript') ? null : $tab // Avoid showing transcript in the url
+                ));
                 return $this->redirect($url,301);
             }
         }
@@ -227,12 +239,13 @@ class ProfileController extends Controller
             $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array('handle'=> $slug) );
         }
 
-
         if(!$user)
         {
             // User not found
             throw new \Exception("User $slug not found");
         }
+
+        // User might not have a profile
         $profile = ($user->getProfile()) ? $user->getProfile() : new Profile();
 
         // Get users course listing. This is the same function on My Courses page
@@ -271,10 +284,10 @@ class ProfileController extends Controller
                 'reviews' => $reviews,
                 'degrees' => Profile::$degrees,
                 'profilePic' => $userService->getProfilePic($user->getId()),
-                'changeEmail' => $changeEmail
+                'changeEmail' => $changeEmail,
+                'tab' => $tab,
             )
         );
-
     }
 
     /**

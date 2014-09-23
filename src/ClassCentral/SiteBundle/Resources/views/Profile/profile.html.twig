@@ -19,9 +19,13 @@
 {% endblock %}
 
 {% block content -%}
+
+    {#
     <h2 class="section-heading"><span>340 Class Members</span></h2>
 
     <div class="row margin-10 row-flip-cards">
+
+
     <div class="col-220 padding-10">
         <a href="#" class="flip-card">
             <div class="card-front">
@@ -302,6 +306,7 @@
         </a>
     </div>
     </div>
+    #}
 
     <h2 class="section-heading"><span>Profile</span></h2>
 
@@ -404,12 +409,12 @@
     <div class="col-md-8 profile-content">
     <div class="tabbed-content">
     <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#transcripts" role="tab" data-toggle="tab">Transcript ({{ transcriptCount }})</a></li>
-        <li><a href="#interested" role="tab" data-toggle="tab">Interested ({{ interestedCount }})</a></li>
-        <li><a href="#reviews" role="tab" data-toggle="tab">Reviews ({{ reviews|length }})</a></li>
+        <li {% if tab == 'transcript' %}class="active" {% endif%} ><a href="#transcripts" role="tab" data-toggle="tab">Transcript ({{ transcriptCount }})</a></li>
+        <li {% if tab == 'interested' %}class="active" {% endif%} ><a href="#interested" role="tab" data-toggle="tab">Interested ({{ interestedCount }})</a></li>
+        <li {% if tab == 'reviews' %}class="active" {% endif%} ><a href="#reviews" role="tab" data-toggle="tab">Reviews ({{ reviews|length }})</a></li>
         {# <li><a href="#collections" role="tab" data-toggle="tab">Collections (24)</a></li> #}
         {% if app.user and app.user.id == user.id %}
-            <li><a href="#edit-profile" role="tab" data-toggle="tab">Edit Profile</a></li>
+            <li {% if tab == 'edit-profile' %}class="active" {% endif%} ><a href="#edit-profile" role="tab" data-toggle="tab">Edit Profile</a></li>
         {% endif %}
     </ul>
 
@@ -417,7 +422,7 @@
     <div class="tab-content">
 
     {# Transcript tab #}
-    <div class="tab-pane active" id="transcripts">
+    <div class="tab-pane {% if tab == 'transcript' %} active {% endif %}" id="transcripts">
 
         {% if transcriptCount == 0 %}
             <h2 class="large-thin-title">No courses found</h2>
@@ -447,7 +452,7 @@
     </div>
 
     {# interested tab #}
-    <div class="tab-pane" id="interested">
+    <div class="tab-pane {% if tab == 'interested' %} active {% endif %}" id="interested">
         {% if interestedCount > 0 %}
             <div class="line-with-points color-scheme--blue">
                 {% for result in coursesByLists['interested'] ['hits']['hits'] %}
@@ -463,7 +468,7 @@
     </div>
 
     {#  reviews tab #}
-    <div class="tab-pane" id="reviews">
+    <div class="tab-pane {% if tab == 'reviews' %} active {% endif %}" id="reviews">
         {% if transcriptCount == 0 %}
             <h2 class="large-thin-title">{{ user.displayName }} hasn't written any reviews</h2>
         {% endif %}
@@ -498,7 +503,7 @@
 
    {# only show it to loggein users #}
     {% if app.user and app.user.id == user.id %}
-        <div class="tab-pane tab-pane--no-styling" id="edit-profile">
+        <div class="tab-pane tab-pane--no-styling {% if tab == 'edit-profile' %} active {% endif %}" id="edit-profile">
             {% include 'ClassCentralSiteBundle:Profile:public.profile.edit.form.html.twig' %}
             {% include 'ClassCentralSiteBundle:Profile:private.profile.edit.form.html.twig' %}
         </div>

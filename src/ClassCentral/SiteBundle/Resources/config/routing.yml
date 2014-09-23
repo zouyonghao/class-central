@@ -344,12 +344,12 @@ user_profile_dummy:
   defaults: {_controller: ClassCentralSiteBundle:User:profile }
 
 user_profile:
-  pattern: /u/{slug}
-  defaults: {_controller: ClassCentralSiteBundle:Profile:profile}
+  pattern: /u/{slug}/{tab}
+  defaults: {_controller: ClassCentralSiteBundle:Profile:profile, tab:'transcript'}
 
 user_profile_handle:
-  pattern: /@{slug}
-  defaults: {_controller: ClassCentralSiteBundle:Profile:profile}
+  pattern: /@{slug}/{tab}
+  defaults: {_controller: ClassCentralSiteBundle:Profile:profile, tab:'transcript'}
 
 user_profile_edit:
   pattern: /user/edit
