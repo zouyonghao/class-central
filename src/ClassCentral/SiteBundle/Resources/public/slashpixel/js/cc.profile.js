@@ -130,6 +130,9 @@ CC.Class['Profile'] = (function(){
         $(btn_crop).click(cropButtonHandler);
 
         $(cropProfilePicSettings.modal).on('hidden.bs.modal', clearImage);
+
+        // Attach event handler to the tab clicks to upate the url via push state
+        $('#profile-tabs li').click( profileTabClickHandler);
     }
 
     function showCoords(c) {
@@ -141,6 +144,37 @@ CC.Class['Profile'] = (function(){
         cords.h = c.h;
 
     };
+
+    /**
+     * Update the url when the tabs are clicked
+     * @param event
+     */
+    function profileTabClickHandler( event ) {
+        console.log( $(this).data('tab'));
+        var tabName = $(this).data('tab');
+        var url = window.location.href.toString().split(window.location.host)[1];
+
+        // Retrieve the base url
+        var baseUrl = null;
+
+        // Scenario 1 - url is of the for
+        if(url.search('/u/') == 0 && url.match(/\//g).length > 2) {
+            baseUrl =  url.substring(0, url.lastIndexOf('/') );
+        } else if (url.search('/@') == 0 && url.match(/\//g).length > 1) {
+            baseUrl =  url.substring(0, url.lastIndexOf('/') );
+        } else {
+            baseUrl = url;
+        }
+
+        // Build the path
+        var path = null;
+        if(tabName == 'transcript') {
+            path = baseUrl;
+        } else {
+            path = baseUrl + '/' + tabName;
+        }
+        history.replaceState( null, null, path);
+    }
 
     function showSpinner() {
         var opts = {
