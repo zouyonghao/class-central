@@ -245,6 +245,33 @@ class ProfileController extends Controller
             throw new \Exception("User $slug not found");
         }
 
+       // if tab is edit-profile. Do some security checks
+        if( $tab == 'edit-profile' )
+        {
+            if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+            {
+                // Logged in user
+                $loggedInUser = $this->get('security.context')->getToken()->getUser();
+                if( $user->getId() != $loggedInUser->getId() )
+                {
+                    // Does not have access to the edit profile tab. Redirect to transcript
+                    return $this->redirect(
+                        $this->get('router')->generate('user_profile', array('slug' => $user->getId() )),
+                        301
+                    );
+                }
+            }
+            else
+            {
+                // Does not have access to the edit profile tab. Redirect to transcript
+                return $this->redirect(
+                    $this->get('router')->generate('user_profile', array('slug' =>  $user->getId())),
+                    301
+                );
+            }
+        }
+
+
         // User might not have a profile
         $profile = ($user->getProfile()) ? $user->getProfile() : new Profile();
 
