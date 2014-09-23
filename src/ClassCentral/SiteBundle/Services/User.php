@@ -99,7 +99,6 @@ class User {
                 }
             }
 
-
             $userSession->clearSignupReferralDetails();
             $userSession->saveUserInformationInSession(); // Update the session
 
@@ -117,7 +116,7 @@ class User {
             return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug() ));
         }
 
-        return $router->generate('user_library');
+        return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile'));
     }
 
     /**
@@ -482,6 +481,27 @@ class User {
         );
 
         return true;
+    }
+
+    /**
+     * Gets an empty profile data array used by the save profile
+     * function with the keys initialized
+     */
+    public function getProfileDataArray()
+    {
+        return array(
+            'aboutMe' => '',
+            'location' => '',
+            'name' => '',
+            'highestDegree' => '',
+            'fieldOfStudy' => '',
+            'twitter' => '',
+            'coursera' => '',
+            'linkedin' => '',
+            'website' => '',
+            'gplus' => '',
+            'facebook' => '',
+        );
     }
 
     /**

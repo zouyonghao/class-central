@@ -187,6 +187,9 @@ class LoginController extends Controller{
                 $em->persist($ufb);
                 $em->flush();
 
+                // Update the profile from FB data
+                $this->updateUserProfile( $user, $fbUser);
+
                 // Subscribe to newsletter
                 $subscribed = $newsletterService->subscribeUser($newsletter, $user);
                 $logger->info("preferences subscribed : email newsletter subscription", array(
@@ -204,6 +207,38 @@ class LoginController extends Controller{
             $logger->info("FBAUTH: Api exception" . $e->getMessage());
             return null;
         }
+
+    }
+
+    /**
+     * Retrieves the facebook
+     * @param User $user
+     * @param $fbUser
+     */
+    private function updateUserProfile(User $user, $fbUser)
+    {
+        $userService = $this->get('user_service');
+        $profileData = $userService->getProfileDataArray();
+
+        $profileData['name'] = $fbUser['name'];
+        if( isset($fbUser['username']) )
+        {
+            $profileData['facebook'] = $fbUser['username'];
+        }
+        if( isset($fbUser['website']) )
+        {
+            $profileData['website'] = $fbUser['website'];
+        }
+        if( isset($fbUser['location']) )
+        {
+            $profileData['location'] = $fbUser['location'];
+        }
+        if ( isset($fbUser['about']) )
+        {
+            $profileData['aboutMe'] = substr($fbUser['about'],0,200); // Limit it to 200 characters
+        }
+
+        $userService->saveProfile( $user, $profileData);
 
     }
 
