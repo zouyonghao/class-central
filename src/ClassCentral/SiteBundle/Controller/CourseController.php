@@ -263,7 +263,7 @@ class CourseController extends Controller
      * @param $slug descriptive url for the course
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function moocAction($id, $slug)
+    public function moocAction(Request $request,$id, $slug)
     {
        $em = $this->getDoctrine()->getManager();
        $rs = $this->get('review'); // Review service
@@ -289,6 +289,14 @@ class CourseController extends Controller
         if ( $course['status'] == 100 )
         {
             throw new NotFoundHttpException("Course not found");
+        }
+
+        // Get query params
+        $redirect = $request->query->get('direct');
+        if( !empty($redirect) )
+        {
+            // Get the url of next session
+            return $this->redirect( $course['nextOffering']['url'] );
         }
 
 
