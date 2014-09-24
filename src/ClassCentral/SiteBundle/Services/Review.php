@@ -9,7 +9,6 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
-use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Entity\Review as ReviewEntity;

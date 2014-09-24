@@ -5,14 +5,6 @@
     {% endif %}
     {# <span class="author" itemprop="author">{{ review.user.name }}</span> #}
 
-    <div class="small-star-rating small-rating-{{ review.rating }}">
-        <span class="star-rating-1"></span>
-        <span class="star-rating-2"></span>
-        <span class="star-rating-3"></span>
-        <span class="star-rating-4"></span>
-        <span class="star-rating-5"></span>
-        <meta itemprop="rating" content="{{ review.rating }}">
-    </div>
     {% if course is defined %}
         <meta itemprop="itemreviewed" content="{{ course.name}}">
     {% else %}
@@ -37,8 +29,6 @@
 
     <div>
     {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle) %}
-
-
         <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
         <div class="review-title title-with-image" itemprop="summary">
             <div class="crop-circle crop-circle--bordered">
@@ -53,15 +43,13 @@
             {{ review.reviewTitle|raw }}
         </div>
 
-        <div class="small-star-rating small-rating-{{ review.rating }}" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+        <div class="small-star-rating small-rating-{{ review.rating }}">
             <span class="star-rating-1"></span>
             <span class="star-rating-2"></span>
             <span class="star-rating-3"></span>
             <span class="star-rating-4"></span>
             <span class="star-rating-5"></span>
-            <meta itemprop="ratingValue" content="{{ review.rating }}">
-            <meta itemprop="worstRating" content = "1"/>
-            <meta itemprop="bestRating" content = "5"/>
+            <meta itemprop="rating" content="{{ review.rating }}">
         </div>
 
         <div class="review-content wide-border-left">
