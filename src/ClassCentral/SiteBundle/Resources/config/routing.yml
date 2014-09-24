@@ -92,6 +92,11 @@ ClassCentralSiteBundle_mooc:
   pattern: /mooc/{id}/{slug}
   defaults: { _controller: ClassCentralSiteBundle:Course:mooc}
 
+mooc_interested:
+  pattern: /mooc/{id}/{slug}/interested
+  defaults: { _controller: ClassCentralSiteBundle:Course:interested }
+
+
 ClassCentralSiteBundle_news:
   pattern: /news
   defaults: {_controller: ClassCentralSiteBundle:News:home}

@@ -549,5 +549,22 @@ class User {
 
     }
 
+    /**
+     * Returns the display name from user array returned
+     * from doctrine HydrateArray. Used in twig templates
+     * @param array $user
+     */
+    public function getDisplayName( $user = array() )
+    {
+        if( empty($user['name']) )
+        {
+            return 'Class Central user';
+        }
+        else
+        {
+            return ucwords( strtolower($user['name']) );
+        }
+    }
+
 
 } 

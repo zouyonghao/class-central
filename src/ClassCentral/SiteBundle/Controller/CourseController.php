@@ -787,4 +787,72 @@ EOD;
 
     }
 
+    public function interestedAction(Request $request, $id, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rs = $this->get('review'); // Review service
+        $cache = $this->get('Cache');
+
+        $courseId = intval($id);
+        $course = $cache->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
+        if(!$course)
+        {
+            // TODO: render a error page
+            return;
+        }
+
+
+        // If the slug is not the same, then redirect to the correct url
+
+        if( $course['slug'] !== $slug)
+        {
+            $url =  $this->get('router')->generate('mooc_interested', array('id' => $course['id'],'slug' => $course['slug']));
+            return $this->redirect($url,301);
+        }
+
+        if ( $course['status'] == 100 )
+        {
+            throw new NotFoundHttpException("Course not found");
+        }
+
+        // Get the list of interested users
+        $users = $em->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $id );
+
+        // Breadcrumbs
+        // Breadcrumbs
+        $breadcrumbs = array();
+        if(!empty($course['initiative']['name']))
+        {
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                $course['initiative']['name'],
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => $course['initiative']['code'] ))
+            );
+        }
+        else
+        {
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+                'Others',
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => 'others'))
+            );
+        }
+
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+            $course['name'],
+            $this->generateUrl('ClassCentralSiteBundle_mooc',array('id' => $id, 'slug'=>$slug ))
+        );
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+            'Interested Users'
+        );
+
+
+
+        return $this->render(
+            'ClassCentralSiteBundle:Course:interested.html.twig', array(
+                'course' => $course,
+                'users' => $users,
+                'breadcrumbs' => $breadcrumbs
+            )
+        );
+    }
+
 }

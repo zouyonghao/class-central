@@ -6,6 +6,7 @@ namespace ClassCentral\SiteBundle\Repository;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class CourseRepository extends EntityRepository{
 
@@ -228,5 +229,24 @@ class CourseRepository extends EntityRepository{
         $listed = $query->getQuery()->getSingleScalarResult();
 
         return $listed;
+    }
+
+    /**
+     * Returns a list of users interested in a particular course
+     * @param Course $course
+     */
+    public function getInterestedUsers( $id )
+    {
+        $query = $this->getEntityManager()->createQueryBuilder();
+        $query
+            ->add('select', 'u.id as id, u.name as name, u.handle as handle, p.location as location, p.aboutMe as aboutMe')
+            ->add('from', 'ClassCentralSiteBundle:User u')
+            ->join('u.userCourses','uc')
+            ->leftJoin('u.profile','p')
+            ->andWhere('uc.course = :id')
+            ->orderBy('p.aboutMe','DESC')
+            ->setParameter('id', $id)
+            ;
+        return $query->getQuery()->getResult( Query::HYDRATE_ARRAY );
     }
 }

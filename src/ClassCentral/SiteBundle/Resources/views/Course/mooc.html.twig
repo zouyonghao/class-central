@@ -302,7 +302,9 @@
                     </span>
             </div>
             <div class="course-data-row course-participants">
-                <span class="number" id="mycourses-listed-count">0</span>
+                <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" style="color: #272c2e;">
+                    <span class="number" style="text-decoration:underline" id="mycourses-listed-count">0</span>
+                </a>
                 <span class="course-data-value">Interested<br/> <span class="mycourses-listed-line-2">Class Central users</span></span>
             </div>
             <div class="course-data-row add-to-my-courses">
