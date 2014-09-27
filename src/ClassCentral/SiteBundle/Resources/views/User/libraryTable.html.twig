@@ -9,7 +9,7 @@
         {% if coursesByLists[listType] is defined and coursesByLists[listType] is not empty %}
             <div id ="{{ listType }}-table-wrapper">
                 <h2 class="tabletitle" id="{{listType}}">{{listDetails.desc}} (<span id="{{ listType }}-count">{{ coursesByLists[listType]['hits']['total'] }}</span>)</h2>
-                {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {'results':coursesByLists[listType],'tableId':listType} %}
+                {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {'results':coursesByLists[listType],'tableId':listType, 'hideLoadMore':true} %}
             </div>
         {% endif %}
     {% endfor %}
