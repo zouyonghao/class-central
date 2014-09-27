@@ -43,10 +43,11 @@ class UserPreference
     const USER_PREFERENCE_MOOC_TRACKER_COURSES = 100;
     const USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM = 101;
     const USER_PROFILE_UPDATE_EMAIL = 1000; // Stores the email address and token until the verification happens
+    const USER_PROFILE_DELETE_ACCOUNT = 1001; // Marks a profile for deletion
 
     public static $validPrefs = array(
         self::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM, self::USER_PREFERENCE_MOOC_TRACKER_COURSES,
-        self::USER_PROFILE_UPDATE_EMAIL
+        self::USER_PROFILE_UPDATE_EMAIL, self::USER_PROFILE_DELETE_ACCOUNT
     );
 
     public function __construct()

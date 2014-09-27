@@ -303,6 +303,13 @@ class ProfileController extends Controller
             }
         }
 
+        // Show a message if the profile is marked for deletion
+        $deleteAccount = false;
+        if( isset( $userPrefs[ UserPreference::USER_PROFILE_DELETE_ACCOUNT] ) )
+        {
+            $deleteAccount = true;
+        }
+
         return $this->render('ClassCentralSiteBundle:Profile:profile.html.twig', array(
                 'user' => $user,
                 'profile'=> $profile,
@@ -312,6 +319,7 @@ class ProfileController extends Controller
                 'degrees' => Profile::$degrees,
                 'profilePic' => $userService->getProfilePic($user->getId()),
                 'changeEmail' => $changeEmail,
+                'deleteAccount' => true,
                 'tab' => $tab,
             )
         );
@@ -717,5 +725,13 @@ class ProfileController extends Controller
         return $this->render('ClassCentralSiteBundle:Profile:updateEmailAddress.html.twig',array(
             'msg' => $msg
         ));
+    }
+
+    /**
+     * Schedules a profile for deletion
+     */
+    public function deleteProfileAction(Request $request)
+    {
+
     }
 }
