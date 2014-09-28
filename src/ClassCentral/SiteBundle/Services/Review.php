@@ -266,7 +266,7 @@ class Review {
         $this->clearCache($courseId);
 
         // If its an actual user and not an anonymous user update the session information
-        if($user->getEmail() != User::REVIEW_USER_EMAIL)
+        if($user->getEmail() != \ClassCentral\SiteBundle\Entity\User::REVIEW_USER_EMAIL)
         {
             //Update the users review history in session
             $userSession = $this->container->get('user_session');
