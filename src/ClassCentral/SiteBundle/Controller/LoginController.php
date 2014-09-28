@@ -238,7 +238,7 @@ class LoginController extends Controller{
         }
         if( !empty($fbUser['location']) )
         {
-            $profileData['location'] = $fbUser['location'];
+            //$profileData['location'] = $fbUser['location'];
         }
         if ( !empty($fbUser['about']) )
         {
