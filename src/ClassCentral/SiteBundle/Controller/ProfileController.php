@@ -387,7 +387,7 @@ class ProfileController extends Controller
 
         // Get the image
         $img = $request->files->get('profile-pic-uploaded');
-        if(!$img)
+        if( empty($img) )
         {
             return UniversalHelper::getAjaxResponse(false,'No image found');
         }
