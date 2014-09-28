@@ -385,3 +385,7 @@ user_profile_image_upload_step_2:
   pattern: /user/profile/image/step2
   defaults: {_controller: ClassCentralSiteBundle:Profile:profileImageStep2 }
   methods: [POST]
+
+user_profile_delete:
+  pattern: /user/profile/delete
+  defaults: {_controller: ClassCentralSiteBundle:Profile:deleteProfile }

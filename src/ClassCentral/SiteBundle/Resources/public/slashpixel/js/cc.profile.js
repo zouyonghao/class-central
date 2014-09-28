@@ -381,6 +381,9 @@ CC.Class['Profile'] = (function(){
     function initPrivateForm( privateFormSubmit ) {
         $(privateFormSubmit).click( savePrivateForm );
         privateButton = $(privateFormSubmit);
+
+        // Delete profile button
+        $('#delete-profile-link').click( deleteProfile );
     }
 
     function getPrivateDataFormValues() {
@@ -482,6 +485,30 @@ CC.Class['Profile'] = (function(){
             }
             privateButton.attr('disabled',false); // Enable the update private info button
         });
+    }
+
+    function deleteProfile( event ) {
+        event.preventDefault();
+        var pInfo = getPrivateDataFormValues();
+
+        // Ask for confirmation
+        var check = confirm("Are you sure you want to delete your account? This cannot be undone");
+        if(check == true) {
+            user.isLoggedIn(true); // Redirects if the user is not logged in
+            $.ajax({
+                type: "post",
+                url: "/user/profile/delete",
+                data: JSON.stringify(pInfo)
+            }).done( function(result){
+                result = JSON.parse( result );
+                if( result['success'] ){
+                    // Refresh the page
+                    location.reload(true);
+                } else {
+                    showPrivateFormError( result.message );
+                }
+            });
+        }
     }
 
     return {

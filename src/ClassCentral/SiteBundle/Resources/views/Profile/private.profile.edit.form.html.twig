@@ -6,6 +6,11 @@
                 We received your request for change of email address and a verification email was sent to <strong>{{ changeEmail }}</strong>. Please click on the verification link in the email to update your email address.
             </div>
         {% endif %}
+        {% if deleteAccount %}
+            <div class="alert alert-info" id="private-form-error" role="alert">
+                We received your request to delete your account. Accounts are deleted within 7 days of receiving a request
+            </div>
+        {% endif %}
         <div class="alert alert-danger hide" id="private-form-error" role="alert">
         </div>
 
@@ -39,7 +44,9 @@
                                         <span class="cc-note cc-note--red-yellow">
                                             This is your private info section. Your email and password are competely private.
                                         </span>
-                <a href="#" class="small-link">Delete My Account</a>
+                {% if not deleteAccount %}
+                    <a href="#" id="delete-profile-link" class="small-link">Delete My Account</a>
+                {% endif %}
             </div>
         </div>
     </div>

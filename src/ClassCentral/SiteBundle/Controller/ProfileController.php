@@ -203,6 +203,8 @@ class ProfileController extends Controller
         $cl = $this->get('course_listing');
         $userService = $this->get('user_service');
 
+        $loggedInUser = $this->getUser();
+
         if(! in_array($tab,$tabs) )
         {
             // Invalid tab. Do a 301 redirect
@@ -289,7 +291,7 @@ class ProfileController extends Controller
         // Check if a change of email has been issued
         $changeEmail = null;
         $userPrefs = $user->getUserPreferencesByTypeMap();
-        if( isset($userPrefs[ UserPreference::USER_PROFILE_UPDATE_EMAIL ]) )
+        if( $this->isCurrentUser($user) && isset($userPrefs[ UserPreference::USER_PROFILE_UPDATE_EMAIL ]) )
         {
             // An change of email request was issued. Check whether it is still valid
             $pref = $userPrefs[ UserPreference::USER_PROFILE_UPDATE_EMAIL ];
@@ -305,7 +307,7 @@ class ProfileController extends Controller
 
         // Show a message if the profile is marked for deletion
         $deleteAccount = false;
-        if( isset( $userPrefs[ UserPreference::USER_PROFILE_DELETE_ACCOUNT] ) )
+        if( $this->isCurrentUser($user) && isset( $userPrefs[ UserPreference::USER_PROFILE_DELETE_ACCOUNT] ) )
         {
             $deleteAccount = true;
         }
@@ -319,10 +321,20 @@ class ProfileController extends Controller
                 'degrees' => Profile::$degrees,
                 'profilePic' => $userService->getProfilePic($user->getId()),
                 'changeEmail' => $changeEmail,
-                'deleteAccount' => true,
+                'deleteAccount' => $deleteAccount,
                 'tab' => $tab,
             )
         );
+    }
+
+    /**
+     * Checks whether the user is current users
+     * @param User $user
+     */
+    private  function isCurrentUser(User $user)
+    {
+        $loggedInUser = $this->getUser();
+        return $loggedInUser && $loggedInUser->getId() == $user->getId();
     }
 
     /**
@@ -728,10 +740,47 @@ class ProfileController extends Controller
     }
 
     /**
-     * Schedules a profile for deletion
+     * Marks a user record for deletion. This is an Ajax call
      */
     public function deleteProfileAction(Request $request)
     {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $em   = $this->getDoctrine()->getManager();
+        $userService = $this->get('user_service');
 
+        // Get the json request
+        $content = $this->getRequest("request")->getContent();
+        if(empty($content))
+        {
+            return UniversalHelper::getAjaxResponse(false, "Invalid Request. Please try again later");
+        }
+        $data = json_decode($content, true);
+        $currentPassword = $data['currentPassword'];
+
+        // Confirm if the current password is valid
+        if ( !$this->isPasswordValid($currentPassword, $user) )
+        {
+            return UniversalHelper::getAjaxResponse(false,'Invalid current password');
+
+        }
+
+        // Mark the user for deletion
+        $userService->updatePreference(
+            $user,
+            UserPreference::USER_PROFILE_DELETE_ACCOUNT,
+            json_encode(array(
+                'user_id' => $user->getId(),
+            ))
+        );
+
+        // Notify the user that he has 7 days to live
+        $this->get('user_session')->notifyUser(
+            UserSession::FLASH_TYPE_SUCCESS,
+            'Account marked for deletion',
+            'Your profile and all related data will be deleted within 7 days'
+        );
+
+        return UniversalHelper::getAjaxResponse(true);
     }
+
 }
