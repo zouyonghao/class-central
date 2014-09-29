@@ -215,8 +215,12 @@ class Review {
             $review->setListId($reviewData['progress']);
 
             // Add/update the course to users library
-            $userService = $this->container->get('user_service');
-            $uc = $userService->addCourse($user, $course, $reviewData['progress']);
+            if(!$isAdmin)
+            {
+                // Do not add this t
+                $userService = $this->container->get('user_service');
+                $uc = $userService->addCourse($user, $course, $reviewData['progress']);
+            }
         }
 
         // Difficulty
