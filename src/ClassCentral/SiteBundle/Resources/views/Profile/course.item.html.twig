@@ -3,7 +3,11 @@
     <h3>
 
        <span class="item-title">
-           <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}" class="colored">{{ course.name }}</a>
+           <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}" class="colored"
+             onmousedown='recordInboundLink(
+                           "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
+                           "{{course.provider.name}}","{{course.name}}","User Profile");return false'
+          >{{ course.name }}</a>
        </span>
         {% if userStatus is defined %}
             {#  <span class="item-status">{{ userStatus }}</span> #}

@@ -302,7 +302,9 @@
                     </span>
             </div>
             <div class="course-data-row course-participants">
-                <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" style="color: #272c2e;" title="List of Class Central users interested in {{ course.name }}">
+                <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" style="color: #272c2e;" title="List of Class Central users interested in {{ course.name }}"
+                   onmousedown="_gaq.push(['_trackEvent', 'View all interested users', '{{ course.name }}'])"
+                >
                     <span class="number" style="text-decoration:underline" id="mycourses-listed-count">0</span>
                 </a>
                 <span class="course-data-value">Interested<br/> <span class="mycourses-listed-line-2">Class Central users</span></span>
@@ -365,7 +367,7 @@
         <div class="faq-wrap">
             <h5 class="faq-heading">
                 FAQ
-                <a href="{{ path('ClassCentralSiteBundle_faq') }}" onmousedown="_gaq.push(['trackEvent', 'View All FAQ - Course page'])">View All</a>
+                <a href="{{ path('ClassCentralSiteBundle_faq') }}" onmousedown="_gaq.push(['_trackEvent', 'View All FAQ - Course page'])">View All</a>
             </h5>
             <div class="faq-item">
                 <div class="faq-question">
