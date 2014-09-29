@@ -32,12 +32,12 @@
         <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
         <div class="review-title title-with-image" itemprop="summary">
             <div class="crop-circle crop-circle--bordered">
-                {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}"> {% endif %}
+                {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="_gaq.push(['_trackEvent','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}'])"> {% endif %}
                     <img src="{{  user_service.getProfilePic(review.user.id) }}" alt="profile picture">
                 {% if reviewerProfileUrl %}</a> {% endif %}
             </div>
 
-            {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}"> {% endif %}
+            {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="_gaq.push(['_trackEvent','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}'])"> {% endif %}
                 <span class="author" itemprop="reviewer">{{ reviewer  }}</span>
             {% if reviewerProfileUrl %}</a> {% endif %}
             {{ review.reviewTitle|raw }}
