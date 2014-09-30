@@ -28,6 +28,7 @@ class UserSession
     const NEWSLETTER_USER_EMAIL = 'newsletter_user_email';
     const USER_REVIEWED_COURSES = 'user_review_course_ids';
     const USER_REVIEWS  = 'user_review_ids';
+    const PASSWORDLESS_LOGIN = 'passwordless_login';
 
     // Flash message types
     const FLASH_TYPE_NOTICE = 'notice';
@@ -189,6 +190,7 @@ class UserSession
 
     }
 
+
     /**
      * Saves the review history of the user in the session
      */
@@ -226,6 +228,32 @@ class UserSession
         }
         return in_array($reviewId, $reviewIds);
     }
+
+    /**
+     * Sets a session variable which says that
+     * the user has loggedin via facebook
+     */
+    public function setPasswordLessLogin( $pLogin)
+    {
+        $this->session->set(self::PASSWORDLESS_LOGIN, $pLogin);
+    }
+
+    /**
+     * Checks whether the user authenticated without using a password
+     * i.e FB
+     * @return bool
+     */
+    public function isPasswordLessLogin()
+    {
+        $loginType = $this->session->get(self::PASSWORDLESS_LOGIN);
+        if( empty($loginType) )
+        {
+            return false;
+        }
+
+        return $loginType;
+    }
+
 
     /**
      * Checks whether the course has been added to MOOC tracker

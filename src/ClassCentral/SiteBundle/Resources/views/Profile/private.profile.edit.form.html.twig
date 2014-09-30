@@ -2,12 +2,12 @@
     <div class="padded-input-group padded-input-group--border-top">
         <h2 class="heading-colored">Private info.</h2>
         {% if changeEmail %}
-            <div class="alert alert-info" id="private-form-error" role="alert">
+            <div class="alert alert-info"  role="alert">
                 We received your request for change of email address and a verification email was sent to <strong>{{ changeEmail }}</strong>. Please click on the verification link in the email to update your email address.
             </div>
         {% endif %}
         {% if deleteAccount %}
-            <div class="alert alert-info" id="private-form-error" role="alert">
+            <div class="alert alert-info" role="alert">
                 We received your request to delete your account. Accounts are deleted within 7 days of receiving a request
             </div>
         {% endif %}

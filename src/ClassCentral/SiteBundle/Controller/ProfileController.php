@@ -527,14 +527,10 @@ class ProfileController extends Controller
         $newPassword =  $data['newPassword'];
         $confirmPassword = $data['confirmPassword'];
 
-        // Check if the current password is valid
-        $factory = $this->get('security.encoder_factory');
-        $encoder = $factory->getEncoder($user);
-        $valid = $encoder->isPasswordValid( $user->getPassword(), $currentPassword,$user->getSalt() ) ;
-
-        if ( !$valid )
+        if ( !$this->isPasswordValid($currentPassword,$user) )
         {
             return UniversalHelper::getAjaxResponse(false, 'Invalid current password');
+
         }
 
         // Check if the new and confirm password are the same
@@ -544,6 +540,8 @@ class ProfileController extends Controller
         }
 
         // All good - update the password
+        $factory = $this->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($user);
         $password = $encoder->encodePassword($newPassword, $user->getSalt());
         $user->setPassword($password);
         $em->persist($user);
@@ -633,7 +631,9 @@ class ProfileController extends Controller
 
     private  function isPasswordValid($password, User $user)
     {
-        return $this->getPasswordEncoder($user)->isPasswordValid( $user->getPassword(), $password,$user->getSalt() ) ;
+        // If the user logged in without a password ie. facebook. Don't validate the password
+        return $this->get('user_session')->isPasswordLessLogin() ||
+                    $this->getPasswordEncoder($user)->isPasswordValid( $user->getPassword(), $password,$user->getSalt() ) ;
     }
 
     private function getPasswordEncoder(User $user)

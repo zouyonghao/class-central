@@ -427,25 +427,21 @@ CC.Class['Profile'] = (function(){
         var isPasswordChange = (pInfo.newPassword != null && pInfo.newPassword.trim() != '');
         hidePrivateFormError(); // Hide the error
         if(isEmailChange || isPasswordChange) {
-            if(!pInfo.currentPassword) {
-                showPrivateFormError("Current password cannot be empty");
-                privateButton.attr('disabled',false); // Enable the update private info button
-            } else {
-                if(isPasswordChange) {
-                    // Check if the new and old passwords are equal
-                    if( pInfo.newPassword != pInfo.confirmPassword ) {
-                        // Show an error message
-                        showPrivateFormError("New Password and Verify Password do not match");
-                        privateButton.attr('disabled',false); // Enable the update private info button
-                    } else {
-                        // Call the api to change password
-                        updatePassword( pInfo );
-                    }
+            if(isPasswordChange) {
+                // Check if the new and old passwords are equal
+                if( pInfo.newPassword != pInfo.confirmPassword ) {
+                    // Show an error message
+                    showPrivateFormError("New Password and Verify Password do not match");
+                    privateButton.attr('disabled',false); // Enable the update private info button
                 } else {
-                    // Call the api to update email address
-                    updateEmail( pInfo );
+                    // Call the api to change password
+                    updatePassword( pInfo );
                 }
+            } else {
+                // Call the api to update email address
+                updateEmail( pInfo );
             }
+
         } else {
             // Nothing is being changed
             showPrivateFormError("Nothing to update");

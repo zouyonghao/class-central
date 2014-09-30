@@ -126,6 +126,7 @@ class LoginController extends Controller{
             {
 
                $userService->login($user);
+               $userSession->setPasswordLessLogin(true);
                // Check whether the user has fb details
                $ufb = $user->getFb();
                if($ufb)
@@ -177,6 +178,7 @@ class LoginController extends Controller{
                 $user->setSignupType(User::SIGNUP_TYPE_FACEBOOK);
 
                 $redirectUrl = $userService->createUser($user, false);
+                $userSession->setPasswordLessLogin(true); // Set the variable to show that the user didn't use a password to login
 
                 // Create a FB info
                 $ufb = new UserFb();
