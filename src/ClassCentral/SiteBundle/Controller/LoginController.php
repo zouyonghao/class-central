@@ -117,13 +117,26 @@ class LoginController extends Controller{
             }
             $name = $fbUser['name'];
 
-            // Check if the user exists
-            $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy(array(
-                'email' => $email
+            // Check if the fb users has logged in before using the FB Id
+            $usersFB = $em->getRepository('ClassCentralSiteBundle:UserFb')->findOneBy(array(
+                'fbId' => $userId
             ));
+            if($usersFB)
+            {
+                $user = $usersFB->getUser();
+            }
+            else
+            {
+                // Check if an account with this email address exist. If it does then merge
+                // these accounts
+                $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy(array(
+                    'email' => $email
+                ));
+            }
 
             if($user)
             {
+
 
                $userService->login($user);
                $userSession->setPasswordLessLogin(true);
