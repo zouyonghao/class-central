@@ -89,17 +89,26 @@ class Review {
             ->getResult();
         $r = array();
         $reviewCount = 0;
+        $ratingCount = 0;
         foreach($reviewEntities as $review)
         {
-            if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND)
+            if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND )
             {
-                $r[] = ReviewUtility::getReviewArray($review);
-                $reviewCount++;
+                $ratingCount++;
+
+                if( !$review->getIsRating() )
+                {
+                    // Hide the review table entries that are purely rating
+                    $r[] = ReviewUtility::getReviewArray($review);
+                    $reviewCount++;
+                }
             }
         }
 
         $reviews = array();
         $reviews['count'] = $reviewCount;
+        $reviews['ratingCount'] = $ratingCount;
+        $reviews['reviewCount'] = $reviewCount;
         $reviews['reviews'] = $r;
 
         return $reviews;

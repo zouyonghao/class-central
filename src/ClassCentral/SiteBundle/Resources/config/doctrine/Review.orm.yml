@@ -55,6 +55,15 @@ ClassCentral\SiteBundle\Entity\Review:
             fixed: false
             nullable: true
             column: reviewer_name
+        source:
+            type: string
+            length: 45
+            fixed: false
+            nullable: true
+        isRating:
+            type: boolean
+            nullable: true
+            column: is_rating
     manyToOne:
         user:
             targetEntity: User

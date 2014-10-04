@@ -93,6 +93,16 @@ class Review
      */
     private $reviewerName;
 
+    /**
+     * @var string
+     */
+    private $source;
+
+    /**
+     * @var boolean
+     */
+    private $isRating;
+
     // Level
     const LEVEL_BEGINNER = 1;
     const LEVEL_INTERMEDIATE = 2;
@@ -503,5 +513,52 @@ class Review
     public function getReviewerName()
     {
         return $this->reviewerName;
+    }
+
+
+    /**
+     * Set source
+     *
+     * @param string $source
+     * @return Review
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return string 
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Set isRating
+     *
+     * @param boolean $isRating
+     * @return Review
+     */
+    public function setIsRating($isRating)
+    {
+        $this->isRating = $isRating;
+    
+        return $this;
+    }
+
+    /**
+     * Get isRating
+     *
+     * @return boolean 
+     */
+    public function getIsRating()
+    {
+        return $this->isRating;
     }
 }
