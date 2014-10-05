@@ -200,10 +200,10 @@ class CourseDocumentType extends DocumentType {
         }
         $body['sessions'] = $sessions;
 
-        $body['rating'] = $rs->calculateRatings($c->getId());
+        $body['rating'] = $rs->getRatings($c->getId());
+        $body['ratingSort'] = $rs->getBayesianAverageRating( $c->getId() );
         $rArray = $rs->getReviewsArray($c->getId());
         $body['reviewsCount'] = $rArray['count'];
-
 
         return $body;
     }

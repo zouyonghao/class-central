@@ -212,7 +212,7 @@ class Filter {
             $sort = self::getSortOrder($direction);
             if ($field == 'rating') {
                 $sortOrder [] = array(
-                    'rating' => array(
+                    'ratingSort' => array(
                         'order' => $sort
                     )
                 );

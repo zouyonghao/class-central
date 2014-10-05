@@ -77,7 +77,7 @@ class SuggestDocumentType extends DocumentType{
             {
                 $body['name_suggest']['weight'] = $weight;
             }
-            $payload['rating'] = $rs->calculateRatings($entity->getId());
+            $payload['rating'] = $rs->getRatings($entity->getId());
             $rArray = $rs->getReviewsArray($entity->getId());
             $payload['reviewsCount'] = $rArray['count'];
             $payload['name'] = $entity->getName();

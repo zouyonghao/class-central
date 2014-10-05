@@ -21,6 +21,9 @@ class Review {
     private $cache;
     private $em;
 
+    const AVG_NUM_VOTES = 2.3 ;
+    const AVG_RATING = 4.67 ;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -34,19 +37,27 @@ class Review {
      */
     public function getRatings($courseId)
     {
-        return $this->cache->get(
+        $ratingDetails = $this->cache->get(
             $this->getRatingsCacheKey($courseId),
-            array($this,'calculateRatings'),
+            array($this,'calculateAverageRating'),
             array($courseId)
         );
+
+        return $ratingDetails['rating'];
     }
 
-    public function calculateRatings($courseId)
+    /**
+     * Calculates the average rating
+     * @param $courseId
+     * @return array
+     */
+    public function calculateAverageRating($courseId)
     {
         $course = $this->em->getRepository('ClassCentralSiteBundle:Course')->findOneById($courseId);
 
         // Basic formula
         $rating = 0;
+        $bayesian_average = 0;
         $reviews = $course->getReviews();
         $validReviewsCount = 0;
         if($reviews && $reviews->count() > 0)
@@ -66,8 +77,35 @@ class Review {
                 $rating = $ratingSum/$validReviewsCount;
             }
         }
+        return array(
+            'rating' => $rating,
+            'numRatings' => $validReviewsCount
+        );
+    }
 
-        return $rating;
+    /**
+     * Calculates the bayseian average rating. This is used for sorting
+     * @param $courseId
+     * @return float
+     */
+    public function getBayesianAverageRating( $courseId )
+    {
+        $ratingDetails = $this->cache->get(
+            $this->getRatingsCacheKey($courseId),
+            array($this,'calculateAverageRating'),
+            array($courseId)
+        );
+
+        $bayesian_average = 0;
+        $rating = $ratingDetails['rating'];
+        $numRatings = $ratingDetails['numRatings'];
+
+        if( $rating > 0 )
+        {
+            $bayesian_average = ((self::AVG_NUM_VOTES * self::AVG_RATING) + ($numRatings * $rating)) / (self::AVG_NUM_VOTES + $numRatings);
+        }
+
+        return round( $bayesian_average, 4);
     }
 
     public function getReviews($courseId)
@@ -122,6 +160,11 @@ class Review {
     public function getRatingsCacheKey($courseId)
     {
         return "MOOC_RATINGS_" . $courseId;
+    }
+
+    public function getAverageRatingsCacheKey($courseId)
+    {
+        return "MOOC_AVERAGE_RATINGS_" . $courseId;
     }
 
     public function clearCache($courseId)
