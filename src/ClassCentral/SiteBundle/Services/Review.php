@@ -106,7 +106,7 @@ class Review {
         }
 
         $reviews = array();
-        $reviews['count'] = $reviewCount;
+        $reviews['count'] = $ratingCount;
         $reviews['ratingCount'] = $ratingCount;
         $reviews['reviewCount'] = $reviewCount;
         $reviews['reviews'] = $r;
