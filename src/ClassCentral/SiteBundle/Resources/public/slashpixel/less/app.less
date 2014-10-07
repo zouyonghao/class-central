@@ -530,15 +530,25 @@ body {
   color: @blue-light;
   font-size: 14px;
   font-family: @font-family-small-text;
+  .clearfix;
 }
 
 #cc-form-box-additional-link a {
   color: @white;
 }
 
+#cc-form-box-additional-link .sign-up-link a {
+  margin-left: 3px;
+}
+
 #cc-form-box-additional-link .sign-up-link {
   float: right;
 }
+
+#cc-form-box-additional-link .forgot-password-link {
+  float: left;
+}
+
 
 @media (min-width: @screen-xs-min) {
   .cc-form-box .form-box-body {
@@ -3877,7 +3887,6 @@ input.filter-search:focus {
   color: @purple;
   font-family: @font-family-large-text;
   margin: 0;
-  padding-left: 15px;
   display: block;
   text-decoration: underline;
 
