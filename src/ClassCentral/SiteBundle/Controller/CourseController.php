@@ -400,8 +400,18 @@ class CourseController extends Controller
                  'breadcrumbs' => $breadcrumbs,
                  'news' => $news,
                  'recommendations' => $recommendations,
-                 'providersWithLogos' => Course::$providersWithFavicons
+                 'providersWithLogos' => Course::$providersWithFavicons,
+                 'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] )
+
        ));
+    }
+
+    /**
+     * Checks whether if the video is a youtube video
+     */
+    private function isYouTubeVideo( $videoUrl )
+    {
+        return !empty($videoUrl) && strpos( $videoUrl, 'youtube');
     }
 
     public function getCourseRecommendations($courseId)

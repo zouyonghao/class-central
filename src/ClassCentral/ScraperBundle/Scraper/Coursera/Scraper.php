@@ -34,7 +34,7 @@ class Scraper extends ScraperAbstractInterface {
 
     private $courseFields = array(
         'Url', 'SearchDesc', 'Description', 'Length', 'Name', 'Language','LongDescription','Syllabus', 'WorkloadMin', 'WorkloadMax',
-        'Certificate', 'VerifiedCertificate'
+        'Certificate', 'VerifiedCertificate', 'VideoIntro'
     );
 
     private $offeringFields = array(
@@ -70,7 +70,7 @@ class Scraper extends ScraperAbstractInterface {
             $course->setLongDescription( $catalogDetails['aboutTheCourse']);
             $course->setSyllabus( $catalogDetails['courseSyllabus']);
             $course->setStream($defaultStream); // Default to Computer Science
-            $course->setVideoIntro($this->getYoutubeVideoUrl($courseraCourse['video']));
+            $course->setVideoIntro(  $this->getVideoUrl( $courseraCourse  ) );
             $course->setUrl($courseUrl);
             if(isset($dbLanguageMap[$courseLang])) {
                 $course->setLanguage($dbLanguageMap[$courseLang]);
@@ -287,9 +287,27 @@ class Scraper extends ScraperAbstractInterface {
         );
     }
 
+
     private function getYoutubeVideoUrl($video = '')
     {
         return (strlen($video) > 1)? 'https://www.youtube.com/watch?v='. $video : null;
+    }
+
+    /**
+     * Save the html5 video intro and the image in the video intro field
+     * @param $courseaCourse
+     * @return null|string
+     */
+    private function getVideoUrl( $courseraCourse )
+    {
+        if( empty( $courseraCourse['video_baseurl'] ) )
+        {
+            return null;
+        }
+        $videoUrl = $courseraCourse['video_baseurl'];
+        $image = $courseraCourse['large_icon'];
+
+        return $videoUrl . '|||' . $image;
     }
 
     private function getCourseLink( $course ){

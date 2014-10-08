@@ -861,4 +861,24 @@ jQuery(function($) {
         }
     });
 
+    //html5 video play button
+    function vidplay() {
+        var video;
+        $(".js-video-play").on("click", function(e) {
+            $this = $(this);
+            video = $this.closest(".html5-video-container").find("video").get(0);
+            if (video.paused) {
+                video.play();
+                $this.fadeTo(300, 0);
+            } else {
+                video.pause();
+                $this.fadeTo(300, 1);
+            }
+
+        });
+    }
+
+    vidplay();
+
+
 });

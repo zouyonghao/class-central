@@ -89,13 +89,26 @@
     <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
-        <div class="course-meta-main">
+        <div class="course-meta-main border-radius">
 
             <div class="course-video">
-                {% if course['videoEmbedUrl'] is not null %}
+                {% if course['videoEmbedUrl'] is not null and isYoutube %}
                     <span class="preview-tab">Intro</span>
-                    <div class="video-container">
-                        <iframe class="ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
+                        <div class="video-container">
+                            <iframe class="ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
+                        </div>
+                {% elseif course.videoIntro is not null and course.initiative.code == 'coursera' %}
+                    <span class="preview-tab">Intro</span>
+                    {% set videoInfo= course.videoIntro|split('|||') %}
+
+                    <div class="html5-video-container">
+                        <video poster="{{ videoInfo[1] }}">
+                            <source type="video/mp4" src="{{ videoInfo[0] }}full/540p/index.mp4">
+                            <source type="video/webm" src="{{ videoInfo[0] }}full/540p/index.webm">
+                        </video>
+                        <div class="html5-video-play-wrap js-video-play">
+                            <div class="html5-video-play-button"></div>
+                        </div>
                     </div>
                 {% endif %}
             </div>
