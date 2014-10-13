@@ -85,6 +85,8 @@
     {% if is_granted('ROLE_ADMIN') %}
         <p><b>Links for Admin</b></p>
         <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
+                
+        <a href="http://bufferapp.com/add" class="buffer-add-button" data-text="[]{{ course.name }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
     {% endif %}
     <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
 
