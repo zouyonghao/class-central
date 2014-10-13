@@ -48,7 +48,11 @@
                     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-            ga('create', '{{ ganalytics_id }}', 'auto');
+            {% if app.user %}
+                ga('create', '{{ ganalytics_id }}', {'userId':'{{ app.user.id }}'});
+            {% else %}
+                ga('create', '{{ ganalytics_id }}', 'auto');
+            {% endif %}
             ga('send', 'pageview');
 
             function recordOutboundLink(link, initiative, coursename, stream) {
