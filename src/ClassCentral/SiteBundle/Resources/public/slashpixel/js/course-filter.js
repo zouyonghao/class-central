@@ -265,7 +265,7 @@ jQuery(function($) {
 
     function gaqPush(type, value) {
         try {
-            _gaq.push(['_trackEvent','Filters',type, value]);
+            ga('send','event','Filters',type, value);
         }catch (err) {}
     }
 

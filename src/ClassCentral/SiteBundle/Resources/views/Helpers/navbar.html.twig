@@ -30,7 +30,7 @@
                     <ul class="dropdown-menu">
                         {% for offeringType, offeringDetails in offeringTypes %}
                             {% if offeringCount[offeringType] > 0 %}
-                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" title="{{offeringDetails.nav}} - MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Courses', '{{offeringType}}'])">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
+                                <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" title="{{offeringDetails.nav}} - MOOCs" onClick="ga('send','event', '{{ navEventName }}', 'Courses', '{{offeringType}}')">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
                             {% endif %}
                         {% endfor %}
                     </ul>
@@ -47,7 +47,7 @@
                         <ul class="dropdown-menu">
                             {% for initiative, code in initiativeTypes %}
                                 <li>
-                                    <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" title="List of {{ initiativeCount[code]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Initiative', '{{initiative}}'])">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
+                                    <a href="{{ path('ClassCentralSiteBundle_initiative',{'type' : initiative})}}" title="List of {{ initiativeCount[code]['name'] }} MOOCs" onClick="ga('send','event', '{{ navEventName }}', 'Initiative', '{{initiative}}')">{{initiativeCount[code]['name'] }} ({{ initiativeCount[code]['count'] }})</a>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -55,18 +55,18 @@
                 #}
 
                 {# Subjects #}
-                <li><a href="{{ path('subjects',{}) }}" class="nav-title" title="Subjects" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Subjects'])">Subjects</a></li>
-                <li><a href="/report" class="nav-title" title="MOOC News, Interviews, and Analysis" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'MOOC Report'])">MOOC Report</a></li>
-                <!--<li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'News'])">News</a></li>-->
+                <li><a href="{{ path('subjects',{}) }}" class="nav-title" title="Subjects" onClick="ga('send','event', '{{ navEventName }}', 'Subjects')">Subjects</a></li>
+                <li><a href="/report" class="nav-title" title="MOOC News, Interviews, and Analysis" onClick="ga('send','event', '{{ navEventName }}', 'MOOC Report')">MOOC Report</a></li>
+                <!--<li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="ga('send','event', '{{ navEventName }}', 'News')">News</a></li>-->
 
                 {# My Courses/ Signup #}
                 <!-- <li class="mooc-tracker">
                     {% if app.user %}
-                        <a href="{{ path('user_library') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'My Courses'])" title="My Courses">
+                        <a href="{{ path('user_library') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'My Courses')" title="My Courses">
                             My Courses
                         </a>
                     {% else %}
-                        <a href="{{ path('signup') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central Signup'])" title="Class Central Signup">
+                        <a href="{{ path('signup') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Class Central Signup')" title="Class Central Signup">
                             Sign Up
                         </a>
                     {% endif %}
@@ -75,7 +75,7 @@
                 <li class="search-form">
                     <div id='nav-search-form'>
                         {# <input  id="prependedInput" type="text" name="q"> #}
-                        <a href="/search" class="search-button" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Search'])" id="navbar-search-btn">
+                        <a href="/search" class="search-button" onmousedown="ga('send','event', '{{ navEventName }}', 'Search')" id="navbar-search-btn">
                             <span class="icon-search-png"></span>
                             <svg viewBox="0 0 33 32" class="icon-search">
                                 <use xlink:href="#icon-cc-logo2"></use>
@@ -94,21 +94,21 @@
                 </li>
                 {#
                 <li class="social-icon">
-                    <a href="http://www.facebook.com/classcentral" target="_blank" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Social Media','Facebook'])">
+                    <a href="http://www.facebook.com/classcentral" target="_blank" onmousedown="ga('send','event', '{{ navEventName }}', 'Social Media','Facebook')">
                         Facebook
                         <span class="fb-icon-png"></span>
                         <svg class="icon icon-facebook" viewBox="0 0 32 32"><use xlink:href="#icon-facebook"></use></svg>
                     </a>
                 </li>
                 <li class="social-icon">
-                    <a href="https://twitter.com/classcentral" target="_blank" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Social Media','Twitter'])">
+                    <a href="https://twitter.com/classcentral" target="_blank" onmousedown="ga('send','event', '{{ navEventName }}', 'Social Media','Twitter')">
                         Twitter
                         <span class="twitter-icon-png"></span>
                         <svg class="icon icon-twitter" viewBox="0 0 32 32"><use xlink:href="#icon-twitter"></use></svg>
                     </a>
                 </li>
                 <li class="social-icon">
-                    <a href="https://plus.google.com/+ClassCentral" target="_blank" onmousedown="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Social Media','Google+'])">
+                    <a href="https://plus.google.com/+ClassCentral" target="_blank" onmousedown="ga('send','event', '{{ navEventName }}', 'Social Media','Google+')">
                         Google plus
                         <span class="gplus-icon-png"></span>
                         <svg class="icon icon-google_follow" viewBox="0 0 32 32"><use xlink:href="#icon-google_follow"></use></svg>
@@ -138,40 +138,40 @@
                         </a>
                         <ul class="dropdown-menu user-menu">
                             <li>
-                                <a href="{{ path('user_library') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central User Menu'])" title="My Courses">
+                                <a href="{{ path('user_library') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Class Central User Menu')" title="My Courses">
                                     My Courses
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ user_service.getProfileUrl( app.user.id, app.user.handle ) }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central User Menu - My Profile'])" title="My Profile">
+                                <a href="{{ user_service.getProfileUrl( app.user.id, app.user.handle ) }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Class Central User Menu - My Profile')" title="My Profile">
                                     My Profile
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('user_reviews') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central User Menu - My Reviews'])" title="My Reviews">
+                                <a href="{{ path('user_reviews') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Class Central User Menu - My Reviews')" title="My Reviews">
                                     My Reviews
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('user_preferences') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central User Preferences'])" title="Preferences">
+                                <a href="{{ path('user_preferences') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Class Central User Preferences')" title="Preferences">
                                     Preferences
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('logout') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Logout'])" >Logout</a>
+                                <a href="{{ path('logout') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Logout')" >Logout</a>
                             </li>
                         </ul>
 
 
                     {% else %}
-                        <a href="{{ path('login') }}" class="nav-title" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Login'])">
+                        <a href="{{ path('login') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Login')">
                             <span class="icon-lock-png"></span>
                             <svg viewBox="0 0 32 32" class="icon-lock">
                                 <use xlink:href="#icon-lock"></use>
                             </svg>
                             Sign in
                         </a>
-                        <!--<a href="{{ path('signup') }}" class="nav-title" title="Class Central Signup" onClick="_gaq.push(['_trackEvent', '{{ navEventName }}', 'Class Central Signup User Menu'])" title="Class Central Signup">
+                        <!--<a href="{{ path('signup') }}" class="nav-title" title="Class Central Signup" onClick="ga('send','event', '{{ navEventName }}', 'Class Central Signup User Menu')" title="Class Central Signup">
                             Sign Up
                         </a>-->
                     {% endif %}

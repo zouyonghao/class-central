@@ -76,9 +76,9 @@ jQuery(function($) {
     function addRemoveCourse(listId, courseId, checked,name) {
         try{
             if(checked){
-                _gaq.push(['_trackEvent','My Courses - Add',listId.toString(), courseId.toString()]);
+                ga('send','event','My Courses - Add',listId.toString(), courseId.toString());
             }else {
-                _gaq.push(['_trackEvent','My Courses - Remove', listId.toString(),  courseId.toString() ]);
+                ga('send','event','My Courses - Remove', listId.toString(),  courseId.toString() );
             }
         }catch(err){}
         if(checked){
@@ -235,9 +235,9 @@ jQuery(function($) {
     var updateSubscription = function(code, checked) {
         try{
             if(checked){
-                _gaq.push(['_trackEvent','Newsletter Preferences','Subscribed', code]);
+                ga('send','event','Newsletter Preferences','Subscribed', code);
             }else {
-                _gaq.push(['_trackEvent','Newsletter Preferences','Unsubscribed', code]);
+                ga('send','event','Newsletter Preferences','Unsubscribed', code);
             }
         }catch(err){}
 
@@ -282,9 +282,9 @@ jQuery(function($) {
     var updateUserPreference = function(prefId, checked) {
         try{
             if(checked){
-                _gaq.push(['_trackEvent','MOOC Tracker Preferences','Checked', prefId]);
+                ga('send','event','MOOC Tracker Preferences','Checked', prefId);
             }else {
-                _gaq.push(['_trackEvent','MOOC Tracker Preferences','UnChecked', prefId]);
+                ga('send','event','MOOC Tracker Preferences','UnChecked', prefId);
             }
         }catch(err){}
         if(checked){
@@ -357,9 +357,9 @@ jQuery(function($) {
         if(!validationError) {
             try{
                 if(review.reviewId === undefined){
-                    _gaq.push(['_trackEvent', 'Create Review', " " + $('#courseId').data("value")]);
+                    ga('send','event', 'Create Review', " " + $('#courseId').data("value"));
                 } else {
-                    _gaq.push(['_trackEvent', 'Update Review'," " +  $('#courseId').data("value")]);
+                    ga('send','event', 'Update Review'," " +  $('#courseId').data("value"));
                 }
             } catch(err){}
 
@@ -578,7 +578,7 @@ jQuery(function($) {
             targetTab = 'create-free-account'; // signup button
         }
         try {
-            _gaq.push(['_trackEvent','Homepage Tab clicks',targetTab]);
+            ga('send','event','Homepage Tab clicks',targetTab);
         } catch (e) {
             console.log("error");
         }
@@ -634,7 +634,7 @@ jQuery(function($) {
         e.preventDefault();
         $('#signupForm').modal('show');
         try {
-            _gaq.push(['_trackEvent','Create Free Account','Home Tab']);
+            ga('send','event','Create Free Account','Home Tab');
         }catch (e){}
     });
 
@@ -642,7 +642,7 @@ jQuery(function($) {
         e.preventDefault();
         $('#signupForm').modal('show');
         try {
-            _gaq.push(['_trackEvent','Create Free Account','Convincer']);
+            ga('send','event','Create Free Account','Convincer');
         }catch (e){}
     });
 
@@ -657,7 +657,7 @@ jQuery(function($) {
                 var dataName = $('#navbar-search-form .tt-suggestion.tt-cursor a').data("name");
                 window.location = $('#navbar-search-form .tt-suggestion.tt-cursor a').attr('href');
                 try {
-                    _gaq.push(['_trackEvent', 'Search Autocomplete' , dataType, dataName ]);
+                    ga('send','event', 'Search Autocomplete' , dataType, dataName );
                 }catch (e){}
             } else if ($('#navbar-search-form .tt-suggestion.tt-cursor .search-view-all').length ) {
                 $('#navbar-search-form').submit();
@@ -791,7 +791,7 @@ jQuery(function($) {
                 window.location = $('#general-search .tt-suggestion.tt-cursor a').attr('href');
 
                 try {
-                    _gaq.push(['_trackEvent', 'Search Autocomplete' , dataType, dataName ]);
+                    ga('send','event', 'Search Autocomplete' , dataType, dataName );
                 }catch (e){}
             } else if ($('#general-search .tt-suggestion.tt-cursor .search-view-all').length ) {
                 $('#general-search form').submit();

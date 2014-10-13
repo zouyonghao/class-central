@@ -109,6 +109,6 @@ Only Review the course if you have taken or started taking this course." class="
         </div>
 
         <a id="submit-review"  name="cc-send" href="#">Review Course</a>
-        <a id="cancel-review"  onmousedown="_gaq.push(['_trackEvent', 'Create Review Page', 'Cancel', '{{course.name}}'])" href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id,slug:course.slug}) }}">Cancel</a>
+        <a id="cancel-review"  onmousedown="ga('send','event', 'Create Review Page', 'Cancel', '{{course.name}}')" href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id,slug:course.slug}) }}">Cancel</a>
     </form>
 </div>

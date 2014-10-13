@@ -8,13 +8,13 @@
 <table class="table table-striped table-bordered" id='{{ tableId}}list'>
     <thead>
     <tr>
-        {#<th class="introcolumn" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'intro'])">Intro Video</th>#}
+        {#<th class="introcolumn" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'intro')">Intro Video</th>#}
         <th class="add-column">Add</th>
         {% set nameSortClass = '' %}
         {% if sortField is defined and sortField =='name'  %}
             {% set nameSortClass = sortClass %}
         {% endif %}
-        <th class="sorting {{ nameSortClass }} course-name-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Course Name'])" data-sort="name">
+        <th class="sorting {{ nameSortClass }} course-name-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Course Name')" data-sort="name">
             <div class="arrow-wrap">
                 Course Name
                 <p class="sorting-arrows">
@@ -27,10 +27,10 @@
                 </p>
             </div>
         </th>
-        {#<th class="sorting instructors" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Instructor'])">Instructor(s)</th>#}
+        {#<th class="sorting instructors" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Instructor')">Instructor(s)</th>#}
         {# hide the stream column on stream pages #}
         {% if page is defined and page != 'stream' and page=='home' %}
-            <th class="sorting subject subject-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Subject'])" data-sort="subjectSlug">
+            <th class="sorting subject subject-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Subject')" data-sort="subjectSlug">
                 <div class="arrow-wrap">
                     Subject
                     <p class="sorting-arrows">
@@ -49,7 +49,7 @@
         {% if sortField is defined and sortField =='date'  %}
             {% set dateSortClass = sortClass %}
         {% endif %}
-        <th class="sorting {{ dateSortClass  }} start-date" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Start Date'])" data-sort="date">
+        <th class="sorting {{ dateSortClass  }} start-date" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Start Date')" data-sort="date">
             <div class="arrow-wrap">
                 Start Date
                 <p class="sorting-arrows">
@@ -62,15 +62,15 @@
                 </p>
             </div>
         </th>
-        {# <th class="sorting offering-length" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Length'])">Length</th> #}
+        {# <th class="sorting offering-length" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Length')">Length</th> #}
         {# hide the initiative column on all pages #}
-        {% if page is defined and page != 'initiative' and false %}<th class="sorting" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Initiative'])" data-sort="course-provider">Provider</th> {% endif %}
+        {% if page is defined and page != 'initiative' and false %}<th class="sorting" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Initiative')" data-sort="course-provider">Provider</th> {% endif %}
 
         {% set ratingSortClass = '' %}
         {% if sortField is defined and sortField =='rating'  %}
             {% set ratingSortClass = sortClass %}
         {% endif %}
-        <th class="sorting {{ ratingSortClass }} course-rating-column" onmousedown="_gaq.push(['_trackEvent', 'Table Header Click - sort', '{{ tableId }}', 'Rating'])" data-sort="rating">
+        <th class="sorting {{ ratingSortClass }} course-rating-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Rating')" data-sort="rating">
             <div class="arrow-wrap">
                 Rating
                 <p class="sorting-arrows">
@@ -162,14 +162,14 @@
                                     {% set route = 'ClassCentralSiteBundle_institution' %}
                                 {% endif %}
                                 <li>
-                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs" onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
 
                                 </li>
                             {% endfor %}
                         {% endif %}
                         {% if course['provider'] and page != 'initiative' %}
                             <span class="via">via</span>
-                            <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
+                            <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"> {{ course.provider.name }}</a>
                         {% endif %}
                     </ul>
 
@@ -182,7 +182,7 @@
 
 
             {% if page is defined and page != 'stream' and page=='home' %}
-                <td class="subject-column"> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}'])" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
+                <td class="subject-column"> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}')" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
                 </td>
             {% endif %}
 
@@ -194,7 +194,7 @@
             {% if page is defined and page != 'initiative' and false %}
                 <td>
                     {% if course['provider'] %}
-                        <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}'])"> {{ course.provider.name }}</a>
+                        <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"> {{ course.provider.name }}</a>
                     {% endif %}
                 </td>
             {% endif %}

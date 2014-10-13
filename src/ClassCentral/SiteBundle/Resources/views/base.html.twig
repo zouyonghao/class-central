@@ -43,55 +43,39 @@
         <!-- Including google analytics. The parameter ganalytics_id must be set in parameters.ini -->
         <script type="text/javascript">
 
-            var _gaq = _gaq || [];
-            var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
-            _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
-            _gaq.push(['_setAccount', '{{ ganalytics_id }}']);
-            _gaq.push(['_setSiteSpeedSampleRate', 20]);
-            _gaq.push(['_trackPageview']);
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-            {% set userType = 'Visitor' %}
-            {% if app.user %}
-            {% set userType = 'Member' %}
-            {% endif %}
-            _gaq.push(['_setCustomVar',
-                1,
-                'User Type',
-                '{{ userType }}',
-                2
-            ]);
-
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
+            ga('create', '{{ ganalytics_id }}', 'auto');
+            ga('send', 'pageview');
 
             function recordOutboundLink(link, initiative, coursename, stream) {
                 try {
-                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
-                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
+                    ga('send','event', 'Outbound Clicks - Course from Initiative' , initiative, coursename );
+                    ga('send','event', 'Outbound Clicks - Course from Stream' , stream, coursename );
                     window.open(link);
                 }catch(err){}
             }
 
             function recordOutboundLinkWithoutRedirect( initiative, coursename, stream) {
                 try {
-                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Initiative' , initiative, coursename ]);
-                    _gaq.push(['_trackEvent', 'Outbound Clicks - Course from Stream' , stream, coursename ]);
+                    ga('send','event', 'Outbound Clicks - Course from Initiative' , initiative, coursename );
+                    ga('send','event', 'Outbound Clicks - Course from Stream' , stream, coursename );
                 }catch(err){}
             }
 
             function recordInboundLink(link, initiative, coursename, section) {
                 try {
-                    _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Initiative' , initiative, coursename ]);
-                    _gaq.push(['_trackEvent', 'Inbound Clicks - Course from Section' , section, coursename ]);
+                    ga('send','event', 'Inbound Clicks - Course from Initiative' , initiative, coursename );
+                    ga('send','event', 'Inbound Clicks - Course from Section' , section, coursename );
                 }catch(err){}
             }
 
             function recordTaglineClicks(link, initiative) {
                 try {
-                    _gaq.push(['_trackEvent', 'Tagline Clicks' , initiative ]);
+                    ga('send','event', 'Tagline Clicks' , initiative );
                     window.open(link);
                 }catch(err){}
             }
@@ -138,31 +122,31 @@
                 <div class="col-md-2 col-sm-4 col-xs-4 link-column">
                     <h5 class="list-heading">Browse</h5>
                     <ul>
-                        <li><a href="{{ path('random') }}" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Browse by - Random'])" title="Are you feeling lucky?">Random</a></li>
-                        <li><a href="{{ path('providers') }}" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Browse by - Providers'])">Providers</a></li>
-                        <li><a href="{{ path('universities') }}" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Browse by - Universities'])">Universities</a></li>
-                        <li><a href="{{ path('institutions') }}" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Browse by - Institutions'])">Institutions</a></li>
-                        <li><a href="{{ path('subjects') }}" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Browse by - Subjects'])">Subjects</a></li>
-                        <li><a href="{{ path('languages') }}" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Browse by - Languages'])">Languages</a></li>
+                        <li><a href="{{ path('random') }}" onmousedown="ga('send','event', 'Footer', 'Browse by - Random')" title="Are you feeling lucky?">Random</a></li>
+                        <li><a href="{{ path('providers') }}" onmousedown="ga('send','event', 'Footer', 'Browse by - Providers')">Providers</a></li>
+                        <li><a href="{{ path('universities') }}" onmousedown="ga('send','event', 'Footer', 'Browse by - Universities')">Universities</a></li>
+                        <li><a href="{{ path('institutions') }}" onmousedown="ga('send','event', 'Footer', 'Browse by - Institutions')">Institutions</a></li>
+                        <li><a href="{{ path('subjects') }}" onmousedown="ga('send','event', 'Footer', 'Browse by - Subjects')">Subjects</a></li>
+                        <li><a href="{{ path('languages') }}" onmousedown="ga('send','event', 'Footer', 'Browse by - Languages')">Languages</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-4 link-column">
                     <h5 class="list-heading">More</h5>
                     <ul>
-                        <li><a href="/report" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'MOOC Report'])">MOOC Report</a></li>
-                        <li><a href="{{ path('ClassCentralSiteBundle_faq') }}" title="Frequently asked questions about MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'FAQ'])">FAQ</a></li>
-                        <li><a href="{{ path('ClassCentralSiteBundle_privacy') }}" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Privacy Policy'])"> Privacy Policy</a></li>
-                        <li><a href="https://www.class-central.com/report/mooc-tracker/" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'What is MOOC Tracker?'])">What is MOOC Tracker?</a></li>
+                        <li><a href="/report" onmousedown="ga('send','event', 'Footer', 'MOOC Report')">MOOC Report</a></li>
+                        <li><a href="{{ path('ClassCentralSiteBundle_faq') }}" title="Frequently asked questions about MOOCs" onmousedown="ga('send','event', 'Footer', 'FAQ')">FAQ</a></li>
+                        <li><a href="{{ path('ClassCentralSiteBundle_privacy') }}" onmousedown="ga('send','event', 'Footer', 'Privacy Policy')"> Privacy Policy</a></li>
+                        <li><a href="https://www.class-central.com/report/mooc-tracker/" onmousedown="ga('send','event', 'Footer', 'What is MOOC Tracker?')">What is MOOC Tracker?</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-4 link-column">
                     <h5 class="list-heading">Connect</h5>
                     <ul>
-                        <li><a href="mailto:contact@class-central.com" title="Class Central contact" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Connect','Email'])">Email</a></li>
-                        <li><a target="_blank" href="https://www.facebook.com/classcentral" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Connect','Facebook'])">Facebook</a></li>
-                        <li><a target="_blank" href="https://twitter.com/classcentral" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Connect','Twitter'])">Twitter</a></li>
-                        <li><a target="_blank" href="https://plus.google.com/+ClassCentral" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Connect','Google+'])">Google+</a></li>
-                        <li><a target="_blank" href="http://www.youtube.com/channel/UC0VOktSaVdm_YIUa4X5mBTQ" onmousedown="_gaq.push(['_trackEvent', 'Footer', 'Connect','Youtube'])">Youtube</a></li>
+                        <li><a href="mailto:contact@class-central.com" title="Class Central contact" onmousedown="ga('send','event', 'Footer', 'Connect','Email')">Email</a></li>
+                        <li><a target="_blank" href="https://www.facebook.com/classcentral" onmousedown="ga('send','event', 'Footer', 'Connect','Facebook')">Facebook</a></li>
+                        <li><a target="_blank" href="https://twitter.com/classcentral" onmousedown="ga('send','event', 'Footer', 'Connect','Twitter')">Twitter</a></li>
+                        <li><a target="_blank" href="https://plus.google.com/+ClassCentral" onmousedown="ga('send','event', 'Footer', 'Connect','Google+')">Google+</a></li>
+                        <li><a target="_blank" href="http://www.youtube.com/channel/UC0VOktSaVdm_YIUa4X5mBTQ" onmousedown="ga('send','event', 'Footer', 'Connect','Youtube')">Youtube</a></li>
                     </ul>
                 </div>
                 <div class="col-md-6 col-lg-4 col-sm-7 col-xs-8 newsletter-column">

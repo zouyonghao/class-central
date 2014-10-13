@@ -50,7 +50,7 @@
                     <span class="count-title">courses</span>
                 </div>
 
-                <a class="show-all-subjects" st href="{{ path('lang', {'slug': language.slug } ) }}" title="List of {{ language.name }} language MOOCs" onmousedown="_gaq.push(['_trackEvent', 'Inbound Clicks - Language', '{{language.name}}', 'Languages'])"
+                <a class="show-all-subjects" st href="{{ path('lang', {'slug': language.slug } ) }}" title="List of {{ language.name }} language MOOCs" onmousedown="ga('send','event', 'Inbound Clicks - Language', '{{language.name}}', 'Languages')"
                    class="view-all-courses"><span class="category-title">{{ language.name }}</span></a>
             </div>
         </div>

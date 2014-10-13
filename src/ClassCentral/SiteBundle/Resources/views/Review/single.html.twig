@@ -32,12 +32,12 @@
         <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
         <div class="review-title title-with-image" itemprop="summary">
             <div class="crop-circle crop-circle--bordered">
-                {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="_gaq.push(['_trackEvent','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}'])"> {% endif %}
+                {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')"> {% endif %}
                     <img src="{{  user_service.getProfilePic(review.user.id) }}" alt="profile picture">
                 {% if reviewerProfileUrl %}</a> {% endif %}
             </div>
 
-            {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="_gaq.push(['_trackEvent','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}'])"> {% endif %}
+            {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')"> {% endif %}
                 <span class="author" itemprop="reviewer">{{ reviewer  }}</span>
             {% if reviewerProfileUrl %}</a> {% endif %}
             {{ review.reviewTitle|raw }}
@@ -85,7 +85,7 @@
     {% else %}
         {# show the feedback #}
         <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?
-            <span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}" onmousedown="_gaq.push(['_trackEvent','Review Feedback','Yes']);">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}" onmousedown="_gaq.push(['_trackEvent','Review Feedback','No']);">NO</a></span></div>
+            <span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}" onmousedown="ga('send','event','Review Feedback','Yes');">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}" onmousedown="ga('send','event','Review Feedback','No');">NO</a></span></div>
     {% endif %}
     {# edit button for all admins#}
     {% if is_granted('ROLE_ADMIN') %}

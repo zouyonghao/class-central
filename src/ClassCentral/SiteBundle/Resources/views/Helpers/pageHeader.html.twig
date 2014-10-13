@@ -21,17 +21,17 @@
         {#
         <div class="social-media-wrap">
             <a class="twitter-icon" href="https://twitter.com/share?url={{ info.pageUrl|url_encode }}&text={{ info.tweet|url_encode }}&via=classcentral&hashtags=mooc"
-               onmousedown="_gaq.push(['_trackEvent', '{{ info.type }} Share', 'Twitter', '{{ info.name }}'])" target="_blank"></a>
+               onmousedown="ga('send','event', '{{ info.type }} Share', 'Twitter', '{{ info.name }}')" target="_blank"></a>
             <a class="google-icon" href="https://plus.google.com/share?url={{ info.pageUrl|url_encode }}"
                onclick="_javascript:window.open(this.href,
                     '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
-               onmousedown="_gaq.push(['_trackEvent', '{{ info.type }} Share', 'Google+', '{{ info.name }}'])"     ></a>
+               onmousedown="ga('send','event', '{{ info.type }} Share', 'Google+', '{{ info.name }}')"     ></a>
             <a class="facebook-icon" href="https://www.facebook.com/sharer/sharer.php?u={{info.pageUrl|url_encode }}"
-               onmousedown="_gaq.push(['_trackEvent', '{{ info.type }} Share', 'Facebook', '{{ info.name }}'])" target="_blank"></a>
+               onmousedown="ga('send','event', '{{ info.type }} Share', 'Facebook', '{{ info.name }}')" target="_blank"></a>
             <a class="in-icon" href="https://www.linkedin.com/cws/share?url={{ info.pageUrl|url_encode }}" target="_blank"
-               onmousedown="_gaq.push(['_trackEvent', '{{ info.type }} Share', 'LinkedIn', '{{ info.name }}'])"     ></a>
+               onmousedown="ga('send','event', '{{ info.type }} Share', 'LinkedIn', '{{ info.name }}')"     ></a>
             <a class="mail-icon" href="mailto:?subject={{ info.subject|url_encode }}&body={{ info.pageUrl|url_encode }}"
-               onmousedown="_gaq.push(['_trackEvent', '{{ info.type }} Share', 'Mail', '{{ info.name }}'])"></a>
+               onmousedown="ga('send','event', '{{ info.type }} Share', 'Mail', '{{ info.name }}')"></a>
         </div>
         #}
     </div>

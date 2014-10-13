@@ -20,7 +20,7 @@
         {% set profileUrl = user_service.getProfileUrl( user.id, user.handle ) %}
         {% if profileUrl %}
             <div class="col-220 padding-10">
-                <a href="{{ profileUrl }}" class="flip-card" onmousedown="_gaq.push(['_trackEvent','User Profile Click - View All Interested users page','{{ course.name }}','{{ user.id  }}'])">
+                <a href="{{ profileUrl }}" class="flip-card" onmousedown="ga('send','event','User Profile Click - View All Interested users page','{{ course.name }}','{{ user.id  }}')">
                     <div class="card-front">
                         <div class="card-front__img-section">
                             <div class="crop-circle crop-circle--bordered">

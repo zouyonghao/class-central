@@ -21,7 +21,7 @@
             var feedback = $(this).attr("value");
             $('#search-feedback').slideUp();
             try{
-                 _gaq.push(['_trackEvent', 'Search Feedback' , feedback, '{{keywords}}' ]);                        
+                 ga('send','event', 'Search Feedback' , feedback, '{{keywords}}' );
             } catch(err){}
         });
      });    

@@ -129,7 +129,7 @@
                         {% if  reviews.reviews|length  > 0 %}
                             <a href="#course-reviews"><span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
                         {% else %}
-                            <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'First to Review   ', '{{course['name']}}'])">Be the first to review this course</a>
+                            <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'First to Review   ', '{{course['name']}}')">Be the first to review this course</a>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <a class="review-button" href="{{ reviewUrl }}" rel="nofollow">Write a review (admin only)</a>
@@ -144,12 +144,12 @@
                         {% set nextSessionStr = '' %}
                         {% if nextSessionStart != '' %} {% set nextSessionStr = " starts "~ nextSessionStart %} {% endif %}
                         {% set twitter_text = course['pageTitle'] ~ nextSessionStr %}
-                        <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Twitter', '{{ course['name'] }}']);"></a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Facebook', '{{ course['name'] }}']);"></a>
-                        <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="_gaq.push(['_trackEvent', 'Course - Share', 'Google+', '{{ course['name'] }}']);javascript:window.open(this.href,
+                        <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" ga('send','event', 'Course - Share', 'Twitter', '{{ course['name'] }}');"></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" ga('send','event', 'Course - Share', 'Facebook', '{{ course['name'] }}');"></a>
+                        <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="ga('send','event', 'Course - Share', 'Google+', '{{ course['name'] }}');javascript:window.open(this.href,
                                 '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
-                        <a href="https://www.linkedin.com/cws/share?url={{ course['pageUrl']|url_encode }}" class="linkedin" target="_blank" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Linkedin', '{{ course['name'] }}']);"></a>
-                        <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" _gaq.push(['_trackEvent', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}']);"></a>
+                        <a href="https://www.linkedin.com/cws/share?url={{ course['pageUrl']|url_encode }}" class="linkedin" target="_blank" onclick=" ga('send','event', 'Course - Share', 'Linkedin', '{{ course['name'] }}');"></a>
+                        <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" ga('send','event', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}');"></a>
                     </div>
                 </div>
                 #}
@@ -159,7 +159,7 @@
                     {% if course['initiative']['name']|length > 0 and course.initiative.code in providersWithLogos %}
 
                         <a class="provider-logo" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
-                           onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])"
+                           onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')"
                            title="{{ course['initiative']['name'] }}"><img src="/bundles/classcentralsite/slashpixel/images/providers/{{ course.initiative.code }}" alt="provider logo"></a>
                     {% endif %}
 
@@ -173,7 +173,7 @@
                                     {% set route = 'ClassCentralSiteBundle_institution' %}
                                 {% endif %}
                                 <li><a href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
-                                       onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a></li>
+                                       onClick="ga('send','event', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
@@ -196,7 +196,7 @@
                             <span>Tags</span>
                             {% for tag in course.tags %}
                                 <a href="{{ path('tag_courses', {tag: tag|lower}) }}"
-                                   onmousedown="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - tags', '{{tag}}', '{{course['name']}}'])">{{ tag|lower }}
+                                   onmousedown="ga('send','event', 'Course - Inbound Clicks - tags', '{{tag}}', '{{course['name']}}')">{{ tag|lower }}
                                 </a>
                             {% endfor %}
                         </div>
@@ -204,7 +204,7 @@
 
                     {#
                     {% if not user_session.isCourseReviewed(course.id) %}
-                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
+                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
                     {% endif %}
                     #}
                 </div>
@@ -237,7 +237,7 @@
                         <svg class="icon icon-provider-icon" viewBox="0 0 38 32"><use xlink:href="#icon-provider-icon"></use></svg>
                         Provider
                     </span>
-                <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}'])">{{ course['initiative']['name'] }}</a>
+                <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')">{{ course['initiative']['name'] }}</a>
             </div>
             {% if course.institutions is not empty %}
                 <div class="course-data-row course-institution">
@@ -251,7 +251,7 @@
                             {% set route = 'ClassCentralSiteBundle_institution' %}
                         {% endif %}
                         <a class="course-data-value" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
-                           onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                           onClick="ga('send','event', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -310,13 +310,13 @@
                             <a href="#course-all-reviews"  class="review-button"><span itemprop="count"><span itemprop="votes" >{{ reviews.ratingCount }}</span></span> {% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}</a>
                         </span>
                         {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
-                            <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
+                            <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
                         {% endif %}
                     </span>
             </div>
             <div class="course-data-row course-participants">
                 <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" style="color: #272c2e;" title="List of Class Central users interested in {{ course.name }}"
-                   onmousedown="_gaq.push(['_trackEvent', 'View all interested users', '{{ course.name }}'])"
+                   onmousedown="ga('send','event', 'View all interested users', '{{ course.name }}')"
                 >
                     <span class="number" style="text-decoration:underline" id="mycourses-listed-count">0</span>
                 </a>
@@ -366,7 +366,7 @@
             <a class="btn btn-primary btn-course-cc"
                href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
                title="List of {{ course['stream']['name'] }} MOOCs"
-               onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+               onClick="ga('send','event', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}')"
                     >Browse more {{ course['stream']['name'] }} courses</a>
         </div>
     </div>
@@ -380,7 +380,7 @@
         <div class="faq-wrap">
             <h5 class="faq-heading">
                 FAQ
-                <a href="{{ path('ClassCentralSiteBundle_faq') }}" onmousedown="_gaq.push(['_trackEvent', 'View All FAQ - Course page'])">View All</a>
+                <a href="{{ path('ClassCentralSiteBundle_faq') }}" onmousedown="ga('send','event', 'View All FAQ - Course page')">View All</a>
             </h5>
             <div class="faq-item">
                 <div class="faq-question">
@@ -459,13 +459,13 @@
                                                     {% set route = 'ClassCentralSiteBundle_institution' %}
                                                 {% endif %}
                                                 <li>
-                                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
                                                 </li>
                                             {% endfor %}
                                         {% endif %}
                                         {% if course['initiative'] %}
                                             <span class="via">via</span>
-                                            <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"  class="initiativelinks" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - Initiative', '{{ course.initiative.name }}', '{{course.name}}'])"> {{ course.initiative.name }}</a>
+                                            <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"  class="initiativelinks" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.initiative.name }}', '{{course.name}}')"> {{ course.initiative.name }}</a>
                                         {% endif %}
                                     </ul>
 
@@ -478,7 +478,7 @@
                 <a class="browse-more-courses"
                    href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
                    title="List of {{ course['stream']['name'] }} MOOCs"
-                   onClick="_gaq.push(['_trackEvent', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}'])"
+                   onClick="ga('send','event', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}')"
                         > » Browse more <span>{{ course['stream']['name'] }} courses</span></a>
             </div>
         </div>
@@ -514,7 +514,7 @@
                                                 {% set route = 'ClassCentralSiteBundle_institution' %}
                                             {% endif %}
                                             <li>
-                                                <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="_gaq.push(['_trackEvent', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}'])">{{institution['name']}}</a>
+                                                <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -538,7 +538,7 @@
                 </h2>
                 {#
                 {% if not user_session.isCourseReviewed(course.id) %}
-                    <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="_gaq.push(['_trackEvent', 'Create Review Link', 'Write a review', '{{course['name']}}'])">Write a review</a>
+                    <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
                 {% endif %}
                 #}
             </header>
@@ -579,7 +579,7 @@
                 <thead>
                 <tr>
                     <th>News <a href="{{ path('ClassCentralSiteBundle_news') }}"
-                                onmousedown="_gaq.push(['trackEvent', 'View All News - Course Page'])"
+                                onmousedown="ga('trackEvent', 'View All News - Course Page'])"
                                 >View All</a></th>
                 </tr>
                 </thead>
@@ -593,7 +593,7 @@
                                     {{ newsItem.description }}
                                 </p>
                                 <a href="{{ newsItem.url }}"
-                                   target="_blank" onmousedown="_gaq.push(['_trackEvent', 'Outbound Clicks - News','{{  newsItem.title }}' , 'Course Page'])"
+                                   target="_blank" onmousedown="ga('send','event', 'Outbound Clicks - News','{{  newsItem.title }}' , 'Course Page')"
                                         >Read More ></a>
                             </div>
                         </td>
@@ -617,7 +617,7 @@
             hotmail   : {show:true, text:"Hotmail Calendar"},
             ical      : {show:true, text:"iCal Calendar"},
             facebook  : {show:true, text:"Facebook Event"},
-            callback  : ['_gaq.push(["_trackEvent","Outbound Click - Calendar","{{ course['name'] }}"])']
+            callback  : ['ga("_trackEvent","Outbound Click - Calendar","{{ course['name'] }}"])']
         };
     </script>
 
@@ -692,7 +692,7 @@
 
     $("#share-course-form-submit").click(function(){
 
-    _gaq.push(['_trackEvent', 'Course - Share', 'Mail Sent', '{{ course['name'] }}'])
+    ga('send','event', 'Course - Share', 'Mail Sent', '{{ course['name'] }}')
 
     var to = $("input[name='toEmail']").val();
     var from = $("input[name='fromEmail']").val();

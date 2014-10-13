@@ -1,13 +1,13 @@
 
     <div class="spotlight-logo-wrap">
         <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'coursera'}) }}" class="spot-logo coursera-logo"
-           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','Coursera'])"
+           onmousedown="ga('send','event','Tagline Clicks','Provider','Coursera')"
                 >Coursera</a>
         <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'udacity'}) }}" class="spot-logo udacity-logo"
-           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','Udacity'])"
+           onmousedown="ga('send','event','Tagline Clicks','Provider','Udacity')"
                 >Udacity</a>
         <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'edx'}) }}" class="spot-logo edx-logo"
-           onmousedown="_gaq.push(['_trackEvent','Tagline Clicks','Provider','edX'])"
+           onmousedown="ga('send','event','Tagline Clicks','Provider','edX')"
                 >edX</a>
         <span  class="no-logo">Plus Many More</span>
     </div>
@@ -25,8 +25,8 @@
 
                  id="home-spotlight-{{ spotlight.position }}">
                 <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
-                        onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ spotlight.position }}',
-                                '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}']);"
+                        onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
+                                '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}');"
                         {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
                         >
                     <div class="img-wrap">
@@ -60,8 +60,8 @@
 
                  id="home-spotlight-{{ spotlight.position }}">
                 <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
-                   onmousedown="_gaq.push(['_trackEvent','Spotlight','{{ spotlight.position }}',
-                           '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}']);"
+                   onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
+                           '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}');"
                         {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
                         >
                     <div class="img-wrap">
