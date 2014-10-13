@@ -244,6 +244,7 @@ class CourseRepository extends EntityRepository{
             ->join('u.userCourses','uc')
             ->leftJoin('u.profile','p')
             ->andWhere('uc.course = :id')
+            ->andWhere('u.isPrivate = 0')
             ->orderBy('p.aboutMe','DESC')
             ->setParameter('id', $id)
             ;

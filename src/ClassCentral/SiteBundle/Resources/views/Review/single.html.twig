@@ -22,13 +22,15 @@
 
     {% if review.externalReviewerName is not empty %}
         {% set reviewer = review.externalReviewerName %}
+    {% elseif review.user.isPrivate %}
+        {% set reviewer = 'A Class Central user'  %}
     {% else %}
         {% set reviewer = review.user.name  %}
     {% endif %}
 
 
     <div>
-    {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle) %}
+    {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle, review.user.isPrivate) %}
         <span class="review-date">{{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></span>
         <div class="review-title title-with-image" itemprop="summary">
             <div class="crop-circle crop-circle--bordered">

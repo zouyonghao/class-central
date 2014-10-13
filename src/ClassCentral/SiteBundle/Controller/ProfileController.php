@@ -273,6 +273,11 @@ class ProfileController extends Controller
             }
         }
 
+        // User might have a private prifle
+        if( $user->getIsPrivate() && !$this->isCurrentUser($user) )
+        {
+            throw $this->createNotFoundException("Page does not exist");
+        }
 
         // User might not have a profile
         $profile = ($user->getProfile()) ? $user->getProfile() : new Profile();

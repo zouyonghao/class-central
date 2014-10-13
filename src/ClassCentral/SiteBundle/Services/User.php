@@ -452,6 +452,15 @@ class User {
         $profile->setLocation( $profileData['location'] );
         $profile->setFieldOfStudy( $profileData['fieldOfStudy']);
 
+        if($profileData['privacy'])
+        {
+            $user->setIsPrivate( true );
+        }
+        else
+        {
+            $user->setIsPrivate( false );
+        }
+
         if(!empty($profileData['highestDegree']))
         {
             $degreeId = intval( $profileData['highestDegree'] );
@@ -470,6 +479,7 @@ class User {
         $profile->setFacebook( $profileData['facebook']);
 
         $em->persist( $profile );
+        $em->persist( $user );
         $em->flush();
 
         // Put a flash message to notify the user that the profile has been updated
@@ -529,8 +539,13 @@ class User {
      * @param $handle
      * @return string url
      */
-    public function getProfileUrl( $userId, $handle = null )
+    public function getProfileUrl( $userId, $handle = null, $isPrivate= false )
     {
+        if( $isPrivate )
+        {
+            return null;
+        }
+
         if($userId == \ClassCentral\SiteBundle\Entity\User::SPECIAL_USER_ID || $userId == \ClassCentral\SiteBundle\Entity\User::REVIEW_USER_ID)
         {
             return null;

@@ -54,6 +54,7 @@ class ReviewUtility {
         $u['id'] = $user->getId();
         $u['name'] = $user->getDisplayName();
         $u['handle'] = $user->getHandle();
+        $u['isPrivate'] = $user->getIsPrivate();
         $r['user'] = $u;
 
         $course = $review->getCourse();

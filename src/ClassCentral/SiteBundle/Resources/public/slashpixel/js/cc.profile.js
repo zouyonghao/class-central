@@ -68,6 +68,7 @@ CC.Class['Profile'] = (function(){
         var location = $('input:text[name=location]').val();
         var fieldOfStudy = $('input:text[name=field-of-study]').val();
         var highestDegree = $('select[name=highest-degree]').val();
+        var privacy = $('select[name=privacy]').val();
 
         // Social
         var twitter = $('input:text[name=profile-twitter]').val();
@@ -83,6 +84,7 @@ CC.Class['Profile'] = (function(){
             location: location,
             fieldOfStudy:fieldOfStudy,
             highestDegree:highestDegree,
+            privacy: privacy,
             twitter: twitter,
             coursera:coursera,
             linkedin: linkedin,
