@@ -118,7 +118,10 @@ class User implements UserInterface, \Serializable
      */
     private $profile;
 
-
+    /**
+     * @var boolean
+     */
+    private $isPrivate;
 
     const SIGNUP_TYPE_FORM = 1;
     const SIGNUP_TYPE_FACEBOOK = 2;
@@ -791,5 +794,29 @@ class User implements UserInterface, \Serializable
     public function getProfile()
     {
         return $this->profile;
+    }
+
+
+    /**
+     * Set isPrivate
+     *
+     * @param boolean $isPrivate
+     * @return User
+     */
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = $isPrivate;
+    
+        return $this;
+    }
+
+    /**
+     * Get isPrivate
+     *
+     * @return boolean 
+     */
+    public function getIsPrivate()
+    {
+        return $this->isPrivate;
     }
 }
