@@ -245,7 +245,7 @@ class LoginController extends Controller{
         $profileData['name'] = $fbUser['name'];
         if( !empty($fbUser['username']) )
         {
-            $profileData['facebook'] = $fbUser['username'];
+            //$profileData['facebook'] = $fbUser['username'];
         }
         if( !empty($fbUser['website']) )
         {

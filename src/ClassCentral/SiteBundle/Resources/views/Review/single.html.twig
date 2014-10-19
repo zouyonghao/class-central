@@ -22,8 +22,6 @@
 
     {% if review.externalReviewerName is not empty %}
         {% set reviewer = review.externalReviewerName %}
-    {% elseif review.user.isPrivate %}
-        {% set reviewer = 'A Class Central user'  %}
     {% else %}
         {% set reviewer = review.user.name  %}
     {% endif %}
