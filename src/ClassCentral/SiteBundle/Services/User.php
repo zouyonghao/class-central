@@ -582,4 +582,32 @@ class User {
     }
 
 
+    /**
+     * Delete the user
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     */
+    public function deleteUser(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $connection = $this->container->get('doctrine')->getManager()->getConnection();
+        $uid = $user->getId();
+        if($uid == \ClassCentral\SiteBundle\Entity\User::REVIEW_USER_ID || $uid == \ClassCentral\SiteBundle\Entity\User::SPECIAL_USER_ID)
+        {
+            throw new \Exception("Cannot delete user");
+        }
+
+        $tables = array(
+            'user_preferences', 'reviews', 'users_courses','users_fb', 'newsletters_subscriptions','profiles','mooc_tracker_courses'
+        );
+        foreach($tables as $table)
+        {
+            $connection->exec("DELETE FROM $table WHERE user_id=$uid");
+        }
+
+        // Delete user record
+        $connection->exec("DELETE FROM users WHERE id=$uid");
+
+        return true;
+    }
+
+
 } 

@@ -85,11 +85,6 @@ swiftmailer:
     spool:     { type: memory }
 
 services:
-  search:
-    class: SphinxClient
-    calls:
-      - [SetArrayResult,[true]]
-      - [SetLimits, [0,500,1000]]
   es_client:
       class: Elasticsearch\Client
   es_courses:
