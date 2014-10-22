@@ -389,3 +389,12 @@ user_profile_image_upload_step_2:
 user_profile_delete:
   pattern: /user/profile/delete
   defaults: {_controller: ClassCentralSiteBundle:Profile:deleteProfile }
+
+tfc_redirect:
+  pattern: /tfc{src}
+  defaults:
+    _controller: FrameworkBundle:Redirect:redirect
+    route: ClassCentralSiteBundle_homepage
+    permanent: true # this is for 301
+  requirements:
+    src: ".*"
