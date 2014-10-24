@@ -13,7 +13,7 @@ class Scraper extends ScraperAbstractInterface
     const EDX_COURSE_LIST_CSV = "https://www.edx.org/api/report/course-feed/export";
 
     private $courseFields = array(
-        'Url', 'Description', 'Length', 'Name','LongDescription','VideoIntro'
+        'Url', 'Description', 'Length', 'Name','LongDescription','VideoIntro', 'VerifiedCertificate','Certificate'
     );
 
     private $offeringFields = array(
@@ -190,6 +190,7 @@ class Scraper extends ScraperAbstractInterface
     private function getEdxArray( $line )
     {
         $c = array();
+        $c['subject'] = $line[3]; // i.e - Verified, Computer Science, Engineering
         $c['school'] = $line['4'];
         $c['name'] = $line[5];
         $c['code'] = $line[6];
@@ -210,8 +211,6 @@ class Scraper extends ScraperAbstractInterface
         {
             $c['length'] = null;
         }
-
-
 
         return $c;
     }
@@ -238,6 +237,14 @@ class Scraper extends ScraperAbstractInterface
         $course->setVideoIntro( $c['videoIntro']);
         $course->setUrl($c['url']);
         $course->setLength( $c['length'] );
+        $course->setCertificate( true );
+
+        $verified = false;
+        if( strpos($c['subject'],'Verified')  > 0)
+        {
+            $verified = true;
+        }
+        $course->setVerifiedCertificate( $verified );
 
         return $course;
     }
