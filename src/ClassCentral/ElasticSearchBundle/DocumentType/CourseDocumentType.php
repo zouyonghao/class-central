@@ -103,6 +103,8 @@ class CourseDocumentType extends DocumentType {
         $body['syllabus'] = $c->getSyllabus();
         $body['searchDesc'] = $c->getSearchDesc();
         $body['status'] = $c->getStatus();
+        $body['certificate']  = $c->getCertificate();
+        $body['verifiedCertificate']  = $c->getVerifiedCertificate();
 
         // Tags
         $tags = array();
