@@ -62,10 +62,11 @@ class CourseReportOCCommand extends ContainerAwareCommand {
 
     private function getHtml( $course )
     {
-        $format = '<li><a href="%s">%s</a> (SA/VC$) -%s %s - %s %s</li>';
+        $format = '<li><a href="%s">%s</a> (%s) -%s %s - %s %s</li>';
 
         // Course Name
         $name = trim($course['name']);
+
 
         // Course Url
         $url  = $course['nextSession']['url'];
@@ -79,6 +80,43 @@ class CourseReportOCCommand extends ContainerAwareCommand {
         }
 
         $provider = $course['provider']['name'];
+        if($provider == 'EdX')
+        {
+            $provider = 'edX';
+        }
+
+        // Certificate
+        $certs = array();
+        if($provider == 'Coursera')
+        {
+            if($course['certificate'])
+            {
+                $certs[] = 'SA';
+
+            }
+            if($course['verifiedCertificate'])
+            {
+                $certs[] = 'VC$';
+            }
+        }
+
+        if($provider == 'edX')
+        {
+            $certs[] = 'HCC';
+            if($course['verifiedCertificate'])
+            {
+                $certs[] = 'VC$';
+            }
+        }
+
+
+        if($provider == 'FutureLearn')
+        {
+            $certs[] = 'SP$';
+        }
+
+        $cert  = implode('/',$certs);
+
         $dt = new \DateTime( $course['nextSession']['startDate']);
         $date = $dt->format('F j');
 
@@ -92,6 +130,6 @@ class CourseReportOCCommand extends ContainerAwareCommand {
             $length = "({$course['length']} weeks)";
         }
 
-        return sprintf($format, $url,$name, $institutionName, $provider, $date, $length);
+        return sprintf($format, $url,$name,$cert, $institutionName, $provider, $date, $length);
     }
 }
