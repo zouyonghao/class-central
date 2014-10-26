@@ -6,6 +6,7 @@ use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
@@ -864,5 +865,35 @@ EOD;
             )
         );
     }
+
+    /**
+     * Returns a json object containing the course details. Originally designed for
+     * wordpres short code
+     * @param Request $request
+     * @param $courseId
+     */
+    public function courseDetailsAction(Request $request, $courseId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cache = $this->get('Cache');
+
+        $courseId = intval($courseId);
+        $course = $cache->get( 'course_' . $courseId, array($this,'getCourseDetails'), array($courseId,$em) );
+
+        if(!$course ||   $course['status'] == 100 )
+        {
+            return UniversalHelper::getAjaxResponse( false );
+        }
+
+        $data = array(
+            'name' => $course['name'],
+            'displayDate' => $course['nextOffering']['displayDate'],
+            'url' => $course['nextOffering']['url'],
+
+        );
+
+        return UniversalHelper::getAjaxResponse( true, $data );
+    }
+
 
 }
