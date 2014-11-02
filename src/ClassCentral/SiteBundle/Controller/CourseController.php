@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -402,8 +403,8 @@ class CourseController extends Controller
                  'news' => $news,
                  'recommendations' => $recommendations,
                  'providersWithLogos' => Course::$providersWithFavicons,
-                 'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] )
-
+                 'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] ),
+                 'courseImage' => $this->getCourseImage( $courseId),
        ));
     }
 
@@ -895,5 +896,17 @@ EOD;
         return UniversalHelper::getAjaxResponse( true, $data );
     }
 
+    private function getCourseImage( $courseId )
+    {
+        $cache =$this->container->get('cache');
+
+        $url = $cache->get( 'course_image_'. $courseId,function( $cid ){
+            $kuber = $this->container->get('kuber');
+            $url = $kuber->getUrl( Kuber::KUBER_ENTITY_COURSE ,Kuber::KUBER_TYPE_COURSE_IMAGE, $cid );
+            return $url;
+        }, array($courseId));
+
+        return $url;
+    }
 
 }

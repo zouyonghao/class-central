@@ -2,14 +2,20 @@
 
 
  {% block headmeta %}
+     {% set courseImageUrl = null %}
+     {%  if courseImage  %}
+        {% set courseImageUrl = courseImage %}
+     {% elseif course.imageUrl %}
+        {% set courseImageUrl = rackspace_cdn_base_url~course.imageUrl %}
+     {% endif %}
      <title>{{ course['pageTitle'] }} | MOOC reviews and ratings</title>
      <meta name="description"
            content="{{ course['shortDesc'] }}"/>
      <meta property="og:title" content="{{ course['pageTitle'] }} | MOOC reviews and ratings" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
 
-     {% if course.imageUrl %}
-         <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ course.imageUrl }}">
+     {% if courseImageUrl %}
+         <meta property="og:image" content="{{ courseImageUrl }}">
      {% else %}
          <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      {% endif %}
@@ -34,8 +40,8 @@
      <meta name="twitter:title" content="{{ course['pageTitle'] }}">
      <meta name="twitter:description" content="{{ course['shortDesc'] }}">
      <meta name="twitter:domain" content="www.class-central.com">
-     {% if course.imageUrl %}
-         <meta property="twitter:image:src" content="{{ rackspace_cdn_base_url }}{{ course.imageUrl }}">
+     {% if courseImageUrl %}
+         <meta property="twitter:image:src" content="{{ courseImageUrl }}">
      {% else %}
          <meta property="twitter:image:src" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      {% endif %}
@@ -83,20 +89,13 @@
 
     {# Links for admin #}
     {% if is_granted('ROLE_ADMIN') %}
-        {# check for image #}
-        {% set courseImg= null %}
-        {% if course.videoIntro is not null and course.initiative.code == 'coursera' %}
-            {% set videoInfo= course.videoIntro|split('|||') %}
-            {% set courseImg =  videoInfo[1] %}
-        {% endif %}
-
 
         <p><b>Links for Admin</b></p>
         <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
 
         <br/>
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImg %} data-picture="{{ courseImg }}" {% endif %} data-text="[Starts Today] {{ course.name }} {% if course.initiative %}from {{ course.initiative.name }}{% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImg %} data-picture="{{ courseImg }}" {% endif %} data-text="[New Course] {{ course.name }} {% if course.initiative %}from {{ course.initiative.name }}{% endif %}. Starts {{ course.nextOffering.displayDate }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {% if course.initiative %}from {{ course.initiative.name }}{% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {% if course.initiative %}from {{ course.initiative.name }}{% endif %}. Starts {{ course.nextOffering.displayDate }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
     {% endif %}
     <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
 
