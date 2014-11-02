@@ -27,9 +27,11 @@ class Kuber {
     private  $baseUrl;
 
     const KUBER_ENTITY_USER = 'users';
+    const KUBER_ENTITY_COURSE = 'courses';
 
     const KUBER_TYPE_USER_PROFILE_PIC = "profile_pic";
     const KUBER_TYPE_USER_PROFILE_PIC_TMP = "profile_pic_tmp";
+    const KUBER_TYPE_COURSE_IMAGE = 'course_image';
 
 
     private function getS3Client()
@@ -210,6 +212,24 @@ class Kuber {
             'type'   => $type,
             'entityId' => $entity_id
         ));
+    }
+
+    /**
+     *
+     * @param $entity
+     * @param $type
+     * @param $entity_id
+     * @param $uniqueKey
+     */
+    public function hasFileChanged( $entity,$type,$entity_id, $uniqueKey)
+    {
+        $file = $this->getFile( $entity, $type, $entity_id);
+        if( $file )
+        {
+                return $file->getUniqueKey() != $uniqueKey;
+        }
+
+        return true;
     }
 
     /**

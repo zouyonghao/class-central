@@ -6,6 +6,8 @@ use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Services\Kuber;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class Scraper extends ScraperAbstractInterface {
 
@@ -44,6 +46,7 @@ class Scraper extends ScraperAbstractInterface {
     public function scrape()
     {
         $em = $this->getManager();
+        $kuber = $this->container->get('kuber'); // File Api
         $offerings = array();
         $courseraCourses = $this->getCoursesArray();
         $defaultStream = $this->dbHelper->getStreamBySlug('cs');
@@ -124,6 +127,8 @@ class Scraper extends ScraperAbstractInterface {
                 reset($courseraOfferings);
             }
 
+            $courseImage =  $courseraCourse['large_icon'];
+
             $dbCourse = $this->dbHelper->getCourseByShortName($courseShortName);
             if(!$dbCourse)
             {
@@ -144,6 +149,12 @@ class Scraper extends ScraperAbstractInterface {
 
                         $em->persist($course);
                         $em->flush();
+
+                        // Upload the image
+                        if($courseImage)
+                        {
+                            $this->uploadImageIfNecessary( $courseImage, $course);
+                        }
                     }
                 }
             }
@@ -171,6 +182,15 @@ class Scraper extends ScraperAbstractInterface {
                         $dbCourse->$setter($course->$getter());
                     }
 
+                }
+
+                if($this->doUpdate())
+                {
+                    // Upload the image
+                    if($courseImage)
+                    {
+                        $this->uploadImageIfNecessary( $courseImage, $dbCourse);
+                    }
                 }
 
                 if($courseModified && $this->doUpdate())
@@ -378,6 +398,30 @@ class Scraper extends ScraperAbstractInterface {
         }
 
         return $save;
+    }
+
+    /**
+     *
+     */
+    private function uploadImageIfNecessary( $imageUrl, Course $course)
+    {
+        $kuber = $this->container->get('kuber');
+        $uniqueKey = basename($imageUrl);
+        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
+        {
+            // Upload the file
+            $filePath = '/tmp/course_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($imageUrl));
+            $kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_COURSE,
+                Kuber::KUBER_TYPE_COURSE_IMAGE,
+                $course->getId(),
+                null,
+                $uniqueKey
+            );
+
+        }
     }
 
     private function getDetailsFromCourseraCatalog( $id )
