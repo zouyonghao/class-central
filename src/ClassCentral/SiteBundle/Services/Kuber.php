@@ -62,7 +62,7 @@ class Kuber {
      * @param $type type of file related to the entity i.e Spotlight, Profile Pic etc
      * @param $entity_id i.e user_id, course_id
      */
-    public function upload( $filePath, $entity, $type, $entity_id,$extension = null)
+    public function upload( $filePath, $entity, $type, $entity_id,$extension = null, $uniqueKey = null )
     {
         $client = $this->getS3Client();
         $em = $this->container->get('doctrine')->getManager();
@@ -102,6 +102,10 @@ class Kuber {
             $file->setFileName( $name );
             $file->setFileType( mime_content_type($filePath) );
         }
+
+        // Update the key
+        $file->setUniqueKey( $uniqueKey );
+
         try
         {
             // Upload the file

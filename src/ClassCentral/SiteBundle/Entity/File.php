@@ -39,6 +39,13 @@ class File
      */
     private $fileType;
 
+    /**
+     * The user of the Kuber API can set this key. This can be used to detect if a file
+     * has been changed.
+     * @var string
+     */
+    private $uniqueKey;
+
 
     /**
      * Get id
@@ -163,5 +170,30 @@ class File
     public function getFileType()
     {
         return $this->fileType;
+    }
+
+
+
+    /**
+     * Set key
+     *
+     * @param string $key
+     * @return File
+     */
+    public function setUniqueKey($key)
+    {
+        $this->uniqueKey = $key;
+    
+        return $this;
+    }
+
+    /**
+     * Get key
+     *
+     * @return string 
+     */
+    public function getUniqueKey()
+    {
+        return $this->uniqueKey;
     }
 }

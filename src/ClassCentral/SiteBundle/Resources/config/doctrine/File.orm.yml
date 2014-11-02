@@ -37,4 +37,10 @@ ClassCentral\SiteBundle\Entity\File:
             fixed: false
             nullable: true
             column: file_type
+        uniqueKey:
+            type: string
+            length: 100
+            fixed: false
+            nullable: true
+            column: unique_key
     lifecycleCallbacks: {  }
