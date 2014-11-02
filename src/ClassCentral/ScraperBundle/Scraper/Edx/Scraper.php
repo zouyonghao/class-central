@@ -5,6 +5,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Edx;
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Services\Kuber;
 
 class Scraper extends ScraperAbstractInterface
 {
@@ -52,6 +53,11 @@ class Scraper extends ScraperAbstractInterface
                         $em->flush();
 
                         $tagService->saveCourseTags( $course, $cTags);
+
+                        if($c['image'])
+                        {
+                            $this->uploadImageIfNecessary( $c['image'], $course);
+                        }
                     }
                 }
             }
@@ -95,6 +101,15 @@ class Scraper extends ScraperAbstractInterface
                         $tagService->saveCourseTags( $dbCourse, $cTags);
                     }
 
+                }
+
+                // Update the image
+                if( $this->doUpdate() )
+                {
+                    if($c['image'])
+                    {
+                        $this->uploadImageIfNecessary( $c['image'], $dbCourse);
+                    }
                 }
                 $course = $dbCourse;
             }
@@ -199,6 +214,7 @@ class Scraper extends ScraperAbstractInterface
         $c['url'] = $line[10];
         $c['videoIntro'] = $this->getVideoEmbedUrl( $line['11'] );
         $c['description'] = $line[13];
+        $c['image'] = $line[12];
 
         // Calculate length
         if( !empty($c['endDate']))
@@ -415,6 +431,27 @@ class Scraper extends ScraperAbstractInterface
             $new = is_a($changed['new'], 'DateTime') ? $changed['new']->format('jS M, Y') : $changed['new'];
 
             $this->out("$field changed from - '$old' to '$new'");
+        }
+    }
+
+    private function uploadImageIfNecessary( $imageUrl, Course $course)
+    {
+        $kuber = $this->container->get('kuber');
+        $uniqueKey = basename($imageUrl);
+        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
+        {
+            // Upload the file
+            $filePath = '/tmp/course_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($imageUrl));
+            $kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_COURSE,
+                Kuber::KUBER_TYPE_COURSE_IMAGE,
+                $course->getId(),
+                null,
+                $uniqueKey
+            );
+
         }
     }
 }
