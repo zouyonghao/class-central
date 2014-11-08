@@ -230,6 +230,10 @@ newsletter_mooc_tracker_signup:
   pattern: /newsletters/mooc-tracker-save-user
   defaults: {_controller: ClassCentralSiteBundle:Newsletter:moocTrackerSignup}
 
+moocwatch:
+  pattern: /moocwatch
+  defaults: {_controller: ClassCentralSiteBundle:Newsletter:moocWatch}
+
 #user course routes
 ajax_user_course_add:
   pattern: /ajax/user/course/add

@@ -414,4 +414,11 @@ class NewsletterController extends Controller
         // Redirect to MOOC Tracker page
         return $this->redirect($this->generateUrl('user_library'));
     }
+
+    public function moocWatchAction(Request $request)
+    {
+        return $this->render('ClassCentralSiteBundle:Newsletter:moocwatch.html.twig',array(
+
+        ));
+    }
 }
