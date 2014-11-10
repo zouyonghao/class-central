@@ -30,6 +30,7 @@
     =paper-stack
     =cc-button
     =testimonial-card
+    =ratings in the table
 */
 
 /* ==========================================================================
@@ -945,6 +946,43 @@ a:focus .card-back__interaction-text {
     z-index: 2;
     left: -18px;
     border-right: 10px solid #f9f9f9;
+  }
+
+  /* =ratings in the table
+  ----------------------------------------------------------------------------- */
+
+  .rating-and-count-wrap .course-rating,
+  .rating-and-count-wrap .number-of-ratings-bubble {
+    float: left;
+  }
+
+  .number-of-ratings-bubble {
+    display: block;
+    position: relative;
+    min-width: 14px;
+    padding: 1px 3px;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    background-color: @gray-dark !important;
+    color: #fff !important;
+    margin-top: 6px;
+    text-align: center;
+    &:focus,
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .number-of-ratings-bubble:after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 4px;
+    border-width: 5px 5px 0 0;
+    border-style: solid;
+    border-color: @gray-dark transparent transparent transparent;
+    display: block;
+    width: 0;
   }
 
 }
