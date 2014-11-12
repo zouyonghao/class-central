@@ -547,11 +547,11 @@
                     <span class="review-count">{{ reviews.ratingCount }} </span>{% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}
                     <span class="average-rating course-rating" data-score="{{ rating }}"></span>
                 </h2>
-                {#
+
                 {% if not user_session.isCourseReviewed(course.id) %}
                     <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
                 {% endif %}
-                #}
+
             </header>
 
             {% if reviews.count > 0 %}
