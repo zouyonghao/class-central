@@ -4,6 +4,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Edx;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Services\Kuber;
 
@@ -12,6 +13,9 @@ class Scraper extends ScraperAbstractInterface
     const BASE_URL = "https://www.edx.org";
     const COURSE_CATALOGUE = "https://www.edx.org/course-list/allschools/allsubjects/allcourses";
     const EDX_COURSE_LIST_CSV = "https://www.edx.org/api/report/course-feed/export";
+    const EDX_RSS_API = "https://www.edx.org/api/report/course-feed/rss";
+    // CONVERTED RSS TO JSON using Yahoo Pipes
+    const EDX_RSS_API_JSON = 'http://pipes.yahoo.com/pipes/pipe.run?_id=e2255dca4445cde56275caa98c5f0125&_render=json';
 
     private $courseFields = array(
         'Url', 'Description', 'Length', 'Name','LongDescription','VideoIntro', 'VerifiedCertificate','Certificate'
@@ -26,20 +30,53 @@ class Scraper extends ScraperAbstractInterface
      */
     public function scrape()
     {
-        $em = $this->getManager();
+
         $tagService = $this->container->get('tag');
 
-        $csv = file_get_contents(self::EDX_COURSE_LIST_CSV);
-        $file = fopen(self::EDX_COURSE_LIST_CSV, 'r');
+        // Get the course list from the new RSS API
+        $edxCourses = file_get_contents(self::EDX_RSS_API_JSON);
+        $edxCourses = json_decode( $edxCourses, true);
 
-        fgetcsv($file); // Skip the Header
-        while( !feof($file) )
+        foreach( $edxCourses['value']['items'] as $edxCourse )
         {
-            $c = $this->getEdxArray( fgetcsv($file) );
-            $course = $this->getCourseEntity( $c );
+            $em = $this->getManager();
+            $course = $this->getCourseEntity( $edxCourse );
 
-            $cTags = array( strtolower($c['school'] ));
+            $cTags = array();
+            if(is_array( $edxCourse['course:school'] ))
+            {
+                foreach( $edxCourse['course:school']  as $school)
+                {
+                    $cTags[] = strtolower($school);
+                }
+            }
+            else
+            {
+                $cTags[] = strtolower($edxCourse['course:school'] );
+            }
+
+
             $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
+
+            // Do a fuzzy match on the course title
+            if (!$dbCourse)
+            {
+                $result = $this->findCourseByName( $edxCourse['title'], $this->initiative);
+                if( count($result) > 1)
+                {
+                    $this->out("DUPLICATE ENTRIES FOR: " . $edxCourse['title']);
+                    foreach ($result as $item)
+                    {
+                        $this->out( "COURSE ID" . $item->getId() );
+                    }
+                    continue;
+                }
+                else if (count($result) == 1)
+                {
+                    $dbCourse = $result[0];
+                }
+            }
+
             if( !$dbCourse )
             {
 
@@ -54,9 +91,9 @@ class Scraper extends ScraperAbstractInterface
 
                         $tagService->saveCourseTags( $course, $cTags);
 
-                        if($c['image'])
+                        if($edxCourse['course:image-banner'])
                         {
-                            $this->uploadImageIfNecessary( $c['image'], $course);
+                            $this->uploadImageIfNecessary( $edxCourse['course:image-banner'], $course);
                         }
                     }
                 }
@@ -99,18 +136,16 @@ class Scraper extends ScraperAbstractInterface
 
                         // Update tags
                         $tagService->saveCourseTags( $dbCourse, $cTags);
+
+                        if($edxCourse['course:image-banner'])
+                        {
+                            $this->uploadImageIfNecessary( $edxCourse['course:image-banner'], $dbCourse);
+                        }
                     }
 
                 }
 
-                // Update the image
-                if( $this->doUpdate() )
-                {
-                    if($c['image'])
-                    {
-                        $this->uploadImageIfNecessary( $c['image'], $dbCourse);
-                    }
-                }
+
                 $course = $dbCourse;
             }
 
@@ -118,22 +153,22 @@ class Scraper extends ScraperAbstractInterface
              * CREATE OR UPDATE OFFERING
              ***************************/
             $offering = new Offering();
-            $osn = $this->getOfferingShortName( $c );
+            $osn = $this->getOfferingShortName( $edxCourse );
             $offering->setShortName( $osn );
             $offering->setCourse( $course );
-            $offering->setUrl( $c['url'] );
+            $offering->setUrl( $edxCourse['link'] );
             $offering->setStatus( Offering::START_DATES_KNOWN );
-            $offering->setStartDate( new \DateTime( $c['startDate'] ) );
+            $offering->setStartDate( new \DateTime( $edxCourse['course:start'] ) );
 
-            if( empty($c['endDate']) )
+            if( empty($edxCourse['course:end']) )
             {
                 // Put an end date for 4 weeks in the future
-                $endDate = new \DateTime(  $c['startDate'] );
+                $endDate = new \DateTime(   $edxCourse['course:start'] );
                 $endDate->add(new \DateInterval("P30D") );
             }
             else
             {
-                $endDate = new \DateTime( $c['endDate'] );
+                $endDate = new \DateTime(  $edxCourse['course:end'] );
             }
             $offering->setEndDate( $endDate );
 
@@ -197,40 +232,9 @@ class Scraper extends ScraperAbstractInterface
 
     private function  getOfferingShortName( $c = array() )
     {
-        $edxCourseId = $this->getEdxCourseId( $c['url'] );
+        $edxCourseId = $this->getEdxCourseId( $c['guid'] );
         return 'edx_'. $edxCourseId;
     }
-
-
-    private function getEdxArray( $line )
-    {
-        $c = array();
-        $c['subject'] = $line[3]; // i.e - Verified, Computer Science, Engineering
-        $c['school'] = $line['4'];
-        $c['name'] = $line[5];
-        $c['code'] = $line[6];
-        $c['startDate'] = $line[8];
-        $c['endDate'] = $line[9];
-        $c['url'] = $line[10];
-        $c['videoIntro'] = $this->getVideoEmbedUrl( $line['11'] );
-        $c['description'] = $line[13];
-        $c['image'] = $line[12];
-
-        // Calculate length
-        if( !empty($c['endDate']))
-        {
-            $start = new \DateTime( $line['8'] );
-            $end = new \DateTime( $line['9'] );
-            $c['length'] = ceil( $start->diff($end)->days/7 );
-        }
-        else
-        {
-            $c['length'] = null;
-        }
-
-        return $c;
-    }
-
 
     /**
      * Given an array built from edX csv returns a course entity
@@ -245,29 +249,39 @@ class Scraper extends ScraperAbstractInterface
         $course = new Course();
         $course->setShortName( $this->getShortName($c) );
         $course->setInitiative( $this->initiative );
-        $course->setName( $c['code'] . ': ' . $c['name'] );
+        $course->setName( $c['course:code'] . ': ' . $c['title'] );
         $course->setDescription( $c['description'] );
-        $course->setLongDescription( $c['description'] );
+        $course->setLongDescription( nl2br($c['description']) );
         $course->setLanguage( $defaultLanguage);
         $course->setStream($defaultStream); // Default to Computer Science
-        $course->setVideoIntro( $c['videoIntro']);
-        $course->setUrl($c['url']);
-        $course->setLength( $c['length'] );
-        $course->setCertificate( true );
+        $course->setVideoIntro( $c['course:video-youtube']);
+        $course->setUrl($c['link']);
 
-        $verified = false;
-        if( strpos($c['subject'],'Verified')  > 0)
+        $course->setCertificate( true );
+        $course->setVerifiedCertificate( $c['course:verified'] );
+
+        // Calculate length
+        $length = null;
+        if( !empty($c['course:end']))
         {
-            $verified = true;
+            $start = new \DateTime( $c['course:start'] );
+            $end = new \DateTime( $c['course:end'] );
+            $length = ceil( $start->diff($end)->days/7 );
         }
-        $course->setVerifiedCertificate( $verified );
+
+        $course->setLength( $length );
 
         return $course;
     }
 
     private function getShortName( $details )
     {
-        return 'edx_' . strtolower( $details['code'] . '_' . $details['school'] );
+        $school = $details['course:school'];
+        if(is_array($details['course:school']))
+        {
+            $school = array_pop( $details['course:school'] );
+        }
+        return 'edx_' . strtolower( $details['course:code'] . '_' . $school );
     }
 
     /**
@@ -296,94 +310,6 @@ class Scraper extends ScraperAbstractInterface
         return null;
     }
 
-    public function scrape1()
-    {
-        $numberOfPages = $this->getNumberOfPages();
-
-        // Build a list of all course pages
-        $coursePageUrls = array();
-        for($page = 0; $page <= $numberOfPages; $page++)
-        {
-            $cataloguePage = file_get_html(self::COURSE_CATALOGUE . "?page=" . $page);
-            foreach($cataloguePage->find('div.course-tile') as $courseDiv)
-            {
-                $coursePageUrls[] = $courseDiv->find('h2.course-title a',0)->href;
-            }
-
-        }
-
-        $this->out("Number of courses found - " . count($coursePageUrls));
-
-        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
-        foreach( $coursePageUrls as $coursePageUrl)
-        {
-            $url =  $coursePageUrl;
-            $coursePage = file_get_html( $url );
-
-            // Get the course code
-            $courseShortName = $this->parseCourseCode($coursePageUrl);
-            $courseName =  $coursePage->find('h2.course-detail-title', 0)->plaintext;
-            $startDate = $coursePage->find("div.course-detail-start",0)->plaintext;
-            $startDate = $this->getStartDate($coursePage);
-            $edXCourseId = $this->getEdxCourseId($coursePageUrl);
-            $offering = $this->dbHelper->getOfferingByShortName("edx_" . $edXCourseId);
-            if(!$offering)
-            {
-                $this->out("NOT FOUND");
-                $this->out("$courseName - $startDate");
-                $this->out($url);
-                $this->out("");
-                continue;
-            }
-
-            // Check if the date and url match
-            if($offering->getUrl() != $url)
-            {
-                $this->out("INCORRECT URL");
-                $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                $this->out($url);
-                $this->out("");
-                continue;
-            }
-            try {
-            if($offering->getStatus() == Offering::START_DATES_KNOWN)
-            {
-                $offeringStartDate = new \DateTime($startDate);
-                if($offeringStartDate != $offering->getStartDate() )
-                {
-                    $this->out("INCORRECT START DATE");
-                    $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                    $this->out("Offering Date - {$offering->getDisplayDate()}");
-                    $this->out($url);
-                    $this->out("");
-                }
-
-            }
-
-            if($offering->getStatus() == Offering::START_MONTH_KNOWN && trim($startDate) != $offering->getStartDate()->format("F Y"))
-            {
-                $this->out("INCORRECT START MONTH");
-                $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                $this->out("Offering Date - {$offering->getDisplayDate()}");
-                $this->out($url);
-                $this->out("");
-            }
-
-            } catch(\Exception $e) {
-                $this->out("Error parsing dates");
-                   $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                   $this->out("Offering Date - {$offering->getDisplayDate()}");
-                   $this->out($url);
-                   $this->out("");
-
-            }
-
-        }
-
-        return array();
-
-    }
-
 
     private function parseCourseCode($str)
     {
@@ -398,24 +324,13 @@ class Scraper extends ScraperAbstractInterface
      */
     private function getEdxCourseId($url)
     {
-        return substr($url, strrpos($url,'-')+1);
+        return substr($url, strrpos($url,'/')+1);
     }
 
     private function getStartDate($html)
     {
         $dateStr = $html->find("div.course-detail-start",0)->plaintext;
         return substr($dateStr,strrpos($dateStr,':')+1);
-    }
-
-    /**
-     * Calculates the number of pages of course catalogue
-     */
-    private function getNumberOfPages()
-    {
-        // Get the first page and then extract the total number of courses
-        $this->domParser->load_file(self::COURSE_CATALOGUE);
-        $lastPageUrl = $this->domParser->find('li[class="pager-last"] a',0)->href;
-        return (int)substr($lastPageUrl,strrpos($lastPageUrl,'=')+1);
     }
 
     /**
@@ -453,5 +368,25 @@ class Scraper extends ScraperAbstractInterface
             );
 
         }
+    }
+
+    /**
+     * Tries to find a edx course with the particular title
+     * @param $title
+     * @param $initiative
+     */
+    private function findCourseByName ($title, Initiative $initiative)
+    {
+        $em = $this->getManager();
+        $result = $em->getRepository('ClassCentralSiteBundle:Course')->createQueryBuilder('c')
+                    ->where('c.initiative = :initiative' )
+                    ->andWhere('c.name LIKE :title')
+                    ->setParameter('initiative', $initiative)
+                    ->setParameter('title', '%'.$title)
+                    ->getQuery()
+                    ->getResult()
+        ;
+
+        return $result;
     }
 }
