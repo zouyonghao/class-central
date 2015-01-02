@@ -11,6 +11,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Rwaq;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Offering;
 
 
 /**
@@ -24,6 +25,9 @@ class Scraper extends ScraperAbstractInterface {
 
     public function scrape()
     {
+        $offerings = array();
+        $em = $this->getManager();
+
         $handle = fopen(self::RWAQ_CSV_LOCATION, 'r');
         fgetcsv($handle); // Ignore the title line
         while (($data = fgetcsv($handle)) !== FALSE)
@@ -31,8 +35,52 @@ class Scraper extends ScraperAbstractInterface {
             // Step 1: Check if the course exists
             $rwaqCourse = $this->getCourseEntity( $data );
 
-            $this->out( $rwaqCourse->getName() . ' - ' . $rwaqCourse->getShortName() );
+            // Check if course exists
+            $dbCourse = $this->dbHelper->getCourseByShortName( $rwaqCourse->getShortName() );
+            if( !$dbCourse )
+            {
+                $this->out( 'COURSE NOT FOUND - ' . $rwaqCourse->getName() . ' - ' . $rwaqCourse->getShortName() );
+                if( $this->doModify() )
+                {
+                    // Create this course.
+                    $em->persist ($rwaqCourse);
+                    $em->flush();
+
+                    $this->out( 'COURSE CREATED - ' . $rwaqCourse->getName() . ' - ' . $rwaqCourse->getShortName() );
+                }
+            }
+            else
+            {
+                $rwaqCourse = $dbCourse;
+            }
+
+            // STEP 2: Check if the offering exists
+            $rwaqOffering = $this->getOfferingEntity( $data);
+            $rwaqOffering->setCourse( $rwaqCourse );
+
+            $dbOffering = $this->dbHelper->getOfferingByShortName( $rwaqOffering->getShortName() );
+
+            if( !$dbOffering )
+            {
+                $this->out( 'OFFERING NOT FOUND - ' . $rwaqCourse->getName() . ' - ' . $rwaqOffering->getShortName() );
+                if( $this->doModify() )
+                {
+                    // Create this course.
+                    $em->persist ($rwaqOffering);
+                    $em->flush();
+
+                    $this->out( 'OFFERING CREATED - ' . $rwaqCourse->getName() . ' - ' . $rwaqOffering->getShortName() );
+                    $offerings[] = $rwaqOffering;
+                }
+            }
+            else
+            {
+                $rwaqOffering = $dbOffering;
+            }
+
         }
+
+        return $offerings;
     }
 
     /**
@@ -48,7 +96,7 @@ class Scraper extends ScraperAbstractInterface {
         $course->setVideoIntro( str_replace('http','https',$row[4]) );
         $course->setUrl( $row[5] );
         $course->setShortName( $this->getCourseId( $row[5] ) );
-
+        $course->setInitiative( $this->initiative );
         // Set the language to arabic
         $langMap = $this->dbHelper->getLanguageMap();
         $course->setLanguage( $langMap['Arabic']);
@@ -57,7 +105,30 @@ class Scraper extends ScraperAbstractInterface {
         $defaultStream = $this->dbHelper->getStreamBySlug('humanities');
         $course->setStream( $defaultStream );
 
+        // Calculate the length of the course
+        $start = new \DateTime( $row[2] );
+        $end = new \DateTime( $row[3]);
+        $length = ceil( $start->diff($end)->days/7 );
+        $course->setLength( $length );
+
         return $course;
+    }
+
+    /**
+     * Build a doctrine Offering Entity out of a csv row
+     * @param $row
+     * @return Offering
+     */
+    public function getOfferingEntity( $row )
+    {
+        $offering = new Offering();
+        $offering->setShortName( $this->getOfferingId( $row[5] ));
+        $offering->setStartDate( new \DateTime( $row[2] ) );
+        $offering->setEndDate( new \DateTime( $row[3]) );
+        $offering->setStatus( Offering::START_DATES_KNOWN );
+        $offering->setUrl( $row[5] );
+
+        return $offering;
     }
 
 
@@ -70,17 +141,20 @@ class Scraper extends ScraperAbstractInterface {
     public function getCourseId( $url )
     {
         $offeringId = $this->getOfferingId( $url );
-
+        $courseId = null;
         // Check if the offering id ends with a number. i.e -2,-3. If it does remove it and return the rest of the code
         $last = substr($offeringId, strrpos($offeringId,'-')+1);
         if( is_numeric( $last) )
         {
-            return substr($offeringId, 0, strrpos($offeringId,'-'));
+            $courseId =  substr($offeringId, 0, strrpos($offeringId,'-'));
         }
         else
         {
-            return $offeringId;
+            $courseId =  $offeringId;
         }
+
+        // trim to length of 50
+        return substr( $courseId,0,50);
     }
 
     /**
