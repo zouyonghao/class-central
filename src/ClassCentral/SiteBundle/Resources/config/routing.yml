@@ -73,6 +73,14 @@ ClassCentralSiteBundle_stream_statistics_and_data_analysis:
           permanent: true # this is for 301
           slug: statistics
 
+ClassCentralSiteBundle_stream_basic_math_and_calculus:
+    pattern:  /subject/basic_math_and_calculus
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: foundations-of-mathematics
+
 ClassCentralSiteBundle_stream:
     pattern:  /subject/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Stream:view }  
