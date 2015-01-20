@@ -74,7 +74,7 @@ ClassCentralSiteBundle_stream_statistics_and_data_analysis:
           slug: statistics
 
 ClassCentralSiteBundle_stream_basic_math_and_calculus:
-    pattern:  /subject/basic_math_and_calculus
+    pattern:  /subject/basic-math-and-calculus
     defaults:
           _controller: FrameworkBundle:Redirect:redirect
           route: ClassCentralSiteBundle_stream
