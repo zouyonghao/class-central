@@ -103,6 +103,12 @@ class Review
      */
     private $isRating;
 
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\ReviewSummary
+     */
+    private $reviewSummary;
+
+
     // Level
     const LEVEL_BEGINNER = 1;
     const LEVEL_INTERMEDIATE = 2;
@@ -560,5 +566,29 @@ class Review
     public function getIsRating()
     {
         return $this->isRating;
+    }
+
+
+    /**
+     * Set reviewSummary
+     *
+     * @param \ClassCentral\SiteBundle\Entity\ReviewSummary $reviewSummary
+     * @return Review
+     */
+    public function setReviewSummary(\ClassCentral\SiteBundle\Entity\ReviewSummary $reviewSummary = null)
+    {
+        $this->reviewSummary = $reviewSummary;
+    
+        return $this;
+    }
+
+    /**
+     * Get reviewSummary
+     *
+     * @return \ClassCentral\SiteBundle\Entity\ReviewSummary
+     */
+    public function getReviewSummary()
+    {
+        return $this->reviewSummary;
     }
 }

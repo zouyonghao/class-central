@@ -65,6 +65,15 @@ ClassCentral\SiteBundle\Entity\Review:
             nullable: true
             column: is_rating
     manyToOne:
+        reviewSummary:
+                targetEntity: ReviewSummary
+                cascade: {  }
+                mappedBy: null
+                inversedBy: null
+                joinColumns:
+                    review_summary_id:
+                        referencedColumnName: id
+                orphanRemoval: false
         user:
             targetEntity: User
             cascade: {  }
