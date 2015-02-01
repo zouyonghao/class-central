@@ -510,7 +510,7 @@ class ReviewController extends Controller {
         $rating = $rs->getRatings($courseId);
         $reviews = $rs->getReviews($courseId);
 
-        // Step 2: Get 5 reviews that are displayed
+        // Step 2: Get 5 reviews that are to be displayed
         $query = $em->createQueryBuilder();
         $query->add('select', 'r')
             ->add('from', 'ClassCentralSiteBundle:Review r')
@@ -518,15 +518,16 @@ class ReviewController extends Controller {
             ->add('orderBy', 'r.rating DESC')
             ->add('where', 'r.course = :course')
             ->andWhere('rs is NOT NULL')
+            ->andWhere('r.status = :status')
             ->setMaxResults(5)
-            ->setParameter('course', $course);
+            ->setParameter('course', $course)
+            ->setParameter(':status', Review::REVIEW_STATUS_APPROVED);
 
         $reviewsWithSummaries = array();
         foreach ( $query->getQuery()->getResult() as $review )
         {
             $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
         }
-
 
 
         return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(

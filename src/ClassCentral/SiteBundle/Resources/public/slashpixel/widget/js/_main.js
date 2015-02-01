@@ -3,7 +3,7 @@ window.onload = function() {
   var reviewSection = document.getElementById("reviewSection");
   var writeSection = document.getElementById("writeSection");
 
-  var triggerButton = document.getElementById("js-show-writesection");
+  //var triggerButton = document.getElementById("js-show-writesection");
 
   function showSection() {
     reviewSection.style.display="none";
@@ -11,6 +11,6 @@ window.onload = function() {
     return false;
   }
 
-  triggerButton.onclick = showSection;
+  //triggerButton.onclick = showSection;
 
 };
