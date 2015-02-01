@@ -25,7 +25,7 @@ class Review {
     const AVG_NUM_VOTES = 2.3 ;
     const AVG_RATING = 4.67 ;
 
-    const REVIEW_ALREADY_SUMMARIZED = 0;
+    const REVIEW_ALREADY_SUMMARIZED_OR_EMPTY_TEXT = 0;
     const REVIEW_SUMMARY_FAILED = -1;
 
     public function __construct(ContainerInterface $container)
@@ -371,7 +371,7 @@ class Review {
         // Check whether if the review can be summarized
         if( !$this->isReviewSummarizable( $review ) )
         {
-          return self::REVIEW_ALREADY_SUMMARIZED;
+          return self::REVIEW_ALREADY_SUMMARIZED_OR_EMPTY_TEXT;
         }
 
         $summarizer = $this->container->get('text_summarizer');
@@ -401,9 +401,24 @@ class Review {
         return $numSummaries;
     }
 
+    /**
+     * Summarizes reviews for all courses
+     * @param Course $course
+     * @return int
+     */
     public function summarizeReviewsForACourse (Course $course)
     {
+        $numSummarized = 0;
+        foreach ($course->getReviews() as $review)
+        {
+            $response = $this->summarizeReview($review);
+            if ($response != self::REVIEW_SUMMARY_FAILED || $response != self::REVIEW_ALREADY_SUMMARIZED_OR_EMPTY_TEXT)
+            {
+                $numSummarized++;
+            }
+        }
 
+        return $numSummarized;
     }
 
     private function isReviewSummarizable(\ClassCentral\SiteBundle\Entity\Review $review)
