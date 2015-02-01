@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\ReviewSummary;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Entity\Review as ReviewEntity;
@@ -23,6 +24,9 @@ class Review {
 
     const AVG_NUM_VOTES = 2.3 ;
     const AVG_RATING = 4.67 ;
+
+    const REVIEW_ALREADY_SUMMARIZED = 0;
+    const REVIEW_SUMMARY_FAILED = -1;
 
     public function __construct(ContainerInterface $container)
     {
@@ -356,4 +360,81 @@ class Review {
     }
 
 
+
+    /**
+     * Summarizes the review and saves it in the database.
+     * @param ReviewEntity $review
+     * @return int returns the number of summaries for this particular review.
+     */
+    public function summarizeReview (\ClassCentral\SiteBundle\Entity\Review $review)
+    {
+        // Check whether if the review can be summarized
+        if( !$this->isReviewSummarizable( $review ) )
+        {
+          return self::REVIEW_ALREADY_SUMMARIZED;
+        }
+
+        $summarizer = $this->container->get('text_summarizer');
+        $response = $summarizer->summarize( $review->getReview() );
+        if( empty($response) )
+        {
+            self::REVIEW_SUMMARY_FAILED;
+        }
+
+        // Save the first one as default summary for the review
+        $firstSummary = array_pop( $response );
+        $rs = $this->getReviewSummaryObj( $review, $firstSummary);
+        $review->setReviewSummary( $rs );
+        $this->em->persist ($rs);
+        $this->em->persist( $review );
+
+        $numSummaries = 1;
+        foreach( $response as $summary)
+        {
+            $rs = $this->getReviewSummaryObj( $review, $summary);
+            $this->em->persist( $rs );
+            $numSummaries++;
+        }
+
+        $this->em->flush();
+
+        return $numSummaries;
+    }
+
+    public function summarizeReviewsForACourse (Course $course)
+    {
+
+    }
+
+    private function isReviewSummarizable(\ClassCentral\SiteBundle\Entity\Review $review)
+    {
+        // Is Review already summarized?
+        if( $review->getReviewSummary() )
+        {
+            return false;
+        }
+
+        // Is there review text?
+        if( strlen($review->getReview()) == 0 )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns a ReviewSummary object
+     * @param ReviewEntity $review
+     * @param $summaryText
+     * @return ReviewSummary
+     */
+    private function getReviewSummaryObj( \ClassCentral\SiteBundle\Entity\Review $review, $summaryText)
+    {
+        $rs = new ReviewSummary();
+        $rs->setReview( $review);
+        $rs->setSummary( $summaryText);
+
+        return $rs;
+    }
 } 
