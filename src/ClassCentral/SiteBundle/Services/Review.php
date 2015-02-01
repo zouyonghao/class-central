@@ -378,27 +378,33 @@ class Review {
         $response = $summarizer->summarize( $review->getReview() );
         if( empty($response) )
         {
-            self::REVIEW_SUMMARY_FAILED;
+            return self::REVIEW_SUMMARY_FAILED;
         }
 
         // Save the first one as default summary for the review
-        $firstSummary = array_pop( $response );
-        $rs = $this->getReviewSummaryObj( $review, $firstSummary);
-        $review->setReviewSummary( $rs );
-        $this->em->persist ($rs);
-        $this->em->persist( $review );
-
-        $numSummaries = 1;
+        $summaries = array();
         foreach( $response as $summary)
         {
+            if( strlen($summary) < 20 )
+            {
+                // Skip smaller summaries
+                continue;
+            }
             $rs = $this->getReviewSummaryObj( $review, $summary);
             $this->em->persist( $rs );
-            $numSummaries++;
+            $summaries[] = $rs;
+        }
+
+        // Save the first summary as the default summary;
+        if( !empty($summaries) )
+        {
+            $review->setReviewSummary( $summaries[0] );
+            $this->em->persist( $review );
         }
 
         $this->em->flush();
 
-        return $numSummaries;
+        return count( $summaries );
     }
 
     /**
@@ -448,7 +454,7 @@ class Review {
     {
         $rs = new ReviewSummary();
         $rs->setReview( $review);
-        $rs->setSummary( $summaryText);
+        $rs->setSummary( trim($summaryText) );
 
         return $rs;
     }
