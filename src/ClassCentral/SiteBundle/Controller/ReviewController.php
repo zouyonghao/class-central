@@ -492,14 +492,14 @@ class ReviewController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $rs = $this->get('review');
         // Step 1: Figure out which course it is
-        $courseId = 2161;
+        $courseId = 1713;
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
 
         // Get reviews and ratings
         $rating = $rs->getRatings($courseId);
         $reviews = $rs->getReviews($courseId);
 
-        // Step 2: Get 5 reviews that we can
+        // Step 2: Get 5 reviews that are displayed
         $query = $em->createQueryBuilder();
         $query->add('select', 'r')
             ->add('from', 'ClassCentralSiteBundle:Review r')
@@ -516,11 +516,30 @@ class ReviewController extends Controller {
             $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
         }
 
-        // Step 3:
+        // Massage the rating to round it to multiples of 0.5
+        $integerPart = floor($rating);
+        $decimalPart = $rating - $integerPart;
+        if( $decimalPart <= 0.25 )
+        {
+            $decimalPart = 0;
+        }
+        else if ( $decimalPart > 0.25 and $decimalPart < 0.75)
+        {
+            $decimalPart = 0.5;
+        }
+        else
+        {
+            $decimalPart = 1;
+        }
+
+        $formattedRating = $integerPart + $decimalPart;
+
         return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
                'reviews' => $reviews,
                'rating'  => $rating,
-               'reviewsWithSummaries' => $reviewsWithSummaries
+               'formattedRating' => $formattedRating,
+               'reviewsWithSummaries' => $reviewsWithSummaries,
+               'course' => $course
         ));
     }
 

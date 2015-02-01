@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>CC widget</title>
+    <title>Reviews for {{ course.name }}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -41,12 +41,14 @@
 <div id="reviewSection" class="widgetSection widgetSection-review">
 <div class="tab-review js-tab-review">
 <header class="widgetHeader">
-    <h1 class="widgetTitle">
-        <span class="widgetTitle_count">{{ reviews.ratingCount }}</span>
-        <span class="widgetTitle_text">Student reviews</span>
-    </h1>
+    <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" title="Reviews for {{ course.name }}" target="_blank">
+        <h1 class="widgetTitle">
+                <span class="widgetTitle_count">{{ reviews.ratingCount }}</span>
+                <span class="widgetTitle_text">Student ratings</span>
+        </h1>
+    </a>
 
-    <div class="starRating rating25">
+    <div class="starRating rating{{ formattedRating*10 }}">
         <div class="starRating_star">
             <svg class="starRating_starShape starRating_starShape-blank">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
@@ -137,12 +139,11 @@
         {% set reviewer = review.user.name  %}
     {% endif %}
 
-
-
     <div class="textBubble_content js-textBubble-tab" id="js-tab-{{ tab }}">
         {% set tab=tab+1 %} {# increment the tab #}
     <div class="textBubble_text">
-        {{ review.reviewSummary }}
+        {# truncate the summary text if greater than 100 characters #}
+        {{ review.reviewSummary|length > 90 ? review.reviewSummary|slice(0, 90) ~ '...' :review.reviewSummary  }}
     </div>
     <div class="textBubble_ratingWrap">
         <div class="starRating starRating-dark starRating-small rating{{ review.rating*10 }}">
@@ -217,7 +218,7 @@
                 </svg>
             </div>
         </div>
-        <a href="#" class="link-uppercase">Read Review</a>
+        <a href="#" target="_blank" class="link-uppercase">Read Review</a>
     </div>
     <div class="textBubble_smallText">
         <span class="textBubble_smallTextLine">{{ reviewer }}</span>
@@ -251,10 +252,10 @@
 
 <footer class="widgetFooter">
     <div class="widgetFooter_layoutUnit widgetFooter_layoutUnit-left">
-        <a href="#writeSection" id="js-show-writesection" class="widgetButton">Write your review</a>
+        <a href="{{ path('review_new',{courseId: course.id})}}" target="_blank"  class="widgetButton">Write your review</a>
     </div>
     <div class="widgetFooter_layoutUnit widgetFooter_layoutUnit-right">
-        <a href="" class="widgetButton widgetButton-gray">Read all reviews</a>
+        <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" title="Reviews for {{ course.name }}" target="_blank" class="widgetButton widgetButton-gray">Read all reviews</a>
     </div>
 </footer>
 </div>
