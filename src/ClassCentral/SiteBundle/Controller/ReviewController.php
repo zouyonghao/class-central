@@ -492,8 +492,19 @@ class ReviewController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $rs = $this->get('review');
         // Step 1: Figure out which course it is
-        $courseId = 1713;
+        $courseId = $request->query->get('course-id');
+        if( empty($courseId) and !is_numeric( $courseId ) )
+        {
+            // TODO: SHOW ERROR
+            return;
+        }
+
         $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+        if( !$course )
+        {
+            // TODO: SHOW ERROR
+            return;
+        }
 
         // Get reviews and ratings
         $rating = $rs->getRatings($courseId);
@@ -516,28 +527,12 @@ class ReviewController extends Controller {
             $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
         }
 
-        // Massage the rating to round it to multiples of 0.5
-        $integerPart = floor($rating);
-        $decimalPart = $rating - $integerPart;
-        if( $decimalPart <= 0.25 )
-        {
-            $decimalPart = 0;
-        }
-        else if ( $decimalPart > 0.25 and $decimalPart < 0.75)
-        {
-            $decimalPart = 0.5;
-        }
-        else
-        {
-            $decimalPart = 1;
-        }
 
-        $formattedRating = $integerPart + $decimalPart;
 
         return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
                'reviews' => $reviews,
                'rating'  => $rating,
-               'formattedRating' => $formattedRating,
+               'formattedRating' => ReviewUtility::formatRating( $rating ),
                'reviewsWithSummaries' => $reviewsWithSummaries,
                'course' => $course
         ));

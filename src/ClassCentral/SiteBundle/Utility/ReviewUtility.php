@@ -99,5 +99,29 @@ class ReviewUtility {
         }
 
         return $stars;
+    /**
+     * Formats the rating into multiples of 0.5. i.e 3.6785 => 2.5
+     * @param $rating
+     */
+    public static function formatRating( $rating )
+    {
+        $integerPart = floor($rating);
+        $decimalPart = $rating - $integerPart;
+        if( $decimalPart <= 0.25 )
+        {
+            $decimalPart = 0;
+        }
+        else if ( $decimalPart > 0.25 and $decimalPart < 0.75)
+        {
+            $decimalPart = 0.5;
+        }
+        else
+        {
+            $decimalPart = 1;
+        }
+
+        $formattedRating = $integerPart + $decimalPart;
+
+        return $formattedRating;
     }
 } 
