@@ -412,7 +412,7 @@ class Review {
         foreach ($course->getReviews() as $review)
         {
             $response = $this->summarizeReview($review);
-            if ($response != self::REVIEW_SUMMARY_FAILED || $response != self::REVIEW_ALREADY_SUMMARIZED_OR_EMPTY_TEXT)
+            if ($response != self::REVIEW_SUMMARY_FAILED && $response != self::REVIEW_ALREADY_SUMMARIZED_OR_EMPTY_TEXT)
             {
                 $numSummarized++;
             }
