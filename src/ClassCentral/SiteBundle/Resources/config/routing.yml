@@ -448,3 +448,7 @@ tfc_redirect:
     permanent: true # this is for 301
   requirements:
     src: ".*"
+
+review_widget:
+  pattern: /reviews/widget
+  defaults: {_controller: ClassCentralSiteBundle:Review:getReviewWidget}

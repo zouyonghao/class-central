@@ -42,7 +42,7 @@
 <div class="tab-review js-tab-review">
 <header class="widgetHeader">
     <h1 class="widgetTitle">
-        <span class="widgetTitle_count">48</span>
+        <span class="widgetTitle_count">{{ reviews.ratingCount }}</span>
         <span class="widgetTitle_text">Student reviews</span>
     </h1>
 
@@ -126,12 +126,26 @@
 <div class="textBubble_main tabcontents">
 <span class="textBubble_edge2"></span>
 <span class="textBubble_edge1"></span>
-<div class="textBubble_content js-textBubble-tab" id="js-tab-1">
+
+{% set tab = 1 %}
+{% for review in reviewsWithSummaries %}
+
+    {# figure out reviewer name #}
+    {% if review.externalReviewerName is not empty %}
+        {% set reviewer = review.externalReviewerName %}
+    {% else %}
+        {% set reviewer = review.user.name  %}
+    {% endif %}
+
+
+
+    <div class="textBubble_content js-textBubble-tab" id="js-tab-{{ tab }}">
+        {% set tab=tab+1 %} {# increment the tab #}
     <div class="textBubble_text">
-        As a teacher, Dr. Lander has the gift of making the complicated and technical seem simple and exciting.
+        {{ review.reviewSummary }}
     </div>
     <div class="textBubble_ratingWrap">
-        <div class="starRating starRating-dark starRating-small rating35">
+        <div class="starRating starRating-dark starRating-small rating{{ review.rating*10 }}">
             <div class="starRating_star">
                 <svg class="starRating_starShape starRating_starShape-blank">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
@@ -206,391 +220,29 @@
         <a href="#" class="link-uppercase">Read Review</a>
     </div>
     <div class="textBubble_smallText">
-        <span class="textBubble_smallTextLine">Prof. Benedict Cumberbatch</span>
-        <span class="textBubble_smallTextLine">London, England</span>
+        <span class="textBubble_smallTextLine">{{ reviewer }}</span>
+        <!-- <span class="textBubble_smallTextLine">London, England</span> -->
     </div>
 </div>
+{% endfor %}
 
-<div class="textBubble_content js-textBubble-tab" id="js-tab-2">
-    <div class="textBubble_text">
-        As a teacher, Dr. Lasdk fasdf asädöfk aäsödf kasäöf kasädöf kasdäöf kasdäölf aksdäöfla ksdölf aksdölf asdasd adf asdf asdf asdf asdf asdf asdf asdf asnical seem simple and exciting.
-    </div>
-    <div class="textBubble_ratingWrap">
-        <div class="starRating starRating-dark starRating-small rating35">
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-        </div>
-        <a href="#" class="link-uppercase">Read Review</a>
-    </div>
-    <div class="textBubble_smallText">
-        <span class="textBubble_smallTextLine">Prof. Benedict Cumberbatch</span>
-        <span class="textBubble_smallTextLine">London, England</span>
-    </div>
-</div>
-
-<div class="textBubble_content js-textBubble-tab" id="js-tab-3">
-    <div class="textBubble_text">
-        As a teacher, Dr. Lander has the gift of making the complicated and technical seem simple and exciting.
-    </div>
-    <div class="textBubble_ratingWrap">
-        <div class="starRating starRating-dark starRating-small rating40">
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-        </div>
-        <a href="#" class="link-uppercase">Read Review</a>
-    </div>
-    <div class="textBubble_smallText">
-        <span class="textBubble_smallTextLine">Prof. Benedict Cumberbatch</span>
-        <span class="textBubble_smallTextLine">London, England</span>
-    </div>
-</div>
-
-<div class="textBubble_content js-textBubble-tab" id="js-tab-4">
-    <div class="textBubble_text">
-        As aasdfasd fasdf asdf aaf sasfchnical seem simple and exciting.
-    </div>
-    <div class="textBubble_ratingWrap">
-        <div class="starRating starRating-dark starRating-small rating35">
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-        </div>
-        <a href="#" class="link-uppercase">Read Review</a>
-    </div>
-    <div class="textBubble_smallText">
-        <span class="textBubble_smallTextLine">Prof. Benedict Cumberbatch</span>
-        <span class="textBubble_smallTextLine">London, England</span>
-    </div>
-</div>
-
-<div class="textBubble_content js-textBubble-tab" id="js-tab-5">
-    <div class="textBubble_text">
-        As a teacher, asdfj aäsdöf kaäösdf kasädöf kasädöf kasädöf kasädöf asdf asdfa sdf.
-    </div>
-    <div class="textBubble_ratingWrap">
-        <div class="starRating starRating-dark starRating-small">
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-            <div class="starRating_star">
-                <svg class="starRating_starShape starRating_starShape-blank">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-full">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                </svg>
-                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                </svg>
-            </div>
-        </div>
-        <a href="#" class="link-uppercase">Read Review</a>
-    </div>
-    <div class="textBubble_smallText">
-        <span class="textBubble_smallTextLine">Prof. Benasdfaedict Cumberbatch</span>
-        <span class="textBubble_smallTextLine">Loadsfngland</span>
-    </div>
-</div><!-- /textBubble_content -->
 
 </div><!-- /textBubble_main -->
 
+
 <div class="textBubble_tabsNav js-textBubble-nav">
     <ul class="tabsNav js-tabsNav tabs">
-        <li role="presentation">
-            <a href="#js-tab-1" class="tabsNav_link js-tab-nav-link" aria-controls="#js-tab-1" role="tab">
-                <div class="cropCircle">
-                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/lorenabarba.png" alt="Lorena Barba">
-                </div>
-            </a>
-        </li>
-        <li role="presentation">
-            <a href="#js-tab-2" class="tabsNav_link js-tab-nav-link" aria-controls="#js-tab-1" role="tab">
-                <div class="cropCircle">
-                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/yaser.jpg" alt="Yaser S. Abu-Mostafa">
-                </div>
-            </a>
-        </li>
-
-        <li role="presentation" class="selected">
-            <a href="#js-tab-3" class="tabsNav_link js-tab-nav-link" aria-controls="#js-tab-1" role="tab">
-                <div class="cropCircle">
-                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="Barb Oakley">
-                </div>
-            </a>
-        </li>
-        <li role="presentation">
-            <a href="#js-tab-4" class="tabsNav_link js-tab-nav-link" aria-controls="#js-tab-1" role="tab">
-                <div class="cropCircle">
-                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/lorenabarba.png" alt="Lorena Barba">
-                </div>
-            </a>
-        </li>
-        <li role="presentation">
-            <a href="#js-tab-5" class="tabsNav_link js-tab-nav-link" aria-controls="#js-tab-1" role="tab">
-                <div class="cropCircle">
-                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="Barb Oakley">
-                </div>
-            </a>
-        </li>
+        {% set tab = 1 %}
+        {% for review in reviewsWithSummaries %}
+            <li role="presentation">
+                <a href="#js-tab-{{ tab }}" class="tabsNav_link js-tab-nav-link" aria-controls="#js-tab-1" role="tab">
+                    <div class="cropCircle">
+                        <img src="{{  user_service.getProfilePic(review.user.id) }}">
+                    </div>
+                </a>
+            </li>
+            {% set tab = tab + 1 %}
+        {% endfor %}
     </ul>
 </div> <!-- /textBubble_tabsNav -->
 

@@ -483,4 +483,45 @@ class ReviewController extends Controller {
             ));
     }
 
+    /**
+     * Renders the review widget
+     * @param Request $request
+     */
+    public function getReviewWidgetAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rs = $this->get('review');
+        // Step 1: Figure out which course it is
+        $courseId = 2161;
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+
+        // Get reviews and ratings
+        $rating = $rs->getRatings($courseId);
+        $reviews = $rs->getReviews($courseId);
+
+        // Step 2: Get 5 reviews that we can
+        $query = $em->createQueryBuilder();
+        $query->add('select', 'r')
+            ->add('from', 'ClassCentralSiteBundle:Review r')
+            ->join('r.reviewSummary','rs')
+            ->add('orderBy', 'r.rating DESC')
+            ->add('where', 'r.course = :course')
+            ->andWhere('rs is NOT NULL')
+            ->setMaxResults(5)
+            ->setParameter('course', $course);
+
+        $reviewsWithSummaries = array();
+        foreach ( $query->getQuery()->getResult() as $review )
+        {
+            $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
+        }
+
+        // Step 3:
+        return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
+               'reviews' => $reviews,
+               'rating'  => $rating,
+               'reviewsWithSummaries' => $reviewsWithSummaries
+        ));
+    }
+
 }

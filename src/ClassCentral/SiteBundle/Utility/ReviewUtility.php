@@ -25,6 +25,7 @@ class ReviewUtility {
         $r['id'] = $review->getId();
         $r['rating'] = $review->getRating();
         $r['reviewText'] = nl2br( preg_replace("/[\r\n]+/", "\n\n", $review->getReview()));
+        $r['reviewSummary'] = ( $review->getReviewSummary() ) ? $review->getReviewSummary()->getSummary() : null;
         $r['hours'] = $review->getHours();
         $r['difficultyId'] = $review->getDifficultyId();
         $r['levelId'] = $review->getLevelId();
