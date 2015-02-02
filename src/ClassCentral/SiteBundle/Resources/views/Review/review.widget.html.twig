@@ -145,7 +145,7 @@
         {% set tab=tab+1 %} {# increment the tab #}
     <div class="textBubble_text">
         {# truncate the summary text if greater than 100 characters #}
-        {{ review.reviewSummary|length > 90 ? review.reviewSummary|slice(0, 90) ~ '...' :review.reviewSummary  }}
+        {{ review.reviewSummary|length > 120 ? review.reviewSummary|slice(0, 120) ~ '...' :review.reviewSummary  }}
     </div>
     <div class="textBubble_ratingWrap">
         <div class="starRating starRating-dark starRating-small rating{{ review.rating*10 }}">
