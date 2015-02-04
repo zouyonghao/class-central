@@ -87,7 +87,7 @@ ClassCentralSiteBundle_stream_electrical_and_mechanical:
           _controller: FrameworkBundle:Redirect:redirect
           route: ClassCentralSiteBundle_stream
           permanent: true # this is for 301
-          slug: electrical
+          slug: electrical-engineering
 
 ClassCentralSiteBundle_stream_psychology_and_sociology:
     pattern:  /subject/psychology-and-sociology
