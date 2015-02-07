@@ -498,7 +498,10 @@ class ReviewController extends Controller {
         // Basic check
         if( (empty($courseId) || !is_numeric($courseId)) && empty($courseCode) )
         {
-            throw new HttpException(404, 'Invalid Course Id or Code');
+            // This returns an empty blank page
+            return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
+                'course' => null
+            ));
         }
 
         $data = $cache->get( $this->generateReviewWidgetCacheKey( $courseId, $courseCode ),function() use ($courseId,$courseCode){
@@ -524,42 +527,48 @@ class ReviewController extends Controller {
                 $courseId = $course->getId();
             }
 
-            if( !$course )
+            if( $course )
             {
-                throw new HttpException(404, 'Invalid Course Id or Code');
+                // Step 2: Get 5 reviews that are to be displayed
+                $query = $em->createQueryBuilder();
+                $query->add('select', 'r')
+                    ->add('from', 'ClassCentralSiteBundle:Review r')
+                    ->join('r.reviewSummary','rs')
+                    ->add('orderBy', 'r.rating DESC')
+                    ->add('where', 'r.course = :course')
+                    ->andWhere('rs is NOT NULL')
+                    ->andWhere('r.status = :status')
+                    ->setMaxResults(5)
+                    ->setParameter('course', $course)
+                    ->setParameter(':status', Review::REVIEW_STATUS_APPROVED);
+
+                $reviewsWithSummaries = array();
+                foreach ( $query->getQuery()->getResult() as $review )
+                {
+                    $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
+                }
+
+                // Get reviews and ratings count
+                $rating = $rs->getRatings($courseId);
+                $reviews = $rs->getReviews($courseId);
+
+                return array(
+                    'reviews' => $reviews,
+                    'rating'  => $rating,
+                    'formattedRating' => ReviewUtility::formatRating( $rating ),
+                    'reviewsWithSummaries' => $reviewsWithSummaries,
+                    'course' => $course
+                );
+            }
+            else {
+
+                return array(
+                    'course' => null
+                );
             }
 
 
-            // Step 2: Get 5 reviews that are to be displayed
-            $query = $em->createQueryBuilder();
-            $query->add('select', 'r')
-                ->add('from', 'ClassCentralSiteBundle:Review r')
-                ->join('r.reviewSummary','rs')
-                ->add('orderBy', 'r.rating DESC')
-                ->add('where', 'r.course = :course')
-                ->andWhere('rs is NOT NULL')
-                ->andWhere('r.status = :status')
-                ->setMaxResults(5)
-                ->setParameter('course', $course)
-                ->setParameter(':status', Review::REVIEW_STATUS_APPROVED);
 
-            $reviewsWithSummaries = array();
-            foreach ( $query->getQuery()->getResult() as $review )
-            {
-                $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
-            }
-
-            // Get reviews and ratings count
-            $rating = $rs->getRatings($courseId);
-            $reviews = $rs->getReviews($courseId);
-
-            return array(
-                'reviews' => $reviews,
-                'rating'  => $rating,
-                'formattedRating' => ReviewUtility::formatRating( $rating ),
-                'reviewsWithSummaries' => $reviewsWithSummaries,
-                'course' => $course
-            );
         });
 
         return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', $data);

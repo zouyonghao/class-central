@@ -1,4 +1,5 @@
 
+{% if course is not null %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -352,6 +353,7 @@
 '@ClassCentralSiteBundle/Resources/public/slashpixel/widget/js/_placeholders.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/widget/js/_tabs.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/widget/js/_main.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/widget/js/iframeResizer.contentWindow.min.js'
 %}
 
 <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
@@ -361,3 +363,4 @@
 
 </body>
 </html>
+{% endif %}
