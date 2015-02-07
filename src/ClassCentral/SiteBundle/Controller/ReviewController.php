@@ -22,6 +22,7 @@ use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ReviewController extends Controller {
 
@@ -489,21 +490,32 @@ class ReviewController extends Controller {
      */
     public function getReviewWidgetAction(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
         $rs = $this->get('review');
-        // Step 1: Figure out which course it is
+
+        // STEP 1: Figure out which course it is
+        $course = null;
         $courseId = $request->query->get('course-id');
-        if( empty($courseId) and !is_numeric( $courseId ) )
+        $courseCode = $request->query->get('course-code');
+
+        if( !empty($courseId) and is_numeric( $courseId ) )
         {
-            // TODO: SHOW ERROR
-            return;
+            $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
         }
 
-        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+        if( empty($course) && !empty( $courseCode ) )
+        {
+            $course = $em->getRepository('ClassCentralSiteBundle:Course')
+                ->findOneBy( array(
+                    'shortName' => $courseCode
+                ) );
+            $courseId = $course->getId();
+        }
+
         if( !$course )
         {
-            // TODO: SHOW ERROR
-            return;
+            throw new HttpException(404, 'Invalid Course Id or Code');
         }
 
         // Get reviews and ratings
