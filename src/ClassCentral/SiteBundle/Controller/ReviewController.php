@@ -491,64 +491,88 @@ class ReviewController extends Controller {
     public function getReviewWidgetAction(Request $request)
     {
 
-        $em = $this->getDoctrine()->getManager();
-        $rs = $this->get('review');
-
-        // STEP 1: Figure out which course it is
-        $course = null;
+        $cache = $this->get('Cache');
         $courseId = $request->query->get('course-id');
         $courseCode = $request->query->get('course-code');
 
-        if( !empty($courseId) and is_numeric( $courseId ) )
-        {
-            $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
-        }
-
-        if( empty($course) && !empty( $courseCode ) )
-        {
-            $course = $em->getRepository('ClassCentralSiteBundle:Course')
-                ->findOneBy( array(
-                    'shortName' => $courseCode
-                ) );
-            $courseId = $course->getId();
-        }
-
-        if( !$course )
+        // Basic check
+        if( (empty($courseId) || !is_numeric($courseId)) && empty($courseCode) )
         {
             throw new HttpException(404, 'Invalid Course Id or Code');
         }
 
-        // Get reviews and ratings
-        $rating = $rs->getRatings($courseId);
-        $reviews = $rs->getReviews($courseId);
+        $data = $cache->get( $this->generateReviewWidgetCacheKey( $courseId, $courseCode ),function() use ($courseId,$courseCode){
 
-        // Step 2: Get 5 reviews that are to be displayed
-        $query = $em->createQueryBuilder();
-        $query->add('select', 'r')
-            ->add('from', 'ClassCentralSiteBundle:Review r')
-            ->join('r.reviewSummary','rs')
-            ->add('orderBy', 'r.rating DESC')
-            ->add('where', 'r.course = :course')
-            ->andWhere('rs is NOT NULL')
-            ->andWhere('r.status = :status')
-            ->setMaxResults(5)
-            ->setParameter('course', $course)
-            ->setParameter(':status', Review::REVIEW_STATUS_APPROVED);
+            $em = $this->getDoctrine()->getManager();
+            $rs = $this->get('review');
 
-        $reviewsWithSummaries = array();
-        foreach ( $query->getQuery()->getResult() as $review )
+            // STEP 1: Figure out which course it is
+            $course = null;
+
+
+            if( !empty($courseId) and is_numeric( $courseId ) )
+            {
+                $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+            }
+
+            if( empty($course) && !empty( $courseCode ) )
+            {
+                $course = $em->getRepository('ClassCentralSiteBundle:Course')
+                    ->findOneBy( array(
+                        'shortName' => $courseCode
+                    ) );
+                $courseId = $course->getId();
+            }
+
+            if( !$course )
+            {
+                throw new HttpException(404, 'Invalid Course Id or Code');
+            }
+
+
+            // Step 2: Get 5 reviews that are to be displayed
+            $query = $em->createQueryBuilder();
+            $query->add('select', 'r')
+                ->add('from', 'ClassCentralSiteBundle:Review r')
+                ->join('r.reviewSummary','rs')
+                ->add('orderBy', 'r.rating DESC')
+                ->add('where', 'r.course = :course')
+                ->andWhere('rs is NOT NULL')
+                ->andWhere('r.status = :status')
+                ->setMaxResults(5)
+                ->setParameter('course', $course)
+                ->setParameter(':status', Review::REVIEW_STATUS_APPROVED);
+
+            $reviewsWithSummaries = array();
+            foreach ( $query->getQuery()->getResult() as $review )
+            {
+                $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
+            }
+
+            // Get reviews and ratings count
+            $rating = $rs->getRatings($courseId);
+            $reviews = $rs->getReviews($courseId);
+
+            return array(
+                'reviews' => $reviews,
+                'rating'  => $rating,
+                'formattedRating' => ReviewUtility::formatRating( $rating ),
+                'reviewsWithSummaries' => $reviewsWithSummaries,
+                'course' => $course
+            );
+        });
+
+        return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', $data);
+    }
+
+    private function generateReviewWidgetCacheKey($courseId, $courseCode)
+    {
+        if(!empty($courseId))
         {
-            $reviewsWithSummaries[] = ReviewUtility::getReviewArray( $review );
+            return 'review_widget_course_id' . $courseId;
         }
 
-
-        return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
-               'reviews' => $reviews,
-               'rating'  => $rating,
-               'formattedRating' => ReviewUtility::formatRating( $rating ),
-               'reviewsWithSummaries' => $reviewsWithSummaries,
-               'course' => $course
-        ));
+        return 'review_widget_course_code' . strtolower($courseCode);
     }
 
 }
