@@ -105,7 +105,7 @@ ClassCentralSiteBundle_stream_history_and_philosophy:
           permanent: true # this is for 301
           slug: history
 
-ClassCentralSiteBundle_stream_psychology_and_sociology:
+ClassCentralSiteBundle_stream_literature_and_writing:
     pattern:  /subject/literature-and-writing
     defaults:
           _controller: FrameworkBundle:Redirect:redirect
