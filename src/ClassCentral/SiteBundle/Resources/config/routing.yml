@@ -97,6 +97,22 @@ ClassCentralSiteBundle_stream_psychology_and_sociology:
           permanent: true # this is for 301
           slug: sociology
 
+ClassCentralSiteBundle_stream_history_and_philosophy:
+    pattern:  /subject/history-philosophy
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: history
+
+ClassCentralSiteBundle_stream_psychology_and_sociology:
+    pattern:  /subject/literature-and-writing
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: literature
+
 
 ClassCentralSiteBundle_stream:
     pattern:  /subject/{slug}
