@@ -98,7 +98,7 @@ ClassCentralSiteBundle_stream_psychology_and_sociology:
           slug: sociology
 
 ClassCentralSiteBundle_stream_history_and_philosophy:
-    pattern:  /subject/history-philosophy
+    pattern:  /subject/history-and-philosophy
     defaults:
           _controller: FrameworkBundle:Redirect:redirect
           route: ClassCentralSiteBundle_stream
