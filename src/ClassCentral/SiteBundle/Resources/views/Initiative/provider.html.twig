@@ -1,9 +1,9 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
-    <title>{{provider.name}} - MOOCs/free online courses list | Class Central</title>
+    <title>{{provider.name}} - Best MOOCs/free online courses list | Class Central</title>
     <meta name="description"
-          content="List of {{provider.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
+          content="List of Best {{provider.name}} free online courses/MOOCs aggregated by Class Central. Courses are categorized according to start dates into Recently Started, Just Announced, Upcoming, Self Paced, Ongoing, and Finished"/>
 
     <meta property="og:title" content="List of {{provider.name}} free online courses/MOOCs | Class Central" />
     <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': provider.code}) }}" />
