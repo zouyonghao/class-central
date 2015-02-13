@@ -347,7 +347,7 @@ class Courses {
             "subjects" => array(
                 'terms' => array(
                     'field' => 'subjects.id',
-                    'size' => 40
+                    'size' => 200
                 )
             ),
             "language" => array(
