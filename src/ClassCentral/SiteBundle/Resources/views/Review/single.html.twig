@@ -1,5 +1,5 @@
 
-<div class="single-review"  itemscope itemtype="http://data-vocabulary.org/Review">
+<div class="single-review"  id="review-{{ review.id }}" itemscope itemtype="http://data-vocabulary.org/Review">
     {% if review.fb.total > 0 %}
         <div class="review-feedback">{{review.fb.positive }} out of {{ review.fb.total  }} people found the following review useful</div>
     {% endif %}

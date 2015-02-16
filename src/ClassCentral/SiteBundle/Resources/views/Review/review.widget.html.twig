@@ -223,7 +223,7 @@
                 </svg>
             </div>
         </div>
-        <a href="#" target="_blank" class="link-uppercase">Read Review</a>
+        <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#review-{{ review.id }}" target="_blank" class="link-uppercase">Read Review</a>
     </div>
 
 
