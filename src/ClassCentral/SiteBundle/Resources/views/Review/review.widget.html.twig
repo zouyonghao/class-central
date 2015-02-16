@@ -45,7 +45,7 @@
     <a class="widgetTitleLink" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" title="Reviews for {{ course.name }}" target="_blank">
         <h1 class="widgetTitle">
                 <span class="widgetTitle_count">{{ reviews.ratingCount }}</span>
-                <span class="widgetTitle_text">Student Ratings</span>
+                <span class="widgetTitle_text">Student {% if reviews.ratingCount == 1 %} Rating {% else %} Ratings {% endif %}</span>
         </h1>
     </a>
 

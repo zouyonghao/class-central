@@ -557,7 +557,7 @@ class ReviewController extends Controller {
                     'rating'  => $rating,
                     'formattedRating' => ReviewUtility::formatRating( $rating ),
                     'reviewsWithSummaries' => $reviewsWithSummaries,
-                    'course' => $course
+                    'course' => $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course )
                 );
             }
             else {
