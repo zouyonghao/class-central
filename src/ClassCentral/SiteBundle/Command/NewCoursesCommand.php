@@ -29,6 +29,7 @@ class NewCoursesCommand extends ContainerAwareCommand {
     {
         $router = $this->getContainer()->get('router');
         $date = $input->getArgument('date');
+        $formatter = $this->getContainer()->get('course_formatter');
 
         if($date)
         {
@@ -59,15 +60,18 @@ class NewCoursesCommand extends ContainerAwareCommand {
                 // Course is not available or is under review
                 continue;
             }
-            $ins = $course->getInitiative();
-            $group = 'Independent';
-            if($ins)
+
+            $subject = $course->getStream();
+            if($subject->getParentStream())
             {
-                $group = $ins->getName();
+                $subject = $subject->getParentStream();
             }
-            $groups[$group][] = $course;
+
+            $groups[$subject->getName()][] = $course;
 
         }
+
+
 
         $count = 0;
         foreach($groups as $insName => $insCourses)
@@ -77,35 +81,7 @@ class NewCoursesCommand extends ContainerAwareCommand {
             {
 
                 $count++;
-                $path = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug'=>$course->getSlug()));
-                $name = $course->getName();
-                $url = 'https://www.class-central.com'. $path;
-                $output->writeln("<a href='$url'>$name</a><br/>");
-
-                $secondLine = array();
-                $nextSession = $course->getNextOffering();
-                if ($nextSession->getStatus() == Offering::START_DATES_KNOWN)
-                {
-                    $secondLine[] = $nextSession->getStartDate()->format('M jS, Y');
-                }
-                elseif($nextSession->getStatus() == Offering::COURSE_OPEN)
-                {
-                    $secondLine[] = 'Self Paced';
-                }
-
-
-                $ins = $course->getInstitutions();
-                $insName ='';
-                if($ins[0])
-                {
-                    $insName = $ins[0]->getName();
-
-                }
-                $secondLine[] = $insName;
-                if (!empty($secondLine))
-                {
-                    $output->writeln("<i>" . implode(' | ', $secondLine) . "</i><br/>");
-                }
+                echo $formatter->blogFormat($course);
             }
 
             $output->writeln( "<br/>");

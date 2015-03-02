@@ -42,9 +42,10 @@ class CourseFormatter {
 
 
         $ratings = $rs->getRatings( $course->getId() );
+        $reviews = $rs->getReviews($course->getId());
 
         // LINE 1
-        $url = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
+        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
         $name = $course->getName();
         $line1 = "<a href='$url'><b>$name</b></a>";
 
@@ -53,8 +54,19 @@ class CourseFormatter {
         {
             $ins = $course->getInstitutions()->first();
             $insName = $ins->getName();
-            $line2 = "<i>via $insName</i>";
+            $line2 = "$insName";
         }
+
+        if( $course->getInitiative() )
+        {
+            $line2 .= ' via ' . $course->getInitiative()->getName();
+        }
+        else
+        {
+            $line2 .= ' via Independent';
+        }
+
+        $line2 = "<i>$line2</i>";
 
         // LINE 3
         $nextOffering = CourseUtility::getNextSession( $course);
@@ -72,7 +84,19 @@ class CourseFormatter {
                 $displayDate = 'Self Paced';
             }
 
-            $line3 = "<b> <a href='$url' target='_blank'>Go To Class</a> | Next Session : $displayDate </b>";
+
+            $ratingsLine ='';
+            if ($ratings > 0)
+            {
+                $formattedRatings = ReviewUtility::formatRating( $ratings );
+                $numRatings =  $reviews['ratingCount'];
+                $post = ($numRatings == 1) ? 'rating' : 'ratings';
+                $ratingsLine = " | $formattedRatings (<a href='$url#course-all-reviews'>$numRatings $post</a>) ";
+            }
+
+
+
+            $line3 = "<b> <a href='$directUrl' target='_blank'>Go To Class</a> $ratingsLine | Next Session : $displayDate </b><br/>";
         }
 
         return $line1 . '<br/>' . $line2 . '<br/>' . $line3 . '<br/>';
