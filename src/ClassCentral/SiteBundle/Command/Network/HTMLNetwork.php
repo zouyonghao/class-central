@@ -25,6 +25,6 @@ class HTMLNetwork extends NetworkAbstractInterface
     public function outOffering(Offering $offering)
     {
         $formatter = $this->container->get('course_formatter');
-        echo $formatter->blogFormat( $offering->getCourse() );
+        echo $formatter->blogFormat( $offering->getCourse() ) ."\n";
     }
 }
