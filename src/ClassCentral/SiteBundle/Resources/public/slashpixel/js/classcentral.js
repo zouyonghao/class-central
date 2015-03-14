@@ -158,23 +158,27 @@ jQuery(function($) {
 
     function notify( title, text, type)
     {
-        new PNotify({
-            title: title,
-            text: text,
-            type: type,
-            animation: 'show'
-        });
+        if ( !isMobile.phone ) {
+            new PNotify({
+                title: title,
+                text: text,
+                type: type,
+                animation: 'show'
+            });
+        }
     }
 
     function notifyWithDelay( title, text, type, delay)
     {
-        new PNotify({
-            title: title,
-            text: text,
-            type: type,
-            animation: 'show',
-            delay: delay * 1000
-        });
+        if ( !isMobile.phone ) {
+            new PNotify({
+                title: title,
+                text: text,
+                type: type,
+                animation: 'show',
+                delay: delay * 1000
+            });
+        }
     }
 
     // Select dropdown on course pages
