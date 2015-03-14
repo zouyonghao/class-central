@@ -531,13 +531,15 @@ jQuery(function($) {
     // Pines notification
     $('.flash-message').each(function(index,element){
 
-        new PNotify({
-            title: $(element).data('title'),
-            text: $(element).text(),
-            type: $(element).data('type'),
-            animation: 'show',
-            delay: $(element).data('delay') * 1000
-        });
+        if(!isMobile.phone) {
+            new PNotify({
+                title: $(element).data('title'),
+                text: $(element).text(),
+                type: $(element).data('type'),
+                animation: 'show',
+                delay: $(element).data('delay') * 1000
+            });
+        }
     });
 
 
