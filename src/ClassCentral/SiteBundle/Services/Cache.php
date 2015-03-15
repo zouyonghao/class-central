@@ -31,7 +31,6 @@ class Cache {
         } 
         else 
         {
-            $this->registerKey($key);
             $data = call_user_func_array($callback,$params);
             $cache->save($key, serialize($data), 3600);
             return $data;
@@ -43,57 +42,11 @@ class Cache {
         $this->doctrineCache->delete($this->prefix . '_' .$cacheKey);
     }
     
-    /**
-     * The key stores all keys used for caching.
-     * This is useful to clear all caches
-     * @param type $key
-     */
-    private function registerKey($key)
-    {
-        $cache = $this->doctrineCache;
-        $keys = $this->getKeys();
-        
-        if($cache->contains($keys))
-        {
-            $keysArray = unserialize($cache->fetch($keys));
-            if( !in_array($key, $keysArray) )
-            {
-                $keysArray[] = $key;
-            }
-            
-        }
-        else 
-        {
-            $keysArray[] = $key;
-        }
-        
-        // Save back the keys array
-        $cache->save($keys, serialize($keysArray));
-        
-    }
-    
     public function clear()
     {
         $cache = $this->doctrineCache;
-        $keys = $this->getKeys();        
-        if($cache->contains($keys))
-        {
-            $keysArray = unserialize($cache->fetch($keys));            
-            foreach($keysArray as $key)
-            {
-                $cache->delete($key);
-            }
-            
-        } else {
-            //echo "does not contain keys";
-        }
-    } 
-    
-    private function getKeys()
-    {
-        return $this->prefix . '_' . 'keys';
+        $cache->deleteAll();
     }
-    
 }
 
 ?>
