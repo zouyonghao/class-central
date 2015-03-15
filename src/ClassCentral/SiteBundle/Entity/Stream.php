@@ -333,4 +333,15 @@ class Stream
     {
         $this->childColor = $childColor;
     }
+
+    public function getArray()
+    {
+        return array(
+            'id' => $this->getId(),
+            'slug' => $this->getSlug(),
+            'name' => $this->getName(),
+            'courseCount' => $this->getCourseCount(),
+
+        );
+    }
 }

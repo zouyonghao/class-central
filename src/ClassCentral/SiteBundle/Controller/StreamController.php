@@ -243,6 +243,7 @@ class StreamController extends Controller
         $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
         $parentSubjects = array();
         $childSubjects = array();
+
         foreach($allSubjects as $subject)
         {
             if(!isset($subjectsCount[$subject->getId()]))
@@ -253,15 +254,12 @@ class StreamController extends Controller
             $subject->setCourseCount($count);
             if($subject->getParentStream())
             {
-                $childSubjects[$subject->getParentStream()->getId()][] = $subject;
+                $childSubjects[$subject->getParentStream()->getId()][] = $subject->getArray();
             }
             else
             {
-                $parentSubjects[$subject->getId()] = $subject;
+                $parentSubjects[$subject->getId()] = $subject->getArray();
             }
-
-            // Detach since its going to be cached
-            $em->detach($subject);
 
         }
 

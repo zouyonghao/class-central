@@ -103,19 +103,21 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         /****
          * Index subjects
          */
+        $subjectRepository = $em->getRepository('ClassCentralSiteBundle:Stream');
         $subjects = $cache->get('stream_list_count',
             array( new StreamController(), 'getSubjectsList'),
             array( $this->getContainer() )
         );
         foreach($subjects['parent'] as $subject)
         {
-            $indexer->index($subject);
+            $indexer->index( $subjectRepository->find($subject['id']) );
         }
+
         foreach($subjects['children'] as $childSubjects)
         {
             foreach( $childSubjects as $subject)
             {
-                $indexer->index($subject);
+                $indexer->index( $subjectRepository->find($subject['id']) );
             }
         }
 
