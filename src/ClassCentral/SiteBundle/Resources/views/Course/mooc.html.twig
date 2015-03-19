@@ -94,7 +94,7 @@
         <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
 
         <br/>
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {% if course.initiative %}from {{ course.initiative.name }}{% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {% if course.initiative %}from {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ reviews.ratingCount }} {% if reviews.ratingCount > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
         <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {% if course.initiative %}from {{ course.initiative.name }}{% endif %}. Starts {{ course.nextOffering.displayDate }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
     {% endif %}
     <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">

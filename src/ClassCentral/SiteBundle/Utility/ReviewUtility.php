@@ -82,4 +82,21 @@ class ReviewUtility {
         $title .= '.';
         return $title;
     }
+
+    public static function getRatingStars($rating)
+    {
+        $rating = round($rating,0); // Round it up
+        $stars = '';
+        for($i=0; $i < $rating; $i++)
+        {
+            $stars .= '★';
+        }
+
+        for($j =0; $j < 5 - $rating; $j++)
+        {
+            $stars .= '☆';
+        }
+
+        return $stars;
+    }
 } 

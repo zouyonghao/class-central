@@ -7,6 +7,7 @@ use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -405,6 +406,7 @@ class CourseController extends Controller
                  'providersWithLogos' => Course::$providersWithFavicons,
                  'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] ),
                  'courseImage' => $this->getCourseImage( $courseId),
+                 'ratingStars' => ReviewUtility::getRatingStars( $rating )
        ));
     }
 
