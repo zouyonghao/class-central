@@ -99,6 +99,8 @@ class ReviewUtility {
         }
 
         return $stars;
+    }
+
     /**
      * Formats the rating into multiples of 0.5. i.e 3.6785 => 2.5
      * @param $rating
