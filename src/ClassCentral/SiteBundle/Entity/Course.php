@@ -26,6 +26,7 @@ class Course {
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    const THUMBNAIL_BASE_URL = 'https://d3r3mog6nu8pt4.cloudfront.net/spotlight/courses/';
     /**
      * @var integer $id
      */

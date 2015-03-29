@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Spotlight;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
@@ -44,6 +45,8 @@ class DefaultController extends Controller {
                     $item->setDescription ( $course->getOneliner() );
                     $url =  $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug' => $course->getSlug() ));
                     $item->setUrl( $url );
+
+                    $item->setImageUrl( Course::THUMBNAIL_BASE_URL . $course->getThumbnail() );
                 }
             }
 
