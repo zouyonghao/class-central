@@ -88,7 +88,7 @@ class CourseFormatter {
             $ratingsLine ='';
             if ($ratings > 0)
             {
-                $formattedRatings = ReviewUtility::formatRating( $ratings );
+                $formattedRatings = ReviewUtility::getRatingStars( $ratings );
                 $numRatings =  $reviews['ratingCount'];
                 $post = ($numRatings == 1) ? 'rating' : 'ratings';
                 $ratingsLine = " | $formattedRatings (<a href='$url#course-all-reviews'>$numRatings $post</a>) ";
