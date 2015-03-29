@@ -32,6 +32,19 @@ class DefaultController extends Controller {
             foreach($s as $item)
             {
                 $spotlights[$item->getPosition()] = $item;
+
+                if( $item->getType() == Spotlight::SPOTLIGHT_TYPE_COURSE && $item->getCourse() )
+                {
+
+                    $course = $item->getCourse();
+                    if( $item->getTitle() == '' ) // Allow for overwriting of title
+                    {
+                        $item->setTitle( $course->getName() );
+                    }
+                    $item->setDescription ( $course->getOneliner() );
+                    $url =  $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug' => $course->getSlug() ));
+                    $item->setUrl( $url );
+                }
             }
 
             return $spotlights;
