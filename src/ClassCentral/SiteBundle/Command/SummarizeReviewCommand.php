@@ -29,7 +29,7 @@ class SummarizeReviewCommand extends ContainerAwareCommand {
         $this
             ->setName('classcentral:reviews:summarize')
             ->setDescription('Summarize a review or all the reviews for a course')
-            ->addArgument('type', InputArgument::REQUIRED,"course, review, or all")
+            ->addArgument('type', InputArgument::REQUIRED,"course, review, new, or all")
             ->addArgument('id',InputArgument::REQUIRED,"course id or review id. ignored for all")
         ;
     }
@@ -41,7 +41,7 @@ class SummarizeReviewCommand extends ContainerAwareCommand {
         $type = strtolower($input->getArgument('type'));
         $id   =  intval( $input->getArgument('id') );
 
-        if( !in_array( $type, array('course','review','all')) )
+        if( !in_array( $type, array('course','review','all','new')) )
         {
             $output->writeln( "<error>type should be either review, course, or all</error>" );
             return;
@@ -106,8 +106,28 @@ class SummarizeReviewCommand extends ContainerAwareCommand {
             {
                 $this->summarizeReview($review, $output);
             }
-
-
+        }
+        else if( $type == 'new')
+        {
+            // Summarize reviews that are more than a day old
+            $dt = new \DateTime();
+            $dt->sub( new \DateInterval('P1D') );
+            // Find all reviews which need to be summarized
+            $query = $this->getContainer()->get('doctrine')->getManager()->createQueryBuilder();
+            $query
+                ->add('select', 'r')
+                ->add('from', 'ClassCentralSiteBundle:Review r')
+                ->where('r.reviewSummary is  NULL AND LENGTH(r.review) > 30 AND r.status = :status AND r.created >= :date')
+                ->setParameter('status',\ClassCentral\SiteBundle\Entity\Review::REVIEW_STATUS_APPROVED)
+                ->setParameter('date',$dt);
+            ;
+            $result = $query->getQuery()->getResult();
+            $reviewsToBeSummarized = count( $result );
+            $output->writeln("<info>Summarising $reviewsToBeSummarized reviews</info>");
+            foreach($result as $review)
+            {
+                $this->summarizeReview($review, $output);
+            }
         }
     }
 

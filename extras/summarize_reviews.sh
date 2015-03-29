@@ -6,4 +6,4 @@ cd ../
 env=$1
 
 echo "Running Cron for Summaring reviews"
-php app/console classcentral:reviews:summarize all 1 --env=$env --no-debug
+php app/console classcentral:reviews:summarize new 1 --env=$env --no-debug
