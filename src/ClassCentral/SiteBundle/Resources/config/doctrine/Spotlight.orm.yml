@@ -30,4 +30,14 @@ ClassCentral\SiteBundle\Entity\Spotlight:
             type: integer
             unsigned: false
             nullable: false
+    oneToOne:
+        course:
+            targetEntity: Course
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                course_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -172,6 +172,16 @@ class Course {
      */
     private $workloadMax;
 
+    /**
+     * @var string
+     */
+    private $oneliner;
+
+    /**
+     * @var string
+     */
+    private $thumbnail;
+
 
     /**
      * Set name
@@ -405,6 +415,54 @@ class Course {
     public function setSearchDesc($desc) {
         $this->searchDesc = $desc;
     }
+
+
+    /**
+     * Set oneliner
+     *
+     * @param string $oneliner
+     * @return Course
+     */
+    public function setOneliner($oneliner)
+    {
+        $this->oneliner = $oneliner;
+
+        return $this;
+    }
+
+    /**
+     * Get oneliner
+     *
+     * @return string
+     */
+    public function getOneliner()
+    {
+        return $this->oneliner;
+    }
+
+    /**
+     * Set thumbnail
+     *
+     * @param string $thumbnail
+     * @return Course
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail
+     *
+     * @return string
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+
 
     /**
      * http://stackoverflow.com/questions/7568231/php-remove-url-not-allowed-characters-from-string
@@ -730,5 +788,5 @@ abstract class CourseStatus
             self::TO_BE_REVIEWED => 'To Be Reviewed'
         );
     }
-
+    
 }

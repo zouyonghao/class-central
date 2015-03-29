@@ -39,6 +39,11 @@ class Spotlight
      */
     private $imageUrl;
 
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\Course
+     */
+    private $course;
+
     const SPOTLIGHT_TYPE_DEMO = 1; // Only show in dev
     const SPOTLIGHT_TYPE_COURSE = 2;
     const SPOTLIGHT_TYPE_NEWS = 3;
@@ -216,5 +221,29 @@ class Spotlight
     public function getType()
     {
         return $this->type;
+    }
+
+
+    /**
+     * Set course
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $course
+     * @return Spotlight
+     */
+    public function setCourse(\ClassCentral\SiteBundle\Entity\Course $course = null)
+    {
+        $this->course = $course;
+    
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \ClassCentral\SiteBundle\Entity\Course 
+     */
+    public function getCourse()
+    {
+        return $this->course;
     }
 }

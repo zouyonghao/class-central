@@ -64,6 +64,16 @@ ClassCentral\SiteBundle\Entity\Course:
       unsigned: false
       nullable: true
       column: workload_max
+    oneliner:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    thumbnail:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
   manyToOne:
     stream:
       targetEntity: Stream
