@@ -61,6 +61,8 @@ class CourseType extends AbstractType {
             ->add('workloadMin')
             ->add('workloadMax')
             ->add('searchDesc')
+            ->add('one_liner')
+            ->add('thumbnail')
         ;
        
       

@@ -9,6 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SpotlightType extends AbstractType
 {
+    private $courses;
+
+    public function __construct( $courses )
+    {
+        $this->courses = $courses;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -18,6 +25,12 @@ class SpotlightType extends AbstractType
             ->add('url')
             ->add('imageUrl')
             ->add('type','choice', array('choices'=>Spotlight::$spotlights))
+            ->add('course', 'entity', array(
+                'choices' => $this->courses,
+                'empty_value' => true,
+                'required'  => false,
+                'class' => 'ClassCentralSiteBundle:Course'
+            ))
         ;
     }
 

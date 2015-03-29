@@ -65,7 +65,8 @@ class SpotlightController extends Controller
             throw $this->createNotFoundException('Unable to find Spotlight entity.');
         }
 
-        $editForm = $this->createForm(new SpotlightType(), $entity);
+
+        $editForm = $this->createForm(new SpotlightType( $this->getValidCourses() ), $entity);
 
         return $this->render('ClassCentralSiteBundle:Spotlight:edit.html.twig', array(
             'entity'      => $entity,
@@ -87,7 +88,7 @@ class SpotlightController extends Controller
             throw $this->createNotFoundException('Unable to find Spotlight entity.');
         }
 
-        $editForm = $this->createForm(new SpotlightType(), $entity);
+        $editForm = $this->createForm(new SpotlightType( $this->getValidCourses() ), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -105,6 +106,20 @@ class SpotlightController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
         ));
+    }
+
+    private function getValidCourses()
+    {
+        // Filter to show only courses which have one line and image field set
+        $em = $this->getDoctrine()->getManager();
+        $coursesQuery = $em->createQueryBuilder();
+        $coursesQuery
+            ->add('select', 'c')
+            ->add('from','ClassCentralSiteBundle:Course c')
+            ->where("c.oneliner != '' AND c.thumbnail != '' ");
+        $courses = $coursesQuery->getQuery()->getResult();
+
+        return $courses;
     }
 
 }

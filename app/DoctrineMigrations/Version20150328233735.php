@@ -15,7 +15,7 @@ class Version20150328233735 extends AbstractMigration
         $this->addSql("
             ALTER TABLE courses
             ADD COLUMN oneliner VARCHAR(150) NULL,
-            ADD COLUMN thumbnail VARCHAR(255) NULL DEFAULT '198*160 image used in the spotlight'
+            ADD COLUMN thumbnail VARCHAR(255) NULL
         ");
 
         $this->addSql("

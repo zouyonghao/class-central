@@ -788,5 +788,5 @@ abstract class CourseStatus
             self::TO_BE_REVIEWED => 'To Be Reviewed'
         );
     }
-    
+
 }
