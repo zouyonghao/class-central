@@ -12,7 +12,7 @@ namespace ClassCentral\SiteBundle\Services;
 class TextSummarizer {
 
     private $apiKey;
-    const PYTEASER_URL = 'https://textanalysis.p.mashape.com/pyteaser-text-summarizer';
+    const PYTEASER_URL = 'https://textanalysis-text-summarization.p.mashape.com/text-summarizer-text';
 
     public function  __construct( $apiKey )
     {
@@ -54,9 +54,10 @@ class TextSummarizer {
         }
 
         $fields = array(
-            "url" => "",
-            "text" => $text
+            "text" => $text,
+            "sentnum" => 5
         );
+
 
         //url-ify the data for the POST
         $fields_string = '';
@@ -88,6 +89,7 @@ class TextSummarizer {
         curl_close($ch);
 
         $response = json_decode($content, true);
+
         return $response['sentences'];
 
     }
