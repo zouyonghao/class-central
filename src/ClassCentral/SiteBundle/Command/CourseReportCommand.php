@@ -66,7 +66,7 @@ class CourseReportCommand extends ContainerAwareCommand
             // Skip self paced courses
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
-                continue;
+                // continue;
             }
 
 
@@ -78,7 +78,7 @@ class CourseReportCommand extends ContainerAwareCommand
             }
             $offeringsByStream[$subject->getName()][] = $offering;
 
-            if($isReddit && $subject->getName() == 'Computer Science')
+            if($isReddit && ($subject->getName() == 'Computer Science' || $subject->getName() == 'Programming'))
             {
                 $courseId = $offering->getCourse()->getId();
                 if(isset($courseToLevelMap[$courseId]))
