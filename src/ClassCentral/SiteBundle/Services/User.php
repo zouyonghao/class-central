@@ -423,6 +423,37 @@ class User {
         }
     }
 
+    public function removeSearchTermFromMOOCTracker($user,$searchTerm)
+    {
+        $userSession = $this->container->get('user_session');
+        $em = $this->container->get('doctrine')->getManager();
+
+        if($userSession->isSearchTermAddedToMT($searchTerm))
+        {
+            // Find the MOOC Tracker Search Term
+            $mtSearchTerm = null;
+            foreach($user->getMoocTrackerSearchTerms() as $mts)
+            {
+                if($mts->getSearchTerm() == $searchTerm)
+                {
+                    $mtSearchTerm = $mts;
+                    break;
+                }
+            }
+
+            if($mtSearchTerm)
+            {
+                // Remove the search term
+                //$user->removeMoocTrackerSearchTerm($mtSearchTerm);
+                $em->remove($mtSearchTerm);
+                $em->flush();
+
+                // Update the session
+                $userSession->saveUserInformationInSession();
+            }
+        }
+    }
+
     /**
      *
      * @param \ClassCentral\SiteBundle\Entity\User $user

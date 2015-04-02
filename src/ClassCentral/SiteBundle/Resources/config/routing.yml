@@ -255,6 +255,10 @@ mooctracker_add_search_term:
   pattern: /user/tracker/searchTerm/{searchTerm}
   defaults: {_controller: ClassCentralSiteBundle:User:addSearchTermToMOOCTracker }
 
+mooctracker_remove_search_term:
+  pattern: /user/tracker/removeSearchTerm/{searchTerm}
+  defaults: {_controller: ClassCentralSiteBundle:User:removeSearchTermFromMOOCTracker }
+
 #newsletter
 newsletter_subscribe:
   pattern: /newsletters/subscribe/{code}

@@ -361,7 +361,7 @@ class UserController extends Controller
         // Firewall should take care of this
 
         // TODO: Validate the search term
-        
+
         $searchTerm = urldecode( $searchTerm );
         $user = $this->get('security.context')->getToken()->getUser();
         $this->get('user_service')->saveSearchTermInMoocTracker($user,$searchTerm);
@@ -371,6 +371,29 @@ class UserController extends Controller
         )));
 
     }
+
+    /**
+     * Remove search term  from MOOC Tracker
+     * @param Request $request
+     * @param $id
+     */
+    public function removeSearchTermFromMOOCTrackerAction(Request $request, $searchTerm)
+    {
+        // Check if the user is logged in
+        // Firewall should take care of this
+
+        // TODO: Validate the search term
+
+        $searchTerm = urldecode( $searchTerm );
+        $user = $this->get('security.context')->getToken()->getUser();
+        $this->get('user_service')->removeSearchTermFromMOOCTracker($user,$searchTerm);
+
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_search',array(
+            'q' => $searchTerm
+        )));
+
+    }
+
 
     /***
      * For logged in users renders their mooc tracker page
