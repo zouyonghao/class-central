@@ -361,7 +361,8 @@ class UserController extends Controller
         // Firewall should take care of this
 
         // TODO: Validate the search term
-
+        
+        $searchTerm = urldecode( $searchTerm );
         $user = $this->get('security.context')->getToken()->getUser();
         $this->get('user_service')->saveSearchTermInMoocTracker($user,$searchTerm);
 
