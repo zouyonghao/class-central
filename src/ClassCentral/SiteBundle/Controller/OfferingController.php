@@ -88,6 +88,9 @@ class OfferingController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            // invalidate the cache
+            $this->get('cache')->deleteCache( 'course_'.$entity->getCourse()->getId() );
+
             return $this->redirect($this->generateUrl('offering_show', array('id' => $entity->getId())));
             
         }
@@ -146,6 +149,8 @@ class OfferingController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+
+            $this->get('cache')->deleteCache( 'course_'.$entity->getCourse()->getId() );
 
             return $this->redirect($this->generateUrl('offering_edit', array('id' => $id)));
         }
