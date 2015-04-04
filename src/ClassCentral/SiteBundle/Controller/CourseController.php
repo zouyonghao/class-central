@@ -87,14 +87,12 @@ class CourseController extends Controller
      */
     public function newAction()
     {
-        $ts = $this->get('tag'); // tag service
         $entity = new Course();
         $form   = $this->createForm(new CourseType(), $entity);
 
         return $this->render('ClassCentralSiteBundle:Course:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'tags' => $ts->getAllTags()
         ));
     }
 
@@ -104,7 +102,6 @@ class CourseController extends Controller
      */
     public function createAction()
     {
-        $ts = $this->get('tag'); // tag service
         $entity  = new Course();
         $request = $this->getRequest();
         $form    = $this->createForm(new CourseType(), $entity);
@@ -116,9 +113,6 @@ class CourseController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-
-            $courseTags =  explode(',', $request->request->get('course-tags'));
-            $ts->saveCourseTags($entity,$courseTags);
 
             return $this->redirect($this->generateUrl('course_show', array('id' => $entity->getId())));
         }
@@ -154,8 +148,6 @@ class CourseController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $ts = $this->get('tag'); // tag service
-
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
 
@@ -163,12 +155,6 @@ class CourseController extends Controller
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        // Get the tags
-        $ct = array();
-        foreach($entity->getTags() as $tag)
-        {
-            $ct[] = $tag->getName();
-        }
 
         $editForm = $this->createForm(new CourseType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
@@ -177,8 +163,6 @@ class CourseController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'tags' => $ts->getAllTags(),
-            'course_tags' => implode(',',$ct)
         ));
     }
 
@@ -189,7 +173,6 @@ class CourseController extends Controller
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $ts = $this->get('tag'); // tag service
 
         $entity = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
 
@@ -210,9 +193,6 @@ class CourseController extends Controller
             $entity->setSyllabus( $this->replaceHtmlTags( $entity->getSyllabus()) );
             $em->persist($entity);
             $em->flush();
-
-            $courseTags =  explode(',', $request->request->get('course-tags'));
-            $ts->saveCourseTags($entity,$courseTags);
 
             // invalidate the cache
             $this->get('cache')->deleteCache( 'course_'.$id );

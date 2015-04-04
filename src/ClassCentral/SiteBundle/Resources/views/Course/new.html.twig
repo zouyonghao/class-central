@@ -2,7 +2,6 @@
 
 {%  block headmeta %}
     {% include 'ClassCentralSiteBundle:Course:tinymce.inc.html.twig' %}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.1/chosen.min.css" media="screen" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block content %}
@@ -10,9 +9,6 @@
 
 <form action="{{ path('course_create') }}" method="post" {{ form_enctype(form) }} id="course-create">
     {{ form_widget(form) }}
-
-    <label>Tags</label>
-    <input type="text" id="course-tags" name="course-tags" class="demo-default selectized" tabindex="-1" style="display: none;">
 
     <p>
         <button type="submit">Create</button>
@@ -29,37 +25,15 @@
 {% endblock %}
 
 {%  block beforeClosingBody %}
-    {% javascripts '@ClassCentralSiteBundle/Resources/public/slashpixel/js/selectize.min.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.1/chosen.jquery.min.js"/>
-    {% endjavascripts %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.1/chosen.min.css" media="screen" rel="stylesheet" type="text/css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.1/chosen.jquery.min.js"/>
 
-    {% stylesheets '@ClassCentralSiteBundle/Resources/public/slashpixel/css/selectize.bootstrap2.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
 {% endblock %}
 
 {% block customJS %}
     $(document).ready(function () {
-        var data = {{ tags|json_encode|raw }};
-        var items = data.map(function(x) { return { item: x }; });
-
-        var tags = $('#course-tags').selectize({
-            delimiter: ',',
-            persist: false,
-            create: true,
-            searchField: "item",
-            options: items,
-            labelField: "item",
-            valueField: "item"
-        });
-
-        // submit form
-        $('#course-create').submit(function(event){
-            // Get the tags from selectize and populate the text box
-            $('#course-tags').text( tags[0].selectize.getValue() );
-        });
-
         $('#classcentral_sitebundle_coursetype_instructors').chosen();
+        $('#classcentral_sitebundle_coursetype_tags').chosen();
+        $('#classcentral_sitebundle_coursetype_institutions').chosen();
     });
 {% endblock %}
