@@ -2,7 +2,6 @@
 
 {%  block headmeta %}
     {% include 'ClassCentralSiteBundle:Course:tinymce.inc.html.twig' %}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.1/chosen.min.css" media="screen" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block content %}
@@ -31,7 +30,6 @@
 {%  block beforeClosingBody %}
     {% javascripts '@ClassCentralSiteBundle/Resources/public/slashpixel/js/selectize.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.1/chosen.jquery.min.js"/>
     {% endjavascripts %}
 
     {% stylesheets '@ClassCentralSiteBundle/Resources/public/slashpixel/css/selectize.bootstrap2.css' %}
@@ -60,6 +58,7 @@
             $('#course-tags').text( tags[0].selectize.getValue() );
         });
 
-        $('#classcentral_sitebundle_coursetype_instructors').chosen();
+        $('#classcentral_sitebundle_coursetype_institutions').selectize();
+        $('#classcentral_sitebundle_coursetype_instructors').selectize();
     });
 {% endblock %}
