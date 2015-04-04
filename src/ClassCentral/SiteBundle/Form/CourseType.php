@@ -63,7 +63,6 @@ class CourseType extends AbstractType {
             ->add('searchDesc')
             ->add('one_liner',null,array('required' => false))
             ->add('thumbnail')
-            ->add('tags')
         ;
        
       
