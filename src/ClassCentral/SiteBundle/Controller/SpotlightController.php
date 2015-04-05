@@ -116,7 +116,7 @@ class SpotlightController extends Controller
         $coursesQuery
             ->add('select', 'c')
             ->add('from','ClassCentralSiteBundle:Course c')
-            ->where("c.oneliner != '' AND c.thumbnail != '' ");
+            ->where("c.oneliner != ''");
         $courses = $coursesQuery->getQuery()->getResult();
 
         return $courses;

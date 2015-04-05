@@ -7,7 +7,10 @@ use ClassCentral\SiteBundle\Entity\Spotlight;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Form\SignupType;
+use ClassCentral\SiteBundle\Services\Image;
+use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
+use ClassCentral\SiteBundle\Utility\CourseUtility;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Initiative;
@@ -45,8 +48,15 @@ class DefaultController extends Controller {
                     $item->setDescription ( $course->getOneliner() );
                     $url =  $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug' => $course->getSlug() ));
                     $item->setUrl( $url );
+                    if($this->getCourseImage( $course->getId() ))
+                    {
+                        $item->setImageUrl( $this->getCourseImage( $course->getId())  );
+                    }
+                    else
+                    {
+                        $item->setImageUrl( Course::THUMBNAIL_BASE_URL . $course->getThumbnail() );
+                    }
 
-                    $item->setImageUrl( Course::THUMBNAIL_BASE_URL . $course->getThumbnail() );
                 }
             }
 
@@ -172,6 +182,19 @@ class DefaultController extends Controller {
             $this->container->get('profiler')->disable();
         }
         return $this->render('ClassCentralSiteBundle:Default:githubbtn.html.twig');
+    }
+
+    private function getCourseImage( $cid )
+    {
+
+        $kuber = $this->container->get('kuber');
+        $url = $kuber->getUrl( Kuber::KUBER_ENTITY_COURSE ,Kuber::KUBER_TYPE_COURSE_IMAGE, $cid );
+        if( $url )
+        {
+            return $this->get('image_service')->cropImage( $url, 160, 198);
+        }
+
+        return $url;
     }
     
 }
