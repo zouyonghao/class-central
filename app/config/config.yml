@@ -168,6 +168,9 @@ services:
   text_summarizer:
         class: ClassCentral\SiteBundle\Services\TextSummarizer
         arguments: [ '%mashape_api_key%' ]
+  image_service:
+        class: ClassCentral\SiteBundle\Services\Image
+        arguments: [ '%embedly_api_key%' ]
   # elastic serach indexer
   es_indexer:
         class: ClassCentral\ElasticSearchBundle\Indexer
