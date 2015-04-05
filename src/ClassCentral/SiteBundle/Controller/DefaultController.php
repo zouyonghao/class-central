@@ -54,7 +54,7 @@ class DefaultController extends Controller {
                     }
                     else
                     {
-                        $item->setImageUrl( Course::THUMBNAIL_BASE_URL . $course->getThumbnail() );
+                        $item->setImageUrl( $this->get('image_service')->cropImage( Course::THUMBNAIL_BASE_URL . $course->getThumbnail(), 160, 198)  );
                     }
 
                 }
