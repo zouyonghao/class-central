@@ -10,7 +10,9 @@ namespace ClassCentral\ScraperBundle\Scraper\Futurelearn;
 
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
+use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Services\Kuber;
 
 
 /**
@@ -21,101 +23,258 @@ use ClassCentral\SiteBundle\Entity\Offering;
  */
 class Scraper extends ScraperAbstractInterface {
 
-    const COURSES_API_ENDPOINT = 'http://www.kimonolabs.com/api/bjrzfecw';
+    const COURSES_API_ENDPOINT = 'https://www.futurelearn.com/feeds/courses';
+
+    private $courseFields = array(
+        'Url', 'Description', 'Length', 'Name','LongDescription','Certificate',
+    );
+
+    private $offeringFields = array(
+        'StartDate', 'EndDate', 'Url', 'Status'
+    );
 
     public function scrape()
     {
-        $result = json_decode( $this->getCoursesJson(), true );
-
-        foreach($result['results']['collection1'] as $course)
+        $em = $this->getManager();
+        $flCourses = json_decode(file_get_contents( self::COURSES_API_ENDPOINT ), true );
+        $coursesChanged = array();
+        foreach ($flCourses as $flCourse)
         {
+            $courseChanged = false;
 
-            $collection2 = array_shift($result['results']['collection2']);
-            $courseName = $course['name']['text'];
-            $url = $course['name']['href'];
-            $startDate = $collection2['start_date'];
-//            continue;
 
-            // Offering short name
-            $osn = $this->getShortName($url);
+            $course =  $this->getCourseEntity( $flCourse );
 
-            $offering = $this->dbHelper->getOfferingByShortName($osn);
-            if(!$offering)
+            $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
+
+            if(!$dbCourse)
             {
-                $this->out("NOT FOUND");
-                $this->out("$courseName - $startDate");
-                $this->out($url);
-                $this->out("");
-                continue;
+                // Course does not exist create it.
+                if($this->doCreate())
+                {
+                    $this->out("NEW COURSE - " . $course->getName());
+
+                    // NEW COURSE
+                    if ($this->doModify())
+                    {
+                        $em->persist($course);
+                        $em->flush();
+
+                        if( $flCourse['image_url'] )
+                        {
+                            $this->uploadImageIfNecessary( $flCourse['image_url'], $course);
+                        }
+                    }
+                    $courseChanged = true;
+
+                }
+            }
+            else
+            {
+                // Check if any fields are modified
+                $courseModified = false;
+                $changedFields = array(); // To keep track of fields that have changed
+                foreach($this->courseFields as $field)
+                {
+                    $getter = 'get' . $field;
+                    $setter = 'set' . $field;
+                    if($course->$getter() != $dbCourse->$getter())
+                    {
+                        $courseModified = true;
+
+                        // Add the changed field to the changedFields array
+                        $changed = array();
+                        $changed['field'] = $field;
+                        $changed['old'] =$dbCourse->$getter();
+                        $changed['new'] = $course->$getter();
+                        $changedFields[] = $changed;
+
+                        $dbCourse->$setter($course->$getter());
+                    }
+
+                }
+
+                if($courseModified && $this->doUpdate())
+                {
+                    //$this->out( "Database course changed " . $dbCourse->getName());
+                    // Course has been modified
+                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
+                    $this->outputChangedFields($changedFields);
+                    if ($this->doModify())
+                    {
+                        $em->persist($dbCourse);
+                        $em->flush();
+
+                        if( $flCourse['image_url'] )
+                        {
+                            $this->uploadImageIfNecessary( $flCourse['image_url'], $dbCourse);
+                        }
+                    }
+                    $courseChanged = true;
+                }
+
+                $course = $dbCourse;
             }
 
-            try {
-                if($offering->getStatus() == Offering::START_DATES_KNOWN)
+            /***************************
+             * CREATE OR UPDATE OFFERING
+             ***************************/
+            foreach( $flCourse['runs'] as $run)
+            {
+                $offering = $this->getOfferingEntity( $run, $course);
+                $dbOffering = $this->dbHelper->getOfferingByShortName( $run['uuid'] );
+
+                if (!$dbOffering)
                 {
-                    $offeringStartDate = new \DateTime($startDate);
-                    if($offeringStartDate != $offering->getStartDate() )
+                    if($this->doCreate())
                     {
-                        $this->out("INCORRECT START DATE");
-                        $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                        $this->out("Offering Date - {$offering->getDisplayDate()}");
-                        $this->out("Course Page Start Date - $startDate");
-                        $this->out($url);
-                        $this->out("");
+                        $this->out("NEW OFFERING - " . $offering->getName());
+                        if ($this->doModify())
+                        {
+                            $em->persist($offering);
+                            $em->flush();
+                        }
+                        $offerings[] = $offering;
+                        $courseChanged = true;
                     }
-                    continue;
-
-
                 }
-
-                if($offering->getStatus() == Offering::START_MONTH_KNOWN && trim($startDate) != $offering->getStartDate()->format("F Y"))
+                else
                 {
-                    $this->out("INCORRECT START MONTH");
-                    $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                    $this->out("Offering Date - {$offering->getDisplayDate()}");
-                    $this->out($url);
-                    $this->out("");
-                    continue;
+                    // old offering. Check if has been modified or not
+                    $offeringModified = false;
+                    $changedFields = array();
+                    foreach ($this->offeringFields as $field)
+                    {
+                        $getter = 'get' . $field;
+                        $setter = 'set' . $field;
+                        if ($offering->$getter() != $dbOffering->$getter())
+                        {
+                            $offeringModified = true;
+                            // Add the changed field to the changedFields array
+                            $changed = array();
+                            $changed['field'] = $field;
+                            $changed['old'] =$dbOffering->$getter();
+                            $changed['new'] = $offering->$getter();
+                            $changedFields[] = $changed;
+                            $dbOffering->$setter($offering->$getter());
+                        }
+                    }
+
+                    if ($offeringModified && $this->doUpdate())
+                    {
+                        // Offering has been modified
+                        $this->out("UPDATE OFFERING - " . $dbOffering->getName());
+                        $this->outputChangedFields($changedFields);
+                        if ($this->doModify())
+                        {
+                            $em->persist($dbOffering);
+                            $em->flush();
+                        }
+                        $offerings[] = $dbOffering;
+                        $courseChanged = true;
+                    }
                 }
+            }
 
-                // Incorrect Date
-                $this->out("INCORRECT START DATE");
-                $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                $this->out("Offering Date - {$offering->getDisplayDate()}");
-                $this->out("Course Page Start Date - $startDate");
-                $this->out($url);
-                $this->out("");
-
-            } catch(\Exception $e) {
-                $this->out("Error parsing dates");
-                $this->out("$courseName - $startDate - Offering Id : {$offering->getId()}");
-                $this->out("Offering Date - {$offering->getDisplayDate()}");
-                $this->out($url);
-                $this->out("");
-
+            if( $courseChanged )
+            {
+                $coursesChanged[] = $course;
             }
         }
 
-        return array();
+
+        return $coursesChanged;
     }
 
-    /**
-     * Returns a json for all the Futurelearn courses
-     */
-    private function getCoursesJson()
+    private function getOfferingEntity ($run, $course)
     {
-        $apiKey = $this->container->getParameter('kimono_api_key');
-        $url = self::COURSES_API_ENDPOINT . '?apikey=' . $apiKey;
+        $offering = new Offering();
+        $offering->setShortName( $run['uuid'] );
+        $offering->setCourse( $course );
+        $offering->setUrl( $course->getUrl() );
+        if( $run['start_date'] )
+        {
+            $startDate = new \DateTime( $run['start_date'] );
+            $endDate =  new \DateTime( $run['start_date'] );
+            $days = $run['duration_in_weeks']*7;
+            $endDate->add( new \DateInterval("P{$days}D") );
 
+            $offering->setStartDate( $startDate );
+            $offering->setEndDate( $endDate );
+            $offering->setStatus( Offering::START_DATES_KNOWN );
+        }
+        else
+        {
+            $curYear = date('Y');
+            $startDate = new \DateTime("$curYear-12-30"); // Dec 30
+            $endDate = new \DateTime("$curYear-12-31"); // Dec 31
 
-        return file_get_contents($url);
+            $offering->setStartDate( $startDate );
+            $offering->setEndDate( $endDate );
+            $offering->setStatus( Offering::START_YEAR_KNOWN );
+        }
+
+        return $offering;
     }
 
-    /**
-     * Returns the offering offering
-     */
-    private function getShortName($url)
+    private function getCourseEntity ($c = array())
     {
-        $pos = strrpos($url,'/');
-        return 'fl-' . substr($url,$pos+1);
+        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
+        $langMap = $this->dbHelper->getLanguageMap();
+        $defaultLanguage = $langMap[ 'English' ];
+
+        $course = new Course();
+        $course->setShortName( $c['uuid'] );
+        $course->setInitiative( $this->initiative );
+        $course->setName( $c['name'] );
+        $course->setDescription( $c['introduction'] );
+        $course->setLongDescription( $c['description'] );
+        $course->setLanguage( $defaultLanguage);
+        $course->setStream($defaultStream); // Default to Computer Science
+        $course->setUrl($c['url']);
+        $course->setCertificate( $c['has_certificates'] );
+        $course->setWorkloadMin( $c['hours_per_week'] ) ;
+        $course->setWorkloadMax( $c['hours_per_week'] ) ;
+        // Get the length
+        if( $c['runs'] )
+        {
+            $course->setLength( $c['runs'][0]['duration_in_weeks'] );
+        }
+
+        return $course;
     }
+
+    private function uploadImageIfNecessary( $imageUrl, Course $course)
+    {
+        $kuber = $this->container->get('kuber');
+        $uniqueKey = basename($imageUrl);
+        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
+        {
+            // Upload the file
+            $filePath = '/tmp/course_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($imageUrl));
+            $kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_COURSE,
+                Kuber::KUBER_TYPE_COURSE_IMAGE,
+                $course->getId(),
+                null,
+                $uniqueKey
+            );
+
+        }
+    }
+
+    private function outputChangedFields($changedFields)
+    {
+        foreach($changedFields as $changed)
+        {
+            $field = $changed['field'];
+            $old = is_a($changed['old'], 'DateTime') ? $changed['old']->format('jS M, Y') : $changed['old'];
+            $new = is_a($changed['new'], 'DateTime') ? $changed['new']->format('jS M, Y') : $changed['new'];
+
+            $this->out("$field changed from - '$old' to '$new'");
+        }
+    }
+
 } 

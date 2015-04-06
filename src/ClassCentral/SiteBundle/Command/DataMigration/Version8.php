@@ -15,8 +15,10 @@ class Version8 extends VersionAbstractInterface {
         ));
 
         $flCourses = json_decode(file_get_contents( 'https://www.futurelearn.com/feeds/courses' ), true );
+        $courseCount = 0;
         foreach ($flCourses as $flCourse)
         {
+            $courseCount++;
             $dbCourse = $courseRepository->findOneBy(array(
                 'name' =>$flCourse['name'],
                 'initiative' => $provider,
@@ -24,6 +26,7 @@ class Version8 extends VersionAbstractInterface {
 
             if($dbCourse)
             {
+
                 // Update the course shortname with uuid
                 $dbCourse->setShortName( $flCourse['uuid'] );
                 $em->persist( $dbCourse );
@@ -58,6 +61,6 @@ class Version8 extends VersionAbstractInterface {
         }
 
         $em->flush();
-        exit();
+        echo "Course Count - $courseCount \n";
     }
 }
