@@ -34,6 +34,7 @@ twig:
       user_session  : @user_session
       user_service  : @user_service
       reviewService : @review
+      imageService  : @image_service
       swiftype_engine_key : %swiftype_engine_key%
       clicky_site_id: %clicky_site_id%
 # Assetic Configuration
@@ -170,7 +171,7 @@ services:
         arguments: [ '%mashape_api_key%' ]
   image_service:
         class: ClassCentral\SiteBundle\Services\Image
-        arguments: [ '%embedly_api_key%' ]
+        arguments: [ '@service_container', '%embedly_api_key%' ]
   # elastic serach indexer
   es_indexer:
         class: ClassCentral\ElasticSearchBundle\Indexer
