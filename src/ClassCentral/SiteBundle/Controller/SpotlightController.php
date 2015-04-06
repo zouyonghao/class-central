@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -92,12 +93,41 @@ class SpotlightController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+
+            // Update the spotlight fields from the course
+            if( $entity->getType() == Spotlight::SPOTLIGHT_TYPE_COURSE && $entity->getCourse() )
+            {
+
+                $course = $entity->getCourse();
+                if( $entity->getTitle() == '' ) // Allow for overwriting of title
+                {
+                    $entity->setTitle( $course->getName() );
+                }
+                $entity->setDescription ( $course->getOneliner() );
+                $url =  $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug' => $course->getSlug() ));
+                $entity->setUrl( $url );
+
+                // Set the image url either from the course that was provider provided or the one manually updated in the thumbnail
+                if($this->getCourseImage( $course->getId() ))
+                {
+                    $entity->setImageUrl( $this->getCourseImage( $course->getId())  );
+                }
+                else
+                {
+                    $entity->setImageUrl(  Course::THUMBNAIL_BASE_URL . $course->getThumbnail() );
+                }
+
+            }
+
             $em->persist($entity);
             $em->flush();
 
             // Flush the cache
             $cache = $this->get('Cache');
             $cache->deleteCache ('spotlight_cache');
+
+            // Crop the spotlight image
+            $this->get('image_service')->getSpotlightImage( $entity->getImageUrl, $entity->getId() );
 
             return $this->redirect($this->generateUrl('spotlight_edit', array('id' => $id)));
         }
@@ -106,6 +136,14 @@ class SpotlightController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
         ));
+    }
+
+    private function getCourseImage( $cid )
+    {
+
+        $kuber = $this->container->get('kuber');
+        $url = $kuber->getUrl( Kuber::KUBER_ENTITY_COURSE ,Kuber::KUBER_TYPE_COURSE_IMAGE, $cid );
+        return $url;
     }
 
     private function getValidCourses()

@@ -30,7 +30,8 @@
                         {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
                         >
                     <div class="img-wrap">
-                        <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">
+                        {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
+                        <img src="{{ spotlightImage }}" alt="spotlight background image">
                         {% if spotlight.title %}
                             <h3>
                                 {{ spotlight.title }}
@@ -65,7 +66,8 @@
                         {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
                         >
                     <div class="img-wrap">
-                        <img src="{{ spotlight.imageUrl }}" alt="spotlight background image">
+                        {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
+                        <img src="{{ spotlightImage }}" alt="spotlight background image">
                         {% if spotlight.title %}
                             <h3>
                                 {{ spotlight.title }}

@@ -36,28 +36,6 @@ class DefaultController extends Controller {
             foreach($s as $item)
             {
                 $spotlights[$item->getPosition()] = $item;
-
-                if( $item->getType() == Spotlight::SPOTLIGHT_TYPE_COURSE && $item->getCourse() )
-                {
-
-                    $course = $item->getCourse();
-                    if( $item->getTitle() == '' ) // Allow for overwriting of title
-                    {
-                        $item->setTitle( $course->getName() );
-                    }
-                    $item->setDescription ( $course->getOneliner() );
-                    $url =  $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(),'slug' => $course->getSlug() ));
-                    $item->setUrl( $url );
-                    if($this->getCourseImage( $course->getId() ))
-                    {
-                        $item->setImageUrl( $this->getCourseImage( $course->getId())  );
-                    }
-                    else
-                    {
-                        $item->setImageUrl( $this->get('image_service')->cropImage( Course::THUMBNAIL_BASE_URL . $course->getThumbnail(), 160, 198)  );
-                    }
-
-                }
             }
 
             return $spotlights;
@@ -184,17 +162,5 @@ class DefaultController extends Controller {
         return $this->render('ClassCentralSiteBundle:Default:githubbtn.html.twig');
     }
 
-    private function getCourseImage( $cid )
-    {
-
-        $kuber = $this->container->get('kuber');
-        $url = $kuber->getUrl( Kuber::KUBER_ENTITY_COURSE ,Kuber::KUBER_TYPE_COURSE_IMAGE, $cid );
-        if( $url )
-        {
-            return $this->get('image_service')->cropImage( $url, 160, 198);
-        }
-
-        return $url;
-    }
     
 }
