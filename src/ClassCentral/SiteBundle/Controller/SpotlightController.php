@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
