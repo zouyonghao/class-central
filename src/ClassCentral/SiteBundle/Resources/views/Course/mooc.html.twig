@@ -53,7 +53,7 @@
      {% endif %}
 
      {% if rating > 0 %}
-         {% set twData = twData|merge( [{  'label': 'RATING',  'data': rating|round(1, 'common')   }] ) %}
+         {% set twData = twData|merge( [{  'label': 'RATING',  'data': ratingStars   }] ) %}
      {% endif %}
 
      {% if course.length > 0 %}
