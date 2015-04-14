@@ -1,0 +1,72 @@
+ClassCentralSiteBundle_initiative_redirect:
+  pattern: /initiative/{type}
+  defaults:
+    _controller: FrameworkBundle:Redirect:redirect
+    route: ClassCentralSiteBundle_initiative
+    permanent: true
+
+
+# redirect /stream to /subject
+ClassCentralSiteBundle_stream_redirect:
+    pattern:  /stream/{slug}
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+
+
+ClassCentralSiteBundle_stream_basic_math_and_calculus:
+    pattern:  /subject/basic-math-and-calculus
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: foundations-of-mathematics
+
+ClassCentralSiteBundle_stream_electrical_and_mechanical:
+    pattern:  /subject/electrical-and-mechanical
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: electrical-engineering
+
+ClassCentralSiteBundle_stream_psychology_and_sociology:
+    pattern:  /subject/psychology-and-sociology
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: sociology
+
+ClassCentralSiteBundle_stream_history_and_philosophy:
+    pattern:  /subject/history-and-philosophy
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: history
+
+ClassCentralSiteBundle_stream_literature_and_writing:
+    pattern:  /subject/literature-and-writing
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: literature
+
+ClassCentralSiteBundle_stream_statistics_and_data_analysis:
+    pattern:  /subject/statistics-and-data-analysis
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: statistics
+
+ClassCentralSiteBundle_initiative_novoed:
+    pattern:  /initiative/vlab
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_initiative
+          permanent: true # this is for 301
+          type: novoed
