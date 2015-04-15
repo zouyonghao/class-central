@@ -63,6 +63,70 @@ ClassCentralSiteBundle_stream_statistics_and_data_analysis:
           permanent: true # this is for 301
           slug: statistics
 
+ClassCentralSiteBundle_stream_networking_and_security:
+    pattern:  /subject/it-and-security
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: cs
+
+ClassCentralSiteBundle_materials_science_and_engineering:
+    pattern:  /subject/materials-science-and-engineering
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: engineering
+
+ClassCentralSiteBundle_education_systems:
+    pattern:  /subject/education-systems
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: education
+
+ClassCentralSiteBundle_teaching_and_learning:
+    pattern:  /subject/teaching-and-learning
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: education
+
+ClassCentralSiteBundle_health_and_society:
+    pattern:  /subject/health-and-society
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: health
+
+ClassCentralSiteBundle_earth_sciences:
+    pattern:  /subject/earth-sciences
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: environmental-science
+
+ClassCentralSiteBundle_systems_engineering_and_design:
+    pattern:  /subject/systems-engineering-and-design
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: environmental-science
+
+ClassCentralSiteBundle_politics_law_and_society:
+    pattern:  /subject/politics-law-and-society
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: social-sciences
+
 ClassCentralSiteBundle_initiative_novoed:
     pattern:  /initiative/vlab
     defaults:
