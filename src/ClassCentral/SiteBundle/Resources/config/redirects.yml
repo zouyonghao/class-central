@@ -127,6 +127,46 @@ ClassCentralSiteBundle_politics_law_and_society:
           permanent: true # this is for 301
           slug: social-sciences
 
+ClassCentralSiteBundle_food_excercise_and_nutrition:
+    pattern:  /subject/food-excercise-and-nutrition
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: nutrition-and-wellness
+
+ClassCentralSiteBundle_disease_and_medicine :
+    pattern:  /subject/disease-and-medicine
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: disease-and-disorders
+
+ClassCentralSiteBundle_chemistry_biology_and_life_sciences:
+    pattern:  /subject/chemistry-biology-and-life-sciences
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: chemistry
+
+ClassCentralSiteBundle_physics_and_astronomy:
+    pattern:  /subject/physics-and-astronomy
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: physics
+
+ClassCentralSiteBundle_web_and_cloud_development:
+    pattern:  /subject/web-and-cloud-development
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_stream
+          permanent: true # this is for 301
+          slug: web-development
+
 ClassCentralSiteBundle_initiative_novoed:
     pattern:  /initiative/vlab
     defaults:
