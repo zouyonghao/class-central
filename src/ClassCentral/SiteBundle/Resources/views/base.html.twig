@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+{% if app.request.get('_route') == 'ClassCentralSiteBundle_homepage' %}
+    <head itemscope itemtype="http://schema.org/WebSite">
+{% else %}
+    <head>
+{% endif %}
     <script type="text/javascript" src="//use.typekit.net/gdf6zoz.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 

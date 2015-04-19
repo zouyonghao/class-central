@@ -1,7 +1,8 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
  {% block headmeta %}
-     <title>Free online courses/MOOC aggregator - Class Central</title>
+     <title itemprop='name'>Class Central</title>
+     <link rel="canonical" href="{{ baseurl }}" itemprop="url">
      <meta name="description"
            content="Class Central is a free online course aka MOOC aggregator from top universities like Stanford, MIT, Harvard, etc. offered via Coursera, Udacity, edX, NovoED, & others."/>
 
