@@ -100,6 +100,13 @@ class CourseFormatter {
         }
 
         return $line1 . '<br/>' . $line2 . '<br/>' . $line3 . '<br/>';
+    }
 
+    public function emailFormat (Course $course)
+    {
+        $router = $this->container->get('router');
+        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
+
+        return sprintf("<li><a href='%s'>%s</a></li>", $url, $course->getName());
     }
 } 
