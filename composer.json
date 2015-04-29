@@ -26,11 +26,11 @@
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "ircmaxell/password-compat": "dev-master",
         "mailgun/mailgun-php": "~1.4",
-        "facebook/php-sdk": " ~3.2.3",
         "elasticsearch/elasticsearch": "~1.0",
 	    "leafo/lessphp": "dev-master",
         "oyejorge/less.php": "dev-master",
-        "aws/aws-sdk-php": "2.6.15"
+        "aws/aws-sdk-php": "2.6.15",
+        "facebook/php-sdk-v4": "4.0.*"
     },
     "repositories" : [
 	{
