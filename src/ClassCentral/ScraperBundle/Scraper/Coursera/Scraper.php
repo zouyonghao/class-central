@@ -4,6 +4,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Coursera;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Services\Kuber;
@@ -45,6 +46,9 @@ class Scraper extends ScraperAbstractInterface {
 
     public function scrape()
     {
+        $this->buildOnDemandCoursesList();
+
+
         $em = $this->getManager();
         $kuber = $this->container->get('kuber'); // File Api
         $offerings = array();
@@ -424,6 +428,52 @@ class Scraper extends ScraperAbstractInterface {
         }
     }
 
+
+    private function buildOnDemandCoursesList( )
+    {
+        $url = 'https://www.coursera.org/api/courses.v1';
+        $onDemandCourses = array();
+        $allCourses = json_decode(file_get_contents( $url ),true);
+        foreach ($allCourses['elements'] as $element)
+        {
+            if( $element['courseType'] == 'v2.ondemand')
+            {
+                $courseShortName = 'coursera_' . $element['slug'];
+                $dbCourse = null;
+                $dbCourseFromSlug = $this->dbHelper->getCourseByShortName($courseShortName);
+                if( $dbCourseFromSlug  )
+                {
+                    $dbCourse = $dbCourseFromSlug;
+                }
+                else
+                {
+                    $dbCourseFromName = $this->findCourseByName( $element['name'], $this->initiative );
+                    if($dbCourseFromName)
+                    {
+                        $dbCourse = $dbCourseFromName;
+                    }
+                }
+
+                if( empty($dbCourse) )
+                {
+                    $this->out("OnDemand Course Missing : " . $element['name']);
+                }
+                else
+                {
+                    // Check how many of them are self paced
+                    if ( $dbCourse->getNextOffering()->getStatus() != Offering::COURSE_OPEN )
+                    {
+                        $this->out("OnDemand Session Missing : " . $element['name']);
+                    }
+                }
+
+                $onDemandCourses[ $element['slug'] ] = 1;
+            }
+        }
+
+        return $onDemandCourses;
+    }
+
     private function getDetailsFromCourseraCatalog( $id )
     {
         $url =sprintf(self::COURSE_CATALOG_URL,$id);
@@ -478,5 +528,24 @@ class Scraper extends ScraperAbstractInterface {
         {
             return array_pop( $catalog['links']['sessions'] );
         }
+    }
+
+    private function findCourseByName ($title, Initiative $initiative)
+    {
+        $em = $this->getManager();
+        $result = $em->getRepository('ClassCentralSiteBundle:Course')->createQueryBuilder('c')
+            ->where('c.initiative = :initiative' )
+            ->andWhere('c.name LIKE :title')
+            ->setParameter('initiative', $initiative)
+            ->setParameter('title', '%'.$title)
+            ->getQuery()
+            ->getResult()
+        ;
+        if ( count($result) == 1)
+        {
+            return $result[0];
+        }
+
+        return null;
     }
 }
