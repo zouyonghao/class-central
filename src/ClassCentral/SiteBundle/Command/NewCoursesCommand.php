@@ -76,7 +76,7 @@ class NewCoursesCommand extends ContainerAwareCommand {
         $count = 0;
         foreach($groups as $insName => $insCourses)
         {
-            $output->writeln(strtoupper($insName)."<br/>");
+            $output->writeln("<h2><b>" . strtoupper($insName)."</h2></b><br/>");
             foreach($insCourses as $course)
             {
 

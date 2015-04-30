@@ -10,11 +10,11 @@ class HTMLNetwork extends NetworkAbstractInterface
     public function outInitiative( $stream , $offeringCount)
     {
 
-          $name   = $stream->getName();
+          $name   = strtoupper($stream->getName());
           $url = "https://www.class-central.com/stream/". $stream->getSlug();
 
 
-        $this->output->writeln("<h1><a href='$url'>$name ($offeringCount)</a></h1>");
+        $this->output->writeln("<h2><a href='$url'>$name ($offeringCount)</a></h2>");
     }
 
     public function beforeOffering()
