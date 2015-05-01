@@ -12,8 +12,13 @@ jQuery(function($) {
             cache: true
         })
             .done(function(result){
+
                 var loggedInResult = $.parseJSON(result);
+                var source = $(clicked).data('source');
+                console.log(source);
                 if(loggedInResult.loggedIn) {
+                    ga('send','event','My Courses - Add Clicked',"Logged in", source);
+
                     var name = $(clicked).attr("name");
                     if($(clicked).is(':checked')) {
                         if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
@@ -40,6 +45,7 @@ jQuery(function($) {
 
                     addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'), $(clicked).data('course-name'));
                 } else {
+                    ga('send','event','My Courses - Add Clicked',"Logged out", source);
                     // redirect to signup page
                     window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/"+ $(clicked).val());
                 }
