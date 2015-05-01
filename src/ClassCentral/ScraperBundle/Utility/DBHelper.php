@@ -166,4 +166,23 @@ class DBHelper
         return $course;
     }
 
+    public  function findCourseByName ($title, Initiative $initiative)
+    {
+        $em = $this->scraper->getManager();
+        $result = $em->getRepository('ClassCentralSiteBundle:Course')->createQueryBuilder('c')
+            ->where('c.initiative = :initiative' )
+            ->andWhere('c.name LIKE :title')
+            ->setParameter('initiative', $initiative)
+            ->setParameter('title', '%'.$title)
+            ->getQuery()
+            ->getResult()
+        ;
+        if ( count($result) == 1)
+        {
+            return $result[0];
+        }
+
+        return null;
+    }
+
 }
