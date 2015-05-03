@@ -196,7 +196,7 @@ class Scraper extends ScraperAbstractInterface{
         {
             $length = $expectedDuration;
         }
-        $course->setLength( $expectedDuration );
+        $course->setLength( $length );
 
         // Calculate Description
         $course->setLongDescription( nl2br($udacityCourse['summary'] . '<br/><br/><b>Why Take This Course?</b><br/>' .  $udacityCourse['expected_learning']));
