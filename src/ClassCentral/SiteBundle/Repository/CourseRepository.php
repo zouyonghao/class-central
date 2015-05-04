@@ -134,6 +134,16 @@ class CourseRepository extends EntityRepository{
             $courseDetails['instructors'][] = $instructor->getName();
         }
         $courseDetails['instructorsSingleLineDisplay'] = $this->getInstructorsSingleLineDisplay($courseDetails['instructors']);
+        
+        // Check if the course has a duplicate course id
+        if( $course->getDuplicateCourse() )
+        {
+            $duplicate = $course->getDuplicateCourse();
+            $courseDetails['duplicate'] = array(
+                'id' => $duplicate->getId(),
+                'slug' => $duplicate->getSlug()
+            );
+        }
 
         return $courseDetails;
     }

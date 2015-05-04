@@ -279,6 +279,16 @@ class CourseController extends Controller
            // TODO: render a error page
           return;
        }
+       
+       // Check if the course is a duplicate
+       if( isset($course['duplicate']) )
+       {
+            // Exists - redirect to the original course
+            return $this->redirect(
+            $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['duplicate']['id'],'slug' => $course['duplicate']['slug'])),
+            301
+            );
+       }
 
 
        // If the slug is not the same, then redirect to the correct url
@@ -781,6 +791,13 @@ EOD;
              $userService->removeCourse($uc->getUser(), $dup, $uc->getListId() );
 
         }
+        
+        // Merge the reviews too
+        foreach( $dup->getReviews() as $review )
+        {
+            $review->setCourse( $orig );
+            $em->persist( $review );
+        }
 
         // Move the offerings
         if($type == 2)
@@ -791,7 +808,11 @@ EOD;
                 $em->persist( $o );
             }
         }
-
+        
+        // Rename the duplicate course
+        $dup->setName( '***DUPLICATE*** ' . $dup->getName()  );
+        
+        $dup->setDuplicateCourse( $orig );
         $dup->setStatus( CourseStatus::NOT_AVAILABLE );
         $em->persist( $dup );
         $em->flush();
