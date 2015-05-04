@@ -75,6 +75,15 @@ ClassCentral\SiteBundle\Entity\Course:
       fixed: false
       nullable: true
   manyToOne:
+    duplicateCourse:
+      targetEntity: Course
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+          duplicate_course_id:
+              referencedColumnName: id
+      orphanRemoval: false
     stream:
       targetEntity: Stream
       fetch: EAGER

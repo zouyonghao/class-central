@@ -183,6 +183,12 @@ class Course {
      */
     private $thumbnail;
 
+    /**
+     * If exists the course page is redirected to the duplicate course
+     * @var \ClassCentral\SiteBundle\Entity\Course
+     */
+    private $duplicateCourse;
+
 
     /**
      * Set name
@@ -760,6 +766,28 @@ class Course {
         return $this->workloadMax;
     }
 
+    /**
+     * Set duplicateCourse
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $duplicateCourse
+     * @return Course
+     */
+    public function setDuplicateCourse(\ClassCentral\SiteBundle\Entity\Course $duplicateCourse = null)
+    {
+        $this->duplicateCourse = $duplicateCourse;
+
+        return $this;
+    }
+
+    /**
+     * Get duplicateCourse
+     *
+     * @return \ClassCentral\SiteBundle\Entity\Course
+     */
+    public function getDuplicateCourse()
+    {
+        return $this->duplicateCourse;
+    }
 
 }
 
@@ -789,5 +817,4 @@ abstract class CourseStatus
             self::TO_BE_REVIEWED => 'To Be Reviewed'
         );
     }
-
 }
