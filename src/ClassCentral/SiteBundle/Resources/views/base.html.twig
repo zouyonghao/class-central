@@ -34,6 +34,7 @@
     '@ClassCentralSiteBundle/Resources/public/slashpixel/css/autocomplete.css'
     '@ClassCentralSiteBundle/Resources/public/slashpixel/css/pnotify.custom.min.css'
     '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.Jcrop.min.css'
+    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/sweetalert.css'
     %}
 
     <link rel="stylesheet" href="{{ asset(asset_url) }}" />
@@ -227,6 +228,7 @@
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.fileupload.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.Jcrop.min.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.utilities.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/sweetalert.min.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.user.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.profile.js'
 %}
@@ -391,5 +393,9 @@
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=214375822097453&version=v2.0";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
+
+{# Rating popup box #}
+{% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
+
 </body>
 </html>

@@ -333,22 +333,31 @@ class Review {
             $userSession = $this->container->get('user_session');
             $userSession->saveUserInformationInSession();
 
-            if($newReview)
+            $showNotification = true;
+            if( isset($reviewData['showNotification']) )
             {
-                $userSession->notifyUser(
-                    UserSession::FLASH_TYPE_SUCCESS,
-                    'Review created',
-                    sprintf("Review for <i>%s</i> created successfully", $review->getCourse()->getName())
-                );
+                $showNotification = $reviewData['showNotification'];
             }
-            else
+            if ($showNotification)
             {
-                $userSession->notifyUser(
-                    UserSession::FLASH_TYPE_SUCCESS,
-                    'Review updated',
-                    sprintf("Your review for <i>%s</i> has been updated successfully", $review->getCourse()->getName())
-                );
+                if($newReview)
+                {
+                    $userSession->notifyUser(
+                        UserSession::FLASH_TYPE_SUCCESS,
+                        'Review created',
+                        sprintf("Review for <i>%s</i> created successfully", $review->getCourse()->getName())
+                    );
+                }
+                else
+                {
+                    $userSession->notifyUser(
+                        UserSession::FLASH_TYPE_SUCCESS,
+                        'Review updated',
+                        sprintf("Your review for <i>%s</i> has been updated successfully", $review->getCourse()->getName())
+                    );
+                }
             }
+
         }
         return $review;
     }

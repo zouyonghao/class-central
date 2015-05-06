@@ -55,14 +55,14 @@ jQuery(function($) {
     // Handle calls to add/remove courses to users library
     $('input[class="course-list-checkbox"]').change( courseListCheckboxHandler );
 
-    // Completed, Audited, Partially Completed, Drooped
+    // Completed, Audited, Partially Completed, Dropped, Current
     var listCourseDone = [
-        3,4,5,6
+        3,4,5,6,7
     ];
 
-    // Enrolled, Current
+    // Enrolled
     var listEnrolled = [
-        2,7
+        2
     ];
 
     function updateCounter( incr )
@@ -101,15 +101,7 @@ jQuery(function($) {
 
                         if($.inArray(Number(listId), listCourseDone) >= 0)
                         {
-                            // Ask them to review the course
-                            notifyWithDelay(
-                                'Course added',
-                                'Would you like to review it? It takes no time at all ' +
-                                    '<br/><a href="/review/new/' + courseId+ '">Review ' + name +
-                                    '</a> ',
-                                'success',
-                                60
-                            );
+                            askUserForRating(courseId,listId);
                         }
                         else if($.inArray(Number(listId), listEnrolled) >= 0)
                         {
@@ -892,5 +884,63 @@ jQuery(function($) {
 
     vidplay();
 
+    askUserForRating = function(courseId, listId){
 
+        ga('send','event','Rating Popup - Shown',courseId, listId);
+
+        var source   = $("#rating-popup").html();
+        var template = Handlebars.compile(source);
+        var html    = template({'rating' : 0});
+
+        swal({
+            title: "How would you rate this course?",
+            text: html,
+            html: true,
+            showCancelButton: true,
+            showConfirmButton: false
+        });
+
+        var ratyDefaults = {
+            starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-gray.png',
+            starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-gray.png',
+            starOn      : '/bundles/classcentralsite/slashpixel/images/star-on-gray.png',
+            hints       : ['','','','',''],
+            size        : 21,
+            score       : function() {
+                return $(this).attr('data-score');
+            },
+            click       : function(score, evt) {
+                ga('send','event','Rating Popup - Course Rated',courseId, listId);
+
+                // Save the review
+                var review = {
+                    'rating': score,
+                    'progress': listId,
+                    'reviewText' :'',
+                    'showNotification' : false
+                };
+
+                $.ajax({
+                    type:"post",
+                    url:"/user/review/create/" + courseId,
+                    data:JSON.stringify(review)
+                })
+                    .done(
+                    function(result){
+                        result = JSON.parse(result);
+                        if(result['success']) {
+                            swal("Course has been rated", "Thank you for providing feedback", "success");
+                        } else {
+                            ga('send','event','Rating Popup - Course Rating Unsuccesful',courseId, listId);
+                            swal("Error", result.message, "error");
+                        }
+                    }
+                );
+
+            }
+        };
+
+        $('#rating').raty(ratyDefaults);
+
+    }
 });
