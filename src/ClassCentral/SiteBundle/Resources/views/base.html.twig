@@ -96,6 +96,9 @@
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
+    {% if not app.user %}
+        <script src="//load.sumome.com/" data-sumo-site-id="2753703ea6c375ac049b42dd8a7bff06241e1f2ddefda95108a513cf123fef6a" async="async"></script>
+    {% endif %}
 </head>
 
 <body>
