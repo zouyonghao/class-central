@@ -87,6 +87,8 @@
     </thead>
     <tbody class="table-body-{{ tableId }}" id="course-listing-tbody">
 {% endif %}
+    {% include 'ClassCentralSiteBundle:Helpers:one.month.html.twig' %}
+
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 

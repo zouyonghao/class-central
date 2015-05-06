@@ -1,0 +1,66 @@
+{% if app.request.get('sort') == '' and page != 'user-library' %}
+
+    {% set ad = random(1) %}
+
+    {% if ad == 0 %}
+    <tr>
+
+        <td class="add-column">
+            <span class="label label-warning">Ad</span>
+        </td>
+
+        <td class="course-name-column">
+            <a class="course-name" target="_blank" href="https://onemonth.com/courses/python?utm_source=class-central&utm_medium=directory&utm_campaign=python" onmousedown="ga('send','event', 'Table Ad', 'One Month', 'Python')" title="One Month - Build your first Python App"><span itemprop="name">Build your first Python App</span></a>
+            <ul class="table-uni-list">
+                <span class="via">via</span>
+                <a href="https://onemonth.com/?utm_source=class-central&utm_medium=directory&utm_campaign=python" target="_blank" class="initiativelinks" title="What If You Could Learn Anything In One Month?" onclick="ga('send','event', 'Table Ad - Provider', 'One Month', 'Python')">One Month</a>
+            </ul>
+        </td>
+
+        {% if page is defined and page != 'stream' and page=='home' %}
+        <td class="subject-column"> <a class="subject" href="/subject/cs" title="List of Computer Science MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Computer Science', 'One Month Python')" data-category="Computer Science">Computer Science </a>
+        </td>
+        {% endif %}
+
+        <td class="start-date">Self paced</td>
+
+        <td data-timestamp="5" class="course-rating-column">
+            <div class="rating-and-count-wrap">
+                <div class="course-rating" data-score="0" ></div>
+            </div>
+        </td>
+
+    </tr>
+
+    {% else %}
+    <tr>
+
+        <td class="add-column">
+            <span class="label label-warning">Ad</span>
+        </td>
+
+        <td class="course-name-column">
+            <a class="course-name" target="_blank" href="https://onemonth.com/courses/growth-hacking?utm_source=class-central&utm_medium=directory&utm_campaign=growth-hacking" onmousedown="ga('send','event', 'Table Ad', 'One Month', 'Growth Hacking')" title="Learn To Explode Product Growth In Just One Month"><span itemprop="name">Growth Hacking</span></a>
+            <ul class="table-uni-list">
+                <span class="via">via</span>
+                <a href="https://onemonth.com/?utm_source=class-central&utm_medium=directory&utm_campaign=growth-hacking" target="_blank" class="initiativelinks" title="What If You Could Learn Anything In One Month?" onclick="ga('send','event', 'Table Ad - Provider', 'One Month', 'Growth Hacking')">One Month</a>
+            </ul>
+        </td>
+
+        {% if page is defined and page != 'stream' and page=='home' %}
+            <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'One Month Growth Hacking')" data-category="Business & Management">Business & Management </a>
+            </td>
+        {% endif %}
+
+        <td class="start-date">Self paced</td>
+
+        <td data-timestamp="5" class="course-rating-column">
+            <div class="rating-and-count-wrap">
+                <div class="course-rating" data-score="0" ></div>
+            </div>
+        </td>
+
+    </tr>
+    {% endif %}
+
+{% endif %}
