@@ -162,12 +162,6 @@ class OfferingController extends Controller
         ));
     }
 
-    public function reportAction()
-    {
-        $offerings = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Offering')->findAllInCurrentMonth();
-        return $this->render('ClassCentralSiteBundle:Offering:report.html.twig', array_merge($offerings, array()) );
-    }
-
     /**
      * Deletes a Offering entity.
      *

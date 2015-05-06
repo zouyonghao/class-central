@@ -28,8 +28,4 @@ offering_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ClassCentralSiteBundle:Offering:delete" }
     requirements: { _method: post }
-
-offering_report:
-    pattern: /report
-    defaults: { _controller: "ClassCentralSiteBundle:Offering:report" }
         
