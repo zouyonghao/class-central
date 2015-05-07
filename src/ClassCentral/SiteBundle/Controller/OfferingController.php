@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Form\OfferingType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Offering controller.
@@ -55,13 +56,39 @@ class OfferingController extends Controller
      * Displays a form to create a new Offering entity.
      *
      */
-    public function newAction($id)
+    public function newAction(Request $request,$id)
     {
         $entity = new Offering();
+
+        // Defaults
+        $entity->setStatus(Offering::START_DATES_KNOWN);
+        $startDate = new \DateTime();
+        $startDate->sub(new \DateInterval('P60D'));
+        $entity->setStartDate( $startDate );
+
+        $endDate = new \DateTime();
+        $endDate->sub(new \DateInterval('P30D'));
+        $entity->setEndDate( $endDate );
+        
+        $em = $this->getDoctrine()->getManager();
         // Cloning the entity
         if($id) {
-             $em = $this->getDoctrine()->getManager();
-             $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
+            $type = $request->query->get('type');
+            if( $type == 'selfpaced' )
+            {
+                // Get the course
+                $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
+                $entity->setStatus( Offering::COURSE_OPEN );
+                $entity->setCourse( $course );
+
+            }
+            else
+            {
+                $entity = $em->getRepository('ClassCentralSiteBundle:Offering')->find($id);
+                $entity->setShortName( null );
+                $entity->setUrl( null );
+            }
+
         }
         $form   = $this->createForm(new OfferingType(), $entity);
 

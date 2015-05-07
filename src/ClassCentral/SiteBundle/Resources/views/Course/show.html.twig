@@ -27,6 +27,9 @@
         </a>
     </li>
     <li>
+        <a href="{{ path('offering_new', { 'id': entity.id, 'type': 'selfpaced' }) }}">Create Selfpaced Offering form</a>
+    </li>
+    <li>
         <a href="{{ path('course_edit', { 'id': entity.id }) }}">
             Edit
         </a>
@@ -40,7 +43,6 @@
 </ul>
 
 <h1>Offering list</h1>
-
 <table class="records_list" align="middle">
     <thead>
         <tr>
@@ -76,4 +78,7 @@
     {% endfor %}
     </tbody>
 </table>
+
+    {% include 'ClassCentralSiteBundle:Helpers:admin.links.html.twig' %}
+
 {% endblock %}
