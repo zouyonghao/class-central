@@ -60,7 +60,7 @@ class CourseType extends AbstractType {
             ->add('verifiedCertificate')
             ->add('workloadMin')
             ->add('workloadMax')
-            ->add('searchDesc')
+            //->add('searchDesc')
             ->add('one_liner',null,array('required' => false))
             ->add('thumbnail')
         ;

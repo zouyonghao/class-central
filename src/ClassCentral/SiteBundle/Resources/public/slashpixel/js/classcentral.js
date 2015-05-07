@@ -100,7 +100,7 @@ jQuery(function($) {
 
                         if($.inArray(Number(listId), listCourseDone) >= 0)
                         {
-                            askUserForRating(courseId,listId);
+                            askUserForRating(name,courseId,listId);
                         }
                         else if($.inArray(Number(listId), listEnrolled) >= 0)
                         {
@@ -883,16 +883,16 @@ jQuery(function($) {
 
     vidplay();
 
-    askUserForRating = function(courseId, listId){
+    askUserForRating = function(name, courseId, listId){
 
-        ga('send','event','Rating Popup - Shown',courseId, listId);
+        ga('send','event','Rating Popup - Shown',name, listId);
 
         var source   = $("#rating-popup").html();
         var template = Handlebars.compile(source);
         var html    = template({'rating' : 0});
 
         swal({
-            title: "How would you rate this course?",
+            title: "<span style='font-size: 20px'>How would you rate '<em>" + name + "</em>'?</small></span>",
             text: html,
             html: true,
             showCancelButton: true,
@@ -909,7 +909,7 @@ jQuery(function($) {
                 return $(this).attr('data-score');
             },
             click       : function(score, evt) {
-                ga('send','event','Rating Popup - Course Rated',courseId, listId);
+                ga('send','event','Rating Popup - Course Rated',name, listId);
 
                 // Save the review
                 var review = {
@@ -930,7 +930,7 @@ jQuery(function($) {
                         if(result['success']) {
                             swal("Course has been rated", "Thank you for providing feedback", "success");
                         } else {
-                            ga('send','event','Rating Popup - Course Rating Unsuccesful',courseId, listId);
+                            ga('send','event','Rating Popup - Course Rating Unsuccesful',name, listId);
                             swal("Error", result.message, "error");
                         }
                     }
