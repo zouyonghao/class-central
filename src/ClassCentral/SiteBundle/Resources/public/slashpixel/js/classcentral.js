@@ -15,7 +15,6 @@ jQuery(function($) {
 
                 var loggedInResult = $.parseJSON(result);
                 var source = $(clicked).data('source');
-                console.log(source);
                 if(loggedInResult.loggedIn) {
                     ga('send','event','My Courses - Add Clicked',"Logged in", source);
 
