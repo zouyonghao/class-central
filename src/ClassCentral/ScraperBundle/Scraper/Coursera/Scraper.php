@@ -4,6 +4,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Coursera;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Offering;
@@ -461,9 +462,18 @@ class Scraper extends ScraperAbstractInterface {
                 else
                 {
                     // Check how many of them are self paced
-                    if ( $dbCourse->getNextOffering()->getStatus() != Offering::COURSE_OPEN )
+                    $selfPaced = false;
+                    foreach( $dbCourse->getOfferings() as $offering)
                     {
-                        $this->out("OnDemand Session Missing : " . $element['name']);
+                        if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
+                        {
+                            $selfPaced = true;
+                            break;
+                        }
+                    }
+                    if ( !$selfPaced )
+                    {
+                        $this->out("OnDemand Session Missing : " . $element['name']) ;
                     }
                 }
 
@@ -536,8 +546,10 @@ class Scraper extends ScraperAbstractInterface {
         $result = $em->getRepository('ClassCentralSiteBundle:Course')->createQueryBuilder('c')
             ->where('c.initiative = :initiative' )
             ->andWhere('c.name LIKE :title')
+            ->andWhere('c.status = :status')
             ->setParameter('initiative', $initiative)
-            ->setParameter('title', '%'.$title)
+            ->setParameter('title', $title)
+            ->setParameter('status', CourseStatus::AVAILABLE)
             ->getQuery()
             ->getResult()
         ;
