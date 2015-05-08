@@ -32,7 +32,7 @@ class Scraper extends ScraperAbstractInterface
     {
 
         $this->buildSelfPacedCourseList();
-        
+
         $tagService = $this->container->get('tag');
 
         // Get the course list from the new RSS API
@@ -389,7 +389,12 @@ class Scraper extends ScraperAbstractInterface
                     ->getResult()
         ;
 
-        return $result;
+        if ( count($result) == 1)
+        {
+            return $result[0];
+        }
+
+        return null;
     }
 
 
@@ -400,11 +405,10 @@ class Scraper extends ScraperAbstractInterface
         $allCourses = json_decode( file_get_contents($apiUrl), true );
         foreach( $allCourses as $edXCourse)
         {
-
+            $dbCourse = null;
             if ( $edXCourse['pace'] ) // Self paced courses
             {
                 $courseShortName = 'edx_' . strtolower( $edXCourse['code'] . '_' .$edXCourse['schools'][0] );
-                $dbCourse = null;
 
                 $dbCourseFromSlug = $this->dbHelper->getCourseByShortName($courseShortName);
                 if( $dbCourseFromSlug  )
