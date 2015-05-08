@@ -31,6 +31,8 @@ class Scraper extends ScraperAbstractInterface
     public function scrape()
     {
 
+        $this->buildSelfPacedCourseList();
+        
         $tagService = $this->container->get('tag');
 
         // Get the course list from the new RSS API
@@ -389,4 +391,68 @@ class Scraper extends ScraperAbstractInterface
 
         return $result;
     }
+
+
+    private function buildSelfPacedCourseList()
+    {
+        $apiUrl = 'https://www.edx.org/search/api/all';
+        $selfPacedCourses = array();
+        $allCourses = json_decode( file_get_contents($apiUrl), true );
+        foreach( $allCourses as $edXCourse)
+        {
+
+            if ( $edXCourse['pace'] ) // Self paced courses
+            {
+                $courseShortName = 'edx_' . strtolower( $edXCourse['code'] . '_' .$edXCourse['schools'][0] );
+                $dbCourse = null;
+
+                $dbCourseFromSlug = $this->dbHelper->getCourseByShortName($courseShortName);
+                if( $dbCourseFromSlug  )
+                {
+                    $dbCourse = $dbCourseFromSlug;
+                }
+                else
+                {
+                    $dbCourseFromName = $this->findCourseByName( $edXCourse['l'] , $this->initiative );
+                    if($dbCourseFromName)
+                    {
+                        $dbCourse = $dbCourseFromName;
+                    }
+                }
+
+                if( empty($dbCourse) )
+                {
+                    $this->out("OnDemand Course Missing : " .  $edXCourse['l']  );
+                }
+                else
+                {
+                    $selPaced = false;
+                    // Check how many of them are self paced
+                    $selfPaced = false;
+                    foreach( $dbCourse->getOfferings() as $offering)
+                    {
+                        if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
+                        {
+                            $selfPaced = true;
+                            break;
+                        }
+                    }
+                    if ( !$selfPaced )
+                    {
+                        $this->out("OnDemand Session Missing : " . $edXCourse['l'])  ;
+                    }
+                }
+
+            }
+        }
+    }
+
+    private function isCourseSelfPaced( $edXCourse )
+    {
+        if( strpos( $edXCourse['start'], 'Self-paced') !== false )
+        {
+            return true;
+        }
+    }
+
 }
