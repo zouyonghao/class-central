@@ -1,7 +1,7 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
  {% block headmeta %}
-     <title itemprop='name'>Class Central</title>
+     <title itemprop='name'>Class Central - Never Stop Learning!</title>
      <link rel="canonical" href="{{ baseurl }}" itemprop="url">
      <meta name="description"
            content="Class Central is a free online course aka MOOC aggregator from top universities like Stanford, MIT, Harvard, etc. offered via Coursera, Udacity, edX, NovoED, & others."/>
@@ -13,7 +13,7 @@
     <section class="header-area">
         <div class="container">
             <div class="header-content">
-                <h1 class='free-online-ed'>Free Online Education</h1>
+                <h1 class='free-online-ed'>Never Stop Learning!</h1>
                 <h2>Discover free online classes (MOOCs) from top universities like
                     <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}" onmousedown="ga('send','event','Tagline Clicks','University','Stanford')">Stanford</a>,
                     <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','MIT')"> MIT</a>,
