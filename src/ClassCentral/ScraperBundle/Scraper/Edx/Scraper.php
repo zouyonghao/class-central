@@ -406,7 +406,7 @@ class Scraper extends ScraperAbstractInterface
         foreach( $allCourses as $edXCourse)
         {
             $dbCourse = null;
-            if ( $edXCourse['pace'] ) // Self paced courses
+            if ( $edXCourse['pace'] & $edXCourse['availability'] == 'Current' ) // Self paced courses
             {
                 $courseShortName = 'edx_' . strtolower( $edXCourse['code'] . '_' .$edXCourse['schools'][0] );
 
