@@ -57,7 +57,7 @@ class ReviewSolicitationJobSchedulerCommand extends ContainerAwareCommand {
                 new \DateTime( $date ),
                 ReviewSolicitationJob::REVIEW_SOLICITATION_JOB_TYPE,
                 'ClassCentral\MOOCTrackerBundle\Job\ReviewSolicitationJob',
-                array('userId' => $user->getId() ),
+                array('date' => $date ),
                 $user->getId()
             );
 
