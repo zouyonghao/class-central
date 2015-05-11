@@ -17,10 +17,11 @@
         <tbody>
         {# &nbsp; #}
         {% for review in reviews %}
+            {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle, review.user.isPrivate) %}
             <tr>
                 <td style="padding-right: 10px">{{ review.id }}</td>
-                <td style="padding-right: 10px">{{ review.user.name }}</td>
-                <td style="padding-right: 10px">{{ review.course.name }}</td>
+                <td style="padding-right: 10px">{% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}"> {% endif %}{{ review.user.name }} {% if reviewerProfileUrl %} </a> {% endif %}</td>
+                <td style="padding-right: 10px"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, 'slug' : review.course.slug})  }}"> {{ review.course.name }}</a></td>
                 <td>{{ review.rating }}</td>
                 <th><a href="{{ path('review_edit',{reviewId: review.id}) }}">Edit</a></th>
             </tr>
