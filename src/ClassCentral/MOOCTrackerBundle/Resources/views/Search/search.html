@@ -1043,12 +1043,12 @@ body.outlook p {
                             <table class="twelve columns">
                                 <tr>
                                     <td class="six sub-columns">
-                                        <a href="https://www.class-central.com">
+                                         <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">
                                             <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
                                         </a>
                                     </td>
                                     <td class="six sub-columns last" style="text-align:right; vertical-align:middle;">
-                                        <span class="template-label">MOOC Directory and Reviews</span>
+                                        <span class="template-label">Never Stop Learning</span>
                                     </td>
                                     <td class="expander"></td>
                                 </tr>
@@ -1097,7 +1097,8 @@ body.outlook p {
                         <table class="twelve columns">
                             <tr>
                                 <td>
-                                    You have new results for the MOOC Tracker Search Terms added to your <a href="{{ baseUrl }}{{ path('user_library') }}">"profile"</a>.
+                                    {% set redirect_url = path('user_library') %}  
+                                    You have new results for the MOOC Tracker Search Terms added to your <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url }) }}">"profile"</a>.
                                     <br/><br/>
                                     Note: Class Central is a directory and does not directly operate courses. Click on 'Go to Class' to go to the providers course page. Content might not be available until the course start date. You can see our general <a href="{{baseUrl}}/faq">FAQ about MOOCs here</a>.
                                 </td>
@@ -1134,7 +1135,7 @@ body.outlook p {
                             <tr>
                                 <td class="panel">
                                     <p>
-                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}" style="color: #24313a;font-size: 16px; font-weight: 700" > {{ course.name }} | Starts {{ course.nextSession.displayDate }}</a> <br />
+                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken}) }}" style="color: #24313a;font-size: 16px; font-weight: 700" > {{ course.name }} | Starts {{ course.nextSession.displayDate }}</a> <br />
                                         {% if course.institutions|length %}
                                         {% set institution = course.institutions[0] %}
                                         {% set route = 'ClassCentralSiteBundle_university' %}
@@ -1163,7 +1164,7 @@ body.outlook p {
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id}) }}?login=1" class="cc-write-a-review">Write a review »</a>
+                                                <a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id, autoLogin:loginToken}) }}" class="cc-write-a-review">Write a review »</a>
                                             </td>
                                         </tr>
                                     </table>
@@ -1193,8 +1194,8 @@ body.outlook p {
                                 <td>
                                     <h6>More courses you can start right now</h6>
                                     <p>
-                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent'})}}">{{ counts.offeringCount.recent }} courses recently started or starting soon</a> <br/>
-                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced'})}}">{{ counts.offeringCount.selfpaced }} self paced courses that you can start any time</a>
+                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent', autoLogin:loginToken})}}">{{ counts.offeringCount.recent }} courses recently started or starting soon</a> <br/>
+                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken})}}">{{ counts.offeringCount.selfpaced }} self paced courses that you can start any time</a>
                                     </p>
                                 </td>
 
@@ -1214,7 +1215,7 @@ body.outlook p {
                                 <td>
 
                                     <p>
-                                        <em>Reminder from <a href="{{ baseUrl }}">Class Central</a></em>
+                                        <em>Reminder from  <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a></em>
                                     </p>
                                     <p>
                                         <em>You are receiving this email at {{ user.email }} because you have enabled MOOC Tracker notifications on Class Central.</em>

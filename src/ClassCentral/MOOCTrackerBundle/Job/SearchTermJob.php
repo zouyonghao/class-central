@@ -108,15 +108,19 @@ class SearchTermJob extends SchedulerJobAbstract {
                 "No courses for User with id $userId were found for job $jobType"
             );
         }
-
+        $coursesText = 'courses';
+        if( $count == 1)
+        {
+            $coursesText = 'course';
+        }
         // Courses found. Get the template and send the email
         if ( $jobType == self::JOB_TYPE_NEW_COURSES )
         {
-            $subject = "Search Notification: {$count} new courses found";
+            $subject = "Search Notification: {$count} new {$coursesText} found";
         }
         elseif ( $jobType == self::JOB_TYPE_RECENT_COURSES )
         {
-            $subject = "Search Notification: {$count} courses starting soon";
+            $subject = "Search Notification: {$count} {$coursesText} starting soon";
         }
 
         $templating = $this->getContainer()->get('templating');
@@ -128,6 +132,7 @@ class SearchTermJob extends SchedulerJobAbstract {
             'user' => $user,
             'jobType' => $jobType,
             'numCourses' => $count,
+            'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
             'showDesc' => ($count <= 10),
             'coursesHidden' => ($count > 40),
             'counts' => $this->getCounts(),
