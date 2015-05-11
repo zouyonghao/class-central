@@ -391,3 +391,7 @@ tfc_redirect:
 review_widget:
   pattern: /reviews/widget
   defaults: {_controller: ClassCentralSiteBundle:Review:getReviewWidget}
+
+auto_login_secure:
+  pattern: /autoLoginSecure
+  defaults: {_controller: ClassCentralSiteBundle:Default:autoLoginSecure }

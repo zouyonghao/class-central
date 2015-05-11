@@ -20,7 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller {
                
     public function indexAction(Request $request) {
-  
+
+        // Autologin if a token exists
+        $this->get('user_service')->autoLogin($request);
+
         $cache = $this->get('Cache');
         $cl = $this->get('course_listing');
         $recent = $cl->byTime('recent',$request);
@@ -162,5 +165,23 @@ class DefaultController extends Controller {
         return $this->render('ClassCentralSiteBundle:Default:githubbtn.html.twig');
     }
 
+    /**
+     * If the token is valid it logs the user in and then redirects the user to
+     * the destination url. This is done for paths that are behind Sfymony's
+     * login firewall
+     * @param Request $request
+     */
+    public function autoLoginSecureAction(Request $request)
+    {
+        // Autologin if a token exists
+        $this->get('user_service')->autoLogin($request);
+
+        $redirectUrl = $request->query->get('redirect_url');
+        if( $redirectUrl )
+        {
+            return $this->redirect( $redirectUrl );
+        }
+
+    }
     
 }

@@ -7,8 +7,10 @@ use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
 use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
+use ClassCentral\SiteBundle\Entity\VerificationToken;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class User {
@@ -639,6 +641,69 @@ class User {
 
         return true;
     }
+
+    /**
+     * Generates a login token that allows the user to auto login
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     */
+    public function getLoginToken( \ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $tokenService = $this->container->get('verification_token');
+        $loginToken = $tokenService->create("login_token=1&user_id=" . $user->getId(), 2*VerificationToken::EXPIRY_1_WEEK);
+
+        return $loginToken->getToken();
+    }
+
+    /**
+     * Checks if there is a autoLogin token. If it exists then logs in the user
+     * @param Request $request
+     */
+    public function autoLogin(Request $request)
+    {
+        $tokenService = $this->container->get('verification_token');
+
+        // Check if there is login token
+        $loginToken = $request->query->get('autoLogin');
+        if( empty($loginToken) )
+        {
+            return;
+        }
+
+        // Check if the token is valid
+        $token = $tokenService->get($loginToken);
+        if(!$token)
+        {
+            return; // Token does not exist or is not valid
+        }
+
+        // Check if the user is logged in or not
+        if($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+           // User is already logged in. Delete the token
+            $tokenService->delete( $token );
+            return;
+        }
+
+        // Get the user from the token
+        parse_str($token->getValue(), $tokenValue);
+        if( isset($tokenValue['login_token']) )
+        {
+            // Get the user
+            $userId = $tokenValue['user_id'];
+            $user = $this->container->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:User')->find($userId);
+            if( $user )
+            {
+                // User exists. Log him in
+                $this->login($user);
+
+                // Populate the session
+                $this->container->get('user_session')->login( $user );
+            }
+        }
+
+        $tokenService->delete( $token );
+    }
+
 
 
 } 
