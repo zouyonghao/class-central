@@ -95,14 +95,19 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
             if( count($courses_added) + count($courses_rated) == 1)
             {
                // Use template for single email
-                $course = array_pop(array_merge($courses_added,$courses_added));
-                var_dump($course->getName());
+                $course = array_pop(array_merge($courses_added,$courses_rated));
                 $emailContent = $this->getSingleCourseEmail( $course, $user );
                 $subject = sprintf("Would you recommend  '%s' to others? Submit a review on Class Central",$course->getName());
                 return $this->sendEmail($subject,$emailContent, $user, 'campaignId');
             }
-            var_dump( array_keys($courses_added) );
-            var_dump( array_keys($courses_rated) );
+            else
+            {
+                echo "Multiple courses";
+                $courses = array_merge($courses_added,$courses_rated);
+                $emailContent = $this->getMultipleCoursesEmail( $courses, $user);
+                $subject = 'Would you recommend any courses to others? Submit a review on Class Central';
+                return $this->sendEmail($subject,$emailContent, $user, 'campaignId');
+            }
         }
     }
 
@@ -124,6 +129,31 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                     $this->getContainer()->getParameter('secret')
                 )
+            )
+        )->getContent();
+
+        return $html;
+    }
+
+    /**
+     * Generates the html content for multiple courses
+     * @param $courses
+     * @param User $user
+     * @return mixed
+     */
+    private function getMultipleCoursesEmail($courses, User $user)
+    {
+        $templating = $this->getContainer()->get('templating');
+        $html = $templating->renderResponse(
+            'ClassCentralMOOCTrackerBundle:Review:multiple.courses.inlined.html',array(
+                'courses' => $courses,
+                'user'   => $user,
+                'baseUrl' => $this->getContainer()->getParameter('baseurl'),
+                'jobType' => $this->getJob()->getJobType(),
+                'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
+                        UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
+                        $this->getContainer()->getParameter('secret')
+                    )
             )
         )->getContent();
 

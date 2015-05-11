@@ -1026,33 +1026,115 @@ body.outlook p {
 </head>
 <body>
 <table class="body">
-<tr>
-<td class="center" align="center" valign="top">
-<center>
-
-<table class="row header">
     <tr>
-        <td class="center" align="center" style="background-color: #0662a1">
+        <td class="center" align="center" valign="top">
             <center>
+
+                <table class="row header">
+                    <tr>
+                        <td class="center" align="center" style="background-color: #0662a1">
+                            <center>
+
+                                <table class="container">
+                                    <tr>
+                                        <td class="wrapper last">
+
+                                            <table class="twelve columns">
+                                                <tr>
+                                                    <td class="six sub-columns">
+                                                        <a href="https://www.class-central.com">
+                                                            <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
+                                                        </a>
+                                                    </td>
+                                                    <td class="six sub-columns last" style="text-align:right; vertical-align:middle;">
+                                                        <span class="template-label">Never Stop Learning</span>
+                                                    </td>
+                                                    <td class="expander"></td>
+                                                </tr>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </center>
+                        </td>
+                    </tr>
+                </table>
 
                 <table class="container">
                     <tr>
-                        <td class="wrapper last">
-
-                            <table class="twelve columns">
+                        <td>
+                            <br/>
+                            <table class="row">
                                 <tr>
-                                    <td class="six sub-columns">
-                                        <a href="https://www.class-central.com">
-                                            <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
-                                        </a>
+                                    <td class="wrapper last">
+
+                                        <table class="twelve columns">
+                                            <tr>
+                                                <td>
+                                                    <h6>Hello {{ user.name }},
+                                                </td>
+
+                                            </tr>
+                                        </table>
+
                                     </td>
-                                    <td class="six sub-columns last" style="text-align:right; vertical-align:middle;">
-                                        <span class="template-label">Never Stop Learning</span>
-                                    </td>
-                                    <td class="expander"></td>
                                 </tr>
                             </table>
 
+                            <table class="row">
+                                <tr>
+                                    <td class="wrapper last">
+                                        <table class="twelve columns">
+                                            <tr>
+                                                <td>
+                                                    You recently indicated on Class Central that you had participated in several courses. How were they? If you could submit one or more brief course reviews with your thoughts, this would help others learn more and see whether that course is right for them. Simply click on a link below to submit a course rating/review.
+                                                                                          
+                                                    <br/><br/>
+                                                    <ul>
+                                                    {% for course in courses %}
+                                                        <li><a href="{{ baseUrl }}{{ path('review_new',{ courseId: course.id}) }}" >Review {{ course.name }}</a></li>
+                                                    {% endfor %}
+                                                    </ul>
+                                                   
+                                                    <br/><br/>
+
+                                                    You can also check out your <a href="{{ baseUrl }}{{ path('user_library') }}">'My Courses'</a> for a complete list of your courses.
+
+                                                </td>
+
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+                            <hr/>
+                            <table class="row">
+                                <tr>
+                                    <td class="wrapper last">
+
+                                        <table class="twelve columns">
+                                            <tr>
+                                                <td>
+                                                    <em>Note: Please do not forward this email, as it contains links that automatically log you into Class Central for ease of use</em>
+                                                    <br/><br/>
+
+                                                    <em>We hope you found this message to be useful. If you'd rather not receive future e-mails of this sort from class-central.com at {{ user.email }}, please <a href="{{baseUrl}}{{ path('oneclick_unsubscribe', {'token' : unsubscribeToken} ) }}">opt-out here</a>.</em>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br />
+
+
+                            <!-- container end below -->
                         </td>
                     </tr>
                 </table>
@@ -1060,89 +1142,6 @@ body.outlook p {
             </center>
         </td>
     </tr>
-</table>
-
-<table class="container">
-    <tr>
-        <td>
-            <br/>
-            <table class="row">
-                <tr>
-                    <td class="wrapper last">
-
-                        <table class="twelve columns">
-                            <tr>
-                                <td>
-                                    <h6>Hello {{ user.name }},
-                                </td>
-
-                            </tr>
-                        </table>
-
-                    </td>
-                </tr>
-            </table>
-
-            <table class="row">
-                <tr>
-                    <td class="wrapper last">
-                        <table class="twelve columns">
-                            <tr>
-                                <td>
-                                    You recently indicated that you participated in <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}">'{{course.name}}'</a>. How was it? If you could submit a brief review with your thoughts on the course, this would help others learn more and see  whether the course is right for them. Simply click on a link below to submit a course rating/review.
-
-<br/><br/>                                 
-                                <table class="button radius cc-go-to-class" >
-                                    <tr>
-                                        <td>
-                                            <a href="{{ baseUrl }}{{ path('review_new',{ courseId: course.id}) }}" >Review Course</a>
-                                        </td>
-                                    </tr>
-                                </table>
-<br/><br/>
-                                    
-You can also check out your <a href="{{ baseUrl }}{{ path('user_library') }}">'My Courses'</a> for a complete list of your courses.
-
-                                </td>
-
-                            </tr>
-                        </table>
-
-                    </td>
-                </tr>
-            </table>
-            <hr/>
-            <table class="row">
-                <tr>
-                    <td class="wrapper last">
-
-                        <table class="twelve columns">
-                            <tr>
-                                <td>                                   
-                                    <em>Note: Please do not forward this email, as it contains links that automatically log you into Class Central for ease of use</em>
-                                    <br/><br/>
-
-                                    <em>We hope you found this message to be useful. If you'd rather not receive future e-mails of this sort from class-central.com at {{ user.email }}, please <a href="{{baseUrl}}{{ path('oneclick_unsubscribe', {'token' : unsubscribeToken} ) }}">opt-out here</a>.</em>                                    
-                                </td>
-
-                            </tr>
-                        </table>
-
-                    </td>
-                </tr>
-            </table>
-
-            <br />
-        
-
-            <!-- container end below -->
-        </td>
-    </tr>
-</table>
-
-</center>
-</td>
-</tr>
 </table>
 </body>
 </html>
