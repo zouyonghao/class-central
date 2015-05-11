@@ -98,14 +98,14 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
                 $course = array_pop(array_merge($courses_added,$courses_rated));
                 $emailContent = $this->getSingleCourseEmail( $course, $user );
                 $subject = sprintf("Would you recommend  '%s' to others? Submit a review on Class Central",$course->getName());
-                return $this->sendEmail($subject,$emailContent, $user, 'campaignId');
+                return $this->sendEmail($subject,$emailContent, $user);
             }
             else
             {
                 $courses = array_merge($courses_added,$courses_rated);
                 $emailContent = $this->getMultipleCoursesEmail( $courses, $user);
                 $subject = 'Would you recommend any courses to others? Submit a review on Class Central';
-                return $this->sendEmail($subject,$emailContent, $user, 'campaignId');
+                return $this->sendEmail($subject,$emailContent, $user);
             }
         }
     }
@@ -126,7 +126,7 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
               'baseUrl' => $this->getContainer()->getParameter('baseurl'),
               'jobType' => $this->getJob()->getJobType(),
                'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
-                    UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
+                    UserPreference::USER_PREFERENCE_REVIEW_SOLICITATION,
                     $this->getContainer()->getParameter('secret')
                 )
             )
@@ -152,7 +152,7 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'jobType' => $this->getJob()->getJobType(),
                 'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
-                        UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
+                        UserPreference::USER_PREFERENCE_REVIEW_SOLICITATION,
                         $this->getContainer()->getParameter('secret')
                     )
             )
@@ -168,7 +168,7 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
      * @param User $user
      * @return SchedulerJobStatus
      */
-    private function sendEmail( $subject, $html, User $user, $campaignId)
+    private function sendEmail( $subject, $html, User $user)
     {
         $mailgun = $this->getContainer()->get('mailgun');
 
@@ -177,7 +177,7 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
-            'o:campaign' => $campaignId
+            'o:campaign' => self::REVIEW_SOLICITATION_CAMPAIGN_ID
         ));
 
         if( !($response && $response->http_response_code == 200))

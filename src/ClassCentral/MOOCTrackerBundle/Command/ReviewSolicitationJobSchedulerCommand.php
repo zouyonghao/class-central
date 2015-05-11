@@ -10,6 +10,7 @@ namespace ClassCentral\MOOCTrackerBundle\Command;
 
 
 use ClassCentral\MOOCTrackerBundle\Job\ReviewSolicitationJob;
+use ClassCentral\SiteBundle\Entity\UserPreference;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -81,15 +82,17 @@ class ReviewSolicitationJobSchedulerCommand extends ContainerAwareCommand {
         $yesterday = clone $dt;
         $yesterday->sub(new \DateInterval('P1D')); // One Day Ago
 
-        // TODO:: Check for preferences
         $qb
             ->add('select', 'u')
             ->add('from','ClassCentralSiteBundle:User u')
             ->join('u.userCourses','uc')
+            ->join('u.userPreferences', 'up')
             ->andWhere('uc.created > :dt1')
             ->andWhere('uc.created < :dt2')
             ->andWhere('u.isverified = 1')
+            ->andWhere( "up.value = 1")
             ->andWhere('uc.listId in (3,4,5,6,7)')
+            ->andWhere( "up.type=" . UserPreference::USER_PREFERENCE_REVIEW_SOLICITATION ) // Courses preference
             ->setParameter('dt1', $yesterday->format('Y-m-d'))
             ->setParameter('dt2', $dt->format('Y-m-d'))
         ;
