@@ -268,6 +268,9 @@ class CourseController extends Controller
      */
     public function moocAction(Request $request,$id, $slug)
     {
+        // Autologin if a token exists
+        $this->get('user_service')->autoLogin($request);
+
        $em = $this->getDoctrine()->getManager();
        $rs = $this->get('review'); // Review service
        $cache = $this->get('Cache');

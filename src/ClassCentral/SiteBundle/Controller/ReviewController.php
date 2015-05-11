@@ -72,6 +72,10 @@ class ReviewController extends Controller {
      * @param $courseId
      */
     public function newAction(Request $request, $courseId) {
+
+        // Autologin if a token exists
+        $this->get('user_service')->autoLogin($request);
+
         $em = $this->getDoctrine()->getManager();
         $loggedIn = $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY');
         $isAdmin = $this->get('security.context')->isGranted('ROLE_ADMIN');

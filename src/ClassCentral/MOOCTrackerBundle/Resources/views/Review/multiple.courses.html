@@ -1042,7 +1042,7 @@ body.outlook p {
                                             <table class="twelve columns">
                                                 <tr>
                                                     <td class="six sub-columns">
-                                                        <a href="https://www.class-central.com">
+                                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">
                                                             <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
                                                         </a>
                                                     </td>
@@ -1089,16 +1089,16 @@ body.outlook p {
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    You recently indicated on Class Central that you had participated in several courses. How were they? If you could submit one or more brief course reviews with your thoughts, this would help others learn more and see whether that course is right for them. Simply click on a link below to submit a course rating/review.
+                                                    You recently indicated on <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a> that you had participated in several courses. How were they? If you could submit one or more brief course reviews with your thoughts, this would help others learn more and see whether that course is right for them. Simply click on a link below to submit a course rating/review.
                                                                                                                                           
                                                     <ul>
                                                     {% for course in courses %}
-                                                        <li><a href="{{ baseUrl }}{{ path('review_new',{ courseId: course.id}) }}" >Review {{ course.name }}</a></li>
+                                                        <li><a href="{{ baseUrl }}{{ path('review_new',{ courseId: course.id, autoLogin:loginToken}) }}" >Review {{ course.name }}</a></li>
                                                     {% endfor %}
                                                     </ul>                                            
-
-                                                    You can also check out your <a href="{{ baseUrl }}{{ path('user_library') }}">'My Courses'</a> for a complete list of your courses.
-
+                                                    
+                                                    {% set redirect_url = path('user_library') %}
+                                                    You can also check out your <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url }) }}">'My Courses'</a> for a complete list of your courses.                                                                                                       
                                                 </td>
 
                                             </tr>
