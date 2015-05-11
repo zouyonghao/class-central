@@ -102,7 +102,6 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
             }
             else
             {
-                echo "Multiple courses";
                 $courses = array_merge($courses_added,$courses_rated);
                 $emailContent = $this->getMultipleCoursesEmail( $courses, $user);
                 $subject = 'Would you recommend any courses to others? Submit a review on Class Central';
