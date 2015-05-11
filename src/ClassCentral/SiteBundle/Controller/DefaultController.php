@@ -106,6 +106,9 @@ class DefaultController extends Controller {
 
     public function coursesAction(Request $request, $type = 'upcoming')
     {
+        // Autologin if a token exists
+        $this->get('user_service')->autoLogin($request);
+
         if(!in_array($type, array_keys(Offering::$types))){
             // TODO: render an error page
             return false;
