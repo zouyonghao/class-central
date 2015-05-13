@@ -219,8 +219,15 @@ class User {
         if ($this->container->getParameter('kernel.environment') != 'test')
         {
             $name = ($user->getName()) ? ucwords($user->getName()) : "";
-            $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig', array('name' => $name))->getContent();
-            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central",$html);
+            $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig',
+                array(
+                    'name' => $name,
+                    'loginToken' => $this->getLoginToken($user),
+                    'baseUrl' => $this->container->getParameter('baseurl'),
+                )
+            )
+                ->getContent();
+            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central, what else can you learn?",$html);
 
             if($emailVerification)
             {
@@ -676,22 +683,25 @@ class User {
             return; // Token does not exist or is not valid
         }
 
-        // Check if the user is logged in or not
-        if($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
-        {
-           // User is already logged in. Delete the token
-            $tokenService->delete( $token );
-            return;
-        }
-
         // Get the user from the token
         parse_str($token->getValue(), $tokenValue);
-        if( isset($tokenValue['login_token']) )
+        $tokenValid = isset($tokenValue['login_token']);
+        $userId = $tokenValue['user_id'];
+        $em = $this->container->get('doctrine')->getManager();
+        $user = $em->getRepository('ClassCentralSiteBundle:User')->find($userId);
+        if ($user )
         {
-            // Get the user
-            $userId = $tokenValue['user_id'];
-            $user = $this->container->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:User')->find($userId);
-            if( $user )
+            // Verify the email if it is not verified
+            if( !$user->getIsverified() )
+            {
+                $user->setIsverified(true);
+            }
+
+            $em->persist( $user );
+            $em->flush();
+
+            // Check if the user is logged in or not
+            if( !$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && $tokenValid )
             {
                 // User exists. Log him in
                 $this->login($user);

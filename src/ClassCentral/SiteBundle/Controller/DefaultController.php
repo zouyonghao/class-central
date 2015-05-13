@@ -133,7 +133,8 @@ class DefaultController extends Controller {
                 ));
     }
 
-    public function faqAction() {
+    public function faqAction(Request $request) {
+        $this->get('user_service')->autoLogin($request);
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('FAQ', $this->container->get('router')->generate('ClassCentralSiteBundle_faq')),
         );

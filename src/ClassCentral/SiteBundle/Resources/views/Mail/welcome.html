@@ -794,12 +794,12 @@ body.outlook p {
                                             <table class="twelve columns">
                                                 <tr>
                                                     <td class="six sub-columns">
-                                                        <a href="https://www.class-central.com">
+                                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">
                                                             <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
                                                         </a>
                                                     </td>
                                                     <td class="six sub-columns last" style="text-align:right; vertical-align:middle;">
-                                                        <span class="template-label"></span>
+                                                        <span class="template-label">Never Stop Learning</span>
                                                     </td>
                                                     <td class="expander"></td>
                                                 </tr>
@@ -827,26 +827,44 @@ body.outlook p {
                                                 <td>
                                                     <h1>Hello{% if name is not empty %} {{name}}{% endif %},</h1> <br/>
 
-                                                    <p class="lead">Thank you for signing up for <a href="https://www.class-central.com/">Class Central</a>, a MOOC Discovery platform. MOOCs are growing rapidly and new ones are being added every day. Class Central is the best source online to find these MOOCs--we categorize them into 30 different subject areas.</p>
+                                                    <p class="lead">Welcome to <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a>! We are excited to be a part of your educational journey. If you are new to MOOCs or free online courses, please read our <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_faq', {autoLogin:loginToken}) }}">FAQ</a> to understand how they work.
+</p>
                                                     <br/>
                                                     <p>
-                                                        <b>Discover the best courses</b><br/>
-                                                        Class Central is the most comprehensive directory of MOOCs. Leverage reviews and ratings from the Class Central community to discover the best courses. Help out your peers by leaving feedback on courses you have taken.<br/>
-                                                        <br/>
-                                                        <b>Build you own catalogue</b><br/>
-                                                        Build your own searchable catalogue of courses. Add courses to different lists i.e. "Interested", "Enrolled", "Completed","Audited" etc. Once added, you can find them in the My Courses section.<br/>
-                                                        <br/>
-                                                        <b>Never miss a course with MOOC Tracker</b><br/>
-                                                        Get notified when a course in your catalogue is about to start, the start date changes, or if the course is offered again. Add search keywords to MOOC Tracker and we will alert you when new courses that match those keywords are announced.<br/>
-                                                        Also, look out for our newsletter which lists courses <a href="http://www.blog.class-central.com/mooc-report-march-2014/">starting in that month</a>.
+                                                    Class Central has helped over <b>2 million people</b> find great online courses offered for free by some of the best universities and teachers in the world. Reviews from the Class Central community help you understand if a course is right for you.
+                                                    
                                                     </p>
-                                                    <br/>
-                                                    <p>Reply to this email if you have any questions, feedback, or feature requests. We would love to hear from you.</p>
+                                                    <p>    
+                                                    Here are two ways you can use Class Central right away to find courses:
+                                                    <ul STYLE="list-style-type: decimal">
+                                                        <li>Browse our <a href="{{ baseUrl }}{{ path('subjects', {autoLogin:loginToken})}}">Subjects</a> categories for topics you are interested in. You can also use the search bar to type in keywords.</li>
+                                                        <li>Look at courses that are <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent',autoLogin:loginToken})}}">About to start</a> or are <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken})}}">Self-paced</a>.</li>
+                                                    </ul>
+                                                        
+                                                       These are guaranteed to be available for sign up.
+                                                    </p>
+                                                    <br/><br/>
+                                                    <p>                                                
+                                                        {% set redirect_url = path('user_library') %}   
+                                                        As you browse courses, you can use the '+' icon next to the course name to add it to your list of ‘<a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url }) }}">My Courses</a>’. These can be seen on your profile page--here is mine: <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>. 
+                                                    </p>
+                                                    <p>
+                                                        You will also be notified when new sessions of courses you are interested in are announced.
+                                                    </p>
+                                            
+                                                    <p>
+                                                    If you have any questions or feedback, please feel free to send me a message by replying to this email.
+                                                    </p>
+                                            
+                                                    <p>
+                                                    Never stop learning!
+                                                    </p>                                                                                               
 
-                                                    Thank you,<br/><br/>
+                                                    Regards,<br/><br/>
                                                     Dhawal Shah<br/>
-                                                    Founder, <a href="https://www.class-central.com">Class Central</a>
-                                                    <hr/>
+                                                    Founder & CEO, <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a><br/>
+                                                    <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>
+                                                    
                                                 </td>
                                                 <td class="expander"></td>
                                             </tr>
@@ -856,67 +874,7 @@ body.outlook p {
                                 </tr>
                             </table>
 
-
-
-                            <table class="row footer">
-                                <tr>
-                                    <td class="wrapper">
-
-                                        <table class="six columns">
-                                            <tr>
-                                                <td class="left-text-pad">
-
-                                                    <h5>Connect With Us:</h5>
-
-                                                    <table class="tiny-button facebook">
-                                                        <tr>
-                                                            <td>
-                                                                <a href="https://www.facebook.com/classcentral">Facebook</a>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-
-                                                    <br>
-
-                                                    <table class="tiny-button twitter">
-                                                        <tr>
-                                                            <td>
-                                                                <a href="https://twitter.com/classcentral">Twitter</a>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-
-                                                    <br>
-
-                                                    <table class="tiny-button google-plus">
-                                                        <tr>
-                                                            <td>
-                                                                <a href="https://plus.google.com/+ClassCentral">Google +</a>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-
-                                                </td>
-                                                <td class="expander"></td>
-                                            </tr>
-                                        </table>
-
-                                    </td>
-                                    <td class="wrapper last">
-
-                                        <table class="six columns">
-                                            <tr>
-                                                <td class="last right-text-pad">
-                                                    <h5>Contact Info</h5>
-                                                    <p>Email: <a href="mailto:contact@class-central.com">contact@class-central.com</a></p>
-                                                </td>
-                                                <td class="expander"></td>
-                                            </tr>
-                                        </table>
-
-                                    </td>
-                                </tr>
-                            </table>
+                            
 
 
                             <table class="row">

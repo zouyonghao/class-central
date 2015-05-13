@@ -219,6 +219,8 @@ class StreamController extends Controller
      */
     public function subjectsAction(Request $request)
     {
+        $this->get('user_service')->autoLogin($request);
+
         $cache = $this->get('Cache');
         $subjects = $cache->get('stream_list_count', array($this, 'getSubjectsList'),array($this->container));
         $breadcrumbs = array(
