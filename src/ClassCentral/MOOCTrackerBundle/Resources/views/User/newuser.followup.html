@@ -1091,18 +1091,19 @@ body.outlook p {
                                 <td>
                                     
                                     <p>
-                                        Thanks again for signing up for <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a>! Every day thousands of learners use Class Central to find online courses that you can take for free from the best MOOC providers and universities in the world. Have you signed up for one yet?        
+                                        Thanks again for signing up for <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a>! Every day thousands of learners use Class Central to find free online courses from the best MOOC providers and universities in the world. Have you signed up for one yet?        
                                         </p>
                                     <br/>
                                     <p>
-                                    If you are looking for suggestions, we can recommend some popular, highly-rated courses that are coming up:
+                                    If you are looking for suggestions, we can recommend some popular, highly-rated courses.
                                     <ul>
                                         {% for course in courses %}
                                         <li> 
-                                            Learning How To Learn (Self paced) <br/>
-                                            <small><a href="">+Add to My Courses</a> | <a>Read Reviews</a></small>
-                                        </li>                                        
-                                        {% for course in courses %}
+                                            <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug,autoLogin:loginToken,direct:'true'}) }}"><strong>{{ course.name }}</strong></a> ({{ course.nextOffering.displayDate }}) <br/>                                            
+                                            {{ reviews[course.id]['starRating'] }} <small> <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id,  'slug': course.slug ,autoLogin:loginToken}) }} #course-all-reviews">Read Reviews</a></small>                                            
+                                        </li>
+                                        {% endfor %}
+                                        
                                     </ul>
                                     </p>
                                     
@@ -1112,7 +1113,7 @@ body.outlook p {
                                     </p>
                                     
                                     <p>
-                                        Questions or feedback for Class Central? Please send me a message by replying to this email
+                                        Questions or feedback for Class Central? Please send me a message by replying to this email.
                                     </p>
                             
                                     <p>

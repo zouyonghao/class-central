@@ -13,6 +13,8 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobAbstract;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserPreference;
+use ClassCentral\SiteBundle\Utility\CryptUtility;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 
 class NewUserFollowUpJob extends SchedulerJobAbstract {
 
@@ -32,6 +34,7 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
     public function perform($args)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $reviewService = $this->getContainer()->get('review');
         $userId = $this->getJob()->getUserId();
         $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array( 'id' => $userId) );
 
@@ -42,15 +45,25 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
                 "User with id $userId not found"
             );
         }
+        $courses = array();
+        $reviews = array();
+        foreach( array(2161,361,1527,889,442) as $courseId )
+        {
+            $courses[] = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId);
+            $review = $reviewService->getReviewsArray($courseId );
+            $rating = $reviewService->getBayesianAverageRating($courseId);
+            $reviews[ $courseId ] = array_merge( $review, array(
+                'starRating'=> ReviewUtility::getRatingStars($rating)
+            ));
+        }
 
-        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findById(array(2161,361,1527,889,442)); ;
-        $emailContent = $this->getFollowUpEmail( $user, $courses );
+        $emailContent = $this->getFollowUpEmail( $user, $courses, $reviews );
 
         return $this->sendEmail('Dhawal from Class Central',$emailContent, $user);
 
     }
 
-    private function getFollowUpEmail(User $user, $courses)
+    private function getFollowUpEmail(User $user, $courses, $reviews)
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse(
@@ -60,12 +73,15 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'jobType' => $this->getJob()->getJobType(),
                 'courses' =>$courses,
+                'reviews' => $reviews,
                 'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                         UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs,
                         $this->getContainer()->getParameter('secret')
                     )
             )
         )->getContent();
+
+        return $html;
     }
 
     private function sendEmail( $subject, $html, User $user)
@@ -73,7 +89,7 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
         $mailgun = $this->getContainer()->get('mailgun');
 
         $response = $mailgun->sendMessage( array(
-            'from' => '"Class Central" <dhawal@class-central.com>',
+            'from' => '"Dhawal Shah" <dhawal@class-central.com>',
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
