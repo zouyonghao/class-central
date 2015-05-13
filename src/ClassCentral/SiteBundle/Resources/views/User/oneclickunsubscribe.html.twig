@@ -23,6 +23,8 @@
                         <p>You have been unsubscribed from *all* MOOC Tracker Search Notifications. If this was a mistake please <a href="{{ path('oneclick_subscribe', { 'token': token }) }}">click here to enable your subscription</a></p>
                     {% elseif prefId == 102 %}
                         <p>You have been unsubscribed from *all* requests for writing reviews for courses. If this was a mistake please <a href="{{ path('oneclick_subscribe', { 'token': token }) }}">click here to enable your subscription</a></p>
+                    {% else %}
+                        <p>You have been unsubscribed. If this was a mistake please <a href="{{ path('oneclick_subscribe', { 'token': token }) }}">click here to enable your subscription</a></p>
                     {% endif %}
                 </div>
 
