@@ -386,31 +386,25 @@ class User {
     {
         $em = $this->container->get('doctrine')->getManager();
 
-        // MOOC Tracker courses
-        $upCourses = new UserPreference();
-        $upCourses->setUser($user);
-        $upCourses->setType(UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES);
-        $value = 1;
-        if(in_array(UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES, $prefs))
-        {
-            $value = $prefs[UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES];
-        }
-        $upCourses->setValue($value);
-        $em->persist($upCourses);
-
-        // MOOC Tracker search terms
-        $upSearchTerms = new UserPreference();
-        $upSearchTerms->setUser($user);
-        $upSearchTerms->setType(UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM);
-        $value = 1;
-        if(in_array(UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES, $prefs))
-        {
-            $value = $prefs[UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES];
-        }
-        $upSearchTerms->setValue($value);
-        $em->persist($upSearchTerms);
-
+        $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES, $prefs));
+        $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM, $prefs));
+        $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_REVIEW_SOLICITATION, $prefs));
+        $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs, $prefs));
         $em->flush();
+    }
+
+    private function getPreference(\ClassCentral\SiteBundle\Entity\User $user, $type, $prefs)
+    {
+        $up = new UserPreference();
+        $up->setUser($user);
+        $up->setType($type);
+        $value = 1;
+        if(in_array($type, $prefs))
+        {
+            $value = $prefs[$type];
+        }
+        $up->setValue($value);
+        return $up;
     }
 
     public function saveSearchTermInMoocTracker($user,$searchTerm)
