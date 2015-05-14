@@ -794,7 +794,7 @@ body.outlook p {
                                             <table class="twelve columns">
                                                 <tr>
                                                     <td class="six sub-columns">
-                                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">
+                                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken, utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign }) }}">
                                                             <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
                                                         </a>
                                                     </td>
@@ -827,7 +827,7 @@ body.outlook p {
                                                 <td>
                                                     <h1>Hello{% if name is not empty %} {{name}}{% endif %},</h1> <br/>
 
-                                                    <p class="lead">Welcome to <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a>! We are excited to be a part of your educational journey. If you are new to MOOCs or free online courses, please read our <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_faq', {autoLogin:loginToken}) }}">FAQ</a> to understand how they work.
+                                                    <p class="lead">Welcome to <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">Class Central</a>! We are excited to be a part of your educational journey. If you are new to MOOCs or free online courses, please read our <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_faq', {autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">FAQ</a> to understand how they work.
 </p>
                                                     <br/>
                                                     <p>
@@ -837,16 +837,16 @@ body.outlook p {
                                                     <p>    
                                                     Here are two ways you can use Class Central right away to find courses:
                                                     <ul STYLE="list-style-type: decimal">
-                                                        <li>Browse our <a href="{{ baseUrl }}{{ path('subjects', {autoLogin:loginToken})}}">Subjects</a> categories for topics you are interested in. You can also use the search bar to type in keywords.</li>
-                                                        <li>Look at courses that are <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent',autoLogin:loginToken})}}">About to start</a> or are <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken})}}">Self-paced</a>.</li>
+                                                        <li>Browse our <a href="{{ baseUrl }}{{ path('subjects', {autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}">Subjects</a> categories for topics you are interested in. You can also use the search bar to type in keywords.</li>
+                                                        <li>Look at courses that are <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent',autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}">About to start</a> or are <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}">Self-paced</a>.</li>
                                                     </ul>
                                                         
                                                        These are guaranteed to be available for sign up.
                                                     </p>
                                                     <br/><br/>
                                                     <p>                                                
-                                                        {% set redirect_url = path('user_library') %}   
-                                                        As you browse courses, you can use the '+' icon next to the course name to add it to your list of ‘<a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url }) }}">My Courses</a>’. These can be seen on your profile page--here is mine: <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>. 
+                                                        {% set redirect_url = path('user_library',{utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) %}   
+                                                        As you browse courses, you can use the '+' icon next to the course name to add it to your list of ‘<a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign }) }}">My Courses</a>’. These can be seen on your profile page--here is mine: <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>. 
                                                     </p>
                                                     <p>
                                                         You will also be notified when new sessions of courses you are interested in are announced.
@@ -862,7 +862,7 @@ body.outlook p {
 
                                                     Regards,<br/><br/>
                                                     Dhawal Shah<br/>
-                                                    Founder & CEO, <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a><br/>
+                                                    Founder & CEO, <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">Class Central</a><br/>
                                                     <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>
                                                     
                                                 </td>

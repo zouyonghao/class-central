@@ -1042,7 +1042,7 @@ body.outlook p {
                             <table class="twelve columns">
                                 <tr>
                                     <td class="six sub-columns">
-                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">
+                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">
                                             <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
                                         </a>
                                     </td>
@@ -1091,7 +1091,7 @@ body.outlook p {
                                 <td>
                                     
                                     <p>
-                                        Thanks again for signing up for <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a>! Every day thousands of learners use Class Central to find free online courses from the best MOOC providers and universities in the world. Have you signed up for one yet?        
+                                        Thanks again for signing up for <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">Class Central</a>! Every day thousands of learners use Class Central to find free online courses from the best MOOC providers and universities in the world. Have you signed up for one yet?        
                                         </p>
                                     <br/>
                                     <p>
@@ -1100,7 +1100,7 @@ body.outlook p {
                                         {% for course in courses %}
                                         <li> 
                                             <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug,autoLogin:loginToken,direct:'true'}) }}"><strong>{{ course.name }}</strong></a> ({{ course.nextOffering.displayDate }}) <br/>                                            
-                                            {{ reviews[course.id]['starRating'] }} <small> <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id,  'slug': course.slug ,autoLogin:loginToken}) }} #course-all-reviews">Read Reviews</a></small>                                            
+                                            {{ reviews[course.id]['starRating'] }} <small> <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id,  'slug': course.slug ,autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }} #course-all-reviews">Read Reviews</a></small>                                            
                                         </li>
                                         {% endfor %}
                                         
@@ -1108,8 +1108,8 @@ body.outlook p {
                                     </p>
                                     
                                     <p>
-                                        {% set redirect_url = path('user_library') %}  
-                                    If you have taken a course, please find it on Class Central and submit a review--this will help your fellow learners better decide whether the course is right for them. You can also add them to <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url }) }}">'My Courses'</a> and build a profile--here is mine: <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>
+                                        {% set redirect_url = path('user_library',{utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) %}  
+                                    If you have taken a course, please find it on Class Central and submit a review--this will help your fellow learners better decide whether the course is right for them. You can also add them to <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign }) }}">'My Courses'</a> and build a profile--here is mine: <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>
                                     </p>
                                     
                                     <p>
@@ -1124,7 +1124,7 @@ body.outlook p {
 
                                     Regards,<br/><br/>
                                     Dhawal Shah<br/>
-                                    Founder & CEO, <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a><br/>
+                                    Founder & CEO, <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">Class Central</a><br/>
                                     <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>   
                                                                                             
                                 </td>
@@ -1146,7 +1146,7 @@ body.outlook p {
                                     <em>Note: Please do not forward this email, as it contains links that automatically log you into Class Central for ease of use</em>
                                     <br/><br/>
 
-                                    <em>We hope you found this message to be useful. If you'd rather not receive future e-mails of this sort from class-central.com at {{ user.email }}, please <a href="{{baseUrl}}{{ path('oneclick_unsubscribe', {'token' : unsubscribeToken} ) }}">opt-out here</a>.</em>                                    
+                                    <em>We hope you found this message to be useful. If you'd rather not receive future e-mails of this sort from class-central.com at {{ user.email }}, please <a href="{{baseUrl}}{{ path('oneclick_unsubscribe', {'token' : unsubscribeToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign} ) }}">opt-out here</a>.</em>                                    
                                 </td>
 
                             </tr>

@@ -224,6 +224,11 @@ class User {
                     'name' => $name,
                     'loginToken' => $this->getLoginToken($user),
                     'baseUrl' => $this->container->getParameter('baseurl'),
+                    'utm' => array(
+                        'medium'   => Mailgun::UTM_MEDIUM,
+                        'campaign' => 'new_user_welcome',
+                        'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+                    )
                 )
             )
                 ->getContent();

@@ -13,6 +13,7 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobAbstract;
 use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserPreference;
+use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 
@@ -74,6 +75,11 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
                 'jobType' => $this->getJob()->getJobType(),
                 'courses' =>$courses,
                 'reviews' => $reviews,
+                'utm' => array(
+                    'medium'   => Mailgun::UTM_MEDIUM,
+                    'campaign' => 'new_user_followup',
+                    'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+                ),
                 'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                         UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs,
                         $this->getContainer()->getParameter('secret')

@@ -21,6 +21,9 @@ class Mailgun {
     private $mailDomain;
     private $sendEmail = false;
 
+    const UTM_MEDIUM = 'email';
+    const UTM_SOURCE_PRODUCT = 'product';
+
     private $mg;
 
     public function setApiKey($key)
