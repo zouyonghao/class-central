@@ -1043,7 +1043,7 @@ body.outlook p {
                             <table class="twelve columns">
                                 <tr>
                                     <td class="six sub-columns">
-                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">
+                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">
                                             <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
                                         </a>
                                     </td>
@@ -1092,7 +1092,7 @@ body.outlook p {
                         <table class="twelve columns">
                             <tr>
                                 <td>
-                                    {% set redirect_url = path('user_library') %}    
+                                    {% set redirect_url = path('user_library',{utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) %}    
                                     Course(s) added to your <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url }) }}">"My Courses"</a> list have new sessions.
                                     <br/><br/>
                                     Note: Class Central is a directory and does not directly operate courses. Click on 'Go to Class' to go to the providers course page. Content might not be available until the course start date. You can see our general <a href="{{baseUrl}}/faq">FAQ about MOOCs here</a>.
@@ -1120,18 +1120,18 @@ body.outlook p {
                                         {% else %}
                                         {% set initiative='Others' %}
                                         {% endif %}
-                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken}) }}" style="color: #24313a;font-size: 16px; font-weight: 700" > {{ course.name }} | Starts {{ course.nextOffering.displayDate }}</a> <br />
+                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken, utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #24313a;font-size: 16px; font-weight: 700" > {{ course.name }} | Starts {{ course.nextOffering.displayDate }}</a> <br />
                                         {% if course.institutions|length %}
                                         {% set institution = course.institutions[0] %}
                                         {% set route = 'ClassCentralSiteBundle_university' %}
                                         {% if not institution['isUniversity'] %}
                                         {% set route = 'ClassCentralSiteBundle_institution' %}
                                         {% endif %}
-                                        <a style="color: #a9b1b4;font-size: 12px; font-weight: 400" href="{{ baseUrl }}{{ path(route,{'slug' : institution['slug']})}}">{{ institution.name }}</a>
+                                        <a style="color: #a9b1b4;font-size: 12px; font-weight: 400" href="{{ baseUrl }}{{ path(route,{'slug' : institution['slug'],utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}">{{ institution.name }}</a>
                                         {% endif %}
                                         {% if course['initiative'] %}
                                         <span style="color: #8e9496;font-size: 12px; font-weight: 400">via</span>
-                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"  style="color: #0662a1;font-weight: 700;font-size: 11px">{{ course.initiative.name }}</a>
+                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code ,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}"  style="color: #0662a1;font-weight: 700;font-size: 11px">{{ course.initiative.name }}</a>
                                         {% endif %}
                                     </p>
                                     <p>
@@ -1155,7 +1155,7 @@ body.outlook p {
                                             <td class="wrapper last">
                                                 <table>
                                                     <tr>
-                                                        <td><a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id, autoLogin:loginToken}) }}" class="cc-write-a-review">Write a review »</a></td>
+                                                        <td><a href="{{ baseUrl }}{{ path('review_new',{courseId: course.id, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" class="cc-write-a-review">Write a review »</a></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -1182,8 +1182,8 @@ body.outlook p {
                                 <td>
                                     <h6>Courses you can start right now</h6>
                                     <p>
-                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent',autoLogin:loginToken})}}">{{ counts.offeringCount.recent }} courses recently started or starting soon</a> <br/>
-                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken})}}">{{ counts.offeringCount.selfpaced }} self paced courses that you can start any time</a>
+                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent',autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}">{{ counts.offeringCount.recent }} courses recently started or starting soon</a> <br/>
+                                        <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}">{{ counts.offeringCount.selfpaced }} self paced courses that you can start any time</a>
                                     </p>
                                 </td>
 
@@ -1203,7 +1203,7 @@ body.outlook p {
                                 <td>
 
                                     <p>
-                                        <em>Reminder from <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">Class Central</a></em>
+                                        <em>Reminder from <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">Class Central</a></em>
                                     </p>
                                     <p>
                                         <em>You are receiving this email at {{ user.email }} because you have enabled MOOC Tracker notifications on Class Central.</em>

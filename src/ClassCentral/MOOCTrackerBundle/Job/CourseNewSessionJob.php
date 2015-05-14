@@ -15,6 +15,7 @@ use ClassCentral\SiteBundle\Controller\NavigationController;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
+use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 
 class CourseNewSessionJob extends SchedulerJobAbstract{
@@ -88,7 +89,12 @@ class CourseNewSessionJob extends SchedulerJobAbstract{
                 'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                         UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                         $this->getContainer()->getParameter('secret')
-                    )
+                    ),
+                'utm' => array(
+                    'medium'   => Mailgun::UTM_MEDIUM,
+                    'campaign' => 'mt_new_sessions_reminder',
+                    'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+                )
             ))->getContent();
 
             $campaignId = self::MAILGUN_MT_NEW_SESSION;
