@@ -14,6 +14,7 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserPreference;
+use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 
 class SearchTermJob extends SchedulerJobAbstract {
@@ -139,7 +140,12 @@ class SearchTermJob extends SchedulerJobAbstract {
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM,
                     $this->getContainer()->getParameter('secret')
-                )
+                ),
+            'utm' => array(
+                'medium'   => Mailgun::UTM_MEDIUM,
+                'campaign' => 'mt_search_notification',
+                'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+            )
         ))->getContent();
 
         return $this->sendEmail(
