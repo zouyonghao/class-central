@@ -15,6 +15,7 @@ use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
+use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 use InlineStyle\InlineStyle;
@@ -191,7 +192,12 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                     $this->getContainer()->getParameter('secret')
-                )
+                ),
+            'utm' => array(
+                'medium'   => Mailgun::UTM_MEDIUM,
+                'campaign' => 'mt_course_start_reminder',
+                'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+            )
         ))->getContent();
 
     }
@@ -209,7 +215,12 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                     $this->getContainer()->getParameter('secret')
-                )
+                ),
+            'utm' => array(
+                'medium'   => Mailgun::UTM_MEDIUM,
+                'campaign' => 'mt_course_start_reminder',
+                'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+            )
         ))->getContent();
 
         return $html;
