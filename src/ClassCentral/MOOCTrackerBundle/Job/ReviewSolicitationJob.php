@@ -14,6 +14,7 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserPreference;
+use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 
 /**
@@ -128,6 +129,11 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
                'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_REVIEW_SOLICITATION,
                     $this->getContainer()->getParameter('secret')
+                ),
+                'utm' => array(
+                    'medium'   => Mailgun::UTM_MEDIUM,
+                    'campaign' => 'review_solicitation',
+                    'source'   => Mailgun::UTM_SOURCE_PRODUCT,
                 )
             )
         )->getContent();
@@ -154,7 +160,12 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
                 'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                         UserPreference::USER_PREFERENCE_REVIEW_SOLICITATION,
                         $this->getContainer()->getParameter('secret')
-                    )
+                    ),
+                'utm' => array(
+                    'medium'   => Mailgun::UTM_MEDIUM,
+                    'campaign' => 'review_solicitation',
+                    'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+                )
             )
         )->getContent();
 

@@ -1042,7 +1042,7 @@ body.outlook p {
                             <table class="twelve columns">
                                 <tr>
                                     <td class="six sub-columns">
-                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken}) }}">
+                                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken, utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">
                                             <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc-logo.png">
                                         </a>
                                     </td>
@@ -1089,19 +1089,19 @@ body.outlook p {
                         <table class="twelve columns">
                             <tr>
                                 <td>
-                                    You recently indicated that you participated in <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken} ) }}">'{{course.name}}'</a>. How was it? If you could submit a brief review with your thoughts on the course, this would help others learn more and see  whether the course is right for them. Simply click on a link below to submit a course rating/review.
+                                    You recently indicated that you participated in <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign} ) }}">'{{course.name}}'</a>. How was it? If you could submit a brief review with your thoughts on the course, this would help others learn more and see  whether the course is right for them. Simply click on a link below to submit a course rating/review.
 
 <br/><br/>                                 
                                 <table class="button radius cc-go-to-class" >
                                     <tr>
                                         <td>
-                                            <a href="{{ baseUrl }}{{ path('review_new',{ courseId: course.id, autoLogin:loginToken}) }}" >Review Course</a>
+                                            <a href="{{ baseUrl }}{{ path('review_new',{ courseId: course.id, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" >Review Course</a>
                                         </td>
                                     </tr>
                                 </table>
 <br/><br/>
-                                    {% set redirect_url = path('user_library') %}                                    
-                                    You can also check out your <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url }) }}">'My Courses'</a> for a complete list of your courses.
+                                    {% set redirect_url = path('user_library',{utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) %}                                    
+                                    You can also check out your <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign }) }}">'My Courses'</a> for a complete list of your courses.
 
                                 </td>
 
