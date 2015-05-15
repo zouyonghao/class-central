@@ -93,7 +93,7 @@ class User {
                 if($course)
                 {
                     // Redirect to create review page
-                    $redirectUrl = $router->generate('review_new', array('courseId' =>$referralDetails['courseId']));
+                    $redirectUrl = $router->generate('review_new', array('courseId' =>$referralDetails['courseId'] , 'ref' => 'user_created' ));
                 }
                 else
                 {
@@ -115,10 +115,10 @@ class User {
         if($review instanceof \ClassCentral\SiteBundle\Entity\Review)
         {
             // Review created successfully. Redirect to the course page
-            return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug() ));
+            return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug(),'ref' => 'user_created' ));
         }
 
-        return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile'));
+        return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created'));
     }
 
     /**
