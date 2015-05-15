@@ -942,4 +942,28 @@ jQuery(function($) {
         $('#rating').raty(ratyDefaults);
 
     }
+
+    // Fire Google Analytic events for signup
+    var userSignedUp = getUrlParameter('ref');
+    if( (typeof userSignedUp !== undefined) && userSignedUp == 'user_created') {
+        ga('send','event','New User Created');
+    }
+
+
+
+
+    function getUrlParameter(sParam)
+    {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++)
+        {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam)
+            {
+                return sParameterName[1];
+            }
+        }
+    }
+
 });
