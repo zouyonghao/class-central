@@ -75,7 +75,7 @@ class Scraper extends ScraperAbstractInterface
                 }
                 else if (count($result) == 1)
                 {
-                    $dbCourse = $result[0];
+                    $dbCourse = $result;
                 }
             }
 
