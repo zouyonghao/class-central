@@ -4,6 +4,17 @@ cd $DIR
 cd ../
 env=$1
 echo "Running Class Central daily cron for $env environment"
+
+# Run edX scraper
+echo "Updating edX courses"
+php app/console classcentral:scrape edx --simulate=N --type=add
+php app/console classcentral:scrape edx --simulate=N --type=update
+
+echo "Update FutureLearn courses"
+php app/console classcentral:scrape Futurelearn --simulate=N --type=add
+php app/console classcentral:scrape Futurelearn --simulate=N --type=update
+
+
 echo "Reindexing all the courses"
 php app/console classcentral:elasticsearch:indexer --env=$env --no-debug
 today=`date +%F`
