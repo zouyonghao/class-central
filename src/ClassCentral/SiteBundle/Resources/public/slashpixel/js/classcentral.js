@@ -945,8 +945,14 @@ jQuery(function($) {
 
     // Fire Google Analytic events for signup
     var userSignedUp = getUrlParameter('ref');
+    var userSignedUpSrc = getUrlParameter('src');
     if( (typeof userSignedUp !== undefined) && userSignedUp == 'user_created') {
-        ga('send','event','New User Created');
+        if (userSignedUpSrc != '') {
+            ga('send','event','New User Created', userSignedUpSrc);
+        } else {
+            ga('send','event','New User Created');
+        }
+
     }
 
 
@@ -964,6 +970,8 @@ jQuery(function($) {
                 return sParameterName[1];
             }
         }
+
+        return '';
     }
 
 });

@@ -56,6 +56,7 @@ class User {
         // Check where the user reached the signed in page
         $referralDetails = $userSession->getSignupReferralDetails();
         $redirectUrl = null;
+        $src = null;
         if(!empty($referralDetails))
         {
             if(array_key_exists('mooc',$referralDetails))
@@ -64,11 +65,13 @@ class User {
             }
             else if (array_key_exists('searchTerm',$referralDetails))
             {
+                $src = 'mooc_tracker_search_terms';
                 $this->saveSearchTermInMoocTracker($user,$referralDetails['searchTerm']);
             }
             else if (array_key_exists('listId',$referralDetails))
             {
                 // Add the course to the users library
+                $src = 'mooc_tracker_add_to_my_courses';
                 $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
                 if($course)
                 {
@@ -93,7 +96,7 @@ class User {
                 if($course)
                 {
                     // Redirect to create review page
-                    $redirectUrl = $router->generate('review_new', array('courseId' =>$referralDetails['courseId'] , 'ref' => 'user_created' ));
+                    $redirectUrl = $router->generate('review_new', array('courseId' =>$referralDetails['courseId'] , 'ref' => 'user_created','src' =>'create_review' ));
                 }
                 else
                 {
@@ -115,10 +118,10 @@ class User {
         if($review instanceof \ClassCentral\SiteBundle\Entity\Review)
         {
             // Review created successfully. Redirect to the course page
-            return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug(),'ref' => 'user_created' ));
+            return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug(),'ref' => 'user_created','src' => 'create_review' ));
         }
 
-        return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created'));
+        return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created','src' => $src));
     }
 
     /**
