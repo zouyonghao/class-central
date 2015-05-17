@@ -14,6 +14,10 @@ echo "Update FutureLearn courses"
 php app/console classcentral:scrape Futurelearn --simulate=N --type=add
 php app/console classcentral:scrape Futurelearn --simulate=N --type=update
 
+echo "Update Udacity courses"
+php app/console classcentral:scrape Udacity --simulate=N --type=add
+php app/console classcentral:scrape Udacity --simulate=N --type=update
+
 
 echo "Reindexing all the courses"
 php app/console classcentral:elasticsearch:indexer --env=$env --no-debug
