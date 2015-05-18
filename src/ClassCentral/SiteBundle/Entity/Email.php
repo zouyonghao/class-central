@@ -41,6 +41,7 @@ class Email
     {
         $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
+        $this->created = new \DateTime();
     }
     
     /**
