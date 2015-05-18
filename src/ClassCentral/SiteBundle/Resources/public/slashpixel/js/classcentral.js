@@ -357,7 +357,7 @@ jQuery(function($) {
 
         if(!validationError) {
             try{
-                if(review.reviewId === undefined){
+                if(review.reviewId == ''){
                     ga('send','event', 'Create Review', " " + $('#courseId').data("value"));
                 } else {
                     ga('send','event', 'Update Review'," " +  $('#courseId').data("value"));
