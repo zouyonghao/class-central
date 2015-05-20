@@ -81,6 +81,7 @@ class Mailgun {
                 'to' => $to,
                 'subject' => $subject,
                 'html' => $html,
+                'o:campaign' => 'welcome_email'
          ));
 
         $result = curl_exec($ch);
