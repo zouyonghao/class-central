@@ -1095,11 +1095,14 @@ body.outlook p {
                                         </p>
                                     <br/>
                                     <p>
-                                    If you are looking for suggestions, we can recommend some popular, highly-rated courses.
+                                        If you are looking for suggestions, look at our list of <a href="https://www.class-central.com/report/ten-most-popular-moocs-may-2015/?utm_medium={{ utm.medium }}&utm_source={{ utm.source }}&utm_campaign={{ utm.campaign }}">Top 10 online courses</a> starting this month.
+                                    </p>
+                                    <p>
+                                    There are also some highly rated courses that you can start any time.
                                     <ul>
                                         {% for course in courses %}
                                         <li> 
-                                            <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug,autoLogin:loginToken,direct:'true'}) }}"><strong>{{ course.name }}</strong></a> ({{ course.nextOffering.displayDate }}) <br/>                                            
+                                            <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug,autoLogin:loginToken,direct:'true'}) }}"><strong>{{ course.name }}</strong></a> <br/>                                            
                                             {{ reviews[course.id]['starRating'] }} <small> <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id,  'slug': course.slug ,autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }} #course-all-reviews">Read Reviews</a></small>                                            
                                         </li>
                                         {% endfor %}
