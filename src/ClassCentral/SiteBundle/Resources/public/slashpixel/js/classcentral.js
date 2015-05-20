@@ -537,6 +537,16 @@ jQuery(function($) {
                 delay: $(element).data('delay') * 1000
             });
         }
+
+        var title = $(element).data('title');
+        if( title == 'Logged in' ) {
+            var autologin = getUrlParameter( 'autoLogin' );
+            if( autologin != '' ) {
+                ga('send','event', 'Logged In', 'Auto');
+            } else {
+                ga('send','event', 'Logged In', 'Manual');
+            }
+        }
     });
 
 
