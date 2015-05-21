@@ -55,7 +55,7 @@ class DefaultController extends Controller {
         );
 
         $signupForm   = $this->createForm(new SignupType(), new User(),array(
-            'action' => $this->generateUrl('signup_create_user')
+            'action' => $this->generateUrl('signup_create_user',array('src' => 'create_free_account' ))
         ));
 
         // Get a list of courses taken by the signed in user

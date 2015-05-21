@@ -279,7 +279,8 @@ class UserController extends Controller
         if($form->isValid())
         {
             $user = $form->getData();
-            $url = $userService->createUser($user, true);
+            $src =   $request->query->get('src');
+            $url = $userService->createUser($user, true, $src);
 
             return $this->redirect($url);
 

@@ -33,7 +33,7 @@ class User {
      * @param \ClassCentral\SiteBundle\Entity\User $user
      * @return null
      */
-    public function createUser(\ClassCentral\SiteBundle\Entity\User $user, $verificationEmail = true)
+    public function createUser(\ClassCentral\SiteBundle\Entity\User $user, $verificationEmail = true, $src = null)
     {
         $userSession = $this->container->get('user_session');
         $logger = $this->container->get('logger');
@@ -56,7 +56,7 @@ class User {
         // Check where the user reached the signed in page
         $referralDetails = $userSession->getSignupReferralDetails();
         $redirectUrl = null;
-        $src = null;
+
         if(!empty($referralDetails))
         {
             if(array_key_exists('mooc',$referralDetails))
