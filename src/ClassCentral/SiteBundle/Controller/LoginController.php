@@ -207,7 +207,7 @@ class LoginController extends Controller{
                 $user->setIsverified(true);
                 $user->setSignupType(User::SIGNUP_TYPE_FACEBOOK);
 
-                $redirectUrl = $userService->createUser($user, false);
+                $redirectUrl = $userService->createUser($user, false, 'facebook');
                 $userSession->setPasswordLessLogin(true); // Set the variable to show that the user didn't use a password to login
 
                 // Create a FB info
