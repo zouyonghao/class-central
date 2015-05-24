@@ -45,7 +45,7 @@ class Scraper extends ScraperAbstractInterface{
 
             if( !$dbCourse )
             {
-
+              
                 // Course does not exist create it.
                 if($this->doCreate())
                 {
@@ -172,7 +172,7 @@ class Scraper extends ScraperAbstractInterface{
         $defaultLanguage = $langMap[ 'English' ];
 
         $course = new Course();
-        $course->setShortName( 'udacity_' . $udacityCourse['slug']);
+        $course->setShortName( substr('udacity_' . $udacityCourse['slug'],0,50));
         $course->setInitiative( $this->initiative );
         $course->setName( $udacityCourse['title'] );
         $course->setDescription( $udacityCourse['short_summary'] );
