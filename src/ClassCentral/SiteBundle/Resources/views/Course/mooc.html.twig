@@ -217,7 +217,7 @@
 
 
             <div class="tiny-review-block__button-group">
-                <a href="#course-all-reviews"  class="tiny-review-block__button">
+                <a href="#reviews" id="read-reviews" class="tiny-review-block__button">
                     Read reviews
                 </a>
 
@@ -767,7 +767,7 @@
 
     <div class="col-sm-12 course-col">
         <div class="course-all-reviews" id="course-all-reviews">
-            <header class="reviews-header" >
+            <header class="reviews-header" id="reviews">
                 <h2>
                     <span class="review-count">{{ reviews.ratingCount }} </span>{% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}
                     <span class="average-rating course-rating" data-score="{{ rating }}"></span>
@@ -820,10 +820,12 @@
     console.log(window.location.hash);
     if(!window.location.hash)
     {
-    $.scrollTo('.section-heading',{ duration: 500    });
+        $.scrollTo('.section-heading',{ duration: 500    });
     }
-
-    addthisevent.settings(window.addthisevent_settings);
+    $('#read-reviews').click( function(){
+        $.scrollTo('#reviews',{ duration: 1000    });
+        }
+    );
 
     $("#share-course-form-submit").click(function(){
 
