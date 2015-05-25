@@ -497,7 +497,10 @@
                 <span class="dropdown">
                     {% set userListIds = user_session.getCourseListIds(course['id']) %}
                     <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
-                        Add to my courses
+                     <span id="course-interest-checkbox">
+                            {% if userListIds is empty %}+{% else %}-{% endif %}
+                     </span>
+                        Add to My Courses
                         <span class="arrow-icon arrow-down-icon">
                             <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
                         </span>
