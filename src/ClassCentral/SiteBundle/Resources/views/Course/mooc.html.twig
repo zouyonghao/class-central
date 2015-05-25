@@ -127,43 +127,6 @@
 
                 <h1 class="course-title" itemprop="itemreviewed">{{ course['name'] }}</h1>
                 <div class="addthis_sharing_toolbox hidden-xs" style="margin-left: 45px;margin-top: -35px; margin-bottom: 20px"></div>
-                <!-- Go to www.addthis.com/dashboard to customize your tools -->
-
-                {#
-                <div class="course-rating-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-                    <div class="course-rating" data-score="{{ rating }}">
-                                <meta itemprop="ratingValue" content="{{ rating }}">
-                                <meta itemprop="worstRating" content = "1"/>
-                                <meta itemprop="bestRating" content = "5"/>
-                    </div>
-                    <div class="review-link">
-                        {% if  reviews.reviews|length  > 0 %}
-                            <a href="#course-reviews"><span class="review-count" itemprop="reviewCount">{{ reviews.reviews|length }}</span> {% if reviews.reviews|length == 1 %}review{% else %}reviews{% endif %}</a>
-                        {% else %}
-                            <a href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'First to Review   ', '{{course['name']}}')">Be the first to review this course</a>
-                        {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a class="review-button" href="{{ reviewUrl }}" rel="nofollow">Write a review (admin only)</a>
-                        {% endif %}
-                    </div>
-                 </div>
-                #}
-                {#
-                <div class="course-share">
-                    <div class="course-share-text">Tell your friends:</div>
-                    <div class="course-share-button">
-                        {% set nextSessionStr = '' %}
-                        {% if nextSessionStart != '' %} {% set nextSessionStr = " starts "~ nextSessionStart %} {% endif %}
-                        {% set twitter_text = course['pageTitle'] ~ nextSessionStr %}
-                        <a href="https://twitter.com/share?url={{ course['pageUrl']|url_encode }}&text={{ twitter_text|url_encode }}&via=classcentral&hashtags=mooc" class="twitter" target="_blank" onclick=" ga('send','event', 'Course - Share', 'Twitter', '{{ course['name'] }}');"></a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ course['pageUrl']|url_encode }}" class="facebook" target="_blank" onclick=" ga('send','event', 'Course - Share', 'Facebook', '{{ course['name'] }}');"></a>
-                        <a href="https://plus.google.com/share?url={{ course['pageUrl']|url_encode }}"  onclick="ga('send','event', 'Course - Share', 'Google+', '{{ course['name'] }}');javascript:window.open(this.href,
-                                '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="gplus"></a>
-                        <a href="https://www.linkedin.com/cws/share?url={{ course['pageUrl']|url_encode }}" class="linkedin" target="_blank" onclick=" ga('send','event', 'Course - Share', 'Linkedin', '{{ course['name'] }}');"></a>
-                        <a href="" data-toggle="modal" class="mail" data-target="#sendMailModal" onclick=" ga('send','event', 'Course - Share', 'Mail button clicked', '{{ course['name'] }}');"></a>
-                    </div>
-                </div>
-                #}
 
                 <div class="course-provider-wrap">
 
