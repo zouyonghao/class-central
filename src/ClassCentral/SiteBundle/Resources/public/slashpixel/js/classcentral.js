@@ -335,6 +335,18 @@ jQuery(function($) {
             ratyDefaults
         ));
 
+        $('.course-rating-course-page').raty({
+            starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-blue.png',
+            starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-blue.png',
+            starOn      : '/bundles/classcentralsite/slashpixel/images/star-on-blue.png',
+            readOnly    : true,
+            hints       : ['','','','',''],
+            size        : 21,
+            score       : function() {
+                return $(this).attr('data-score');
+            }
+        });
+
         $('.user-rating').raty($.extend(
             {
                 readOnly: true
