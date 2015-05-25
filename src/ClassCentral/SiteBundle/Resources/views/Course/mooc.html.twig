@@ -224,148 +224,454 @@
     </div>
 
     <div class ="course-meta-sidebar col-sm-4 col-lg-3">
-        <div class="course-data">
-            {% if course.nextOffering is defined and course.nextOffering.state %}
-                <div class="course-data-row course-pace">
-                    <span class="course-data-icon">
-                        <svg class="icon icon-pace-icon" viewBox="0 0 36 32"><use xlink:href="#icon-pace-icon"></use></svg>
-                        Pace
-                    </span>
-                    <a href="{{ path('ClassCentralSiteBundle_courses',{type: course.nextOffering.state}) }}" class="course-data-value">{{ offeringTypes[course.nextOffering.state].sessionDesc }}</a>
-                </div>
-            {% endif %}
-            {% if course.lang is not empty %}
-                <div class="course-data-row course-language">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-comment" viewBox="0 0 32 32"><use xlink:href="#icon-comment"></use></svg>
-                            Language
+
+        <div class="tiny-review-block">
+
+            <div class="tiny-review-block__rating-group">
+
+                <div class="tiny-review-block__rating-group-inner">
+                    <div class="tiny-review-block__count">
+                        <span itemprop="count" class="tiny-review-block__single">
+                            <span itemprop="votes" >{{ reviews.ratingCount }}</span>
                         </span>
-                    <a href="{{ path('lang', {slug : course.lang.slug}) }}" class="course-data-value">{{ course.lang.name }}</a>
-                </div>
-            {% endif %}
-            <div class="course-data-row course-provider">
-                    <span class="course-data-icon">
-                        <svg class="icon icon-provider-icon" viewBox="0 0 38 32"><use xlink:href="#icon-provider-icon"></use></svg>
-                        Provider
-                    </span>
-                <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')">{{ course['initiative']['name'] }}</a>
-            </div>
-            {% if course.institutions is not empty %}
-                <div class="course-data-row course-institution">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-institution-icon" viewBox="0 0 22 32"><use xlink:href="#icon-institution-icon"></use></svg>
-                            Institution
+                        <span class="tiny-review-block__double">
+                            Student<br>
+                            {% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}
                         </span>
-                    {% for institution in course['institutions'] %}
-                        {% set route = 'ClassCentralSiteBundle_university' %}
-                        {% if not institution['isUniversity'] %}
-                            {% set route = 'ClassCentralSiteBundle_institution' %}
-                        {% endif %}
-                        <a class="course-data-value" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
-                           onClick="ga('send','event', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <div class="course-data-row course-sessions">
-                    <span class="course-data-icon">
-                        <svg class="icon icon-calendar-icon" viewBox="0 0 32 32"><use xlink:href="#icon-calendar-icon"></use></svg>
-                        Calendar
-                    </span>
-                    <span class="course-data-value">
-                            {% set offeringUrl = null %}
-                        {% set selectedOfferingDetails = null %}
-                        {% if offeringTypesOrder|length > 0 %}
-                            <select id="sessionOptions"  {% if course.length > 0 %} style="margin-bottom: 15px;" {% endif %}>
-                                {% for offeringType in offeringTypesOrder %}
-                                    {% if course['offerings'][offeringType]|length > 0 %}
-                                        <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
-                                        {% for offering in course['offerings'][offeringType]%}
-                                            {% if offeringUrl is null %}
-                                                {% set offeringUrl = offering['url']  %}
-                                                {% set selectedOfferingDetails = {
-                                                'type' : offeringType,
-                                                'startDate' : offering.startDate,
-                                                'status' : offering.status
-                                                } %}
-                                            {% endif %}
-                                            <option content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
-                                                    data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
-                                                    {% if course.nextOffering.id == offering.id %} selected="selected" {% endif %}
-                                                    >
-                                                {{ offering['displayDate'] }}
-                                            </option>
 
-                                            {% if course.nextOffering.id == offering.id %}
-                                                {% set offeringUrl = offering['url']  %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        {% endif %}
-                        {% if course.length > 0 %}
-                            <span  class="course-length">{{ course.length }} weeks long</span>
-                        {% endif %}
+                    </div>
 
-                    </span>
-            </div>
-
-            <div class="course-data-row course-reviews" id="course-reviews" itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating">
-                <span class="course-data-icon"></span>
-                    <span class="course-data-value">
+                    <div class="tiny-review-block__star-rating">
                         <div class="average-rating course-rating" data-score="{{ rating }}">
                             <meta itemprop="average" content="{{ rating }}">
                             <meta itemprop="best" content = "5"/>
                         </div>
-                        <span class="review-count">
-                            <a href="#course-all-reviews"  class="review-button"><span itemprop="count"><span itemprop="votes" >{{ reviews.ratingCount }}</span></span> {% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}</a>
-                        </span>
-                        {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
-                            <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
-                        {% endif %}
-                    </span>
+                    </div>
+                </div>
+
+
             </div>
-            <div class="course-data-row course-participants">
-                <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" style="color: #272c2e;" title="List of Class Central users interested in {{ course.name }}"
-                   onmousedown="ga('send','event', 'View all interested users', '{{ course.name }}')"
-                >
-                    <span class="number" style="text-decoration:underline" id="mycourses-listed-count">0</span>
+
+
+            <div class="tiny-review-block__button-group">
+                <a href="#course-all-reviews"  class="tiny-review-block__button">
+                    Read reviews
                 </a>
-                <span class="course-data-value">Interested<br/> <span class="mycourses-listed-line-2">Class Central users</span></span>
+
+                {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
+                    <a class="tiny-review-block__button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write review</a>
+                {% endif %}
             </div>
-            <div class="course-data-row add-to-my-courses">
-                    <span class="dropdown">
-                        {% set userListIds = user_session.getCourseListIds(course['id']) %}
-                        <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
-                            <span id="course-interest-checkbox">
-                                {% if userListIds is empty %}+{% else %}-{% endif %}
-                            </span>
-                            Add to my courses
-                            <span class="arrow-icon arrow-down-icon">
-                                <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                            </span>
-                            <span class="arrow-icon arrow-up-icon">
-                                <svg class="icon icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% for listId, list in listTypes %}
-                                <li>
-                                    <input type="checkbox"  name="course-interest-checkbox" class = "course-list-checkbox" id="check{{ listId }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
-                                           {% if listId in userListIds %}checked="checked"{% endif %} data-course-name="{{ course.name }}"
-                                           data-source="course-page"
-                                            >
-                                    <label for="check{{ listId }}">{{ list.desc }}</label>
-                                </li>
-                            {% endfor %}
-                        </ul>
+
+
+        </div><!-- /.tiny-review-block -->
+
+        <div class="course-data">
+
+            <div class="course-data-inner">
+                <div class="course-data-row course-provider">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-provider-icon" viewBox="0 0 37 34"><use xlink:href="#icon-folder"></use></svg>
+                            Provider
+                        </span>
+                    <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')">{{ course['initiative']['name'] }}</a>
+                </div>
+
+                {% if course.nextOffering is defined and course.nextOffering.state %}
+                    <div class="course-data-row course-pace">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-pace-icon" viewBox="0 0 36 32"><use xlink:href="#icon-pace-icon"></use></svg>
+                            Pace
+                        </span>
+                        <a href="{{ path('ClassCentralSiteBundle_courses',{type: course.nextOffering.state}) }}" class="course-data-value">{{ offeringTypes[course.nextOffering.state].sessionDesc }}</a>
+                    </div>
+                {% endif %}
+                {% if course.lang is not empty %}
+                    <div class="course-data-row course-language">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-comment" viewBox="0 0 32 32"><use xlink:href="#icon-textbubble"></use></svg>
+                            Language
+                        </span>
+                        <a href="{{ path('lang', {slug : course.lang.slug}) }}" class="course-data-value">{{ course.lang.name }}</a>
+                    </div>
+                {% endif %}
+
+                <div class="course-data-row course-certificates">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-certificate" viewBox="0 0 32 32"><use xlink:href="#icon-certificate"></use></svg>
+                        Certificates
                     </span>
+                    <a href="#" class="course-data-value">Certificates</a>
+                </div>
+
+                <div class="course-data-row course-verified-certificates">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-verifiedcertificate" viewBox="0 0 32 32"><use xlink:href="#icon-verifiedcertificate"></use></svg>
+                        Verified Certificates
+                    </span>
+                    <a href="#" class="course-data-value">Verified Certificates</a>
+                </div>
+
+                <div class="course-data-row course-hours">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-hours" viewBox="0 0 32 32"><use xlink:href="#icon-hours"></use></svg>
+                        Hours
+                    </span>
+                    <a href="#" class="course-data-value">5-8 hpw</a>
+                </div>
+
+                <div class="course-data-row course-difficulty">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-difficulty" viewBox="0 0 32 32"><use xlink:href="#icon-effort"></use></svg>
+                        Difficulty
+                    </span>
+                    <a href="#" class="course-data-value">Hard</a>
+                </div>
+
+
+                {% if course.institutions is not empty %}
+                    <div class="course-data-row course-institution">
+                            <span class="course-data-icon">
+                                <svg class="icon icon-institution-icon" viewBox="0 0 32 32"><use xlink:href="#icon-university"></use></svg>
+                                Institution
+                            </span>
+                        {% for institution in course['institutions'] %}
+                            {% set route = 'ClassCentralSiteBundle_university' %}
+                            {% if not institution['isUniversity'] %}
+                                {% set route = 'ClassCentralSiteBundle_institution' %}
+                            {% endif %}
+                            <a class="course-data-value" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
+                               onClick="ga('send','event', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="course-data-row course-sessions">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-calendar-icon" viewBox="0 0 32 32"><use xlink:href="#icon-coursecalendar"></use></svg>
+                            Calendar
+                        </span>
+                        <span class="course-data-value">
+                                {% set offeringUrl = null %}
+                            {% set selectedOfferingDetails = null %}
+                            {% if offeringTypesOrder|length > 0 %}
+                                <select id="sessionOptions"  {% if course.length > 0 %} style="margin-bottom: 15px;" {% endif %}>
+                                    {% for offeringType in offeringTypesOrder %}
+                                        {% if course['offerings'][offeringType]|length > 0 %}
+                                            <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
+                                            {% for offering in course['offerings'][offeringType]%}
+                                                {% if offeringUrl is null %}
+                                                    {% set offeringUrl = offering['url']  %}
+                                                    {% set selectedOfferingDetails = {
+                                                    'type' : offeringType,
+                                                    'startDate' : offering.startDate,
+                                                    'status' : offering.status
+                                                    } %}
+                                                {% endif %}
+                                                <option content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
+                                                        data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
+                                                        {% if course.nextOffering.id == offering.id %} selected="selected" {% endif %}
+                                                        >
+                                                    {{ offering['displayDate'] }}
+                                                </option>
+
+                                                {% if course.nextOffering.id == offering.id %}
+                                                    {% set offeringUrl = offering['url']  %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                            {% if course.length > 0 %}
+                                <span  class="course-length">{{ course.length }} weeks long</span>
+                            {% endif %}
+
+                        </span>
+                </div>
+
+                <div class="course-data-row course-participants">
+                    <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" title="List of Class Central users interested in {{ course.name }}"
+                       onmousedown="ga('send','event', 'View all interested users', '{{ course.name }}')"
+                    >
+                        <span class="course-participants__single" id="mycourses-listed-count">0</span>
+                        <span class="course-participants__double">Interested<br> students</span>
+                    </a>
+                    <div class="portraits-container">
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+                        <div class="portrait-col">
+                            <a href="#" class="fluid-portrait">
+                                <span class="fluid-portrait-image">
+                                    <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="course-data-button">
+                    <a class="cta-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
+                       onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
+                </div>
+
+            </div><!-- course-data-inner -->
+
+
+
+
+            <div class="course-data-row add-to-my-courses">
+                <span class="dropdown">
+                    {% set userListIds = user_session.getCourseListIds(course['id']) %}
+                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
+                        Add to my courses
+                        <span class="arrow-icon arrow-down-icon">
+                            <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
+                        </span>
+                        <span class="arrow-icon arrow-up-icon">
+                            <svg class="icon icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for listId, list in listTypes %}
+                            <li>
+                                <input type="checkbox"  name="course-interest-checkbox" class = "course-list-checkbox" id="check{{ listId }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
+                                       {% if listId in userListIds %}checked="checked"{% endif %} data-course-name="{{ course.name }}"
+                                       data-source="course-page"
+                                        >
+                                <label for="check{{ listId }}">{{ list.desc }}</label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </span>
             </div>
-            <div class="course-data-row course-register-button">
-                <a class="register-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
-                   onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
+
+        </div><!-- /.course-data -->
+
+        <div class="course-review-card">
+            <div class="review-card">
+                <div class="review-card__header">
+                    <div class="review-card__image">
+                        <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                    </div>
+                    <div class="review-card__info">
+                        <div class="review-card__rating">
+                            <div class="starRating rating35">
+                                <div class="starRating_star">
+                                    <svg class="starRating_starShape starRating_starShape-blank">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-full">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
+                                    </svg>
+                                </div>
+                                <div class="starRating_star">
+                                    <svg class="starRating_starShape starRating_starShape-blank">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-full">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
+                                    </svg>
+                                </div>
+                                <div class="starRating_star">
+                                    <svg class="starRating_starShape starRating_starShape-blank">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-full">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
+                                    </svg>
+                                </div>
+                                <div class="starRating_star">
+                                    <svg class="starRating_starShape starRating_starShape-blank">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-full">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
+                                    </svg>
+                                </div>
+                                <div class="starRating_star">
+                                    <svg class="starRating_starShape starRating_starShape-blank">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-full">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
+                                    </svg>
+                                    <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-card__title">Professor Chewbacca</div>
+                    </div>
+                </div>
+
+                <div class="review-card__body">
+                    <span class="triangle"></span>
+                    This is quite a long title to a professor interview. This bottom area can be fluid in height.
+                    <a href="#" class="review-card__read">Read</a>
+                </div>
             </div>
-        </div>
+        </div><!-- /.course-review-card -->
+        <div class="course-review-card">
+            <div class="review-card">
+                <div class="review-card__header">
+                    <div class="review-card__image">
+                        <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
+                    </div>
+                    <div class="review-card__info">
+                        <div class="review-card__small-text">Class Central presents</div>
+                        <div class="review-card__subtitle">An interview with</div>
+                        <div class="review-card__title">Professor Chewbacca</div>
+                    </div>
+                </div>
+
+                <div class="review-card__body">
+                    <span class="triangle"></span>
+                    This is quite a long title to a professor interview. This bottom area can be fluid in height.
+                    <a href="#" class="review-card__read">Read</a>
+                </div>
+            </div>
+        </div><!-- /.course-review-card -->
+
+
         {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
 
 
