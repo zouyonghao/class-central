@@ -59,6 +59,7 @@ class GenerateProfileScoreCommand extends ContainerAwareCommand {
             }
             $em->flush();
             $offset += $limit;
+            unset( $users );
             $users = $em->getRepository('ClassCentralSiteBundle:User')->findBy(
                 array(), array(), $limit, $offset
             );
