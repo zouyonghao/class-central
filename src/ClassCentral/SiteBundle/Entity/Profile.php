@@ -74,6 +74,11 @@ class Profile
      */
     private $user;
 
+    /**
+     * @var integer
+     */
+    private $score;
+
     const DEFAULT_PROFILE_PIC = '/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png';
 
 
@@ -373,5 +378,29 @@ class Profile
     public function getUser()
     {
         return $this->user;
+    }
+
+
+    /**
+     * Set score
+     *
+     * @param integer $score
+     * @return Profile
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
+    
+        return $this;
+    }
+
+    /**
+     * Get score
+     *
+     * @return integer 
+     */
+    public function getScore()
+    {
+        return $this->score;
     }
 }
