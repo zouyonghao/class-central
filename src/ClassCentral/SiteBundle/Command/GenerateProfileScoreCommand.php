@@ -26,25 +26,47 @@ class GenerateProfileScoreCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $users = $em->getRepository('ClassCentralSiteBundle:User')->findAll();
-        $userService = $this->getContainer()->get('user_service');
+        $limit = 1000;
+        $offset = 0;
         $profilesUpdated = 0;
-        foreach($users as $user)
+        $usersExamined = 0;
+
+        $userService = $this->getContainer()->get('user_service');
+
+
+        $users = $em->getRepository('ClassCentralSiteBundle:User')->findBy(
+            array(), array(), $limit, $offset
+        );
+
+        while($users)
         {
-            $profile = $user->getProfile();
-            if( !$profile )
+            foreach($users as $user)
             {
-                continue;
+                $usersExamined++;
+                $profile = $user->getProfile();
+                if( !$profile )
+                {
+                    continue;
+                }
+
+                $score = $userService->calculateProfileScore($user);
+                if ( $score != $profile->getScore() )
+                {
+                    $profile->setScore( $score );
+                    $em->persist($profile);
+                    $profilesUpdated++;
+                }
             }
-            $score = $userService->calculateProfileScore($user);
-            if ( $score != $profile->getScore() )
-            {
-                $profile->setScore( $score );
-                $em->persist($profile);
-                $profilesUpdated++;
-            }
+            $em->flush();
+            $offset += $limit;
+            $users = $em->getRepository('ClassCentralSiteBundle:User')->findBy(
+                array(), array(), $limit, $offset
+            );
+            $output->writeln("Processed $offset users");
         }
+
         $em->flush();
+        $output->writeln("Users Examined : " . $usersExamined);
         $output->writeln("Profiles Updated : " . $profilesUpdated);
     }
 } 
