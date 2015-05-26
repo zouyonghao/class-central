@@ -24,7 +24,7 @@
                     <div class="card-front">
                         <div class="card-front__img-section">
                             <div class="crop-circle crop-circle--bordered">
-                                <img src="{{  user_service.getProfilePic(user.id) }}" alt="profile picture">
+                                <img src="{{  user_service.getProfilePic(user.id) }}" alt="{{ user_service.getDisplayName(user) }}">
                             </div>
                         </div>
                         <div class="card-front__text-section">

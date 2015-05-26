@@ -375,19 +375,27 @@
                         <span class="course-participants__double">Interested<br> students</span>
                     </a>
 
-                    {#
-                        <div class="portraits-container">
-                            {% for i in range(1,12) %}
-                            <div class="portrait-col">
-                                <a href="#" class="fluid-portrait">
-                                    <span class="fluid-portrait-image">
-                                        <img src="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/Barb-Oakley.jpg" alt="barb-oakley">
-                                    </span>
-                                </a>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    #}
+                    <div class="portraits-container">
+                        {% set userCount = 0 %}
+                        {% for user in interestedUsers if userCount < 12 %}
+                            {% if user.profile is defined  %}
+                                {{ user.profile.name }}
+                            {% endif %}
+                            {% set profileUrl = user_service.getProfileUrl( user.id, user.handle ) %}
+                            {% if profileUrl %}
+                                <div class="portrait-col">
+                                    <a href="{{ profileUrl }}" title="{{ user_service.getDisplayName(user) }}'s Class Central profile" class="fluid-portrait">
+                                        <span class="fluid-portrait-image">
+                                             <img src="{{  user_service.getProfilePic(user.id) }}" alt="{{ user_service.getDisplayName(user) }}">
+                                        </span>
+                                    </a>
+                                </div>
+                                {% set userCount = userCount+1 %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+
                 </div>
 
                 <div class="course-data-button">

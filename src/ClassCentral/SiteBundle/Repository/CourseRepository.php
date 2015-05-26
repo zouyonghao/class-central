@@ -29,6 +29,25 @@ class CourseRepository extends EntityRepository{
         $courseDetails['nextOffering'] = null;
         $courseDetails['imageUrl'] = CourseUtility::getImageUrl($course);
         $courseDetails['status'] = $course->getStatus();
+        $courseDetails['certificate'] = $course->getCertificate();
+        $courseDetails['verifiedCertificate'] = $course->getVerifiedCertificate();
+        $courseDetails['workloadMin'] = $course->getWorkloadMin();
+        $courseDetails['workloadMax'] = $course->getWorkloadMax();
+
+        // Calculate the workload
+        $workload = '';
+        if( $course->getWorkloadMin() &&  $course->getWorkloadMax() )
+        {
+            if( $course->getWorkloadMin() == $course->getWorkloadMax() )
+            {
+                $workload = $course->getWorkloadMin() . ' hours per week';
+            }
+            else
+            {
+                $workload = $course->getWorkloadMin() . "-" . $course->getWorkloadMax() . ' hours per week';
+            }
+        }
+        $courseDetails['workload'] = $workload;
 
         // Get the descriptions
         $desc = null;

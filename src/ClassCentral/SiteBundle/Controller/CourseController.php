@@ -399,7 +399,7 @@ class CourseController extends Controller
 
 
         $recommendations = $this->get('Cache')->get('course_recommendation_'. $courseId, array($this,'getCourseRecommendations'), array($courseId));
-
+        $interestedUsers = $em->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
 
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
@@ -419,7 +419,8 @@ class CourseController extends Controller
                  'providersWithLogos' => Course::$providersWithFavicons,
                  'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] ),
                  'courseImage' => $this->getCourseImage( $courseId),
-                 'ratingStars' => ReviewUtility::getRatingStars( $rating )
+                 'ratingStars' => ReviewUtility::getRatingStars( $rating ),
+                 'interestedUsers' => $interestedUsers
        ));
     }
 
