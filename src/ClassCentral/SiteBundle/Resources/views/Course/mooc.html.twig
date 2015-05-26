@@ -84,7 +84,6 @@
     {% endif %}
 
     <h2 class="section-heading"><span>Course Details</span></h2>
-
     {% set reviewUrl = path('review_new',{courseId: course.id})%}
 
     {# Links for admin #}
@@ -373,7 +372,8 @@
                     <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" title="List of Class Central users interested in {{ course.name }}"
                        onmousedown="ga('send','event', 'View all interested users', '{{ course.name }}')"
                     >
-                        <span class="course-participants__single" id="mycourses-listed-count">0</span>
+                        {% set countWidth = 28 + course.listed|length * 13  %}
+                        <span class="course-participants__single" id="mycourses-listed-count" style="width: {{ countWidth }}px">0</span>
                         <span class="course-participants__double">Interested<br> students</span>
                     </a>
 
