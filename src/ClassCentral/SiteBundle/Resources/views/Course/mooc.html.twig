@@ -670,7 +670,7 @@
 
     // Counter for the numbers
     setTimeout( function() {
-    var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3    );
+    var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3, { separator: '' } );
     numAnim.start();
     }, 1000);
 
