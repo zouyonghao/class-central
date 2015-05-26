@@ -716,6 +716,29 @@ class User {
         $tokenService->delete( $token );
     }
 
+    public function  calculateProfileScore(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $score = 0;
+        $profile = $user->getProfile();
+
+        if(!$profile)
+        {
+            return $score;
+        }
+
+        $img = $this->getProfilePic( $user->getId() );
+        if( $img != Profile::DEFAULT_PROFILE_PIC )
+        {
+            $score += 5;
+        }
+
+        if($profile->getAboutMe())
+        {
+            $score += 1;
+        }
+
+        return $score;
+    }
 
 
 } 

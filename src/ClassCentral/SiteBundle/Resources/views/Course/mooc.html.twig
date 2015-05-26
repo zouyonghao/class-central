@@ -223,6 +223,8 @@
 
                 {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
                     <a class="tiny-review-block__button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write review</a>
+                {% else %}
+                    <span class="tiny-review-block__button">Reviewed</span>
                 {% endif %}
             </div>
 
@@ -384,7 +386,9 @@
                             {% set profileUrl = user_service.getProfileUrl( user.id, user.handle ) %}
                             {% if profileUrl %}
                                 <div class="portrait-col">
-                                    <a href="{{ profileUrl }}" title="{{ user_service.getDisplayName(user) }}'s Class Central profile" class="fluid-portrait">
+                                    <a href="{{ profileUrl }}" title="{{ user_service.getDisplayName(user) }}'s Class Central profile" class="fluid-portrait"
+                                       onmousedown="ga('send','event','User Profile Click - Course Page','{{ course.name }}','{{ user.id  }}')"
+                                            >
                                         <span class="fluid-portrait-image">
                                              <img src="{{  user_service.getProfilePic(user.id) }}" alt="{{ user_service.getDisplayName(user) }}">
                                         </span>

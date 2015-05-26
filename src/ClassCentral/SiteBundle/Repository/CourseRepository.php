@@ -40,11 +40,11 @@ class CourseRepository extends EntityRepository{
         {
             if( $course->getWorkloadMin() == $course->getWorkloadMax() )
             {
-                $workload = $course->getWorkloadMin() . ' hours per week';
+                $workload = $course->getWorkloadMin() . ' hours/week';
             }
             else
             {
-                $workload = $course->getWorkloadMin() . "-" . $course->getWorkloadMax() . ' hours per week';
+                $workload = $course->getWorkloadMin() . "-" . $course->getWorkloadMax() . ' hours/week';
             }
         }
         $courseDetails['workload'] = $workload;
@@ -274,7 +274,7 @@ class CourseRepository extends EntityRepository{
             ->leftJoin('u.profile','p')
             ->andWhere('uc.course = :id')
             ->andWhere('u.isPrivate = 0')
-            ->orderBy('p.aboutMe','DESC')
+            ->orderBy('p.score','DESC')
             ->setParameter('id', $id)
             ;
         return $query->getQuery()->getResult( Query::HYDRATE_ARRAY );
