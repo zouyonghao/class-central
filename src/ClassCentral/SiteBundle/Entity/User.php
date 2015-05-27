@@ -389,7 +389,7 @@ class User implements UserInterface, \Serializable
         }
         else
         {
-            return ucwords($this->name);
+            return ucwords( strtolower($this->name) );
         }
     }
 

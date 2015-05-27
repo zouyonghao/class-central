@@ -164,6 +164,24 @@ class CourseRepository extends EntityRepository{
             );
         }
 
+        // Build an array for indepth review
+        $indepthReview = array();
+        if( $course->getIndepthReview() )
+        {
+            $ir = $course->getIndepthReview();
+            $irUser = $ir->getUser();
+            $indepthReview = array(
+                'summary' => $ir->getSummary(),
+                'rating'   => $ir->getRating(),
+                'url'      => $ir->getUrl(),
+                'user'     => array(
+                    'name' => $irUser->getDisplayName(),
+                    'id'   => $irUser->getId(),
+                    'handle' => $irUser->getHandle()
+                )
+            );
+        }
+        $courseDetails['indepthReview'] = $indepthReview;
         return $courseDetails;
     }
 

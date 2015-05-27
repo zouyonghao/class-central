@@ -14,7 +14,7 @@ class Version20150526213608 extends AbstractMigration
     {
         $this->addSql("
             CREATE TABLE IF NOT EXISTS `indepth_reviews` (
-              `id` INT NOT NULL,
+              `id` INT NOT NULL AUTO_INCREMENT,
               `user_id` INT(11) NOT NULL,
               `course_id` INT(11) NOT NULL,
               `summary` TEXT NOT NULL,

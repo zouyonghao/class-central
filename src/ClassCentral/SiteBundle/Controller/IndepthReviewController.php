@@ -48,6 +48,7 @@ class IndepthReviewController extends Controller
             $entity->setUser( $user );
             $em->persist($entity);
             $em->flush();
+            $this->get('cache')->deleteCache( 'course_'. $entity->getCourse()->getId() );
 
             return $this->redirect($this->generateUrl('indepthreview_show', array('id' => $entity->getId())));
         }
@@ -144,6 +145,9 @@ class IndepthReviewController extends Controller
             $entity->setUser( $user );
             $em->persist($entity);
             $em->flush();
+
+            // invalidate the course cache
+            $this->get('cache')->deleteCache( 'course_'. $entity->getCourse()->getId() );
 
             return $this->redirect($this->generateUrl('indepthreview_edit', array('id' => $id)));
         }
