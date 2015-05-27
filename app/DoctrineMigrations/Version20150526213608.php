@@ -27,12 +27,12 @@ class Version20150526213608 extends AbstractMigration
               INDEX `fk_indepth_reviews_courses_idx` (`course_id` ASC),
               CONSTRAINT `fk_indepth_reviews_users`
                 FOREIGN KEY (`user_id`)
-                REFERENCES `cc_dev`.`users` (`id`)
+                REFERENCES `users` (`id`)
                 ON DELETE NO ACTION
                 ON UPDATE NO ACTION,
               CONSTRAINT `fk_indepth_reviews_courses`
                 FOREIGN KEY (`course_id`)
-                REFERENCES `cc_dev`.`courses` (`id`)
+                REFERENCES `courses` (`id`)
                 ON DELETE NO ACTION
                 ON UPDATE NO ACTION)
             ENGINE = InnoDB
