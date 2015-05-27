@@ -189,6 +189,11 @@ class Course {
      */
     private $duplicateCourse;
 
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\IndepthReview
+     */
+    private $indepthReview;
+
 
     /**
      * Set name
@@ -787,6 +792,29 @@ class Course {
     public function getDuplicateCourse()
     {
         return $this->duplicateCourse;
+    }
+
+    /**
+     * Set indepthReview
+     *
+     * @param \ClassCentral\SiteBundle\Entity\IndepthReview $indepthReview
+     * @return Course
+     */
+    public function setIndepthReview(\ClassCentral\SiteBundle\Entity\IndepthReview $indepthReview = null)
+    {
+        $this->indepthReview = $indepthReview;
+
+        return $this;
+    }
+
+    /**
+     * Get indepthReview
+     *
+     * @return \ClassCentral\SiteBundle\Entity\IndepthReview
+     */
+    public function getIndepthReview()
+    {
+        return $this->indepthReview;
     }
 
 }

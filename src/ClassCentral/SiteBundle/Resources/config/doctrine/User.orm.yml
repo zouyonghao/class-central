@@ -86,7 +86,9 @@ ClassCentral\SiteBundle\Entity\User:
         userPreferences:
           targetEntity: UserPreference
           mappedBy: user
-
+        indepthReviews:
+          targetEntity: IndepthReview
+          mappedBy: user
     manyToMany:
       newsletters:
         targetEntity: Newsletter

@@ -74,6 +74,10 @@ ClassCentral\SiteBundle\Entity\Course:
       length: 255
       fixed: false
       nullable: true
+  oneToOne:
+    indepthReview:
+      targetEntity: IndepthReview
+      mappedBy: user
   manyToOne:
     duplicateCourse:
       targetEntity: Course

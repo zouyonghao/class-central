@@ -123,6 +123,12 @@ class User implements UserInterface, \Serializable
      */
     private $isPrivate;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $indepthReviews;
+
+
     const SIGNUP_TYPE_FORM = 1;
     const SIGNUP_TYPE_FACEBOOK = 2;
 
@@ -144,6 +150,7 @@ class User implements UserInterface, \Serializable
         $this->newsletters = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userPreferences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->indepthReviews = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
         $this->setSignupType(self::SIGNUP_TYPE_FORM);
     }
@@ -818,5 +825,39 @@ class User implements UserInterface, \Serializable
     public function getIsPrivate()
     {
         return $this->isPrivate;
+    }
+
+
+    /**
+     * Add indepthReviews
+     *
+     * @param \ClassCentral\SiteBundle\Entity\IndepthReview $indepthReviews
+     * @return User
+     */
+    public function addIndepthReview(\ClassCentral\SiteBundle\Entity\IndepthReview $indepthReviews)
+    {
+        $this->indepthReviews[] = $indepthReviews;
+    
+        return $this;
+    }
+
+    /**
+     * Remove indepthReviews
+     *
+     * @param \ClassCentral\SiteBundle\Entity\IndepthReview $indepthReviews
+     */
+    public function removeIndepthReview(\ClassCentral\SiteBundle\Entity\IndepthReview $indepthReviews)
+    {
+        $this->indepthReviews->removeElement($indepthReviews);
+    }
+
+    /**
+     * Get indepthReviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIndepthReviews()
+    {
+        return $this->indepthReviews;
     }
 }
