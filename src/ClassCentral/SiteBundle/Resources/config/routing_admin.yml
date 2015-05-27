@@ -62,3 +62,8 @@ ClassCentralSiteBundle_textad:
 ClassCentralSiteBundle_profile:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/profile.yml"
   prefix:   /profile
+
+ClassCentralSiteBundle_indepthreview:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/indepthreview.yml"
+  prefix:   /indepthreview
+

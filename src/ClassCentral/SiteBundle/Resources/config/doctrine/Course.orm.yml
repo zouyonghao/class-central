@@ -77,7 +77,7 @@ ClassCentral\SiteBundle\Entity\Course:
   oneToOne:
     indepthReview:
       targetEntity: IndepthReview
-      mappedBy: user
+      mappedBy: course
   manyToOne:
     duplicateCourse:
       targetEntity: Course
