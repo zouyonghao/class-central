@@ -390,7 +390,9 @@
                                        onmousedown="ga('send','event','User Profile Click - Course Page','{{ course.name }}','{{ user.id  }}')"
                                             >
                                         <span class="fluid-portrait-image">
-                                             <img src="{{  user_service.getProfilePic(user.id) }}" alt="{{ user_service.getDisplayName(user) }}">
+                                            <div class="fluid-portrait-crop">
+                                                <img src="{{  user_service.getProfilePic(user.id) }}" alt="{{ user_service.getDisplayName(user) }}">
+                                            </div>
                                         </span>
                                     </a>
                                 </div>
