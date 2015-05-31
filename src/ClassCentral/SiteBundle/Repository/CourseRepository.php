@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Repository;
 
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
@@ -252,7 +253,7 @@ class CourseRepository extends EntityRepository{
         $query
             ->add('select','c')
             ->add('from','ClassCentralSiteBundle:Course c')
-            ->add('where','c.created >= :date')
+            ->add('where','c.created >= :date AND c.status = '. CourseStatus::AVAILABLE)
             ->setParameter('date', $dt->format("Y-m-d"));
 
         return $query->getQuery()->getResult();
