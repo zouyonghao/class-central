@@ -996,4 +996,10 @@ jQuery(function($) {
         return '';
     }
 
+    // Redirect back to the previous page on newsletter-signup flow
+    $('#newsletter-subscribe-cancel-button').click( function(){
+        var previous = document.referrer;
+        window.location.replace(previous);
+    } );
+
 });
