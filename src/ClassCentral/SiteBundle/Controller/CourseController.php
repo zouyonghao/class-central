@@ -590,6 +590,13 @@ EOD;
             $courseDetails['offerings'][$type] =  array_reverse($courses);
         }
 
+        // set the interview image
+        if( !empty( $courseDetails['interview'] ))
+        {
+            $courseDetails['interview']['image'] =
+                $this->get('image_service')->getInterviewImage( $courseDetails['interview']['instructorPhoto'], $courseDetails['interview']['id'] );
+        }
+
         return $courseDetails;
     }
 

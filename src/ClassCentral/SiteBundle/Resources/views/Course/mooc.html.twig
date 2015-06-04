@@ -448,8 +448,12 @@
 
         </div><!-- /.course-data -->
 
-        {# include indepty review box#}
+        {# include indepth review box#}
         {% include 'ClassCentralSiteBundle:Course:helpers/indepth.review.html.twig' %}
+
+        {# include instructor review #}
+        {% include 'ClassCentralSiteBundle:Course:helpers/interview.html.twig' %}
+
 
         {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
 

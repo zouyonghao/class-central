@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Repository;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Interview;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
@@ -183,6 +184,24 @@ class CourseRepository extends EntityRepository{
             );
         }
         $courseDetails['indepthReview'] = $indepthReview;
+
+        // Save interview data if exists
+        $interview = array();
+        if( $course->getInterview() )
+        {
+            $i = $course->getInterview();
+            $interview = array(
+                'id' => $i->getId(),
+                'title' => $i->getTitle(),
+                'summary' => $i->getSummary(),
+                'instructorName' => $i->getInstructorName(),
+                'instructorPhoto' =>  $i->getInstructorPhoto(),
+                'url' => $i->getUrl()
+            );
+        }
+        $courseDetails['interview'] = $interview;
+
+
         return $courseDetails;
     }
 
