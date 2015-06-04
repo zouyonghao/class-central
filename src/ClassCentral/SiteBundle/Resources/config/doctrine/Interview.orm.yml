@@ -1,6 +1,6 @@
 ClassCentral\SiteBundle\Entity\Interview:
     type: entity
-    table: interview
+    table: interviews
     fields:
         id:
             id: true

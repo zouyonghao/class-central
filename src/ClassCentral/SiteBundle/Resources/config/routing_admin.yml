@@ -67,3 +67,8 @@ ClassCentralSiteBundle_indepthreview:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/indepthreview.yml"
   prefix:   /indepthreview
 
+ClassCentralSiteBundle_interview:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/interview.yml"
+  prefix:   /interview
+
+
