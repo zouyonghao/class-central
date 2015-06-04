@@ -237,4 +237,9 @@ class Interview
     {
         return $this->courses;
     }
+
+    public function __toString()
+    {
+        return $this->getInstructorName();
+    }
 }
