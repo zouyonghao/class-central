@@ -44,6 +44,9 @@ class InterviewController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            // Crop the instructor photo
+            $this->get('image_service')->getInterviewImage( $entity->getInstructorPhoto(), $entity->getId() );
+
             return $this->redirect($this->generateUrl('interview_show', array('id' => $entity->getId())));
         }
 
@@ -132,8 +135,12 @@ class InterviewController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+
             $em->persist($entity);
             $em->flush();
+
+            // Crop the instructor photo
+            $this->get('image_service')->getInterviewImage( $entity->getInstructorPhoto(), $entity->getId() );
 
             return $this->redirect($this->generateUrl('interview_edit', array('id' => $id)));
         }

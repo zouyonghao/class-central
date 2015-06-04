@@ -78,9 +78,6 @@ ClassCentral\SiteBundle\Entity\Course:
     indepthReview:
       targetEntity: IndepthReview
       mappedBy: course
-    interview:
-      targetEntity: Interview
-      mappedBy: course
   manyToOne:
     duplicateCourse:
       targetEntity: Course
@@ -108,6 +105,9 @@ ClassCentral\SiteBundle\Entity\Course:
       inversedBy: courses
       orphanRemoval: false
       nullable: true
+    interview:
+      targetEntity: Interview
+      mappedBy: courses
     language:
       targetEntity: Language
       fetch: EAGER

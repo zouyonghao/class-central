@@ -29,10 +29,12 @@ class Kuber {
     const KUBER_ENTITY_USER = 'users';
     const KUBER_ENTITY_COURSE = 'courses';
     const KUBER_ENTITY_SPOTLIGHT = 'spotlights'; // mages folder used for cropped and resized images from embedly
+    const KUBER_ENTITY_INTERVIEW = 'interviews';
 
     const KUBER_TYPE_USER_PROFILE_PIC = "profile_pic";
     const KUBER_TYPE_USER_PROFILE_PIC_TMP = "profile_pic_tmp";
     const KUBER_TYPE_COURSE_IMAGE = 'course_image';
+    const KUBER_TYPE_COURSE_INTERVIEW_IMAGE = 'course_interview_image';
     const KUBER_TYPE_SPOTLIGHT_IMAGE = 'image';
 
 

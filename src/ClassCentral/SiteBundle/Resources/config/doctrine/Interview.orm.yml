@@ -29,14 +29,11 @@ ClassCentral\SiteBundle\Entity\Interview:
         modified:
             type: datetime
             nullable: false
-    oneToOne:
-        course:
-            targetEntity: Course
-            cascade: {  }
-            mappedBy: null
-            inversedBy: interview
-            joinColumns:
-                course_id:
-                    referencedColumnName: id
-            orphanRemoval: false
+    oneToMany:
+         courses:
+           targetEntity: Course
+           cascade: {}
+           mappedBy: interview
+           inversedBy: null
+           orphanRemoval: false
     lifecycleCallbacks: {  }

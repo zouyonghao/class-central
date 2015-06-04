@@ -19,17 +19,19 @@ class Version20150604142000 extends AbstractMigration
           `title` TEXT NOT NULL,
           `instructor_name` TEXT NOT NULL,
           `instructor_photo` TEXT NOT NULL,
-          `course_id` INT NOT NULL,
           `created` TIMESTAMP NULL,
           `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-          PRIMARY KEY (`id`),
-          INDEX `fk_interviews_course_id_idx` (`course_id` ASC),
-          CONSTRAINT `fk_interviews_course_id`
-            FOREIGN KEY (`course_id`)
-            REFERENCES `courses` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION)
+          PRIMARY KEY (`id`))
         ENGINE = InnoDB;
+        ");
+
+        $this->addSql("
+             ALTER TABLE courses
+              ADD COLUMN interview_id INT(11) NULL,
+              ADD CONSTRAINT fk_course_interview_id
+                FOREIGN KEY (interview_id)
+                REFERENCES interviews (id)
+
         ");
     }
 

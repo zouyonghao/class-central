@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,14 +46,15 @@ class Interview
     private $modified;
 
     /**
-     * @var \ClassCentral\SiteBundle\Entity\Course
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $course;
+    private $courses;
 
 
     public function __construct()
     {
         $this->created = new \DateTime();
+        $this->courses = new ArrayCollection();
     }
 
     /**
@@ -204,25 +206,35 @@ class Interview
     }
 
     /**
-     * Set course
+     * Add courses
      *
-     * @param \ClassCentral\SiteBundle\Entity\Course $course
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
      * @return Interview
      */
-    public function setCourse(\ClassCentral\SiteBundle\Entity\Course $course = null)
+    public function addCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
     {
-        $this->course = $course;
+        $this->courses[] = $courses;
     
         return $this;
     }
 
     /**
-     * Get course
+     * Remove courses
      *
-     * @return \ClassCentral\SiteBundle\Entity\Course 
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
      */
-    public function getCourse()
+    public function removeCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
     {
-        return $this->course;
+        $this->courses->removeElement($courses);
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCourses()
+    {
+        return $this->courses;
     }
 }

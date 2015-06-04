@@ -75,4 +75,38 @@ class Image {
             $spotlightId
         );
     }
+
+    public function getInterviewImage($imageUrl, $courseId)
+    {
+        $uniqueKey = 'interview_'. basename( $imageUrl );
+
+        // Check if the file exists or has changed.
+        if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_INTERVIEW,Kuber::KUBER_TYPE_COURSE_INTERVIEW_IMAGE, $courseId ,$uniqueKey ) )
+        {
+            // Upload the hew file
+            $croppedImageUrl = $this->cropImage( $imageUrl, 400, 400 );
+
+            // Upload the file
+            $filePath = '/tmp/modified_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($croppedImageUrl));
+
+            $file = $this->kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_INTERVIEW,
+                Kuber::KUBER_TYPE_COURSE_INTERVIEW_IMAGE,
+                $courseId,
+                null,
+                $uniqueKey
+            );
+
+            return $this->kuber->getUrlFromFile( $file );
+        }
+
+        // File exists
+        return $this->kuber->getUrl(
+            Kuber::KUBER_ENTITY_INTERVIEW,
+            Kuber::KUBER_TYPE_COURSE_INTERVIEW_IMAGE,
+            $courseId
+        );
+    }
 } 

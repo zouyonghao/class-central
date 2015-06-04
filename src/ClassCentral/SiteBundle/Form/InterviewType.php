@@ -14,8 +14,8 @@ class InterviewType extends AbstractType
             ->add('summary')
             ->add('title')
             ->add('instructorName')
-            ->add('instructorPhoto')
-            ->add('course')
+            ->add('instructorPhoto',null,array('required' => true ))
+            ->add('courses')
         ;
     }
 
