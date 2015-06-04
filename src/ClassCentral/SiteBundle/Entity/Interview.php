@@ -36,6 +36,11 @@ class Interview
     private $instructorPhoto;
 
     /**
+     * @var string
+     */
+    private $url;
+
+    /**
      * @var \DateTime
      */
     private $created;
@@ -157,6 +162,29 @@ class Interview
     public function getInstructorPhoto()
     {
         return $this->instructorPhoto;
+    }
+
+    /**
+     * Set Url
+     *
+     * @param string $url
+     * @return Interview
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get instructorPhoto
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return  $this->url;
     }
 
     /**

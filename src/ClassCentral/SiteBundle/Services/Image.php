@@ -76,12 +76,12 @@ class Image {
         );
     }
 
-    public function getInterviewImage($imageUrl, $courseId)
+    public function getInterviewImage($imageUrl, $interviewId)
     {
         $uniqueKey = 'interview_'. basename( $imageUrl );
 
         // Check if the file exists or has changed.
-        if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_INTERVIEW,Kuber::KUBER_TYPE_COURSE_INTERVIEW_IMAGE, $courseId ,$uniqueKey ) )
+        if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_INTERVIEW,Kuber::KUBER_TYPE_COURSE_INTERVIEW_IMAGE, $interviewId ,$uniqueKey ) )
         {
             // Upload the hew file
             $croppedImageUrl = $this->cropImage( $imageUrl, 400, 400 );
@@ -94,7 +94,7 @@ class Image {
                 $filePath,
                 Kuber::KUBER_ENTITY_INTERVIEW,
                 Kuber::KUBER_TYPE_COURSE_INTERVIEW_IMAGE,
-                $courseId,
+                $interviewId,
                 null,
                 $uniqueKey
             );
@@ -106,7 +106,7 @@ class Image {
         return $this->kuber->getUrl(
             Kuber::KUBER_ENTITY_INTERVIEW,
             Kuber::KUBER_TYPE_COURSE_INTERVIEW_IMAGE,
-            $courseId
+            $interviewId
         );
     }
 } 

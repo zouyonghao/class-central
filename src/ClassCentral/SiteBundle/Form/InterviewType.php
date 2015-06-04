@@ -13,6 +13,7 @@ class InterviewType extends AbstractType
         $builder
             ->add('summary')
             ->add('title')
+            ->add('url')
             ->add('instructorName')
             ->add('instructorPhoto',null,array('required' => true ))
             ->add('courses')

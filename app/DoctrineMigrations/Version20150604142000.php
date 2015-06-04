@@ -19,6 +19,7 @@ class Version20150604142000 extends AbstractMigration
           `title` TEXT NOT NULL,
           `instructor_name` TEXT NOT NULL,
           `instructor_photo` TEXT NOT NULL,
+           `url` TEXT NOT NULL,
           `created` TIMESTAMP NULL,
           `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
           PRIMARY KEY (`id`))

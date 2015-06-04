@@ -15,6 +15,9 @@ ClassCentral\SiteBundle\Entity\Interview:
         title:
             type: text
             nullable: false
+        url:
+            type: text
+            nullable: false
         instructorName:
             type: text
             nullable: false
