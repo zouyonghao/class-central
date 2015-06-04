@@ -194,6 +194,11 @@ class Course {
      */
     private $indepthReview;
 
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\Interview
+     */
+    private $interview;
+
 
     /**
      * Set name
@@ -817,6 +822,30 @@ class Course {
         return $this->indepthReview;
     }
 
+
+    /**
+     * Set interview
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Interview $interview
+     * @return Course
+     */
+    public function setInterview(\ClassCentral\SiteBundle\Entity\Interview $interview = null)
+    {
+        $this->interview = $interview;
+
+        return $this;
+    }
+
+    /**
+     * Get interview
+     *
+     * @return \ClassCentral\SiteBundle\Entity\Interview
+     */
+    public function getInterview()
+    {
+        return $this->interview;
+    }
+
 }
 
 /**
@@ -845,4 +874,5 @@ abstract class CourseStatus
             self::TO_BE_REVIEWED => 'To Be Reviewed'
         );
     }
+
 }
