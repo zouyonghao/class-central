@@ -244,6 +244,19 @@
                         <a href="{{ path('ClassCentralSiteBundle_courses',{type: course.nextOffering.state}) }}" class="course-data-value">{{ offeringTypes[course.nextOffering.state].sessionDesc }}</a>
                     </div>
                 {% endif %}
+\
+                <!-- Subject -->
+                <div class="course-data-row course-subject">
+                    <span class="course-data-icon">
+                        <svg class="icon icon-subject-icon" viewBox="0 0 48 33"><use xlink:href="#icon-subject"></use></svg>
+                        Subject
+                    </span>
+                    <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
+                       title="List of {{ course['stream']['name'] }} MOOCs/free online courses"
+                       onClick="ga('send','event', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}')"
+                            >{{ course.stream.name }}</a>
+                 </div>
+
 
                 {% if course.institutions is not empty %}
                     <div class="course-data-row course-institution">
@@ -460,18 +473,6 @@
 
     </div>
     </div>
-
-    {#
-    <div class="row">
-        <div class ="span12" style="text-align: center; margin-top: 25px">
-            <a class="btn btn-primary btn-course-cc"
-               href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
-               title="List of {{ course['stream']['name'] }} MOOCs"
-               onClick="ga('send','event', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}')"
-                    >Browse more {{ course['stream']['name'] }} courses</a>
-        </div>
-    </div>
-    #}
 
     <div class="row">
     <div class="col-sm-8 col-lg-9 course-bottom-wrap">
