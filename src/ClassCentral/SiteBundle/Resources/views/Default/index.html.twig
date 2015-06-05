@@ -15,9 +15,9 @@
             <div class="header-content">
                 <h1 class='free-online-ed'>Never Stop Learning</h1>
                 <h2>Discover free online classes (MOOCs) from top universities like
-                    <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}" onmousedown="ga('send','event','Tagline Clicks','University','Stanford')">Stanford</a>,
                     <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','MIT')"> MIT</a>,
-                    <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','Harvard')">Harvard</a>, etc.</h2>
+                    <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','Harvard')">Harvard</a>,
+                <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'penn'}) }}" onmousedown="ga('send','event','Tagline Clicks','University','Penn')">Penn</a>, etc.</h2>
 
                 <nav class="page-tabs">
                     <ul>
@@ -145,7 +145,6 @@
     {% endif %}
     <section class="footer-logos">
         <ul>
-            <li><a class="stanford-logo" href="{{ path('ClassCentralSiteBundle_university',{slug : 'stanford'}) }}">Stanford University</a></li>
             <li><a class="harvard-logo" href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}">Harvard University</a></li>
             <li><a class="mit-logo" href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}">Massachusetts Institute of Technology</a></li>
             <li><a class="berkeley-logo" href="{{ path('ClassCentralSiteBundle_university',{slug : 'berkeley'}) }}">Berkeley University of California</a></li>
