@@ -671,6 +671,10 @@ jQuery(function($) {
         }catch (e){}
     });
 
+    $('.cta-button').click( function(){
+        $('#signupForm').modal('show');
+    });
+
     // Typeahead
 
     $('#navbar-search-form #st-search-input').on("keydown.cc", function (e) {

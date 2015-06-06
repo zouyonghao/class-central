@@ -629,6 +629,13 @@
     </div>
     </div>
 
+    {% if signupForm is defined %}
+        {% include 'ClassCentralSiteBundle:Helpers:signupform.html.twig' with {
+        signupForm : signupForm,
+        formTitle : 'If you would like to track courses that match your interests, signup below.'
+        } %}
+    {% endif %}
+
 {% endblock %}
 
 {% block customJS %}

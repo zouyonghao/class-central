@@ -9,7 +9,7 @@
             </div>
             <div class="form-box-body">
                 {% if formTitle is defined %}
-                    <h3>{{ formTitle }}</h3>
+                    <h4>{{ formTitle|raw }}</h4>
                 {% endif %}
                 <a class="sign-in-with-facebook" href="{{ path('fb_authorize_start') }}" onmousedown="ga('send','event','Sign In with Facebook', 'Login Form');">
                     <span class="icon-facebook2-png"></span>

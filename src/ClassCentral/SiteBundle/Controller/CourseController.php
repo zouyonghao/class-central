@@ -4,7 +4,9 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
@@ -401,6 +403,10 @@ class CourseController extends Controller
         $recommendations = $this->get('Cache')->get('course_recommendation_'. $courseId, array($this,'getCourseRecommendations'), array($courseId));
         $interestedUsers = $em->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
 
+        $signupForm   = $this->createForm(new SignupType(), new User(),array(
+            'action' => $this->generateUrl('signup_create_user',array('src' => 'go_to_class' ))
+        ));
+
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
@@ -420,7 +426,8 @@ class CourseController extends Controller
                  'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] ),
                  'courseImage' => $this->getCourseImage( $courseId),
                  'ratingStars' => ReviewUtility::getRatingStars( $rating ),
-                 'interestedUsers' => $interestedUsers
+                 'interestedUsers' => $interestedUsers,
+                 'signupForm' => $signupForm->createView()
        ));
     }
 
