@@ -671,8 +671,28 @@ jQuery(function($) {
         }catch (e){}
     });
 
+    // Show signup form when someones click on Go To Class
     $('.cta-button').click( function(){
-        $('#signupForm').modal('show');
+        var btnSignupCookie = 'btn_go_class_signup_shown';
+        if ( Cookies.get( btnSignupCookie) === undefined ) {
+            $.ajax({
+                url: "/ajax/isLoggedIn",
+                cache: true
+            })
+                .done(function(result){
+                    var loggedInResult = $.parseJSON(result);
+                    if( !loggedInResult.loggedIn) {
+
+                        // Show the signup form
+                        $('#signupForm').modal('show');
+                    }
+                }
+             );
+            Cookies.set( btnSignupCookie, 1, { expires :30} );
+        }
+
+
+
     });
 
     // Typeahead
