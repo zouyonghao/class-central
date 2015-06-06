@@ -187,31 +187,19 @@
 
     {#  reviews tab #}
     <div class="tab-pane {% if tab == 'reviews' %} active {% endif %}" id="reviews">
-        {% if transcriptCount == 0 %}
+        {% if reviews is empty  %}
             <h2 class="large-thin-title">{{ user.displayName }} hasn't written any reviews</h2>
         {% endif %}
-        {% for list in listTypes %}
-            {% set courses =  coursesByLists[list.slug] %}
-            {% if courses is not empty %}
-                <div class="line-with-points color-scheme--blue">
-                    {% for result in courses['hits']['hits']  %}
-                        {% set review = null %}
-                        {% set course = result._source %}
-                        {% if reviews[course.id] is defined %}
-                            {% set review = reviews[course.id] %}
-                        {% endif %}
+        {% for courseId, review in reviews %}
+            <div class="line-with-points color-scheme--blue">
+                        {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
+                            'course': reviewedCourses[courseId],
+                            'userStatus' : null,
+                            'review': review,
+                            'showOverAllRating': true
+                        }) }}
+            </div>
 
-                        {% if review %}
-                            {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
-                                'course': course,
-                                'userStatus' : list.desc,
-                                'review': review,
-                                'showOverAllRating': true
-                            }) }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endif %}
         {% endfor %}
     </div>
 

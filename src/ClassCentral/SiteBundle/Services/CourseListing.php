@@ -333,10 +333,23 @@ class CourseListing {
             $showInstructions = true;
         }
 
+        // Get Reviewed Courses
+        $reviewedCourseIds = array();
+        foreach( $user->getReviews() as $review )
+        {
+            $reviewedCourseIds[] = $review->getCourse()->getId();
+        }
+
+        $reviewedCourses = array();
+        if( !empty($reviewedCourseIds) )
+        {
+            $reviewedCourses = $finder->byCourseIds($reviewedCourseIds);
+        }
+
         return compact(
             'allSubjects', 'allLanguages', 'allSessions', 'courses',
             'sortField', 'sortClass', 'pageNo','lists', 'listCounts','coursesByLists','showInstructions',
-            'searchTerms'
+            'searchTerms', 'reviewedCourses'
         );
     }
 

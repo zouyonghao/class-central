@@ -293,6 +293,12 @@ class ProfileController extends Controller
             $reviews[$r['course']['id']] = $r;
         }
 
+        $reviewedCourses = array();
+        foreach( $clDetails['reviewedCourses']['hits']['hits'] as $reviewedCourse )
+        {
+            $reviewedCourses[ $reviewedCourse['_source']['id'] ] = $reviewedCourse['_source'];
+        }
+
         // Check if a change of email has been issued
         $changeEmail = null;
         $userPrefs = $user->getUserPreferencesByTypeMap();
@@ -323,6 +329,7 @@ class ProfileController extends Controller
                 'listTypes' => UserCourse::$transcriptList,
                 'coursesByLists' => $clDetails['coursesByLists'],
                 'reviews' => $reviews,
+                'reviewedCourses' => $reviewedCourses,
                 'degrees' => Profile::$degrees,
                 'profilePic' => $userService->getProfilePic($user->getId()),
                 'changeEmail' => $changeEmail,
