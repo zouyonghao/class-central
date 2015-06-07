@@ -957,42 +957,14 @@ EOD;
      */
     public function trendingAction( Request $request )
     {
-        $cl = $this->get('course_listing');
+
         $cache = $this->get('Cache');
 
         // Get Top 10 courses based on recent reviews.
-        $date = new \DateTime();
-        $date->sub( new \DateInterval('P14D') );
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('course_id','course_id');
-        $q = $this->getDoctrine()->getManager()->createNativeQuery("
-            SELECT course_id FROM reviews WHERE created > '{$date->format('Y-m-d')}' GROUP BY course_id ORDER BY count(*) DESC LIMIT 10;
-        ", $rsm);
-
-        $results = $q->getResult();
-        $trendingCourseIds = array();
-        foreach($results as $result)
-        {
-            $trendingCourseIds[] = $result['course_id'];
-        }
-
-        $data = $cl->byCourseIds( $trendingCourseIds );
-
-        // Sort the courses by Trending Ids
-        $newHits = array();
-        foreach($trendingCourseIds as $cid)
-        {
-            foreach($data['courses']['hits']['hits'] as $hit)
-            {
-                if($hit['_id'] == $cid)
-                {
-                    $newHits[] = $hit;
-                    break;
-                }
-            }
-        }
-        $data['courses']['hits']['hits'] = $newHits;
-        //var_dump(array_keys( $data['courses']['hits']['hits'][0] )) ; exit();
+        $data = $cache->get('trending_courses', function(){
+            $cl = $this->get('course_listing');
+            return $cl->trending();
+        });
 
         return $this->render('ClassCentralSiteBundle:Course:trending.html.twig',
             array(
@@ -1003,8 +975,7 @@ EOD;
                 'allSubjects' => array(),
                 'allLanguages' => array(),
                 'offeringTypes' => Offering::$types,
-                'showHeader' => true,
-                'trendingCourseIds' => $trendingCourseIds
+                'showHeader' => true
             ));
     }
 

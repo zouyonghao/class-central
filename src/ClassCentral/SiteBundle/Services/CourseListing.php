@@ -12,6 +12,7 @@ use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -364,6 +365,43 @@ class CourseListing {
             'sortField', 'sortClass', 'pageNo','lists', 'listCounts','coursesByLists','showInstructions',
             'searchTerms', 'reviewedCourses'
         );
+    }
+
+    public function trending()
+    {
+        $date = new \DateTime();
+        $date->sub( new \DateInterval('P14D') );
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('course_id','course_id');
+        $q = $this->container->get('doctrine')->getManager()->createNativeQuery("
+            SELECT course_id FROM reviews WHERE created > '{$date->format('Y-m-d')}' GROUP BY course_id ORDER BY count(*) DESC LIMIT 10;
+        ", $rsm);
+
+        $results = $q->getResult();
+        $trendingCourseIds = array();
+        foreach($results as $result)
+        {
+            $trendingCourseIds[] = $result['course_id'];
+        }
+
+        $data = $this->byCourseIds( $trendingCourseIds );
+
+        // Sort the courses by Trending Ids
+        $newHits = array();
+        foreach($trendingCourseIds as $cid)
+        {
+            foreach($data['courses']['hits']['hits'] as $hit)
+            {
+                if($hit['_id'] == $cid)
+                {
+                    $newHits[] = $hit;
+                    break;
+                }
+            }
+        }
+        $data['courses']['hits']['hits'] = $newHits;
+
+        return $data;
     }
 
     public function getInfoFromParams($params = array())

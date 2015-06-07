@@ -81,9 +81,11 @@
             </div>
         </section>
         <section class="upcoming-courses front-page-table">
-            <h2 class="section-heading"><span>Starting Soon</span></h2>
-            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recentCourses,'tableId':'statustable', 'hideLoadMore': true,'allowSorting' : false} %}
-            <a href="{{ path('ClassCentralSiteBundle_courses', {type:'recent'}) }}" class="expand-table-btn">View All {{ recentCourses.hits.total }} courses</a>
+            <h2 class="section-heading"><span>Trending Courses</span></h2>
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':trendingCourses,'tableId':'trendingHome', 'hideLoadMore': true,'allowSorting' : false} %}
+            {#
+            <!-- <a href="{{ path('ClassCentralSiteBundle_courses', {type:'recent'}) }}" class="expand-table-btn">View All {{ recentCourses.hits.total }} courses</a> -->
+            #}
         </section>
         </div>
 

@@ -25,8 +25,6 @@ class DefaultController extends Controller {
         $this->get('user_service')->autoLogin($request);
 
         $cache = $this->get('Cache');
-        $cl = $this->get('course_listing');
-        $recent = $cl->byTime('recent',$request);
         $esCourses = $this->get('es_courses');
         $em = $this->getDoctrine()->getManager();
 
@@ -45,9 +43,11 @@ class DefaultController extends Controller {
         }, array());
 
 
-        // limit the results to 10 courses
-        $recent['courses']['hits']['hits'] =
-            array_splice($recent['courses']['hits']['hits'],0,10);
+        // Get Top 10 courses based on recent reviews.
+        $data = $cache->get('trending_courses', function(){
+            $cl = $this->get('course_listing');
+            return $cl->trending();
+        });
 
         $subjects = $cache->get('stream_list_count',
                         array( new StreamController(), 'getSubjectsList'),
@@ -93,7 +93,7 @@ class DefaultController extends Controller {
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
-                'recentCourses'   => $recent['courses'],
+                'trendingCourses'   => $data['courses'],
                 'spotlights' => $spotlights,
                 'spotlightMap' => Spotlight::$spotlightMap,
                 'subjects' => $subjects,
