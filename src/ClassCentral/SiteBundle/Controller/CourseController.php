@@ -11,6 +11,7 @@ use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
@@ -959,14 +960,26 @@ EOD;
         $cl = $this->get('course_listing');
         $cache = $this->get('Cache');
 
-        $trendingCourseIds = array(
-            2860, 1137, 2271, 1623, 766, 320, 361, 2787, 748, 3026
-        );
+        // Get Top 10 courses based on recent reviews.
+        $date = new \DateTime();
+        $date->sub( new \DateInterval('P14D') );
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('course_id','course_id');
+        $q = $this->getDoctrine()->getManager()->createNativeQuery("
+            SELECT course_id FROM reviews WHERE created > '{$date->format('Y-m-d')}' GROUP BY course_id ORDER BY count(*) DESC LIMIT 10;
+        ", $rsm);
+
+        $results = $q->getResult();
+        $trendingCourseIds = array();
+        foreach($results as $result)
+        {
+            $trendingCourseIds[] = $result['course_id'];
+        }
+
         $data = $cl->byCourseIds( $trendingCourseIds );
 
         // Sort the courses by Trending Ids
         $newHits = array();
-
         foreach($trendingCourseIds as $cid)
         {
             foreach($data['courses']['hits']['hits'] as $hit)
@@ -987,10 +1000,9 @@ EOD;
                 'page'=>'courses',
                 'results' => $data['courses'],
                 'listTypes' => UserCourse::$lists,
-                'allSubjects' => $data['allSubjects'],
-                'allLanguages' => $data['allLanguages'],
+                'allSubjects' => array(),
+                'allLanguages' => array(),
                 'offeringTypes' => Offering::$types,
-                'pageNo' => $data['pageNo'],
                 'showHeader' => true,
                 'trendingCourseIds' => $trendingCourseIds
             ));
