@@ -171,6 +171,27 @@ class Filter {
             $and[] = self::getTermsQuery('subjects.slug', $params['subject']);
         }
 
+        /**
+         * Whenever the results are sorted by dates,
+         * remove the courses which have a start date that is unknown
+         */
+        if (isset($params['sort']))
+        {
+            // Split the field and direction
+            $lastHypen = strrpos($params['sort'], '-');
+            $field = substr($params['sort'], 0, $lastHypen);
+
+            if( $field == 'date') {
+                $and[] = array(
+                    'range' =>array(
+                        'nextSession.status' => array(
+                            "gt" => 0
+                        )
+                ));
+            }
+        }
+
+
         if( !empty($and) )
         {
             return array(
