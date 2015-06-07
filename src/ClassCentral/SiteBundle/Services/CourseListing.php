@@ -353,6 +353,19 @@ class CourseListing {
         );
     }
 
+    public function byCourseIds( $courseIds = array() )
+    {
+        $finder = $this->container->get('course_finder');
+        $courses = $finder->byCourseIds($courseIds);
+        extract($this->getFacets($courses));
+
+        return compact(
+            'allSubjects', 'allLanguages', 'allSessions', 'courses',
+            'sortField', 'sortClass', 'pageNo','lists', 'listCounts','coursesByLists','showInstructions',
+            'searchTerms', 'reviewedCourses'
+        );
+    }
+
     public function getInfoFromParams($params = array())
     {
         $filters = Filter::getQueryFilters($params);

@@ -395,3 +395,7 @@ review_widget:
 auto_login_secure:
   pattern: /autoLoginSecure
   defaults: {_controller: ClassCentralSiteBundle:Default:autoLoginSecure }
+
+trending:
+  pattern: /trending
+  defaults: { _controller: ClassCentralSiteBundle:Course:trending }

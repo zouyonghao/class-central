@@ -950,4 +950,50 @@ EOD;
         return $url;
     }
 
+    /**
+     * Shows trending courses
+     * @param Request $request
+     */
+    public function trendingAction( Request $request )
+    {
+        $cl = $this->get('course_listing');
+        $cache = $this->get('Cache');
+
+        $trendingCourseIds = array(
+            2860, 1137, 2271, 1623, 766, 320, 361, 2787, 748, 3026
+        );
+        $data = $cl->byCourseIds( $trendingCourseIds );
+
+        // Sort the courses by Trending Ids
+        $newHits = array();
+
+        foreach($trendingCourseIds as $cid)
+        {
+            foreach($data['courses']['hits']['hits'] as $hit)
+            {
+                if($hit['_id'] == $cid)
+                {
+                    $newHits[] = $hit;
+                    break;
+                }
+            }
+        }
+        $data['courses']['hits']['hits'] = $newHits;
+        //var_dump(array_keys( $data['courses']['hits']['hits'][0] )) ; exit();
+
+        return $this->render('ClassCentralSiteBundle:Course:trending.html.twig',
+            array(
+                'offeringType' => 'recent',
+                'page'=>'courses',
+                'results' => $data['courses'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'offeringTypes' => Offering::$types,
+                'pageNo' => $data['pageNo'],
+                'showHeader' => true,
+                'trendingCourseIds' => $trendingCourseIds
+            ));
+    }
+
 }
