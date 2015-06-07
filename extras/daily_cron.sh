@@ -5,6 +5,9 @@ cd ../
 env=$1
 echo "Running Class Central daily cron for $env environment"
 
+# Computing feedback calculations for reviews
+ echo "Computing feedback calculations for reviews"
+php app/console classcentral:reviews:precomputefeedback --env=$env
 # Run edX scraper
 echo "Updating edX courses"
 php app/console classcentral:scrape edx --simulate=N --type=add
