@@ -108,6 +108,11 @@ class Review
      */
     private $reviewSummary;
 
+    /**
+     * @var integer
+     */
+    private $score;
+
 
     // Level
     const LEVEL_BEGINNER = 1;
@@ -590,5 +595,28 @@ class Review
     public function getReviewSummary()
     {
         return $this->reviewSummary;
+    }
+
+    /**
+     * Set score
+     *
+     * @param integer $score
+     * @return Profile
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    /**
+     * Get score
+     *
+     * @return integer
+     */
+    public function getScore()
+    {
+        return $this->score;
     }
 }

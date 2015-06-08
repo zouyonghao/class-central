@@ -64,6 +64,10 @@ ClassCentral\SiteBundle\Entity\Review:
             type: boolean
             nullable: true
             column: is_rating
+        score:
+            type: integer
+            unsigned: false
+            nullable: true
     manyToOne:
         reviewSummary:
                 targetEntity: ReviewSummary
