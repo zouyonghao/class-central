@@ -467,4 +467,13 @@ class Review {
 
         return $rs;
     }
+
+    /**
+     * Calculates a score for the review
+     * @param ReviewEntity $review
+     */
+    public function scoreReview(\ClassCentral\SiteBundle\Entity\Review $review)
+    {
+        return 1;
+    }
 } 
