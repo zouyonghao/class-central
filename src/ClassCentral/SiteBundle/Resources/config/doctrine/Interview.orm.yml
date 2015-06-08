@@ -37,6 +37,6 @@ ClassCentral\SiteBundle\Entity\Interview:
            targetEntity: Course
            cascade: {}
            mappedBy: interview
-           inversedBy: null
+           inversedBy: courses
            orphanRemoval: false
     lifecycleCallbacks: {  }

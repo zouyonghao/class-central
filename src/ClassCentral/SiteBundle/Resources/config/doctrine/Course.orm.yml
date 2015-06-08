@@ -107,7 +107,8 @@ ClassCentral\SiteBundle\Entity\Course:
       nullable: true
     interview:
       targetEntity: Interview
-      mappedBy: courses
+      mappedBy: interview
+      inversedBy: courses
     language:
       targetEntity: Language
       fetch: EAGER
