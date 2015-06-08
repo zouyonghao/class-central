@@ -45,10 +45,12 @@ class GenerateReviewScoreCommand extends ContainerAwareCommand {
                 $score = $rs->scoreReview( $review );
                 if ( $score != $review->getScore() )
                 {
+                    $output->writeln("Review Id {$review->getId()} received a score of $score");
                     $review->setScore( $score );
                     $em->persist($review);
                     $reviewsUpdated++;
                 }
+
             }
 
             $em->flush();

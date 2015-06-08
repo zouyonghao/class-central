@@ -13,6 +13,7 @@ use ClassCentral\SiteBundle\Entity\ReviewSummary;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Entity\Review as ReviewEntity;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -127,7 +128,7 @@ class Review {
 
         $reviewEntities = $this->em->createQuery("
                SELECT r,f, LENGTH (r.review) as reviewLength from ClassCentralSiteBundle:Review r JOIN r.course c LEFT JOIN r.fbSummary f WHERE c.id = $courseId
-                ORDER BY f.positive DESC, reviewLength DESC")
+                ORDER BY r.score DESC")
             ->getResult();
         $r = array();
         $reviewCount = 0;
@@ -474,6 +475,99 @@ class Review {
      */
     public function scoreReview(\ClassCentral\SiteBundle\Entity\Review $review)
     {
-        return 1;
+        // Start with a base score
+        $reviewScore = 100;
+
+        /***********************************************
+         * Update the score based on the yes/no votes
+         * Subtract points if the review is deemed not helpful
+         ***********************************************/
+        $feedback = $this->getReviewFeedbackDetails( $review );
+        if( $feedback['total']  > 0 )
+        {
+            $total = $feedback['total'];
+            $positive = $feedback['positive'];
+            $negative = $feedback['negative'];
+            $helpful = $positive/$total;
+            if($total > 5) {
+
+                if($helpful >= 0.75)
+                {
+                    $reviewScore += 20; // Really helpful
+                }
+
+                if($helpful >= 0.5 && $helpful < 0.75)
+                {
+                    $reviewScore += 10; // Somewhat helpful
+                }
+
+                if($helpful >= 0.25 && $helpful < 0.5 )
+                {
+                    $reviewScore -= 5; // Somewhat not helpful
+                }
+
+                if($helpful < 0.25 )
+                {
+                    $reviewScore -= 10; // totally not helpful
+                }
+
+            } else {
+                /**
+                 * If the difference in total and positive votes then thre review is probably
+                 * not helpful
+                 */
+                if( ($total - $positive) >= 3)
+                {
+                    // Probably not helpful review
+                    $reviewScore -= 10;
+                }
+                else
+                {
+                    // Probably a helpful review
+                    $reviewScore += 10;
+                }
+
+                $reviewScore += $positive/10;
+            }
+
+            // Boost scores based on total votes irrespective of negative/positive
+            $reviewScore += $total/2;
+        }
+
+        /***********************************************
+         * Update the score based on the length of the review
+         ***********************************************/
+        $reviewText = $review->getReview();
+        if( !empty($reviewText) )
+        {
+            $reviewScore += 10; // Base boost
+
+            // Boost based on the length of review
+            $reviewScore += strlen($reviewText)/100;
+        }
+
+        return $reviewScore*10; // to convert from floating point to interger
+    }
+
+    public function getReviewFeedbackDetails(\ClassCentral\SiteBundle\Entity\Review $review)
+    {
+        $rsm = new ResultSetMapping();
+        $em = $this->container->get('doctrine')->getManager();
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('positive','positive');
+        $rsm->addScalarResult('negative','negative');
+        $rsm->addScalarResult('total','total');
+
+        $q = $em->createNativeQuery(
+            "SELECT
+                SUM(if(helpful =0,1,0)) as negative,
+                SUM(if (helpful =1,1,0)) as positive,
+                count(*) as total FROM reviews_feedback
+                WHERE review_id = " . $review->getId(), $rsm
+        );
+        $result = $q->getResult();
+
+        return $result[0];
     }
 } 
