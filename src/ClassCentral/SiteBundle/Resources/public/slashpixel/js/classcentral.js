@@ -347,6 +347,17 @@ jQuery(function($) {
             }
         });
 
+        $('.credential-rating-page').raty({
+            starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-blue.png',
+            starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-blue.png',
+            starOn      : '/bundles/classcentralsite/slashpixel/images/star-on-blue.png',
+            hints       : ['','','','',''],
+            size        : 40,
+            score       : function() {
+                return $(this).attr('data-score');
+            }
+        });
+
         $('.user-rating').raty($.extend(
             {
                 readOnly: true
