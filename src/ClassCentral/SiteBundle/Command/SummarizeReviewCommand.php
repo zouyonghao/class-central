@@ -117,7 +117,7 @@ class SummarizeReviewCommand extends ContainerAwareCommand {
             $query
                 ->add('select', 'r')
                 ->add('from', 'ClassCentralSiteBundle:Review r')
-                ->where('r.reviewSummary is  NULL AND LENGTH(r.review) > 30 AND r.status = :status AND r.modified >= :date')
+                ->where('r.reviewSummary is  NULL AND LENGTH(r.review) > 30 AND r.status = :status AND r.created >= :date')
                 ->setParameter('status',\ClassCentral\SiteBundle\Entity\Review::REVIEW_STATUS_APPROVED)
                 ->setParameter('date',$dt);
             ;
