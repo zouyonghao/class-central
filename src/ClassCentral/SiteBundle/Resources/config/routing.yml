@@ -399,3 +399,7 @@ auto_login_secure:
 trending:
   pattern: /trending
   defaults: { _controller: ClassCentralSiteBundle:Course:trending }
+
+credential_review:
+  pattern: /credential_review
+  defaults: { _controller: ClassCentralSiteBundle:Review:credentialReview }

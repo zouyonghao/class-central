@@ -11,6 +11,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\ReviewFeedback;
 use ClassCentral\SiteBundle\Entity\User;
@@ -652,6 +653,16 @@ class ReviewController extends Controller {
         }
 
         return 'review_widget_course_code' . strtolower($courseCode);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function credentialReviewAction (Request $request)
+    {
+        return $this->render('ClassCentralSiteBundle:Review:writeCredentialReview.html.twig', array(
+            'degrees' => Profile::$degrees,
+        ));
     }
 
 }
