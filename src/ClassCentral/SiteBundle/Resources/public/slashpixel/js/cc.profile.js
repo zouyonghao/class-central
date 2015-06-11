@@ -223,6 +223,8 @@ CC.Class['Profile'] = (function(){
                 "error"
             )
         } else {
+
+            ga('send','event', 'Profile Photo Upload',"Step 1 Completed");
             // Image uploaded. Load the crop plugin
             var imgUrl = result.message.imgUrl;
             $("<img src='" + imgUrl+"' id='" + cropProfilePicSettings.imgDiv + "'/>").load(function() {
@@ -271,6 +273,7 @@ CC.Class['Profile'] = (function(){
         }).done(function(result){
             result = JSON.parse(result);
             if( result['success'] ){
+                ga('send','event', 'Profile Photo Upload',"Step 2 Completed");
                 // Refresh the page
                 location.reload(true);
             } else {
