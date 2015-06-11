@@ -185,6 +185,7 @@ jQuery(function($) {
     var showMoreOnClick =  function(){
         var page = $(this).attr('data-page');
         var params = updateUrl( page );
+        ga('send','event','Load More Courses');
         updateCourses(params,parseInt(page));
     }
 
