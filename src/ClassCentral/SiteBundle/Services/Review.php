@@ -531,7 +531,7 @@ class Review {
             }
 
             // Boost scores based on total votes irrespective of negative/positive
-            $reviewScore += $total/2;
+            $reviewScore += $total/3;
         }
 
         /***********************************************
