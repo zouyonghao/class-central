@@ -178,6 +178,9 @@ services:
         class: ClassCentral\ElasticSearchBundle\Indexer
         calls:
           - [setContainer, ['@service_container'] ]
+  slack_client:
+         class: Maknz\Slack\Client
+         arguments: ['%slack_webhook%']
   session.memcached:
     class: Memcached
     arguments:

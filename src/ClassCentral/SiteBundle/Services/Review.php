@@ -360,6 +360,24 @@ class Review {
             }
 
         }
+
+        // Send a message in Slack
+        if($newReview)
+        {
+            $message = ReviewUtility::getRatingStars($review->getRating()) .
+                "\nReview {$review->getId()} created for Course *" . $review->getCourse()->getName(). "*".
+                "\n *{$review->getUser()->getDisplayName()}*" . ReviewUtility::getReviewTitle( $review );
+            ;
+
+            if($review->getReview())
+            {
+                $message .= "\n\n" . $review->getReview();
+            }
+
+            $message = str_replace('<strong>','_', $message);
+            $message = str_replace('</strong>','_', $message);
+            $this->container->get('slack_client')->send($message);
+        }
         return $review;
     }
 

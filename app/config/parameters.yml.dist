@@ -79,3 +79,6 @@ parameters:
     
     #sumo site id
     sumo_site_id: ~
+
+    # Slack Webhook
+    slack_webhook: ~
