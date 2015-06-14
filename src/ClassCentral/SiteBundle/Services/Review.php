@@ -374,9 +374,15 @@ class Review {
                 $message .= "\n\n" . $review->getReview();
             }
 
+            $message .=  "\n" .  $this->container->getParameter('baseurl'). $this->container->get('router')->generate('review_edit', array('reviewId' => $review->getId() ));
+
             $message = str_replace('<strong>','_', $message);
             $message = str_replace('</strong>','_', $message);
-            $this->container->get('slack_client')->send($message);
+            $this->container
+                ->get('slack_client')
+                ->from( $review->getUser()->getDisplayName() )
+                ->withIcon( $this->container->get('user_service')->getProfilePic( $review->getUser()->getId() ) )
+                ->send($message);
         }
         return $review;
     }
