@@ -13,6 +13,7 @@ use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Instructor;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Stream;
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Doctrine\ORM\EntityManager;
 
 class DBHelper
@@ -183,6 +184,27 @@ class DBHelper
         }
 
         return null;
+    }
+
+    public function sendNewCourseToSlack( Course $course, Initiative $initiative)
+    {
+        try
+        {
+        $providerInfo = PageHeaderFactory::get( $initiative );
+        $coursePageUrl = $this->scraper->getContainer()->getParameter('baseurl'). $this->scraper->getContainer()->get('router')->generate('ClassCentralSiteBundle_mooc',
+                array('id' => $course->getId(), 'slug' => $course->getSlug() ));
+        $logo = $this->scraper->getContainer()->getParameter('rackspace_cdn_base_url') . $providerInfo->getImageUrl() ;
+        $message ="[New Course] *{$course->getName()}*\n" .$coursePageUrl ;
+        $this->scraper->getContainer()
+            ->get('slack_client')
+            ->from( $initiative->getName() )
+            ->withIcon( $logo )
+            ->send( $message );
+        }
+        catch(\Exception $e)
+        {
+
+        }
     }
 
 }

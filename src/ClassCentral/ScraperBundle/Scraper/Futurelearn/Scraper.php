@@ -13,6 +13,7 @@ use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Services\Kuber;
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 
 
 /**
@@ -60,10 +61,15 @@ class Scraper extends ScraperAbstractInterface {
                         $em->persist($course);
                         $em->flush();
 
+                        $this->dbHelper->sendNewCourseToSlack( $course, $this->initiative );
+
                         if( $flCourse['image_url'] )
                         {
                             $this->uploadImageIfNecessary( $flCourse['image_url'], $course);
                         }
+
+                        // Send an update to Slack
+
                     }
                     $courseChanged = true;
 

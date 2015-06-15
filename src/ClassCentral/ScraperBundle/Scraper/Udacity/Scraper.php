@@ -57,6 +57,8 @@ class Scraper extends ScraperAbstractInterface{
                         $em->persist($course);
                         $em->flush();
 
+                        $this->dbHelper->sendNewCourseToSlack( $course, $this->initiative );
+
                         if( $udacityCourse['banner_image'] )
                         {
                             $this->uploadImageIfNecessary($udacityCourse['banner_image'], $course);

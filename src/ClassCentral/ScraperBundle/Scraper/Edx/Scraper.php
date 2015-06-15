@@ -93,6 +93,8 @@ class Scraper extends ScraperAbstractInterface
 
                         $tagService->saveCourseTags( $course, $cTags);
 
+                        $this->dbHelper->sendNewCourseToSlack( $course, $this->initiative );
+
                         if($edxCourse['course:image-banner'])
                         {
                             $this->uploadImageIfNecessary( $edxCourse['course:image-banner'], $course);

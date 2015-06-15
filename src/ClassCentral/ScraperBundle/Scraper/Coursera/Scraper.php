@@ -9,6 +9,7 @@ use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Services\Kuber;
+use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 class Scraper extends ScraperAbstractInterface {
@@ -154,6 +155,8 @@ class Scraper extends ScraperAbstractInterface {
 
                         $em->persist($course);
                         $em->flush();
+
+                        $this->dbHelper->sendNewCourseToSlack( $course, $this->initiative );
 
                         // Upload the image
                         if($courseImage)
