@@ -61,6 +61,11 @@ abstract class ScraperAbstractInterface
         $this->container = $container;
     }
 
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
     public function doModify()
     {
         return $this->modify;
