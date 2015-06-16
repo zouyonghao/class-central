@@ -101,14 +101,14 @@
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
         <div class="course-meta-main border-radius">
 
-            <div class="course-video">
+            <div class="course-video js-course-video">
                 {% if course['videoEmbedUrl'] is not null and isYoutube %}
                     <span class="preview-tab">Intro</span>
                         <div class="video-container">
                             <iframe class="ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;autohide=1&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
                         </div>
                 {% elseif course.videoIntro is not null and course.initiative.code == 'coursera' %}
-                    <span class="preview-tab">Intro</span>
+                    <span class="preview-tab js-video-overlay-item">Intro</span>
                     {% set videoInfo= course.videoIntro|split('|||') %}
 
                     <div class="html5-video-container">

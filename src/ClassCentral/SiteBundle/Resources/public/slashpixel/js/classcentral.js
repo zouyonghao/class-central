@@ -914,13 +914,20 @@ jQuery(function($) {
         var video;
         $(".js-video-play").on("click", function(e) {
             $this = $(this);
-            video = $this.closest(".html5-video-container").find("video").get(0);
+            videoElement = $this.closest(".html5-video-container").find("video");
+            video = videoElement.get(0);
+            $overlayItems = $this.closest(".js-course-video").find(".js-video-overlay-item");
             if (video.paused) {
                 video.play();
-                $this.fadeTo(300, 0);
+                $this.fadeOut(300);
+                $overlayItems.fadeOut(300, function() {
+                    videoElement.prop("controls",true);
+                });
             } else {
                 video.pause();
-                $this.fadeTo(300, 1);
+                $this.fadeIn(300);
+                $overlayItems.fadeIn(300);
+                videoElement.prop("controls",false);
             }
 
         });
