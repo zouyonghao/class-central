@@ -409,7 +409,7 @@ jQuery(function($) {
 
         if(!validationError) {
             $('#signupForm').on('hidden.bs.modal',function(e){
-                location.reload();
+                window.location.href = $('#courseUrl').data("value");
             });
             $.ajax({
                 type:"post",
@@ -425,7 +425,6 @@ jQuery(function($) {
                         $('textarea[name=review-text]').val("");
                         $('input:radio[name=progress]:checked').prop('checked',false);
 
-                        // Redirect to the course page
                         $('#signupForm').modal('show');
                     } else {
                         // Show an error message
