@@ -23,8 +23,8 @@ class Review {
     private $cache;
     private $em;
 
-    const AVG_NUM_VOTES = 2.3 ;
-    const AVG_RATING = 4.67 ;
+    const AVG_NUM_VOTES = 7 ;
+    const AVG_RATING = 4 ;
 
     const REVIEW_ALREADY_SUMMARIZED_OR_EMPTY_TEXT = 0;
     const REVIEW_SUMMARY_FAILED = -1;
