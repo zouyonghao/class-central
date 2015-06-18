@@ -117,7 +117,7 @@ class ReviewController extends Controller {
         {
             $breadcrumbs[] = Breadcrumb::getBreadCrumb(
                 $initiative->getName(),
-                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => $initiative->getCode() ))
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => strtolower($initiative->getCode()) ))
             );
         }
         else
@@ -236,7 +236,7 @@ class ReviewController extends Controller {
         {
             $breadcrumbs[] = Breadcrumb::getBreadCrumb(
                 $initiative->getName(),
-                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => $initiative->getCode() ))
+                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => strtolower($initiative->getCode()) ))
             );
         }
         else
