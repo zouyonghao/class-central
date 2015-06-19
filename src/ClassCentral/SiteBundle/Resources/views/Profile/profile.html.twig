@@ -22,10 +22,10 @@
 
 
     <h2 class="section-heading"><span>Profile</span></h2>
-
     <div class="row">
     <div class="col-md-3 profile-info">
         <div class="crop-wrap">
+
             {%  if profilePic  %}
                 <img src="{{ profilePic }}" alt="{{ user.displayName }}" class="profile-img">
             {% else %}
@@ -191,6 +191,7 @@
             <h2 class="large-thin-title">{{ user.displayName }} hasn't written any reviews</h2>
         {% endif %}
         {% for courseId, review in reviews %}
+            {% if reviewedCourses[courseId] is defined %}
             <div class="line-with-points color-scheme--blue">
                         {{ include ('ClassCentralSiteBundle:Profile:course.item.html.twig',{
                             'course': reviewedCourses[courseId],
@@ -199,6 +200,7 @@
                             'showOverAllRating': true
                         }) }}
             </div>
+            {% endif %}
 
         {% endfor %}
     </div>
