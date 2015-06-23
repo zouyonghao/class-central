@@ -12,6 +12,7 @@ use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Instructor;
 use ClassCentral\SiteBundle\Entity\Initiative;
+use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Doctrine\ORM\EntityManager;
@@ -200,6 +201,30 @@ class DBHelper
             ->from( $initiative->getName() )
             ->withIcon( $logo )
             ->send( $message );
+        }
+        catch(\Exception $e)
+        {
+
+        }
+    }
+
+    public function sendNewOfferingToSlack(Offering $offering )
+    {
+        try
+        {
+            $course = $offering->getCourse();
+            $initiative = $offering->getInitiative();
+
+            $providerInfo = PageHeaderFactory::get( $initiative );
+            $coursePageUrl = $this->scraper->getContainer()->getParameter('baseurl'). $this->scraper->getContainer()->get('router')->generate('ClassCentralSiteBundle_mooc',
+                    array('id' => $course->getId(), 'slug' => $course->getSlug() ));
+            $logo = $this->scraper->getContainer()->getParameter('rackspace_cdn_base_url') . $providerInfo->getImageUrl() ;
+            $message ="[New Session] *{$course->getName()}* -  {$offering->getDisplayDate()}\n" .$coursePageUrl ;
+            $this->scraper->getContainer()
+                ->get('slack_client')
+                ->from( $initiative->getName() )
+                ->withIcon( $logo )
+                ->send( $message );
         }
         catch(\Exception $e)
         {

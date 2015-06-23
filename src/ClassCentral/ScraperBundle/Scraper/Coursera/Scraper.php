@@ -255,6 +255,7 @@ class Scraper extends ScraperAbstractInterface {
                             $em->persist($offering);
                             $em->flush();
                         }
+                        $this->dbHelper->sendNewOfferingToSlack( $offering);
                         $offerings[] = $offering;
                     }
                 } else
