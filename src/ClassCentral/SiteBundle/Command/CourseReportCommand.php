@@ -66,7 +66,7 @@ class CourseReportCommand extends ContainerAwareCommand
             // Skip self paced courses
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
-                // continue;
+                 continue;
             }
 
 
@@ -158,7 +158,7 @@ class CourseReportCommand extends ContainerAwareCommand
                             $timesOffered++;
                         }
                     }
-                    if ($timesOffered <2 )
+                    if ($timesOffered < 2 )
                     {
                         $timesAdded = count($added);
                         $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
@@ -169,6 +169,20 @@ class CourseReportCommand extends ContainerAwareCommand
 
 
         asort($coursesByCount);
+        /*
+        $formatter = $this->getContainer()->get('course_formatter');
+        $repo = $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course');
+        $i= 0;
+
+        foreach($coursesByCount as $courseId => $count)
+        {
+            $c = $repo->find($courseId );
+            echo $formatter->blogFormat( $c ) . "\n";
+            $i++;
+            if($i == 10) break;
+        }
+        */
+
         print_r($coursesByCount);
 
     }
