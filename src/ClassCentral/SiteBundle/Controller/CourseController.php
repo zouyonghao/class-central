@@ -123,6 +123,17 @@ class CourseController extends Controller
             $courseTags =  explode(',', $request->request->get('course-tags'));
             $ts->saveCourseTags($entity,$courseTags);
 
+            // Send it to Slack
+            $coursePageUrl = $this->container->getParameter('baseurl'). $this->container->get('router')->generate('ClassCentralSiteBundle_mooc',
+                    array('id' => $entity->getId(), 'slug' => $entity->getSlug() ));
+            $message ="[New Course] *{$entity->getName()}*\n" .$coursePageUrl ;
+            $user = $this->getUser();
+            $this->container
+                ->get('slack_client')
+                ->from( $user->getName() )
+                ->withIcon( $this->get('user_service')->getProfilePic( $user->getId() ) )
+                ->send( $message );
+
             return $this->redirect($this->generateUrl('course_show', array('id' => $entity->getId())));
         }
 
