@@ -26,7 +26,7 @@ class GenerateProfileScoreCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $limit = 1000;
+        $limit = 500;
         $offset = 0;
         $profilesUpdated = 0;
         $usersExamined = 0;
@@ -58,6 +58,7 @@ class GenerateProfileScoreCommand extends ContainerAwareCommand {
                 }
             }
             $em->flush();
+            $em->clear();
             $offset += $limit;
             unset( $users );
             $users = $em->getRepository('ClassCentralSiteBundle:User')->findBy(
