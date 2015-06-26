@@ -13,6 +13,10 @@ php app/console classcentral:reviews:precomputefeedback --env=$env
 echo "Computing scores for reviews"
 php app/console classcentral:reviews:score --env=$env
 
+# Computing profile score
+echo "Calculating profile score"
+php app/console classcentral:user:profilescore --env=$env
+
 # Run edX scraper
 echo "Updating edX courses"
 php app/console classcentral:scrape edx --simulate=N --type=add
