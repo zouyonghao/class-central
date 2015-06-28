@@ -796,7 +796,7 @@ EOD;
         else
         {
             // Find courses starting 1 day later
-            $dt->add( new \DateInterval('P1D') );
+            //$dt->add( new \DateInterval('P1D') );
         }
 
         $response = $esCourses->findByNextSessionStartDate($dt, $dt);

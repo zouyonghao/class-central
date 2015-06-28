@@ -100,6 +100,16 @@
         </div>
 
         <div>
+            <h2>Courses Starting by Dates</h2>
+            <ul>
+                {% for i in range(0,10) %}
+                    {% set dateAdd = "+"~i~"days" %}
+                 <li><a href="{{ path('course_mt',{ type: '1day', date: date(dateAdd)|date("Y-m-d")}) }}">{{ date(dateAdd)|date("l jS M") }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div>
             <h3><a href="{{ path('ClassCentralSiteBundle_clearcache') }}">Clear Cache</a></h3>
         </div>
 
