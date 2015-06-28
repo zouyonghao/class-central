@@ -52,3 +52,7 @@ course_merge:
 course_merge_save:
   pattern: /merge_save
   defaults: { _controller: "ClassCentralSiteBundle:Course:mergeCourses" }
+
+course_approve:
+  pattern: /approve/{courseId}
+  defaults: { _controller: ClassCentralSiteBundle:Course:quickApprove }

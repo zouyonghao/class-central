@@ -669,6 +669,31 @@ EOD;
             ));
     }
 
+    /**
+     * A button on the course page to quickly approve
+     * @param Request $request
+     * @param $id
+     */
+    public function quickApproveAction(Request $request, $courseId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+        if(!$course)
+        {
+           return;
+        }
+
+        $course->setStatus(CourseStatus::AVAILABLE);
+        $em->persist( $course );
+        $em->flush( $course );
+
+
+        // invalidate the cache
+        $this->get('cache')->deleteCache( 'course_'.$courseId );
+
+        return $this->redirect($this->generateUrl( 'ClassCentralSiteBundle_mooc', array( 'id' => $course->getId(), 'slug' => $course->getSlug() ) ) );
+    }
+
 
     /**
      * Shows a page with the top 10 courses.
