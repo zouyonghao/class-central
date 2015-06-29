@@ -14,6 +14,7 @@ class CredentialType extends AbstractType
         $builder
             ->add('name')
             ->add('oneLiner')
+            ->add('description')
             ->add('price')
             ->add('pricePeriod','choice', array('choices'=> Credential::$CREDENTIAL_PRICE_PERIODS))
             ->add('durationMin')
@@ -22,7 +23,6 @@ class CredentialType extends AbstractType
             ->add('workloadMax')
             ->add('workloadType','choice', array('choices'=> Credential::$CREDENTIAL_WORKLOAD))
             ->add('url')
-            ->add('description')
             ->add('initiative')
             ->add('institutions')
             ->add('courses')
