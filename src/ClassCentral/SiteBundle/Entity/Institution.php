@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Entity;
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,11 +57,15 @@ class Institution
      */
     private $count;
 
-
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $credentials;
 
     public function __construct()
     {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->credentials = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -235,5 +240,46 @@ class Institution
     }
 
 
+    /**
+     * Remove courses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
+     */
+    public function removeCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    {
+        $this->courses->removeElement($courses);
+    }
 
+    /**
+     * Add credentials
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Credential $credentials
+     * @return Institution
+     */
+    public function addCredential(Credential $credentials)
+    {
+        $this->credentials[] = $credentials;
+    
+        return $this;
+    }
+
+    /**
+     * Remove credentials
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Credential $credentials
+     */
+    public function removeCredential(Credential $credentials)
+    {
+        $this->credentials->removeElement($credentials);
+    }
+
+    /**
+     * Get credentials
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCredentials()
+    {
+        return $this->credentials;
+    }
 }

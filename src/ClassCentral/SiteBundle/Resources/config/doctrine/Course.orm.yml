@@ -152,6 +152,9 @@ ClassCentral\SiteBundle\Entity\Course:
           instructor_id:
             referencedColumnName: id
       nullable: true
+    credentials:
+       targetEntity: ClassCentral\CredentialBundle\Entity\Credential
+       mappedBy: courses
     tags:
       targetEntity: Tag
       inversedBy: courses

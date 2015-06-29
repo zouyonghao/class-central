@@ -27,6 +27,8 @@ class Version20150628191501 extends AbstractMigration
               `url` TEXT NOT NULL COMMENT 'Hours per week',
               `description` TEXT NULL,
               `initiative_id` INT NULL,
+              `created` TIMESTAMP NULL,
+              `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`),
               INDEX `fk_credentials_initiative_id_idx` (`initiative_id` ASC),
               CONSTRAINT `fk_credentials_initiative_id`

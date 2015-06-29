@@ -37,5 +37,8 @@ ClassCentral\SiteBundle\Entity\Institution:
   manyToMany:         
     courses:
       targetEntity: Course
-      mappedBy: institutions       
+      mappedBy: institutions
+    credentials:
+       targetEntity: ClassCentral\CredentialBundle\Entity\Credential
+       mappedBy: institutions
   lifecycleCallbacks: {  }

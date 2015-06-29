@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Entity;
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -24,6 +25,7 @@ class Course {
         $this->setCreated(new \DateTime());
         $this->setStatus(CourseStatus::TO_BE_REVIEWED);
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->credentials = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     const THUMBNAIL_BASE_URL = 'https://d3r3mog6nu8pt4.cloudfront.net/spotlight/courses/';
@@ -198,6 +200,13 @@ class Course {
      * @var \ClassCentral\SiteBundle\Entity\Interview
      */
     private $interview;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $credentials;
+
+
 
 
     /**
@@ -844,6 +853,69 @@ class Course {
     public function getInterview()
     {
         return $this->interview;
+    }
+
+    /**
+     * Remove offerings
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Offering $offerings
+     */
+    public function removeOffering(\ClassCentral\SiteBundle\Entity\Offering $offerings)
+    {
+        $this->offerings->removeElement($offerings);
+    }
+
+    /**
+     * Remove institutions
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Institution $institutions
+     */
+    public function removeInstitution(\ClassCentral\SiteBundle\Entity\Institution $institutions)
+    {
+        $this->institutions->removeElement($institutions);
+    }
+
+    /**
+     * Remove instructors
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Instructor $instructors
+     */
+    public function removeInstructor(\ClassCentral\SiteBundle\Entity\Instructor $instructors)
+    {
+        $this->instructors->removeElement($instructors);
+    }
+
+    /**
+     * Add credentials
+     *
+     * @param \ClassCentral\CredentialBundle\Entity\Credential $credentials
+     * @return Course
+     */
+    public function addCredential(Credential $credentials)
+    {
+        $this->credentials[] = $credentials;
+
+        return $this;
+    }
+
+    /**
+     * Remove credentials
+     *
+     * @param \ClassCentral\CredentialBundle\Entity\Credential $credentials
+     */
+    public function removeCredential(Credential $credentials)
+    {
+        $this->credentials->removeElement($credentials);
+    }
+
+    /**
+     * Get credentials
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCredentials()
+    {
+        return $this->credentials;
     }
 
 }
