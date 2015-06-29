@@ -50,7 +50,6 @@ ClassCentralSiteBundle_newsletter:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/newsletter.yml"
   prefix:   /newsletter
 
-
 reviews_by_status:
   pattern: /review/status/view/{statusId}
   defaults: { _controller: ClassCentralSiteBundle:Review:reviewsByStatus }
@@ -79,4 +78,6 @@ ClassCentralSiteBundle_interview:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/interview.yml"
   prefix:   /interview
 
-
+class_central_credential_credential:
+    resource: "@ClassCentralCredentialBundle/Resources/config/routing/credential.yml"
+    prefix:   /credential
