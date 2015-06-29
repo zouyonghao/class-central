@@ -2,6 +2,7 @@
 
 namespace ClassCentral\CredentialBundle\Form;
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -14,11 +15,12 @@ class CredentialType extends AbstractType
             ->add('name')
             ->add('oneLiner')
             ->add('price')
-            ->add('pricePeriod')
+            ->add('pricePeriod','choice', array('choices'=> Credential::$CREDENTIAL_PRICE_PERIODS))
             ->add('durationMin')
             ->add('durationMax')
             ->add('workloadMin')
             ->add('workloadMax')
+            ->add('workloadType','choice', array('choices'=> Credential::$CREDENTIAL_WORKLOAD))
             ->add('url')
             ->add('description')
             ->add('initiative')

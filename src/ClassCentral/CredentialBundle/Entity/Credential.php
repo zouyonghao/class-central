@@ -90,6 +90,27 @@ class Credential
     private $courses;
 
     /**
+     * @var string
+     */
+    private $workloadType;
+
+
+    const CREDENTIAL_PRICE_PERIOD_MONTHLY         = 'M';
+    const CREDENTIAL_PRICE_PERIOD_TOTAL           = 'T';
+    const CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK = 'W';
+    const CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS    = 'T';
+
+    public static $CREDENTIAL_PRICE_PERIODS = array(
+        self::CREDENTIAL_PRICE_PERIOD_MONTHLY =>'Monthly',
+        self::CREDENTIAL_PRICE_PERIOD_TOTAL => 'Total'
+    );
+
+    public static $CREDENTIAL_WORKLOAD = array(
+        self::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK => 'Hours Per Week',
+        self::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS => 'Total Hours',
+    );
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -472,5 +493,28 @@ class Credential
     public function getCourses()
     {
         return $this->courses;
+    }
+
+    /**
+     * Set workloadType
+     *
+     * @param string $workloadType
+     * @return Credential
+     */
+    public function setWorkloadType($workloadType)
+    {
+        $this->workloadType = $workloadType;
+    
+        return $this;
+    }
+
+    /**
+     * Get workloadType
+     *
+     * @return string 
+     */
+    public function getWorkloadType()
+    {
+        return $this->workloadType;
     }
 }
