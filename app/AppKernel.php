@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new ClassCentral\ScraperBundle\ClassCentralScraperBundle(),
             new ClassCentral\ElasticSearchBundle\ClassCentralElasticSearchBundle(),
             new ClassCentral\MOOCTrackerBundle\ClassCentralMOOCTrackerBundle(),
+            new ClassCentral\CredentialBundle\ClassCentralCredentialBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {          

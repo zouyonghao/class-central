@@ -1,0 +1,7 @@
+parameters:
+#    class_central_credential.example.class: ClassCentral\CredentialBundle\Example
+
+services:
+#    class_central_credential.example:
+#        class: %class_central_credential.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

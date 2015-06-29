@@ -1,3 +1,7 @@
+class_central_credential:
+    resource: "@ClassCentralCredentialBundle/Resources/config/routing.yml"
+    prefix:   /
+
 #ClassCentralStaticBundle:
 #    resource: "@ClassCentralStaticBundle/Resources/config/routing.yml"
 #    prefix:   /
