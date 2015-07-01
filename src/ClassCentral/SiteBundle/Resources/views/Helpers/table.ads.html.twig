@@ -3,34 +3,39 @@
     {% set ad = random(1) %}
 
     {% if ad == 0 %}
-    <tr>
+        <tr>
 
-        <td class="add-column">
-            <span class="label label-warning">Ad</span>
-        </td>
+            <td class="add-column">
+                <span class="label label-warning">Ad</span>
+            </td>
 
-        <td class="course-name-column">
-            <a class="course-name" target="_blank" href="https://onemonth.com/courses/python?utm_source=class-central&utm_medium=directory&utm_campaign=python" onmousedown="ga('send','event', 'Table Ad', 'One Month - {{ tableId }}', 'Python')" title="One Month - Build your first Python App"><span itemprop="name">Build your first Python App</span></a>
-            <ul class="table-uni-list">
-                <span class="via">via</span>
-                <a href="https://onemonth.com/?utm_source=class-central&utm_medium=directory&utm_campaign=python" target="_blank" class="initiativelinks" title="What If You Could Learn Anything In One Month?" onclick="ga('send','event', 'Table Ad - Provider', 'One Month', 'Python')">One Month</a>
-            </ul>
-        </td>
 
-        {% if page is defined and page != 'stream' and page=='home' %}
-        <td class="subject-column"> <a class="subject" href="/subject/cs" title="List of Computer Science MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Computer Science', 'One Month Python')" data-category="Computer Science">Computer Science </a>
-        </td>
-        {% endif %}
+            <td class="course-name-column">
+                <a class="course-name" rel="nofollow"  target="_blank" href="https://historychannel.ou.edu/" onmousedown="ga('send','event', 'Table Ad', 'History Channel - {{ tableId }}', 'US, 1865 to the Present')" title="US, 1865 to the Present"><span itemprop="name">US, 1865 to the Present.</span></a>
+                <ul class="table-uni-list">
+                    <li>
+                        <a class="uni-name" href="/university/ou" title="List of The University of Oklahoma MOOCs" onclick="ga('send','event', 'Inbound Clicks - University', 'The University of Oklahoma', 'US, 1865 to the Present.')">The University of Oklahoma</a>
 
-        <td class="start-date">Self paced</td>
+                    </li>
+                    <span class="via">via</span>
+                    <a rel="nofollow" href="https://historychannel.ou.edu/" target="_blank" class="initiativelinks" title="US, 1865 to the Present" onclick="ga('send','event', 'Table Ad - Provider', 'History Channel', 'US, 1865 to the Present.')">History Channel</a>
+                </ul>
+            </td>
 
-        <td data-timestamp="5" class="course-rating-column">
-            <div class="rating-and-count-wrap">
-                <div class="course-rating" data-score="5" ></div>
-            </div>
-        </td>
+            {% if page is defined and page != 'stream' and page=='home' %}
+                <td class="subject-column"> <a class="subject" href="/subject/history" title="List of History MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'History', 'US, 1865 to the Present.')" data-category="History">History</a>
+                </td>
+            {% endif %}
 
-    </tr>
+            <td class="start-date">7th July, 2015</td>
+
+            <td data-timestamp="5" class="course-rating-column">
+                <div class="rating-and-count-wrap">
+                    <div class="course-rating" data-score="5" ></div>
+                </div>
+            </td>
+
+        </tr>
 
     {% else %}
     <tr>
@@ -40,19 +45,19 @@
         </td>
 
         <td class="course-name-column">
-            <a class="course-name" target="_blank" href="https://onemonth.com/courses/growth-hacking?utm_source=class-central&utm_medium=directory&utm_campaign=growth-hacking" onmousedown="ga('send','event', 'Table Ad', 'One Month - {{ tableId }}', 'Growth Hacking')" title="Learn To Explode Product Growth In Just One Month"><span itemprop="name">Growth Hacking</span></a>
+            <a rel="nofollow" class="course-name" target="_blank" href="https://www.openlearning.com/courses/KTC?utm_source=classcentral" onmousedown="ga('send','event', 'Table Ad', 'Openlearning - {{ tableId }}', 'Kuwait Global Technopreneurship Challenge 2015')" title="Kuwait Global Technopreneurship Challenge 2015"><span itemprop="name">Kuwait Global Technopreneurship Challenge 2015</span></a>
             <ul class="table-uni-list">
                 <span class="via">via</span>
-                <a href="https://onemonth.com/?utm_source=class-central&utm_medium=directory&utm_campaign=growth-hacking" target="_blank" class="initiativelinks" title="What If You Could Learn Anything In One Month?" onclick="ga('send','event', 'Table Ad - Provider', 'One Month', 'Growth Hacking')">One Month</a>
+                <a rel="nofollow" href="https://www.openlearning.com/?utm_source=classcentral" target="_blank" class="initiativelinks" title="Kuwait Global Technopreneurship Challenge 2015?" onclick="ga('send','event', 'Table Ad - Provider', 'OpenLearning', 'Kuwait Global Technopreneurship Challenge 2015')">OpenLearning</a>
             </ul>
         </td>
 
         {% if page is defined and page != 'stream' and page=='home' %}
-            <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'One Month Growth Hacking')" data-category="Business & Management">Business & Management </a>
+            <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'Kuwait Global Technopreneurship Challenge 2015')" data-category="Business & Management">Business & Management</a>
             </td>
         {% endif %}
 
-        <td class="start-date">Self paced</td>
+        <td class="start-date">1st July - 14th Nov</td>
 
         <td data-timestamp="5" class="course-rating-column">
             <div class="rating-and-count-wrap">
