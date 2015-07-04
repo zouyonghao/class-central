@@ -83,6 +83,9 @@ ClassCentral\SiteBundle\Entity\User:
         reviews:
           targetEntity: Review
           mappedBy: user
+        credentialReviews:
+          targetEntity: ClassCentral\CredentialBundle\Entity\Credential
+          mappedBy: user
         userPreferences:
           targetEntity: UserPreference
           mappedBy: user

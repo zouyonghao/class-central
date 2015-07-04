@@ -94,6 +94,11 @@ class Credential
      */
     private $workloadType;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $reviews;
+
 
     const CREDENTIAL_PRICE_PERIOD_MONTHLY         = 'M';
     const CREDENTIAL_PRICE_PERIOD_TOTAL           = 'T';
@@ -516,5 +521,38 @@ class Credential
     public function getWorkloadType()
     {
         return $this->workloadType;
+    }
+
+    /**
+     * Add reviews
+     *
+     * @param \ClassCentral\CredentialBundle\Entity\CredentialReview $reviews
+     * @return Credential
+     */
+    public function addReview(\ClassCentral\CredentialBundle\Entity\CredentialReview $reviews)
+    {
+        $this->reviews[] = $reviews;
+    
+        return $this;
+    }
+
+    /**
+     * Remove reviews
+     *
+     * @param \ClassCentral\CredentialBundle\Entity\CredentialReview $reviews
+     */
+    public function removeReview(\ClassCentral\CredentialBundle\Entity\CredentialReview $reviews)
+    {
+        $this->reviews->removeElement($reviews);
+    }
+
+    /**
+     * Get reviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
     }
 }

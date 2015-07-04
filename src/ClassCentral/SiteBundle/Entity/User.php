@@ -128,6 +128,11 @@ class User implements UserInterface, \Serializable
      */
     private $indepthReviews;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $credentialReviews;
+
 
     const SIGNUP_TYPE_FORM = 1;
     const SIGNUP_TYPE_FACEBOOK = 2;
@@ -859,5 +864,38 @@ class User implements UserInterface, \Serializable
     public function getIndepthReviews()
     {
         return $this->indepthReviews;
+    }
+
+    /**
+     * Add credentialReviews
+     *
+     * @param \ClassCentral\CredentialBundle\Entity\Credential $credentialReviews
+     * @return User
+     */
+    public function addCredentialReview(\ClassCentral\CredentialBundle\Entity\Credential $credentialReviews)
+    {
+        $this->credentialReviews[] = $credentialReviews;
+    
+        return $this;
+    }
+
+    /**
+     * Remove credentialReviews
+     *
+     * @param \ClassCentral\CredentialBundle\Entity\Credential $credentialReviews
+     */
+    public function removeCredentialReview(\ClassCentral\CredentialBundle\Entity\Credential $credentialReviews)
+    {
+        $this->credentialReviews->removeElement($credentialReviews);
+    }
+
+    /**
+     * Get credentialReviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCredentialReviews()
+    {
+        return $this->credentialReviews;
     }
 }
