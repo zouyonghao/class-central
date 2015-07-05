@@ -59,7 +59,9 @@ class PageHeaderFactory {
     {
         $info = new PageHeaderInfo("Stream");
         $info->setName($entity->getName());
-        $info->setDescription($entity->getDescription());
+        $info->setDescription(
+            "Study <em>{$entity->getName()}</em> via the best free online courses/MOOCs from top universities and colleges. "
+        );
         if($entity->getImageUrl())
         {
             $info->setImageUrl($entity->getImageDir().'/' . $entity->getImageUrl());

@@ -15,7 +15,7 @@
         <div class="description">
             <h1 class='cc-page-header'>{{info.name}}</h1>
             {% if info.description %}
-                <p>{{ info.description  }}</p>
+                <p>{{ info.description|raw  }}</p>
             {% endif %}
         </div>
         {#
