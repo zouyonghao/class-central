@@ -39,13 +39,18 @@ class UpdateRecommendationsCommand extends ContainerAwareCommand {
             ->getManager();
 
        // Truncate the recommendations table
-        $conn = $em->getConnection()
-                ->exec("TRUNCATE courses_recommendations");
+//        $conn = $em->getConnection()
+//                ->exec("TRUNCATE courses_recommendations");
 
         $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
+
         foreach($courses as $course)
         {
             if($course->getStatus() == CourseStatus::NOT_AVAILABLE) continue;
+
+            // Check if recommendations already exist
+            $recos = $em->getRepository('ClassCentralSiteBundle:CourseRecommendation')->findBy(array('course'=>$course));
+            if($recos) continue; // recommendations already exists
 
             $output->writeln($course->getName());
             // 1. Get all the users interested in the course
@@ -58,7 +63,7 @@ class UpdateRecommendationsCommand extends ContainerAwareCommand {
             foreach($results as $result)
             {
                 $rc =  $em->getRepository('ClassCentralSiteBundle:Course')->find($result['course_id']);
-                if(!$rc) continue;
+                if(!$rc || $rc->getStatus() == CourseStatus::NOT_AVAILABLE) continue;
                 $r = new CourseRecommendation();
                 $r->setCourse($course);
                 $r->setRecommendedCourse($rc);
