@@ -734,6 +734,7 @@ EOD;
                 'allLanguages' => $data['allLanguages'],
                 'allSessions' => $data['allSessions'],
                 'tag' => $tag,
+                'tagDisplayName' => ucfirst(strtolower( $tag) ),
                 'sortField' => $data['sortField'],
                 'sortClass' => $data['sortClass'],
                 'pageNo' => $data['pageNo'],
