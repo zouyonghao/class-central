@@ -21,6 +21,7 @@ class Version20150704001659 extends AbstractMigration
           `title` TEXT NULL,
           `text` TEXT NULL,
           `status` INT NOT NULL,
+          `progress` INT NOT NULL,
           `date_completed` DATE NULL,
           `link` TEXT NULL,
           `topic_coverage` FLOAT NULL,

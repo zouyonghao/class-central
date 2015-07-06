@@ -114,6 +114,11 @@ class CredentialReview
      */
     private $modified;
 
+    /**
+     * @var integer
+     */
+    private $progress;
+
 
     /**
      * Get id
@@ -583,5 +588,29 @@ class CredentialReview
     public function getModified()
     {
         return $this->modified;
+    }
+
+
+    /**
+     * Set progress
+     *
+     * @param integer $progress
+     * @return CredentialReview
+     */
+    public function setProgress($progress)
+    {
+        $this->progress = $progress;
+    
+        return $this;
+    }
+
+    /**
+     * Get progress
+     *
+     * @return integer 
+     */
+    public function getProgress()
+    {
+        return $this->progress;
     }
 }
