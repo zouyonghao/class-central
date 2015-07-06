@@ -654,15 +654,4 @@ class ReviewController extends Controller {
 
         return 'review_widget_course_code' . strtolower($courseCode);
     }
-
-    /**
-     * @param Request $request
-     */
-    public function credentialReviewAction (Request $request)
-    {
-        return $this->render('ClassCentralSiteBundle:Review:writeCredentialReview.html.twig', array(
-            'degrees' => Profile::$degrees,
-        ));
-    }
-
 }

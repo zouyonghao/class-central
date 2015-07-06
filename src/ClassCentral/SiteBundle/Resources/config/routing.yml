@@ -402,4 +402,4 @@ trending:
 
 credential_review:
   pattern: /credential_review
-  defaults: { _controller: ClassCentralSiteBundle:Review:credentialReview }
+  defaults: { _controller: ClassCentralCredentialBundle:CredentialReview:new }
