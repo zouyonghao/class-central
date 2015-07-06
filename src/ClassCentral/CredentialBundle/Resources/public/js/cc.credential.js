@@ -80,11 +80,29 @@ CC.Class['Credential'] = (function(){
 
     function saveReview(event) {
         event.preventDefault();
-        $('#cr-save-review').attr('disabled', true);
+        //$('#cr-save-review').attr('disabled', true);
 
         var review = getReviewFormFields();
         var validationError = validateReviewForm( review );
         if( !validationError ) {
+
+            $.ajax({
+                type : "post",
+                url  : "/certificate/review/save/" + $('#credentialId').data('value'),
+                data : JSON.stringify(review)
+            })
+                .done(
+                    function(result) {
+                        result = JSON.parse(result);
+                        if(result['success']) {
+                            // Redirect to the course page
+                           console.log("Saved Sucessfully");
+                        } else {
+                            // Show an error message
+                           console.log("Error");
+                        }
+                    }
+                );
 
         } else {
             $('#cr-save-review').attr('disabled', false);

@@ -61,7 +61,12 @@
                            </span>
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-full-name">When did you finish?</label>
-                                <input id='cr-progress' class="plain-input" type="text" name="full-name" placeholder="Date Completed" id="edit-profile-full-name" value="">
+                                <select id='cr-progress' class="plain-input plain-input--select js-colorize-select" name="highest-degree" id="edit-profile-qualifications">
+                                    <option value="" class="select-placeholder">Date Completed</option>
+                                    {% for id,prog in progress%}
+                                        <option value="{{ id }}">{{ prog }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
 

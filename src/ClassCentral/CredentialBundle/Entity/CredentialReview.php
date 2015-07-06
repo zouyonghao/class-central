@@ -119,6 +119,42 @@ class CredentialReview
      */
     private $progress;
 
+    /**
+     * Progress Ids
+     */
+    const PROGRESS_TYPE_DROPPED = 1;
+    const PROGRESS_TYPE_PARTIALLY_COMPLETED = 2;
+    const PROGRESS_TYPE_COMPLETED = 3;
+
+    public static $progressList = array(
+        self::PROGRESS_TYPE_DROPPED => 'Dropped',
+        self::PROGRESS_TYPE_PARTIALLY_COMPLETED => 'Partially Completed',
+        self::PROGRESS_TYPE_COMPLETED => 'Completed'
+    );
+
+    /**
+     * Statuses for reviews
+     * Anything above 100 is not shown to the user
+     */
+    const REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND = 100;
+
+    const REVIEW_STATUS_NEW_BUT_SHOWN = 1;
+    const REVIEW_STATUS_APPROVED = 2;
+    const REVIEW_STATUS_NOT_SHOWN = 100;
+    const REVIEW_STATUS_SPAM = 101;
+
+    public static $statuses = array(
+        self::REVIEW_STATUS_NEW_BUT_SHOWN => 'New Review - but shown',
+        self::REVIEW_STATUS_APPROVED => 'Approved',
+        self::REVIEW_STATUS_NOT_SHOWN => "Don't Show",
+        self::REVIEW_STATUS_SPAM => 'Spam Review'
+    );
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+        $this->status = self::REVIEW_STATUS_NEW_BUT_SHOWN;
+    }
 
     /**
      * Get id
