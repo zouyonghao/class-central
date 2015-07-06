@@ -126,10 +126,9 @@ class CredentialReview
     const PROGRESS_TYPE_PARTIALLY_COMPLETED = 2;
     const PROGRESS_TYPE_COMPLETED = 3;
 
-    public static $progressList = array(
+    public static $progressListDropdown = array(
         self::PROGRESS_TYPE_DROPPED => 'Dropped',
         self::PROGRESS_TYPE_PARTIALLY_COMPLETED => 'Partially Completed',
-        self::PROGRESS_TYPE_COMPLETED => 'Completed'
     );
 
     /**

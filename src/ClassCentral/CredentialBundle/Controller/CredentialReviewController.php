@@ -13,9 +13,21 @@ class CredentialReviewController extends Controller
 
     public function newAction(Request $request)
     {
+        // For the completed date dropdown show the last 18 months
+        $completedDates = array();
+        $dt = new \DateTime();
+        $dt->modify('first day of next month');
+
+        $timePeriod ='18';
+        while($timePeriod)
+        {
+            $completedDates[$dt->format('Y-m-d')] = $dt->format('M Y') ;
+            $dt->modify('first day of previous month');
+            $timePeriod--;
+        }
         return $this->render('ClassCentralCredentialBundle:CredentialReview:reviewForm.html.twig', array(
             'degrees' => Profile::$degrees,
-            'progress' => CredentialReview::$progressList,
+            'progress' => array_merge(CredentialReview::$progressListDropdown, $completedDates),
         ));
     }
 
@@ -68,11 +80,20 @@ class CredentialReviewController extends Controller
         $cr->setTitle( $reviewData['title'] );
 
         // Progress is mandatory
-        if( empty($reviewData['progress']) || !in_array($reviewData['progress'],array_keys(CredentialReview::$progressList) ) )
+        if( empty($reviewData['progress']) )
         {
             return UniversalHelper::getAjaxResponse(false, "Progress cannot be empty" );
         }
-        $cr->setProgress( $reviewData['progress'] );
+        $progress = $reviewData['progress'];
+        if( in_array($progress, CredentialReview::$progressListDropdown) )
+        {
+            $cr->setProgress( $progress );
+        }
+        else
+        {
+            $cr->setDateCompleted( new \DateTime($progress) );
+            $cr->setProgress( CredentialReview::PROGRESS_TYPE_COMPLETED );
+        }
 
         // Link
         $cr->setLink( $reviewData['certificateLink'] );
