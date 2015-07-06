@@ -11,7 +11,7 @@ class CredentialReviewController extends Controller
 
     public function newAction(Request $request)
     {
-        return $this->render('ClassCentralSiteBundle:Review:writeCredentialReview.html.twig', array(
+        return $this->render('ClassCentralCredentialBundle:CredentialReview:reviewForm.html.twig', array(
             'degrees' => Profile::$degrees,
         ));
     }
