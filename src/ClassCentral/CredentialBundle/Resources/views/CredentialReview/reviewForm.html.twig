@@ -88,39 +88,42 @@
                 <div class="padded-input-group padded-input-group--border-bot">
                     <h2 class="heading-colored">Could you say a little more about it? (optional)</h2>
 
+
                     <div class="row">
+                        <!-- Topic Coverage -->
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Topic Coverage</label>
-                                <div class="plain-input credential-rating-page" data-score =0></div>
+                                <div id="cr-topic-coverage" class="plain-input credential-rating-page" data-score =0></div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
+                        <!-- Job Readiness -->
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
-                                <label class="cc-input-label" for="edit-profile-twitter"> Job Readiness</label>
-                                <div class="plain-input credential-rating-page" data-score =0></div>
+                                <label class="cc-input-label" for="edit-profile-twitter">Job Readiness</label>
+                                <div id="cr-job-readiness" class="plain-input credential-rating-page" data-score =0></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Community/Staff support-->
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Community/Staff support</label>
-                                <div class="plain-input credential-rating-page" data-score =0></div>
+                                <div id="cr-support" class="plain-input credential-rating-page" data-score =0></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
 
+                    <div class="row">
+                        <!-- Effort -->
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-field-of-study">Effort</label>
-                                <input class="plain-input" type="number" name="full-name" placeholder="Hours per week?" id="edit-profile-full-name" value="">
+                                <input id="cr-effort" class="plain-input" type="number" name="full-name" placeholder="Hours per week?" id="edit-profile-full-name" value="">
                             </div>
                         </div>
 
@@ -128,7 +131,7 @@
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-qualifications">Duration</label>
-                                <input class="plain-input" type="number" name="full-name" placeholder="How Many Months" id="edit-profile-full-name" value="">
+                                <input id="cr-duration" class="plain-input" type="number" name="full-name" placeholder="How Many Months" id="edit-profile-full-name" value="">
                             </div>
                         </div>
 

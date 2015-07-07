@@ -57,7 +57,7 @@ class CredentialReview
     /**
      * @var float
      */
-    private $communitySupport;
+    private $support;
 
     /**
      * @var integer
@@ -350,26 +350,26 @@ class CredentialReview
     }
 
     /**
-     * Set communitySupport
+     * Set support
      *
-     * @param float $communitySupport
+     * @param float $support
      * @return CredentialReview
      */
-    public function setCommunitySupport($communitySupport)
+    public function setSupport($support)
     {
-        $this->communitySupport = $communitySupport;
+        $this->support = $support;
     
         return $this;
     }
 
     /**
-     * Get communitySupport
+     * Get support
      *
      * @return float 
      */
-    public function getCommunitySupport()
+    public function getSupport()
     {
-        return $this->communitySupport;
+        return $this->Support;
     }
 
     /**

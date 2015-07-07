@@ -22,13 +22,23 @@ CC.Class['Credential'] = (function(){
         var reviewText = $('#cr-review-text').val();
         var progress = $('#cr-progress').val();
         var certificateLink = $('#cr-certificate-link').val();
+        var topicCoverage = $('#cr-topic-coverage').raty('score');
+        var jobReadiness = $('#cr-job-readiness').raty('score');
+        var support = $('#cr-support').raty('score');
+        var effort = $('#cr-effort').val();
+        var duration = $('#cr-duration').val();
 
         return {
             'rating' : rating,
             'title': title,
             'reviewText': reviewText,
             'progress' : progress,
-            'certificateLink' : certificateLink
+            'certificateLink' : certificateLink,
+            'topicCoverage': topicCoverage,
+            'jobReadiness' : jobReadiness,
+            'support' : support,
+            'effort' : effort,
+            'duration' : duration
         };
     }
 

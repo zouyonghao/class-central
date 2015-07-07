@@ -98,6 +98,35 @@ class CredentialReviewController extends Controller
         // Link
         $cr->setLink( $reviewData['certificateLink'] );
 
+        /******
+         * Could you say a little more about the course
+         */
+        if(isset($reviewData['topicCoverage']) &&  $reviewData['topicCoverage'] >= 1 && $reviewData['topicCoverage'] <= 5)
+        {
+            $cr->setTopicCoverage( $reviewData['topicCoverage'] );
+        }
+
+        if(isset($reviewData['jobReadiness']) &&  $reviewData['jobReadiness'] >= 1 && $reviewData['jobReadiness'] <= 5)
+        {
+            $cr->setJobReadiness( $reviewData['jobReadiness'] );
+        }
+
+        if(isset($reviewData['support']) &&  $reviewData['support'] >= 1 && $reviewData['support'] <= 5)
+        {
+            $cr->setSupport( $reviewData['support'] );
+        }
+
+        if( !empty($reviewData['effort']) && is_numeric( $reviewData['effort'] ) )
+        {
+            $cr->setEffort( $reviewData['effort'] );
+        }
+
+        if( !empty($reviewData['duration']) && is_numeric( $reviewData['duration'] ) )
+        {
+            $cr->setDuration( $reviewData['duration'] );
+        }
+
+
         $em->persist( $cr );
         $em->flush();
 

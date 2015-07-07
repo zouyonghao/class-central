@@ -26,7 +26,7 @@ class Version20150704001659 extends AbstractMigration
           `link` TEXT NULL,
           `topic_coverage` FLOAT NULL,
           `job_readiness` FLOAT NULL,
-          `community_support` FLOAT NULL,
+          `support` FLOAT NULL,
           `effort` INT NULL,
           `duration` INT NULL,
           `reviewer_name` VARCHAR(255) NULL,
