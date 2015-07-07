@@ -130,6 +130,7 @@ class CourseController extends Controller
             $user = $this->getUser();
             $this->container
                 ->get('slack_client')
+                ->to('#cc-activity-data')
                 ->from( $user->getName() )
                 ->withIcon( $this->get('user_service')->getProfilePic( $user->getId() ) )
                 ->send( $message );

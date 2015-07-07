@@ -380,6 +380,7 @@ class Review {
             $message = str_replace('</strong>','_', $message);
             $this->container
                 ->get('slack_client')
+                ->to('#cc-activity-user')
                 ->from( $review->getUser()->getDisplayName() )
                 ->withIcon( $this->container->get('user_service')->getProfilePic( $review->getUser()->getId() ) )
                 ->send($message);
