@@ -18,7 +18,7 @@
                                     Rating is required
                            </span>
                             <div class="bordered-box bordered-box--input">
-                                <label class="cc-input-label" for="edit-profile-full-name">Rating</label>
+                                <label class="cc-input-label" for="edit-profile-full-name">Rating <span style="color: red">*</span></label>
                                 <div id="cr-rating" class="plain-input credential-rating-page" data-score=0 style="width: auto"></div>
                             </div>
 
@@ -60,7 +60,7 @@
                                    Progress is Required
                            </span>
                             <div class="bordered-box bordered-box--input">
-                                <label class="cc-input-label" for="edit-profile-full-name">When did you finish?</label>
+                                <label class="cc-input-label" for="edit-profile-full-name">When did you finish? <span style="color: red">*</span></label>
                                 <select id='cr-progress' class="plain-input plain-input--select js-colorize-select" name="highest-degree" id="edit-profile-qualifications">
                                     <option value="" class="select-placeholder">Date Completed</option>
                                     {% for id,prog in progress%}
@@ -155,7 +155,7 @@
                         <!-- Email -->
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
-                                <label class="cc-input-label" for="edit-profile-twitter">Email</label>
+                                <label class="cc-input-label" for="edit-profile-twitter">Email <span style="color: red">*</span></label>
                                 <input class="plain-input" type="text" name="profile-twitter" placeholder="Email" id="edit-profile-twitter" value="">
                             </div>
                         </div>
