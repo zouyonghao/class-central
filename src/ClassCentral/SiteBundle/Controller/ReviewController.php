@@ -578,6 +578,36 @@ class ReviewController extends Controller {
         return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', $data);
     }
 
+    public function substantialReviewsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->createQueryBuilder();
+        $created = new \DateTime();
+        $created->modify('-2 month');
+        $query
+            ->add('select','r')
+            ->add('from','ClassCentralSiteBundle:Review r')
+            ->andWhere('r.status < :status AND r.created > :created')
+            ->setParameter('status', Review::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND)
+            ->setParameter('created', $created->format('Y-m-d'))
+            ;
+
+        $allReviews = $query->getQuery()->getResult();
+        $reviews = array();
+        foreach( $allReviews as $review)
+        {
+            if( strlen($review->getReview()) > 200 && $review->getRating() >= 4)
+            {
+                $reviews[] = ReviewUtility::getReviewArray( $review );
+            }
+        }
+
+        return $this->render('ClassCentralSiteBundle:Review:substantialReviews.html.twig', array(
+            'reviews' => $reviews
+        ));
+    }
+
     private function generateReviewWidgetCacheKey($courseId, $courseCode)
     {
         if(!empty($courseId))
