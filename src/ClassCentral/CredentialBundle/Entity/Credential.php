@@ -99,6 +99,19 @@ class Credential
      */
     private $reviews;
 
+    /**
+     * @var integer
+     */
+    private $status;
+
+    // Any course above this status will not be shown to the user
+    const CREDENTIAL_NOT_SHOWN_LOWER_BOUND = 100;
+
+    // Statuses
+    const AVAILABLE = 0;
+    const NOT_AVAILABLE = 100;
+    const TO_BE_REVIEWED = 101; // To be reviewed by someone before it is displayed
+
 
     const CREDENTIAL_PRICE_PERIOD_MONTHLY         = 'M';
     const CREDENTIAL_PRICE_PERIOD_TOTAL           = 'T';
@@ -115,6 +128,17 @@ class Credential
         self::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS => 'Total Hours',
     );
 
+    public static function getStatuses()
+    {
+        return array(
+            self::AVAILABLE => 'Available',
+            self::NOT_AVAILABLE => 'Not Available',
+            self::TO_BE_REVIEWED => 'To Be Reviewed'
+        );
+    }
+
+
+
     /**
      * Constructor
      */
@@ -123,6 +147,7 @@ class Credential
         $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->created = new \DateTime();
+        $this->status = self::TO_BE_REVIEWED;
     }
     
     /**
@@ -554,5 +579,29 @@ class Credential
     public function getReviews()
     {
         return $this->reviews;
+    }
+
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     * @return Credential
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

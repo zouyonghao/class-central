@@ -12,6 +12,7 @@ class CredentialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('status','choice',array('choices' => Credential::getStatuses()))
             ->add('name')
             ->add('oneLiner')
             ->add('description')
