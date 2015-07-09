@@ -46,9 +46,20 @@ CC.Class['Utilities'] = (function(){
         return (!str || 0 === str.length);
     }
 
+    /**
+     * Basic check whether email is correct
+     * @param email
+     * @returns {boolean}
+     */
+    function validateEmail(email) {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
     return {
         notify: notify,
         notifyWithDelay: notifyWithDelay,
-        isEmpty:isEmpty
+        isEmpty:isEmpty,
+        validateEmail:validateEmail
     };
 })();

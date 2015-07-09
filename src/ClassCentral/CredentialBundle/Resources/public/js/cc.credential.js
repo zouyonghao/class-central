@@ -38,7 +38,12 @@ CC.Class['Credential'] = (function(){
             'jobReadiness' : jobReadiness,
             'support' : support,
             'effort' : effort,
-            'duration' : duration
+            'duration' : duration,
+            'name' : $('#cr-name').val(),
+            'email' : $('#cr-email').val(),
+            'jobTitle': $('#cr-job-title').val(),
+            'highestDegree' : $('#cr-highest-degree').val(),
+            'fieldOfStudy' : $('#cr-field-of-study').val()
         };
     }
 
@@ -84,6 +89,14 @@ CC.Class['Credential'] = (function(){
             }
         }
 
+        // Validate email if the user is not logged in
+        if( !$('#loggedin').data('value') ) {
+            $('#cr-error-email').hide();
+            if(!utilities.validateEmail(review.email) ) {
+                validationError = true;
+                $('#cr-error-email').show();
+            }
+        }
 
         return validationError;
     }
@@ -95,10 +108,9 @@ CC.Class['Credential'] = (function(){
         var review = getReviewFormFields();
         var validationError = validateReviewForm( review );
         if( !validationError ) {
-
             $.ajax({
                 type : "post",
-                url  : "/certificate/review/save/" + $('#credentialId').data('value'),
+                url  : "/certificate/review/save/" + $('#credentialid').data('value'),
                 data : JSON.stringify(review)
             })
                 .done(
@@ -106,7 +118,7 @@ CC.Class['Credential'] = (function(){
                         result = JSON.parse(result);
                         if(result['success']) {
                             // Redirect to the course page
-                           console.log("Saved Sucessfully");
+                           console.log("Saved Successfully");
                         } else {
                             // Show an error message
                            console.log("Error");

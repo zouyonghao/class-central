@@ -35,6 +35,8 @@ class CredentialReviewController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $user = $this->getUser();
+
         $credential = $em->getRepository('ClassCentralCredentialBundle:Credential')->find($credentialId);
         if( !$credential )
         {
@@ -125,6 +127,46 @@ class CredentialReviewController extends Controller
         {
             $cr->setDuration( $reviewData['duration'] );
         }
+
+        /******
+         * About Me
+         */
+        // Validate email
+        if(!$user)
+        {
+            $email = $reviewData['email'];
+            if ( !$email || !filter_var($email,FILTER_VALIDATE_EMAIL) )
+            {
+                // invalid email
+                return UniversalHelper::getAjaxResponse(false,'Valid email is required');
+            }
+            else
+            {
+                $cr->setReviewerEmail( $email );
+            }
+        }
+        else
+        {
+            $cr->setUser( $user );
+        }
+
+        if( !empty($reviewData['name']) )
+        {
+            $cr->setReviewerName( $reviewData['name'] );
+        }
+
+        if( !empty($reviewData['highestDegree']) )
+        {
+            $degreeId = intval($reviewData['highestDegree']);
+            if( isset(Profile::$degrees[$degreeId] ) )
+            {
+                $cr->setReviewerHighestDegree( Profile::$degrees[$degreeId] );
+            }
+        }
+
+        $cr->setReviewerJobTitle( $reviewData['jobTitle'] );
+        $cr->setReviewerFieldOfStudy( $reviewData['fieldOfStudy'] );
+
 
 
         $em->persist( $cr );

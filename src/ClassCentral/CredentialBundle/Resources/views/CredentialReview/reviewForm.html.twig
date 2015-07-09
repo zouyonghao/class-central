@@ -5,7 +5,12 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <span id="credentialId" data-value="1" class="hidden"></span>
+        {% set loggedIn = 0 %}
+        {% if app.user %}
+            {% set loggedIn = 1 %}
+        {% endif %}
+        <span id="credentialid" data-value="1" class="hidden"></span>
+        <span id="loggedin" data-value="{{ loggedIn  }}" class="hidden"></span>
         <div class="col-md-9">
             <form class="color-scheme-brand form" action="#" method="post">
                 <div class="padded-input-group padded-input-group--border-bot">
@@ -131,7 +136,7 @@
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-qualifications">Duration</label>
-                                <input id="cr-duration" class="plain-input" type="number" name="full-name" placeholder="How Many Months" id="edit-profile-full-name" value="">
+                                <input id="cr-duration" class="plain-input" type="number" name="full-name" placeholder="How Many Months"  value="">
                             </div>
                         </div>
 
@@ -144,21 +149,27 @@
                     <h2 class="heading-colored">About you?</h2>
 
                     <div class="row">
-                        <!-- Full Name -->
+                        {% if not (loggedIn and app.user.name is defined and app.user.name is not empty) %}
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Name</label>
-                                <input class="plain-input" type="text" name="profile-twitter" placeholder="Full Name" id="edit-profile-twitter" value="">
+                                <input id="cr-name" class="plain-input" type="text" name="profile-twitter" placeholder="Full Name"  value="">
                             </div>
                         </div>
+                        {% endif %}
 
                         <!-- Email -->
-                        <div class="col-lg-6">
-                            <div class="bordered-box bordered-box--input">
-                                <label class="cc-input-label" for="edit-profile-twitter">Email <span style="color: red">*</span></label>
-                                <input class="plain-input" type="text" name="profile-twitter" placeholder="Email" id="edit-profile-twitter" value="">
+                        {% if not loggedIn %}
+                            <div class="col-lg-6">
+                                <span class="cc-form-error" id="cr-error-email" style="display:none;">
+                                    A valid email is required
+                               </span>
+                                <div class="bordered-box bordered-box--input">
+                                    <label class="cc-input-label" for="edit-profile-twitter">Email <span style="color: red">*</span></label>
+                                    <input id="cr-email" class="plain-input" type="email" name="profile-twitter" placeholder="Email"  value="">
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </div>
 
                     <div class="row">
@@ -166,7 +177,7 @@
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Job Title</label>
-                                <input class="plain-input" type="text" name="profile-twitter" placeholder="Job Title" id="edit-profile-twitter" value="">
+                                <input id="cr-job-title" class="plain-input" type="text" name="profile-twitter" placeholder="Job Title"  value="">
                             </div>
                         </div>
 
@@ -174,24 +185,28 @@
 
                     <div class="row">
                         <!-- Highest Education achieved -->
+                        {% if not (loggedIn and app.user.profile.highestDegree is defined and app.user.profile.highestDegree is not empty) %}
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Highest Education Achieved</label>
-                                <select class="plain-input plain-input--select js-colorize-select" name="highest-degree" id="edit-profile-qualifications">
+                                <select id="cr-highest-degree" class="plain-input plain-input--select js-colorize-select" name="highest-degree" >
                                     <option value="" class="select-placeholder">Degrees</option>
                                     {% for id,degree in degrees%}
-                                        <option value="{{ id }}">{{ degree }}</option>
+                                        <option value="{{ id }}" >{{ degree }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                         </div>
+                        {% endif %}
                         <!-- Field of Study -->
+                        {% if not (loggedIn and app.user.profile.fieldOfStudy is defined and app.user.profile.fieldOfStudy is not empty) %}
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Field of Study</label>
-                                <input class="plain-input" type="text" name="profile-twitter" placeholder="Highest Education Achieved" id="edit-profile-twitter" value="">
+                                <input id="cr-field-of-study" class="plain-input" type="text" name="profile-twitter" placeholder="Field of Study" value="{% if loggedIn %} {{ app.user.profile.fieldOfStudy }}{% endif %}">
                             </div>
                         </div>
+                        {% endif %}
                     </div>
 
                 </div>
