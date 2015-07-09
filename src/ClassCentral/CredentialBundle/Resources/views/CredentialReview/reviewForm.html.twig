@@ -9,7 +9,7 @@
         {% if app.user %}
             {% set loggedIn = 1 %}
         {% endif %}
-        <span id="credentialid" data-value="1" class="hidden"></span>
+        <span id="credentialid" data-value="{{ credential.id }}" class="hidden"></span>
         <span id="loggedin" data-value="{{ loggedIn  }}" class="hidden"></span>
         <div class="col-md-9">
             <form class="color-scheme-brand form" action="#" method="post">

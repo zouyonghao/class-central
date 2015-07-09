@@ -4,6 +4,7 @@ namespace ClassCentral\CredentialBundle\Controller;
 
 use ClassCentral\CredentialBundle\Entity\CredentialReview;
 use ClassCentral\SiteBundle\Entity\Profile;
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
 class CredentialReviewController extends Controller
 {
 
-    public function newAction(Request $request)
+    public function newAction(Request $request, $credentialId)
     {
+        $em = $this->getDoctrine()->getManager();
+        $credential = $em->getRepository('ClassCentralCredentialBundle:Credential')->find( $credentialId );
+        if( !$credential )
+        {
+            return;
+        }
+
         // For the completed date dropdown show the last 18 months
         $completedDates = array();
         $dt = new \DateTime();
@@ -25,9 +33,16 @@ class CredentialReviewController extends Controller
             $dt->modify('first day of previous month');
             $timePeriod--;
         }
+
+        $breadcrumbs = array();
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb('Credential');
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb($credential->getName());
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb('Review');
         return $this->render('ClassCentralCredentialBundle:CredentialReview:reviewForm.html.twig', array(
             'degrees' => Profile::$degrees,
             'progress' => array_merge(CredentialReview::$progressListDropdown, $completedDates),
+            'credential' => $credential,
+            'breadcrumbs' => $breadcrumbs,
         ));
     }
 

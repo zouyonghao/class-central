@@ -1,5 +1,5 @@
 credential_review:
-  pattern: /credential_review
+  pattern: /certificate/{credentialId}/review/new/
   defaults: { _controller: ClassCentralCredentialBundle:CredentialReview:new }
 
 credential_review_save:
