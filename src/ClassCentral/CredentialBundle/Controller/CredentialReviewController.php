@@ -2,6 +2,7 @@
 
 namespace ClassCentral\CredentialBundle\Controller;
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\CredentialBundle\Entity\CredentialReview;
 use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
@@ -188,6 +189,20 @@ class CredentialReviewController extends Controller
         $em->flush();
 
         return UniversalHelper::getAjaxResponse(true, $cr->getId() );
+    }
 
+    /**
+     * Shows a page with the list of links for credentials
+     * @param Request $request
+     */
+    public function credentialsReviewsAction(Request $request)
+    {
+        $credentials = $this->getDoctrine()->
+            getRepository('ClassCentralCredentialBundle:Credential')
+            ->findBy(array('status' => Credential::AVAILABLE));
+
+        return $this->render('ClassCentralCredentialBundle:CredentialReview:credentialsReviews.html.twig', array(
+            'credentials' =>$credentials
+        ));
     }
 }

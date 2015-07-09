@@ -5,3 +5,7 @@ credential_review:
 credential_review_save:
   pattern: /certificate/review/save/{credentialId}
   defaults: { _controller: ClassCentralCredentialBundle:CredentialReview:save}
+
+credentials_reviews:
+  pattern: /certificate/reviews
+  defaults: { _controller: ClassCentralCredentialBundle:CredentialReview:credentialsReviews }
