@@ -223,6 +223,7 @@ class DBHelper
             $message ="[New Session] *{$course->getName()}* -  {$offering->getDisplayDate()}\n" .$coursePageUrl ;
             $this->scraper->getContainer()
                 ->get('slack_client')
+                ->to('#cc-activity-data')
                 ->from( $initiative->getName() )
                 ->withIcon( $logo )
                 ->send( $message );
