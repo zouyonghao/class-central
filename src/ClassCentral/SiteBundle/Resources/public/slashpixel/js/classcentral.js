@@ -1032,7 +1032,26 @@ jQuery(function($) {
         window.location.replace(previous);
     } );
 
-    // Review status update
+    $('#demoModal').modal('show');
+
+    // mini slider functionality
+    $( ".js-mini-slider" ).each(function( index, element ) {
+        $(element).flexslider({
+            selector: ".js-mini-slider-slides .js-mini-slider-slide",
+            slideshow: false,
+            directionNav: false,
+            manualControls: ".js-mini-slider-controls .js-mini-slider-control"
+        });
+
+        var $slide = $(element).find(".js-mini-slider-slide");
+
+        var numberOfSlides = $slide.length;
+
+        $slide.on("click", function(e) {
+            $(element).flexslider("next");
+        });
+    });
+
     $('.review-status-update').click(function(event){
         event.preventDefault();
         $.ajax({
