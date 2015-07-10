@@ -1032,4 +1032,27 @@ jQuery(function($) {
         window.location.replace(previous);
     } );
 
+    // Review status update
+    $('.review-status-update').click(function(event){
+        event.preventDefault();
+        $.ajax({
+            type:"get",
+            url:$(this).attr('href')
+        })
+            .done(
+            function(result){
+                result = JSON.parse(result);
+                if(result['success']) {
+                    notify(
+                        'Review Status Updated',
+                        '',
+                        'success'
+                    );
+                } else {
+                    notify('Review Status Not Updated','','error')   ;
+                }
+            }
+        );
+    });
+
 });

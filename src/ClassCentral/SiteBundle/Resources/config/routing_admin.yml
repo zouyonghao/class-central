@@ -55,6 +55,10 @@ reviews_by_status:
   pattern: /review/status/view/{statusId}
   defaults: { _controller: ClassCentralSiteBundle:Review:reviewsByStatus }
 
+reviews_status_update:
+  pattern: /review/update/{reviewId}/{statusId}
+  defaults: { _controller: ClassCentralSiteBundle:Review:reviewStatusUpdate }
+
 substantial_reviews:
   pattern: /substantialReviews
   defaults: { _controller: ClassCentralSiteBundle:Review:substantialReviews }

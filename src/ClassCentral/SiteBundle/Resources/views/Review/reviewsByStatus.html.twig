@@ -4,30 +4,18 @@
 
 <h1>Reviews by status</h1>
 
-    <table class="record_properties">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>User Name</th>
-                <th>Course Name</th>
-                <th>Rating</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {# &nbsp; #}
-        {% for review in reviews %}
-            {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle, review.user.isPrivate) %}
-            <tr>
-                <td style="padding-right: 10px">{{ review.id }}</td>
-                <td style="padding-right: 10px">{% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}"> {% endif %}{{ review.user.name }} {% if reviewerProfileUrl %} </a> {% endif %}</td>
-                <td style="padding-right: 10px"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, 'slug' : review.course.slug})  }}"> {{ review.course.name }}</a></td>
-                <td>{{ review.rating }}</td>
-                <th><a href="{{ path('review_edit',{reviewId: review.id}) }}">Edit</a></th>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="col-sm-8 col-lg-9 course-bottom-wrap">
+        <div class="col-sm-12 course-col">
+            <div class="course-all-reviews" id="course-all-reviews">
+                <div class="single-reviews-wrap">
+                    {% for review in reviews %}
+                        <a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">Approve</a>|<a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 100, reviewId: review.id}) }}">Don't Show</a>
+                        {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review,'rating':5} %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

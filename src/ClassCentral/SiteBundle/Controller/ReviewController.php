@@ -19,6 +19,7 @@ use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -462,12 +463,42 @@ class ReviewController extends Controller {
    public function reviewsByStatusAction(Request $request, $statusId)
    {
        $em = $this->getDoctrine()->getManager();
-       $reviews = $em->getRepository('ClassCentralSiteBundle:Review')->findByStatus($statusId);
+       $allReviews = $em->getRepository('ClassCentralSiteBundle:Review')->findByStatus($statusId);
+
+       $reviews = array();
+       foreach( $allReviews as $review)
+       {
+          $reviews[] = ReviewUtility::getReviewArray( $review );
+       }
 
        return $this->render('ClassCentralSiteBundle:Review:reviewsByStatus.html.twig',array(
             'reviews' => $reviews
        ));
    }
+
+    /**
+     * Ajax call for review status update
+     * @param Request $request
+     * @param $reviewId
+     * @param $statusId
+     * @return Response
+     */
+    public function reviewStatusUpdateAction(Request $request, $reviewId, $statusId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $review = $em->getRepository('ClassCentralSiteBundle:Review')->find($reviewId);
+        if(!$review)
+        {
+            return UniversalHelper::getAjaxResponse(false,'Review Does not exist');
+        }
+
+        $review->setStatus( $statusId );
+        $em->persist( $review );
+        $em->flush();
+
+        return UniversalHelper::getAjaxResponse(true);
+    }
 
     /**
      * Shows the users reviews
