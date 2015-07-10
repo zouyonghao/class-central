@@ -22,13 +22,13 @@ class SignupType extends AbstractType{
     )       ))
         ;
 
-         $builder->add('password', 'repeated', array(
-             'first_name'  => 'password',
-             'second_name' => 'confirm_password',
-             'type'        => 'password',
+         $builder->add('password', 'password', array(
+             'required' => true,
              'invalid_message' => "The password fields must match",
-             "first_options" => array('label' => 'Password','attr'=>array('placeholder' => 'Password')),
-             "second_options" => array('label' => 'Confirm Password', 'attr' => array('placeholder' => 'Confirm password'))
+             'label' => 'Password',
+             'attr'=>array(
+                 'placeholder' => 'Password'
+             )
          ));
         $builder->add('save', 'submit',array(
             'label' => 'Sign Up',
