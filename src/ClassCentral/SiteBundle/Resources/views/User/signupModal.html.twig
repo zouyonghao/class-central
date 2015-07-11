@@ -318,7 +318,7 @@
 </div>
 <div class="modal-base__col modal-base__col--right">
     <div class="modal-base__header">
-        <a class="sign-in-with-facebook" href="#">
+        <a class="sign-in-with-facebook" href="{{ path('fb_authorize_start') }}" onmousedown="ga('send','event','Sign up with Facebook', 'Go To Class Modal');">
             <span class="icon-facebook2-png"></span>
             <svg class="icon icon-facebook2" viewBox="0 0 32 32">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-facebook2"></use>
@@ -331,33 +331,31 @@
         <span>OR</span>
     </div>
 
-    <form action="#">
+    {{ form_start(signupForm) }}
 
         <div class="basic-field-group">
-            <label for="" class="basic-field-group__label"></label>
-            <input type="text" class="basic-input" placeholder="Your Email">
-        </div>
-
-        <div class="basic-field-group">
-            <label for="" class="basic-field-group__label"></label>
-            <input type="text" class="basic-input" placeholder="Full name">
+           {{ form_row(signupForm.email,{ attr: {class: 'basic-input', placeholder: 'Your email'}, label:false }) }}
         </div>
 
         <div class="basic-field-group">
-            <label for="" class="basic-field-group__label"></label>
-            <input type="text" class="basic-input" placeholder="Choose password">
+            {{ form_row(signupForm.name,{ attr: {class: 'basic-input'}, label:false } ) }}
         </div>
 
         <div class="basic-field-group">
-            <input type="submit" class="basic-input-button" value="Free sign up">
+            {{ form_row(signupForm.password,{ attr: {class: 'basic-input',  placeholder: 'Choose password'}, label:false }) }}
         </div>
 
-        <div class="basic-field-note">
-            Already have an account? <a href="#">Sign in</a>
+        <div class="basic-field-group">
+            {{ form_row(signupForm.save, { attr: {class: 'basic-input-button'} }) }}
         </div>
 
 
-    </form>
+    {{ form_end(signupForm) }}
+    <div class="basic-field-note">
+        Already have an account? <a href="{{ path('login')  }}" title="Log In">Sign in</a>
+    </div>
+
+   {# form(signupForm) #}
 
 </div>
 </div>

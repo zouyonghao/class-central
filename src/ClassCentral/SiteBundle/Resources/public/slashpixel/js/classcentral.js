@@ -683,15 +683,12 @@ jQuery(function($) {
                     if( !loggedInResult.loggedIn) {
 
                         // Show the signup form
-                        //$('#signupFormGoToClass').modal('show');
                         $('#signupModal').modal('show');
                     }
                 }
              );
             Cookies.set( btnSignupCookie, 1, { expires :30} );
         }
-
-
 
     });
 
