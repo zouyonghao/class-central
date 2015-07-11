@@ -416,6 +416,15 @@ class CourseController extends Controller
             'action' => $this->generateUrl('signup_create_user',array('src' => 'go_to_class' ))
         ));
 
+        $sigupFormModels = $this->get('cache')->get('signupform_models', function(){
+                $signupFormUserIds = array(
+                    1,62002,47,37090,14552,64384,64376,69879,18858,46185,
+                    71702,28990,45161,38674,33586, 67004, 63157,43746, 54495,
+                    10870,54429, 15672, 6158, 28538
+                );
+                return $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->getUsers( $signupFormUserIds );
+        });
+
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
@@ -435,7 +444,8 @@ class CourseController extends Controller
                  'courseImage' => $this->getCourseImage( $courseId),
                  'ratingStars' => ReviewUtility::getRatingStars( $rating ),
                  'interestedUsers' => $interestedUsers,
-                 'signupForm' => $signupForm->createView()
+                 'signupForm' => $signupForm->createView(),
+                 'sigupFormModels' => $sigupFormModels
        ));
     }
 
