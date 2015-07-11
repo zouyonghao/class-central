@@ -408,10 +408,6 @@ class CourseController extends Controller
             $course['name']
         );
 
-        // Get the latest 2 news item
-        $newsController = new NewsController();
-        $news = $cache->get('recent_news_course_page',array($newsController,'getRecentNews'), array($this->getDoctrine()->getManager(),2));
-
 
         $recommendations = $this->get('Cache')->get('course_recommendation_'. $courseId, array($this,'getCourseRecommendations'), array($courseId));
         $interestedUsers = $em->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
@@ -433,7 +429,6 @@ class CourseController extends Controller
                  'rating' => $rating,
                  'reviews' => $reviews,
                  'breadcrumbs' => $breadcrumbs,
-                 'news' => $news,
                  'recommendations' => $recommendations,
                  'providersWithLogos' => Course::$providersWithFavicons,
                  'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] ),
