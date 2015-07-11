@@ -683,7 +683,8 @@ jQuery(function($) {
                     if( !loggedInResult.loggedIn) {
 
                         // Show the signup form
-                        $('#signupFormGoToClass').modal('show');
+                        //$('#signupFormGoToClass').modal('show');
+                        $('#signupModal').modal('show');
                     }
                 }
              );
@@ -1031,8 +1032,6 @@ jQuery(function($) {
         var previous = document.referrer;
         window.location.replace(previous);
     } );
-
-    $('#demoModal').modal('show');
 
     // mini slider functionality
     $( ".js-mini-slider" ).each(function( index, element ) {
