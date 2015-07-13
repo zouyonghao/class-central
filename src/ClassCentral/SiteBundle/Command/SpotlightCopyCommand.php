@@ -40,33 +40,11 @@ class SpotlightCopyCommand extends ContainerAwareCommand {
     {
         $fromSpotlightId = intval($input->getArgument('from'));
         $toSpotlightId = intval($input->getArgument('to'));
+        $spotlightService = $this->getContainer()->get('spotlight');
 
-        if( $fromSpotlightId == 0 || $toSpotlightId == 0 )
-        {
-            $output->writeln("Spotlight ids should not be zero");
-        }
+        $response = $spotlightService->spotlightCopy($fromSpotlightId, $toSpotlightId);
 
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $spotlight = $em->getRepository('ClassCentralSiteBundle:Spotlight');
-
-        $from = $spotlight->find( $fromSpotlightId );
-        $to = $spotlight->find($toSpotlightId);
-        $oldName = $to->getTitle();
-
-        $to->setTitle( $from->getTitle() );
-        $to->setDescription( $from->getDescription() );
-        $to->setUrl( $from->getUrl() );
-        $to->setType($from->getType() );
-        $to->setImageUrl( $from->getImageUrl() );
-
-        $em->persist( $to );
-        $em->flush();
-
-        // Flush the cache
-        $cache = $this->getContainer()->get('Cache');
-        $cache->deleteCache ('spotlight_cache');
-
-        $output->writeln("Copied '{$from->getTitle()}' to '{$oldName }'");
+        $output->writeln("Copied '{$response[0]}' to '{$response[1]}'");
 
     }
 
