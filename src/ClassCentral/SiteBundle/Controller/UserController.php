@@ -963,7 +963,7 @@ class UserController extends Controller
         return $this->render('ClassCentralSiteBundle:User:profile.html.twig',array());
     }
 
-    public function createSignupModalAction(Request $request, $src)
+    public function createSignupModalAction(Request $request, $src, $options = array())
     {
         $signupForm   = $this->createForm(new SignupType(), new User(),array(
             'action' => $this->generateUrl('signup_create_user',array('src' => $src ))
@@ -982,7 +982,8 @@ class UserController extends Controller
             'ClassCentralSiteBundle:User:signupModal.html.twig', array(
                 'signupForm' => $signupForm->createView(),
                 'sigupFormModels' => $sigupFormModels,
-                'src' => $src
+                'src' => $src,
+                'options' => $options
             )
         );
     }
