@@ -104,11 +104,16 @@ CC.Class['Credential'] = (function(){
 
     function saveReview(event) {
         event.preventDefault();
-        //$('#cr-save-review').attr('disabled', true);
+        $('#cr-save-review').attr('disabled', true);
 
         var review = getReviewFormFields();
         var validationError = validateReviewForm( review );
         if( !validationError ) {
+            // Redirect to home when the user says no to signup as a user
+            $('#signupModal').on('hidden.bs.modal',function(e){
+                window.location.href = '/';
+            });
+
             $.ajax({
                 type : "post",
                 url  : "/certificate/review/save/" + $('#credentialid').data('value'),
@@ -119,13 +124,19 @@ CC.Class['Credential'] = (function(){
                         result = JSON.parse(result);
                         if(result['success']) {
                            // Check if user is logged in.
-                           if(user.isLoggedIn()) {
-                               // Redirect to Credential page
-                           } else {
-                               // Show a signup form
-                               $('#signupModal').modal('show');
-                           }
-                           console.log("Saved Successfully");
+                            $.ajax({
+                                url: "/ajax/isLoggedIn",
+                                cache: false,
+                                success: function( result ) {
+                                    var loggedInResult = $.parseJSON(result);
+                                    if( loggedInResult.loggedIn ){
+                                        //TODO: Redirect to Credential page
+                                        window.location.href = '/';
+                                    } else {
+                                        $('#signupModal').modal('show');
+                                    }
+                                }
+                            });
                         } else {
                             // Show an error message
                         }
