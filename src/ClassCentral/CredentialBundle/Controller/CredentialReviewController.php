@@ -41,7 +41,7 @@ class CredentialReviewController extends Controller
         $breadcrumbs[] = Breadcrumb::getBreadCrumb('Review');
         return $this->render('ClassCentralCredentialBundle:CredentialReview:reviewForm.html.twig', array(
             'degrees' => Profile::$degrees,
-            'progress' => array_merge(CredentialReview::$progressListDropdown, $completedDates),
+            'progress' => CredentialReview::$progressListDropdown + $completedDates,
             'credential' => $credential,
             'breadcrumbs' => $breadcrumbs,
         ));
@@ -181,9 +181,10 @@ class CredentialReviewController extends Controller
         }
 
         $cr->setReviewerJobTitle( $reviewData['jobTitle'] );
-        $cr->setReviewerFieldOfStudy( $reviewData['fieldOfStudy'] );
-
-
+        if(!empty($reviewData['fieldOfStudy']))
+        {
+            $cr->setReviewerFieldOfStudy( $reviewData['fieldOfStudy'] );
+        }
 
         $em->persist( $cr );
         $em->flush();
