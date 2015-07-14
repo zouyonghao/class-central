@@ -963,5 +963,28 @@ class UserController extends Controller
         return $this->render('ClassCentralSiteBundle:User:profile.html.twig',array());
     }
 
+    public function createSignupModalAction(Request $request, $src)
+    {
+        $signupForm   = $this->createForm(new SignupType(), new User(),array(
+            'action' => $this->generateUrl('signup_create_user',array('src' => $src ))
+        ));
+
+        $sigupFormModels = $this->get('cache')->get('signupform_models', function(){
+            $signupFormUserIds = array(
+                1,62002,47,37090,14552,64384,64376,69879,18858,46185,
+                71702,28990,45161,38674,33586, 67004, 63157,43746, 54495,
+                10870,54429, 15672, 6158, 28538
+            );
+            return $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->getUsers( $signupFormUserIds );
+        });
+
+        return $this->render(
+            'ClassCentralSiteBundle:User:signupModal.html.twig', array(
+                'signupForm' => $signupForm->createView(),
+                'sigupFormModels' => $sigupFormModels,
+                'src' => $src
+            )
+        );
+    }
 
 }

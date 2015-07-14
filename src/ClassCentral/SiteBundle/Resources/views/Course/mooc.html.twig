@@ -640,13 +640,7 @@
 
 
     </div>
-
-
-
-
-    {% if signupForm is defined %}
-        {% include 'ClassCentralSiteBundle:User:signupModal.html.twig' %}
-    {% endif %}
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'go_to_class'}) %}
 
 {% endblock %}
 

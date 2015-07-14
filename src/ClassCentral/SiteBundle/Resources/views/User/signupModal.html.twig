@@ -49,7 +49,7 @@
         {% if profileUrl %}
             <div class="portrait-col">
                 <a  target="_blank" href="{{ profileUrl }}" title="{{ user_service.getDisplayName(user) }}'s Class Central profile" class="fluid-portrait"
-                   onmousedown="ga('send','event','User Profile Click - Course Page','{{ course.name }}','{{ user.id  }}')"
+                   onmousedown="ga('send','event','User Profile Click - Signup Modal','{{ src }}','{{ user.id  }}')"
                         >
                                         <span class="fluid-portrait-image">
                                             <div class="fluid-portrait-crop">
@@ -58,7 +58,6 @@
                                         </span>
                 </a>
             </div>
-            {% set userCount = userCount+1 %}
         {% endif %}
     {% endfor %}
 </div>
