@@ -969,6 +969,20 @@ class UserController extends Controller
             'action' => $this->generateUrl('signup_create_user',array('src' => $src ))
         ));
 
+        $mediaCard_1 = array(
+            'title' => 'Welcome back!',
+            'text'  => 'Track courses that match your interests and receive recommendations'
+        );
+
+        switch ($src) {
+            case 'create_credential_review':
+                $mediaCard_1 = array(
+                    'title' => 'Review Saved!',
+                    'text'  => 'Signup to update/edit it later.'
+                );
+                break;
+        }
+
         $sigupFormModels = $this->get('cache')->get('signupform_models', function(){
             $signupFormUserIds = array(
                 1,62002,47,37090,14552,64384,64376,69879,18858,46185,
@@ -983,7 +997,8 @@ class UserController extends Controller
                 'signupForm' => $signupForm->createView(),
                 'sigupFormModels' => $sigupFormModels,
                 'src' => $src,
-                'options' => $options
+                'options' => $options,
+                'mediaCard_1' => $mediaCard_1
             )
         );
     }
