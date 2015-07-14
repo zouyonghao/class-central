@@ -5,6 +5,7 @@ var CC = CC || {
 CC.Class['Credential'] = (function(){
 
     var utilities = CC.Class['Utilities'];
+    var user = CC.Class["User"];
 
     function init() {
        ;
@@ -117,11 +118,16 @@ CC.Class['Credential'] = (function(){
                     function(result) {
                         result = JSON.parse(result);
                         if(result['success']) {
-                            // Redirect to the course page
+                           // Check if user is logged in.
+                           if(user.isLoggedIn()) {
+                               // Redirect to Credential page
+                           } else {
+                               // Show a signup form
+                               $('#signupModal').modal('show');
+                           }
                            console.log("Saved Successfully");
                         } else {
                             // Show an error message
-                           console.log("Error");
                         }
                     }
                 );

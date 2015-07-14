@@ -29,6 +29,7 @@ class UserSession
     const USER_REVIEWED_COURSES = 'user_review_course_ids';
     const USER_REVIEWS  = 'user_review_ids';
     const PASSWORDLESS_LOGIN = 'passwordless_login';
+    const ANONYMOUS_USER_ACTIVITY_KEY = 'anonymous_user_activity_key';
 
     // Flash message types
     const FLASH_TYPE_NOTICE = 'notice';
@@ -190,6 +191,34 @@ class UserSession
 
     }
 
+    /**
+     * Creates a record of anon user activities i.e create review, create credential review etc
+     * This data is then pulled out and attached to the user when he/she signs up
+     * @param $activity
+     * @param $activityId
+     */
+    public function saveAnonActivity($activity, $activityId)
+    {
+        $activities = $this->getAnonActivities();
+        $activities[] = array(
+            'activity' => $activity, 'id' => $activityId
+        );
+        $this->session->set(self::ANONYMOUS_USER_ACTIVITY_KEY, $activities);
+    }
+
+    /**
+     * Returns an array of activites
+     * @return array|mixed
+     */
+    public function getAnonActivities()
+    {
+        if( $this->session->has(self::ANONYMOUS_USER_ACTIVITY_KEY) )
+        {
+            return $this->session->get(self::ANONYMOUS_USER_ACTIVITY_KEY);
+        }
+
+        return array();
+    }
 
     /**
      * Saves the review history of the user in the session

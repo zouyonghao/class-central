@@ -189,6 +189,12 @@ class CredentialReviewController extends Controller
         $em->persist( $cr );
         $em->flush();
 
+        // If not a user, then save the session in the activity
+        if(!$user)
+        {
+            $this->get('user_session')->saveAnonActivity( 'credential_review', $cr->getId() );
+        }
+
         return UniversalHelper::getAjaxResponse(true, $cr->getId() );
     }
 

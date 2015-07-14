@@ -121,6 +121,17 @@ class User {
             return $router->generate('ClassCentralSiteBundle_mooc', array('id'=> $review->getCourse()->getId(),'slug' => $review->getCourse()->getSlug(),'ref' => 'user_created','src' => 'create_review' ));
         }
 
+        // Get a list of all activities and save it to users profile
+        $activities = $userSession->getAnonActivities();
+        foreach($activities as $activity)
+        {
+            switch ($activity['activity']) {
+                case 'credential_review':
+                    $this->addUserToCredentialReview($user, $activity['id']);
+                    break;
+            }
+        }
+
         return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created','src' => $src));
     }
 
@@ -176,6 +187,34 @@ class User {
             return $review;
         }
         return false;
+    }
+
+    public function addUserToCredentialReview($user, $credentialReviewId)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $cr = $em->getRepository('ClassCentralCredentialBundle:CredentialReview')->find( $credentialReviewId );
+        if( !$cr )
+        {
+            return;
+        }
+
+        // Attach the user to the Credential review
+        $cr->setUser($user);
+        $em->persist( $cr );
+
+        // Pull out the profile fields from credential and save it in the users profile
+        $profile = $user->getProfile();
+        if(!$profile)
+        {
+            $profile = new Profile();
+            $profile->setUser( $user );
+        }
+        $profile->setFieldOfStudy( $cr->getReviewerFieldOfStudy() );
+        $profile->setHighestDegree( $cr->getReviewerHighestDegree() );
+        $em->persist($profile);
+        $em->flush();
+
+        return;
     }
 
 
@@ -470,7 +509,7 @@ class User {
      * @param \ClassCentral\SiteBundle\Entity\User $user
      * @param $profileData Data collected from the form
      */
-    public function saveProfile(\ClassCentral\SiteBundle\Entity\User $user, $profileData)
+    public function sile(\ClassCentral\SiteBundle\Entity\User $user, $profileData)
     {
         $em = $this->container->get('doctrine')->getManager();
 
