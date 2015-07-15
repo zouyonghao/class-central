@@ -161,4 +161,48 @@ class SpotlightController extends Controller
         return $courses;
     }
 
+    /**
+     * Shows a page which shows the current mooc report spotlight
+     * abd a button to right shift this spotlight
+     * @param Request $request
+     */
+    public function moocReportSpotlightAction(Request $request)
+    {
+        $spotlights = $this->get('cache')->get('spotlight_cache',function(){
+            $s = $this
+                ->getDoctrine()->getManager()
+                ->getRepository('ClassCentralSiteBundle:Spotlight')->findAll();
+
+            $spotlights = array();
+            foreach($s as $item)
+            {
+                $spotlights[$item->getPosition()] = $item;
+            }
+
+            return $spotlights;
+        }, array());
+
+        return $this->render('ClassCentralSiteBundle:Spotlight:mooc.report.spotlight.html.twig', array(
+            'spotlights' => $spotlights,
+            'spotlightMap' => Spotlight::$spotlightMap,
+        ));
+    }
+
+    /**
+     * Moves all the spotlight cards in MOOC Report section to 1 spot in the right
+     * this makes space for a new spotlight
+     * @param Request $request
+     */
+    public function moocReportSpotlightRightShiftAction(Request $request)
+    {
+        $spotlightService = $this->container->get('spotlight');
+
+        $response = $spotlightService->spotlightCopy(16, 17);
+        $response = $spotlightService->spotlightCopy(15, 16);
+        $response = $spotlightService->spotlightCopy(14, 15);
+        $response = $spotlightService->spotlightCopy(13, 14);
+
+        return $this->redirect( $this->generateUrl('spotlight_mooc_report'));
+    }
+
 }
