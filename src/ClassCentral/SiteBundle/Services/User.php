@@ -509,7 +509,7 @@ class User {
      * @param \ClassCentral\SiteBundle\Entity\User $user
      * @param $profileData Data collected from the form
      */
-    public function sile(\ClassCentral\SiteBundle\Entity\User $user, $profileData)
+    public function saveProfile(\ClassCentral\SiteBundle\Entity\User $user, $profileData)
     {
         $em = $this->container->get('doctrine')->getManager();
 
@@ -532,6 +532,7 @@ class User {
         $profile->setAboutMe( $profileData['aboutMe'] );
         $profile->setLocation( $profileData['location'] );
         $profile->setFieldOfStudy( $profileData['fieldOfStudy']);
+        $profile->setJobTitle( $profileData['jobTitle'] );
 
         if($profileData['privacy'])
         {
