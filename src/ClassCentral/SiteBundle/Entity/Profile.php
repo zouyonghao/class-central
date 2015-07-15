@@ -79,6 +79,12 @@ class Profile
      */
     private $score;
 
+    /**
+     * @var string
+     */
+    private $jobTitle;
+
+
     const DEFAULT_PROFILE_PIC = '/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png';
 
 
@@ -402,5 +408,28 @@ class Profile
     public function getScore()
     {
         return $this->score;
+    }
+
+    /**
+     * Set jobTitle
+     *
+     * @param string $jobTitle
+     * @return Profile
+     */
+    public function setJobTitle($jobTitle)
+    {
+        $this->jobTitle = $jobTitle;
+    
+        return $this;
+    }
+
+    /**
+     * Get jobTitle
+     *
+     * @return string 
+     */
+    public function getJobTitle()
+    {
+        return $this->jobTitle;
     }
 }

@@ -24,6 +24,12 @@ ClassCentral\SiteBundle\Entity\Profile:
             fixed: false
             nullable: true
             column: field_of_study
+        jobTitle:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+            column: job_title
         highestDegree:
             type: string
             length: 255
