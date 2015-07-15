@@ -14,6 +14,7 @@ class CredentialType extends AbstractType
         $builder
             ->add('status','choice',array('choices' => Credential::getStatuses()))
             ->add('name')
+            ->add('slug')
             ->add('oneLiner')
             ->add('description')
             ->add('price')

@@ -26,6 +26,7 @@ class Version20150628191501 extends AbstractMigration
               `workload_max` INT NULL COMMENT 'Hours',
               `workload_type` VARCHAR(2) NOT NULL COMMENT 'Hours per week, Total hours ',
               `url` TEXT NOT NULL COMMENT 'Hours per week',
+               slug VARCHAR(255) NOT NULL UNIQUE,
                status INT NOT NULL,
               `description` TEXT NULL,
               `initiative_id` INT NULL,

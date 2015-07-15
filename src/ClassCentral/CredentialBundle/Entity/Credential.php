@@ -104,6 +104,11 @@ class Credential
      */
     private $status;
 
+    /**
+     * @var string
+     */
+    private $slug;
+
     // Any course above this status will not be shown to the user
     const CREDENTIAL_NOT_SHOWN_LOWER_BOUND = 100;
 
@@ -603,5 +608,28 @@ class Credential
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Credential
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
