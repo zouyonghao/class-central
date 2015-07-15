@@ -211,6 +211,8 @@ class User {
         }
         $profile->setFieldOfStudy( $cr->getReviewerFieldOfStudy() );
         $profile->setHighestDegree( $cr->getReviewerHighestDegree() );
+        $profile->setJobTitle( $cr->getReviewerJobTitle() );
+        
         $em->persist($profile);
         $em->flush();
 
