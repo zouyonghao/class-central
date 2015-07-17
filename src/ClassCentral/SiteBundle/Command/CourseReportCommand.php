@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 use ClassCentral\SiteBundle\Command\Network\RedditNetwork;
+use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -61,6 +62,12 @@ class CourseReportCommand extends ContainerAwareCommand
             else
             {
                 $initiative = $offering->getInitiative()->getName();
+            }
+
+            // Skip unapproved courses
+            if($offering->getCourse()->getStatus() != CourseStatus::AVAILABLE)
+            {
+                continue;
             }
 
             // Skip self paced courses
@@ -152,13 +159,14 @@ class CourseReportCommand extends ContainerAwareCommand
                     $timesOffered = 0;
                     foreach($offering->getCourse()->getOfferings() as $o)
                     {
+
                         $states = CourseUtility::getStates( $o );
                         if( in_array( 'past', $states) || in_array( 'ongoing', $states) )
                         {
                             $timesOffered++;
                         }
                     }
-                    if ($timesOffered < 2 )
+                    if ($timesOffered < 1 )
                     {
                         $timesAdded = count($added);
                         $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
