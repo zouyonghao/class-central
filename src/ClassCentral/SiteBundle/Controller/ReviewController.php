@@ -628,6 +628,11 @@ class ReviewController extends Controller {
         $reviews = array();
         foreach( $allReviews as $review)
         {
+            if($review->getUser()->getId() == User::REVIEW_USER_ID)
+            {
+                continue;
+            }
+
             if( strlen($review->getReview()) > 200 && $review->getRating() >= 4)
             {
                 $reviews[] = ReviewUtility::getReviewArray( $review );
