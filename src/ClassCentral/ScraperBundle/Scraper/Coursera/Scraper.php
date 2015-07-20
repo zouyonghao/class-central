@@ -25,6 +25,10 @@ class Scraper extends ScraperAbstractInterface {
     const SPECIALIZATION_CATALOG_URL = 'https://www.coursera.org/api/specializations.v1';
     const SPECIALIZATION_URL  = 'https://www.coursera.org/maestro/api/specialization/info/%s?currency=USD&origin=US';
     const SPECIALIZATION_PAGE_URL = 'https://www.coursera.org/specialization/%s/%s?utm_medium=classcentral';
+
+    const SPECIALIZATION_ONDEMAND_CATALOG_URL = 'https://www.coursera.org/api/onDemandSpecializations.v1';
+    const SPECIALIZATION_ONDEMAND_URL = 'https://www.coursera.org/api/onDemandSpecializations.v1?fields=capstone,courseIds,description,instructorIds,interchangeableCourseIds,logo,metadata,partnerIds,partnerLogoOverrides,tagline,partners.v1(description,name,squareLogo),instructors.v1(firstName,lastName,middleName,partnerIds,photo,prefixName,profileId,shortName,suffixName,title),courses.v1(courseProgress,courseType,description,instructorIds,membershipIds,name,startDate,subtitleLanguages,v1Details,vcMembershipIds,workload),v1Details.v1(courseSyllabus),memberships.v1(grade,vcMembershipId),vcMemberships.v1(certificateCodeWithGrade)&includes=courseIds,instructorIds,partnerIds,instructors.v1(partnerIds),courses.v1(courseProgress,instructorIds,membershipIds,subtitleLanguages,v1Details,vcMembershipIds)&q=slug&slug=%s';
+    const SPECIALIZATION_ONDEMAND_PAGE_URL = 'https://www.coursera.org/specializations/%s?utm_medium=classcentral';
     protected static $languageMap = array(
         'en' => "English",
         'en,pt' => "English",
@@ -445,20 +449,6 @@ class Scraper extends ScraperAbstractInterface {
         }
     }
 
-
-    public function scrapeCredentials()
-    {
-        $specializations = json_decode(file_get_contents( self::SPECIALIZATION_CATALOG_URL ),true);
-        foreach($specializations['elements'] as $item)
-        {
-            $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_URL, $item['id']) ),true);
-
-            $credential =$this->getCredentialFromSpecialization( $details );
-            $this->saveOrUpdateCredential( $credential );
-        }
-    }
-
-
     private function buildOnDemandCoursesList( )
     {
         $url = 'https://www.coursera.org/api/courses.v1';
@@ -590,6 +580,69 @@ class Scraper extends ScraperAbstractInterface {
         return null;
     }
 
+    public function scrapeCredentials()
+    {
+        $specializations = json_decode(file_get_contents( self::SPECIALIZATION_CATALOG_URL ),true);
+        foreach($specializations['elements'] as $item)
+        {
+            $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_URL, $item['id']) ),true);
+
+            $credential =$this->getCredentialFromSpecialization( $details );
+            $this->saveOrUpdateCredential( $credential );
+        }
+
+        // Scrape Ondemand specializations
+        $onDemandSpecializations = json_decode(file_get_contents( self::SPECIALIZATION_ONDEMAND_CATALOG_URL ),true);
+        foreach( $onDemandSpecializations['elements'] as $item )
+        {
+            $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_ONDEMAND_URL, $item['slug']) ),true);
+            $credential = $this->getCredentialFromOnDemandSpecialization( $details );
+            $this->saveOrUpdateCredential( $credential );
+        }
+    }
+
+    private function getCredentialFromOnDemandSpecialization($details )
+    {
+        $credential = new Credential();
+
+        $credential->setName( $details['elements'][0]['name'] );
+        $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
+        $credential->setPrice(0);
+        $credential->setSlug( 'specialization-'.$details['elements'][0]['slug'] );
+        $credential->setInitiative( $this->initiative );
+        $credential->setUrl( sprintf(self::SPECIALIZATION_ONDEMAND_PAGE_URL,$details['elements'][0]['slug']));
+
+        // Add the institutions
+        foreach( $details['linked']['partners.v1'] as $university )
+        {
+            $ins = $this->dbHelper->getInstitutionBySlug( $university['shortName']);
+            if($ins)
+            {
+                $credential->addInstitution( $ins );
+            }
+            else
+            {
+                $this->out("University Not Found - " . $university['name']);
+            }
+        }
+
+        // Add the courses
+        foreach($details['linked']['courses.v1'] as $topic )
+        {
+            $course = $this->dbHelper->getCourseByShortName( 'coursera_' . $topic['slug'] );
+            if( $course )
+            {
+                $credential->addCourse( $course );
+            }
+            else
+            {
+                $this->out("Course Not Found - " . $topic['name']);
+            }
+        }
+
+        return $credential;
+    }
+
     private function getCredentialFromSpecialization( $details )
     {
         $credential = new Credential();
@@ -608,6 +661,10 @@ class Scraper extends ScraperAbstractInterface {
             {
                 $credential->addInstitution( $ins );
             }
+            else
+            {
+                $this->out("University Not Found - " . $university['name']);
+            }
         }
 
         // Add the courses
@@ -617,6 +674,10 @@ class Scraper extends ScraperAbstractInterface {
             if( $course )
             {
                 $credential->addCourse( $course );
+            }
+            else
+            {
+                $this->out("Course Not Found - " . $topic['name']);
             }
         }
         return $credential;
