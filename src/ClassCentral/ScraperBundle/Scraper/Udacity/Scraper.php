@@ -9,6 +9,7 @@
 namespace ClassCentral\ScraperBundle\Scraper\Udacity;
 
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
@@ -29,6 +30,12 @@ class Scraper extends ScraperAbstractInterface{
 
     public function scrape()
     {
+        if($this->isCredential)
+        {
+            $this->scrapeCredentials();
+            return;
+        }
+
         $em = $this->getManager();
         $udacityCourses = json_decode( file_get_contents(self::COURSES_API_ENDPOINT), true );
         $coursesChanged = array();
@@ -243,6 +250,61 @@ class Scraper extends ScraperAbstractInterface{
             $new = is_a($changed['new'], 'DateTime') ? $changed['new']->format('jS M, Y') : $changed['new'];
 
             $this->out("$field changed from - '$old' to '$new'");
+        }
+    }
+
+    public function scrapeCredentials()
+    {
+        $data = json_decode( file_get_contents(self::COURSES_API_ENDPOINT), true );
+        foreach($data['degrees'] as $nanodegree)
+        {
+            $credential = $this->getCredentialFromNanodegree( $nanodegree );
+            $this->saveOrUpdateCredential( $credential );
+        }
+    }
+
+    public function getCredentialFromNanodegree( $nanodegree )
+    {
+        $credential = new Credential();
+
+        $credential->setName( $nanodegree['title'] );
+        $credential->setPricePeriod( Credential::CREDENTIAL_PRICE_PERIOD_MONTHLY);
+        $credential->setPrice(200);
+        $credential->setSlug( $nanodegree['slug'] );
+        $credential->setInitiative( $this->initiative );
+        $credential->setUrl( $nanodegree['homepage'] );
+        $credential->setOneLiner( $nanodegree['short_summary'] );
+        $credential->setWorkloadMax(10);
+        $credential->setWorkloadMin(10);
+        $credential->setWorkloadType(Credential::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK);
+        $credential->setDurationMax( $nanodegree['expected_duration'] );
+        $credential->setDurationMin( $nanodegree['expected_duration'] );
+
+        return $credential;
+    }
+
+    /**
+     * @param Credential $credential
+     */
+    private function saveOrUpdateCredential(Credential $credential)
+    {
+        $dbCredential = $this->dbHelper->getCredentialBySlug( $credential->getSlug() ) ;
+        $em = $this->getManager();
+        if( !$dbCredential )
+        {
+            if($this->doCreate())
+            {
+                $this->out("New Credential - " . $credential->getName() );
+                if ($this->doModify())
+                {
+                    $em->persist( $credential );
+                    $em->flush();
+                }
+            }
+        }
+        else
+        {
+            // Update the credential
         }
     }
 }

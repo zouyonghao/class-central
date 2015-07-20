@@ -608,7 +608,7 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setName( $details['elements'][0]['name'] );
         $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
         $credential->setPrice(0);
-        $credential->setSlug( 'specialization-'.$details['elements'][0]['slug'] );
+        $credential->setSlug( $details['elements'][0]['slug'] . '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_ONDEMAND_PAGE_URL,$details['elements'][0]['slug']));
 
@@ -649,7 +649,7 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setName( $details['name'] );
         $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
         $credential->setPrice(0);
-        $credential->setSlug( 'specialization-'.$details['short_name'] );
+        $credential->setSlug( $details['short_name']. '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_PAGE_URL,$details['short_name'], $details['id']));
 
