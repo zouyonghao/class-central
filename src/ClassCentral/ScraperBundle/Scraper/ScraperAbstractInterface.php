@@ -18,6 +18,7 @@ abstract class ScraperAbstractInterface
     protected $initiative;
     protected $type = 'updated';
     protected $simulate = 'Y';
+    protected $isCredential = false;
     protected $output;
     protected $domParser;
     protected $created; // If true, new offerings can be added
@@ -25,6 +26,11 @@ abstract class ScraperAbstractInterface
     protected $modify; // If true. database can be modified
     protected $container;
     protected $dbHelper;
+
+    public function setIsCredential( $isCredential )
+    {
+        $this->isCredential = $isCredential;
+    }
 
     public function setType($type)
     {

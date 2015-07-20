@@ -18,6 +18,7 @@ class ScraperFactory {
     private $initiative;
     private $type = 'updated';
     private $simulate = 'Y';
+    private $isCredential = false;
     private $output;
     private $domParser;
     private $container;
@@ -30,6 +31,11 @@ class ScraperFactory {
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    public function setIsCredential($credential)
+    {
+        $this->isCredential = $credential;
     }
 
     public function setSimulate($simulate)
@@ -66,6 +72,7 @@ class ScraperFactory {
     {
         $obj->setType($this->type);
         $obj->setSimulate($this->simulate);
+        $obj->setIsCredential( $this->isCredential );
         $obj->setOutputInterface($this->output);
         $obj->setInitiative($this->initiative);
         $obj->setDomParser($this->domParser);

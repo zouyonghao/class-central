@@ -26,7 +26,10 @@ class ScraperCommand extends ContainerAwareCommand
             ->setDescription("Scrapes courses")
             ->addArgument('initiative',InputArgument::REQUIRED,"Initiative code")
             ->addOption('simulate',null,InputOption::VALUE_OPTIONAL,"N if database needs to be modified. Defaults to Y") // value is Y or N
-            ->addOption('type',null,InputOption::VALUE_OPTIONAL,"'add' - create offerings. 'update' - update already created offerings. Defaults to update");
+            ->addOption('type',null,InputOption::VALUE_OPTIONAL,"'add' - create offerings. 'update' - update already created offerings. Defaults to update")
+            ->addOption("credential",null,InputOption::VALUE_OPTIONAL,"If true, scrape credentials")
+        ;
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -55,11 +58,13 @@ class ScraperCommand extends ContainerAwareCommand
         {
             $type = 'update';
         }
-
+        $credential = $input->getOption("credential");
+        $credential = (isset($credential)) ? $credential : false;
         // Initiate the factory
         $scraperFactory = new ScraperFactory($initiative);
         $scraperFactory->setSimulate($simulate);
         $scraperFactory->setType($type);
+        $scraperFactory->setIsCredential( $credential );
         $scraperFactory->setOutputInterface($output);
         $scraperFactory->setContainer($this->getContainer());
         $scraperFactory->setDomParser($this->getContainer()->get('dom_parser'));
