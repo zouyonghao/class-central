@@ -153,6 +153,7 @@ class Credential
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->created = new \DateTime();
         $this->status = self::TO_BE_REVIEWED;
+        $this->workloadType = self::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK;
     }
     
     /**

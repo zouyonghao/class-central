@@ -206,7 +206,7 @@ class CredentialReviewController extends Controller
     {
         $credentials = $this->getDoctrine()->
             getRepository('ClassCentralCredentialBundle:Credential')
-            ->findBy(array('status' => Credential::AVAILABLE));
+            ->findBy(array());
 
         return $this->render('ClassCentralCredentialBundle:CredentialReview:credentialsReviews.html.twig', array(
             'credentials' =>$credentials

@@ -168,6 +168,16 @@ class DBHelper
         return $course;
     }
 
+    public function getInstitutionBySlug( $slug )
+    {
+        $em = $this->scraper->getManager();
+        $ins = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy(array(
+            'slug' => $slug
+        ));
+
+        return $ins;
+    }
+
     public  function findCourseByName ($title, Initiative $initiative)
     {
         $em = $this->scraper->getManager();
@@ -232,6 +242,15 @@ class DBHelper
         {
 
         }
+    }
+
+    public function getCredentialBySlug($slug)
+    {
+        $em = $this->scraper->getManager();
+        $credential = $em->getRepository('ClassCentralCredentialBundle:Credential')->findOneBy(array(
+            'slug' => $slug
+        ));
+        return $credential;
     }
 
 }

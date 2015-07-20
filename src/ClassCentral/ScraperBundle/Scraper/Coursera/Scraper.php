@@ -2,6 +2,7 @@
 
 namespace ClassCentral\ScraperBundle\Scraper\Coursera;
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
@@ -19,6 +20,11 @@ class Scraper extends ScraperAbstractInterface {
     const BASE_URL = 'https://www.coursera.org/course/';
     const COURSE_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/courses?id=%d&fields=language,aboutTheCourse,courseSyllabus,estimatedClassWorkload&includes=sessions';
     const SESSION_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/sessions?id=%d&fields=eligibleForCertificates,eligibleForSignatureTrack';
+
+    // CREDENTIAL_URS
+    const SPECIALIZATION_CATALOG_URL = 'https://www.coursera.org/api/specializations.v1';
+    const SPECIALIZATION_URL  = 'https://www.coursera.org/maestro/api/specialization/info/%s?currency=USD&origin=US';
+    const SPECIALIZATION_PAGE_URL = 'https://www.coursera.org/specialization/%s/%s?utm_medium=classcentral';
     protected static $languageMap = array(
         'en' => "English",
         'en,pt' => "English",
@@ -48,6 +54,12 @@ class Scraper extends ScraperAbstractInterface {
 
     public function scrape()
     {
+        if($this->isCredential)
+        {
+            $this->scrapeCredentials();
+            return;
+        }
+
         $this->buildOnDemandCoursesList();
 
 
@@ -434,6 +446,19 @@ class Scraper extends ScraperAbstractInterface {
     }
 
 
+    public function scrapeCredentials()
+    {
+        $specializations = json_decode(file_get_contents( self::SPECIALIZATION_CATALOG_URL ),true);
+        foreach($specializations['elements'] as $item)
+        {
+            $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_URL, $item['id']) ),true);
+
+            $credential =$this->getCredentialFromSpecialization( $details );
+            $this->saveOrUpdateCredential( $credential );
+        }
+    }
+
+
     private function buildOnDemandCoursesList( )
     {
         $url = 'https://www.coursera.org/api/courses.v1';
@@ -563,5 +588,62 @@ class Scraper extends ScraperAbstractInterface {
         }
 
         return null;
+    }
+
+    private function getCredentialFromSpecialization( $details )
+    {
+        $credential = new Credential();
+        $credential->setName( $details['name'] );
+        $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
+        $credential->setPrice(0);
+        $credential->setSlug( 'specialization-'.$details['short_name'] );
+        $credential->setInitiative( $this->initiative );
+        $credential->setUrl( sprintf(self::SPECIALIZATION_PAGE_URL,$details['short_name'], $details['id']));
+
+        // Add the institutions
+        foreach( $details['universities'] as $university )
+        {
+            $ins = $this->dbHelper->getInstitutionBySlug( $university['short_name']);
+            if($ins)
+            {
+                $credential->addInstitution( $ins );
+            }
+        }
+
+        // Add the courses
+        foreach($details['topics'] as $topic )
+        {
+            $course = $this->dbHelper->getCourseByShortName( 'coursera_' . $topic['short_name'] );
+            if( $course )
+            {
+                $credential->addCourse( $course );
+            }
+        }
+        return $credential;
+    }
+
+    /**
+     * @param Credential $credential
+     */
+    private function saveOrUpdateCredential(Credential $credential)
+    {
+        $dbCredential = $this->dbHelper->getCredentialBySlug( $credential->getSlug() ) ;
+        $em = $this->getManager();
+        if( !$dbCredential )
+        {
+            if($this->doCreate())
+            {
+                $this->out("New Credential - " . $credential->getName() );
+                if ($this->doModify())
+                {
+                    $em->persist( $credential );
+                    $em->flush();
+                }
+            }
+        }
+        else
+        {
+            // Update the credential
+        }
     }
 }
