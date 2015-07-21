@@ -5,6 +5,7 @@ namespace ClassCentral\CredentialBundle\Controller;
 use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\CredentialBundle\Entity\CredentialReview;
 use ClassCentral\SiteBundle\Entity\Profile;
+use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -50,7 +51,7 @@ class CredentialReviewController extends Controller
     public function saveAction(Request $request, $credentialId)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $userSession = $this->container->get('user_session');
         $user = $this->getUser();
 
         $credential = $em->getRepository('ClassCentralCredentialBundle:Credential')->find($credentialId);
@@ -188,6 +189,12 @@ class CredentialReviewController extends Controller
 
         $em->persist( $cr );
         $em->flush();
+
+        $userSession->notifyUser(
+            UserSession::FLASH_TYPE_SUCCESS,
+            'Review Created',
+            "Your review for <i>{$credential->getName()}</i> was saved successfully"
+        );
 
         // If not a user, then save the session in the activity
         if(!$user)
