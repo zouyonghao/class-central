@@ -145,6 +145,12 @@
 
                 </div>
 
+                {% if  not (loggedIn and app.user.name is defined and app.user.name is not empty
+                                     and app.user.profile.jobTitle is defined and app.user.profile.jobTitle is not empty
+                                     and app.user.profile.highestDegree is defined and app.user.profile.highestDegree is not empty
+                                     and app.user.profile.fieldOfStudy is defined and app.user.profile.fieldOfStudy is not empty
+
+                ) %}
                 <div class="padded-input-group">
                     <h2 class="heading-colored">About you?</h2>
 
@@ -174,13 +180,14 @@
 
                     <div class="row">
                         <!-- Job Title -->
+                        {% if not (loggedIn and app.user.profile.jobTitle is defined and app.user.profile.jobTitle is not empty) %}
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Job Title</label>
                                 <input id="cr-job-title" class="plain-input" type="text" name="profile-twitter" placeholder="Job Title"  value="">
                             </div>
                         </div>
-
+                        {% endif %}
                     </div>
 
                     <div class="row">
@@ -210,6 +217,8 @@
                     </div>
 
                 </div>
+
+                {% endif %}
 
                 <input class="full-width-button" type="submit" name="submit" id="cr-save-review" value="Save">
             </form>
