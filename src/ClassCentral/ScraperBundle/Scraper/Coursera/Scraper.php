@@ -700,7 +700,7 @@ class Scraper extends ScraperAbstractInterface {
                     $em->persist( $credential );
                     $em->flush();
 
-                    $this->uploadCredentialImageIfNecessary($imageUrl,$credential);
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential);
                 }
             }
         }
@@ -709,29 +709,9 @@ class Scraper extends ScraperAbstractInterface {
             // Update the credential
             if ($this->doModify())
             {
-                $this->uploadCredentialImageIfNecessary($imageUrl,$credential);
+                $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential);
             }
         }
     }
 
-    private function uploadCredentialImageIfNecessary( $imageUrl, Credential $credential)
-    {
-        $kuber = $this->container->get('kuber');
-        $uniqueKey = basename($imageUrl);
-        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_CREDENTIAL,Kuber::KUBER_TYPE_CREDENTIAL_IMAGE, $credential->getId(),$uniqueKey ) )
-        {
-            // Upload the file
-            $filePath = '/tmp/credential_'.$uniqueKey;
-            file_put_contents($filePath,file_get_contents($imageUrl));
-            $kuber->upload(
-                $filePath,
-                Kuber::KUBER_ENTITY_CREDENTIAL,
-                Kuber::KUBER_TYPE_COURSE_IMAGE,
-                $credential->getId(),
-                null,
-                $uniqueKey
-            );
-
-        }
-    }
 }

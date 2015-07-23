@@ -7,6 +7,7 @@
 namespace ClassCentral\ScraperBundle\Utility;
 
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Institution;
@@ -14,6 +15,7 @@ use ClassCentral\SiteBundle\Entity\Instructor;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Stream;
+use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Doctrine\ORM\EntityManager;
 
@@ -251,6 +253,27 @@ class DBHelper
             'slug' => $slug
         ));
         return $credential;
+    }
+
+    public function uploadCredentialImageIfNecessary( $imageUrl, Credential $credential, $extension = null)
+    {
+        $kuber = $this->scraper->getContainer()->get('kuber');
+        $uniqueKey = basename($imageUrl);
+        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_CREDENTIAL,Kuber::KUBER_TYPE_CREDENTIAL_IMAGE, $credential->getId(),$uniqueKey ) )
+        {
+            // Upload the file
+            $filePath = '/tmp/credential_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($imageUrl));
+            $kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_CREDENTIAL,
+                Kuber::KUBER_TYPE_COURSE_IMAGE,
+                $credential->getId(),
+                $extension,
+                $uniqueKey
+            );
+
+        }
     }
 
 }
