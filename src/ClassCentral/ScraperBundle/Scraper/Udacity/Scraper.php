@@ -259,7 +259,7 @@ class Scraper extends ScraperAbstractInterface{
         foreach($data['degrees'] as $nanodegree)
         {
             $credential = $this->getCredentialFromNanodegree( $nanodegree );
-            $this->saveOrUpdateCredential( $credential );
+            $this->saveOrUpdateCredential( $credential, $nanodegree['image'] );
         }
     }
 
@@ -286,7 +286,7 @@ class Scraper extends ScraperAbstractInterface{
     /**
      * @param Credential $credential
      */
-    private function saveOrUpdateCredential(Credential $credential)
+    private function saveOrUpdateCredential(Credential $credential, $imageUrl)
     {
         $dbCredential = $this->dbHelper->getCredentialBySlug( $credential->getSlug() ) ;
         $em = $this->getManager();
@@ -299,12 +299,19 @@ class Scraper extends ScraperAbstractInterface{
                 {
                     $em->persist( $credential );
                     $em->flush();
+
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential,'png');
                 }
             }
         }
         else
         {
             // Update the credential
+            // Update the credential
+            if ($this->doModify())
+            {
+                $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential,'png');
+            }
         }
     }
 }
