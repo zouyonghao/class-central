@@ -588,7 +588,7 @@ class Scraper extends ScraperAbstractInterface {
             $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_URL, $item['id']) ),true);
 
             $credential =$this->getCredentialFromSpecialization( $details );
-            $this->saveOrUpdateCredential( $credential );
+            $this->saveOrUpdateCredential( $credential, $details['logo'] );
         }
 
         // Scrape Ondemand specializations
@@ -597,7 +597,7 @@ class Scraper extends ScraperAbstractInterface {
         {
             $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_ONDEMAND_URL, $item['slug']) ),true);
             $credential = $this->getCredentialFromOnDemandSpecialization( $details );
-            $this->saveOrUpdateCredential( $credential );
+            $this->saveOrUpdateCredential( $credential, $details['elements'][0]['logo'] );
         }
     }
 
@@ -686,7 +686,7 @@ class Scraper extends ScraperAbstractInterface {
     /**
      * @param Credential $credential
      */
-    private function saveOrUpdateCredential(Credential $credential)
+    private function saveOrUpdateCredential(Credential $credential, $imageUrl)
     {
         $dbCredential = $this->dbHelper->getCredentialBySlug( $credential->getSlug() ) ;
         $em = $this->getManager();
@@ -699,12 +699,39 @@ class Scraper extends ScraperAbstractInterface {
                 {
                     $em->persist( $credential );
                     $em->flush();
+
+                    $this->uploadCredentialImageIfNecessary($imageUrl,$credential);
                 }
             }
         }
         else
         {
             // Update the credential
+            if ($this->doModify())
+            {
+                $this->uploadCredentialImageIfNecessary($imageUrl,$credential);
+            }
+        }
+    }
+
+    private function uploadCredentialImageIfNecessary( $imageUrl, Credential $credential)
+    {
+        $kuber = $this->container->get('kuber');
+        $uniqueKey = basename($imageUrl);
+        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_CREDENTIAL,Kuber::KUBER_TYPE_CREDENTIAL_IMAGE, $credential->getId(),$uniqueKey ) )
+        {
+            // Upload the file
+            $filePath = '/tmp/credential_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($imageUrl));
+            $kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_CREDENTIAL,
+                Kuber::KUBER_TYPE_COURSE_IMAGE,
+                $credential->getId(),
+                null,
+                $uniqueKey
+            );
+
         }
     }
 }
