@@ -9,3 +9,11 @@ credential_review_save:
 credentials_reviews:
   pattern: /certificate/reviews
   defaults: { _controller: ClassCentralCredentialBundle:CredentialReview:credentialsReviews }
+
+credential_page:
+  pattern: /certificate/{slug}
+  defaults: { _controller: ClassCentralCredentialBundle:Credential:credential }
+
+credentials:
+  pattern: /certificate
+  defaults: { _controller: ClassCentralCredentialBundle:Credential:credentials }

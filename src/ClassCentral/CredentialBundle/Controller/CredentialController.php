@@ -182,4 +182,26 @@ class CredentialController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Displays a particular credential
+     * @param Request $request
+     * @param $slug
+     */
+    public function credentialAction(Request $request, $slug)
+    {
+        return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
+
+        ));
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function credentialsAction(Request $request)
+    {
+        return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
+
+        ));
+    }
 }
