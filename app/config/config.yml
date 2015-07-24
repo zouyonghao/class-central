@@ -176,6 +176,9 @@ services:
   image_service:
         class: ClassCentral\SiteBundle\Services\Image
         arguments: [ '@service_container', '%embedly_api_key%' ]
+  credential:
+        class: ClassCentral\CredentialBundle\Services\Credential
+        arguments: ['@service_container']
   # elastic serach indexer
   es_indexer:
         class: ClassCentral\ElasticSearchBundle\Indexer
