@@ -9,7 +9,9 @@
 namespace ClassCentral\ElasticSearchBundle\Command;
 
 
+use ClassCentral\CredentialBundle\Services\Credential;
 use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobLogDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\SuggestDocumentType;
@@ -83,6 +85,23 @@ class ElasticSearchMappingCommand extends ContainerAwareCommand {
 
         );
         $params['body']['course'] = $mapping;
+
+        $es->indices()->putMapping($params);
+
+        // Credential Mapping
+        $params = array();
+        $params['index'] = $this->getContainer()->getParameter('es_index_name');
+        $params['type']  = 'credential';
+        $credentialDoc = new CredentialDocumentType( new \ClassCentral\CredentialBundle\Entity\Credential(), $this->getContainer());
+
+        $mapping = array(
+            '_source' => array(
+                'enabled' => true
+            ),
+            'properties' => $credentialDoc->getMapping()
+
+        );
+        $params['body']['credential'] = $mapping;
 
         $es->indices()->putMapping($params);
 

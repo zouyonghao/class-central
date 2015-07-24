@@ -9,7 +9,9 @@
 namespace ClassCentral\ElasticSearchBundle;
 
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobLogDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\SessionDocumentType;
@@ -62,6 +64,14 @@ class Indexer {
             }
 
 
+        }
+
+        // Index the Credential
+        if($entity instanceof Credential)
+        {
+            $cDoc = new CredentialDocumentType( $entity, $this->container);
+            $doc = $cDoc->getDocument($this->getIndexName('es_index_name') );
+            $this->esClient->index($doc);
         }
 
         // Index the institution

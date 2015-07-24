@@ -40,6 +40,19 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         $em = $this->getContainer()->get('doctrine')->getManager();
         $cache = $this->getContainer()->get('cache');
 
+        /****
+         * Index Credentials
+         */
+        $credentials = $this->getContainer()->get('doctrine')->getManager()
+            ->getRepository('ClassCentralCredentialBundle:Credential')->findAll();
+
+        foreach($credentials as $credential)
+        {
+            $indexer->index($credential);
+        }
+        $output->writeln("All Credentials indexed");
+
+
         /***
          * Index languages
          */
