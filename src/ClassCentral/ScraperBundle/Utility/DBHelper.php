@@ -267,7 +267,7 @@ class DBHelper
             $kuber->upload(
                 $filePath,
                 Kuber::KUBER_ENTITY_CREDENTIAL,
-                Kuber::KUBER_TYPE_COURSE_IMAGE,
+                Kuber::KUBER_TYPE_CREDENTIAL_IMAGE,
                 $credential->getId(),
                 $extension,
                 $uniqueKey
