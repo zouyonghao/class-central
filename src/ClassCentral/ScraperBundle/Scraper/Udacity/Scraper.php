@@ -310,7 +310,7 @@ class Scraper extends ScraperAbstractInterface{
             // Update the credential
             if ($this->doModify())
             {
-                $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential,'png');
+                $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential,'png');
             }
         }
     }
