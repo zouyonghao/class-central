@@ -97,6 +97,9 @@ services:
   es_courses:
       class: ClassCentral\ElasticSearchBundle\API\Courses
       arguments: [ '@es_client', '%es_index_name%']
+  es_credentials:
+      class: ClassCentral\ElasticSearchBundle\API\Credentials
+      arguments: [ '@es_client', '%es_index_name%']
   es_cp:
       class: ClassCentral\ElasticSearchBundle\API\CoursePaginated
       arguments: [ '@es_client', '%es_index_name%']
