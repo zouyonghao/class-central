@@ -10,6 +10,7 @@ namespace ClassCentral\CredentialBundle\Services;
 
 
 
+use ClassCentral\CredentialBundle\Entity\CredentialReview;
 use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -83,4 +84,36 @@ class Credential {
 
         return array();
     }
+
+    public function calculateAverageRating(\ClassCentral\CredentialBundle\Entity\Credential $credential)
+    {
+        $rating = 0;
+        $reviews = $credential->getReviews();
+        $validReviewsCount = 0;
+
+        if($reviews && $reviews->count() > 0)
+        {
+            $ratingSum = 0;
+            foreach($reviews as $review)
+            {
+                if($review->getStatus() < CredentialReview::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND )
+                {
+                    $ratingSum += $review->getRating();
+                    $validReviewsCount++;
+                }
+            }
+
+            if($validReviewsCount > 0)
+            {
+                $rating = $ratingSum/$validReviewsCount;
+            }
+        }
+
+        return array(
+            'rating' => $rating,
+            'numRatings' => $validReviewsCount
+        );
+    }
+
+
 } 

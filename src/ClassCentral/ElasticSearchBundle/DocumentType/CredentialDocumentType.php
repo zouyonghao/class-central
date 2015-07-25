@@ -124,6 +124,11 @@ class CredentialDocumentType extends DocumentType {
         $pDoc = new ProviderDocumentType($provider, $this->container);
         $body['provider'] = $pDoc->getBody();
 
+        // Get the ratings
+        $rating = $credentialService->calculateAverageRating( $this->entity );
+        $body['rating'] = $rating['rating'];
+        $body['numRatings'] = $rating['numRatings'];
+
         return $body;
     }
 
