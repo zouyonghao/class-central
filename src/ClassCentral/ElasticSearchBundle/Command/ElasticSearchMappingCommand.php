@@ -32,7 +32,7 @@ class ElasticSearchMappingCommand extends ContainerAwareCommand {
         $this->setName("classcentral:elasticsearch:mapping")
               ->setDescription("Manage deletion/creation of indexes, mapping")
               ->addArgument('type', InputArgument::REQUIRED, "directory/scheduler")
-              ->addOption('delete', null, InputOption::VALUE_OPTIONAL, "Delete mappping and data before recreating it");
+              ->addOption('delete', null, InputOption::VALUE_OPTIONAL, "If Yes, Delete mappping and data before recreating it");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -93,6 +93,11 @@ class ElasticSearchMappingCommand extends ContainerAwareCommand {
         $params['index'] = $this->getContainer()->getParameter('es_index_name');
         $params['type']  = 'credential';
         $credentialDoc = new CredentialDocumentType( new \ClassCentral\CredentialBundle\Entity\Credential(), $this->getContainer());
+
+        if( $deleteMapping )
+        {
+            $es->indices()->deleteMapping($params);
+        }
 
         $mapping = array(
             '_source' => array(
