@@ -58,4 +58,29 @@ class Credential {
         return null;
     }
 
+    /**
+     * @param \ClassCentral\CredentialBundle\Entity\Credential $credential
+     */
+    public static function getCertificateDetails( \ClassCentral\CredentialBundle\Entity\Credential $credential)
+    {
+        $provider = $credential->getInitiative();
+
+        if(!empty($provider))
+        {
+            switch($provider->getName())
+            {
+                case 'Coursera':
+                    return array('name'=>'Specialization', 'slug' => 'specialization');
+                    break;
+                case 'Udacity':
+                    return array('name'=>'Nanodegree', 'slug' => 'nanodegree');
+                    break;
+                case 'edX':
+                    return array('name'=>'XSeries', 'slug' => 'xseries');
+                    break;
+            }
+        }
+
+        return array();
+    }
 } 
