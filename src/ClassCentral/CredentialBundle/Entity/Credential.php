@@ -635,4 +635,15 @@ class Credential
     {
         return $this->slug;
     }
+
+    public function getDisplayPrice()
+    {
+        switch( $this->getPricePeriod() ){
+            case self::CREDENTIAL_PRICE_PERIOD_MONTHLY:
+                return '$' . $this->getPrice(). '/month';
+                break;
+            case self::CREDENTIAL_PRICE_PERIOD_TOTAL:
+                return '$' . $this->getPrice();
+        }
+    }
 }

@@ -80,6 +80,7 @@ class CredentialDocumentType extends DocumentType {
         $body['oneLiner'] = $c->getOneLiner();
         $body['price'] = $c->getPrice();
         $body['pricePeriod'] = $c->getPricePeriod();
+        $body['displayPrice'] = $c->getDisplayPrice();
         $body['durationMin'] = $c->getDurationMin();
         $body['durationMax'] = $c->getDurationMax();
         $body['workloadMin'] = $c->getWorkloadMin();
