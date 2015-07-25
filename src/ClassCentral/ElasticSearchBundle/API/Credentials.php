@@ -42,7 +42,7 @@ class Credentials {
                 )
             )
         );
-        
+
         $results = $this->esClient->search( $params );
 
         return $results;

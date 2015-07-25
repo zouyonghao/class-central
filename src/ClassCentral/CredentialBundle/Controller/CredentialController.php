@@ -191,7 +191,7 @@ class CredentialController extends Controller
     public function credentialAction(Request $request, $slug)
     {
         return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
-
+                'page' => 'credential'
         ));
     }
 
@@ -200,8 +200,11 @@ class CredentialController extends Controller
      */
     public function credentialsAction(Request $request)
     {
-        return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
+        $esCredentials = $this->get('es_credentials');
 
+        return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
+                'page' => 'credentials',
+                'credentials' => $esCredentials->find()
         ));
     }
 }
