@@ -104,6 +104,14 @@ class CredentialDocumentType extends DocumentType {
         if($c->getInitiative())
         {
             $provider = $c->getInitiative();
+
+            // Certificate details
+            $certDetails = \ClassCentral\CredentialBundle\Services\Credential::getCertificateDetails( $this->entity );
+            if($certDetails)
+            {
+                $body['certificateName'] = $certDetails['name'];
+                $body['certificateSlug'] = $certDetails['slug'];
+            }
         }
         else
         {
