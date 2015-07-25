@@ -33,6 +33,16 @@ class Credentials {
         $params['type'] = 'credential';
         $params['body']['size'] = 1000;
 
+        // Add Facets
+        $params['body']['facets'] = array(
+            "certificate" => array(
+                'terms' => array(
+                    'field' => 'certificateSlug',
+                    'size' => 40
+                )
+            )
+        );
+        
         $results = $this->esClient->search( $params );
 
         return $results;
