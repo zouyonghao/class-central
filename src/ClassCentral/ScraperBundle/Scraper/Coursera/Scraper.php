@@ -52,6 +52,11 @@ class Scraper extends ScraperAbstractInterface {
         'Certificate', 'VerifiedCertificate', 'VideoIntro'
     );
 
+    private $credentialFields = array(
+        'Url','Description','Name'
+    );
+
+
     private $offeringFields = array(
         'StartDate', 'EndDate', 'Status',
     );
@@ -640,6 +645,27 @@ class Scraper extends ScraperAbstractInterface {
             }
         }
 
+        // Build the description
+        $description = $details['elements'][0]['description'];
+        $incentives = $details['elements'][0]['metadata']['incentives'];
+        $learningObjectives = '';
+        foreach($details['elements'][0]['metadata']['learningObjectives'] as $objective)
+        {
+            $learningObjectives .= "<li>$objective</li>";
+        }
+        $recommendedBackground = '';
+        foreach($details['elements'][0]['metadata']['recommendedBackground'] as $background)
+        {
+            $recommendedBackground .= "<li>$background</li>";
+        }
+
+        $credential->setDescription(
+            $description .
+            "<h2>Incentives & Benefits</h2>" . $incentives.
+            "<h2>What You'll Learn</h2>" ."<ul>$learningObjectives</ul>".
+            "<h2>Recommended Background</h2>" . "<ul>$recommendedBackground</ul>"
+        );
+
         return $credential;
     }
 
@@ -680,6 +706,10 @@ class Scraper extends ScraperAbstractInterface {
                 $this->out("Course Not Found - " . $topic['name']);
             }
         }
+
+        // Get Description
+        $credential->setDescription( $details['byline'] );
+
         return $credential;
     }
 
@@ -707,10 +737,20 @@ class Scraper extends ScraperAbstractInterface {
         else
         {
             // Update the credential
-            if ($this->doModify())
+            $changedFields = $this->dbHelper->changedFields($this->credentialFields,$credential,$dbCredential);
+            if(!empty($changedFields) && $this->doUpdate())
             {
-                $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential);
+                $this->out("UPDATE CREDENTIAL - " . $dbCredential->getName() );
+                $this->outputChangedFields( $changedFields );
+                if ($this->doModify())
+                {
+                    $em->persist($dbCredential);
+                    $em->flush();
+
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential);
+                }
             }
+
         }
     }
 

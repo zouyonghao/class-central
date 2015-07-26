@@ -279,6 +279,7 @@ class DBHelper
 
     public function changedFields($fields, $entity, $dbEntity)
     {
+        $changedFields = array();
         foreach($fields as $field)
         {
             $getter = 'get' . $field;
