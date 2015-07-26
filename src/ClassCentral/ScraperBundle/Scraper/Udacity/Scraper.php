@@ -24,6 +24,10 @@ class Scraper extends ScraperAbstractInterface{
         'WorkloadMin','WorkloadMax'
     );
 
+    private $credentialFields = array(
+        'Url','Description','Name'
+    );
+
     private $offeringFields = array(
        'Url'
     );
@@ -280,6 +284,19 @@ class Scraper extends ScraperAbstractInterface{
         $credential->setDurationMax( $nanodegree['expected_duration'] );
         $credential->setDurationMin( $nanodegree['expected_duration'] );
 
+        // Collect the description
+        $summary = $nanodegree['summary'];
+        $expectedLearning = $nanodegree['expected_learning'];
+        $requiredKnowledge = $nanodegree['required_knowledge'];
+
+        $credential->setDescription(
+            $summary .
+            '<h2>Why Take This Nanodegree?</h2>'.
+            $expectedLearning.
+            '<h2>Required Knowledge</h2>'.
+            $requiredKnowledge
+        );
+
         return $credential;
     }
 
@@ -307,11 +324,22 @@ class Scraper extends ScraperAbstractInterface{
         else
         {
             // Update the credential
-            // Update the credential
-            if ($this->doModify())
+            $changedFields = $this->dbHelper->changedFields($this->credentialFields,$credential,$dbCredential);
+            if(!empty($changedFields) && $this->doUpdate())
             {
-                $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential,'png');
+                $this->out("UPDATE CREDENTIAL - " . $dbCredential->getName() );
+                $this->outputChangedFields( $changedFields );
+                // Update the credential
+                if ($this->doModify())
+                {
+                    $em->persist($dbCredential);
+                    $em->flush();
+
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential,'png');
+                }
             }
+
+
         }
     }
 }

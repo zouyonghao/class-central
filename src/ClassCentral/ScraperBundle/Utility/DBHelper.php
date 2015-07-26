@@ -276,4 +276,29 @@ class DBHelper
         }
     }
 
+
+    public function changedFields($fields, $entity, $dbEntity)
+    {
+        foreach($fields as $field)
+        {
+            $getter = 'get' . $field;
+            $setter = 'set' . $field;
+            if($entity->$getter() != $dbEntity->$getter())
+            {
+                $courseModified = true;
+
+                // Add the changed field to the changedFields array
+                $changed = array();
+                $changed['field'] = $field;
+                $changed['old'] =$dbEntity->$getter();
+                $changed['new'] = $entity->$getter();
+                $changedFields[] = $changed;
+
+                $dbEntity->$setter($entity->$getter());
+            }
+
+        }
+
+        return $changedFields;
+    }
 }
