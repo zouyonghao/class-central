@@ -134,6 +134,13 @@ class CredentialDocumentType extends DocumentType {
         $body['rating'] = $rating['rating'];
         $body['numRatings'] = $rating['numRatings'];
 
+        $courses = array();
+        foreach($this->entity->getCourses() as $course )
+        {
+            $cDoc = new CourseDocumentType( $course, $this->container );
+            $courses[] = $cDoc->getBody();
+        }
+        $body['courses'] = $courses;
         return $body;
     }
 
