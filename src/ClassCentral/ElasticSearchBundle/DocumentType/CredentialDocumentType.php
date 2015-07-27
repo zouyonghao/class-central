@@ -63,6 +63,11 @@ class CredentialDocumentType extends DocumentType {
                         "index" => 'not_analyzed'
                     )
                 )
+            ),
+
+            "slug" => array(
+                "type" => "string",
+                'index' => 'not_analyzed',
             )
 
         );
