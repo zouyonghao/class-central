@@ -47,4 +47,25 @@ class Credentials {
 
         return $results;
     }
+
+    /**
+     * Returns a single credential
+     * @param $slug
+     */
+    public function findBySlug( $slug )
+    {
+        $params = array();
+
+        $params['index'] = $this->indexName;
+        $params['type'] = 'credential';
+        $params['body']['query']['constant_score']['filter'] = array(
+                'term' => array(
+                    'slug' => $slug
+                )
+        );
+
+        $results = $this->esClient->search( $params );
+
+        return $results;
+    }
 } 
