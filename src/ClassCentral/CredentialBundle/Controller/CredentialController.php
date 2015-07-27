@@ -190,8 +190,20 @@ class CredentialController extends Controller
      */
     public function credentialAction(Request $request, $slug)
     {
+        // Get the credential
+        $esCredentials = $this->get('es_credentials');
+
+
+        $result = $esCredentials->findBySlug($slug);
+        if( $result['hits']['total'] != 1 )
+        {
+            // Error
+            return;
+        }
+
         return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
-                'page' => 'credential'
+                'page' => 'credential',
+                'credential' => $result['hits']['hits'][0]['_source']
         ));
     }
 
@@ -201,6 +213,7 @@ class CredentialController extends Controller
     public function credentialsAction(Request $request)
     {
         $esCredentials = $this->get('es_credentials');
+
 
         return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
                 'page' => 'credentials',
