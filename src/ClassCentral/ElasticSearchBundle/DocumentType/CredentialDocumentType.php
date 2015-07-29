@@ -141,6 +141,24 @@ class CredentialDocumentType extends DocumentType {
             $courses[] = $cDoc->getBody();
         }
         $body['courses'] = $courses;
+
+
+        // Build the bullet points in the array
+        $bulletPoints = array();
+
+        // Bullet 1
+        $certDetails = $credentialService->getCertificateDetails($this->entity);
+        $provider = $this->entity->getInitiative()->getName();
+        $institutions = $this->entity->getInstitutions();
+        $bullet1 = "{$certDetails['name']} via $provider";
+        $bulletPoints[]  = $bullet1 ;
+
+        // Bullet 2
+        $bullet2 = $this->entity->getDisplayPrice();
+        $bulletPoints[] = $bullet2;
+
+        $body['bulletPoints'] =$bulletPoints;
+
         return $body;
     }
 
