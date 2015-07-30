@@ -51,11 +51,12 @@ CC.Class['Credential'] = (function(){
     function validateReviewForm( review ) {
 
         var validationError = false;
-
+        var errorDiv = '';
         // Rating cannot be empty
         if(review.rating === undefined) {
             $('#cr-error-rating').show();
             validationError = true;
+            errorDiv = '#cr-error-rating';
         } else {
             $('#cr-error-rating').hide();
         }
@@ -64,6 +65,7 @@ CC.Class['Credential'] = (function(){
         if(review.progress === undefined || utilities.isEmpty(review.progress)) {
             $('#cr-error-progress').show();
             validationError = true;
+            if(!errorDiv) errorDiv = '#cr-error-progress';
         } else {
             $('#cr-error-progress').hide();
         }
@@ -74,6 +76,7 @@ CC.Class['Credential'] = (function(){
             if(words.length < 20) {
                 $('#cr-error-review-text').show();
                 validationError = true;
+                if(!errorDiv) errorDiv = '#cr-error-review-text';
             } else {
                 $('#cr-error-review-text').hide();
             }
@@ -85,6 +88,7 @@ CC.Class['Credential'] = (function(){
             if(utilities.isEmpty(review.title)) {
                 $('#cr-error-title').show();
                  validationError = true;
+                if(!errorDiv) errorDiv = '#cr-error-title';
             } else {
                 $('#cr-error-title').hide();
             }
@@ -96,8 +100,11 @@ CC.Class['Credential'] = (function(){
             if(!utilities.validateEmail(review.email) ) {
                 validationError = true;
                 $('#cr-error-email').show();
+                if(!errorDiv) errorDiv = '#cr-error-email';
             }
         }
+
+        if(errorDiv) $.scrollTo(errorDiv,{ duration: 400, offset : -90 });
 
         return validationError;
     }
