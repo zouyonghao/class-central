@@ -117,8 +117,8 @@ class Credential
     const NOT_AVAILABLE = 100;
     const TO_BE_REVIEWED = 101; // To be reviewed by someone before it is displayed
 
-    const CREDENTIAL_CARD_IMAGE_HEIGHT = 400;
-    const CREDENTIAL_CARD_IMAGE_WIDTH  = 265;
+    const CREDENTIAL_CARD_IMAGE_HEIGHT = 260;
+    const CREDENTIAL_CARD_IMAGE_WIDTH  = 260;
 
     const CREDENTIAL_PRICE_PERIOD_MONTHLY         = 'M';
     const CREDENTIAL_PRICE_PERIOD_TOTAL           = 'T';
