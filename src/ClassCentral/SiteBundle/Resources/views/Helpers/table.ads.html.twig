@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
 
-    {% set ad = random(2) %}
+    {% set ad = random(1) %}
 
     {% if ad == 0 %}
         <tr>
@@ -27,7 +27,7 @@
                 </td>
             {% endif %}
 
-            <td class="start-date">7th July, 2015</td>
+            <td class="start-date">6th Oct, 2015</td>
 
             <td data-timestamp="5" class="course-rating-column">
                 <div class="rating-and-count-wrap">
@@ -37,7 +37,7 @@
 
         </tr>
 
-    {% elseif ad == 1 %}
+    {% else %}
     <tr>
 
         <td class="add-column">
@@ -62,36 +62,6 @@
         {% endif %}
 
         <td class="start-date">6th Oct, 2015</td>
-
-        <td data-timestamp="5" class="course-rating-column">
-            <div class="rating-and-count-wrap">
-                <div class="course-rating" data-score="5" ></div>
-            </div>
-        </td>
-
-    </tr>
-    {% else %}
-    <tr>
-
-        <td class="add-column">
-            <span class="label label-warning">Ad</span>
-        </td>
-
-        <td class="course-name-column">
-            <a rel="nofollow" class="course-name" target="_blank" href="https://www.masterclass.com/classes/dustin-hoffman-teaches-acting" onmousedown="ga('send','event', 'Table Ad', 'MasterClass - {{ tableId }}', 'Dustin Hoffman Teaches Acting')" title="Dustin Hoffman Teaches Acting"><span itemprop="name">Dustin Hoffman Teaches Acting</span></a>
-            <ul class="table-uni-list">
-
-                <span class="via">via</span>
-                <a rel="nofollow" href="https://www.masterclass.com/" target="_blank" class="initiativelinks" onclick="ga('send','event', 'Table Ad - Provider', 'MasterClass', 'Dustin Hoffman Teaches Acting')">MasterClass</a>
-            </ul>
-        </td>
-
-        {% if page is defined and page != 'stream' and page=='home' %}
-            <td class="subject-column"> <a class="subject" href="/subject/film-and-theatre" title="List of Film & Theatre MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Film & Theatre', 'Dustin Hoffman Teaches Acting')" data-category="Film & Theatre">Film & Theatre</a>
-            </td>
-        {% endif %}
-
-        <td class="start-date">Self Paced</td>
 
         <td data-timestamp="5" class="course-rating-column">
             <div class="rating-and-count-wrap">
