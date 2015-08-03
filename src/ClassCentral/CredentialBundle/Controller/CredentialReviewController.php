@@ -104,7 +104,7 @@ class CredentialReviewController extends Controller
             return UniversalHelper::getAjaxResponse(false, "Progress cannot be empty" );
         }
         $progress = $reviewData['progress'];
-        if( in_array($progress, CredentialReview::$progressListDropdown) )
+        if( in_array($progress, array_keys(CredentialReview::$progressListDropdown)) )
         {
             $cr->setProgress( $progress );
         }
