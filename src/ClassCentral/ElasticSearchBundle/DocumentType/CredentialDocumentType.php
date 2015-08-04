@@ -13,6 +13,7 @@ use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 
 class CredentialDocumentType extends DocumentType {
 
@@ -132,6 +133,7 @@ class CredentialDocumentType extends DocumentType {
         // Get the ratings
         $rating = $credentialService->calculateAverageRating( $this->entity );
         $body['rating'] = $rating['rating'];
+        $body['formattedRating'] = ReviewUtility::formatRating( $rating['rating'] ); // Rounds the rating to the nearest 0.5
         $body['numRatings'] = $rating['numRatings'];
 
         $courses = array();
