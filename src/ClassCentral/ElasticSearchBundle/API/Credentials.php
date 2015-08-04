@@ -43,6 +43,12 @@ class Credentials {
             )
         );
 
+        $params['body']['sort'] = array(
+            "rating" => array(
+                "order" => "desc"
+            )
+        );
+
         $results = $this->esClient->search( $params );
 
         return $results;
