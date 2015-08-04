@@ -43,6 +43,7 @@ class CredentialController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
+            $this->get('credential')->index( $entity );
 
             return $this->redirect($this->generateUrl('credential_show', array('id' => $entity->getId())));
         }
@@ -134,6 +135,7 @@ class CredentialController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            $this->get('credential')->index( $entity );
 
             return $this->redirect($this->generateUrl('credential_edit', array('id' => $id)));
         }

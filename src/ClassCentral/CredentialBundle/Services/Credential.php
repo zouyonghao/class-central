@@ -11,6 +11,7 @@ namespace ClassCentral\CredentialBundle\Services;
 
 
 use ClassCentral\CredentialBundle\Entity\CredentialReview;
+use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
 use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -113,6 +114,17 @@ class Credential {
             'rating' => $rating,
             'numRatings' => $validReviewsCount
         );
+    }
+
+    /**
+     * Indexs a credential into elasticsearch
+     * @param \ClassCentral\CredentialBundle\Entity\Credential $credential
+     */
+    public function index(\ClassCentral\CredentialBundle\Entity\Credential $credential)
+    {
+        $cDoc = new CredentialDocumentType( $credential, $this->container);
+        $doc = $cDoc->getDocument( $this->container->getParameter( 'es_index_name' ) );
+        $this->container->get('es_client')->index($doc);
     }
 
 
