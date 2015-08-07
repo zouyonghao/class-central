@@ -1027,6 +1027,20 @@ a:focus .card-back__interaction-text {
   fill-opacity: 1;
 }
 
+// starRating-white
+
+.starRating-blue .starRating_starShape,
+.starRating-blue .starRating_starShape-right {
+  fill: #004fce;
+  fill-opacity: .3;
+}
+
+.starRating-blue .starRating_starShape-full,
+.starRating-blue .starRating_starShape-left {
+  fill: #004fce;
+  fill-opacity: 1;
+}
+
 // user selectable star rating
 
 .ratingInput {
@@ -2093,6 +2107,26 @@ a:focus .card-back__interaction-text {
   text-align: center;
 }
 
+.basic-input-button--small {
+  font-size: 16px;
+  color: #fff;
+  background-color: #47d479;
+  border: 1px solid: #47d479;
+  padding: 6px 20px;
+}
+
+.basic-input-button--medium {
+  padding: 10px 12px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.basic-input-button--inverted {
+  background-color: transparent;
+  border: 1px solid #47d479;
+  color: #47d479;
+}
+
 .basic-input-button:hover,
 .basic-input-button:focus {
   text-decoration: none;
@@ -2100,6 +2134,27 @@ a:focus .card-back__interaction-text {
   color: #F9F8F3;
   background-color: #6add92;
 }
+
+.basic-input-button--inverted:hover,
+.basic-input-button--inverted:focus {
+  color: #6add92;
+  background-color: transparent;
+  border-color: #6add92;
+}
+
+.basic-input-button--white {
+  color: #F9F8F3;
+  border: 1px solid #F9F8F3;
+  background-color: transparent;
+}
+
+.basic-input-button--white:hover,
+.basic-input-button--white:focus {
+  color: #D4D4D3;
+  background-color: transparent;
+  border-color: #D4D4D3;
+}
+
 
 .basic-field-note {
   display: block;
@@ -2230,46 +2285,46 @@ a:focus .card-back__interaction-text {
 .tilted-section__tilt {
   display: block;
   position: absolute;
-  top: -70px;
+  top: -84px;
   left: 50%;
-  margin-left: -800px;
+  margin-left: -960px;
   width: 0;
-  height: 70px;
+  height: 84px;
   border-style: solid;
-  border-width: 70px 0 0 1600px;
+  border-width: 84px 0 0 1920px;
 }
 
 .tilted-section__tilt--steep {
-  border-width: 105px 0 0 1600px;
-  top: -105px;
-  height: 105px;
+  border-width: 126px 0 0 1920px;
+  top: -126px;
+  height: 126px;
 }
 
 .tilted-section--up .tilted-section__tilt {
   left: auto;
   margin-left: 0;
   right: 50%;
-  margin-right: -800px;
-  border-width: 0 0 70px 1600px;
+  margin-right: -960px;
+  border-width: 0 0 84px 1920px;
 }
 
 .tilted-section--up .tilted-section__tilt--steep {
-  border-width: 0 0 105px 1600px;
+  border-width: 0 0 126px 1920px;
 }
 
 .tilted-section__tilt:before {
   content: "";
   display: block;
-  height: 70px;
-  top: -70px;
-  left: -3600px;
+  height: 84px;
+  top: -84px;
+  left: -3920px;
   width: 2000px;
   position: absolute;
 }
 
 .tilted-section__tilt--steep:before {
-  height: 105px;
-  top: -105px;
+  height: 126px;
+  top: -126px;
 }
 
 .tilted-section--up .tilted-section__tilt:before {
@@ -2279,11 +2334,11 @@ a:focus .card-back__interaction-text {
 }
 
 .tilted-section--bottom {
-  padding-bottom: 70px;
+  padding-bottom: 84px;
 }
 
 .tilted-section--steep-bottom {
-  padding-bottom: 105px;
+  padding-bottom: 126px;
 }
 
 .tilted-section--blue {
@@ -2332,6 +2387,26 @@ a:focus .card-back__interaction-text {
 
 .tilted-section--white .tilted-section__tilt:before {
   background-color: #f9f8f3;
+}
+
+.tilted-section--ultra-white {
+  background-color: #fff;
+}
+
+.tilted-section--ultra-white .tilted-section__tilt {
+  border-color: transparent transparent transparent #fff;
+}
+
+.tilted-section--ultra-white.tilted-section--up .tilted-section__tilt {
+  border-color: transparent transparent #fff transparent;
+}
+
+.tilted-section--ultra-white .tilted-section__tilt:before {
+  background-color: #fff;
+}
+
+.tilted-section--border-top {
+  border-top: 1px solid #e6ecfe;
 }
 
 .fixed-menu-spacer {
@@ -2436,4 +2511,5 @@ a:focus .card-back__interaction-text {
   background-color: @gray-dark;
   background-image: url("/bundles/classcentralsite/slashpixel/images/dotted-bg.png");
   border-bottom: 1px solid #163fc4;
+  min-height: 13px;
 }
