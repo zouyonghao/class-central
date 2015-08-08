@@ -83,6 +83,22 @@ class Credential {
         return array();
     }
 
+    public function getCertDetailsFromCertSlug( $slug )
+    {
+        switch(strtolower($slug))
+        {
+            case 'specialization':
+                return array('name'=>'Specialization', 'slug' => 'specialization');
+                break;
+            case 'nanodegree':
+                return array('name'=>'Nanodegree', 'slug' => 'nanodegree');
+                break;
+            case 'xseries':
+                return array('name'=>'XSeries', 'slug' => 'xseries');
+                break;
+        }
+
+    }
     public function calculateAverageRating(\ClassCentral\CredentialBundle\Entity\Credential $credential)
     {
         $rating = 0;
@@ -111,6 +127,18 @@ class Credential {
             'rating' => $rating,
             'numRatings' => $validReviewsCount
         );
+    }
+
+
+    /**
+     * Indexs a credential into elasticsearch
+     * @param \ClassCentral\CredentialBundle\Entity\Credential $credential
+     */
+    public function index(\ClassCentral\CredentialBundle\Entity\Credential $credential)
+    {
+        $cDoc = new CredentialDocumentType( $credential, $this->container);
+        $doc = $cDoc->getDocument( $this->container->getParameter( 'es_index_name' ) );
+        $this->container->get('es_client')->index($doc);
     }
 
 } 
