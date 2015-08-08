@@ -168,6 +168,7 @@ CC.Class['Credential'] = (function(){
         $(span).toggleClass('ticked');
         var type = $(this).data('type');
         var value = $(this).data(type);
+        filterCredentials();
 
     }
 
@@ -176,7 +177,22 @@ CC.Class['Credential'] = (function(){
         var node = $(this).parent().children('a');
         var type = node.data('type');
         var value = node.data(type);
-        console.log(value);
+        filterCredentials();
+    }
+
+    function filterCredentials(){
+        var filterCreds = [];
+        var params = {};
+        var url = $.url().attr('path');
+
+        $(".filter-credentials .ticked + .filter-credential-type").each(function() {
+            filterCreds.push($.trim($(this).data("certificate")));
+        });
+        if(filterCreds.length > 0) {
+            params['credentials'] = filterCreds.join();
+            url = url+'?' + $.param(params);
+        }
+        history.replaceState(null, null, url);
     }
 
     return {
