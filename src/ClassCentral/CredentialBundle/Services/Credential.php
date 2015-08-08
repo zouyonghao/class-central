@@ -14,6 +14,7 @@ use ClassCentral\CredentialBundle\Entity\CredentialReview;
 use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
 use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class Credential {
 
@@ -61,26 +62,22 @@ class Credential {
     }
 
     /**
-     * @param \ClassCentral\CredentialBundle\Entity\Credential $credential
+     * @param $providerName
+     * @return array
      */
-    public static function getCertificateDetails( \ClassCentral\CredentialBundle\Entity\Credential $credential)
+    public function getCertificateDetails( $providerName )
     {
-        $provider = $credential->getInitiative();
-
-        if(!empty($provider))
+        switch(strtolower($providerName))
         {
-            switch($provider->getName())
-            {
-                case 'Coursera':
-                    return array('name'=>'Specialization', 'slug' => 'specialization');
-                    break;
-                case 'Udacity':
-                    return array('name'=>'Nanodegree', 'slug' => 'nanodegree');
-                    break;
-                case 'edX':
-                    return array('name'=>'XSeries', 'slug' => 'xseries');
-                    break;
-            }
+            case 'coursera':
+                return array('name'=>'Specialization', 'slug' => 'specialization');
+                break;
+            case 'udacity':
+                return array('name'=>'Nanodegree', 'slug' => 'nanodegree');
+                break;
+            case 'edX':
+                return array('name'=>'XSeries', 'slug' => 'xseries');
+                break;
         }
 
         return array();
@@ -115,17 +112,5 @@ class Credential {
             'numRatings' => $validReviewsCount
         );
     }
-
-    /**
-     * Indexs a credential into elasticsearch
-     * @param \ClassCentral\CredentialBundle\Entity\Credential $credential
-     */
-    public function index(\ClassCentral\CredentialBundle\Entity\Credential $credential)
-    {
-        $cDoc = new CredentialDocumentType( $credential, $this->container);
-        $doc = $cDoc->getDocument( $this->container->getParameter( 'es_index_name' ) );
-        $this->container->get('es_client')->index($doc);
-    }
-
 
 } 

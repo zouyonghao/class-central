@@ -113,11 +113,12 @@ class CredentialDocumentType extends DocumentType {
             $provider = $c->getInitiative();
 
             // Certificate details
-            $certDetails = \ClassCentral\CredentialBundle\Services\Credential::getCertificateDetails( $this->entity );
+            $certDetails = $credentialService->getCertificateDetails($provider->getName() );
             if($certDetails)
             {
                 $body['certificateName'] = $certDetails['name'];
                 $body['certificateSlug'] = $certDetails['slug'];
+                $bullet1 = "{$certDetails['name']} via {$provider->getName()}";
             }
         }
         else
@@ -147,12 +148,7 @@ class CredentialDocumentType extends DocumentType {
 
         // Build the bullet points in the array
         $bulletPoints = array();
-
-        // Bullet 1
-        $certDetails = $credentialService->getCertificateDetails($this->entity);
-        $provider = $this->entity->getInitiative()->getName();
         $institutions = $this->entity->getInstitutions();
-        $bullet1 = "{$certDetails['name']} via $provider";
         $bulletPoints[]  = $bullet1 ;
 
         // Bullet 2
