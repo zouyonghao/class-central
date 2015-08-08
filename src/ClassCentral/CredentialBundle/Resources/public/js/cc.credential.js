@@ -11,6 +11,10 @@ CC.Class['Credential'] = (function(){
        ;
         // Attach handle to save button
         $('#cr-save-review').click(saveReview);
+
+        // Attach handlers to filters
+        $(".filter-credential-type").click(filterCredentialNameClicked);
+        $(".tick-wrap-credential .tick").click(filterCredentialTickClicked);
     }
 
     // =====================================================
@@ -153,6 +157,26 @@ CC.Class['Credential'] = (function(){
         } else {
             $('#cr-save-review').attr('disabled', false);
         }
+    }
+
+    // =====================================================
+    //      Credentials Page - Filters
+    // ======================================================
+    function filterCredentialNameClicked(e) {
+        e.preventDefault();
+        var span = $(this).parent().find('span')[0];
+        $(span).toggleClass('ticked');
+        var type = $(this).data('type');
+        var value = $(this).data(type);
+
+    }
+
+    function filterCredentialTickClicked(e) {
+        $(this).toggleClass("ticked");
+        var node = $(this).parent().children('a');
+        var type = node.data('type');
+        var value = node.data(type);
+        console.log(value);
     }
 
     return {
