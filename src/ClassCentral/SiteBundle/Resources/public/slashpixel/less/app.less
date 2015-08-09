@@ -2470,11 +2470,11 @@ ul.main-filter-dropdown {
   display: none;
 }
 
-.active > .sub-category .minus-sign {
+.active > .sub-category .minus-sign, .active > .filter-credential-type .minus-sign {
   display: inline;
 }
 
-.active > .sub-category .plus-sign {
+.active > .sub-category .plus-sign, .active > .filter-credential-type .minus-sign {
   display: none;
 }
 
@@ -2496,13 +2496,14 @@ li a.sort {
   text-decoration: none;
 }
 
-.sub-category {
+.sub-category, .filter-credential-type {
   position: relative;
   font-size: 16px;
   color: @gray-blue-light;
 }
 
-.tick-wrap {
+.tick-wrap,
+.tick-wrap-credential {
   position: relative;
   overflow: hidden;
 }
@@ -2527,7 +2528,8 @@ li a.sort {
   display: block;
 }
 
-.tick-wrap .tick.no-svg-fallback {
+.tick-wrap .tick.no-svg-fallback,
+.tick-wrap-credential .tick.no-svg-fallback{
   top: 11px;
   left: 10px;
   border-radius: 3px;
