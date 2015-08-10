@@ -411,7 +411,7 @@ body {
   display: none;
 }
 
-.cc-full-width-content + .cc-body-content {
+.cc-full-width-content ~ .cc-body-content {
   display: none;
 }
 
@@ -947,6 +947,10 @@ body {
 
   .navbar-blue.headroom--unpinned {
     top: -118px;
+  }
+
+  .headroom--not-top.headroom--pinned.navbar-blue {
+    padding-top: 0;
   }
 
   .navbar-blue:after {
@@ -5603,6 +5607,13 @@ footer ul > li > a {
 
 .cred-card__star-rating .starRating {
   display: block;
+  float: left;
+  margin-right: 5px;
+  margin-top: 1px;
+}
+
+.cred-card__num-rating {
+  float: left;
 }
 
 .cred-card__price {
