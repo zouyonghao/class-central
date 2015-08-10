@@ -49,7 +49,7 @@ class Credentials {
         );
 
         $params['body']['sort'] = array(
-            "rating" => array(
+            "numRatings" => array(
                 "order" => "desc"
             )
         );
