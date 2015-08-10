@@ -217,14 +217,14 @@ class CredentialController extends Controller
         $credentialService = $this->get('credential');
         $esCredentials = $this->get('es_credentials');
         $params = $credentialService->getCredentialsFilterParams($request->query->all());
-        $esCredentialsResponse =  $esCredentials->find($params);
-
+        $data = $credentialService->getCredentialsInfo( $params );
+        extract($data);
         return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
                 'page' => 'credentials',
-                'credentials' => $esCredentialsResponse['hits']['hits'],
-                'facets' =>  $esCredentialsResponse['facets']['certificate']['terms'],
-                'numCredentials' => $esCredentialsResponse['hits']['total'],
                 'filterParams' => $params,
+                'credentials' => $credentials,
+                'facets' =>  $facets,
+                'numCredentials' => $numCredentials,
         ));
     }
 }

@@ -163,14 +163,15 @@ class Credential {
      * @param array $params
      * @return mixed
      */
-    public function getCredentialsHTML( $params = array() )
+    public function getCredentialsInfo( $params = array() )
     {
-        $esCredentials = $this->get('es_credentials');
+        $esCredentials = $this->container->get('es_credentials');
+        $esCredentialsResponse =  $esCredentials->find($params);
 
-
-        return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
-            'page' => 'credentials',
-            'credentials' => $esCredentials->find()
-        ));
+        return array(
+            'credentials' => $esCredentialsResponse['hits']['hits'],
+            'facets' =>  $esCredentialsResponse['facets']['certificate']['terms'],
+            'numCredentials' => $esCredentialsResponse['hits']['total'],
+        );
     }
 } 
