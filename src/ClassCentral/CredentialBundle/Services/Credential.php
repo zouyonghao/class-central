@@ -149,6 +149,8 @@ class Credential {
     public function getCredentialsFilterParams( $getParams = array() )
     {
         $params = array();
+
+        $params['credentials'] = array();
         if( !empty($getParams['credentials']) )
         {
             $params['credentials'] = explode(',', $getParams['credentials'] );
