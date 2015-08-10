@@ -27,10 +27,10 @@ class Credentials {
 
     /**
      *
-     * @param array $creds specialization, nanodegree etc.
+     * @param array $params specialization, nanodegree etc.
      * @return mixed
      */
-    public function find( $creds = array() )
+    public function find( $queryFilters = array() )
     {
         $params = array();
 
@@ -53,20 +53,19 @@ class Credentials {
                 "order" => "desc"
             )
         );
-        
-        if( !empty($creds) )
+
+        if( !empty($queryFilters['credentials']) )
         {
             $params['body']['filter'] = array(
                 'and' => array(
                     array('terms' => array(
-                        'certificateSlug' => $creds,
-                        'execution' => 'or'
+                        'certificateSlug' => $queryFilters['credentials'],
+                        'execution' => 'and'
                     )),
 
                 )
             );
         }
-
         $results = $this->esClient->search( $params );
 
         return $results;

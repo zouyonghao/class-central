@@ -141,4 +141,34 @@ class Credential {
         $this->container->get('es_client')->index($doc);
     }
 
+    /**
+     * Parse the Request parameters figure out the filtering options
+     * @param Request $request
+     * @return array
+     */
+    public function getCredentialsFilterParams( $getParams = array() )
+    {
+        $params = array();
+        if( !empty($getParams['credentials']) )
+        {
+            $params['credentials'] = explode(',', $getParams['credentials'] );
+        }
+        return $params;
+    }
+
+    /**
+     * Given the params, get all credentials and the associated parameters
+     * @param array $params
+     * @return mixed
+     */
+    public function getCredentialsHTML( $params = array() )
+    {
+        $esCredentials = $this->get('es_credentials');
+
+
+        return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
+            'page' => 'credentials',
+            'credentials' => $esCredentials->find()
+        ));
+    }
 } 
