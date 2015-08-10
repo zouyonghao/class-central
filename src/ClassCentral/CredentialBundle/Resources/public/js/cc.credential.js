@@ -15,6 +15,11 @@ CC.Class['Credential'] = (function(){
         // Attach handlers to filters
         $(".filter-credential-type").click(filterCredentialNameClicked);
         $(".tick-wrap-credential .tick").click(filterCredentialTickClicked);
+
+        $('#cred-button-signup').click(function(e){
+            e.preventDefault();
+            $('#signupModal').modal('show');
+        });
     }
 
     // =====================================================

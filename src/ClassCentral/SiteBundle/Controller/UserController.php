@@ -981,6 +981,12 @@ class UserController extends Controller
                     'text'  => 'Signup to update/edit it later.'
                 );
                 break;
+            case 'credential_create_free_account':
+                $mediaCard_1 = array(
+                    'title' => 'LEARNING. Always.',
+                    'text'  => 'Track courses that match your interests and receive recommendations'
+                );
+                break;
         }
 
         $sigupFormModels = $this->get('cache')->get('signupform_models', function(){
