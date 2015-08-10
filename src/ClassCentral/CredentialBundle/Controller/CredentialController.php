@@ -215,7 +215,6 @@ class CredentialController extends Controller
     public function credentialsAction(Request $request)
     {
         $credentialService = $this->get('credential');
-        $esCredentials = $this->get('es_credentials');
         $params = $credentialService->getCredentialsFilterParams($request->query->all());
         $data = $credentialService->getCredentialsInfo( $params );
         extract($data);

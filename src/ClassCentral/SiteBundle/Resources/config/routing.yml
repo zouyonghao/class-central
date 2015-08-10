@@ -332,6 +332,9 @@ maestro_course_details:
   pattern: /maestro/course/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Course:courseDetails}
 
+maestro_credentials:
+  pattern: /maestro/certificate
+  defaults: {_controller: ClassCentralSiteBundle:Maestro:credentials}
 
 user_profile_dummy:
   pattern: /profile

@@ -193,6 +193,17 @@ CC.Class['Credential'] = (function(){
             url = url+'?' + $.param(params);
         }
         history.replaceState(null, null, url);
+
+        // Ajax query
+        $.ajax({
+            url: "/maestro" + url
+        })
+            .done(function(result){
+                var response = $.parseJSON(result);
+                $('#credentials-cards-row').html( response.cards );
+                $('#number-of-credentials').html( response.numCredentials );
+            });
+
     }
 
     return {

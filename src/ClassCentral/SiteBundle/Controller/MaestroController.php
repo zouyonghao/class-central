@@ -171,4 +171,23 @@ class MaestroController extends Controller {
         return new Response( json_encode( $response ) );
 
     }
+
+    /**
+     * Ajax call that returns the html for credentials
+     * @param Request $request
+     */
+    public function credentialsAction(Request $request)
+    {
+        $credentialService = $this->container->get('credential') ;
+        $params = $credentialService->getCredentialsFilterParams($request->query->all());
+        $data = $credentialService->getCredentialsInfo( $params );
+        $cardsHtml = $this->render('ClassCentralCredentialBundle:Credential:credentialcards.html.twig', array(
+            'credentials' => $data['credentials']
+        ))->getContent();
+
+        return new Response( json_encode(array(
+            'cards' => $cardsHtml,
+            'numCredentials' => $data['numCredentials'],
+        )));
+    }
 } 
