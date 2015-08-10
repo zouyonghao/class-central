@@ -60,7 +60,7 @@ class Credentials {
                 'and' => array(
                     array('terms' => array(
                         'certificateSlug' => $queryFilters['credentials'],
-                        'execution' => 'and'
+                        'execution' => 'or'
                     )),
 
                 )
