@@ -53,7 +53,7 @@ class Scraper extends ScraperAbstractInterface {
     );
 
     private $credentialFields = array(
-        'Url','Description','Name'
+        'Url','Description','Name', 'OneLiner'
     );
 
 
@@ -616,6 +616,7 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setSlug( $details['elements'][0]['slug'] . '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_ONDEMAND_PAGE_URL,$details['elements'][0]['slug']));
+        $credential->setOneLiner(  $details['elements'][0]['tagline'] );
 
         // Add the institutions
         foreach( $details['linked']['partners.v1'] as $university )
@@ -678,6 +679,7 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setSlug( $details['short_name']. '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_PAGE_URL,$details['short_name'], $details['id']));
+        $credential->setOneLiner( $details['subhead']);
 
         // Add the institutions
         foreach( $details['universities'] as $university )
