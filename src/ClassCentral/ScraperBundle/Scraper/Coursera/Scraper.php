@@ -661,10 +661,10 @@ class Scraper extends ScraperAbstractInterface {
         }
 
         $credential->setDescription(
-            $description .
-            "<h2>Incentives & Benefits</h2>" . $incentives.
-            "<h2>What You'll Learn</h2>" ."<ul>$learningObjectives</ul>".
-            "<h2>Recommended Background</h2>" . "<ul>$recommendedBackground</ul>"
+            "<p>$description</p>" .
+            "<h3 class='table-tab-content__title'>Incentives & Benefits</h3><p>$incentives</p>".
+            "<h3 class='table-tab-content__title'>What You'll Learn</h3>" ."<p><ul>$learningObjectives</ul></p>".
+            "<h3 class='table-tab-content__title'>Recommended Background</h3>" . "<p><ul>$recommendedBackground</ul></p>"
         );
 
         return $credential;
