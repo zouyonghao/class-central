@@ -90,9 +90,11 @@ class CredentialDocumentType extends DocumentType {
         $body['displayPrice'] = $c->getDisplayPrice();
         $body['durationMin'] = $c->getDurationMin();
         $body['durationMax'] = $c->getDurationMax();
+        $body['displayDuration'] = $c->getDisplayDuration();
         $body['workloadMin'] = $c->getWorkloadMin();
         $body['workloadMax'] = $c->getDurationMax();
         $body['workloadType'] = $c->getWorkloadType();
+        $body['displayWorkload'] = $c->getDisplayWorkload();
         $body['url'] = $c->getUrl();
         $body['description'] = $c->getDescription();
         $body['status'] = $c->getStatus();
@@ -130,12 +132,15 @@ class CredentialDocumentType extends DocumentType {
 
         // Institutions
         $body['institutions'] = array();
+        $institutions = array();
         foreach($c->getInstitutions() as $ins)
         {
             $iDoc = new InstitutionDocumentType($ins, $this->container);
             $body['institutions'][] = $iDoc->getBody();
             $orgs[] = $ins->getName(); // Populate the organization list
+            $institutions[] = $ins->getName();
         }
+        $body['institutionsOverview'] = UniversalHelper::commaSeparateList( $institutions );
 
         // Get the ratings
         $rating = $credentialService->calculateAverageRating( $this->entity );
@@ -169,7 +174,7 @@ class CredentialDocumentType extends DocumentType {
         $effort = $this->entity->getDisplayWorkload();
         if($effort)
         {
-            $bulletPoints[] = $effort;
+            $bulletPoints[] = $effort . ' of effort';
         }
 
         $body['bulletPoints'] =$bulletPoints;

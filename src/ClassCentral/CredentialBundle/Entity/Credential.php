@@ -683,10 +683,10 @@ class Credential
             switch($this->getWorkloadType())
             {
                 case self::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK:
-                    $effort .= ' hours a week of effort';
+                    $effort .= ' hours a week';
                     break;
                 case self::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS:
-                    $effort .= ' total hours of effort';
+                    $effort .= ' total hours';
                     break;
             }
 
