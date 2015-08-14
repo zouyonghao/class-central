@@ -206,6 +206,7 @@ class CourseDocumentType extends DocumentType {
         $body['ratingSort'] = $rs->getBayesianAverageRating( $c->getId() );
         $rArray = $rs->getReviewsArray($c->getId());
         $body['reviewsCount'] = $rArray['count'];
+        $body['ratingStars'] = ReviewUtility::getRatingStars( $body['rating'] );
 
         return $body;
     }
