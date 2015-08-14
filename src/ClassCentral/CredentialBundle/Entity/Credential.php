@@ -643,7 +643,26 @@ class Credential
                 return '$' . $this->getPrice(). '/month';
                 break;
             case self::CREDENTIAL_PRICE_PERIOD_TOTAL:
-                return '$' . $this->getPrice();
+                return '$' . $this->getPrice() . ' total';
         }
     }
+
+    public function getDisplayDuration()
+    {
+        if( $this->getDurationMin() && $this->getDurationMax() )
+        {
+            if ($this->getDurationMin() == $this->getDurationMax() )
+            {
+                return "{$this->getDurationMin()} months";
+            }
+            else
+            {
+                return "{$this->getDurationMin()} - {$this->getDurationMax()} months";
+            }
+
+        }
+
+        return '';
+    }
+
 }

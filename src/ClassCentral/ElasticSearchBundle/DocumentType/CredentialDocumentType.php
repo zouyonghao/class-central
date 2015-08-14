@@ -113,7 +113,7 @@ class CredentialDocumentType extends DocumentType {
             {
                 $body['certificateName'] = $certDetails['name'];
                 $body['certificateSlug'] = $certDetails['slug'];
-                $bullet1 = "{$certDetails['name']} via ";
+                $bulletOrg = "{$certDetails['name']} via ";
             }
 
             $orgs[] = $provider->getName(); // Populate the organization list
@@ -154,12 +154,16 @@ class CredentialDocumentType extends DocumentType {
 
         // Build the bullet points in the array
         $bulletPoints = array();
-        $institutions = $this->entity->getInstitutions();
-        $bulletPoints[]  = $bullet1 . UniversalHelper::commaSeparateList( $orgs ) ;
+        $bulletPoints[]  = $bulletOrg . UniversalHelper::commaSeparateList( $orgs ) ;
 
         // Bullet 2
-        $bullet2 = $this->entity->getDisplayPrice();
-        $bulletPoints[] = $bullet2;
+        $bulletPriceAndDuration = $this->entity->getDisplayPrice();
+        $displayDuration = $this->entity->getDisplayDuration();
+        if( $displayDuration )
+        {
+            $bulletPriceAndDuration .= ' for ' . $displayDuration;
+        }
+        $bulletPoints[] = $bulletPriceAndDuration;
 
         $body['bulletPoints'] =$bulletPoints;
 
