@@ -156,7 +156,7 @@ class CredentialDocumentType extends DocumentType {
         $bulletPoints = array();
         $bulletPoints[]  = $bulletOrg . UniversalHelper::commaSeparateList( $orgs ) ;
 
-        // Bullet 2
+        // Bullet Price and Duration
         $bulletPriceAndDuration = $this->entity->getDisplayPrice();
         $displayDuration = $this->entity->getDisplayDuration();
         if( $displayDuration )
@@ -164,6 +164,13 @@ class CredentialDocumentType extends DocumentType {
             $bulletPriceAndDuration .= ' for ' . $displayDuration;
         }
         $bulletPoints[] = $bulletPriceAndDuration;
+
+        // Bullet effort
+        $effort = $this->entity->getDisplayWorkload();
+        if($effort)
+        {
+            $bulletPoints[] = $effort;
+        }
 
         $body['bulletPoints'] =$bulletPoints;
 

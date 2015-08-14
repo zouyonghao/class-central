@@ -665,4 +665,36 @@ class Credential
         return '';
     }
 
+    public function getDisplayWorkload()
+    {
+
+        if( $this->getWorkloadMin() && $this->getWorkloadMax() )
+        {
+            $effort = '';
+            if( $this->getWorkloadMin() == $this->getWorkloadMax() )
+            {
+                $effort = $this->getWorkloadMin();
+            }
+            else
+            {
+                $effort = "{$this->getWorkloadMin()} - {$this->getWorkloadMax()}";
+            }
+
+            switch($this->getWorkloadType())
+            {
+                case self::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK:
+                    $effort .= ' hours a week of effort';
+                    break;
+                case self::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS:
+                    $effort .= ' total hours of effort';
+                    break;
+            }
+
+            return $effort;
+
+        }
+
+        return '';
+    }
+
 }
