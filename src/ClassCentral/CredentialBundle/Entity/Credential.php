@@ -643,7 +643,7 @@ class Credential
                 return '$' . $this->getPrice(). '/month';
                 break;
             case self::CREDENTIAL_PRICE_PERIOD_TOTAL:
-                return '$' . $this->getPrice() . ' total';
+                return '$' . $this->getPrice();
         }
     }
 
