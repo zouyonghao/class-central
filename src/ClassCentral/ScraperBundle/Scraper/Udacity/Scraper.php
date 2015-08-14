@@ -290,11 +290,11 @@ class Scraper extends ScraperAbstractInterface{
         $requiredKnowledge = $nanodegree['required_knowledge'];
 
         $credential->setDescription(
-            $summary .
-            '<h2>Why Take This Nanodegree?</h2>'.
-            $expectedLearning.
-            '<h2>Required Knowledge</h2>'.
-            $requiredKnowledge
+            "<p>$summary</p>" .
+            "<h3 class='table-tab-content__title'>Why Take This Nanodegree?</h3>".
+            "<p>$expectedLearning</p>".
+            "<h3 class='table-tab-content__title'>Required Knowledge</h3>".
+            "<p>$requiredKnowledge</p>"
         );
 
         return $credential;
