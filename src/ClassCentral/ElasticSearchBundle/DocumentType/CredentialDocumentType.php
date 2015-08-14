@@ -14,6 +14,7 @@ use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 
 class CredentialDocumentType extends DocumentType {
 
@@ -98,13 +99,7 @@ class CredentialDocumentType extends DocumentType {
         $body['image'] = $credentialService->getImage( $c );
         $body['cardImage'] = $credentialService->getCardImage( $c );
 
-        // Institutions
-        $body['institutions'] = array();
-        foreach($c->getInstitutions() as $ins)
-        {
-            $iDoc = new InstitutionDocumentType($ins, $this->container);
-            $body['institutions'][] = $iDoc->getBody();
-        }
+        $orgs = array(); // Array of names of organizations who are involved in creating the credential
 
         // Provider
         $body['provider'] = array();
@@ -118,8 +113,10 @@ class CredentialDocumentType extends DocumentType {
             {
                 $body['certificateName'] = $certDetails['name'];
                 $body['certificateSlug'] = $certDetails['slug'];
-                $bullet1 = "{$certDetails['name']} via {$provider->getName()}";
+                $bullet1 = "{$certDetails['name']} via ";
             }
+
+            $orgs[] = $provider->getName(); // Populate the organization list
         }
         else
         {
@@ -130,6 +127,15 @@ class CredentialDocumentType extends DocumentType {
         }
         $pDoc = new ProviderDocumentType($provider, $this->container);
         $body['provider'] = $pDoc->getBody();
+
+        // Institutions
+        $body['institutions'] = array();
+        foreach($c->getInstitutions() as $ins)
+        {
+            $iDoc = new InstitutionDocumentType($ins, $this->container);
+            $body['institutions'][] = $iDoc->getBody();
+            $orgs[] = $ins->getName(); // Populate the organization list
+        }
 
         // Get the ratings
         $rating = $credentialService->calculateAverageRating( $this->entity );
@@ -149,7 +155,7 @@ class CredentialDocumentType extends DocumentType {
         // Build the bullet points in the array
         $bulletPoints = array();
         $institutions = $this->entity->getInstitutions();
-        $bulletPoints[]  = $bullet1 ;
+        $bulletPoints[]  = $bullet1 . UniversalHelper::commaSeparateList( $orgs ) ;
 
         // Bullet 2
         $bullet2 = $this->entity->getDisplayPrice();

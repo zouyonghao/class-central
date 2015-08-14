@@ -27,4 +27,21 @@ class UniversalHelper {
 
         return new Response(json_encode($response));
     }
+
+    public static function  commaSeparateList( $items = array() )
+    {
+        $itemCount = count($items);
+        $str = '';
+        if($itemCount > 1)
+        {
+            $str = implode(', ' , array_slice($items,0,$itemCount-1)) . ' and ' . end($items);
+        }
+        else
+        {
+            $str = implode(', ' , $items);
+        }
+
+        return $str;
+    }
+
 } 
