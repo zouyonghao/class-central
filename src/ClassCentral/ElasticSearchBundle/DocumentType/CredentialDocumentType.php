@@ -138,9 +138,7 @@ class CredentialDocumentType extends DocumentType {
             $iDoc = new InstitutionDocumentType($ins, $this->container);
             $body['institutions'][] = $iDoc->getBody();
             $orgs[] = $ins->getName(); // Populate the organization list
-            $institutions[] = $ins->getName();
         }
-        $body['institutionsOverview'] = UniversalHelper::commaSeparateList( $institutions );
 
         // Get the ratings
         $rating = $credentialService->calculateAverageRating( $this->entity );
