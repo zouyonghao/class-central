@@ -105,6 +105,7 @@ class CourseDocumentType extends DocumentType {
         $body['status'] = $c->getStatus();
         $body['certificate']  = $c->getCertificate();
         $body['verifiedCertificate']  = $c->getVerifiedCertificate();
+        $body['url'] = $c->getUrl();
 
         // Tags
         $tags = array();
