@@ -194,7 +194,7 @@ class CredentialController extends Controller
     {
         // Get the credential
         $esCredentials = $this->get('es_credentials');
-
+        $credentialService = $this->get('credential');
 
         $result = $esCredentials->findBySlug($slug);
         if( $result['hits']['total'] != 1 )
@@ -203,9 +203,13 @@ class CredentialController extends Controller
             return;
         }
 
+        $credential = $result['hits']['hits'][0]['_source'];
+        $data = $credentialService->getCredentialsInfo( array() );
+
         return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
                 'page' => 'credential',
-                'credential' => $result['hits']['hits'][0]['_source']
+                'credential' => $result['hits']['hits'][0]['_source'],
+                'similarCredentials' => $data['credentials']
         ));
     }
 
