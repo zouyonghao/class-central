@@ -369,7 +369,7 @@ class CredentialReview
      */
     public function getSupport()
     {
-        return $this->Support;
+        return $this->support;
     }
 
     /**

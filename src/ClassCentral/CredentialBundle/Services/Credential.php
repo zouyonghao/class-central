@@ -12,6 +12,7 @@ namespace ClassCentral\CredentialBundle\Services;
 
 use ClassCentral\CredentialBundle\Entity\CredentialReview;
 use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
+use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -174,4 +175,62 @@ class Credential {
             'numCredentials' => $esCredentialsResponse['hits']['total'],
         );
     }
+
+    public function getCredentialReviewArray(CredentialReview $review)
+    {
+        $r = array();
+        $r['id'] = $review->getId();
+        $r['title'] = $review->getTitle();
+        $r['text'] = $review->getText();
+        $r['status'] = $review->getStatus();
+        $r['progress'] = $review->getProgress();
+        $r['certificateLink'] = $review->getLink();
+        $r['topicCoverage'] = $review->getTopicCoverage();
+        $r['jobReadiness'] = $review->getJobReadiness();
+        $r['support'] = $review->getSupport();
+        $r['effort'] = $review->getEffort();
+        $r['duration'] = $review->getDuration();
+
+        return $r;
+    }
+
+    public function getCredentialReviews($slug)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $credential = $em->getRepository('ClassCentralCredentialBundle:Credential')->findOneBy(array(
+            'slug' => $slug
+        ));
+        if( !$credential )
+        {
+            throw new \Exception("$slug is not a valid credential");
+        }
+
+        $reviewEntities = $em->createQuery("
+               SELECT r,LENGTH (r.text) as reviewLength from ClassCentralCredentialBundle:CredentialReview r JOIN r.credential c WHERE c.slug = '$slug'
+                ORDER BY r.rating DESC, reviewLength DESC")
+            ->getResult();
+
+        $reviewCount = 0;
+        $ratingCount = 0;
+        foreach($reviewEntities as $review)
+        {
+            $review = $review[0];
+            if( $review->getStatus() < Review::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND )
+            {
+                $ratingCount++;
+                $reviewCount++;
+                $r[] = $this->getCredentialReviewArray($review);
+            }
+        }
+
+        $reviews = array();
+        $reviews['count'] = $ratingCount;
+        $reviews['ratingCount'] = $ratingCount;
+        $reviews['reviewCount'] = $reviewCount;
+        $reviews['reviews'] = $r;
+
+        return $reviews;
+    }
+
+
 } 

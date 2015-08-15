@@ -206,10 +206,12 @@ class CredentialController extends Controller
         $credential = $result['hits']['hits'][0]['_source'];
         $data = $credentialService->getCredentialsInfo( array() );
 
+        $reviews = $credentialService->getCredentialReviews( $slug );
         return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
                 'page' => 'credential',
-                'credential' => $result['hits']['hits'][0]['_source'],
-                'similarCredentials' => $data['credentials']
+                'credential' => $credential,
+                'similarCredentials' => $data['credentials'],
+                'reviews'=>$reviews
         ));
     }
 
