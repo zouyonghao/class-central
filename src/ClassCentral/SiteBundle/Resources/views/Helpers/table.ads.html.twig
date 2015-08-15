@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
 
-    {% set ad = random(1) %}
+    {% set ad = random(2) %}
 
     {% if ad == 0 %}
         <tr>
@@ -27,7 +27,7 @@
                 </td>
             {% endif %}
 
-            <td class="start-date">6th Oct, 2015</td>
+            <td class="start-date">24th Aug, 2015</td>
 
             <td data-timestamp="5" class="course-rating-column">
                 <div class="rating-and-count-wrap">
@@ -37,7 +37,7 @@
 
         </tr>
 
-    {% else %}
+    {% elseif ad == 1 %}
     <tr>
 
         <td class="add-column">
@@ -45,23 +45,19 @@
         </td>
 
         <td class="course-name-column">
-            <a rel="nofollow" class="course-name" target="_blank" href="https://novoed.com/philanthropy-university-leadership?referral_token=PLCC0005" onmousedown="ga('send','event', 'Table Ad', 'NovoEd - {{ tableId }}', 'Leadership: Ten Rules for Impact and Meaning')" title="Leadership: Ten Rules for Impact and Meaning"><span itemprop="name">Leadership: Ten Rules for Impact and Meaning</span></a>
+            <a rel="nofollow" class="course-name" target="_blank" href="https://novoed.com/philanthropy-initiative?referral_token=PLCC0000" onmousedown="ga('send','event', 'Table Ad', 'NovoEd - {{ tableId }}', 'Philanthropy University: Leadership & Management Skills for Change Makers')" title="Philanthropy University: Leadership & Management Skills for Change Makers"><span itemprop="name">Philanthropy University: Leadership & Management Skills for Change Makers</span></a>
             <ul class="table-uni-list">
-                <li>
-                    <a class="uni-name" href="https://novoed.com/philanthropy-initiative?referral_token=PLCC0005" title="List of Philanthropy University MOOCs" onclick="ga('send','event', 'Inbound Clicks - University', 'Philanthropy University', 'Leadership: Ten Rules for Impact and Meaning')">Philanthropy University</a>
-                </li>
-                
                 <span class="via">via</span>
-                <a rel="nofollow" href="https://novoed.com/?referral_token=PLCC0005" target="_blank" class="initiativelinks" onclick="ga('send','event', 'Table Ad - Provider', 'NovoEd', 'Leadership: Ten Rules for Impact and Meaning')">NovoEd</a>
+                <a rel="nofollow" href="https://novoed.com/?referral_token=PLCC0000" target="_blank" class="initiativelinks" onclick="ga('send','event', 'Table Ad - Provider', 'NovoEd', 'Philanthropy University: Leadership & Management Skills for Change Makers')">NovoEd</a>
             </ul>
         </td>
 
         {% if page is defined and page != 'stream' and page=='home' %}
-            <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'Leadership: Ten Rules for Impact and Meaning')" data-category="Business & Management">Business & Management</a>
+            <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'Philanthropy University: Leadership & Management Skills for Change Makers')" data-category="Business & Management">Business & Management</a>
             </td>
         {% endif %}
 
-        <td class="start-date">6th Oct, 2015</td>
+        <td class="start-date">Sept, 2015</td>
 
         <td data-timestamp="5" class="course-rating-column">
             <div class="rating-and-count-wrap">
@@ -70,6 +66,41 @@
         </td>
 
     </tr>
+
+    {% else %}
+        <tr>
+
+            <td class="add-column">
+                <span class="label label-warning">Ad</span>
+            </td>
+
+            <td class="course-name-column">
+                <a rel="nofollow" class="course-name" target="_blank" href="https://novoed.com/philanthropy-university-entrepreneurship?referral_token=PLCC0000" onmousedown="ga('send','event', 'Table Ad', 'NovoEd - {{ tableId }}', 'Global Social Entrepreneurship')" title="PLCC0000"><span itemprop="name">Global Social Entrepreneurship</span></a>
+                <ul class="table-uni-list">
+                    <li>
+                        <a class="uni-name" href="https://novoed.com/philanthropy-initiative?referral_token=PLCC0000" title="List of Philanthropy University MOOCs" onclick="ga('send','event', 'Inbound Clicks - University', 'Philanthropy University', 'PLCC0000')">Philanthropy University</a>
+                    </li>
+
+                    <span class="via">via</span>
+                    <a rel="nofollow" href="https://novoed.com/?referral_token=PLCC0000" target="_blank" class="initiativelinks" onclick="ga('send','event', 'Table Ad - Provider', 'NovoEd', 'Global Social Entrepreneurship')">NovoEd</a>
+                </ul>
+            </td>
+
+            {% if page is defined and page != 'stream' and page=='home' %}
+                <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'Global Social Entrepreneurship')" data-category="Business & Management">Business & Management</a>
+                </td>
+            {% endif %}
+
+            <td class="start-date">29th Sept, 2015</td>
+
+            <td data-timestamp="5" class="course-rating-column">
+                <div class="rating-and-count-wrap">
+                    <div class="course-rating" data-score="5" ></div>
+                </div>
+            </td>
+
+        </tr>
+
     {% endif %}
 
 {% endif %}
