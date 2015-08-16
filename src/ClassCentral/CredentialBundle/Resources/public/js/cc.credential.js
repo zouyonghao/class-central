@@ -20,6 +20,13 @@ CC.Class['Credential'] = (function(){
             e.preventDefault();
             $('#signupModal').modal('show');
         });
+
+        // More reviews button
+        $('#credential-more-reviews').click(function(e){
+            e.preventDefault();
+            $('.review-block').removeClass('hidden');
+            $('#credential-more-reviews').addClass('hidden');
+        });
     }
 
     // =====================================================
