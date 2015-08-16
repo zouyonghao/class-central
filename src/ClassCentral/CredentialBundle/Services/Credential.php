@@ -182,7 +182,7 @@ class Credential {
         $r = array();
         $r['id'] = $review->getId();
         $r['title'] = $review->getTitle();
-        $r['text'] = $review->getText();
+        $r['text'] = nl2br( preg_replace("/[\r\n]+/", "\n\n", $review->getText()));;
         $r['status'] = $review->getStatus();
         $r['progress'] = $review->getProgress();
         $r['certificateLink'] = $review->getLink();
