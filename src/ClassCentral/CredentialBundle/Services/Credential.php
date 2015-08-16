@@ -12,6 +12,7 @@ namespace ClassCentral\CredentialBundle\Services;
 
 use ClassCentral\CredentialBundle\Entity\CredentialReview;
 use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
+use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Services\Kuber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -190,6 +191,25 @@ class Credential {
         $r['support'] = $review->getSupport();
         $r['effort'] = $review->getEffort();
         $r['duration'] = $review->getDuration();
+
+        // Get user details
+        $u = array();
+        if( $review->getUser() )
+        {
+            $userService = $this->container->get('user_service');
+            $user = $review->getUser();
+            $u['name'] = $user->getDisplayName();
+            $u['profileUrl'] = $userService->getProfileUrl( $user->getId(), $user->getHandle(), $user->getIsPrivate() );
+            $u['profilePic'] = $userService->getProfilePic( $user->getId() );
+        }
+        else
+        {
+            $u['name'] = ( $review->getReviewerName() ) ? $review->getReviewerName() : 'Anonymous';
+            $u['profileUrl'] = null;
+            $u['profilePic'] = Profile::DEFAULT_PROFILE_PIC;
+        }
+
+        $r['user'] = $u;
 
         return $r;
     }
