@@ -208,8 +208,21 @@ class Credential {
             $u['profileUrl'] = null;
             $u['profilePic'] = Profile::DEFAULT_PROFILE_PIC;
         }
-
         $r['user'] = $u;
+
+        $reviewSubtitle = '';
+        if( $review->getProgress() == CredentialReview::PROGRESS_TYPE_COMPLETED )
+        {
+            // completed the course
+            $reviewSubtitle = "completed this credential in " . $review->getDateCompleted()->format('M Y') . ".";
+        }
+        else
+        {
+            $reviewSubtitle  =  CredentialReview::$progressListDropdown[$review->getProgress()] . " this credential.";
+        }
+        $r['reviewSubtitle'] = $reviewSubtitle;
+
+
 
         return $r;
     }
