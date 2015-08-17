@@ -34,6 +34,10 @@ php app/console classcentral:scrape Udacity --simulate=N --type=update
 echo "Reindexing all the courses"
 php app/console classcentral:elasticsearch:indexer --env=$env --no-debug
 today=`date +%F`
+yesterday=`date +%F --date="-1 day"`
+
+# Update user activity stats in slack
+php app/console classcentral:dailyuseractivity $yesterday --env=$env
 
 #sleep for 60 seconds
 echo "Indexing done. Going to sleep for a while"
