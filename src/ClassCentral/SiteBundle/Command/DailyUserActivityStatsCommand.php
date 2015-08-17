@@ -1,0 +1,95 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: dhawal
+ * Date: 8/17/15
+ * Time: 4:08 PM
+ */
+
+namespace ClassCentral\SiteBundle\Command;
+
+
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class DailyUserActivityStatsCommand extends ContainerAwareCommand
+{
+    protected function configure() {
+        $this
+            ->setName('classcentral:dailyuseractivity')
+            ->setDescription('Sends one days worth of user activity to Slack')
+            ->addArgument("date", InputArgument::REQUIRED, "Date for which the summary is generated")
+            ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $date = $input->getArgument('date');
+
+        $dateParts = explode('-', $date);
+        if( !checkdate( $dateParts[1], $dateParts[2], $dateParts[0] ) )
+        {
+            $output->writeLn("<error>Invalid date or format. Correct format is Y-m-d</error>");
+            return;
+        }
+
+        $dt_start = new \DateTime($date);
+        $dt_end = new \DateTime($date);
+        $dt_end->add( new \DateInterval('P1D'));
+
+        // Get the User counts
+        $userCountQuery = $em->createQueryBuilder();
+        $userCountQuery
+            ->add('select','count(u.id) as new_users')
+            ->add('from','ClassCentralSiteBundle:User u')
+            ->Where('u.created >= :created and u.created <= :created_1')
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+            ;
+
+        $newUsers = $userCountQuery->getQuery()->getSingleScalarResult();
+
+        $output->writeln( $newUsers );
+
+        // Get the number of Reviews
+        $reviewCountQuery = $em->createQueryBuilder();
+        $reviewCountQuery
+            ->add('select','count(u.id) as new_reviews')
+            ->add('from','ClassCentralSiteBundle:Review u')
+            ->Where('u.created >= :created and u.created <= :created_1')
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+        ;
+
+        $newReviews = $reviewCountQuery->getQuery()->getSingleScalarResult();
+
+        $output->writeln( $newReviews );
+
+        // Get the number of courses added to MOOC Tracker
+        $userCourseCountQuery = $em->createQueryBuilder();
+        $userCourseCountQuery
+            ->add('select','count(u.id) as new_mooc_tracker_courses')
+            ->add('from','ClassCentralSiteBundle:UserCourse u')
+            ->Where('u.created >= :created and u.created <= :created_1')
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+        ;
+
+        $newMOOCTrackerCourses = $userCourseCountQuery->getQuery()->getSingleScalarResult();
+        $output->writeln( $newMOOCTrackerCourses );
+
+        // Send it to slack
+        $this->getContainer()
+            ->get('slack_client')
+            ->to('#cc-activity-user')
+            ->send("
+            *Stats for $date*
+New Users   : $newUsers
+New Reviews : $newReviews
+Courses Added to MOOC Tracker : $newMOOCTrackerCourses
+            ");
+    }
+}
