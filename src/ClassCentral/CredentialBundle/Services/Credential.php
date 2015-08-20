@@ -245,6 +245,7 @@ class Credential {
 
         $reviewCount = 0;
         $ratingCount = 0;
+        $r = array();
         foreach($reviewEntities as $review)
         {
             $review = $review[0];
