@@ -394,7 +394,15 @@ class Review {
         return json_encode($response);
     }
 
-
+    /**
+     * Wrapper around static function so that it can be accessed from twig
+     * @param $rating
+     * @return string
+     */
+    public function getRatingStars($rating)
+    {
+        return ReviewUtility::getRatingStars($rating);
+    }
 
     /**
      * Summarizes the review and saves it in the database.
