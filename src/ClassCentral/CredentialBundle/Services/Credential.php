@@ -15,6 +15,7 @@ use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
 use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Services\Kuber;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -186,11 +187,14 @@ class Credential {
         $r['status'] = $review->getStatus();
         $r['progress'] = $review->getProgress();
         $r['certificateLink'] = $review->getLink();
+        $r['rating'] = $review->getRating();
+        $r['formattedRating'] = ReviewUtility::formatRating($review->getRating());
         $r['topicCoverage'] = $review->getTopicCoverage();
         $r['jobReadiness'] = $review->getJobReadiness();
         $r['support'] = $review->getSupport();
         $r['effort'] = $review->getEffort();
         $r['duration'] = $review->getDuration();
+        $r['publishedDate'] = $review->getCreated()->format('Y-m-d');
 
         // Get user details
         $u = array();
