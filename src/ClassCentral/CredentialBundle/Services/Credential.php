@@ -242,6 +242,8 @@ class Credential {
             throw new \Exception("$slug is not a valid credential");
         }
 
+        $rating = $this->calculateAverageRating( $credential);
+
         $reviewEntities = $em->createQuery("
                SELECT r,LENGTH (r.text) as reviewLength from ClassCentralCredentialBundle:CredentialReview r JOIN r.credential c WHERE c.slug = '$slug'
                 ORDER BY r.rating DESC, reviewLength DESC")
@@ -265,6 +267,9 @@ class Credential {
         $reviews['count'] = $ratingCount;
         $reviews['ratingCount'] = $ratingCount;
         $reviews['reviewCount'] = $reviewCount;
+        $reviews['rating'] = $rating['rating'];
+        $reviews['formattedRating'] = ReviewUtility::formatRating( $rating['rating'] );
+
         $reviews['reviews'] = $r;
 
         return $reviews;
