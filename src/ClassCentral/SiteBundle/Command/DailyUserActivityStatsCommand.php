@@ -81,6 +81,19 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
         $newMOOCTrackerCourses = $userCourseCountQuery->getQuery()->getSingleScalarResult();
         $output->writeln( $newMOOCTrackerCourses );
 
+        // Credential count query
+        $credentialReviewQuery = $em->createQueryBuilder();
+        $credentialReviewQuery
+            ->add('select','count(u.id) as new_reviews')
+            ->add('from','ClassCentralCredentialBundle:CredentialReview u')
+            ->Where('u.created >= :created and u.created <= :created_1')
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+        ;
+
+        $newCredentialReviews = $credentialReviewQuery->getQuery()->getSingleScalarResult();
+        $output->writeln( $newCredentialReviews );
+
         // Send it to slack
         $this->getContainer()
             ->get('slack_client')
@@ -89,6 +102,7 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
             *Stats for $date*
 New Users   : $newUsers
 New Reviews : $newReviews
+New Credential Reviews: $newCredentialReviews
 Courses Added to MOOC Tracker : $newMOOCTrackerCourses
             ");
     }
