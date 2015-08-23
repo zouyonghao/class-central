@@ -154,7 +154,7 @@ CC.Class['Credential'] = (function(){
                                     var loggedInResult = $.parseJSON(result);
                                     if( loggedInResult.loggedIn ){
                                         //TODO: Redirect to Credential page
-                                        window.location.href = '/';
+                                        window.location.href = '/certificate/' + $('#credentialslug').data('value');
                                     } else {
                                         $('#signupModal').modal('show');
                                     }
