@@ -1177,6 +1177,8 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
 }
 
 .page-tabs ul {
@@ -1270,9 +1272,51 @@ body {
   color: @beige;
 }
 
+.tab-with-flag > a {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-tabs ul > .tab-with-flag > a {
+  padding: 22px 24px 0 81px;
+}
+
+.tab-with-flag .tab-flag {
+  position: absolute;
+  background-color: #c81414;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 55px;
+  color: #fff;
+  text-transform: none;
+  font-size: 14px;
+  padding-top: 20px;
+  letter-spacing: 1px;
+  padding-left: 4px;
+  text-align: center;
+}
+
+.tab-with-flag .tab-flag:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 10px;
+  border-color: transparent transparent transparent #c81414;
+  position: absolute;
+  right: -10px;
+  top: 24px;
+}
+
 @media (max-width: 1259px) {
   .header-area h1 {
     margin-top: 110px;
+  }
+
+  .page-tabs ul {
+    min-width: 1025px;
   }
 }
 
@@ -1295,6 +1339,10 @@ body {
   .page-tabs ul > .create-account-tab {
     width: 200px;
   }
+
+  .page-tabs ul {
+    min-width: 875px;
+  }
 }
 
 @media (max-width: 660px) {
@@ -1304,6 +1352,10 @@ body {
 
   .header-area h1 {
     font-size: 32px;
+  }
+
+  .page-tabs ul {
+    min-width: 660px;
   }
 }
 
@@ -1315,6 +1367,18 @@ body {
   .page-tabs ul > li > a {
     padding: 20px 14px 0 14px;
     height: 50px;
+  }
+
+  .tab-with-flag .tab-flag:after {
+    top: 19px;
+  }
+
+  .tab-with-flag .tab-flag {
+    padding-top: 16px;
+  }
+
+  .page-tabs ul > .tab-with-flag > a {
+    padding: 20px 24px 0 81px;
   }
 
   .page-tabs ul > .learn-more-tab,
@@ -1331,6 +1395,11 @@ body {
   .page-tabs ul > li.active-tab > a:focus {
     height: 50px;
   }
+
+  .page-tabs ul {
+    min-width: 530px;
+  }
+
 }
 
 @media (max-width: 340px) {
@@ -2287,6 +2356,40 @@ thead {
   #filter-wrap tbody tr td:last-child {
     display: none;
   }
+}
+
+.course-name-column-cred {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 7px;
+}
+
+.course-name-column-cred__button {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #004fce;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 3px;
+  margin-right: 10px;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #3371D3;
+  }
+}
+
+.course-name-column-cred__text {
+  display: inline-block;
+  vertical-align: middle;
+  color: #3a3d42;
+  font-family: @font-family-small-text;
+  font-size: 13px;
 }
 
 

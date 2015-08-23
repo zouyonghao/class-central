@@ -610,12 +610,21 @@ jQuery(function($) {
             $.scrollTo('.page-tabs',{ duration: 400 });
         }
         else {
-            targetTab = 'create-free-account'; // signup button
+            // Check if the its the credentials tab
+            if( $(this).attr('id') == 'home-credentials-tab') {
+                targetTab ='home-credentials'
+            } else {
+                targetTab = 'create-free-account'; // signup button
+            }
         }
         try {
             ga('send','event','Homepage Tab clicks',targetTab);
         } catch (e) {
-            console.log("error");
+
+        }
+
+        if( $(this).attr('id') == 'home-credentials-tab') {
+            window.location.href ='/certificate';
         }
     });
 
