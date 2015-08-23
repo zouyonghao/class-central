@@ -132,9 +132,9 @@ CC.Class['Credential'] = (function(){
         var review = getReviewFormFields();
         var validationError = validateReviewForm( review );
         if( !validationError ) {
-            // Redirect to home when the user says no to signup as a user
+            // Redirect user to the credential page when they say no to signup
             $('#signupModal').on('hidden.bs.modal',function(e){
-                window.location.href = '/';
+                window.location.href = '/certificate/' + $('#credentialslug').data('value');
             });
 
             $.ajax({
@@ -153,7 +153,6 @@ CC.Class['Credential'] = (function(){
                                 success: function( result ) {
                                     var loggedInResult = $.parseJSON(result);
                                     if( loggedInResult.loggedIn ){
-                                        //TODO: Redirect to Credential page
                                         window.location.href = '/certificate/' + $('#credentialslug').data('value');
                                     } else {
                                         $('#signupModal').modal('show');
