@@ -62,10 +62,12 @@ class Credentials {
                         'certificateSlug' => $queryFilters['credentials'],
                         'execution' => 'or'
                     )),
-
                 )
             );
         }
+
+        $params['body']['query']['filtered']['filter']['range']['status']['lt'] = 100;
+
         $results = $this->esClient->search( $params );
 
         return $results;
