@@ -171,7 +171,7 @@
 
                 {% if course.credential is not empty %}
                     <div class="course-name-column-cred" style="padding-left:45px;margin-bottom: 25px">
-                        <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" class="course-name-column-cred__button">Earn A Credential</a>
+                        <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" class="course-name-column-cred__button" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">Earn A Credential</a>
                         <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
                     </div>
                 {% endif %}
