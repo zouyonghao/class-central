@@ -72,6 +72,13 @@ class Indexer {
             $cDoc = new CredentialDocumentType( $entity, $this->container);
             $doc = $cDoc->getDocument($this->getIndexName('es_index_name') );
             $this->esClient->index($doc);
+
+            if($entity->getStatus() < 100)
+            {
+                $csDoc = new SuggestDocumentType( $entity, $this->container);
+                $doc = $csDoc->getDocument( $this->getIndexName('es_index_name') );
+                $this->esClient->index($doc);
+            }
         }
 
         // Index the institution

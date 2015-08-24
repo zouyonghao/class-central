@@ -9,8 +9,8 @@
 namespace ClassCentral\ElasticSearchBundle\DocumentType;
 
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
-use ClassCentral\SiteBundle\Controller\StreamController;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
@@ -169,6 +169,34 @@ class SuggestDocumentType extends DocumentType{
                 $path = 'ClassCentralSiteBundle_institution';
             }
             $payload['url'] = $router->generate($path, array('slug' => strtolower( $entity->getSlug() ) ));
+            $body['name_suggest']['payload'] = $payload;
+        }
+
+        // Credential
+        if ($this->entity instanceof Credential)
+        {
+            $payload['type'] = 'credential';
+            $certificateSlug = '';
+            if ( $this->entity->getInitiative() )
+            {
+                $provider = $this->entity->getInitiative();
+                // Certificate details
+                $certDetails = $this->container->get('credential')->getCertificateDetails($provider->getName() );
+                if($certDetails)
+                {
+                    $certificateSlug = $certDetails['slug'];
+                }
+
+            }
+
+            $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug(),$certificateSlug), $this->tokenize( $entity->getName() )) ;
+            $body['name_suggest']['output'] = $entity->getName();
+            $body['name_suggest']['weight'] = 40;
+
+            $payload['name'] = $entity->getName();
+            $payload['count'] = 5;
+            // Url
+            $payload['url'] = $router->generate('credential_page', array('slug' => $entity->getSlug()));
             $body['name_suggest']['payload'] = $payload;
         }
 
