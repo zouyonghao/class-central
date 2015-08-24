@@ -183,6 +183,13 @@
 
                 <div class="course-name-column-start-date">Start Date:  {{ course.nextSession.displayDate  }}</div>
 
+                {% if course.credential is not empty %}
+                <div class="course-name-column-cred">
+                    <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" class="course-name-column-cred__button">Earn A Credential</a>
+                    <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
+                </div>
+                {% endif %}
+
             </td>
 
             {# hide the stream/subject column for all pages except home page #}

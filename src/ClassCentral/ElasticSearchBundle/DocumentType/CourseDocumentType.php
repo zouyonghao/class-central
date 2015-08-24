@@ -209,6 +209,25 @@ class CourseDocumentType extends DocumentType {
         $body['reviewsCount'] = $rArray['count'];
         $body['ratingStars'] = ReviewUtility::getRatingStars( $body['rating'] );
 
+        // Get the Credential
+        $credential = array();
+        if ( !$c->getCredentials()->isEmpty() )
+        {
+            $cred = $c->getCredentials()->first();
+            $credential['id'] = $cred->getId();
+            $credential['name'] = $cred->getName();
+            $credential['slug'] = $cred->getSlug();
+            $credential['certificateName'] = '';
+            $credential['certificateSlug'] = '';
+            $certDetails = $this->container->get('credential')->getCertificateDetails($provider->getName() );
+            if($certDetails)
+            {
+                $credential['certificateName'] = $certDetails['name'];
+                $credential['certificateSlug'] = $certDetails['slug'];
+            }
+
+        }
+        $body['credential'] = $credential;
         return $body;
     }
 
