@@ -129,6 +129,8 @@
                 <div class="addthis_sharing_toolbox hidden-xs" style="margin-left: 45px;margin-top: 30px; margin-bottom: -20px"></div>
                 <h1 class="course-title" itemprop="itemreviewed">{{ course['name'] }}</h1>
 
+
+
                 <div class="course-provider-wrap">
 
                     {% if course['initiative']['name']|length > 0 and course.initiative.code in providersWithLogos %}
@@ -166,6 +168,14 @@
                         <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                     {% endif %}
                 </div>
+
+                {% if course.credential is not empty %}
+                    <div class="course-name-column-cred" style="padding-left:45px;margin-bottom: 25px">
+                        <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" class="course-name-column-cred__button">Earn A Credential</a>
+                        <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
+                    </div>
+                {% endif %}
+
                 <div class="course-desc">
                     {{ course.desc|raw }}
 

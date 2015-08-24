@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Repository;
 
 
+use ClassCentral\CredentialBundle\Services\Credential;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Interview;
@@ -201,6 +202,27 @@ class CourseRepository extends EntityRepository{
         }
         $courseDetails['interview'] = $interview;
 
+        // Credential details
+        // Get the Credential
+        $credential = array();
+        if ( !$course->getCredentials()->isEmpty() )
+        {
+            $cred = $course->getCredentials()->first();
+            $credential['id'] = $cred->getId();
+            $credential['name'] = $cred->getName();
+            $credential['slug'] = $cred->getSlug();
+            $credential['certificateName'] = '';
+            $credential['certificateSlug'] = '';
+
+            $certDetails = Credential::getCertificateDetailsFromProviderName( $courseDetails['initiative']['name'] );
+            if($certDetails)
+            {
+                $credential['certificateName'] = $certDetails['name'];
+                $credential['certificateSlug'] = $certDetails['slug'];
+            }
+
+        }
+        $courseDetails['credential'] = $credential;
 
         return $courseDetails;
     }
