@@ -21,8 +21,7 @@ class CredentialType extends AbstractType
             ->add('pricePeriod','choice', array('choices'=> Credential::$CREDENTIAL_PRICE_PERIODS))
             ->add('durationMin')
             ->add('durationMax')
-            ->add('workloadMin')r
-
+            ->add('workloadMin')
             ->add('workloadMax')
             ->add('workloadType','choice', array('choices'=> Credential::$CREDENTIAL_WORKLOAD))
             ->add('url')
