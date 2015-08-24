@@ -208,19 +208,21 @@ class CourseRepository extends EntityRepository{
         if ( !$course->getCredentials()->isEmpty() )
         {
             $cred = $course->getCredentials()->first();
-            $credential['id'] = $cred->getId();
-            $credential['name'] = $cred->getName();
-            $credential['slug'] = $cred->getSlug();
-            $credential['certificateName'] = '';
-            $credential['certificateSlug'] = '';
-
-            $certDetails = Credential::getCertificateDetailsFromProviderName( $courseDetails['initiative']['name'] );
-            if($certDetails)
+            if( $cred->getStatus() < 100 ) // Only if its approved
             {
-                $credential['certificateName'] = $certDetails['name'];
-                $credential['certificateSlug'] = $certDetails['slug'];
-            }
+                $credential['id'] = $cred->getId();
+                $credential['name'] = $cred->getName();
+                $credential['slug'] = $cred->getSlug();
+                $credential['certificateName'] = '';
+                $credential['certificateSlug'] = '';
 
+                $certDetails = Credential::getCertificateDetailsFromProviderName( $courseDetails['initiative']['name'] );
+                if($certDetails)
+                {
+                    $credential['certificateName'] = $certDetails['name'];
+                    $credential['certificateSlug'] = $certDetails['slug'];
+                }
+            }
         }
         $courseDetails['credential'] = $credential;
 

@@ -214,18 +214,20 @@ class CourseDocumentType extends DocumentType {
         if ( !$c->getCredentials()->isEmpty() )
         {
             $cred = $c->getCredentials()->first();
-            $credential['id'] = $cred->getId();
-            $credential['name'] = $cred->getName();
-            $credential['slug'] = $cred->getSlug();
-            $credential['certificateName'] = '';
-            $credential['certificateSlug'] = '';
-            $certDetails = $this->container->get('credential')->getCertificateDetails($provider->getName() );
-            if($certDetails)
+            if( $cred->getStatus() < 100 ) // Only if its approved
             {
-                $credential['certificateName'] = $certDetails['name'];
-                $credential['certificateSlug'] = $certDetails['slug'];
+                $credential['id'] = $cred->getId();
+                $credential['name'] = $cred->getName();
+                $credential['slug'] = $cred->getSlug();
+                $credential['certificateName'] = '';
+                $credential['certificateSlug'] = '';
+                $certDetails = $this->container->get('credential')->getCertificateDetails($provider->getName() );
+                if($certDetails)
+                {
+                    $credential['certificateName'] = $certDetails['name'];
+                    $credential['certificateSlug'] = $certDetails['slug'];
+                }
             }
-
         }
         $body['credential'] = $credential;
         return $body;
