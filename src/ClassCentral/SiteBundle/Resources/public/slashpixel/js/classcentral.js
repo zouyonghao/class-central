@@ -789,6 +789,8 @@ jQuery(function($) {
                         templateScript = $("#course-template").html();
                     } else if (data.payload.type === "subject") {
                         templateScript = $("#subject-template").html();
+                    } else if (data.payload.type === "credential") {
+                        templateScript = $("#credential-template").html();
                     } else if (data.payload.type === "provider") {
                         templateScript = $("#provider-template").html();
                     } else if (data.payload.type === "institution") {
@@ -882,6 +884,8 @@ jQuery(function($) {
                         templateScript = $("#course-template").html();
                     } else if (data.payload.type === "subject") {
                         templateScript = $("#subject-template").html();
+                    } else if (data.payload.type === "credential") {
+                        templateScript = $("#credential-template").html();
                     } else if (data.payload.type === "provider") {
                         templateScript = $("#provider-template").html();
                     } else if (data.payload.type === "institution") {
