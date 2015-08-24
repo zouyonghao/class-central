@@ -21,12 +21,13 @@ class CredentialType extends AbstractType
             ->add('pricePeriod','choice', array('choices'=> Credential::$CREDENTIAL_PRICE_PERIODS))
             ->add('durationMin')
             ->add('durationMax')
-            ->add('workloadMin')
+            ->add('workloadMin')r
+
             ->add('workloadMax')
             ->add('workloadType','choice', array('choices'=> Credential::$CREDENTIAL_WORKLOAD))
             ->add('url')
             ->add('initiative')
-            ->add('institutions')
+            ->add('institutions', null, array('required' => false))
             ->add('courses')
         ;
     }
