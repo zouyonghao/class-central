@@ -657,7 +657,7 @@ class Credential
             }
             else
             {
-                return "{$this->getDurationMin()} - {$this->getDurationMax()} months";
+                return "{$this->getDurationMin()}-{$this->getDurationMax()} months";
             }
 
         }
@@ -677,7 +677,7 @@ class Credential
             }
             else
             {
-                $effort = "{$this->getWorkloadMin()} - {$this->getWorkloadMax()}";
+                $effort = "{$this->getWorkloadMin()}-{$this->getWorkloadMax()}";
             }
 
             switch($this->getWorkloadType())
