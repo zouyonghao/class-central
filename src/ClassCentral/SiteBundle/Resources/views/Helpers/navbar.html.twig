@@ -57,6 +57,7 @@
 
                 {# Subjects #}
                 <li><a href="{{ path('subjects',{}) }}" class="nav-title" title="Subjects" onClick="ga('send','event', '{{ navEventName }}', 'Subjects')">Subjects</a></li>
+                <li><a href="{{ path('credentials') }}" class="nav-title" title="Earn A Credential" onClick="ga('send','event', '{{ navEventName }}', 'Credentials')">Credentials</a></li>
                 <li><a href="/report" class="nav-title" title="MOOC News, Interviews, and Analysis" onClick="ga('send','event', '{{ navEventName }}', 'MOOC Report')">MOOC Report</a></li>
                 <!--<li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="ga('send','event', '{{ navEventName }}', 'News')">News</a></li>-->
 
@@ -90,9 +91,11 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <!--
                 <li class="nav-fb-like visible-lg">
                     <div class="fb-like" data-href="https://www.facebook.com/classcentral" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                 </li>
+                -->
                 {#
                 <li class="social-icon">
                     <a href="http://www.facebook.com/classcentral" target="_blank" onmousedown="ga('send','event', '{{ navEventName }}', 'Social Media','Facebook')">
