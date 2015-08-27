@@ -294,10 +294,14 @@ class ProfileController extends Controller
         }
 
         $reviewedCourses = array();
-        foreach( $clDetails['reviewedCourses']['hits']['hits'] as $reviewedCourse )
+        if( !empty($clDetails['reviewedCourses']['hits']['hits']) )
         {
-            $reviewedCourses[ $reviewedCourse['_source']['id'] ] = $reviewedCourse['_source'];
+            foreach( $clDetails['reviewedCourses']['hits']['hits'] as $reviewedCourse )
+            {
+                $reviewedCourses[ $reviewedCourse['_source']['id'] ] = $reviewedCourse['_source'];
+            }
         }
+
 
         // Check if a change of email has been issued
         $changeEmail = null;
