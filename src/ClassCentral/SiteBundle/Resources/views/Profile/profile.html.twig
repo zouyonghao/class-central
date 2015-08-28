@@ -141,12 +141,35 @@
 
     {# Transcript tab #}
     <div class="tab-pane {% if tab == 'transcript' %} active {% endif %}" id="transcripts">
+        {# Credentials section #}
+        {% if userCreds is not empty %}
+        <h2 class="large-thin-title">Credentials ( {{ userCreds|length }} )</h2>
+        <div class="line-with-points color-scheme--blue">
+            {% for userCred in userCreds %}
+            {% set cred = userCred.cred['hits']['hits'][0]['_source'] %}
+                <div class="tab-pane-item left-point">
+                    <h3>
+                       <span class="item-title">
+                           <a href="{{ path('credential_page',{'slug': cred.slug } ) }}" class="colored">{{ cred.name }}</a>
+                       </span>
+                    </h3>
+
+                  <span class="item-info">
+                      {{ cred.bulletPoints[0] }}
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+        {%  endif %}
+
+
 
         {% if transcriptCount == 0 %}
             <h2 class="large-thin-title">No courses found</h2>
         {% endif %}
         {% for list in listTypes %}
             {% set courses =  coursesByLists[list.slug] %}
+
             {% if courses is not empty %}
                 <h2 class="large-thin-title">{{ list.desc }} ( {{ courses['hits']['total'] }} )</h2>
                 <div class="line-with-points color-scheme--blue">

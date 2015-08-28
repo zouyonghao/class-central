@@ -327,6 +327,18 @@ class ProfileController extends Controller
             $deleteAccount = true;
         }
 
+        // Build an array for credential details.
+        $credService = $this->get('es_credentials');
+        $credReviews = $user->getCredentialReviews();
+        $creds = array();
+        foreach( $credReviews as $credReview)
+        {
+            $creds[] = array(
+                'cred' => $credService->findBySlug( $credReview->getCredential()->getSlug() ),
+                'review' => $credReview
+            );
+        }
+
         return $this->render('ClassCentralSiteBundle:Profile:profile.html.twig', array(
                 'user' => $user,
                 'profile'=> $profile,
@@ -339,6 +351,7 @@ class ProfileController extends Controller
                 'changeEmail' => $changeEmail,
                 'deleteAccount' => $deleteAccount,
                 'tab' => $tab,
+                'userCreds' => $creds
             )
         );
     }
