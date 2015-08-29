@@ -2,6 +2,7 @@
 
 namespace ClassCentral\CredentialBundle\Controller;
 
+use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -206,12 +207,24 @@ class CredentialController extends Controller
         $credential = $result['hits']['hits'][0]['_source'];
         $data = $credentialService->getCredentialsInfo( array() );
 
+        $breadCrumbs = array();
+        $breadCrumbs[] = Breadcrumb::getBreadCrumb(
+            'Credentials',
+            $this->generateUrl('credentials')
+        );
+
+        $breadCrumbs[] = Breadcrumb::getBreadCrumb(
+            $credential['name']
+        );
+
         $reviews = $credentialService->getCredentialReviews( $slug );
         return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
                 'page' => 'credential',
                 'credential' => $credential,
                 'similarCredentials' => $data['credentials'],
-                'reviews'=>$reviews
+                'reviews'=>$reviews,
+                'breadcrumbs' => $breadCrumbs,
+                'showDefaultBreadcrumb' => false,
         ));
     }
 
