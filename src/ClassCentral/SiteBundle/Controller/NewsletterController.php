@@ -412,7 +412,7 @@ class NewsletterController extends Controller
         $em->flush();
 
         // Redirect to MOOC Tracker page
-        return $this->redirect($this->generateUrl('user_library',array('ref' =>'user_created','src'=>'newsletter' )));
+        return $this->redirect($this->generateUrl('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created','src' => 'newsletter')));
     }
 
     public function moocWatchAction(Request $request)
