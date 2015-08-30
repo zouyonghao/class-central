@@ -1,0 +1,32 @@
+<tr>
+    <td class="add-column">
+        <span class="label label-warning">Ad</span>
+    </td>
+
+
+    <td class="course-name-column">
+        <a class="course-name" rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}')" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
+        <ul class="table-uni-list">
+            <li>
+                <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onclick="ga('send','event', 'Inbound Clicks - University', '{{ institutionName }}', '{{ courseName }}')">{{ institutionName }}</a>
+
+            </li>
+            <span class="via">via</span>
+            <a rel="nofollow" href="{{ providerUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick="ga('send','event', 'Table Ad - Provider', '{{ providerName }}', '{{ courseName }}')">{{ providerName }}</a>
+        </ul>
+    </td>
+
+    {% if page is defined and page != 'stream' and page=='home' %}
+        <td class="subject-column"> <a class="subject" href="/subject/{{ subjectSlug }}" title="List of {{ subjectName }} MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', '{{ subjectName }}', '{{ courseName }}')" data-category="{{ subjectName }}">{{ subjectName }}</a>
+        </td>
+    {% endif %}
+
+    <td class="start-date">{{ courseDate }}</td>
+
+    <td data-timestamp="5" class="course-rating-column">
+        <div class="rating-and-count-wrap">
+            <div class="course-rating" data-score="5" ></div>
+        </div>
+    </td>
+
+</tr>
