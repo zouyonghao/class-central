@@ -20,6 +20,7 @@ class Scraper extends ScraperAbstractInterface {
     const BASE_URL = 'https://www.coursera.org/course/';
     const COURSE_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/courses?id=%d&fields=language,aboutTheCourse,courseSyllabus,estimatedClassWorkload&includes=sessions';
     const SESSION_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/sessions?id=%d&fields=eligibleForCertificates,eligibleForSignatureTrack';
+    const ONDEMAND_COURSE_URL = 'https://www.coursera.org/api/onDemandCourses.v1?fields=partners.v1(squareLogo,rectangularLogo),instructors.v1(fullName),overridePartnerLogos&includes=instructorIds,partnerIds,_links&&q=slug&slug=%s';
 
     // CREDENTIAL_URS
     const SPECIALIZATION_CATALOG_URL = 'https://www.coursera.org/api/specializations.v1';
@@ -40,11 +41,15 @@ class Scraper extends ScraperAbstractInterface {
         "zh-Hans" => "Chinese",
         "zh-cn" => "Chinese",
         "zh-tw" => "Chinese",
+        "zh-TW" => "Chinese",
+        "zh-CN" => "Chinese",
+        "zh"    => "Chinese",
         "ar" => "Arabic",
         "ru" => "Russian",
         "tr" => "Turkish",
         "he" => "Hebrew",
-        'pt-br' => 'Portuguese'
+        'pt-br' => 'Portuguese',
+        'pt' => 'Portuguese'
     );
 
     private $courseFields = array(
@@ -312,7 +317,6 @@ class Scraper extends ScraperAbstractInterface {
                             $em->flush();
                         }
                         $offerings[] = $dbOffering;
-
                     }
 
                 }
@@ -464,6 +468,17 @@ class Scraper extends ScraperAbstractInterface {
             if( $element['courseType'] == 'v2.ondemand')
             {
                 $courseShortName = 'coursera_' . $element['slug'];
+
+                $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
+                $this->out( $onDemandCourse['elements'][0]['name']  );
+                if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
+                {
+                    //$this->out( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
+                }
+
+                $c = $this->getOnDemandCourse( $onDemandCourse );
+
+                continue;
                 $dbCourse = null;
                 $dbCourseFromSlug = $this->dbHelper->getCourseByShortName($courseShortName);
                 if( $dbCourseFromSlug  )
@@ -506,6 +521,48 @@ class Scraper extends ScraperAbstractInterface {
         }
 
         return $onDemandCourses;
+    }
+
+    private function getOnDemandCourse( $data = array() )
+    {
+        $dbLanguageMap = $this->dbHelper->getLanguageMap();
+
+        $course = new Course();
+        $course->setShortName( 'coursera_' . $data['elements'][0]['slug']);
+        $course->setInitiative($this->initiative);
+        $course->setName( $data['elements'][0]['name'] );
+        $course->setDescription( $data['elements'][0]['description'] );
+        $course->setLongDescription( $data['elements'][0]['description']);
+        $course->setStream(  $this->dbHelper->getStreamBySlug('cs') ); // Default to Computer Science
+        $course->setUrl( 'https://www.coursera.org/learn/'. $data['elements'][0]['slug']);
+
+        $lang = self::$languageMap[ $data['elements']['0']['primaryLanguageCodes'][0] ];
+        if(isset( $dbLanguageMap[$lang] ) ) {
+            $course->setLanguage( $dbLanguageMap[$lang] );
+        } else {
+            $this->out("Language not found " . $data['elements']['0']['primaryLanguageCodes'][0] );
+        }
+
+        $course->setCertificate( false );
+        $course->setVerifiedCertificate( $data['elements'][0]['isVerificationEnabled'] );
+
+        // Add the university
+        foreach ($data['linked']['partners.v1'] as $university)
+        {
+            $ins = new Institution();
+            $ins->setName($university['name']);
+            $ins->setIsUniversity(true);
+            $ins->setSlug($university['shortName']);
+            $course->addInstitution($this->dbHelper->createInstitutionIfNotExists($ins));
+        }
+
+        foreach ( $data['linked']['instructors.v1'] as $courseraInstructor)
+        {
+            $insName = $courseraInstructor['firstName'] . ' ' . $courseraInstructor['lastName'];
+            $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+        }
+
+        return $course;
     }
 
     private function getDetailsFromCourseraCatalog( $id )
@@ -616,7 +673,7 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setSlug( $details['elements'][0]['slug'] . '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_ONDEMAND_PAGE_URL,$details['elements'][0]['slug']));
-        $credential->setOneLiner(  $details['elements'][0]['tagline'] );
+        $credential->setOneLiner(  $details['elements'][0]['metadata']['headline'] );
 
         // Add the institutions
         foreach( $details['linked']['partners.v1'] as $university )
