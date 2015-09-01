@@ -154,7 +154,7 @@ class Scraper extends ScraperAbstractInterface {
                                     $startDate = new \DateTime();
                                 }
 
-                                $offering->setStatus( Offering::START_DATES_KNOWN );
+                                $offering->setStatus( Offering::START_MONTH_KNOWN );
                             }
                             else
                             {
@@ -193,8 +193,6 @@ class Scraper extends ScraperAbstractInterface {
                 }
             }
         }
-
-        exit();
 
         /*************************************
          * Session Based Courses
@@ -734,7 +732,16 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setSlug( $details['elements'][0]['slug'] . '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_ONDEMAND_PAGE_URL,$details['elements'][0]['slug']));
-        $credential->setOneLiner(  $details['elements'][0]['metadata']['headline'] );
+
+        if( isset($details['elements'][0]['metadata']['headline']) )
+        {
+            $credential->setOneLiner(  $details['elements'][0]['metadata']['headline'] );
+        }
+        else
+        {
+            $credential->setOneLiner(  $details['elements'][0]['tagline'] );
+        }
+
 
         // Add the institutions
         foreach( $details['linked']['partners.v1'] as $university )
