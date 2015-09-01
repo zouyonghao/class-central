@@ -73,17 +73,133 @@ class Scraper extends ScraperAbstractInterface {
             $this->scrapeCredentials();
             return;
         }
-
-        $this->buildOnDemandCoursesList();
-
-
+        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
+        $dbLanguageMap = $this->dbHelper->getLanguageMap();
         $em = $this->getManager();
         $kuber = $this->container->get('kuber'); // File Api
         $offerings = array();
-        $courseraCourses = $this->getCoursesArray();
-        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
-        $dbLanguageMap = $this->dbHelper->getLanguageMap();
 
+
+        //$this->buildOnDemandCoursesList();
+        /*************************************
+         * On Demand Courses
+         *************************************/
+        $url = 'https://www.coursera.org/api/courses.v1';
+        $allCourses = json_decode(file_get_contents( $url ),true);
+        foreach ($allCourses['elements'] as $element)
+        {
+            if( $element['courseType'] == 'v2.ondemand')
+            {
+                $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
+                //$this->out( $onDemandCourse['elements'][0]['name']  );
+
+                if( !$onDemandCourse['elements'][0]['isReal'] )
+                {
+                    continue; //skip
+                }
+                $c = $this->getOnDemandCourse( $onDemandCourse );
+
+                $dbCourse = null;
+                $dbCourseFromSlug = $this->dbHelper->getCourseByShortName( $c->getShortName() );
+                if( $dbCourseFromSlug  )
+                {
+                    $dbCourse = $dbCourseFromSlug;
+                }
+                else
+                {
+                    $dbCourseFromName = $this->findCourseByName($c->getName(), $this->initiative );
+                    if($dbCourseFromName)
+                    {
+                        $dbCourse = $dbCourseFromName;
+                    }
+                }
+
+                if( empty($dbCourse) )
+                {
+                    // Create the course
+                    if($this->doCreate())
+                    {
+                        $this->out("NEW COURSE - " . $c->getName());
+
+                        // NEW COURSE
+                        if ($this->doModify())
+                        {
+                            $em->persist($c);
+                            $em->flush();
+
+
+                            if( $onDemandCourse['elements'][0]['promoPhoto'] )
+                            {
+                                $this->uploadImageIfNecessary( $onDemandCourse['elements'][0]['promoPhoto'], $c);
+                            }
+
+                            // Send an update to Slack
+                            $this->dbHelper->sendNewCourseToSlack( $c, $this->initiative );
+
+                            // Create an offering
+                            $offering = new Offering();
+                            $offering->setShortName( $c->getShortName() );
+                            $offering->setUrl( $c->getUrl() );
+                            $offering->setCourse( $c );
+
+
+                            if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
+                            {
+                                //$this->out( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
+                                try{
+                                    $startDate = new \DateTime( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
+                                }
+                                catch(\Exception $e)
+                                {
+                                    $startDate = new \DateTime();
+                                }
+
+                                $offering->setStatus( Offering::START_DATES_KNOWN );
+                            }
+                            else
+                            {
+                                $startDate = new \DateTime();
+                                $offering->setStatus( Offering::COURSE_OPEN );
+                            }
+
+                            $endDate =  new \DateTime( );
+                            $endDate->add( new \DateInterval("P30D") );
+
+                            $offering->setStartDate( $startDate );
+                            $offering->setEndDate( $endDate );
+                            $em->persist($offering);
+                            $em->flush();
+                            $this->dbHelper->sendNewOfferingToSlack( $offering);
+
+                        }
+                    }
+                }
+                else
+                {
+                    // Check how many of them are self paced
+                    $selfPaced = false;
+                    foreach( $dbCourse->getOfferings() as $offering)
+                    {
+                        if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
+                        {
+                            $selfPaced = true;
+                            break;
+                        }
+                    }
+                    if ( !$selfPaced )
+                    {
+                        $this->out("OnDemand Session Missing : " . $element['name']) ;
+                    }
+                }
+            }
+        }
+
+        exit();
+
+        /*************************************
+         * Session Based Courses
+         *************************************/
+        $courseraCourses = $this->getCoursesArray();
         foreach($courseraCourses as $courseraCourse)
         {
             $selfServingId = $courseraCourse['self_service_course_id'];
@@ -458,81 +574,18 @@ class Scraper extends ScraperAbstractInterface {
         }
     }
 
-    private function buildOnDemandCoursesList( )
-    {
-        $url = 'https://www.coursera.org/api/courses.v1';
-        $onDemandCourses = array();
-        $allCourses = json_decode(file_get_contents( $url ),true);
-        foreach ($allCourses['elements'] as $element)
-        {
-            if( $element['courseType'] == 'v2.ondemand')
-            {
-                $courseShortName = 'coursera_' . $element['slug'];
 
-                $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
-                $this->out( $onDemandCourse['elements'][0]['name']  );
-                if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
-                {
-                    //$this->out( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
-                }
-
-                $c = $this->getOnDemandCourse( $onDemandCourse );
-
-                continue;
-                $dbCourse = null;
-                $dbCourseFromSlug = $this->dbHelper->getCourseByShortName($courseShortName);
-                if( $dbCourseFromSlug  )
-                {
-                    $dbCourse = $dbCourseFromSlug;
-                }
-                else
-                {
-                    $dbCourseFromName = $this->findCourseByName( $element['name'], $this->initiative );
-                    if($dbCourseFromName)
-                    {
-                        $dbCourse = $dbCourseFromName;
-                    }
-                }
-
-                if( empty($dbCourse) )
-                {
-                    $this->out("OnDemand Course Missing : " . $element['name']);
-                }
-                else
-                {
-                    // Check how many of them are self paced
-                    $selfPaced = false;
-                    foreach( $dbCourse->getOfferings() as $offering)
-                    {
-                        if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
-                        {
-                            $selfPaced = true;
-                            break;
-                        }
-                    }
-                    if ( !$selfPaced )
-                    {
-                        $this->out("OnDemand Session Missing : " . $element['name']) ;
-                    }
-                }
-
-                $onDemandCourses[ $element['slug'] ] = 1;
-            }
-        }
-
-        return $onDemandCourses;
-    }
 
     private function getOnDemandCourse( $data = array() )
     {
         $dbLanguageMap = $this->dbHelper->getLanguageMap();
 
         $course = new Course();
-        $course->setShortName( 'coursera_' . $data['elements'][0]['slug']);
+        $course->setShortName( substr('coursera_' . $data['elements'][0]['slug'], 0, 49));
         $course->setInitiative($this->initiative);
         $course->setName( $data['elements'][0]['name'] );
         $course->setDescription( $data['elements'][0]['description'] );
-        $course->setLongDescription( $data['elements'][0]['description']);
+        $course->setLongDescription( nl2br($data['elements'][0]['description']) );
         $course->setStream(  $this->dbHelper->getStreamBySlug('cs') ); // Default to Computer Science
         $course->setUrl( 'https://www.coursera.org/learn/'. $data['elements'][0]['slug']);
 
@@ -558,7 +611,15 @@ class Scraper extends ScraperAbstractInterface {
 
         foreach ( $data['linked']['instructors.v1'] as $courseraInstructor)
         {
-            $insName = $courseraInstructor['firstName'] . ' ' . $courseraInstructor['lastName'];
+            if(!empty( $courseraInstructor['fullName'] ) )
+            {
+                $insName = $courseraInstructor['fullName'] ;
+            }
+            else
+            {
+                $insName = $courseraInstructor['firstName'] . ' ' . $courseraInstructor['lastName'];
+            }
+
             $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
         }
 
