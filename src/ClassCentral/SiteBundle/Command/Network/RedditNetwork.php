@@ -60,7 +60,7 @@ class RedditNetwork extends NetworkAbstractInterface
     public function beforeOffering()
     {
         // Table header row
-        $this->output->writeln("Course Name|Start Date|Length|Provider|Rating");
+        $this->output->writeln("Course Name|Start Date|Length (in weeks)|Provider|Rating");
         $this->output->writeln(":--|:--:|:--:|:--:|:--:");
     }
 
@@ -80,20 +80,13 @@ class RedditNetwork extends NetworkAbstractInterface
             $initiative = $offering->getInitiative()->getName();
         }
 
-        $startDate = 'NA';
-        if($offering->getStatus() == Offering::START_DATES_KNOWN)
-        {
-            $startDate = $offering->getStartDate()->format('M jS');
-        }
-        else if ( $offering->getStatus() == Offering::COURSE_OPEN)
-        {
-            $startDate = 'Self Paced';
-        }
+        $startDate = $offering->getDisplayDate();
+
 
         $length = 'NA';
         if(  $offering->getCourse()->getLength() != 0)
         {
-            $length = $offering->getCourse()->getLength() . ' weeks';
+            $length = $offering->getCourse()->getLength() ;
         }
 
         // Rating
