@@ -181,6 +181,10 @@ class User {
             $em->persist( $review );
             $em->flush();
             $session->remove('user_review_id'); // Delete the review id from cache
+
+            // Add the course to the users transcript
+            $this->addCourse($user,$review->getCourse(), $review->getListId() );
+
             $ru->clearCache( $review->getCourse()->getId() ); // update the course page
             $userSession->saveReviewInformationInSession(); // Update the users review history in session
 
