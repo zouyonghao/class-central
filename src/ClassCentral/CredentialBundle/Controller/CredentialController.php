@@ -237,12 +237,18 @@ class CredentialController extends Controller
         $params = $credentialService->getCredentialsFilterParams($request->query->all());
         $data = $credentialService->getCredentialsInfo( $params );
         extract($data);
+        $breadCrumbs = array();
+        $breadCrumbs[] = Breadcrumb::getBreadCrumb(
+            'Credentials',
+            $this->generateUrl('credentials')
+        );
         return $this->render('ClassCentralCredentialBundle:Credential:credentials.html.twig', array(
                 'page' => 'credentials',
                 'filterParams' => $params,
                 'credentials' => $credentials,
                 'facets' =>  $facets,
                 'numCredentials' => $numCredentials,
+                'breadcrumbs' => $breadCrumbs
         ));
     }
 }
