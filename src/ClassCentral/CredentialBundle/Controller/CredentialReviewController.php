@@ -196,6 +196,15 @@ class CredentialReviewController extends Controller
             "Your review for <i>{$credential->getName()}</i> was saved successfully"
         );
 
+
+        $message = 'New Review for '. $credential->getName() ;
+        // Send a message on Slack.
+        $this->container
+            ->get('slack_client')
+            ->to('#cc-activity-user')
+            ->from( 'Credential Review' )
+            ->send( $message );
+
         // If not a user, then save the session in the activity
         if(!$user)
         {
