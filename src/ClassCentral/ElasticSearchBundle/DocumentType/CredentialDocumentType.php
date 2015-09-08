@@ -175,6 +175,11 @@ class CredentialDocumentType extends DocumentType {
             $bulletPoints[] = $effort . ' of effort';
         }
 
+        if( $provider->getName() == 'Coursera')
+        {
+            $bulletPoints[] = count($body['courses']) - 1 . ' courses + capstone project ';
+        }
+
         $body['bulletPoints'] =$bulletPoints;
 
         return $body;
