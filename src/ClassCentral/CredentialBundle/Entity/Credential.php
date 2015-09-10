@@ -109,6 +109,31 @@ class Credential
      */
     private $slug;
 
+    /**
+     * @var \DateTime
+     */
+    private $enrollmentStart;
+
+    /**
+     * @var \DateTime
+     */
+    private $enrollmentEnd;
+
+    /**
+     * @var \DateTime
+     */
+    private $startDate;
+
+    /**
+     * @var \DateTime
+     */
+    private $endDate;
+
+    /**
+     * @var string
+     */
+    private $subTitle;
+
     // Any course above this status will not be shown to the user
     const CREDENTIAL_NOT_SHOWN_LOWER_BOUND = 100;
 
@@ -697,4 +722,118 @@ class Credential
         return '';
     }
 
+    /**
+     * Set enrollmentStart
+     *
+     * @param \DateTime $enrollmentStart
+     * @return Credential
+     */
+    public function setEnrollmentStart($enrollmentStart)
+    {
+        $this->enrollmentStart = $enrollmentStart;
+    
+        return $this;
+    }
+
+    /**
+     * Get enrollmentStart
+     *
+     * @return \DateTime 
+     */
+    public function getEnrollmentStart()
+    {
+        return $this->enrollmentStart;
+    }
+
+    /**
+     * Set enrollmentEnd
+     *
+     * @param \DateTime $enrollmentEnd
+     * @return Credential
+     */
+    public function setEnrollmentEnd($enrollmentEnd)
+    {
+        $this->enrollmentEnd = $enrollmentEnd;
+    
+        return $this;
+    }
+
+    /**
+     * Get enrollmentEnd
+     *
+     * @return \DateTime 
+     */
+    public function getEnrollmentEnd()
+    {
+        return $this->enrollmentEnd;
+    }
+
+    /**
+     * Set startDate
+     *
+     * @param \DateTime $startDate
+     * @return Credential
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get startDate
+     *
+     * @return \DateTime 
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * Set endDate
+     *
+     * @param \DateTime $endDate
+     * @return Credential
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get endDate
+     *
+     * @return \DateTime 
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * Set subTitle
+     *
+     * @param string $subTitle
+     * @return Credential
+     */
+    public function setSubTitle($subTitle)
+    {
+        $this->subTitle = $subTitle;
+    
+        return $this;
+    }
+
+    /**
+     * Get subTitle
+     *
+     * @return string 
+     */
+    public function getSubTitle()
+    {
+        return $this->subTitle;
+    }
 }
