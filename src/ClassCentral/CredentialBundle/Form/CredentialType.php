@@ -28,6 +28,7 @@ class CredentialType extends AbstractType
             ->add('enrollmentEnd')
             ->add('startDate')
             ->add('endDate')
+            ->add('sponsored')
             ->add('workloadType','choice', array('choices'=> Credential::$CREDENTIAL_WORKLOAD))
             ->add('url')
             ->add('initiative')

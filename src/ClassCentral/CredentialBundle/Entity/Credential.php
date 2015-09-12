@@ -134,6 +134,12 @@ class Credential
      */
     private $subTitle;
 
+    /**
+     * @var boolean
+     */
+    private $sponsored;
+
+
     // Any course above this status will not be shown to the user
     const CREDENTIAL_NOT_SHOWN_LOWER_BOUND = 100;
 
@@ -835,5 +841,38 @@ class Credential
     public function getSubTitle()
     {
         return $this->subTitle;
+    }
+
+    /**
+     * Set sponsored
+     *
+     * @param boolean $sponsored
+     * @return Credential
+     */
+    public function setSponsored($sponsored)
+    {
+        $this->sponsored = $sponsored;
+    
+        return $this;
+    }
+
+    /**
+     * Get sponsored
+     *
+     * @return boolean 
+     */
+    public function getSponsored()
+    {
+        return $this->sponsored;
+    }
+
+    /**
+     * Is sponsored
+     *
+     * @return boolean
+     */
+    public function isSponsored()
+    {
+        return $this->sponsored;
     }
 }
