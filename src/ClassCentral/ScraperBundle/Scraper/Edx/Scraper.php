@@ -433,17 +433,15 @@ class Scraper extends ScraperAbstractInterface
                 }
                 else
                 {
-                    $selPaced = false;
+
                     // Check how many of them are self paced
                     $selfPaced = false;
-                    foreach( $dbCourse->getOfferings() as $offering)
+                    if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
                     {
-                        if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
-                        {
-                            $selfPaced = true;
-                            break;
-                        }
+                        $selfPaced = true;
+                        break;
                     }
+
                     if ( !$selfPaced )
                     {
                         $this->out("OnDemand Session Missing : " . $edXCourse['l'])  ;
