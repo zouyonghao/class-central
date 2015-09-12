@@ -49,6 +49,9 @@ class Credentials {
         );
 
         $params['body']['sort'] = array(
+            'isSponsered'=>array(
+                "order" => "desc"
+            ),
             "numRatings" => array(
                 "order" => "desc"
             )
