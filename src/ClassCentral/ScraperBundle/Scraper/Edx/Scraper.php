@@ -439,7 +439,6 @@ class Scraper extends ScraperAbstractInterface
                     if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
                     {
                         $selfPaced = true;
-                        break;
                     }
 
                     if ( !$selfPaced )
