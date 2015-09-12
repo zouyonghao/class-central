@@ -178,22 +178,65 @@ class Scraper extends ScraperAbstractInterface {
                 {
                     // Check how many of them are self paced
                     $selfPaced = false;
-                    foreach( $dbCourse->getOfferings() as $offering)
+
+                    if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
                     {
-                        if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
+                        $selfPaced = true;
+                    }
+                    else
+                    {
+                        if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
                         {
+                            $now = new \DateTime();
+                            try{
+                                $startDate = new \DateTime( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
+                            }
+                            catch(\Exception $e)
+                            {
+                                $startDate = new \DateTime();
+                            }
+
+                            if( $startDate != $dbCourse->getNextOffering()->getStartDate() )
+                            {
+
+                                if ($this->doModify())
+                                {
+                                    $o = $dbCourse->getNextOffering();
+                                    $o->setStartDate( $startDate );
+                                    $o->setStatus( Offering::START_MONTH_KNOWN );
+                                    $em->persist( $o );
+                                    $em->flush();
+
+                                    $this->out("OnDemand Course Updated Start Date : " . $element['name']) ;
+
+                                }
+                                
+                            }
+                            else if ( $now >= $dbCourse->getNextOffering()->getStartDate() )
+                            {
+                                if ($this->doModify())
+                                {
+                                    //Update the course to be self paced
+                                    $o = $dbCourse->getNextOffering();
+                                    $o->setStatus( Offering::COURSE_OPEN );
+                                    $em->persist( $o );
+                                    $em->flush();
+
+                                    $this->out("OnDemand Course Updated to Self paced : " . $element['name']) ;                                }
+
+                            }
                             $selfPaced = true;
-                            break;
                         }
                     }
-                    if ( !$selfPaced )
+
+                    if( !$selfPaced )
                     {
                         $this->out("OnDemand Session Missing : " . $element['name']) ;
                     }
                 }
             }
         }
-
+        exit();
         /*************************************
          * Session Based Courses
          *************************************/
