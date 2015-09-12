@@ -154,6 +154,7 @@ class CredentialDocumentType extends DocumentType {
         }
         $body['courses'] = $courses;
 
+        $body['isSponsered'] = $c->isSponsored();
 
         // Build the bullet points in the array
         $bulletPoints = array();
