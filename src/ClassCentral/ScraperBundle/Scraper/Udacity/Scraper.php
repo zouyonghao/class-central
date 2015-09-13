@@ -25,7 +25,7 @@ class Scraper extends ScraperAbstractInterface{
     );
 
     private $credentialFields = array(
-        'Url','Description','Name'
+        'Url','Description','Name', 'SubTitle'
     );
 
     private $offeringFields = array(
@@ -278,6 +278,7 @@ class Scraper extends ScraperAbstractInterface{
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( $nanodegree['homepage'] );
         $credential->setOneLiner( $nanodegree['short_summary'] );
+        $credential->setSubTitle( $nanodegree['subtitle'] );
         $credential->setWorkloadMax(10);
         $credential->setWorkloadMin(10);
         $credential->setWorkloadType(Credential::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK);
