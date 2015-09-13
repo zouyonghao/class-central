@@ -1,6 +1,7 @@
 <?php
 
 namespace ClassCentral\CredentialBundle\Formatters;
+use ClassCentral\CredentialBundle\Entity\Credential;
 
 /**
  * Base class for formatting text based on Credential Provider
@@ -18,26 +19,26 @@ abstract class CredentialFormatterAbstract
         $this->credential = $credential;
     }
 
-    abstract protected function getCertificateName();
-    abstract protected function getCertificateSlug();
+    abstract public function getCertificateName();
+    abstract public function getCertificateSlug();
 
     public function getName()
     {
         return $this->credential->getName();
     }
 
-    public function getDisplayPrice()
+    public function getPrice()
     {
         switch( $this->credential->getPricePeriod() ){
-            case self::CREDENTIAL_PRICE_PERIOD_MONTHLY:
+            case Credential::CREDENTIAL_PRICE_PERIOD_MONTHLY:
                 return '$' . $this->credential->getPrice(). '/month';
                 break;
-            case self::CREDENTIAL_PRICE_PERIOD_TOTAL:
+            case Credential::CREDENTIAL_PRICE_PERIOD_TOTAL:
                 return '$' . $this->credential->getPrice();
         }
     }
 
-    public function getDisplayDuration()
+    public function getDuration()
     {
         if( $this->credential->getDurationMin() && $this->credential->getDurationMax() )
         {
@@ -47,14 +48,14 @@ abstract class CredentialFormatterAbstract
             }
             else
             {
-                return "{$this->credential->getDurationMin()}-{$this->getDurationMax()} months";
+                return "{$this->credential->getDurationMin()}-{$this->credential->getDurationMax()} months";
             }
 
         }
         return '';
     }
 
-    public function getDisplayWorkload()
+    public function getWorkload()
     {
 
         if( $this->credential->getWorkloadMin() && $this->credential->getWorkloadMax() )
@@ -71,10 +72,10 @@ abstract class CredentialFormatterAbstract
 
             switch($this->credential->getWorkloadType())
             {
-                case self::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK:
+                case Credential::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK:
                     $effort .= ' hours a week';
                     break;
-                case self::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS:
+                case Credential::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS:
                     $effort .= ' total hours';
                     break;
             }

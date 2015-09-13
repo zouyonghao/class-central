@@ -11,12 +11,12 @@ use ClassCentral\CredentialBundle\Formatters\CredentialFormatterAbstract;
  */
 class CourseraCredentialFormatter extends CredentialFormatterAbstract {
 
-    protected function getCertificateName()
+    public function getCertificateName()
     {
         return 'Specialization';
     }
 
-    protected function getCertificateSlug()
+    public function getCertificateSlug()
     {
         return 'specialization';
     }

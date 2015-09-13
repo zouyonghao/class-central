@@ -669,67 +669,6 @@ class Credential
         return $this->slug;
     }
 
-    public function getDisplayPrice()
-    {
-        switch( $this->getPricePeriod() ){
-            case self::CREDENTIAL_PRICE_PERIOD_MONTHLY:
-                return '$' . $this->getPrice(). '/month';
-                break;
-            case self::CREDENTIAL_PRICE_PERIOD_TOTAL:
-                return '$' . $this->getPrice();
-        }
-    }
-
-    public function getDisplayDuration()
-    {
-        if( $this->getDurationMin() && $this->getDurationMax() )
-        {
-            if ($this->getDurationMin() == $this->getDurationMax() )
-            {
-                return "{$this->getDurationMin()} months";
-            }
-            else
-            {
-                return "{$this->getDurationMin()}-{$this->getDurationMax()} months";
-            }
-
-        }
-
-        return '';
-    }
-
-    public function getDisplayWorkload()
-    {
-
-        if( $this->getWorkloadMin() && $this->getWorkloadMax() )
-        {
-            $effort = '';
-            if( $this->getWorkloadMin() == $this->getWorkloadMax() )
-            {
-                $effort = $this->getWorkloadMin();
-            }
-            else
-            {
-                $effort = "{$this->getWorkloadMin()}-{$this->getWorkloadMax()}";
-            }
-
-            switch($this->getWorkloadType())
-            {
-                case self::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK:
-                    $effort .= ' hours a week';
-                    break;
-                case self::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS:
-                    $effort .= ' total hours';
-                    break;
-            }
-
-            return $effort;
-
-        }
-
-        return '';
-    }
-
     /**
      * Set enrollmentStart
      *

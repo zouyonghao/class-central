@@ -181,12 +181,7 @@ class SuggestDocumentType extends DocumentType{
             {
                 $provider = $this->entity->getInitiative();
                 // Certificate details
-                $certDetails = $this->container->get('credential')->getCertificateDetails($provider->getName() );
-                if($certDetails)
-                {
-                    $certificateSlug = $certDetails['slug'];
-                }
-
+                $certificateSlug = $this->entity->getFormatter()->getCertificateSlug();
             }
 
             $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug(),$certificateSlug), $this->tokenize( $entity->getName() )) ;

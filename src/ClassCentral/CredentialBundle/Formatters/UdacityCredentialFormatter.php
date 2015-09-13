@@ -11,13 +11,14 @@ use ClassCentral\CredentialBundle\Formatters\CredentialFormatterAbstract;
  */
 class UdacityCredentialFormatter extends CredentialFormatterAbstract {
 
-    protected function getCertificateName()
+    public function getCertificateName()
     {
         return 'Nanodegree';
     }
 
-    protected function getCertificateSlug()
+    public function getCertificateSlug()
     {
         return 'nanodegree';
     }
+
 }

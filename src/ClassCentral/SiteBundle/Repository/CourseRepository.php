@@ -216,12 +216,9 @@ class CourseRepository extends EntityRepository{
                 $credential['certificateName'] = '';
                 $credential['certificateSlug'] = '';
 
-                $certDetails = Credential::getCertificateDetailsFromProviderName( $courseDetails['initiative']['name'] );
-                if($certDetails)
-                {
-                    $credential['certificateName'] = $certDetails['name'];
-                    $credential['certificateSlug'] = $certDetails['slug'];
-                }
+                $formatter = $cred->getFormatter();
+                $credential['certificateName'] = $formatter->getCertificateName();
+                $credential['certificateSlug'] = $formatter->getCertificateSlug();
             }
         }
         $courseDetails['credential'] = $credential;

@@ -64,49 +64,6 @@ class Credential {
         return null;
     }
 
-    /**
-     * @param $providerName
-     * @return array
-     */
-    public function getCertificateDetails( $providerName )
-    {
-        switch(strtolower($providerName))
-        {
-            case 'coursera':
-                return array('name'=>'Specialization', 'slug' => 'specialization');
-                break;
-            case 'udacity':
-                return array('name'=>'Nanodegree', 'slug' => 'nanodegree');
-                break;
-            case 'edX':
-                return array('name'=>'XSeries', 'slug' => 'xseries');
-                break;
-        }
-
-        return array();
-    }
-
-    /**
-     * @param $providerName
-     */
-    public static function getCertificateDetailsFromProviderName( $providerName )
-    {
-        switch(strtolower($providerName))
-        {
-            case 'coursera':
-                return array('name'=>'Specialization', 'slug' => 'specialization');
-                break;
-            case 'udacity':
-                return array('name'=>'Nanodegree', 'slug' => 'nanodegree');
-                break;
-            case 'edX':
-                return array('name'=>'XSeries', 'slug' => 'xseries');
-                break;
-        }
-
-        return array();
-    }
-
     public function getCertDetailsFromCertSlug( $slug )
     {
         switch(strtolower($slug))

@@ -81,20 +81,22 @@ class CredentialDocumentType extends DocumentType {
         $credentialService = $this->container->get('credential');
         $c = $this->entity ; // Alias for entity
 
+        $formatter = $c->getFormatter();
+
         $body['name'] = $c->getName();
         $body['id'] = $c->getId();
         $body['slug'] = $c->getSlug();
         $body['oneLiner'] = $c->getOneLiner();
         $body['price'] = $c->getPrice();
         $body['pricePeriod'] = $c->getPricePeriod();
-        $body['displayPrice'] = $c->getDisplayPrice();
+        $body['displayPrice'] = $formatter->getPrice();
         $body['durationMin'] = $c->getDurationMin();
         $body['durationMax'] = $c->getDurationMax();
-        $body['displayDuration'] = $c->getDisplayDuration();
+        $body['displayDuration'] = $formatter->getDuration();
         $body['workloadMin'] = $c->getWorkloadMin();
         $body['workloadMax'] = $c->getDurationMax();
         $body['workloadType'] = $c->getWorkloadType();
-        $body['displayWorkload'] = $c->getDisplayWorkload();
+        $body['displayWorkload'] = $formatter->getWorkload();
         $body['url'] = $c->getUrl();
         $body['description'] = $c->getDescription();
         $body['status'] = $c->getStatus();
@@ -109,14 +111,9 @@ class CredentialDocumentType extends DocumentType {
         {
             $provider = $c->getInitiative();
 
-            // Certificate details
-            $certDetails = $credentialService->getCertificateDetails($provider->getName() );
-            if($certDetails)
-            {
-                $body['certificateName'] = $certDetails['name'];
-                $body['certificateSlug'] = $certDetails['slug'];
-                $bulletOrg = "{$certDetails['name']} via ";
-            }
+            $body['certificateName'] = $formatter->getCertificateName();
+            $body['certificateSlug'] = $formatter->getCertificateSlug();
+            $bulletOrg = "{$formatter->getCertificateName()} via ";
 
             $orgs[] = $provider->getName(); // Populate the organization list
         }
@@ -161,8 +158,8 @@ class CredentialDocumentType extends DocumentType {
         $bulletPoints[]  = $bulletOrg . UniversalHelper::commaSeparateList( $orgs ) ;
 
         // Bullet Price and Duration
-        $bulletPriceAndDuration = $this->entity->getDisplayPrice();
-        $displayDuration = $this->entity->getDisplayDuration();
+        $bulletPriceAndDuration = $formatter->getPrice();
+        $displayDuration = $formatter->getDuration();
         if( $displayDuration )
         {
             $bulletPriceAndDuration .= ' for ' . $displayDuration;
@@ -170,7 +167,7 @@ class CredentialDocumentType extends DocumentType {
         $bulletPoints[] = $bulletPriceAndDuration;
 
         // Bullet effort
-        $effort = $this->entity->getDisplayWorkload();
+        $effort = $formatter->getWorkload();
         if($effort)
         {
             $bulletPoints[] = $effort . ' of effort';

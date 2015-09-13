@@ -221,12 +221,9 @@ class CourseDocumentType extends DocumentType {
                 $credential['slug'] = $cred->getSlug();
                 $credential['certificateName'] = '';
                 $credential['certificateSlug'] = '';
-                $certDetails = $this->container->get('credential')->getCertificateDetails($provider->getName() );
-                if($certDetails)
-                {
-                    $credential['certificateName'] = $certDetails['name'];
-                    $credential['certificateSlug'] = $certDetails['slug'];
-                }
+                $credFormatter = $cred->getFormatter();
+                $credential['certificateName'] = $credFormatter->getCertificateName();
+                $credential['certificateSlug'] = $credFormatter->getCertificateSlug();
             }
         }
         $body['credential'] = $credential;
