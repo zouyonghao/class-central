@@ -12,7 +12,7 @@ use ClassCentral\CredentialBundle\Entity\Credential;
  */
 abstract class CredentialFormatterAbstract
 {
-    private $credential = null;
+    protected $credential = null;
 
     public function __construct(\ClassCentral\CredentialBundle\Entity\Credential $credential)
     {

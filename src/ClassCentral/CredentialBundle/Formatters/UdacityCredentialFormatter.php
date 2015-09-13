@@ -21,4 +21,9 @@ class UdacityCredentialFormatter extends CredentialFormatterAbstract {
         return 'nanodegree';
     }
 
+    public function getWorkload()
+    {
+        return 'Minimum ' . $this->credential->getWorkloadMin() . 'hrs/week';
+    }
+
 }

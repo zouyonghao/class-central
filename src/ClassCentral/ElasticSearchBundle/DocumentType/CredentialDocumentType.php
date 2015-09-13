@@ -87,6 +87,7 @@ class CredentialDocumentType extends DocumentType {
         $body['id'] = $c->getId();
         $body['slug'] = $c->getSlug();
         $body['oneLiner'] = $c->getOneLiner();
+        $body['subTitle'] = $c->getSubTitle();
         $body['price'] = $c->getPrice();
         $body['pricePeriod'] = $c->getPricePeriod();
         $body['displayPrice'] = $formatter->getPrice();

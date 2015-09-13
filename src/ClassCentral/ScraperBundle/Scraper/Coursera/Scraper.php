@@ -58,7 +58,7 @@ class Scraper extends ScraperAbstractInterface {
     );
 
     private $credentialFields = array(
-        'Url','Description','Name', 'OneLiner'
+        'Url','Description','Name', 'OneLiner', 'SubTitle'
     );
 
 
@@ -775,14 +775,16 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setSlug( $details['elements'][0]['slug'] . '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_ONDEMAND_PAGE_URL,$details['elements'][0]['slug']));
+        $credential->setOneLiner( $details['elements'][0]['metadata']['subheader'] );
 
         if( isset($details['elements'][0]['metadata']['headline']) )
         {
-            $credential->setOneLiner(  $details['elements'][0]['metadata']['headline'] );
+            $credential->setSubTitle(  $details['elements'][0]['metadata']['headline'] );
         }
         else
         {
-            $credential->setOneLiner(  $details['elements'][0]['tagline'] );
+            echo  $details['elements'][0]['tagline']."\n";
+            $credential->setSubTitle(  $details['elements'][0]['tagline'] );
         }
 
 
@@ -810,7 +812,7 @@ class Scraper extends ScraperAbstractInterface {
             }
             else
             {
-                $this->out("Course Not Found - " . $topic['name']);
+               $this->out("Course Not Found - " . $topic['name']);
             }
         }
 
