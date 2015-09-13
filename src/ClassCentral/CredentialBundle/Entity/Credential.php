@@ -2,6 +2,8 @@
 
 namespace ClassCentral\CredentialBundle\Entity;
 
+use ClassCentral\CredentialBundle\Formatters\CourseraCredentialFormatter;
+use ClassCentral\CredentialBundle\Formatters\UdacityCredentialFormatter;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -874,5 +876,32 @@ class Credential
     public function isSponsored()
     {
         return $this->sponsored;
+    }
+
+    /**
+     * Kinda like a factory methd. Instantiates the correct formatter
+     * based on the provider
+     */
+    public function getFormatter()
+    {
+        $provider = $this->getInitiative();
+        if( !$provider )
+        {
+            throw new \Exception("No provider for this credential");
+        }
+        $formatter = null;
+        switch($provider->getName())
+        {
+            case 'Coursera':
+                $formatter = new CourseraCredentialFormatter( $this );
+                break;
+            case 'Udacity':
+                $formatter = new UdacityCredentialFormatter( $this  );
+                break;
+            default:
+                throw new \Exception("Credential formatter for this provider does not exist");
+        }
+
+        return $formatter;
     }
 }
