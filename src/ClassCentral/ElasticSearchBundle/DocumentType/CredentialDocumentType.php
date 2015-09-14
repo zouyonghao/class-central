@@ -70,6 +70,10 @@ class CredentialDocumentType extends DocumentType {
             "slug" => array(
                 "type" => "string",
                 'index' => 'not_analyzed',
+            ),
+            "subjectSlug" => array(
+                "type" => "string",
+                'index' => 'not_analyzed',
             )
 
         );
@@ -103,6 +107,15 @@ class CredentialDocumentType extends DocumentType {
         $body['status'] = $c->getStatus();
         $body['image'] = $credentialService->getImage( $c );
         $body['cardImage'] = $credentialService->getCardImage( $c );
+
+        $body['subjectSlug'] = null;
+        $body['subject'] = null;
+
+        if( $c->getSubject() )
+        {
+            $body['subjectSlug'] = $c->getSubject();
+            $body['subject'] = Credential::$SUBJECTS[$c->getSubject()];
+        }
 
         $orgs = array(); // Array of names of organizations who are involved in creating the credential
 

@@ -173,6 +173,15 @@ class Credential
         self::CREDENTIAL_WORKLOAD_TYPE_TOTAL_HOURS => 'Total Hours',
     );
 
+    public static $SUBJECTS = array(
+        'computer-science' => 'Computer Science',
+        'data-science' => 'Data Science',
+        'business' => 'Business',
+        'science-and-engineering' => 'Science and Engineering',
+        'desgin-and-creativity' => 'Design and Creativity',
+        'professional-development' => 'Professional Development'
+    );
+
     public static function getStatuses()
     {
         return array(
