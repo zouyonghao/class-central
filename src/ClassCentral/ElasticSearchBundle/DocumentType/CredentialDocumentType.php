@@ -179,7 +179,15 @@ class CredentialDocumentType extends DocumentType {
             $bulletPoints[] = count($body['courses']) - 1 . ' courses + capstone project ';
         }
 
+
+        if( $formatter->getEnrollment() )
+        {
+            $bulletPoints[] = $formatter->getEnrollment();
+        }
+
         $body['bulletPoints'] =$bulletPoints;
+
+
 
         return $body;
     }

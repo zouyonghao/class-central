@@ -87,5 +87,14 @@ abstract class CredentialFormatterAbstract
         return '';
     }
 
+    /**
+     *  Default empty string.
+     *  Implementations are expected to override
+     */
+    public function getEnrollment()
+    {
+        return '';
+    }
+
 
 }

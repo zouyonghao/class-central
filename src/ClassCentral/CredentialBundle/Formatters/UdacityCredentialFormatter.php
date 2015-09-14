@@ -26,4 +26,16 @@ class UdacityCredentialFormatter extends CredentialFormatterAbstract {
         return 'Minimum ' . $this->credential->getWorkloadMin() . 'hrs/week';
     }
 
+
+    public function getEnrollment()
+    {
+        if($this->credential->getEnrollmentStart())
+        {
+            return 'Next enrollment opens '. $this->credential->getEnrollmentStart()->format('M j');
+        }
+
+        return '';
+    }
+
+
 }
