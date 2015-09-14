@@ -141,6 +141,11 @@ class Credential
      */
     private $sponsored;
 
+    /**
+     * @var string
+     */
+    private $subject;
+
 
     // Any course above this status will not be shown to the user
     const CREDENTIAL_NOT_SHOWN_LOWER_BOUND = 100;
@@ -818,6 +823,29 @@ class Credential
     }
 
     /**
+     * Set subject
+     *
+     * @param string $subject
+     * @return Credential
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
      * Kinda like a factory methd. Instantiates the correct formatter
      * based on the provider
      */
@@ -843,4 +871,5 @@ class Credential
 
         return $formatter;
     }
+
 }

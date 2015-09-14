@@ -20,7 +20,8 @@ class Version20150909214848 extends AbstractMigration
             ADD COLUMN     enrollment_end DATE NULL,
             ADD COLUMN     start_date DATE NULL,
             ADD COLUMN     end_date DATE NULL,
-            ADD COLUMN     sub_title VARCHAR(100) NULL
+            ADD COLUMN     sub_title VARCHAR(100) NULL,
+            ADD COLUMN     subject varchar(50) NULL
         ");
     }
 
