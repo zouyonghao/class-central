@@ -45,6 +45,12 @@ class Credentials {
                     'field' => 'certificateSlug',
                     'size' => 40
                 )
+            ),
+            "subjectSlug" => array(
+                'terms' => array(
+                    'field' => 'subjectSlug',
+                    'size' => 40
+                )
             )
         );
 
@@ -70,6 +76,8 @@ class Credentials {
         }
 
         $params['body']['query']['filtered']['filter']['range']['status']['lt'] = 100;
+
+        // var_dump( json_encode( $params['body'])); exit();
 
         $results = $this->esClient->search( $params );
 

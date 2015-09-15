@@ -136,6 +136,7 @@ class Credential {
         {
             $params['credentials'] = explode(',', $getParams['credentials'] );
         }
+
         return $params;
     }
 
@@ -151,7 +152,10 @@ class Credential {
 
         return array(
             'credentials' => $esCredentialsResponse['hits']['hits'],
-            'facets' =>  $esCredentialsResponse['facets']['certificate']['terms'],
+            'facets' =>  array(
+                'certificates' => $esCredentialsResponse['facets']['certificate']['terms'],
+                'subjects' => $esCredentialsResponse['facets']['subjectSlug']['terms'],
+            ),
             'numCredentials' => $esCredentialsResponse['hits']['total'],
         );
     }
