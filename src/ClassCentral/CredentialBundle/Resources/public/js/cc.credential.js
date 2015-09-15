@@ -192,17 +192,38 @@ CC.Class['Credential'] = (function(){
     }
 
     function filterCredentials(){
-        var filterCreds = [];
+        var filterCerts = [];
+        var filterSubjects = [];
         var params = {};
         var url = $.url().attr('path');
 
         $(".filter-credentials .ticked + .filter-credential-type").each(function() {
-            filterCreds.push($.trim($(this).data("certificate")));
+            var type = $(this).data('type');
+            var value = $.trim($(this).data(type));
+            if( type == 'certificate')
+            {
+                filterCerts.push(value);
+            }
+
+            if( type == 'subject')
+            {
+                filterSubjects.push(value);
+            }
         });
-        if(filterCreds.length > 0) {
-            params['credentials'] = filterCreds.join();
-            url = url+'?' + $.param(params);
+
+
+        if(filterCerts.length > 0) {
+            params['credentials'] = filterCerts.join();
         }
+
+        if(filterSubjects.length > 0) {
+            params['subjects'] = filterSubjects.join();
+        }
+
+        if( !$.isEmptyObject(params) ) {
+            url = url+'?' + $.param(params)
+        }
+
         history.replaceState(null, null, url);
 
         // Ajax query
