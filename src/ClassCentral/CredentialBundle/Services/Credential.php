@@ -137,6 +137,12 @@ class Credential {
             $params['credentials'] = explode(',', $getParams['credentials'] );
         }
 
+        $params['subjects'] = array();
+        if( !empty($getParams['subjects']) )
+        {
+            $params['subjects'] = explode(',', $getParams['subjects'] );
+        }
+
         return $params;
     }
 

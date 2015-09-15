@@ -63,15 +63,27 @@ class Credentials {
             )
         );
 
+        $filters = array();
         if( !empty($queryFilters['credentials']) )
         {
+            $filters[] =  array('terms' => array(
+                'certificateSlug' => $queryFilters['credentials'],
+                'execution' => 'or'
+            ));
+        }
+
+        if( !empty($queryFilters['subjects']) )
+        {
+            $filters[] =  array('terms' => array(
+                'subjectSlug' => $queryFilters['subjects'],
+                'execution' => 'or'
+            ));
+        }
+
+        if( !empty($filters) )
+        {
             $params['body']['filter'] = array(
-                'and' => array(
-                    array('terms' => array(
-                        'certificateSlug' => $queryFilters['credentials'],
-                        'execution' => 'or'
-                    )),
-                )
+                'and' => $filters
             );
         }
 
