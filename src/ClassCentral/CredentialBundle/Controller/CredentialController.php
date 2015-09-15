@@ -248,7 +248,8 @@ class CredentialController extends Controller
                 'credentials' => $credentials,
                 'facets' =>  $facets,
                 'numCredentials' => $numCredentials,
-                'breadcrumbs' => $breadCrumbs
+                'breadcrumbs' => $breadCrumbs,
+                'subjects' => Credential::$SUBJECTS,
         ));
     }
 }
