@@ -178,7 +178,7 @@ class Credential
         'data-science' => 'Data Science',
         'business' => 'Business',
         'science-and-engineering' => 'Science and Engineering',
-        'desgin-and-creativity' => 'Design and Creativity',
+        'design-and-creativity' => 'Design and Creativity',
         'professional-development' => 'Professional Development'
     );
 
