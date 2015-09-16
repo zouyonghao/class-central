@@ -210,6 +210,12 @@ class CredentialReviewController extends Controller
         {
             $this->get('user_session')->saveAnonActivity( 'credential_review', $cr->getId() );
         }
+        else
+        {
+            //Update the users review history in session
+            $userSession = $this->container->get('user_session');
+            $userSession->saveUserInformationInSession();
+        }
 
         return UniversalHelper::getAjaxResponse(true, $cr->getId() );
     }

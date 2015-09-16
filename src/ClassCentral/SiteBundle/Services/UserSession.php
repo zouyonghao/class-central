@@ -28,6 +28,8 @@ class UserSession
     const NEWSLETTER_USER_EMAIL = 'newsletter_user_email';
     const USER_REVIEWED_COURSES = 'user_review_course_ids';
     const USER_REVIEWS  = 'user_review_ids';
+    const USER_REVIEWED_CREDENTIALS = 'user_review_credential_ids';
+    const USER_CREDENTIAL_REVIEWS  = 'user_credential_review_ids';
     const PASSWORDLESS_LOGIN = 'passwordless_login';
     const ANONYMOUS_USER_ACTIVITY_KEY = 'anonymous_user_activity_key';
 
@@ -189,6 +191,8 @@ class UserSession
 
         $this->saveReviewInformationInSession();
 
+        $this->saveCredentialReviewInformationInSession();
+
     }
 
     /**
@@ -238,6 +242,26 @@ class UserSession
         $this->session->set(self::USER_REVIEWS,$reviewIds);
     }
 
+    /**
+     * Saves the credential review history in Session
+     */
+    public function saveCredentialReviewInformationInSession()
+    {
+        $user = $this->securityContext->getToken()->getUser();
+        // Save all the course ids of the rhe reviews that the user has done in the session
+        $credentialIds = array();
+        $reviewIds = array();
+
+        foreach($user->getCredentialReviews() as $cr)
+        {
+            $reviewIds[] = $cr->getId();
+            $credentialIds[] = $cr->getCredential()->getId();
+        }
+
+        $this->session->set(self::USER_CREDENTIAL_REVIEWS, $reviewIds);
+        $this->session->set(self::USER_REVIEWED_CREDENTIALS, $credentialIds);
+    }
+
     public function isCourseReviewed($courseId)
     {
         $courseIds = $this->session->get(self::USER_REVIEWED_COURSES);
@@ -248,6 +272,7 @@ class UserSession
         return in_array($courseId, $courseIds);
     }
 
+
     public function isUserReview($reviewId)
     {
         $reviewIds = $this->session->get(self::USER_REVIEWS);
@@ -257,6 +282,27 @@ class UserSession
         }
         return in_array($reviewId, $reviewIds);
     }
+
+    public function isCredentialReviewed( $credentiaId )
+    {
+        $credentiaIds = $this->session->get(self::USER_REVIEWED_CREDENTIALS);
+        if(empty($credentiaIds))
+        {
+            return false;
+        }
+        return in_array($credentiaId, $credentiaIds);
+    }
+
+    public function isUserCredentialReview($reviewId)
+    {
+        $reviewIds = $this->session->get(self::USER_CREDENTIAL_REVIEWS);
+        if(empty($reviewIds))
+        {
+            return false;
+        }
+        return in_array($reviewId, $reviewIds);
+    }
+
 
     /**
      * Sets a session variable which says that
