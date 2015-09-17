@@ -22,6 +22,8 @@ class Scraper extends ScraperAbstractInterface {
     const SESSION_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/sessions?id=%d&fields=eligibleForCertificates,eligibleForSignatureTrack';
     const ONDEMAND_COURSE_URL = 'https://www.coursera.org/api/onDemandCourses.v1?fields=partners.v1(squareLogo,rectangularLogo),instructors.v1(fullName),overridePartnerLogos&includes=instructorIds,partnerIds,_links&&q=slug&slug=%s';
 
+    const ONDEMAND_SESSION_IDS = 'https://www.coursera.org/api/onDemandSessions.v1/?q=currentOpenByCourse&courseId=%s&includes=memberships&fields=moduleDeadlines';
+
     // CREDENTIAL_URS
     const SPECIALIZATION_CATALOG_URL = 'https://www.coursera.org/api/specializations.v1';
     const SPECIALIZATION_URL  = 'https://www.coursera.org/maestro/api/specialization/info/%s?currency=USD&origin=US';
@@ -135,42 +137,7 @@ class Scraper extends ScraperAbstractInterface {
 
                             // Send an update to Slack
                             $this->dbHelper->sendNewCourseToSlack( $c, $this->initiative );
-
-                            // Create an offering
-                            $offering = new Offering();
-                            $offering->setShortName( $c->getShortName() );
-                            $offering->setUrl( $c->getUrl() );
-                            $offering->setCourse( $c );
-
-
-                            if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
-                            {
-                                //$this->out( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
-                                try{
-                                    $startDate = new \DateTime( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
-                                }
-                                catch(\Exception $e)
-                                {
-                                    $startDate = new \DateTime();
-                                }
-
-                                $offering->setStatus( Offering::START_MONTH_KNOWN );
-                            }
-                            else
-                            {
-                                $startDate = new \DateTime();
-                                $offering->setStatus( Offering::COURSE_OPEN );
-                            }
-
-                            $endDate =  new \DateTime( );
-                            $endDate->add( new \DateInterval("P30D") );
-
-                            $offering->setStartDate( $startDate );
-                            $offering->setEndDate( $endDate );
-                            $em->persist($offering);
-                            $em->flush();
-                            $this->dbHelper->sendNewOfferingToSlack( $offering);
-
+                            $dbCourse = $c;
                         }
                     }
                 }
@@ -185,6 +152,7 @@ class Scraper extends ScraperAbstractInterface {
                     }
                     else
                     {
+                        /*
                         if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
                         {
                             $now = new \DateTime();
@@ -227,11 +195,144 @@ class Scraper extends ScraperAbstractInterface {
                             }
                             $selfPaced = true;
                         }
+                        */
                     }
+
+
+                    // Update the sessions.
+                    $courseId = $onDemandCourse['elements'][0]['id'];
+                    $sessionDetails =  json_decode(file_get_contents( sprintf(self::ONDEMAND_SESSION_IDS,$courseId) ),true);
+                    if(empty($sessionDetails['elements']))
+                    {
+                        // Create an offering
+                        $offering = new Offering();
+                        $offering->setShortName( $dbCourse->getShortName() );
+                        $offering->setUrl( $dbCourse->getUrl() );
+                        $offering->setCourse( $dbCourse );
+
+                        if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
+                        {
+
+                            try
+                            {
+                                // Self paced Not Started - But will Start in the future
+                                $this->out("SELF PACED FUTURE COURSE : " . $dbCourse->getName() );
+                                $startDate = new \DateTime( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
+                                $endDate =  new \DateTime(  $onDemandCourse['elements'][0]['plannedLaunchDate']  );
+                                $endDate->add( new \DateInterval("P30D") );
+                                $offering->setStatus( Offering::START_DATES_KNOWN );
+                            }
+                            catch(\Exception $e)
+                            {
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            // Self paced course that can be accessed right now
+                            $this->out("SELF PACED COURSE : " . $dbCourse->getName() );
+                            $startDate = new \DateTime();
+                            $offering->setStatus( Offering::COURSE_OPEN );
+                            $endDate =  new \DateTime( );
+                            $endDate->add( new \DateInterval("P30D") );
+
+                            if($dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
+                            {
+                                // Already self paced nothing to be done here
+                                continue;
+                            }
+                        }
+
+                        $offering->setStartDate( $startDate );
+                        $offering->setEndDate( $endDate );
+
+                        // Check if offering exists
+                        $dbOffering = $this->dbHelper->getOfferingByShortName( $dbCourse->getShortName() );
+
+                        if($dbOffering)
+                        {
+                            // Check if the dates and other details are right
+                            $this->offeringChangedFields($offering,$dbOffering);
+                        }
+                        else
+                        {
+                            // Save and Create the offering
+                            if($this->doCreate())
+                            {
+                                $this->out("NEW OFFERING - " . $offering->getName() );
+                                if ($this->doModify())
+                                {
+                                    $em->persist($offering);
+                                    $em->flush();
+                                    $this->dbHelper->sendNewOfferingToSlack( $offering);
+                                }
+
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        $dbOffering = null;
+                        // Regularly Scheduled Course
+                        $this->out("Regularly Scheduled Course : " . $dbCourse->getName() );
+                        foreach($dbCourse->getOfferings() as $o)
+                        {
+                           if( $o->getShortName() == $dbCourse->getShortName() )
+                           {
+                               $dbOffering = $o; // A course with future announced date becomes current and has sessions
+                           }
+                        }
+                        foreach( $sessionDetails['elements'] as $session )
+                        {
+                            $sessionId = $session['id'];
+                            $offeringShortName = 'coursera_' . $sessionId;
+                            // Create an offering
+                            $offering = new Offering();
+                            $offering->setShortName( $offeringShortName );
+                            $offering->setUrl( $dbCourse->getUrl() );
+                            $offering->setCourse( $dbCourse );
+                            $offering->setStatus( Offering::START_DATES_KNOWN );
+
+                            $startDate = new \DateTime( '@'. intval($session['startedAt']/1000) );
+                            $endDate =new \DateTime( '@'. intval($session['endedAt']/1000) );
+                            $startDate->setTimezone( new \DateTimeZone('America/Los_Angeles') );
+                            $endDate->setTimezone( new \DateTimeZone('America/Los_Angeles') );
+
+                            $offering->setStartDate( $startDate );
+                            $offering->setEndDate( $endDate );
+
+                            // Check if offering exists
+                            if(!$dbOffering)
+                            {
+                                $dbOffering = $this->dbHelper->getOfferingByShortName( $offeringShortName );
+                            }
+                            if($dbOffering)
+                            {
+                                // Check if the dates and other details are right
+                                $this->offeringChangedFields($offering,$dbOffering);
+                            }
+                            else
+                            {
+                                if($this->doCreate())
+                                {
+                                    $this->out("NEW OFFERING - " . $offering->getName() );
+                                    if ($this->doModify())
+                                    {
+                                        $em->persist($offering);
+                                        $em->flush();
+                                        $this->dbHelper->sendNewOfferingToSlack( $offering);
+                                    }
+                                }
+                            }
+                            $dbOffering = null;
+                        }
+                    }
+
 
                     if( !$selfPaced )
                     {
-                        $this->out("OnDemand Session Missing : " . $element['name']) ;
+                        //$this->out("OnDemand Session Missing : " . $element['name']) ;
                     }
                 }
             }
@@ -549,6 +650,52 @@ class Scraper extends ScraperAbstractInterface {
 
         $parts = explode(' ', $duration);
         return $parts[0];
+    }
+
+    private function offeringChangedFields($offering, $dbOffering )
+    {
+        $offeringModified = false;
+        $changedFields = array();
+        $em = $this->getManager();
+        foreach ($this->offeringFields as $field)
+        {
+            $getter = 'get' . $field;
+            $setter = 'set' . $field;
+
+            $oldValue =  $dbOffering->$getter();
+            $newValue = $offering->$getter();
+
+            // Date comparision fails due to different time zones
+            if( gettype($oldValue) == 'object' && get_class($oldValue) == 'DateTime')
+            {
+                $oldValue =  $dbOffering->$getter()->format('jS M, Y');
+                $newValue = $offering->$getter()->format('jS M, Y');
+            }
+
+            if ( $oldValue  !=  $newValue)
+            {
+                $offeringModified = true;
+                // Add the changed field to the changedFields array
+                $changed = array();
+                $changed['field'] = $field;
+                $changed['old'] =$dbOffering->$getter();
+                $changed['new'] = $offering->$getter();
+                $changedFields[] = $changed;
+                $dbOffering->$setter($offering->$getter());
+            }
+        }
+
+        if ($offeringModified && $this->doUpdate())
+        {
+            // Offering has been modified
+            $this->out("UPDATE OFFERING - " . $dbOffering->getName());
+            $this->outputChangedFields($changedFields);
+            if ($this->doModify())
+            {
+                $em->persist($dbOffering);
+                $em->flush();
+            }
+        }
     }
 
     private function getDates ($offering, $length )
