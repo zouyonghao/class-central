@@ -1027,8 +1027,7 @@ a:focus .card-back__interaction-text {
   fill-opacity: 1;
 }
 
-// starRating-white
-
+// starRating-blue
 .starRating-blue .starRating_starShape,
 .starRating-blue .starRating_starShape-right {
   fill: #004fce;
@@ -1038,6 +1037,19 @@ a:focus .card-back__interaction-text {
 .starRating-blue .starRating_starShape-full,
 .starRating-blue .starRating_starShape-left {
   fill: #004fce;
+  fill-opacity: 1;
+}
+
+// starRating-brightBlue
+.starRating-brightBlue .starRating_starShape,
+.starRating-brightBlue .starRating_starShape-right {
+  fill: @brand-secondary;
+  fill-opacity: .3;
+}
+
+.starRating-brightBlue .starRating_starShape-full,
+.starRating-brightBlue .starRating_starShape-left {
+  fill: @brand-secondary;
   fill-opacity: 1;
 }
 
@@ -2156,6 +2168,19 @@ a:focus .card-back__interaction-text {
 }
 
 
+.basic-input-button--blue {
+  color: #fff;
+  background-color: @brand-secondary;
+}
+
+.basic-input-button--blue:hover,
+.basic-input-button--blue:focus {
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #3862f8;
+}
+
 .basic-field-note {
   display: block;
   text-align: center;
@@ -2411,7 +2436,28 @@ a:focus .card-back__interaction-text {
 
 .fixed-menu-spacer {
   height: 118px;
-  background-color: @brand-secondary;
+  background-color: #fff;
+}
+
+/**
+*
+* straight-section
+*
+**/
+
+
+.straight-section--white {
+  background-color: #fff;
+}
+
+
+.straight-section--blue {
+  background-color: #f7f9fe;
+}
+
+.straight-section--bordered {
+  border-top: 1px solid #e6ecfe;
+  border-bottom: 1px solid #e6ecfe;
 }
 
 /**
@@ -2511,5 +2557,11 @@ a:focus .card-back__interaction-text {
   background-color: @gray-dark;
   background-image: url("/bundles/classcentralsite/slashpixel/images/dotted-bg.png");
   border-bottom: 1px solid #163fc4;
+  min-height: 13px;
+}
+
+.dotted-spacer--light {
+  background-color: @gray-dark;
+  background-image: url("/bundles/classcentralsite/slashpixel/images/dotted-bg-light.png");
   min-height: 13px;
 }
