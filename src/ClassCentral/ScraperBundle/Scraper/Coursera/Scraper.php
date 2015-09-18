@@ -337,7 +337,7 @@ class Scraper extends ScraperAbstractInterface {
                 }
             }
         }
-        exit();
+     
         /*************************************
          * Session Based Courses
          *************************************/
