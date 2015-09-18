@@ -37,8 +37,8 @@ class CredentialReviewController extends Controller
         }
 
         $breadcrumbs = array();
-        $breadcrumbs[] = Breadcrumb::getBreadCrumb('Credential');
-        $breadcrumbs[] = Breadcrumb::getBreadCrumb($credential->getName());
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb('Credential',  $this->generateUrl('credentials'));
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb($credential->getName(),  $this->generateUrl('credential_page', array('slug'=>$credential->getSlug() ) ));
         $breadcrumbs[] = Breadcrumb::getBreadCrumb('Review');
         return $this->render('ClassCentralCredentialBundle:CredentialReview:reviewForm.html.twig', array(
             'degrees' => Profile::$degrees,
