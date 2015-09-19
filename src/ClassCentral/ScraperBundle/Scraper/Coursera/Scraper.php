@@ -23,6 +23,7 @@ class Scraper extends ScraperAbstractInterface {
     const ONDEMAND_COURSE_URL = 'https://www.coursera.org/api/onDemandCourses.v1?fields=partners.v1(squareLogo,rectangularLogo),instructors.v1(fullName),overridePartnerLogos&includes=instructorIds,partnerIds,_links&&q=slug&slug=%s';
     // Contains courses schedule
     const ONDEMAND_OPENCOURSE_API = 'https://www.coursera.org/api/opencourse.v1/course/%s?showLockedItems=true';
+    CONST ONDEMAND_COURSE_SCHEDULE = 'https://www.coursera.org/api/onDemandCourseSchedules.v1/%s/?fields=defaultSchedule';
 
     const ONDEMAND_SESSION_IDS = 'https://www.coursera.org/api/onDemandSessions.v1/?q=currentOpenByCourse&courseId=%s&includes=memberships&fields=moduleDeadlines';
 
@@ -152,17 +153,17 @@ class Scraper extends ScraperAbstractInterface {
                 else
                 {
                     // Update the course details
-                    $this->dbHelper->changedFields($this->onDemandCourseFields,$c,$dbCourse);
+                    $changedFields = $this->dbHelper->changedFields($this->onDemandCourseFields,$c,$dbCourse);
                     if(!empty($changedFields) && $this->doUpdate())
                     {
-                        $this->out("UPDATE CREDENTIAL - " . $dbCourse->getName() );
+                        $this->out("UPDATE COURSE - " . $dbCourse->getName() );
                         $this->outputChangedFields( $changedFields );
                         if ($this->doModify())
                         {
                             $em->persist($dbCourse);
                             $em->flush();
 
-                            $this->dbHelper->uploadCredentialImageIfNecessary($onDemandCourse['elements'][0]['promoPhoto'],$dbCourse);
+                            $this->uploadImageIfNecessary($onDemandCourse['elements'][0]['promoPhoto'],$dbCourse);
                         }
                     }
 
@@ -849,9 +850,26 @@ class Scraper extends ScraperAbstractInterface {
             $course->setSyllabus( $syllabus);
         }
 
+        // Calculate the length of the course
+        $schedule = json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_SCHEDULE, $data['elements'][0]['id']) ),true);
+        if( !empty($schedule) )
+        {
+            $length = 0;
+            foreach( $schedule['elements'][0]['defaultSchedule']['periods'] as $period)
+            {
+                $length += $period['numberOfWeeks'];
+            }
+
+            if($length > 0)
+            {
+                $course->setLength( $length );
+            }
+        }
+
 
         return $course;
     }
+
 
     private function getDetailsFromCourseraCatalog( $id )
     {
