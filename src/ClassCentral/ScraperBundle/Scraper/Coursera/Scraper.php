@@ -65,7 +65,7 @@ class Scraper extends ScraperAbstractInterface {
 
 
     private $offeringFields = array(
-        'StartDate', 'EndDate', 'Status',
+        'StartDate', 'EndDate', 'Status','Url','ShortName'
     );
 
     public function scrape()
@@ -281,6 +281,7 @@ class Scraper extends ScraperAbstractInterface {
                            if( $o->getShortName() == $dbCourse->getShortName() )
                            {
                                $dbOffering = $o; // A course with future announced date becomes current and has sessions
+                               break;
                            }
                         }
                         foreach( $sessionDetails['elements'] as $session )
