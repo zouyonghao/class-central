@@ -264,7 +264,7 @@ class CourseController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('course'));
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_admin'));
     }
 
     private function createDeleteForm($id)

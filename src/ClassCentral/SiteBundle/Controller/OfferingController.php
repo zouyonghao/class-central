@@ -212,7 +212,7 @@ class OfferingController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('offering'));
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_admin'));
     }
 
     private function createDeleteForm($id)
