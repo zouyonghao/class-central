@@ -53,6 +53,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         $userId = $this->getJob()->getUserId();
         $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array( 'id' => $userId) );
         $cache = $this->getContainer()->get('cache');
+        $rs = $this->getContainer()->get('review');
 
         if(!$user)
         {
@@ -142,10 +143,18 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 foreach( $args[UserCourse::LIST_TYPE_INTERESTED] as $courseId)
                 {
                     $course =  $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+
+                    // Get the review details
+                    $courseArray = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+                    $courseArray['rating'] = $rs->getRatings($course->getId());
+                    $courseArray['ratingStars'] = ReviewUtility::getRatingStars( $courseArray['rating'] );
+                    $rArray = $rs->getReviewsArray($course->getId());
+                    $courseArray['reviewsCount'] = $rArray['count'];
+
                     $courses[] = array(
                         'interested' => true,
                         'id' => $courseId,
-                        'course' => $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course )
+                        'course' => $courseArray
                     );
                 }
             }
@@ -154,10 +163,18 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                 foreach( $args[UserCourse::LIST_TYPE_ENROLLED] as $courseId)
                 {
                     $course =  $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+
+                    // Get the review details
+                    $courseArray = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+                    $courseArray['rating'] = $rs->getRatings($course->getId());
+                    $courseArray['ratingStars'] = ReviewUtility::getRatingStars( $courseArray['rating'] );
+                    $rArray = $rs->getReviewsArray($course->getId());
+                    $courseArray['reviewsCount'] = $rArray['count'];
+
                     $courses[] = array(
                         'interested' => false,
                         'id' => $courseId,
-                        'course' => $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course )
+                        'course' => $courseArray
                     );
                 }
             }
@@ -180,7 +197,6 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
         $em = $this->getContainer()->get('doctrine')->getManager();
         $rs = $this->getContainer()->get('review');
-        $courseArray = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
         $courseArray = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
         $courseArray['rating'] = $rs->getRatings($course->getId());
         $courseArray['ratingStars'] = ReviewUtility::getRatingStars( $courseArray['rating'] );
