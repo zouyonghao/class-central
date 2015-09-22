@@ -162,7 +162,7 @@ class SearchTermJob extends SchedulerJobAbstract {
         $mailgun = $this->getContainer()->get('mailgun');
 
         $response = $mailgun->sendMessage( array(
-            'from' => '"MOOC Tracker" <no-reply@class-central.com>',
+            'from' => '"Class Central\'s MOOC Tracker" <no-reply@class-central.com>',
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
