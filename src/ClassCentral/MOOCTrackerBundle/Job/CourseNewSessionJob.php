@@ -17,6 +17,7 @@ use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 
 class CourseNewSessionJob extends SchedulerJobAbstract{
 
@@ -42,7 +43,7 @@ class CourseNewSessionJob extends SchedulerJobAbstract{
         // Get counts for self paced and recently started courses
         $navController = new NavigationController();
         $counts = $navController->getNavigationCounts( $this->getContainer() );
-
+        $rs = $this->getContainer()->get('review');
         /**
          * Send notifications only for user courses
          */
@@ -68,10 +69,16 @@ class CourseNewSessionJob extends SchedulerJobAbstract{
             foreach( $courseIds as $cid)
             {
                 $course =  $em->getRepository('ClassCentralSiteBundle:Course')->find( $cid );
+                $courseArray = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+                $courseArray['rating'] = $rs->getRatings($course->getId());
+                $courseArray['ratingStars'] = ReviewUtility::getRatingStars( $courseArray['rating'] );
+                $rArray = $rs->getReviewsArray($course->getId());
+                $courseArray['reviewsCount'] = $rArray['count'];
+
                 $courses[] = array(
                     'interested' => true,
                     'id' => $cid,
-                    'course' => $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course )
+                    'course' => $courseArray
                 );
             }
 
@@ -124,7 +131,7 @@ class CourseNewSessionJob extends SchedulerJobAbstract{
         $mailgun = $this->getContainer()->get('mailgun');
 
         $response = $mailgun->sendMessage( array(
-            'from' => '"MOOC Tracker" <no-reply@class-central.com>',
+            'from' => '"Class Central\'s MOOC Tracker" <no-reply@class-central.com>',
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
