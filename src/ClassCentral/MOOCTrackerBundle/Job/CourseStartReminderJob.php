@@ -18,6 +18,7 @@ use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use InlineStyle\InlineStyle;
 
 /**
@@ -178,11 +179,17 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
     {
 
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $courseDetails = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+        $rs = $this->getContainer()->get('review');
+        $courseArray = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+        $courseArray = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+        $courseArray['rating'] = $rs->getRatings($course->getId());
+        $courseArray['ratingStars'] = ReviewUtility::getRatingStars( $courseArray['rating'] );
+        $rArray = $rs->getReviewsArray($course->getId());
+        $courseArray['reviewsCount'] = $rArray['count'];
 
         $templating = $this->getContainer()->get('templating');
         return $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:single.course.inlined.html', array(
-            'course' => $courseDetails,
+            'course' => $courseArray,
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
             'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
             'interested' => $isInterested,
@@ -238,7 +245,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         $mailgun = $this->getContainer()->get('mailgun');
 
         $response = $mailgun->sendMessage( array(
-            'from' => '"MOOC Tracker" <no-reply@class-central.com>',
+            'from' => '"Class Central\'s MOOC Tracker" <no-reply@class-central.com>',
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
