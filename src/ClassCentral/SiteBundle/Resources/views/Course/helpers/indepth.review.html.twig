@@ -1,17 +1,21 @@
 {% if course.indepthReview %}
-    {% set profileUrl = user_service.getProfileUrl( course.indepthReview.user.id, course.indepthReview.user.handle ) %}
+    {% set profileUrl = user_service.getProfileUrl( course.indepthReview.user.id, course.indepthReview.user.handle, course.indepthReview.user.isPrivate ) %}
     <div class="course-review-card">
         <div class="review-card">
             <div class="review-card__header">
                 <div class="review-card__image">
+                    {% if profileUrl is not empty %}
                     <a href="{{ profileUrl }}" title="{{ course.indepthReview.user.name }} MOOC Transcript"
                        onmousedown="ga('send','event','User Profile Click - InDepth Review','{{ course.name }}','{{ course.indepthReview.user.id  }}')"
                      >
+                        {% endif %}
                         <img src="{{  user_service.getProfilePic(course.indepthReview.user.id) }}"
                              alt="{{ course.indepthReview.user.name }}"
                              title="Review by {{ course.indepthReview.user.name }}"
                         >
+                    {% if profileUrl is not empty %}
                     </a>
+                    {% endif %}
                 </div>
                 <div class="review-card__info">
                     <div class="review-card__rating">

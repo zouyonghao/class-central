@@ -180,7 +180,8 @@ class CourseRepository extends EntityRepository{
                 'user'     => array(
                     'name' => $irUser->getDisplayName(),
                     'id'   => $irUser->getId(),
-                    'handle' => $irUser->getHandle()
+                    'handle' => $irUser->getHandle(),
+                    'isPrivate' => $irUser->getIsPrivate()
                 )
             );
         }
