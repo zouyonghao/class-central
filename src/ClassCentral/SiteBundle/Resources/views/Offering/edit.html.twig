@@ -1,5 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+
+{%  block headmeta %}
+    {% include 'ClassCentralSiteBundle:Course:tinymce.inc.html.twig' %}
+{% endblock %}
+
 {% block content %}
 <h1>Offering edit</h1>
 
@@ -23,4 +28,21 @@
         </form>
     </li>
 </ul>
+{% endblock %}
+
+
+{%  block beforeClosingBody %}
+    {% javascripts '@ClassCentralSiteBundle/Resources/public/slashpixel/js/selectize.min.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% stylesheets '@ClassCentralSiteBundle/Resources/public/slashpixel/css/selectize.bootstrap2.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block customJS %}
+    $(document).ready(function () {
+        $('#classcentral_sitebundle_offeringtype_course').selectize();
+    });
 {% endblock %}
