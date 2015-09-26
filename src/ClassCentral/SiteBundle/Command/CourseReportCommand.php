@@ -70,6 +70,11 @@ class CourseReportCommand extends ContainerAwareCommand
                 continue;
             }
 
+            if($offering->getStatus() == Offering::START_DATES_UNKNOWN)
+            {
+                continue;
+            }
+
             // Skip self paced courses
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
