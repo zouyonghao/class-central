@@ -174,3 +174,10 @@ ClassCentralSiteBundle_initiative_novoed:
           route: ClassCentralSiteBundle_initiative
           permanent: true # this is for 301
           type: novoed
+ClassCentralSiteBundle_initiative_coursesites:
+    pattern:  /provider/cs
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_initiative
+          permanent: true # this is for 301
+          type: open-education
