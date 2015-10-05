@@ -41,6 +41,30 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         $cache = $this->getContainer()->get('cache');
 
         /****
+         * Index courses
+         */
+        $offset = 0;
+        $limit = 100;
+        $count = 0;
+        do {
+            unset($courses);
+            $courses = $this->getContainer()->get('doctrine')->getManager()
+                ->getRepository('ClassCentralSiteBundle:Course')->findBy(
+                    array(),
+                    array(),
+                    100,
+                    $offset
+                );
+            foreach($courses as $course)
+            {
+                $indexer->index($course);
+                $count++;
+            }
+            $output->writeLn("$count courses indexed");
+            $offset += $limit;
+        } while($courses);
+
+        /****
          * Index Credentials
          */
         $credentials = $this->getContainer()->get('doctrine')->getManager()
@@ -136,23 +160,6 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
 
         $output->writeln("All subjects indexed");
 
-
-        /****
-         * Index courses
-         */
-        $courses = $this->getContainer()->get('doctrine')->getManager()
-                    ->getRepository('ClassCentralSiteBundle:Course')->findAll();
-        $count = 0;
-        foreach($courses as $course)
-        {
-            $indexer->index($course);
-            $count++;
-            if($count % 50 == 0)
-            {
-                $output->writeLn("$count courses indexed");
-            }
-        }
-        $output->writeln("$count courses indexed");
 
     }
 } 
