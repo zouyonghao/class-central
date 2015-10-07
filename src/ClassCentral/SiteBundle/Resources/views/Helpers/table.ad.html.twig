@@ -8,10 +8,12 @@
         <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
         <a class="course-name" rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}')" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
         <ul class="table-uni-list">
-            <li>
-                <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onclick="ga('send','event', 'Inbound Clicks - University', '{{ institutionName }}', '{{ courseName }}')">{{ institutionName }}</a>
+            {% if institutionName is not defined %}
+                <li>
+                    <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onclick="ga('send','event', 'Inbound Clicks - University', '{{ institutionName }}', '{{ courseName }}')">{{ institutionName }}</a>
 
-            </li>
+                </li>
+            {% endif %}
             <span class="via">via</span>
             <a rel="nofollow" href="{{ providerUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick="ga('send','event', 'Table Ad - Provider', '{{ providerName }}', '{{ courseName }}')">{{ providerName }}</a>
         </ul>
