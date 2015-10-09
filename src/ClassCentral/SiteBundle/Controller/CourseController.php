@@ -7,6 +7,7 @@ use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Form\SignupType;
+use ClassCentral\SiteBundle\Services\Filter;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
@@ -350,6 +351,9 @@ class CourseController extends Controller
        $em->getConnection()->executeUpdate("INSERT INTO user_courses_tracking(user_identifier,course_id)
                                 VALUES ('$sessionId', $courseId)");
 
+       $rankings = $this->get('cache')->get('course_rankings', array($this,'generateCourseRankings'));
+       $courseRank = isset($rankings[$courseId]) ?  $rankings[$courseId] : array();
+
        // Recently viewed
        $userSession = $this->get('user_session');
        $recentlyViewedCourseIds = $userSession->getRecentlyViewed();
@@ -431,6 +435,7 @@ class CourseController extends Controller
                  'courseImage' => $this->getCourseImage( $courseId),
                  'ratingStars' => ReviewUtility::getRatingStars( $rating ),
                  'interestedUsers' => $interestedUsers,
+                 'courseRank' =>$courseRank
        ));
     }
 
@@ -1005,6 +1010,60 @@ EOD;
                 'offeringTypes' => Offering::$types,
                 'showHeader' => true
             ));
+    }
+
+
+    public function generateCourseRankings()
+    {
+        $rankings = array();
+        $finder = $this->get('course_finder');
+        $subjects = $this->getDoctrine()
+                        ->getRepository('ClassCentralSiteBundle:Stream')->findAll( );
+
+        foreach($subjects as $subject)
+        {
+            $results = $finder->bySubject( $subject->getSlug(), array(), Filter::getQuerySort(array('sort'=>'rating-up')));
+            $rank = 1;
+            foreach( $results['hits']['hits'] as $result)
+            {
+                $course = $result['_source'];
+
+                if( empty($rankings[$course['id']] ) ) $rankings[$course['id']] = array();
+
+                $category = array();
+                $parentSubject = array();
+                if( $subject->getParentStream() )
+                {
+                    $category = array(
+                        'name' => $subject->getName(),
+                        'slug' => $subject->getSlug()
+                    );
+
+                    $parentSubject = array(
+                        'name' => $subject->getParentStream()->getName(),
+                        'slug' => $subject->getParentStream()->getSlug()
+                    );
+                }
+                else
+                {
+                    $parentSubject =array(
+                        'name' => $subject->getName(),
+                        'slug' => $subject->getSlug()
+                    );
+                }
+
+                $rankings[$course['id']][] = array(
+                    'rank' => $rank,
+                    'subject' => $parentSubject,
+                    'category' => $category
+                );
+
+                if($rank == 3) break;
+                $rank++;
+            }
+        }
+
+        return $rankings;
     }
 
 }
