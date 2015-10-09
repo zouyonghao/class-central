@@ -13,9 +13,8 @@ class Scraper extends ScraperAbstractInterface
     const BASE_URL = "https://www.edx.org";
     const COURSE_CATALOGUE = "https://www.edx.org/course-list/allschools/allsubjects/allcourses";
     const EDX_COURSE_LIST_CSV = "https://www.edx.org/api/report/course-feed/export";
-    const EDX_RSS_API = "https://www.edx.org/api/report/course-feed/rss";
-    // CONVERTED RSS TO JSON using Yahoo Pipes
-    const EDX_RSS_API_JSON = 'http://pipes.yahoo.com/pipes/pipe.run?_id=e2255dca4445cde56275caa98c5f0125&_render=json';
+    const EDX_RSS_API = "https://www.edx.org/api/v2/report/course-feed/rss?page=%s";
+
 
     private $courseFields = array(
         'Url', 'Description', 'Length', 'Name','LongDescription','VideoIntro', 'VerifiedCertificate','Certificate'
@@ -31,30 +30,45 @@ class Scraper extends ScraperAbstractInterface
     public function scrape()
     {
 
-        $this->buildSelfPacedCourseList();
+        //$this->buildSelfPacedCourseList();
 
         $tagService = $this->container->get('tag');
 
         // Get the course list from the new RSS API
-        $edxCourses = file_get_contents(self::EDX_RSS_API_JSON);
-        $edxCourses = json_decode( $edxCourses, true);
 
-        foreach( $edxCourses['value']['items'] as $edxCourse )
+        $page = 0;
+
+        while(true) {
+
+            $page++;
+            $this->out("Retrieving PAGE #" . $page);
+            $edxCourses = file_get_contents(sprintf(self::EDX_RSS_API,$page));
+            $edxCourses = str_replace("course:","course-",$edxCourses);
+            $edxCourses = str_replace("staff:","staff-",$edxCourses);
+            $simpleXml = simplexml_load_string($edxCourses);
+            $edxCourses = json_encode($simpleXml);
+
+            $edxCourses = json_decode( $edxCourses, true);
+            if(empty( $edxCourses['channel']['item']))
+            {
+                break;
+            }
+
+        foreach( $edxCourses['channel']['item'] as $edxCourse )
         {
             $em = $this->getManager();
             $course = $this->getCourseEntity( $edxCourse );
-
             $cTags = array();
-            if(is_array( $edxCourse['course:school'] ))
+            if(is_array( $edxCourse['course-school'] ))
             {
-                foreach( $edxCourse['course:school']  as $school)
+                foreach( $edxCourse['course-school']  as $school)
                 {
                     $cTags[] = strtolower($school);
                 }
             }
             else
             {
-                $cTags[] = strtolower($edxCourse['course:school'] );
+                $cTags[] = strtolower($edxCourse['course-school'] );
             }
 
 
@@ -88,6 +102,22 @@ class Scraper extends ScraperAbstractInterface
                     // NEW COURSE
                     if ($this->doModify())
                     {
+                        // Add instructors
+                        if(!empty($edxCourse['course-instructors']['course-staff']['staff-name']))
+                        {
+                            print_r( $edxCourse['course-instructors']['course-staff']['staff-name'] );
+                            $insName = $edxCourse['course-instructors']['course-staff']['staff-name'];
+                            $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+                        }
+                        elseif( !empty( $edxCourse['course-instructors']['course-staff'] ))
+                        {
+                            foreach( $edxCourse['course-instructors']['course-staff'] as $staff )
+                            {
+                                $insName = $staff['staff-name'];
+                                $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+                            }
+                        }
+
                         $em->persist($course);
                         $em->flush();
 
@@ -95,10 +125,13 @@ class Scraper extends ScraperAbstractInterface
 
                         $this->dbHelper->sendNewCourseToSlack( $course, $this->initiative );
 
-                        if($edxCourse['course:image-banner'])
+                        if($edxCourse['course-image-banner'])
                         {
-                            $this->uploadImageIfNecessary( $edxCourse['course:image-banner'], $course);
+                            $this->uploadImageIfNecessary( $edxCourse['course-image-banner'], $course);
                         }
+
+
+
                     }
                 }
             }
@@ -141,9 +174,9 @@ class Scraper extends ScraperAbstractInterface
                         // Update tags
                         $tagService->saveCourseTags( $dbCourse, $cTags);
 
-                        if($edxCourse['course:image-banner'])
+                        if($edxCourse['course-image-banner'])
                         {
-                            $this->uploadImageIfNecessary( $edxCourse['course:image-banner'], $dbCourse);
+                            $this->uploadImageIfNecessary( $edxCourse['course-image-banner'], $dbCourse);
                         }
                     }
 
@@ -162,17 +195,17 @@ class Scraper extends ScraperAbstractInterface
             $offering->setCourse( $course );
             $offering->setUrl( $edxCourse['link'] );
             $offering->setStatus( Offering::START_DATES_KNOWN );
-            $offering->setStartDate( new \DateTime( $edxCourse['course:start'] ) );
+            $offering->setStartDate( new \DateTime( $edxCourse['course-start'] ) );
 
-            if( empty($edxCourse['course:end']) )
+            if( empty($edxCourse['course-end']) )
             {
                 // Put an end date for 4 weeks in the future
-                $endDate = new \DateTime(   $edxCourse['course:start'] );
+                $endDate = new \DateTime(   $edxCourse['course-start'] );
                 $endDate->add(new \DateInterval("P30D") );
             }
             else
             {
-                $endDate = new \DateTime(  $edxCourse['course:end'] );
+                $endDate = new \DateTime(  $edxCourse['course-end'] );
             }
             $offering->setEndDate( $endDate );
 
@@ -230,6 +263,7 @@ class Scraper extends ScraperAbstractInterface
             }
 
         }
+        }
 
         return $offerings;
 
@@ -254,23 +288,23 @@ class Scraper extends ScraperAbstractInterface
         $course = new Course();
         $course->setShortName( $this->getShortName($c) );
         $course->setInitiative( $this->initiative );
-        $course->setName( $c['course:code'] . ': ' . $c['title'] );
+        $course->setName( $c['course-code'] . ': ' . $c['title'] );
         $course->setDescription( $c['description'] );
         $course->setLongDescription( nl2br($c['description']) );
         $course->setLanguage( $defaultLanguage);
         $course->setStream($defaultStream); // Default to Computer Science
-        $course->setVideoIntro( $c['course:video-youtube']);
+        $course->setVideoIntro( $c['course-video-youtube']);
         $course->setUrl($c['link']);
 
         $course->setCertificate( true );
-        $course->setVerifiedCertificate( $c['course:verified'] );
+        $course->setVerifiedCertificate( $c['course-verified'] );
 
         // Calculate length
         $length = null;
-        if( !empty($c['course:end']))
+        if( !empty($c['course-end']))
         {
-            $start = new \DateTime( $c['course:start'] );
-            $end = new \DateTime( $c['course:end'] );
+            $start = new \DateTime( $c['course-start'] );
+            $end = new \DateTime( $c['course-end'] );
             $length = ceil( $start->diff($end)->days/7 );
         }
 
@@ -281,12 +315,12 @@ class Scraper extends ScraperAbstractInterface
 
     private function getShortName( $details )
     {
-        $school = $details['course:school'];
-        if(is_array($details['course:school']))
+        $school = $details['course-school'];
+        if(is_array($details['course-school']))
         {
-            $school = array_pop( $details['course:school'] );
+            $school = array_pop( $details['course-school'] );
         }
-        return 'edx_' . strtolower( $details['course:code'] . '_' . $school );
+        return 'edx_' . strtolower( $details['course-code'] . '_' . $school );
     }
 
     /**
