@@ -191,6 +191,10 @@ class CredentialDocumentType extends DocumentType {
         {
             $bulletPoints[] = count($body['courses']) - 1 . ' courses + capstone project ';
         }
+        elseif ($provider->getName() == 'HBX')
+        {
+            $bulletPoints[] = '3 courses and a final exam. Application Required';
+        }
 
 
         if( $formatter->getEnrollment() )

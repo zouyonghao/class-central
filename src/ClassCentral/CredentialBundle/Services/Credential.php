@@ -77,6 +77,9 @@ class Credential {
             case 'xseries':
                 return array('name'=>'XSeries', 'slug' => 'xseries');
                 break;
+            case 'hbxcore':
+                return array('name'=>'HBX CORe', 'slug' => 'hbxcore');
+                break;
         }
 
     }
