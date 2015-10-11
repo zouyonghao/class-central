@@ -48,9 +48,12 @@ class UpdateRecommendationsCommand extends ContainerAwareCommand {
         {
             if($course->getStatus() == CourseStatus::NOT_AVAILABLE) continue;
 
+            // Delete previous recommendations
+            $em->getConnection()->exec("DELETE FROM courses_recommendations WHERE course_id=" . $course->getId());
+
             // Check if recommendations already exist
-            $recos = $em->getRepository('ClassCentralSiteBundle:CourseRecommendation')->findBy(array('course'=>$course));
-            if($recos) continue; // recommendations already exists
+            // $recos = $em->getRepository('ClassCentralSiteBundle:CourseRecommendation')->findBy(array('course'=>$course));
+            // if($recos) continue; // recommendations already exists
 
             $output->writeln($course->getName());
             // 1. Get all the users interested in the course
