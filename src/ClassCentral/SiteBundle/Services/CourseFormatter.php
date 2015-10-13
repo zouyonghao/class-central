@@ -94,12 +94,22 @@ class CourseFormatter {
                 $ratingsLine = " | $formattedRatings (<a href='$url#course-all-reviews'>$numRatings $post</a>) ";
             }
 
+            $lineDesc = '';
+            if($course->getOneliner())
+            {
+                $lineDesc = $course->getOneliner() . "<br/>";
+            }
+            elseif ($course->getDescription())
+            {
+                $lineDesc = $course->getDescription() . "<br/>";
+            }
 
 
-            $line3 = "<b> <a href='$directUrl' target='_blank'>Go To Class</a> $ratingsLine | Next Session : $displayDate </b><br/>";
+
+            $line3 = "<b> <a href='$directUrl' target='_blank'>Go To Class</a> $ratingsLine | Next Session : [course_date id={$course->getId()}] </b><br/>";
         }
 
-        return $line1 . '<br/>' . $line2 . '<br/>' . $line3 . '<br/>';
+        return $line1 . '<br/>' . $line2 . '<br/>' . $lineDesc.$line3 . '<br/>';
     }
 
     public function emailFormat (Course $course)
