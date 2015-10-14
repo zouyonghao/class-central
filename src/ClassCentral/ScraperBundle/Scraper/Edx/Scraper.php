@@ -14,6 +14,8 @@ class Scraper extends ScraperAbstractInterface
     const COURSE_CATALOGUE = "https://www.edx.org/course-list/allschools/allsubjects/allcourses";
     const EDX_COURSE_LIST_CSV = "https://www.edx.org/api/report/course-feed/export";
     const EDX_RSS_API = "https://www.edx.org/api/v2/report/course-feed/rss?page=%s";
+    const EDX_CARDS_API = "https://www.edx.org/api/discovery/v1/course_run_cards";
+    public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251);
 
 
     private $courseFields = array(
@@ -29,6 +31,13 @@ class Scraper extends ScraperAbstractInterface
      */
     public function scrape()
     {
+
+        if($this->isCredential)
+        {
+            $this->scrapeCredentials();
+            return;
+        }
+
 
         //$this->buildSelfPacedCourseList();
 
@@ -491,6 +500,53 @@ class Scraper extends ScraperAbstractInterface
         {
             return true;
         }
+    }
+
+    public function scrapeCredentials()
+    {
+
+
+        foreach(self::$EDX_XSERIES_GUID as $guid)
+        {
+            $xseries = json_decode(file_get_contents(
+                sprintf( 'https://www.edx.org/node/%s.json?deep-load-refs=1',$guid )),
+                true);
+            $this->out($xseries['title']);
+        }
+
+        /**
+        $edXCourses = json_decode(file_get_contents( 'https://www.edx.org/search/api/all' ),true);
+        foreach($edXCourses as $edXCourse)
+        {
+             if(in_array('xseries',$edXCourse['types']))
+             {
+                $this->out( $edXCourse['l'] );
+                 $guid = $edXCourse['guid'];
+                 var_dump($guid);
+                 continue;
+                 $xseries = json_decode(file_get_contents(
+                     sprintf( 'https://www.edx.org/node/%s.json?deep-load-refs=1',$guid )),
+                     true);
+
+
+
+             }
+        }
+
+        return;
+
+        $edXCourses = json_decode(file_get_contents( self::EDX_CARDS_API ),true);
+        foreach($edXCourses as $edXCourse)
+        {
+            if( isset($edXCourse['attributes']['xseries'] ) )
+            {
+                $this->out($edXCourse['title']);
+                $xseriesId = $edXCourse['attributes']['xseries'];
+
+                var_dump(  $edXCourse['attributes'] );
+            }
+        }
+         */
     }
 
 }
