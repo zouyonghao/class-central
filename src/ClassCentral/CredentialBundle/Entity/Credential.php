@@ -3,6 +3,7 @@
 namespace ClassCentral\CredentialBundle\Entity;
 
 use ClassCentral\CredentialBundle\Formatters\CourseraCredentialFormatter;
+use ClassCentral\CredentialBundle\Formatters\EdXCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\HBXCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\UdacityCredentialFormatter;
 use Doctrine\ORM\Mapping as ORM;
@@ -876,7 +877,10 @@ class Credential
                 $formatter = new UdacityCredentialFormatter( $this  );
                 break;
             case 'HBX':
-                $formatter = new HBXCredentialFormatter( $this  );
+                $formatter = new HBXCredentialFormatter( $this );
+                break;
+            case 'edX':
+                $formatter = new EdXCredentialFormatter( $this );
                 break;
             default:
                 throw new \Exception("Credential formatter for this provider does not exist");
