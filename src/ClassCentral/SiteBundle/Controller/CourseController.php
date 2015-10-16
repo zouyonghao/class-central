@@ -416,6 +416,16 @@ class CourseController extends Controller
         $recommendations = $this->get('Cache')->get('course_recommendation_'. $courseId, array($this,'getCourseRecommendations'), array($courseId));
         $interestedUsers = $em->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
 
+        // Only for admin users. Detect potential duplicates
+        $potentialDuplicates = array();
+        if( $this->get('security.context')->isGranted('ROLE_ADMIN') )
+        {
+            // Run a keyword search with the course
+            $cl = $this->get('course_listing');
+            $potentialDuplicates = $cl->search( $course['name'], $request );
+            $potentialDuplicates['courses']['hits']['hits'] = array_slice( $potentialDuplicates['courses']['hits']['hits'], 0 ,5 );
+        }
+
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
@@ -435,7 +445,8 @@ class CourseController extends Controller
                  'courseImage' => $this->getCourseImage( $courseId),
                  'ratingStars' => ReviewUtility::getRatingStars( $rating ),
                  'interestedUsers' => $interestedUsers,
-                 'courseRank' =>$courseRank
+                 'courseRank' =>$courseRank,
+                 'potentialDuplicates' => $potentialDuplicates
        ));
     }
 

@@ -88,6 +88,10 @@
 
     {# Links for admin #}
     {% if is_granted('ROLE_ADMIN') %}
+        {% if potentialDuplicates['courses']['hits']['total'] > 0 %}
+            <p><b>POTENTIAL DUPLICATES</b></p>
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':potentialDuplicates['courses'],'tableId':'searchtable', 'showHeader':0, 'hideLoadMore':true} %}
+        {% endif %}
 
         <p><b>Links for Admin</b></p>
         <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
