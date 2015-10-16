@@ -2,11 +2,13 @@
 
 namespace ClassCentral\ScraperBundle\Scraper\Edx;
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Services\Kuber;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 
 class Scraper extends ScraperAbstractInterface
 {
@@ -16,6 +18,9 @@ class Scraper extends ScraperAbstractInterface
     const EDX_RSS_API = "https://www.edx.org/api/v2/report/course-feed/rss?page=%s";
     const EDX_CARDS_API = "https://www.edx.org/api/discovery/v1/course_run_cards";
     public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251);
+    private $credentialFields = array(
+        'Url','Description','Name', 'OneLiner', 'SubTitle'
+    );
 
 
     private $courseFields = array(
@@ -511,7 +516,8 @@ class Scraper extends ScraperAbstractInterface
             $xseries = json_decode(file_get_contents(
                 sprintf( 'https://www.edx.org/node/%s.json?deep-load-refs=1',$guid )),
                 true);
-            $this->out($xseries['title']);
+            $credential = $this->getCredential($xseries);
+            $this->saveOrUpdateCredential( $credential, $xseries['field_xseries_banner_image']['file']['uri'] );
         }
 
         /**
@@ -549,4 +555,61 @@ class Scraper extends ScraperAbstractInterface
          */
     }
 
+
+    public function getCredential( $xseries )
+    {
+        $credential = new Credential();
+        $credential->setName( $xseries['title'] );
+        $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
+        $credential->setPrice(0);
+        $credential->setSlug( UniversalHelper::getSlug( $credential->getName()) . '-xseries'   );
+        $credential->setInitiative( $this->initiative );
+        $credential->setUrl( $xseries['url'] );
+        $credential->setOneLiner( $xseries['field_xseries_subtitle'] );
+        $credential->setSubTitle( $xseries['field_xseries_subtitle_short'] );
+        $credential->setDescription( $xseries['body']['value'] .  $xseries['field_xseries_overview']['value'] );
+
+        return $credential;
+    }
+
+    /**
+     * @param Credential $credential
+     */
+    private function saveOrUpdateCredential(Credential $credential, $imageUrl)
+    {
+        $dbCredential = $this->dbHelper->getCredentialBySlug( $credential->getSlug() ) ;
+        $em = $this->getManager();
+        if( !$dbCredential )
+        {
+            if($this->doCreate())
+            {
+                $this->out("New Credential - " . $credential->getName() );
+                if ($this->doModify())
+                {
+                    $em->persist( $credential );
+                    $em->flush();
+
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential);
+                }
+            }
+        }
+        else
+        {
+            // Update the credential
+            $changedFields = $this->dbHelper->changedFields($this->credentialFields,$credential,$dbCredential);
+            if(!empty($changedFields) && $this->doUpdate())
+            {
+                $this->out("UPDATE CREDENTIAL - " . $dbCredential->getName() );
+                $this->outputChangedFields( $changedFields );
+                if ($this->doModify())
+                {
+                    $em->persist($dbCredential);
+                    $em->flush();
+
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential);
+                }
+            }
+
+        }
+    }
 }

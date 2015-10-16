@@ -9,7 +9,7 @@
 namespace ClassCentral\CredentialBundle\Formatters;
 
 
-class EdXCredentialFormatter extends CredentialFormatterAbstract
+class EdxCredentialFormatter extends CredentialFormatterAbstract
 {
 
     public function getCertificateName()
