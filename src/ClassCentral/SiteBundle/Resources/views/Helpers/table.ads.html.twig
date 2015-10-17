@@ -39,70 +39,32 @@
         </tr>
 
     {% elseif ad == 1 %}
-    <tr>
-
-        <td class="add-column">
-            <span class="label label-warning ">Ad</span>
-        </td>
-
-        <td class="course-name-column">
-            <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
-            <a rel="nofollow" class="course-name" target="_blank" href="https://novoed.com/philanthropy-initiative?referral_token=PLCC0000" onmousedown="ga('send','event', 'Table Ad', 'NovoEd - {{ tableId }}', 'Philanthropy University: Leadership & Management Skills for Change Makers')" title="Philanthropy University: Leadership & Management Skills for Change Makers"><span itemprop="name">Philanthropy University: Leadership & Management Skills for Change Makers</span></a>
-            <ul class="table-uni-list">
-                <span class="via">via</span>
-                <a rel="nofollow" href="https://novoed.com/?referral_token=PLCC0000" target="_blank" class="initiativelinks" onclick="ga('send','event', 'Table Ad - Provider', 'NovoEd', 'Philanthropy University: Leadership & Management Skills for Change Makers')">NovoEd</a>
-            </ul>
-        </td>
-
-        {% if page is defined and page != 'stream' and page=='home' %}
-            <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'Philanthropy University: Leadership & Management Skills for Change Makers')" data-category="Business & Management">Business & Management</a>
-            </td>
-        {% endif %}
-
-        <td class="start-date">Sept, 2015</td>
-
-        <td data-timestamp="5" class="course-rating-column">
-            <div class="rating-and-count-wrap">
-                <div class="course-rating" data-score="5" ></div>
-            </div>
-        </td>
+     {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': 'Giving and Receiving Feedback',
+        'courseUrl' : 'https://novoed.com/Giving-and-Receiving-Feedback-Fall-2015?referral_token=PLCC0000',
+        'courseDate': '2nd Nov, 2015',
+        'providerName':'NovoEd',
+        'providerUrl' : 'https://novoed.com/?referral_token=PLCC0000',
+        'institutionName':'',
+        'institutionUrl': '',
+        'subjectName': 'Business & Management',
+        'subjectSlug':'business'
+        } %}
 
     </tr>
 
     {% elseif ad == 2 %}
-        <tr>
-
-            <td class="add-column">
-                <span class="label label-warning">Ad</span>
-            </td>
-
-            <td class="course-name-column">
-                <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
-                <a rel="nofollow" class="course-name" target="_blank" href="https://novoed.com/philanthropy-university-entrepreneurship?referral_token=PLCC0001" onmousedown="ga('send','event', 'Table Ad', 'NovoEd - {{ tableId }}', 'Global Social Entrepreneurship')" title="Global Social Entrepreneurship"><span itemprop="name">Global Social Entrepreneurship</span></a>
-                <ul class="table-uni-list">
-                    <li>
-                        <a class="uni-name" href="https://novoed.com/philanthropy-initiative?referral_token=PLCC0001" title="List of Philanthropy University MOOCs" onclick="ga('send','event', 'Inbound Clicks - University', 'Philanthropy University', 'Global Social Entrepreneurship')">Philanthropy University</a>
-                    </li>
-
-                    <span class="via">via</span>
-                    <a rel="nofollow" href="https://novoed.com/?referral_token=PLCC0001" target="_blank" class="initiativelinks" onclick="ga('send','event', 'Table Ad - Provider', 'NovoEd', 'Global Social Entrepreneurship')">NovoEd</a>
-                </ul>
-            </td>
-
-            {% if page is defined and page != 'stream' and page=='home' %}
-                <td class="subject-column"> <a class="subject" href="/subject/business" title="List of Business & Management MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', 'Business & Management', 'Global Social Entrepreneurship')" data-category="Business & Management">Business & Management</a>
-                </td>
-            {% endif %}
-
-            <td class="start-date">29th Sept, 2015</td>
-
-            <td data-timestamp="5" class="course-rating-column">
-                <div class="rating-and-count-wrap">
-                    <div class="course-rating" data-score="5" ></div>
-                </div>
-            </td>
-
-        </tr>
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': 'Giving and Receiving Feedback',
+        'courseUrl' : 'https://novoed.com/Giving-and-Receiving-Feedback-Fall-2015?referral_token=PLCC0000',
+        'courseDate': '2nd Nov, 2015',
+        'providerName':'NovoEd',
+        'providerUrl' : 'https://novoed.com/?referral_token=PLCC0000',
+        'institutionName':'',
+        'institutionUrl': '',
+        'subjectName': 'Business & Management',
+        'subjectSlug':'business'
+        } %}
 
     {% else %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
