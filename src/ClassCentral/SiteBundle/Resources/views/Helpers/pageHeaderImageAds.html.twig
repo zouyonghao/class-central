@@ -1,0 +1,31 @@
+{% set ad = random(2) %}
+
+{% if ad == 0 %}
+
+    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+        'url': 'https://www.futurelearn.com/?utm_source=ClassCentral&utm_medium=BannerAd&utm_content=FLhp&utm_campaign=CC_trial_16-10-2015',
+        'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/CCbanner_Join-now.jpg',
+        'desc': "Join 2.4 million learners at FutureLearn. Try free online courses from top universities.",
+        'provider' : 'FutureLearn'
+    } %}
+
+{% elseif ad == 1 %}
+
+    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+    'url': 'https://www.futurelearn.com/courses/explore-filmmaking?utm_source=ClassCentral&utm_medium=BannerAd&utm_content=filmmaking&utm_campaign=CC_trial_16-10-2015',
+    'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/CCbanner_explorefilm.jpg',
+    'desc': "Learn how movies are made from award-winning filmmakers in this free online course.",
+    'provider' : 'FutureLearn'
+    } %}
+
+{% elseif ad == 2 %}
+
+    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+    'url': 'https://www.futurelearn.com/learning-guide?utm_source=ClassCentral&utm_medium=BannerAd&utm_content=guide&utm_campaign=CC_trial_16-10-2015',
+    'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/CCbanner_crowdsourced_withbutton.jpg',
+    'desc': "Get useful study tips. Download your free copy of The Crowdsourced Guide to Learning.",
+    'provider' : 'FutureLearn'
+    } %}
+
+{% endif %}
+
