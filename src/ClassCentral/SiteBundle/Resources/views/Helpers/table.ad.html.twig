@@ -1,3 +1,4 @@
+{% if tableAd == true %}
 <tr>
     <td class="add-column">
         <span class="label label-warning">Ad</span>
@@ -8,7 +9,7 @@
         <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
         <a class="course-name" rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}')" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
         <ul class="table-uni-list">
-            {% if institutionName is not defined %}
+            {% if institutionName is not empty %}
                 <li>
                     <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onclick="ga('send','event', 'Inbound Clicks - University', '{{ institutionName }}', '{{ courseName }}')">{{ institutionName }}</a>
 
@@ -33,3 +34,22 @@
     </td>
 
 </tr>
+{% else %}
+    <div class="course-meta__ad">
+        <div class="ad-strip ad-strip--white">
+            <div class="ad-strip__icon">
+                AD
+            </div>
+            <div class="ad-strip__content">
+                    <span class="ad-strip__large-text">
+                        <a href="{{ courseUrl }}" target="_blank" rel="nofollow" onmousedown="ga('send','event', 'Course Page Ad', '{{ providerName }}', '{{ courseName }}')"> {{ courseName }} </a>
+                    </span>
+
+                    <span class="ad-strip__small-text">
+                        {% if institutionName is not empty %} {{ institutionName }}{% endif %} via
+                        <a rel="nofollow" href="{{ providerUrl }}" target="_blank" onmousedown="ga('send','event', 'Course Page Ad - Provider', '{{ providerName }}', '{{ courseName }}')">{{ providerName }}</a>
+                    </span>
+            </div>
+        </div>
+    </div>
+{% endif %}

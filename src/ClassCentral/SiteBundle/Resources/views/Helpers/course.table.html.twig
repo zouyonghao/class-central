@@ -91,7 +91,7 @@
     </thead>
     <tbody class="table-body-{{ tableId }}" id="course-listing-tbody">
 {% endif %}
-    {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' %}
+    {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { tableAd: true } %}
 
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}

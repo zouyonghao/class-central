@@ -83,15 +83,10 @@
         {% set hideCreateReview = true %}
     {% endif %}
 
-    <h2 class="section-heading"><span>Course Details</span></h2>
     {% set reviewUrl = path('review_new',{courseId: course.id})%}
 
     {# Links for admin #}
     {% if is_granted('ROLE_ADMIN') %}
-        {% if potentialDuplicates['courses']['hits']['total'] > 0 %}
-            <p><b>POTENTIAL DUPLICATES</b></p>
-            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':potentialDuplicates['courses'],'tableId':'searchtable', 'showHeader':0, 'hideLoadMore':true} %}
-        {% endif %}
 
         <p><b>Links for Admin</b></p>
         <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
@@ -104,11 +99,15 @@
             {% set bufferFrom = 'from ' ~ course.institutions[0].name %}
         {% endif %}
         <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}via {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ reviews.ratingCount }} {% if reviews.ratingCount > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}via {{ course.initiative.name }}{% endif %}. Starts {{ course.nextOffering.displayDate }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {% if course.initiative %}via {{ course.initiative.name }}{% endif %}. Starts {{ course.nextOffering.displayDate }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
     {% endif %}
     <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
+
+        {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { tableAd: false } %}
+
+
         <div class="course-meta-main border-radius">
 
             <div class="course-video js-course-video">
@@ -179,36 +178,12 @@
 
                 {% if course.credential is not empty %}
                     <div class="course-name-column-cred" style="padding-left:45px;margin-bottom: 25px">
-                        <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">
-                            <span class="course-name-column-cred__button" >Earn A Credential</span>
-                            <span class="course-name-column-cred__text"> Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</a> </span>
-                        </a>
+                        <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" class="course-name-column-cred__button" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">Earn A Credential</a>
+                        <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
                     </div>
                 {% endif %}
 
-
-
                 <div class="course-desc">
-
-                    {% if courseRank is not empty %}
-                        <strong>Class Central Course Rank </strong> <br/>
-                        {% for rank in courseRank %}
-                            <strong>
-                                #{{ rank.rank }} in <a href="{{ path('subjects') }}">Subjects</a>
-                                {% if rank.subject %}
-                                    > <a href="{{ path('ClassCentralSiteBundle_stream',{slug:rank.subject.slug}) }}">{{ rank.subject.name  }}</a>
-                                {% endif %}
-                                {% if rank.category %}
-                                    > <a href="{{ path('ClassCentralSiteBundle_stream',{slug:rank.category.slug}) }}">{{ rank.category.name  }}</a>
-                                 {% endif %}
-                            </strong>
-                            <br/>
-                        {% endfor %}
-                        <br/>
-                    {% endif %}
-
-
-
                     {{ course.desc|raw }}
 
                     {% if course.syllabus %}
@@ -637,7 +612,7 @@
             </div>
         </div>
     {% endif %}
-   
+
     <div class="col-sm-12 course-col">
         <div class="course-all-reviews" id="course-all-reviews">
             <header class="reviews-header" id="reviews">
