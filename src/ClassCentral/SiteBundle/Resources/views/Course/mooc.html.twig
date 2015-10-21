@@ -504,7 +504,19 @@
 
     <div class="col-sm-8 col-lg-9 course-bottom-wrap">
     <div class="row">
-    <div class="col-md-6 course-col">
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+            {% if potentialDuplicates['courses']['hits']['total'] > 0 %}
+                <p><b>POTENTIAL DUPLICATES</b></p>
+                {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':potentialDuplicates['courses'],'tableId':'searchtable', 'showHeader':0, 'hideLoadMore':true} %}
+            {% endif %}
+
+        {% endif %}
+
+
+        <div class="col-md-6 course-col">
+
 
         <div class="faq-wrap">
             <h5 class="faq-heading">
