@@ -172,7 +172,6 @@ class ReviewController extends Controller {
             // Either the user is an admin or the person who created the review
             if(!$isAdmin && $user->getId() != $review->getUser()->getId())
             {
-                exit("dfadsfasfsf");
                 return "You do not have access to this page";
             }
             $course = $review->getCourse();
