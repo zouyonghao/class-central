@@ -6,7 +6,7 @@
           content="Class Central ratings are the most trusted measurement of quality for online courses. Now you can easily decide which {{ provider.name }} course to take next."/>
 
     <meta property="og:title" content="List of {{provider.name}} free online courses/MOOCs | Class Central" />
-    <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': provider.code}) }}" />
+    <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': provider.code|lower}) }}" />
     {% if pageInfo.imageUrl %}
         <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
     {% else %}
