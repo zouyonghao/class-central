@@ -106,7 +106,7 @@ class CourseFormatter {
 
 
 
-            $line3 = "<b> <a href='$directUrl' target='_blank'>Go To Class</a> $ratingsLine | Next Session : [course_date id={$course->getId()}] </b><br/>";
+            $line3 = "<b> <a href='$directUrl' target='_blank'>Go To Class</a> $ratingsLine | Next Session : $displayDate </b><br/>";
         }
 
         return $line1 . '<br/>' . $line2 . '<br/>' . $lineDesc.$line3 . '<br/>';
