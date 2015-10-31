@@ -11,7 +11,7 @@ class HTMLNetwork extends NetworkAbstractInterface
     {
 
           $name   = strtoupper($stream->getName());
-          $url = "https://www.class-central.com/stream/". $stream->getSlug();
+          $url = "https://www.class-central.com/subject/". $stream->getSlug();
 
 
         $this->output->writeln("<h2><a href='$url'>$name ($offeringCount)</a></h2>");
