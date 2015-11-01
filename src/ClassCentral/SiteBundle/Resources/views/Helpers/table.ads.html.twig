@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
 
-    {% set ad = random(4) %}
+    {% set ad = random(2) %}
 
     {% if ad == 0 %}
 
@@ -18,37 +18,7 @@
             }
         %}
 
-    {% elseif ad == 1 %}
-     {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
-        'courseName': 'Giving and Receiving Feedback',
-        'courseUrl' : 'https://novoed.com/Giving-and-Receiving-Feedback-Fall-2015?referral_token=PLCC0000',
-        'courseDate': '2nd Nov, 2015',
-        'providerName':'NovoEd',
-        'providerUrl' : 'https://novoed.com/?referral_token=PLCC0000',
-        'institutionName':'',
-        'institutionUrl': '',
-        'subjectName': 'Business & Management',
-        'subjectSlug':'business',
-        'tableAd' : tableAd
-        } %}
-
-    </tr>
-
-    {% elseif ad == 2 %}
-        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
-        'courseName': 'Giving and Receiving Feedback',
-        'courseUrl' : 'https://novoed.com/Giving-and-Receiving-Feedback-Fall-2015?referral_token=PLCC0000',
-        'courseDate': '2nd Nov, 2015',
-        'providerName':'NovoEd',
-        'providerUrl' : 'https://novoed.com/?referral_token=PLCC0000',
-        'institutionName':'',
-        'institutionUrl': '',
-        'subjectName': 'Business & Management',
-        'subjectSlug':'business',
-        'tableAd' : tableAd
-        } %}
-
-      {% elseif ad == 3 %}
+      {% elseif ad == 1 %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': 'Introduction to Programming for the Visual Arts with p5.js',
         'courseUrl' : 'https://www.kadenze.com/courses/introduction-to-programming-for-the-visual-arts-with-p5-js/info?utm_source=https%3A%2F%2Fwww.class-central.com%2F&utm_medium=referral&utm_term=Programming%20Visual%20Art%20p5.js&utm_campaign=Class%20Central%20Ad',
