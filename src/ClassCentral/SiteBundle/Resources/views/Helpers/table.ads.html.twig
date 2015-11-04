@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
 
-    {% set ad = random(2) %}
+    {% set ad = random(3) %}
 
     {% if ad == 0 %}
 
@@ -31,6 +31,20 @@
         'subjectSlug':'programming-and-software-development',
         'tableAd' : tableAd
       } %}
+
+    {% elseif ad == 2 %}
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': 'The Internet of Things',
+        'courseUrl' : 'https://www.futurelearn.com/courses/internet-of-things',
+        'courseDate': '23rd Nov, 2015',
+        'providerName':'FutureLearn',
+        'providerUrl' : 'https://www.futurelearn.com',
+        'institutionName':"King's College London",
+        'institutionUrl': '/university/kcl',
+        'subjectName': 'Computer Science',
+        'subjectSlug':'cs',
+        'tableAd' : tableAd
+        } %}
 
     {% else %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
