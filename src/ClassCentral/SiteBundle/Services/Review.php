@@ -405,6 +405,16 @@ class Review {
     }
 
     /**
+     * Wrapper around static function so that it can be accessed from twig
+     * @param $rating
+     * @return float
+     */
+    public function formatRating($rating)
+    {
+        return ReviewUtility::formatRating($rating);
+    }
+
+    /**
      * Summarizes the review and saves it in the database.
      * @param ReviewEntity $review
      * @return int returns the number of summaries for this particular review.

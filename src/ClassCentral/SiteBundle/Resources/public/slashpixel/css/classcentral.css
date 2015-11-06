@@ -1186,66 +1186,7 @@ Newsletter subscribe pages
 =            Institution styles            =
 ==========================================*/
 
-.intro-wrap:after {
-    content: " ";
-    display: block;
-    height: 0;
-    clear: both;
-}
 
-.intro-wrap {
-    margin-bottom: 30px;
-}
-
-.illustrative-image {
-    padding: 3px;
-    background: #fff;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-}
-
-.image-wrap,
-.description-wrap {
-    float: left;
-}
-
-.image-wrap {
-    position: relative;
-    text-align: center;
-    margin-right: 20px;
-}
-
-.description,
-.description-wrap {
-    width: auto;
-}
-
-.description-wrap h1 {
-    margin-left: 0;
-    padding-top: 0;
-    display: inline-block;
-    width: auto;
-    white-space: nowrap;
-    font-size: 38px;
-    font-weight: 400;
-    line-height: 1;
-
-}
-
-.description-wrap p {
-    max-width: 500px;
-    font-family: "myriad-pro", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: #272c2e;
-    line-height: 1.7;
-}
-
-.illustrative-image img {
-    width: 157px;
-    height: 157px;
-}
 
 .learn-more-wrap {
     margin-top: 7px;

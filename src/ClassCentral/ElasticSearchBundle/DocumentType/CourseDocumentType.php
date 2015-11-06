@@ -208,6 +208,7 @@ class CourseDocumentType extends DocumentType {
         $rArray = $rs->getReviewsArray($c->getId());
         $body['reviewsCount'] = $rArray['count'];
         $body['ratingStars'] = ReviewUtility::getRatingStars( $body['rating'] );
+        $body['formattedRating'] = ReviewUtility::formatRating( $body['rating'] );
 
         // Get the Credential
         $credential = array();

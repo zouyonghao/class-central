@@ -7,7 +7,7 @@
 
     <td class="course-name-column">
         <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
-        <a class="course-name" rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}')" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
+        <a class="course-name ad-name"  rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}')" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
         <ul class="table-uni-list">
             {% if institutionName is not empty %}
                 <li>
@@ -29,7 +29,9 @@
 
     <td data-timestamp="5" class="course-rating-column">
         <div class="rating-and-count-wrap">
-            <div class="course-rating" data-score="5" ></div>
+            <div class="course-table-rating">
+                   {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: 5,ratingColour: 'dark'} %}
+            </div>
         </div>
     </td>
 

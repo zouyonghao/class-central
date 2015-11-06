@@ -21,9 +21,13 @@ jQuery(function($) {
                     var name = $(clicked).attr("name");
                     if($(clicked).is(':checked')) {
                         if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
+                            // Course page
                             $('span[id=' + name + ']').html('-');
                         } else {
-                            $('span[id=' + name + ']').html('<svg class="icon-minus" viewBox="0 0 32 32"><use xlink:href="#icon-minus"></use></svg>');
+                            // Course Table
+                            $('span[id=' + name + ']').removeClass("round-add-btn--plus");
+                            $('span[id=' + name + ']').addClass("round-add-btn--minus");
+                            // $('span[id=' + name + ']').html('<svg class="icon-minus" viewBox="0 0 32 32"><use xlink:href="#icon-minus"></use></svg>');
                         }
 
                         // uncheck the rest
@@ -36,8 +40,8 @@ jQuery(function($) {
                         if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
                             $('span[id=' + name + ']').html('+');
                         } else {
-                            $('span[id=' + name + ']').
-                                html('<svg class="icon-plus" viewBox="0 0 32 32"><use xlink:href="#icon-plus"></use></svg>');
+                            $('span[id=' + name + ']').removeClass("round-add-btn--minus");
+                            $('span[id=' + name + ']').addClass("round-add-btn--plus");
                         }
 
                     }
@@ -1093,5 +1097,54 @@ jQuery(function($) {
             }
         );
     });
+
+    $(".js-faded-collapse-toggle").on("click", function(e) {
+        e.preventDefault();
+
+        var $this = $(this);
+
+        var target = $this.attr("href");
+        $target = $(target);
+
+        var expandedText = "Collapse";
+
+        if ($target.hasClass("collapsed")) {
+
+            $this.data("origHeight", $target.innerHeight());
+            $target.css("height", "auto");
+            $this.data("targetHeight", $target.innerHeight());
+            $target.css("height", $this.data("origHeight"));
+
+            $target.innerHeight($this.data("targetHeight"));
+            $target.removeClass("collapsed").addClass("expanded");
+
+            $this.data("collapsedText", $this.text());
+
+            $this.text(expandedText);
+            $this.removeClass("collapsed").addClass("expanded");
+
+        } else {
+
+            $target.innerHeight($this.data("origHeight"));
+            $target.removeClass("expanded").addClass("collapsed");
+            $this.text($this.data("collapsedText"));
+            $this.removeClass("expanded").addClass("collapsed");
+        }
+
+    });
+
+    if ($("html").hasClass("no-touch")) {
+        if ($(window).width() > 800 ) {
+            $("#sticky-cred").stick_in_parent();
+        }
+        $( window ).resize(function() {
+            if ($(window).width() > 800 ) {
+                $("#sticky-cred").stick_in_parent();
+            } else {
+                $("#sticky-cred").trigger("sticky_kit:detach");
+            }
+        });
+    }
+
 
 });

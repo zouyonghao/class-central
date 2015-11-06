@@ -196,12 +196,24 @@ class Credential {
             $u['name'] = $user->getDisplayName();
             $u['profileUrl'] = $userService->getProfileUrl( $user->getId(), $user->getHandle(), $user->getIsPrivate() );
             $u['profilePic'] = $userService->getProfilePic( $user->getId() );
+            $u['jobTitle'] = null;
+            $u['highestDegree'] = null;
+            $u['fieldOfStudy'] = null;
+            if($user->getProfile())
+            {
+                $u['jobTitle'] = $user->getProfile()->getJobTitle();
+                $u['highestDegree'] = $user->getProfile()->getHighestDegree();
+                $u['fieldOfStudy'] = $user->getProfile()->getFieldOfStudy();
+            }
         }
         else
         {
             $u['name'] = ( $review->getReviewerName() ) ? $review->getReviewerName() : 'Anonymous';
             $u['profileUrl'] = null;
             $u['profilePic'] = Profile::DEFAULT_PROFILE_PIC;
+            $u['jobTitle'] = $review->getReviewerJobTitle();
+            $u['highestDegree'] = $review->getReviewerHighestDegree();
+            $u['fieldOfStudy'] =$review->getReviewerFieldOfStudy();
         }
         $r['user'] = $u;
 
