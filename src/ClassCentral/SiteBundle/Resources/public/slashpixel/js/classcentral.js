@@ -60,7 +60,7 @@ jQuery(function($) {
 
     // Completed, Audited, Partially Completed, Dropped, Current
     var listCourseDone = [
-        3,4,5,6,7
+        3,4,5,6
     ];
 
     // Enrolled
