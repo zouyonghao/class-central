@@ -185,7 +185,27 @@
                     </div>
                 {% endif %}
 
+
+
                 <div class="course-desc">
+
+                    {% if courseRank is not empty %}
+                        <strong>Class Central Course Rank </strong> <br/>
+                        {% for rank in courseRank %}
+                            <strong>
+                                #{{ rank.rank }} in <a href="{{ path('subjects') }}">Subjects</a>
+                                {% if rank.subject %}
+                                    > <a href="{{ path('ClassCentralSiteBundle_stream',{slug:rank.subject.slug}) }}">{{ rank.subject.name  }}</a>
+                                {% endif %}
+                                {% if rank.category %}
+                                    > <a href="{{ path('ClassCentralSiteBundle_stream',{slug:rank.category.slug}) }}">{{ rank.category.name  }}</a>
+                                {% endif %}
+                            </strong>
+                            <br/>
+                        {% endfor %}
+                        <br/>
+                    {% endif %}
+                    
                     {{ course.desc|raw }}
 
                     {% if course.syllabus %}
