@@ -98,8 +98,8 @@
         {% if course.institutions is not empty %}
             {% set bufferFrom = 'from ' ~ course.institutions[0].name %}
         {% endif %}
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}via {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ reviews.ratingCount }} {% if reviews.ratingCount > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {% if course.initiative %}via {{ course.initiative.name }}{% endif %}. Starts {{ course.nextOffering.displayDate }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ reviews.ratingCount }} {% if reviews.ratingCount > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }}{% endif %}. Starts {{ course.nextOffering.displayDate }}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
     {% endif %}
     <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
 
@@ -451,6 +451,12 @@
                     <a class="cta-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
                 </div>
+
+                <!--
+                <div class="course-data-button">
+                    <a class="light-cta-button" href="#">Get notified for next class</a>
+                </div>
+                -->
 
             </div><!-- course-data-inner -->
 
