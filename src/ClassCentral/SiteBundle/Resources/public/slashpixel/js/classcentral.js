@@ -157,6 +157,45 @@ jQuery(function($) {
         }
     }
 
+    // Get notified for next session button - below Go To Class
+    $('#course-get-notified').click(function(e){
+        e.preventDefault();
+        var clicked = this;
+        var courseName = $(clicked).data('course-name');
+        var courseId = $(clicked).data('course-id');
+        $.ajax({
+            url: "/ajax/isLoggedIn",
+            cache: true
+        })
+            .done(function(result){
+                var loggedInResult = $.parseJSON(result);
+                if(loggedInResult.loggedIn) {
+                    ga('send','event','Get notified for next session button',"Logged in", courseName);
+                    $.ajax( "/ajax/user/course/add?c_id=" +courseId +"&l_id=1")// 1 is the id for Interested Course in UserCourse.php
+                        .done(
+                        function(result){
+                            var r = JSON.parse(result);
+                            if(r.success)
+                            {
+
+                                    updateCounter(true);
+                                    notify(
+                                        'Notifications enabled',
+                                        'You will receive notifications when a new session of <i>'+ courseName +'</i> is available',
+                                        'success'
+                                    );
+                                $(clicked).hide("slow");
+                            } else {
+
+                            }
+                        }
+                    );
+                } else {
+                    ga('send','event','Get notified for next session button',"Logged Out", courseName);
+                }
+            });
+    });
+
     function notify( title, text, type)
     {
         if ( !isMobile.phone ) {

@@ -466,17 +466,18 @@
 
 
                 </div>
-
+                {% set userListIds = user_session.getCourseListIds(course['id']) %}
                 <div class="course-data-button">
                     <a class="cta-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
                 </div>
-
-                <!--
+                {# if the course added to users list, don't send notification #}
+                {% if userListIds is empty %}
                 <div class="course-data-button">
-                    <a class="light-cta-button" href="#">Get notified for next class</a>
+                    <a class="light-cta-button" id="course-get-notified"
+                       data-course-id="{{ course.id }}" data-course-name="{{ course.name }}" href="#">Get notified for next session</a>
                 </div>
-                -->
+                {% endif %}
 
             </div><!-- course-data-inner -->
 
@@ -485,7 +486,7 @@
 
             <div class="course-data-row add-to-my-courses">
                 <span class="dropdown">
-                    {% set userListIds = user_session.getCourseListIds(course['id']) %}
+
                     <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
                      <span id="course-interest-checkbox">
                             {% if userListIds is empty %}+{% else %}-{% endif %}
