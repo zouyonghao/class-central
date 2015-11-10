@@ -192,6 +192,8 @@ jQuery(function($) {
                     );
                 } else {
                     ga('send','event','Get notified for next session button',"Logged Out", courseName);
+                    // redirect to signup page
+                    window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/1");
                 }
             });
     });
