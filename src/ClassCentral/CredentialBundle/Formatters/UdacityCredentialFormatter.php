@@ -29,11 +29,6 @@ class UdacityCredentialFormatter extends CredentialFormatterAbstract {
 
     public function getEnrollment()
     {
-        if($this->credential->getEnrollmentStart())
-        {
-            return 'Next enrollment opens '. $this->credential->getEnrollmentStart()->format('M j');
-        }
-
         return '';
     }
 
