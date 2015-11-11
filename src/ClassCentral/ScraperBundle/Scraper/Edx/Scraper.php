@@ -17,7 +17,9 @@ class Scraper extends ScraperAbstractInterface
     const EDX_COURSE_LIST_CSV = "https://www.edx.org/api/report/course-feed/export";
     const EDX_RSS_API = "https://www.edx.org/api/v2/report/course-feed/rss?page=%s";
     const EDX_CARDS_API = "https://www.edx.org/api/discovery/v1/course_run_cards";
-    public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251);
+    public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251,15861, 15381
+        ,15701, 7056
+    );
     private $credentialFields = array(
         'Url','Description','Name', 'OneLiner', 'SubTitle'
     );
