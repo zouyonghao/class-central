@@ -95,6 +95,7 @@ swiftmailer:
 services:
   es_client:
       class: Elasticsearch\Client
+      arguments: [ {hosts:['%es_host%'] } ]
   es_courses:
       class: ClassCentral\ElasticSearchBundle\API\Courses
       arguments: [ '@es_client', '%es_index_name%']

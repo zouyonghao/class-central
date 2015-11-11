@@ -82,3 +82,6 @@ parameters:
 
     # Slack Webhook
     slack_webhook: ~
+    
+    # Elasticsearch	
+    es_host: 'http://localhost'
