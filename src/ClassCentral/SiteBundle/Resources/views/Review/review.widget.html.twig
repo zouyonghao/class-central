@@ -54,7 +54,7 @@
 <div id="reviewSection" class="widgetSection widgetSection-review">
 <div class="tab-review js-tab-review">
 <header class="widgetHeader">
-    <a class="widgetTitleLink" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" title="Reviews for {{ course.name }}" target="_blank">
+    <a class="widgetTitleLink" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#reviews" title="Reviews for {{ course.name }}" target="_blank">
         <h1 class="widgetTitle">
                 <span class="widgetTitle_count">{{ reviews.ratingCount }}</span>
                 <span class="widgetTitle_text">Student {% if reviews.ratingCount == 1 %} Rating {% else %} Ratings {% endif %}</span>
@@ -279,7 +279,7 @@
         <a href="{{ path('review_new',{courseId: course.id})}}" target="_blank"  class="widgetButton">Write your review</a>
     </div>
     <div class="widgetFooter_layoutUnit widgetFooter_layoutUnit-right">
-        <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" title="Reviews for {{ course.name }}" target="_blank" class="widgetButton widgetButton-gray">Read all reviews</a>
+        <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#reviews" title="Reviews for {{ course.name }}" target="_blank" class="widgetButton widgetButton-gray">Read all reviews</a>
     </div>
 </footer>
 </div>
