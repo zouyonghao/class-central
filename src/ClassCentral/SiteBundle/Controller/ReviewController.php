@@ -529,9 +529,13 @@ class ReviewController extends Controller {
         $cache = $this->get('Cache');
         $courseId = $request->query->get('course-id');
         $courseCode = $request->query->get('course-code');
+        $courseName = urldecode($request->query->get('course-name'));
+        $providerName =$request->query->get('provider-name');
+        $providerCourseUrl = $request->query->get('provider-course-url');
+        $providerCourseId = $request->query->get('provider-course-id');
 
         // Basic check
-        if( (empty($courseId) || !is_numeric($courseId)) && empty($courseCode) )
+        if( empty($courseId) && empty($courseCode) )
         {
             // This returns an empty blank page
             return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
@@ -539,14 +543,22 @@ class ReviewController extends Controller {
             ));
         }
 
-        $data = $cache->get( $this->generateReviewWidgetCacheKey( $courseId, $courseCode ),function() use ($courseId,$courseCode){
+        // If course-id is auto-detect then you can use his
+        if( $courseId =='auto-detect' && empty($providerCourseUrl) )
+        {
+            // This returns an empty blank page
+            return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
+                'course' => null
+            ));
+        }
+
+        $data = $cache->get( $this->generateReviewWidgetCacheKey( $courseId, $courseCode,$providerCourseUrl ),function() use ($courseId,$courseCode,$providerCourseUrl, $courseName,$providerName){
 
             $em = $this->getDoctrine()->getManager();
             $rs = $this->get('review');
 
             // STEP 1: Figure out which course it is
             $course = null;
-
 
             if( !empty($courseId) and is_numeric( $courseId ) )
             {
@@ -559,7 +571,46 @@ class ReviewController extends Controller {
                     ->findOneBy( array(
                         'shortName' => $courseCode
                     ) );
-                $courseId = $course->getId();
+            }
+
+            // Use the provider url if available
+            if( empty($course) && $courseId=='auto-detect' )
+            {
+                // Use the provider url to get the offering
+                 $offering = $em->getRepository('ClassCentralSiteBundle:Offering')
+                    ->findOneBy( array(
+                        'url' => $providerCourseUrl
+                    ) );
+
+                if($offering)
+                {
+                    $course = $offering->getCourse();
+                }
+            }
+
+
+            // Use the course name and provider name
+            if( empty($course) and !empty($courseName) and !empty($providerName) )
+            {
+                $course = $em->getRepository('ClassCentralSiteBundle:Course')
+                    ->findOneBy( array(
+                        'name' => $courseName
+                    ) );
+
+                if($course)
+                {
+                    // Check its from the same provider
+                    $provider = null;
+                    if($course->getInitiative() )
+                    {
+                       $provider = $course->getInitiative()->getCode();
+                    }
+
+                    if(strcasecmp($provider, $providerName) != 0 )
+                    {
+                        $course = null;
+                    }
+                }
             }
 
             if( $course )
@@ -584,8 +635,8 @@ class ReviewController extends Controller {
                 }
 
                 // Get reviews and ratings count
-                $rating = $rs->getRatings($courseId);
-                $reviews = $rs->getReviews($courseId);
+                $rating = $rs->getRatings($course->getId());
+                $reviews = $rs->getReviews($course->getId());
 
                 return array(
                     'reviews' => $reviews,
@@ -644,11 +695,16 @@ class ReviewController extends Controller {
         ));
     }
 
-    private function generateReviewWidgetCacheKey($courseId, $courseCode)
+    private function generateReviewWidgetCacheKey($courseId, $courseCode, $providerCourseUrl)
     {
         if(!empty($courseId))
         {
+            if($courseId == 'auto-detect')
+            {
+                return 'review_widget_course_id_' . substr(md5($providerCourseUrl), 0, 10);
+            }
             return 'review_widget_course_id' . $courseId;
+
         }
 
         return 'review_widget_course_code' . strtolower($courseCode);
