@@ -8,10 +8,10 @@
      {% elseif course.imageUrl %}
         {% set courseImageUrl = rackspace_cdn_base_url~course.imageUrl %}
      {% endif %}
-     <title>{{ course['pageTitle'] }} | MOOC reviews and ratings</title>
+     <title>Reviews for {{ course['pageTitle'] }} | Class Central</title>
      <meta name="description"
            content="{{ course['shortDesc'] }}"/>
-     <meta property="og:title" content="{{ course['pageTitle'] }} | MOOC reviews and ratings" />
+     <meta property="og:title" content="Reviews for {{ course['pageTitle'] }} | Class Central" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
 
      {% if courseImageUrl %}
