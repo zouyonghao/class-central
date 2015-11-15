@@ -534,7 +534,7 @@ class ReviewController extends Controller {
         $providerCourseUrl = $request->query->get('provider-course-url');
         $providerCourseId = $request->query->get('provider-course-id');
 
-        // Basic check
+        // Basic check - if both course id and course code are empty then return a blank page
         if( empty($courseId) && empty($courseCode) )
         {
             // This returns an empty blank page
@@ -543,7 +543,7 @@ class ReviewController extends Controller {
             ));
         }
 
-        // If course-id is auto-detect then you can use his
+        // If course-id is auto-detect then the course page url is a required field
         if( $courseId =='auto-detect' && empty($providerCourseUrl) )
         {
             // This returns an empty blank page
