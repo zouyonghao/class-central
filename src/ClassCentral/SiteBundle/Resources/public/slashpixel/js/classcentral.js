@@ -748,7 +748,7 @@ jQuery(function($) {
                     if( !loggedInResult.loggedIn) {
 
                         // Show the signup form
-                        $('#signupModal').modal('show');
+                        $('#signupModal-go_to_class').modal('show');
                     }
                 }
              );

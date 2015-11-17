@@ -18,7 +18,7 @@ CC.Class['Credential'] = (function(){
 
         $('#cred-button-signup').click(function(e){
             e.preventDefault();
-            $('#signupModal').modal('show');
+            $('#signupModal-credential_create_free_account').modal('show');
         });
 
         // More reviews button
@@ -133,7 +133,7 @@ CC.Class['Credential'] = (function(){
         var validationError = validateReviewForm( review );
         if( !validationError ) {
             // Redirect user to the credential page when they say no to signup
-            $('#signupModal').on('hidden.bs.modal',function(e){
+            $('#signupModal-create_credential_review').on('hidden.bs.modal',function(e){
                 window.location.href = '/certificate/' + $('#credentialslug').data('value');
             });
 
@@ -155,7 +155,7 @@ CC.Class['Credential'] = (function(){
                                     if( loggedInResult.loggedIn ){
                                         window.location.href = '/certificate/' + $('#credentialslug').data('value');
                                     } else {
-                                        $('#signupModal').modal('show');
+                                        $('#signupModal-create_credential_review').modal('show');
                                     }
                                 }
                             });
