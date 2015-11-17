@@ -192,8 +192,15 @@ jQuery(function($) {
                     );
                 } else {
                     ga('send','event','Get notified for next session button',"Logged Out", courseName);
-                    // redirect to signup page
-                    window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/1");
+                    // Save the course details in the session
+                    $.ajax({
+                        url: "/signup/pre_cc/" + $(clicked).data('course-id') + "/1",
+                        cache: true
+                    }).done(function(result){
+                        // Show the singup popups
+                        $('#signupModal-btn_get_notified').modal('show');
+                    });
+
                 }
             });
     });

@@ -248,6 +248,11 @@ signup_add_to_library:
   defaults: {_controller: ClassCentralSiteBundle:User:signUpAddToLibrary }
   schemes:  [https]
 
+pre_signup_add_to_library:
+  pattern: /signup/pre_cc/{courseId}/{listId}
+  defaults: {_controller: ClassCentralSiteBundle:User:preSignupAddToLibrary}
+  schemes:  [https]
+
 user_preferences:
   pattern: /user/preferences
   defaults: {_controller: ClassCentralSiteBundle:User:preferences}

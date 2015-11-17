@@ -70,11 +70,14 @@
 </div>
 <!-- /.mini-slider__slides -->
 
+{# Hack - when there is more than one signup form on the page, mini slider cannot be shown #}
+{% if src !='btn_get_notified' %}
 <div class="mini-slider__controls js-mini-slider-controls">
     <span class="mini-slider-control-bullet js-mini-slider-control"></span>
     <span class="mini-slider-control-bullet js-mini-slider-control"></span>
     <span class="mini-slider-control-bullet js-mini-slider-control"></span>
 </div>
+{% endif %}
 <!-- /.mini-slider__controls -->
 
 </div>

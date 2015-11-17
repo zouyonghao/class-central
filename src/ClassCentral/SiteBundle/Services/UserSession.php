@@ -49,7 +49,7 @@ class UserSession
         'forgotpassword', 'forgotpassword_sendemail', 'resetPassword', 'resetPassword_save',
         'fb_authorize_start', 'fb_authorize_redirect',
         'review_save', 'review_create',
-        'login','github_btn'
+        'login','github_btn','pre_signup_add_to_library'
     );
 
     private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);

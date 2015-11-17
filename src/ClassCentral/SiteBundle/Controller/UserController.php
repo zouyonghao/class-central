@@ -10,6 +10,7 @@ use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -247,6 +248,19 @@ class UserController extends Controller
     {
         $this->get('user_session')->saveSignupReferralDetails(array('listId'=> $listId, 'courseId' => $courseId ));
         return $this->redirect($this->generateUrl('signup'));
+    }
+
+    /**
+     * Ajax call to save the course and list id in the session, before showing the signup form action
+     * @param Request $request
+     * @param $courseId
+     * @param $listId
+     * @return Response
+     */
+    public function preSignupAddToLibraryAction(Request $request, $courseId, $listId)
+    {
+        $this->get('user_session')->saveSignupReferralDetails(array('listId'=> $listId, 'courseId' => $courseId ));
+        return UniversalHelper::getAjaxResponse(true);
     }
 
     /*
@@ -985,6 +999,13 @@ class UserController extends Controller
                 $mediaCard_1 = array(
                     'title' => 'LEARNING. Always.',
                     'text'  => 'Track courses that match your interests and receive recommendations'
+                );
+                break;
+            case 'btn_get_notified':
+                $course = $options['course'];
+                $mediaCard_1 = array(
+                    'title' => 'Follow Course',
+                    'text'  => 'Receive email updates for "'. $course['name']. '"'
                 );
                 break;
         }
