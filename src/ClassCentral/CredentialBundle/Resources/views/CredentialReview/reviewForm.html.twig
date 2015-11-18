@@ -211,7 +211,7 @@
                         <div class="col-lg-6">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-twitter">Field of Study</label>
-                                <input id="cr-field-of-study" class="plain-input" type="text" name="profile-twitter" placeholder="Field of Study" value="{% if loggedIn %} {{ app.user.profile.fieldOfStudy }}{% endif %}">
+                                <input id="cr-field-of-study" class="plain-input" type="text" name="profile-twitter" placeholder="Field of Study" value="{% if loggedIn  and app.user.profile.fieldOfStudy is defined %} {{ app.user.profile.fieldOfStudy }}{% endif %}">
                             </div>
                         </div>
                         {% endif %}
@@ -225,5 +225,5 @@
             </form>
         </div></div>
 
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'create_credential_review', options:{ course:course, showSliderControls: true } }) %}
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'create_credential_review', options:{ showSliderControls: true } }) %}
 {% endblock %}
