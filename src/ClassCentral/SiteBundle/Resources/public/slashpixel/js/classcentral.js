@@ -49,8 +49,15 @@ jQuery(function($) {
                     addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'), $(clicked).data('course-name'));
                 } else {
                     ga('send','event','My Courses - Add Clicked',"Logged out", source);
-                    // redirect to signup page
-                    window.location.replace("/signup/cc/" +$(clicked).data('course-id')+ "/"+ $(clicked).val());
+
+                    // Save the course details in the session
+                    $.ajax({
+                        url: "/signup/pre_cc/" + $(clicked).data('course-id') +  "/" + $(clicked).val(),
+                        cache: true
+                    }).done(function(result){
+                        // Show the singup popups
+                        $('#signupModal-add_to_mooc_tracker').modal('show');
+                    });
                 }
             });
     }

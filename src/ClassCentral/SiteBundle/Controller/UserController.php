@@ -1008,6 +1008,13 @@ class UserController extends Controller
                     'text'  => 'Receive email updates for "'. $course['name']. '"'
                 );
                 break;
+            case 'add_to_mooc_tracker':
+                $course = $options['course'];
+                $mediaCard_1 = array(
+                    'title' => 'My Courses',
+                    'text'  => 'Build a personal course catalog'
+                );
+                break;
         }
 
         $sigupFormModels = $this->get('cache')->get('signupform_models', function(){
