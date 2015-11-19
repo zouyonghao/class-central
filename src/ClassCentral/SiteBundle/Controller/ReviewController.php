@@ -694,6 +694,23 @@ class ReviewController extends Controller {
             'reviews' => $reviews
         ));
     }
+    
+    /**
+    * /r/{$courseId}
+    * A short url that redirects to the reviews on course page
+    **/
+    public function reviewsShortUrlAction(Request $request, $courseId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+        if( !$course )
+        {
+            throw new \Exception("Course Not Found");
+        }
+        
+        return $this->redirect( $this->generateUrl('ClassCentralSiteBundle_mooc',
+                    array('id' => $course->getId(), 'slug' => $course->getSlug() )) . '#reviews', 301 );                                
+    }
 
     private function generateReviewWidgetCacheKey($courseId, $courseCode, $providerCourseUrl)
     {
