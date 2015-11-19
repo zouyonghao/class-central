@@ -984,7 +984,7 @@ class UserController extends Controller
         ));
 
         $mediaCard_1 = array(
-            'title' => 'Welcome back!',
+            'title' => 'Never stop Learning!',
             'text'  => 'Track courses that match your interests and receive recommendations'
         );
 
@@ -1008,7 +1008,7 @@ class UserController extends Controller
                     'text'  => 'Receive email updates for "'. $course['name']. '"'
                 );
                 break;
-            case 'add_to_mooc_tracker':
+            case 'mooc_tracker_add_to_my_courses':
                 $course = $options['course'];
                 $mediaCard_1 = array(
                     'title' => 'My Courses',
