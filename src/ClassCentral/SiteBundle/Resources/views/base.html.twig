@@ -406,9 +406,9 @@
 
 {# Signup form when a non signed up users adds a course to MOOC tracker #}
 {% if page is defined and page == 'course' %}
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'add_to_mooc_tracker', options:{ showSliderControls: false }}) %}
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_add_to_my_courses', options:{ showSliderControls: false }}) %}
 {% else %}
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'add_to_mooc_tracker', options:{ showSliderControls: true }}) %}
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_add_to_my_courses', options:{ showSliderControls: true }}) %}
 {% endif %}
 </body>
 </html>

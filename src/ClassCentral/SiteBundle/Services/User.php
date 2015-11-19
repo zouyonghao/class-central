@@ -71,7 +71,7 @@ class User {
             else if (array_key_exists('listId',$referralDetails))
             {
                 // Add the course to the users library
-                $src = 'mooc_tracker_add_to_my_courses';
+                $src = (empty($src)) ? 'mooc_tracker_add_to_my_courses' : $src;
                 $course = $em->find('ClassCentralSiteBundle:Course',$referralDetails['courseId']);
                 if($course)
                 {
