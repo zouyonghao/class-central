@@ -1117,23 +1117,31 @@ jQuery(function($) {
         window.location.replace(previous);
     } );
 
-    // mini slider functionality
-    $( ".js-mini-slider" ).each(function( index, element ) {
-        $(element).flexslider({
-            selector: ".js-mini-slider-slides .js-mini-slider-slide",
-            slideshow: false,
-            directionNav: false,
-            manualControls: ".js-mini-slider-controls .js-mini-slider-control"
+    var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms'];
+    for(i =0 ; i < signupForms.length; i++)
+    {
+        var signupFormId = "#signupModal-" + signupForms[i];
+        console.log(signupFormId);
+        // mini slider functionality
+        $( signupFormId + " .js-mini-slider" ).each(function( index, element ) {
+            console.log(element);
+            $(element).flexslider({
+                selector: " .js-mini-slider-slides .js-mini-slider-slide",
+                slideshow: false,
+                directionNav: false,
+                manualControls: signupFormId +  " .js-mini-slider-controls .js-mini-slider-control"
+            });
+
+            var $slide = $(element).find(" .js-mini-slider-slide");
+
+            var numberOfSlides = $slide.length;
+
+            $slide.on("click", function(e) {
+                $(element).flexslider("next");
+            });
         });
 
-        var $slide = $(element).find(".js-mini-slider-slide");
-
-        var numberOfSlides = $slide.length;
-
-        $slide.on("click", function(e) {
-            $(element).flexslider("next");
-        });
-    });
+    }
 
     $('.review-status-update').click(function(event){
         event.preventDefault();

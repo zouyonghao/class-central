@@ -405,10 +405,7 @@
 {% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
 
 {# Signup form when a non signed up users adds a course to MOOC tracker #}
-{% if page is defined and page == 'course' %}
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_add_to_my_courses', options:{ showSliderControls: false }}) %}
-{% else %}
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_add_to_my_courses', options:{ showSliderControls: true }}) %}
-{% endif %}
+{% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_add_to_my_courses', options:{ }}) %}
+
 </body>
 </html>

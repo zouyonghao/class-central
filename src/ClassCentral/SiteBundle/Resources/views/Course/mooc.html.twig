@@ -699,10 +699,10 @@
 
     </div>
     {# Signup form when some clicks on Go To Class Button #}
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'go_to_class', options:{ course:course, showSliderControls: true }}) %}
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'go_to_class', options:{ course:course }}) %}
 
     {# Signup form when some clicks on Get Notified For Next Session button #}
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'btn_get_notified', options:{ course:course, showSliderControls: false }}) %}
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'btn_get_notified', options:{ course:course }}) %}
 
 {% endblock %}
 
