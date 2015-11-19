@@ -56,7 +56,7 @@ jQuery(function($) {
                         cache: true
                     }).done(function(result){
                         // Show the singup popups
-                        $('#signupModal-add_to_mooc_tracker').modal('show');
+                        $('#signupModal-mooc_tracker_add_to_my_courses').modal('show');
                     });
                 }
             });
