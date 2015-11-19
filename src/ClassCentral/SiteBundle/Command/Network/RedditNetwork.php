@@ -63,7 +63,7 @@ class RedditNetwork extends NetworkAbstractInterface
     public function beforeOffering()
     {
         // Table header row
-        $this->output->writeln("Course Name|Start Date|Length (in weeks)|Provider|Rating");
+        $this->output->writeln("Course Name|Start Date|Length (in weeks)|Rating");
         $this->output->writeln(":--|:--:|:--:|:--:|:--:");
     }
 
@@ -84,6 +84,8 @@ class RedditNetwork extends NetworkAbstractInterface
         }
 
         $startDate = $offering->getDisplayDate();
+        
+        $startDate = array_shift( explode(',',$startDate) ); // Do not show the year to save characters
 
 
         $length = 'NA';
@@ -102,16 +104,24 @@ class RedditNetwork extends NetworkAbstractInterface
         }
         else
         {
-            $reviewText = sprintf("(%d %s)", $courseReviews['count'], ($courseReviews['count'] == 1 ) ? 'review' : 'reviews');
+            $reviewText = sprintf("(%d)", $courseReviews['count']);
         }
-        $url = 'https://www.class-central.com'. $this->router->generate('ClassCentralSiteBundle_mooc', array('id' => $offering->getCourse()->getId(), 'slug' => $offering->getCourse()->getSlug()));
+        $url = 'https://www.class-central.com'. $this->router->generate('reviews_short_url', array('courseId' => $offering->getCourse()->getId() ));
         $url .= '#reviews';
         $ratingStars = ReviewUtility::getRatingStars($courseRating);
-        $rating = "$ratingStars [$reviewText]($url)";
+        if($courseRating > 0)
+        {
+            $rating = "$ratingStars [$reviewText]($url)";    
+        }
+        else
+        {
+            $rating = "$ratingStars";
+        }
+        
 
-        $this->output->writeln("$name|$startDate|$length|$initiative|$rating");
+        $this->output->writeln("$name via **$initiative**|$startDate|$length|$rating");
     }
 
-    }
+}
 
 
