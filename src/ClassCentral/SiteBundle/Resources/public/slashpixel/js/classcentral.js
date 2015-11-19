@@ -628,6 +628,10 @@ jQuery(function($) {
                 ga('send','event', 'Logged In', 'Manual');
             }
         }
+
+        if( title == 'Logged in via Facebook' ) {
+            ga('send','event', 'Logged In', 'Facebook');
+        }
     });
 
 

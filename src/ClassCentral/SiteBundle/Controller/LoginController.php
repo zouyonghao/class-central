@@ -78,6 +78,8 @@ class LoginController extends Controller{
      */
     public function redirectToAuthorizationAction(Request $request)
     {
+        $src = $request->query->get('src');
+        $this->get('session')->set('fb_auth_src', $src);
         $helper = $this->getFBLoginHelper();
 
         return $this->redirect( $helper->getLoginUrl(array(
@@ -86,7 +88,7 @@ class LoginController extends Controller{
         )) );
     }
 
-    private function getFBLoginHelper()
+    private function getFBLoginHelper( $src = null)
     {
         FacebookSession::setDefaultApplication(
             $this->container->getParameter('fb_app_id'),
@@ -108,6 +110,7 @@ class LoginController extends Controller{
         $em = $this->getDoctrine()->getManager();
         $userService = $this->get('user_service');
         $userSession = $this->get('user_session');
+        $src =  $this->get('session')->get('fb_auth_src');
         $logger = $this->get('logger');
 
         $logger->info("FBAUTH: FB auth redirect");
@@ -181,7 +184,7 @@ class LoginController extends Controller{
                 $em->persist($ufb);
                 $em->flush();
 
-                $userSession->login($user);
+                $userSession->login($user, true);
 
                 $redirectUrl =
                     ($this->getLastAccessedPage($request->getSession())) ?
@@ -207,7 +210,7 @@ class LoginController extends Controller{
                 $user->setIsverified(true);
                 $user->setSignupType(User::SIGNUP_TYPE_FACEBOOK);
 
-                $redirectUrl = $userService->createUser($user, false, 'facebook');
+                $redirectUrl = $userService->createUser($user, false, (empty($src)) ? 'facebook' : $src );
                 $userSession->setPasswordLessLogin(true); // Set the variable to show that the user didn't use a password to login
 
                 // Create a FB info

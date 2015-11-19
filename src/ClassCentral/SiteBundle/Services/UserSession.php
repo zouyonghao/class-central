@@ -133,7 +133,12 @@ class UserSession
         $session->set('this_route', $routeData);
     }
 
-    public function login(User $user)
+    /**
+     * @param User $user
+     * @param bool|false $facebook true if logged in via facebook
+     * @throws \Exception
+     */
+    public function login(User $user, $facebook = false)
     {
 
         // Create a review for this user if it exists
@@ -149,11 +154,23 @@ class UserSession
         $this->em->flush();
 
         // Send a successfull login notification
-        $this->notifyUser(
-            self::FLASH_TYPE_SUCCESS,
-            'Logged in',
-            'You have been logged in successfully'
-        );
+        if($facebook)
+        {
+            $this->notifyUser(
+                self::FLASH_TYPE_SUCCESS,
+                'Logged in via Facebook',
+                'You have been logged in successfully'
+            );
+        }
+        else
+        {
+            $this->notifyUser(
+                self::FLASH_TYPE_SUCCESS,
+                'Logged in',
+                'You have been logged in successfully'
+            );
+        }
+
     }
 
     public function saveUserInformationInSession()
