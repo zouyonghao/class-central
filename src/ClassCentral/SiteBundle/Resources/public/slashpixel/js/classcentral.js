@@ -487,7 +487,7 @@ jQuery(function($) {
         var validationError = validateReviewForm(review);
 
         if(!validationError) {
-            $('#signupForm').on('hidden.bs.modal',function(e){
+            $('#signupModal-create_course_review').on('hidden.bs.modal',function(e){
                 window.location.href = $('#courseUrl').data("value");
             });
             $.ajax({
@@ -504,7 +504,7 @@ jQuery(function($) {
                         $('textarea[name=review-text]').val("");
                         $('input:radio[name=progress]:checked').prop('checked',false);
 
-                        $('#signupForm').modal('show');
+                        $('#signupModal-create_course_review').modal('show');
                     } else {
                         // Show an error message
                         showPinesNotification('error','Some error occurred',result['message']);
@@ -1126,7 +1126,8 @@ jQuery(function($) {
         window.location.replace(previous);
     } );
 
-    var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms','home_create_free_account','convincer_create_free_account'];
+    var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms',
+        'home_create_free_account','convincer_create_free_account','create_course_review','create_credential_review'];
     for(i =0 ; i < signupForms.length; i++)
     {
         var signupFormId = "#signupModal-" + signupForms[i];

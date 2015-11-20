@@ -44,9 +44,4 @@ Only Review the course if you have taken or started taking this course.
     </form>
 </div>
 
-{% if signupForm is defined %}
-    {% include 'ClassCentralSiteBundle:Helpers:signupform.html.twig' with {
-    signupForm : signupForm,
-    formTitle  : 'Review created. Signup to update/edit it later'
-    } %}
-{% endif %}
+{% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'create_course_review', options:{}}) %}

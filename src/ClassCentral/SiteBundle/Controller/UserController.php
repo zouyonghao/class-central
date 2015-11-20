@@ -1001,6 +1001,7 @@ class UserController extends Controller
 
         switch ($src) {
             case 'create_credential_review':
+            case 'create_course_review':
                 $mediaCard_1 = array(
                     'title' => 'Review Saved!',
                     'text'  => 'Signup to update/edit it later.'
