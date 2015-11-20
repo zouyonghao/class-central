@@ -623,10 +623,10 @@ class ReviewController extends Controller {
                     ->add('orderBy', 'r.rating DESC')
                     ->add('where', 'r.course = :course')
                     ->andWhere('rs is NOT NULL')
-                    ->andWhere('r.status = :status')
+                    ->andWhere('r.status < :status')
                     ->setMaxResults(5)
                     ->setParameter('course', $course)
-                    ->setParameter(':status', Review::REVIEW_STATUS_APPROVED);
+                    ->setParameter(':status', Review::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND);
 
                 $reviewsWithSummaries = array();
                 foreach ( $query->getQuery()->getResult() as $review )
