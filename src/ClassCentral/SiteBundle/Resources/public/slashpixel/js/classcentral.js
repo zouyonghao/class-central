@@ -748,7 +748,7 @@ jQuery(function($) {
 
     $('#home-create-free-account').click( function(e){
         e.preventDefault();
-        $('#signupForm').modal('show');
+        $('#signupModal-home_create_free_account').modal('show');
         try {
             ga('send','event','Create Free Account','Home Tab');
         }catch (e){}
@@ -756,7 +756,7 @@ jQuery(function($) {
 
     $('#convincer-create-free-account').click( function(e){
         e.preventDefault();
-        $('#signupForm').modal('show');
+        $('#signupModal-convincer_create_free_account').modal('show');
         try {
             ga('send','event','Create Free Account','Convincer');
         }catch (e){}
@@ -1126,7 +1126,7 @@ jQuery(function($) {
         window.location.replace(previous);
     } );
 
-    var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms'];
+    var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms','home_create_free_account','convincer_create_free_account'];
     for(i =0 ; i < signupForms.length; i++)
     {
         var signupFormId = "#signupModal-" + signupForms[i];
