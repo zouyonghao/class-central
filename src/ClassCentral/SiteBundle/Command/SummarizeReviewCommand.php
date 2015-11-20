@@ -96,8 +96,7 @@ class SummarizeReviewCommand extends ContainerAwareCommand {
             $query
                 ->add('select', 'r')
                 ->add('from', 'ClassCentralSiteBundle:Review r')
-                ->where('r.reviewSummary is  NULL AND LENGTH(r.review) > 30 AND r.status = :status')
-                ->setParameter('status',\ClassCentral\SiteBundle\Entity\Review::REVIEW_STATUS_APPROVED)
+                ->where('r.reviewSummary is  NULL AND LENGTH(r.review) > 30')
             ;
             $result = $query->getQuery()->getResult();
             $reviewsToBeSummarized = count( $result );
@@ -117,8 +116,7 @@ class SummarizeReviewCommand extends ContainerAwareCommand {
             $query
                 ->add('select', 'r')
                 ->add('from', 'ClassCentralSiteBundle:Review r')
-                ->where('r.reviewSummary is  NULL AND LENGTH(r.review) > 30 AND r.status = :status AND r.created >= :date')
-                ->setParameter('status',\ClassCentral\SiteBundle\Entity\Review::REVIEW_STATUS_APPROVED)
+                ->where('r.reviewSummary is  NULL AND LENGTH(r.review) > 30  AND r.created >= :date')
                 ->setParameter('date',$dt);
             ;
             $result = $query->getQuery()->getResult();
