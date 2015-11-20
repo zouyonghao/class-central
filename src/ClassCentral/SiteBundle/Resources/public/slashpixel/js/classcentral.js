@@ -53,7 +53,6 @@ jQuery(function($) {
                     // Save the course details in the session
                     $.ajax({
                         url: "/signup/pre_cc/" + $(clicked).data('course-id') +  "/" + $(clicked).val(),
-                        cache: true
                     }).done(function(result){
                         // Show the singup popups
                         $('#signupModal-mooc_tracker_add_to_my_courses').modal('show');
@@ -61,6 +60,16 @@ jQuery(function($) {
                 }
             });
     }
+
+    $('#btn_add_search_term_to_mooc_tracker').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: "/signup/pre_q/" + escape($('#general-search #st-search-input').val()),
+        }).done(function(result){
+            // Show the singup popups
+            $('#signupModal-mooc_tracker_search_terms').modal('show');
+        });
+    });
 
     // Handle calls to add/remove courses to users library
     $('input[class="course-list-checkbox"]').change( courseListCheckboxHandler );

@@ -240,6 +240,17 @@ class UserController extends Controller
         return $this->redirect($this->generateUrl('signup'));
     }
 
+    /**
+     * Saves the search term in session before redirecting the user to signup page
+     * @param Request $request
+     * @param $searchTerm
+     */
+    public function preSignUpSearchTermAction(Request $request, $searchTerm)
+    {
+        $this->get('user_session')->saveSignupReferralDetails(array('searchTerm' => $searchTerm));
+        return $this->redirect($this->generateUrl('signup'));
+    }
+
 
     /**
      * Save the course_id and list_id in the session before redirecting the user to signup page
@@ -247,7 +258,7 @@ class UserController extends Controller
     public function signUpAddToLibraryAction(Request $request, $courseId, $listId)
     {
         $this->get('user_session')->saveSignupReferralDetails(array('listId'=> $listId, 'courseId' => $courseId ));
-        return $this->redirect($this->generateUrl('signup'));
+        return UniversalHelper::getAjaxResponse(true);
     }
 
     /**
@@ -1009,12 +1020,18 @@ class UserController extends Controller
                 );
                 break;
             case 'mooc_tracker_add_to_my_courses':
-                $course = $options['course'];
                 $mediaCard_1 = array(
                     'title' => 'My Courses',
                     'text'  => 'Build a personal course catalog'
                 );
                 break;
+            case 'mooc_tracker_search_terms':
+                $mediaCard_1 = array(
+                    'title' => 'Track search terms',
+                    'text'  => 'Receive alerts when courses matching your search term are announced'
+                );
+                break;
+
         }
 
         $sigupFormModels = $this->get('cache')->get('signupform_models', function(){

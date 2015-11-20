@@ -141,6 +141,10 @@ signup_search_term:
   defaults: {_controller: ClassCentralSiteBundle:User:signupSearchTerm }
   schemes:  [https]
 
+pre_signup_search_term:
+  pattern: /signup/pre_q/{searchTerm}
+  defaults: {_controller: ClassCentralSiteBundle:User:preSignupSearchTerm }
+  schemes:  [https]
 
 signup_create_user:
   pattern: /create_user

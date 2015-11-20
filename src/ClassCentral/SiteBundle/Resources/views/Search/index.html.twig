@@ -50,7 +50,7 @@
             {% endif %}
         {% else %}
             {# user has not signed up #}
-            <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
+            <a id='btn_add_search_term_to_mooc_tracker' class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
                href="{{ path('signup_search_term',{'searchTerm' : keywords|url_encode }) }}"
                title="Receive email notifications when new courses matching '{{ keywords }}' are added or about to start" rel="nofollow">create alerts for "{{  keywords }}"</a>
         {% endif %}
@@ -89,5 +89,7 @@
             </section>
         {% endif %}
     {% endif %}
+
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_search_terms', options:{}}) %}
 {% endblock %}  
         
