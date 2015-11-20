@@ -1136,7 +1136,8 @@ jQuery(function($) {
             console.log(element);
             $(element).flexslider({
                 selector: " .js-mini-slider-slides .js-mini-slider-slide",
-                slideshow: false,
+                slideshow: true,
+                slideshowSpeed: 4000,
                 directionNav: false,
                 manualControls: signupFormId +  " .js-mini-slider-controls .js-mini-slider-control"
             });
