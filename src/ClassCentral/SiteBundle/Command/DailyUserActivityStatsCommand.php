@@ -20,7 +20,7 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
         $this
             ->setName('classcentral:dailyuseractivity')
             ->setDescription('Sends one days worth of user activity to Slack')
-            ->addArgument("date", InputArgument::REQUIRED, "Date for which the summary is generated")
+            ->addArgument("date", InputArgument::REQUIRED, "Date for which the summary is generated - Y-m-d")
             ;
     }
 
@@ -97,7 +97,7 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
         // Send it to slack
         $this->getContainer()
             ->get('slack_client')
-            ->to('#cc-activity-user')
+            ->to('#stats')
             ->send("
             *Stats for $date*
 New Users   : $newUsers
