@@ -1,10 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
-    <title>List of Best {{tagDisplayName}} free online courses/MOOCs | Class Central</title>
+    <title>{{tagDisplayName}} free online courses and MOOCs | Class Central</title>
     <meta name="description" content="Discover free online {{ tagDisplayName }} courses from top universities. Thousands of reviews written by Class Central users help you pick the best course."/>
 
-    <meta property="og:title" content="List of Best {{tagDisplayName}} free online courses/MOOCs" />
+    <meta property="og:title" content="{{tagDisplayName}} free online courses and MOOCs" />
     <meta property="og:url" content="{{ baseurl }}{{ path('tag_courses',{'tag': tag}) }}" />
     <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
     <meta property="og:description" content="{{ tag }} free online courses/MOOCs list aggregated by Class Central" />
@@ -22,8 +22,8 @@
     <div class="intro-wrap">
         <div class="description-wrap">
             <div class="description">
-                <h1 class='cc-page-header'>{{ tagDisplayName }}</h1>
-                <p>Study <em>{{ tagDisplayName }}</em> via the best free online courses/MOOCs from top universities and colleges. </p>
+                <h1 class='cc-page-header'>{{ tagDisplayName }} free online courses</h1>
+                <p>Study <em>{{ tagDisplayName }}</em> via the best free online courses and MOOCs from top universities and colleges. </p>
             </div>
         </div>
     </div>
