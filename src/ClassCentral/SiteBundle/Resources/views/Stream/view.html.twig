@@ -1,10 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
-    <title>List of Best {{subject.name}} free online courses/MOOCs | Class Central</title>
+    <title>{{subject.name}} free online courses & MOOCs | Class Central</title>
     <meta name="description" content="Discover free online {{ subject.name }} courses from top universities. Thousands of reviews written by Class Central users help you pick the best course."/>
 
-    <meta property="og:title" content="{{subject.name}} MOOCs/free online courses list | Class Central" />
+    <meta property="og:title" content="{subject.name}} free online courses & MOOCs | Class Central" />
     <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_stream',{'slug': slug}) }}" />
     {% if pageInfo.imageUrl %}
         <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
@@ -17,8 +17,8 @@
     <!-- Twitter card integration -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@classcentral">
-    <meta name="twitter:title" content="List of {{subject.name}} free online courses/MOOCs">
-    <meta name="twitter:description" content="List of {{subject.name}} free online courses/MOOCs aggregated by Class Central">
+    <meta name="twitter:title" content="{{subject.name}} free online courses and MOOCs">
+    <meta name="twitter:description" content="{{subject.name}} free online courses and MOOCs aggregated by Class Central">
     <meta name="twitter:domain" content="www.class-central.com">
 
     {# paginated content #}
