@@ -217,6 +217,9 @@ class CredentialReviewController extends Controller
             $userSession->saveUserInformationInSession();
         }
 
+        // Update the credential review cache
+        $this->get('cache')->deleteCache('credential_reviews_' . $credential->getSlug());
+
         return UniversalHelper::getAjaxResponse(true, $cr->getId() );
     }
 
