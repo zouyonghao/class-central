@@ -27,6 +27,7 @@ class Scraper extends ScraperAbstractInterface {
 
     const ONDEMAND_SESSION_IDS = 'https://www.coursera.org/api/onDemandSessions.v1/?q=currentOpenByCourse&courseId=%s&includes=memberships&fields=moduleDeadlines';
 
+    const COURSE_CATALOG_URL_v2 = 'https://www.coursera.org/api/catalogResults.v2?q=search&query=&limit=5000&debug=false&fields=debug,courseId,domainId,onDemandSpecializationId,specializationId,subdomainId,suggestions,courses.v1(name,description,slug,photoUrl,courseStatus,partnerIds),onDemandSpecializations.v1(name,description,slug,logo,courseIds,launchedAt,partnerIds),specializations.v1(name,description,shortName,logo,primaryCourseIds,display,partnerIds),partners.v1(name)&includes=courseId,domainId,onDemandSpecializationId,specializationId,subdomainId,suggestions,courses.v1(partnerIds),onDemandSpecializations.v1(partnerIds),specializations.v1(partnerIds)';
     // CREDENTIAL_URS
     const SPECIALIZATION_CATALOG_URL = 'https://www.coursera.org/api/specializations.v1';
     const SPECIALIZATION_URL  = 'https://www.coursera.org/maestro/api/specialization/info/%s?currency=USD&origin=US';
@@ -94,9 +95,10 @@ class Scraper extends ScraperAbstractInterface {
         /*************************************
          * On Demand Courses
          *************************************/
-        $url = 'https://www.coursera.org/api/courses.v1';
+        //$url = 'https://www.coursera.org/api/courses.v1';
+        $url = self::COURSE_CATALOG_URL_v2;
         $allCourses = json_decode(file_get_contents( $url ),true);
-        foreach ($allCourses['elements'] as $element)
+        foreach ($allCourses['linked']['courses.v1'] as $element)
         {
             if( $element['courseType'] == 'v2.ondemand')
             {
@@ -236,7 +238,6 @@ class Scraper extends ScraperAbstractInterface {
 
                         if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
                         {
-
                             try
                             {
                                 // Self paced Not Started - But will Start in the future
