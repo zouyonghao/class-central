@@ -191,9 +191,9 @@ class CredentialController extends Controller
      * @param Request $request
      * @param $slug
      */
-    public function credentialAction(Request $request, $slug)
+    public function credentialAction(Request $request, $slug,$tab)
     {
-        // Get the credential
+        $tabs = array('overview','description','syllabus');
         $esCredentials = $this->get('es_credentials');
         $credentialService = $this->get('credential');
         $cache = $this->get('cache');
@@ -203,6 +203,15 @@ class CredentialController extends Controller
         {
             // Error
             return;
+        }
+
+        if(! in_array($tab,$tabs) )
+        {
+            // Invalid tab. Do a 301 redirect
+            return $this->redirect(
+                $this->get('router')->generate('credential_page', array('slug' => $slug)),
+                301
+            );
         }
 
         $credential = $result['hits']['hits'][0]['_source'];
@@ -228,6 +237,7 @@ class CredentialController extends Controller
                 'reviews'=>$reviews,
                 'breadcrumbs' => $breadCrumbs,
                 'showDefaultBreadcrumb' => false,
+                'tab' => $tab
         ));
     }
 

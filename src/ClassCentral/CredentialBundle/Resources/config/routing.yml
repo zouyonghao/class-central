@@ -11,8 +11,8 @@ credentials_reviews:
   defaults: { _controller: ClassCentralCredentialBundle:CredentialReview:credentialsReviews }
 
 credential_page:
-  pattern: /certificate/{slug}
-  defaults: { _controller: ClassCentralCredentialBundle:Credential:credential }
+  pattern: /certificate/{slug}/{tab}
+  defaults: { _controller: ClassCentralCredentialBundle:Credential:credential, tab: 'overview' }
 
 credentials:
   pattern: /certificate

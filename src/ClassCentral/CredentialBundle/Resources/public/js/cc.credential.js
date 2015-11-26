@@ -27,6 +27,33 @@ CC.Class['Credential'] = (function(){
             $('.review-block').removeClass('hidden');
             $('#credential-more-reviews').addClass('hidden');
         });
+
+        // Handling clicks for Learn more tabs
+        $('.table-tabs li').click( learnMoreTabClickHandler);
+
+    }
+
+    function learnMoreTabClickHandler(event){
+        var tabName = $(this).data('tab');
+        var url = window.location.href.toString().split(window.location.host)[1];
+
+        // Retrieve the base url
+        var baseUrl = null;
+        
+        if(url.search('/certificate/') == 0 && url.match(/\//g).length > 2) {
+            baseUrl =  url.substring(0, url.lastIndexOf('/') );
+        } else {
+            baseUrl = url;
+        }
+
+        // Build the path
+        var path = null;
+        if(tabName == 'overview') {
+            path = baseUrl;
+        } else {
+            path = baseUrl + '/' + tabName;
+        }
+        history.replaceState( null, null, path);
     }
 
     // =====================================================

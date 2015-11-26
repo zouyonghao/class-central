@@ -154,7 +154,6 @@ CC.Class['Profile'] = (function(){
      * @param event
      */
     function profileTabClickHandler( event ) {
-        console.log( $(this).data('tab'));
         var tabName = $(this).data('tab');
         var url = window.location.href.toString().split(window.location.host)[1];
 
