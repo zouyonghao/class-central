@@ -31,6 +31,16 @@ CC.Class['Credential'] = (function(){
         // Handling clicks for Learn more tabs
         $('.table-tabs li').click( learnMoreTabClickHandler);
 
+        $('#cred-read-reviews').click( function(e){
+                e.preventDefault();
+                $.scrollTo('#reviews',{ duration: 1000    });
+                var url = window.location.href.toString().split(window.location.host)[1];
+                if(url.indexOf('#reviews') == -1) {
+                    history.replaceState( null, null, url + '#reviews');
+                }
+            }
+        );
+
     }
 
     function learnMoreTabClickHandler(event){
@@ -39,7 +49,7 @@ CC.Class['Credential'] = (function(){
 
         // Retrieve the base url
         var baseUrl = null;
-        
+
         if(url.search('/certificate/') == 0 && url.match(/\//g).length > 2) {
             baseUrl =  url.substring(0, url.lastIndexOf('/') );
         } else {
