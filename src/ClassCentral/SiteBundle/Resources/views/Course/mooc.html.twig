@@ -702,7 +702,7 @@
     {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'go_to_class', options:{ course:course }}) %}
 
     {# Signup form when some clicks on Get Notified For Next Session button #}
-    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'btn_get_notified', options:{ course:course }}) %}
+    {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'btn_get_notified', options:{ course:course}}) %}
 
 {% endblock %}
 
@@ -718,9 +718,14 @@
     {
         $.scrollTo('.section-heading',{ duration: 500    });
     }
-    $('#read-reviews').click( function(){
+    $('#read-reviews').click( function(e){
+        e.preventDefault();
         $.scrollTo('#reviews',{ duration: 1000    });
+        var url = window.location.href.toString().split(window.location.host)[1];
+        if(url.indexOf('#reviews') == -1) {
+        history.replaceState( null, null, url + '#reviews');
         }
+    }
     );
 
     $("#share-course-form-submit").click(function(){
