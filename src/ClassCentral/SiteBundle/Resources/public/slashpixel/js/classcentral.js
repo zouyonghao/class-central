@@ -1131,7 +1131,6 @@ jQuery(function($) {
     for(i =0 ; i < signupForms.length; i++)
     {
         var signupFormId = "#signupModal-" + signupForms[i];
-        console.log(signupFormId);
         // mini slider functionality
         $( signupFormId + " .js-mini-slider" ).each(function( index, element ) {
             console.log(element);
