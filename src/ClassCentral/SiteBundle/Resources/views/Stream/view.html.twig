@@ -4,7 +4,7 @@
     <title>{{subject.name}} free online courses & MOOCs | Class Central</title>
     <meta name="description" content="Discover free online {{ subject.name }} courses from top universities. Thousands of reviews written by Class Central users help you pick the best course."/>
 
-    <meta property="og:title" content="{subject.name}} free online courses & MOOCs | Class Central" />
+    <meta property="og:title" content="{{ subject.name}} free online courses & MOOCs | Class Central" />
     <meta property="og:url" content="{{ baseurl }}{{ path('ClassCentralSiteBundle_stream',{'slug': slug}) }}" />
     {% if pageInfo.imageUrl %}
         <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
