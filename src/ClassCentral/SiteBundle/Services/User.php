@@ -676,15 +676,32 @@ class User {
      */
     public function deleteUser(\ClassCentral\SiteBundle\Entity\User $user)
     {
-        $connection = $this->container->get('doctrine')->getManager()->getConnection();
+        $em = $this->container->get('doctrine')->getManager();
+        $connection = $em->getConnection();
         $uid = $user->getId();
+        $reviewUser = $em->getRepository('ClassCentralSiteBundle:User')->find(\ClassCentral\SiteBundle\Entity\User::REVIEW_USER_ID);
         if($uid == \ClassCentral\SiteBundle\Entity\User::REVIEW_USER_ID || $uid == \ClassCentral\SiteBundle\Entity\User::SPECIAL_USER_ID)
         {
             throw new \Exception("Cannot delete user");
         }
 
+        foreach($user->getReviews() as $review)
+        {
+            if( !empty($review->getReview()) )
+            {
+                $review->setUser($reviewUser);
+                $em->persist( $review);
+                $em->flush();
+            }
+            else
+            {
+                $connection->exec("DELETE FROM reviews_feedback WHERE review_id=".$review->getId());
+                $connection->exec("DELETE FROM reviews_feedback_summary WHERE review_id=".$review->getId());
+            }
+        }
+
         $tables = array(
-            'user_preferences', 'reviews', 'users_courses','users_fb', 'newsletters_subscriptions','profiles','mooc_tracker_courses'
+            'reviews', 'users_courses','users_fb', 'newsletters_subscriptions','profiles','mooc_tracker_courses','mooc_tracker_search_terms','reviews_feedback','user_preferences'
         );
         foreach($tables as $table)
         {

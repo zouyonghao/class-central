@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 
+use ClassCentral\SiteBundle\Entity\UserPreference;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,17 +31,32 @@ class DeleteUserCommand extends ContainerAwareCommand {
         $userService = $this->getContainer()->get('user_service');
 
         $uid = $input->getArgument('uid');
-        $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $uid );
-        if( !$user )
+        if($uid == 'all')
         {
-            $output->writeln("User $uid does not exist");
-            return;
+            $userPreferences = $em->getRepository('ClassCentralSiteBundle:UserPreference')->findBy(array(
+                'type' => UserPreference::USER_PROFILE_DELETE_ACCOUNT
+            ));
+            $output->writeln(count($userPreferences) . 'found');
+            foreach($userPreferences as $userPreference)
+            {
+                $user = $userPreference->getUser();
+                $output->writeln( "Deleting user {$user->getId()} with name " . $user->getDisplayName() );
+                $userService->deleteUser($user);
+            }
         }
-        $output->writeln( "Deleting user with name " . $user->getDisplayName() );
-        // Delete the user
-        $userService->deleteUser($user);
-
-        $output->writeLn("User $uid deleted");
+        else
+        {
+            $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $uid );
+            if( !$user )
+            {
+                $output->writeln("User $uid does not exist");
+                return;
+            }
+            $output->writeln( "Deleting user with name " . $user->getDisplayName() );
+            // Delete the user
+            $userService->deleteUser($user);
+            $output->writeLn("User $uid deleted");
+        }
     }
 
 } 
