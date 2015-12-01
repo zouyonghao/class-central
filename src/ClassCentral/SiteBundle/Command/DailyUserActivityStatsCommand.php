@@ -54,14 +54,30 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
 
         $output->writeln( $newUsers );
 
-        // Get the number of Reviews
-        $reviewCountQuery = $em->createQueryBuilder();
-        $reviewCountQuery
+
+        // Get the number of Ratings
+        $ratingCountQuery = $em->createQueryBuilder();
+        $ratingCountQuery
             ->add('select','count(u.id) as new_reviews')
             ->add('from','ClassCentralSiteBundle:Review u')
             ->Where('u.created >= :created and u.created <= :created_1')
             ->setParameter('created', $dt_start)
             ->setParameter('created_1',  $dt_end)
+        ;
+
+        $newRatings = $ratingCountQuery->getQuery()->getSingleScalarResult();
+
+        $output->writeln( $newRatings );
+
+        // Get the number of Reviews
+        $reviewCountQuery = $em->createQueryBuilder();
+        $reviewCountQuery
+            ->add('select','count(u.id) as new_reviews')
+            ->add('from','ClassCentralSiteBundle:Review u')
+            ->Where("u.created >= :created and u.created <= :created_1 and u.review != :review")
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+            ->setParameter('review',  '')
         ;
 
         $newReviews = $reviewCountQuery->getQuery()->getSingleScalarResult();
@@ -101,6 +117,7 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
             ->send("
             *Stats for $date*
 New Users   : $newUsers
+New Ratings : $newRatings
 New Reviews : $newReviews
 New Credential Reviews: $newCredentialReviews
 Courses Added to MOOC Tracker : $newMOOCTrackerCourses
