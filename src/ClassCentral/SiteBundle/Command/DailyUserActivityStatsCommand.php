@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -97,6 +98,35 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
         $newMOOCTrackerCourses = $userCourseCountQuery->getQuery()->getSingleScalarResult();
         $output->writeln( $newMOOCTrackerCourses );
 
+        // Get the number of courses completed added to MOOC Tracker
+        $userCourseCompletedCountQuery = $em->createQueryBuilder();
+        $userCourseCompletedCountQuery
+            ->add('select','count(u.id) as new_mooc_tracker_courses')
+            ->add('from','ClassCentralSiteBundle:UserCourse u')
+            ->Where('u.created >= :created and u.created <= :created_1 and u.listId = :completed')
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+            ->setParameter('completed',  UserCourse::LIST_TYPE_COMPLETED);
+        ;
+
+        $completedMOOCTrackerCourses = $userCourseCompletedCountQuery->getQuery()->getSingleScalarResult();
+        $output->writeln( $completedMOOCTrackerCourses );
+
+        // Get the number of courses interested added to MOOC Tracker
+        $userCourseInterestedCountQuery = $em->createQueryBuilder();
+        $userCourseInterestedCountQuery
+            ->add('select','count(u.id) as new_mooc_tracker_courses')
+            ->add('from','ClassCentralSiteBundle:UserCourse u')
+            ->Where('u.created >= :created and u.created <= :created_1 and u.listId = :completed')
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+            ->setParameter('completed',  UserCourse::LIST_TYPE_INTERESTED);
+        ;
+
+        $interestedMOOCTrackerCourses = $userCourseInterestedCountQuery->getQuery()->getSingleScalarResult();
+        $output->writeln( $interestedMOOCTrackerCourses );
+
+
         // Credential count query
         $credentialReviewQuery = $em->createQueryBuilder();
         $credentialReviewQuery
@@ -121,6 +151,8 @@ New Ratings : $newRatings
 New Reviews : $newReviews
 New Credential Reviews: $newCredentialReviews
 Courses Added to MOOC Tracker : $newMOOCTrackerCourses
+Courses marked as Completed : $completedMOOCTrackerCourses
+Courses marked as Interested : $interestedMOOCTrackerCourses
             ");
     }
 }
