@@ -32,12 +32,12 @@ class RedditNetwork extends NetworkAbstractInterface
             1564, 1836,1837, 3200, 2737, 3758, 3475, 3476, 3478, 3928, 2738, 3642,3717, 4013, 4050, 4071,
             4108,4109, 4174,3466, 4191, 4248, 4268, 4337, 4164, 4196, 4212,4184,4419, 4240, 4269, 4305, 4343, 4348, 4169, 4197,
             4200, 4203, 4206, 4187, 4230, 3931,4545, 3418, 4856, 4887, 4272, 4388, 4152, 2732, 4473, 4297, 4321, 4325, 4328, 4362,4216,
-            4810, 4292, 4302, 4251
+            4810, 4292, 4302, 4251,4937,4953,4949, 4295,3768,4671,5026,5028,4288,4323,4334,4356,4175,4181,4224,4346,
         ),
         'advanced' => array(
             427,449,414,319,326,549,550, 552, 425, 1847,1848, 1849, 2018, 2458, 3000, 595, 1729, 2733,1623, 3256,1016, 1018, 1024, 1025, 1020,
             3289, 2735, 1029, 3458, 3290, 2965, 2781, 2736, 3531, 3473, 3474, 3433, 3291, 3692, 3555, 3917, 3655, 3024,  4352, 3954,
-            3332, 1023, 1022,4734, 3419, 1028, 4864, 4341, 416, 4351
+            3332, 1023, 1022,4734, 3419, 1028, 4864, 4341, 416, 4351,1026, 4219,4199,4913,4238
         )
     );
 
@@ -70,7 +70,27 @@ class RedditNetwork extends NetworkAbstractInterface
 
     public function outOffering(Offering $offering)
     {
+        $course = $offering->getCourse();
         $rs = $this->container->get('review');
+
+        // Figure out whether the course is new
+        $oneMonthAgo = new \DateTime();
+        $oneMonthAgo->sub(new \DateInterval("P30D"));
+        $newCourse = false;
+        if($course->getCreated() >= $oneMonthAgo)
+        {
+            $newCourse = true;
+        }
+        // Is it being offered for he first time
+        if(count($course->getOfferings()) == 1 and $offering->getCreated() > $oneMonthAgo  )
+        {
+            $newCourse = true;
+        }
+        if(count($course->getOfferings()) == 1 and $offering->getStatus() != Offering::COURSE_OPEN )
+        {
+            $newCourse = true;
+        }
+
 
         $name = '[' . $offering->getCourse()->getName(). ']' . '(' . $offering->getUrl() . ')';
 
@@ -117,9 +137,15 @@ class RedditNetwork extends NetworkAbstractInterface
         {
             $rating = "$ratingStars";
         }
+
+        $new ='';
+        if($newCourse)
+        {
+            $new = "[NEW]";
+        }
         
 
-        $this->output->writeln("$name via **$initiative**|$startDate|$length|$rating");
+        $this->output->writeln("{$new} $name via **$initiative**|$startDate|$length|$rating");
     }
 
 }
