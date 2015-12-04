@@ -105,6 +105,8 @@ services:
   es_cp:
       class: ClassCentral\ElasticSearchBundle\API\CoursePaginated
       arguments: [ '@es_client', '%es_index_name%']
+      tags:
+        - { name: 'monolog.logger', channel: 'review_widget' }
   course_finder:
       class: ClassCentral\ElasticSearchBundle\Finder
       arguments: ['@service_container']

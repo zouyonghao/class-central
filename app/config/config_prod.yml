@@ -26,6 +26,10 @@ monolog:
             type: stream
             path: %kernel.logs_dir%/scheduler.%kernel.environment%.log
             channels: [ scheduler ]
+        review_widget:
+            type: stream
+            path: %kernel.logs_dir%/review_widget.%kernel.environment%.log
+            channels: [ review_widget ]
 
 services:
  mailgun:

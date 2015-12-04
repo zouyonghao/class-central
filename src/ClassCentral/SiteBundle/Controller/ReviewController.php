@@ -526,6 +526,7 @@ class ReviewController extends Controller {
     public function getReviewWidgetAction(Request $request)
     {
 
+        $logger = $this->container->get('monolog.logger.review_widget');
         $cache = $this->get('Cache');
         $courseId = $request->query->get('course-id');
         $courseCode = $request->query->get('course-code');
@@ -537,6 +538,8 @@ class ReviewController extends Controller {
         // Basic check - if both course id and course code are empty then return a blank page
         if( empty($courseId) && empty($courseCode) )
         {
+            $logger->error("Course Id and course code missing",$request->query->all());
+
             // This returns an empty blank page
             return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
                 'course' => null
@@ -546,16 +549,18 @@ class ReviewController extends Controller {
         // If course-id is auto-detect then the course page url is a required field
         if( $courseId =='auto-detect' && empty($providerCourseUrl) )
         {
+            $logger->error("Provider Course url missing",$request->query->all());
             // This returns an empty blank page
             return $this->render('ClassCentralSiteBundle:Review:review.widget.html.twig', array(
                 'course' => null
             ));
         }
 
-        $data = $cache->get( $this->generateReviewWidgetCacheKey( $courseId, $courseCode,$providerCourseUrl ),function() use ($courseId,$courseCode,$providerCourseUrl, $courseName,$providerName){
+        $data = $cache->get( $this->generateReviewWidgetCacheKey( $courseId, $courseCode,$providerCourseUrl ),function() use ($courseId,$courseCode,$providerCourseUrl, $courseName,$providerName, $request){
 
             $em = $this->getDoctrine()->getManager();
             $rs = $this->get('review');
+            $logger = $this->container->get('monolog.logger.review_widget');
 
             // STEP 1: Figure out which course it is
             $course = null;
@@ -648,6 +653,7 @@ class ReviewController extends Controller {
             }
             else {
 
+                $logger->error("Course Not Found",$request->query->all());
                 return array(
                     'course' => null
                 );
