@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
 
-    {% set ad = random(3) %}
+    {% set ad = random(2) %}
 
     {% if ad == 0 %}
 
@@ -22,7 +22,7 @@
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': 'Introduction to Programming for the Visual Arts with p5.js',
         'courseUrl' : 'https://www.kadenze.com/courses/introduction-to-programming-for-the-visual-arts-with-p5-js/info?utm_source=https%3A%2F%2Fwww.class-central.com%2F&utm_medium=referral&utm_term=Programming%20Visual%20Art%20p5.js&utm_campaign=Class%20Central%20Ad',
-        'courseDate': '4th Nov, 2015',
+        'courseDate': 'Ongoing',
         'providerName':'Kadenze',
         'providerUrl' : 'https://www.kadenze.com/?utm_source=https%3A%2F%2Fwww.class-central.com%2F&utm_medium=referral&utm_term=Programming%20Visual%20Art%20p5.js&utm_campaign=Class%20Central%20Ad',
         'institutionName':'University of California, Los Angeles',
@@ -31,21 +31,6 @@
         'subjectSlug':'programming-and-software-development',
         'tableAd' : tableAd
       } %}
-
-    {% elseif ad == 2 %}
-        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
-        'courseName': 'The Internet of Things',
-        'courseUrl' : 'https://www.futurelearn.com/courses/internet-of-things?utm_source=ClassCentral&utm_medium=TextAd&utm_campaign=CC_05-11-2015',
-        'courseDate': '23rd Nov, 2015',
-        'providerName':'FutureLearn',
-        'providerUrl' : 'https://www.futurelearn.com?utm_source=ClassCentral&utm_medium=TextAd&utm_campaign=CC_05-11-2015',
-        'institutionName':"King's College London",
-        'institutionUrl': '/university/kcl',
-        'subjectName': 'Computer Science',
-        'subjectSlug':'cs',
-        'tableAd' : tableAd
-        } %}
-
     {% else %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
             'courseName': 'Basic Mandarin with Féng lǎoshī',
