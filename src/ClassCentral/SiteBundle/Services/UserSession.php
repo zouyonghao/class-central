@@ -49,7 +49,8 @@ class UserSession
         'forgotpassword', 'forgotpassword_sendemail', 'resetPassword', 'resetPassword_save',
         'fb_authorize_start', 'fb_authorize_redirect',
         'review_save', 'review_create',
-        'login','github_btn','pre_signup_add_to_library'
+        'login','github_btn','pre_signup_add_to_library',
+        'credential_review_save','credential_review'
     );
 
     private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);
@@ -152,6 +153,17 @@ class UserSession
         $user->setLastLogin(new \DateTime());
         $this->em->persist($user);
         $this->em->flush();
+
+        // Instead of signing up, users choose to login. Save the session information to their account.
+        $activities = $this->getAnonActivities();
+        foreach($activities as $activity)
+        {
+            switch ($activity['activity']) {
+                case 'credential_review':
+                    $us->addUserToCredentialReview($user, $activity['id']);
+                    break;
+            }
+        }
 
         // Send a successfull login notification
         if($facebook)
