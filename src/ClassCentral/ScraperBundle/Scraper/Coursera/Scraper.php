@@ -100,7 +100,7 @@ class Scraper extends ScraperAbstractInterface {
         $allCourses = json_decode(file_get_contents( $url ),true);
         foreach ($allCourses['linked']['courses.v1'] as $element)
         {
-            if( $element['courseType'] == 'v2.ondemand')
+            if( $element['courseType'] == 'v2.ondemand' || $element['courseType'] == 'v2.capstone')
             {
 
                 $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
