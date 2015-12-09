@@ -1,10 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
-    <title>{{institution.name}} free online courses and MOOCs | Class Central</title>
+    <title>{{institution.name}} • Free Online Courses and MOOCs | Class Central</title>
     <meta name="description" content="Discover free online courses taught by {{ institution.name }}. Watch videos, do assignments, earn a certificate while learning from some of the best Professors."/>
 
-    <meta property="og:title" content="{{institution.name}} free online courses and MOOCs | Class Central" />
+    <meta property="og:title" content="{{institution.name}} • Free Online Courses and MOOCs | Class Central" />
 
     {% set route = 'ClassCentralSiteBundle_university' %}
     {% if not institution.isUniversity %}
@@ -22,7 +22,7 @@
     <!-- Twitter card integration -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@classcentral">
-    <meta name="twitter:title" content="{{institution.name}} free online courses and MOOCs">
+    <meta name="twitter:title" content="{{institution.name}} • Free Online Courses and MOOCs">
     <meta name="twitter:description" content="List of {{institution}} free online courses/MOOCs aggregated by Class Central">
     <meta name="twitter:domain" content="www.class-central.com">
 

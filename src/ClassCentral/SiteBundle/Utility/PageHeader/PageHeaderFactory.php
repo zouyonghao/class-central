@@ -72,7 +72,7 @@ class PageHeaderFactory {
     private static function getFromInstitution(Institution $entity)
     {
         $info = new PageHeaderInfo("Institution");
-        $info->setName($entity->getName().  ' free online courses');
+        $info->setName($entity->getName().  ' | Free Online Courses');
         $info->setUrl($entity->getUrl());
         $info->setDescription($entity->getDescription());
         if($entity->getImageUrl())
