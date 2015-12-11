@@ -85,3 +85,6 @@ parameters:
     
     # Elasticsearch	
     es_host: 'http://localhost'
+
+    # Inspectlet
+    inspectlet_id: ~
