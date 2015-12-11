@@ -27,7 +27,8 @@ class SignupType extends AbstractType{
              'invalid_message' => "The password fields must match",
              'label' => 'Password',
              'attr'=>array(
-                 'placeholder' => 'Password'
+                 'placeholder' => 'Password',
+                 'class' => 'inspectletIgnore',
              )
          ));
         $builder->add('save', 'submit',array(
