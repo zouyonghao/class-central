@@ -118,7 +118,20 @@ class SpotlightController extends Controller
                     // Directly put url in the thumbnail field
                     $entity->setImageUrl( $course->getThumbnail() );
                 }
+            }
 
+            if($entity->getType() == Spotlight::SPOTLIGHT_TYPE_BLOG)
+            {
+                // Blog image is of different size as compared to all other spotlight images
+                $entity->setImageUrl(
+                    $this->get('image_service')->getBlogSpotlightImage( $entity->getImageUrl(), $entity->getId() )
+                );
+
+            }
+            else
+            {
+                // Crop the spotlight image
+                $this->get('image_service')->getSpotlightImage( $entity->getImageUrl(), $entity->getId() );
             }
 
             $em->persist($entity);
@@ -128,8 +141,7 @@ class SpotlightController extends Controller
             $cache = $this->get('Cache');
             $cache->deleteCache ('spotlight_cache');
 
-            // Crop the spotlight image
-            $this->get('image_service')->getSpotlightImage( $entity->getImageUrl, $entity->getId() );
+
 
             return $this->redirect($this->generateUrl('spotlight_edit', array('id' => $id)));
         }
