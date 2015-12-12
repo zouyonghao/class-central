@@ -86,13 +86,24 @@ class Image {
     // Given an image its returns the image in spotlight sized
     public function getSpotlightImage($imageURl, $spotlightId)
     {
+        return $this->cropAndSaveSpotlightImage($imageURl,$spotlightId, 160,198);
+    }
+
+    // Given an image its returns the image in spotlight sized
+    public function getBlogSpotlightImage($imageURl, $spotlightId)
+    {
+        return $this->cropAndSaveSpotlightImage($imageURl,$spotlightId,480,800);
+    }
+
+    private function cropAndSaveSpotlightImage($imageURl, $spotlightId, $height, $width)
+    {
         $uniqueKey = 'spl1'. basename($imageURl );
 
         // Check if the file exists or has changed.
         if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_SPOTLIGHT,Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE, $spotlightId ,$uniqueKey ) )
         {
             // Upload the hew file
-            $croppedImageUrl = $this->cropImage( $imageURl, 160, 198 );
+            $croppedImageUrl = $this->cropImage( $imageURl, $height, $width );
 
             // Upload the file
             $filePath = '/tmp/modified_'.$uniqueKey;

@@ -141,7 +141,6 @@ class SpotlightController extends Controller
 
     private function getCourseImage( $cid )
     {
-
         $kuber = $this->container->get('kuber');
         $url = $kuber->getUrl( Kuber::KUBER_ENTITY_COURSE ,Kuber::KUBER_TYPE_COURSE_IMAGE, $cid );
         return $url;
