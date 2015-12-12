@@ -147,7 +147,15 @@ class CourseListing {
 
             $finder = $this->container->get('course_finder');
 
-            extract($this->getInfoFromParams($request->query->all()));
+            $params = $request->query->all();
+            if($status == 'selfpaced' && empty($params['sort']) )
+            {
+                // make the default sort by rating
+                $params['sort'] = 'rating-up';
+            }
+
+            extract($this->getInfoFromParams( $params ));
+
             $courses = $finder->byTime($status, $filters, $sort, $pageNo);
             extract($this->getFacets($courses));
 
