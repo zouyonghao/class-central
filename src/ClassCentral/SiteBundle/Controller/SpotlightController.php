@@ -115,7 +115,8 @@ class SpotlightController extends Controller
                 }
                 else
                 {
-                    $entity->setImageUrl(  Course::THUMBNAIL_BASE_URL . $course->getThumbnail() );
+                    // Directly put url in the thumbnail field
+                    $entity->setImageUrl( $course->getThumbnail() );
                 }
 
             }
