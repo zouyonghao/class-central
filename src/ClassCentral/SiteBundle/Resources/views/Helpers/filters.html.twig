@@ -178,4 +178,7 @@
 {% if page is defined %}
     {% set pageName = page %}
 {% endif %}
-{% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}
+
+<div class="js-sticky-in-parent-row" style="overflow: hidden;">
+    {% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}
+</div>

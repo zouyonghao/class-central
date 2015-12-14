@@ -1223,5 +1223,23 @@ jQuery(function($) {
         });
     }
 
+    // make ads sticky
+    if ($("html").hasClass("no-touch")) {
+        if ($(window).width() > 768 ) {
+            $(".js-sticky-in-parent-row").stick_in_parent({
+                parent: '.row'
+            });
+        }
+        $( window ).resize(function() {
+            if ($(window).width() > 768 ) {
+                $(".js-sticky-in-parent-row").stick_in_parent({
+                    parent: '.row'
+                });
+            } else {
+                $(".js-sticky-in-parent-row").trigger("sticky_kit:detach");
+            }
+        });
+    }
+
 
 });
