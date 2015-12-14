@@ -709,11 +709,6 @@ body {
   margin: 10px 7px 8px 10px;
 }
 
-.navbar-default .nav-title,
-.navbar-default .user-menu-wrap > a {
-  padding-left: 24px;
-}
-
 .navbar-default {
   font-size: 15px;
   font-weight: 400;
@@ -787,7 +782,7 @@ body {
   padding-top: 30px;
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: @screen-lg-min) {
   .navbar-default:after {
     content: "";
     display: block;
@@ -816,7 +811,8 @@ body {
     fill: @blue;
   }
 
-  .navbar-default .navbar-nav > li.user-menu-wrap > a:hover {
+  .navbar-default .navbar-nav > li.user-menu-wrap > a:hover,
+  .navbar-default .navbar-nav > li.user-menu-wrap > a:focus {
     color: @blue;
   }
 
@@ -895,11 +891,25 @@ body {
   color: #fff;
 }
 
+.navbar .nav > li > a {
+  padding-left: 15px;
+}
+
 @media (min-width: @grid-float-breakpoint) {
   .navbar-default .navbar-nav > .open > a,
   .navbar-default .navbar-nav > .open > a:hover,
   .navbar-default .navbar-nav > .open > a:focus {
     color: @gray-dark;
+  }
+
+  .navbar-nav .dropdown:hover .dropdown-menu,
+  .navbar-nav .dropdown:focus .dropdown-menu {
+    display: block;
+  }
+
+  .navbar-default .nav-title,
+  .navbar-default .user-menu-wrap > a {
+    padding-left: 24px;
   }
 
 }
@@ -1034,8 +1044,10 @@ body {
   }
 
   .user-menu-wrap a:hover .icon-lock,
-  .user-menu-wrap a:hover .icon-user {
-    fill: #333;
+  .user-menu-wrap a:hover .icon-user,
+  .user-menu-wrap a:focus .icon-lock,
+  .user-menu-wrap a:focus .icon-user {
+    fill: #0662a1;
   }
 
 }
@@ -2164,7 +2176,22 @@ td.add-column .dropdown {
   margin-bottom: 0;
   padding-top: 2px;
   padding-bottom: 2px;
+}
 
+// .dropdown:before element prevents dropdown from closing when hovering over the gap
+td.add-column .dropdown:before {
+  content: "";
+  display: block;
+  height: 30px;
+  width: 158px;
+  position: absolute;
+  left: -23px;
+  bottom: -16px;
+}
+
+.add-column .dropdown:hover .dropdown-menu,
+.add-column .dropdown:focus .dropdown-menu {
+  display: block;
 }
 
 .add-column .dropdown-menu {

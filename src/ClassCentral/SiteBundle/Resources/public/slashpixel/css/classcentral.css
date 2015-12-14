@@ -1285,10 +1285,6 @@ Newsletter subscribe pages
         margin-left: 15px;
     }
 
-    .navbar .nav>li>a {
-        padding-left: 15px;
-    }
-
     .cc-navbar {
         min-height: 20px;
     }
@@ -1393,12 +1389,5 @@ Newsletter subscribe pages
         font-size: 30px;
     }
 
-}
-
-@media only screen and (min-width : 768px) {
-    /* Make Navigation Toggle on Desktop Hover */
-    .navbar-nav .dropdown:hover .dropdown-menu {
-        display: block;
-    }
 }
 
