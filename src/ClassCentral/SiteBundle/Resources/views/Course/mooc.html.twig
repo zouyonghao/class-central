@@ -524,8 +524,9 @@
         {# include instructor review #}
         {% include 'ClassCentralSiteBundle:Course:helpers/interview.html.twig' %}
 
-
-        {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
+        <div class="js-sticky-in-parent-row" style="overflow: hidden;">
+            {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
+        </div>
 
 
     </div>
