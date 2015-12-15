@@ -40,6 +40,8 @@ twig:
       clicky_site_id: %clicky_site_id%
       sumo_site_id  : %sumo_site_id%
       inspectlet_id : %inspectlet_id%
+      keen_project_id: %keen_project_id%
+      keen_write_key:  %keen_write_key%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

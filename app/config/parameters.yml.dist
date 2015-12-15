@@ -88,3 +88,7 @@ parameters:
 
     # Inspectlet
     inspectlet_id: ~
+    
+    # Keen
+    keen_project_id : ~
+    keen_write_key : ~
