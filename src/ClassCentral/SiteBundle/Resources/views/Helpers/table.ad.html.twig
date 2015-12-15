@@ -7,11 +7,11 @@
 
     <td class="course-name-column">
         <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
-        <a class="course-name ad-name"  rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}')" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
+        <a class="course-name ad-name"  rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}'); CC.Class['Analytics'].logCourseAd('Table Ad','{{ providerName }}','{{ courseName }}');" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
         <ul class="table-uni-list">
             {% if institutionName is not empty %}
                 <li>
-                    <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onclick="ga('send','event', 'Inbound Clicks - University', '{{ institutionName }}', '{{ courseName }}')">{{ institutionName }}</a>
+                    <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onmousedown="ga('send','event', 'Inbound Clicks - University', '{{ institutionName }}', '{{ courseName }}')">{{ institutionName }}</a>
 
                 </li>
             {% endif %}
