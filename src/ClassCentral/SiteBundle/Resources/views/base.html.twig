@@ -24,6 +24,7 @@
     {% endif %}
     <!-- End Inspectlet Embed Code -->
 
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -113,6 +114,8 @@
     {% if not app.user %}
         <script src="//load.sumome.com/" data-sumo-site-id="{{ sumo_site_id }}" async="async"></script>
     {% endif %}
+
+    <script src="https://d26b395fwzu5fz.cloudfront.net/3.3.0/keen-tracker.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -254,6 +257,7 @@
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.profile.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.flexslider-min.js'
 '@ClassCentralCredentialBundle/Resources/public/js/cc.credential.js'
+'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.analytics.js'
 %}
 
 {#
@@ -278,6 +282,8 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+        CC.Class['Analytics'].initKeenAdTrackingWriteClient('{{ keen_project_id }}','{{keen_write_key }}');
 
         var customRenderFunction = function(document_type, item) {
             var title = '<p class="title">' + item['name'] + '</p>';
