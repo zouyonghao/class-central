@@ -18,7 +18,6 @@ CC.Class['Analytics'] = (function(){
     }
 
     function logCourseAd(src, providerName, courseName) {
-        console.log("KEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNNNNNNNNNN");
         var courseAd = {
             src : src,
             provider : providerName,
@@ -28,11 +27,10 @@ CC.Class['Analytics'] = (function(){
             keenAdTrackingClient.addEvent("courseAds", courseAd, function(err, res){
                 if (err) {
                     // there was an error!
-                    console.log(err);
+
                 }
                 else {
-                    // see sample response below
-                    console.log(res);
+
                 }
             });
         }
