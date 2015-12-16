@@ -31,7 +31,8 @@
         "oyejorge/less.php": "dev-master",
         "aws/aws-sdk-php": "2.6.15",
         "facebook/php-sdk-v4": "4.0.*",
-        "maknz/slack": "dev-master"
+        "maknz/slack": "dev-master",
+        "keen-io/keen-io-bundle": "~1.1"
     },
     "repositories" : [
 	{
