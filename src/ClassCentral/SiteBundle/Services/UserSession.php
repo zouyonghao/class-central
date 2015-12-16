@@ -67,6 +67,8 @@ class UserSession
     {
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY'))
         {
+            $keen = $this->container->get('keen');
+            $keen->recordLogins($event->getAuthenticationToken()->getUser(),'login');
             $this->login($event->getAuthenticationToken()->getUser());
         }
 

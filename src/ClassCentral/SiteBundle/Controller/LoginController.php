@@ -164,6 +164,11 @@ class LoginController extends Controller{
             if($user)
             {
                 $userService->login($user);
+
+                // Record Logins
+                $keen = $this->container->get('keen');
+                $keen->recordLogins($user,'facebook');
+
                 $userSession->setPasswordLessLogin(true);
                 // Check whether the user has fb details
                 $ufb = $user->getFb();

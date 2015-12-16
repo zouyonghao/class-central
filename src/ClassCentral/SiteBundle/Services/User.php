@@ -734,6 +734,7 @@ class User {
     {
         $tokenService = $this->container->get('verification_token');
 
+
         // Check if there is login token
         $loginToken = $request->query->get('autoLogin');
         if( empty($loginToken) )
@@ -770,6 +771,10 @@ class User {
             {
                 // User exists. Log him in
                 $this->login($user);
+
+                // Record Logins
+                $keen = $this->container->get('keen');
+                $keen->recordLogins($user,'auto_login');
 
                 // Populate the session
                 $this->container->get('user_session')->login( $user );
