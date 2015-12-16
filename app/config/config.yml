@@ -87,6 +87,12 @@ doctrine:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
 
+keen_io:
+      project_id: %keen_user_stats_project_id%
+      master_key: %keen_user_stats_master_key%
+      write_key:  %keen_user_stats_write_key%
+      read_key:   %keen_user_stats_read_key%
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: %mailer_transport%

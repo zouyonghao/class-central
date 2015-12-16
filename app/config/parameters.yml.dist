@@ -92,3 +92,7 @@ parameters:
     # Keen
     keen_project_id : ~
     keen_write_key : ~
+    keen_user_stats_project_id : ~
+    keen_user_stats_master_key : ~
+    keen_user_stats_write_key: ~
+    keen_user_stats_read_key: ~

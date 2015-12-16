@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new ClassCentral\ElasticSearchBundle\ClassCentralElasticSearchBundle(),
             new ClassCentral\MOOCTrackerBundle\ClassCentralMOOCTrackerBundle(),
             new ClassCentral\CredentialBundle\ClassCentralCredentialBundle(),
+            new KeenIO\Bundle\KeenIOBundle\KeenIOBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {          
