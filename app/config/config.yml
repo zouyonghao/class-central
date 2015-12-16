@@ -212,3 +212,7 @@ services:
   session.handler.memcached:
     class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
     arguments: [@session.memcached, { prefix: %baseurl%, expiretime: %session_memcached_expire% }]
+  keen:
+     class: ClassCentral\SiteBundle\Services\Keen
+     arguments: [ '@service_container' ]
+
