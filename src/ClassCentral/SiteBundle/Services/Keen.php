@@ -30,4 +30,17 @@ class Keen
             'type' => $type
         ));
     }
+
+    /**
+     * @param User $user
+     * @param null $src
+     */
+    public function recordSignups(User $user,  $src = null)
+    {
+        $this->keenClient->addEvent('signups', array(
+        'user_id' => $user->getId(),
+        'type' => $user->getSignupTypeString(),
+        'src' => $src
+    ));
+    }
 }

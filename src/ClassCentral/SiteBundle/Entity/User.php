@@ -740,6 +740,16 @@ class User implements UserInterface, \Serializable
         return $this->signupType;
     }
 
+    public function getSignupTypeString()
+    {
+        if($this->signupType == self::SIGNUP_TYPE_FACEBOOK)
+        {
+            return 'facebook';
+        }
+
+        return 'signup_form';
+    }
+
     /**
      * Set fb
      *

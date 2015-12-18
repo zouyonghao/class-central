@@ -113,6 +113,8 @@ class User {
             }
         }
 
+        $this->container->get('keen')->recordSignups($user, $src);
+
         // Check if it was the review first signup later flow
         $review = $this->addUserToReview($user);
         if($review instanceof \ClassCentral\SiteBundle\Entity\Review)
