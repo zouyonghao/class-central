@@ -34,11 +34,30 @@ CC.Class['Analytics'] = (function(){
                 }
             });
         }
+    }
+
+    function logTextAd(src,adTitle) {
+        var textAd = {
+            src: src,
+            adTitle: adTitle
         }
+        if(keenAdTrackingClient) {
+            keenAdTrackingClient.addEvent("textAds",textAd,function(err,res){
+                if (err) {
+                    // there was an error!
+
+                }
+                else {
+
+                }
+            });
+        }
+    }
 
     return {
         'init' : init,
         'initKeenAdTrackingWriteClient' : initKeenAdTrackingWriteClient,
-        'logCourseAd': logCourseAd
+        'logCourseAd': logCourseAd,
+        'logTextAd' : logTextAd
     };
 })();
