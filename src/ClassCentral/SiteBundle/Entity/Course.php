@@ -937,13 +937,15 @@ abstract class CourseStatus
     const AVAILABLE = 0;
     const NOT_AVAILABLE = 100;
     const TO_BE_REVIEWED = 101; // To be reviewed by someone before it is displayed
+    const PAID_COURSE = 102;
 
     public static function getStatuses()
     {
         return array(
             self::AVAILABLE => 'Available',
             self::NOT_AVAILABLE => 'Not Available',
-            self::TO_BE_REVIEWED => 'To Be Reviewed'
+            self::TO_BE_REVIEWED => 'To Be Reviewed',
+            self::PAID_COURSE => 'Paid'
         );
     }
 
