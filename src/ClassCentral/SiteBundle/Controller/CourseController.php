@@ -203,13 +203,19 @@ class CourseController extends Controller
         $editForm = $this->createForm(new CourseType($lite), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
+        $tags = array();
+        if(!$lite)
+        {
+            $tags = $ts->getAllTags();
+        }
+
         return $this->render('ClassCentralSiteBundle:Course:edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'tags' => $ts->getAllTags(),
             'course_tags' => implode(',',$ct),
-             'lite' => $lite
+            'lite' => $lite,
+            'tags' => $tags
         ));
     }
 

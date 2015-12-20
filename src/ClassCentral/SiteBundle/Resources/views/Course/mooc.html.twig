@@ -86,7 +86,7 @@
     {% if is_granted('ROLE_ADMIN') %}
 
         <p><b>Links for Admin</b></p>
-        <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
+        <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_edit_lite', { 'id': course.id }) }}">Edit Course Lite</a><a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
         {% if course.status == 101  %}
             <b><a href="{{ path('course_approve',{'courseId': course.id}) }}">Quick Approve Course</a></b>
         {% endif %}
