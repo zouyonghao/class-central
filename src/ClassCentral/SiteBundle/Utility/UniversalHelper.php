@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Utility;
 
 
+use ClassCentral\SiteBundle\Services\Review;
 use Symfony\Component\HttpFoundation\Response;
 
 class UniversalHelper {
@@ -53,6 +54,17 @@ class UniversalHelper {
         $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
 
         return $url;
+    }
+
+    public static function calculateBayesianAverageRating($averageRating, $numRatings)
+    {
+        $bayesian_average = 0;
+        if( $averageRating > 0 )
+        {
+            $bayesian_average = ((Review::AVG_NUM_VOTES * Review::AVG_RATING) + ($numRatings * $averageRating)) / (Review::AVG_NUM_VOTES + $numRatings);
+        }
+
+        return round( $bayesian_average, 4);
     }
 
 } 
