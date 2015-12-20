@@ -8,8 +8,6 @@
 
 namespace ClassCentral\SiteBundle\Services;
 
-
-use ClassCentral\SiteBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Keen
@@ -23,7 +21,7 @@ class Keen
         $this->keenClient = $container->get('keen_io');
     }
 
-    public function recordLogins(User $user, $type)
+    public function recordLogins(\ClassCentral\SiteBundle\Entity\User $user, $type)
     {
         $this->keenClient->addEvent('logins', array(
             'user_id' => $user->getId(),
@@ -35,7 +33,7 @@ class Keen
      * @param User $user
      * @param null $src
      */
-    public function recordSignups(User $user,  $src = null)
+    public function recordSignups(\ClassCentral\SiteBundle\Entity\User $user,  $src = null)
     {
         $this->keenClient->addEvent('signups', array(
         'user_id' => $user->getId(),
