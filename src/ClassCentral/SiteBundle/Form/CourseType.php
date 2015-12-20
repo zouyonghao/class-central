@@ -9,6 +9,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CourseType extends AbstractType {
 
+    /**
+     * If true does not show fields like instructors, institutions, tags, to load faster
+     * @var bool
+     */
+    private $lite;
+    public function __construct($lite = false)
+    {
+        $this->lite = $lite;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder
@@ -33,9 +43,10 @@ class CourseType extends AbstractType {
                 'query_builder' => function(EntityRepository $er){
                     return $er->createQueryBuilder('i')->orderBy('i.name','ASC');
                 }
-             ))
-
-            ->add('institutions', null, array(
+             ));
+        if(!$this->lite)
+        {
+            $builder->add('institutions', null, array(
                 'required'=>false,
                 'empty_value'=>true,
                 'class' => 'ClassCentralSiteBundle:Institution',
@@ -43,19 +54,20 @@ class CourseType extends AbstractType {
                     return $er->createQueryBuilder('i')->orderBy('i.name','ASC');
                 }
             ))
-            ->add('language',null,array('required'=>false,'empty_value' => true))
-            ->add('url')
-            ->add('videoIntro')
-            ->add('length')
-
-            ->add('instructors', null, array(
+                ->add('instructors', null, array(
                 'required'=>false,
                 'empty_value'=>true,
                 'class' => 'ClassCentralSiteBundle:Instructor',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('i')->orderBy('i.id','DESC');
                 }
-            ))
+            ));
+        }
+
+        $builder->add('language',null,array('required'=>false,'empty_value' => true))
+            ->add('url')
+            ->add('videoIntro')
+            ->add('length')
             ->add('certificate')
             ->add('verifiedCertificate')
             ->add('workloadMin')

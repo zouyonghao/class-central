@@ -9,9 +9,12 @@
 
 <form action="{{ path('course_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} id="course-edit">
     {{ form_widget(edit_form) }}
+    {% if not lite %}
 
     <label>Tags</label>
         <input type="text" id="course-tags" name="course-tags" class="demo-default selectized" value="{{ course_tags }}" tabindex="-1" style="display: none;">
+
+    {% endif %}
     <p>
         <button type="submit">Edit</button>
     </p>

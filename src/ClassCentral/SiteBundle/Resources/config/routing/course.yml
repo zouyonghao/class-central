@@ -31,6 +31,10 @@ course_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "ClassCentralSiteBundle:Course:edit" }
 
+course_edit_lite:
+    pattern:  /{id}/edit_lite
+    defaults: { _controller: "ClassCentralSiteBundle:Course:editLite" }
+
 course_update:
     pattern:  /{id}/update
     defaults: { _controller: "ClassCentralSiteBundle:Course:update" }

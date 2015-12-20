@@ -169,6 +169,20 @@ class CourseController extends Controller
      */
     public function editAction($id)
     {
+        return $this->edit($id, false);
+    }
+
+    /**
+     * Displays a form to edit an existing Course entity.
+     *
+     */
+    public function editLiteAction($id)
+    {
+        return $this->edit($id, true);
+    }
+
+    private function edit($id, $lite = false)
+    {
         $em = $this->getDoctrine()->getManager();
         $ts = $this->get('tag'); // tag service
 
@@ -186,7 +200,7 @@ class CourseController extends Controller
             $ct[] = $tag->getName();
         }
 
-        $editForm = $this->createForm(new CourseType(), $entity);
+        $editForm = $this->createForm(new CourseType($lite), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ClassCentralSiteBundle:Course:edit.html.twig', array(
@@ -194,7 +208,8 @@ class CourseController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'tags' => $ts->getAllTags(),
-            'course_tags' => implode(',',$ct)
+            'course_tags' => implode(',',$ct),
+             'lite' => $lite
         ));
     }
 
