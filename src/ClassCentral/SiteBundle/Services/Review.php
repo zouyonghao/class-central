@@ -9,6 +9,8 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\ReviewSummary;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
@@ -111,6 +113,33 @@ class Review {
         }
 
         return round( $bayesian_average, 4);
+    }
+
+    public function getAverageRatingForInstitution(Institution $ins)
+    {
+        $numCourses = 0;
+        $numRatings = 0;
+        $avgRatingSum = 0;
+        $rating = 0;
+        foreach($ins->getCourses() as $course)
+        {
+            if($course->getStatus() == CourseStatus::AVAILABLE)
+            {
+                $numCourses++;
+                $courseRatings = $this->calculateAverageRating($course->getId());
+                $numRatings += $courseRatings['numRatings'];
+                $avgRatingSum += $courseRatings['rating'];
+            }
+        }
+        if($numCourses > 0)
+        {
+            $rating = $avgRatingSum/$numCourses;
+        }
+
+        return array(
+            'rating' => $rating,
+            'numRatings' => $numRatings
+        );
     }
 
     public function getReviews($courseId)
