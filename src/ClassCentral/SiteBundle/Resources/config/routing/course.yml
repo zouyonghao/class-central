@@ -23,6 +23,10 @@ course_review:
     pattern: /review
     defaults: {_controller: "ClassCentralSiteBundle:Course:review"}
 
+course_paid:
+    pattern: /paid
+    defaults: {_controller: "ClassCentralSiteBundle:Course:paidCourses"}
+
 course_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "ClassCentralSiteBundle:Course:edit" }

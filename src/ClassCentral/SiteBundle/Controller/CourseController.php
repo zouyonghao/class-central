@@ -639,6 +639,20 @@ EOD;
         ));
     }
 
+    /**
+     * Shows courses which are marked as paid. These
+     * courses are not visible to the user
+     * @return Response
+     */
+    public function paidCoursesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findByStatus(CourseStatus::PAID_COURSE);
+        return $this->render('ClassCentralSiteBundle:Course:review.html.twig', array(
+            'courses' => $courses
+        ));
+    }
+
 
     public function bulkEditAction(Request $request)
     {
