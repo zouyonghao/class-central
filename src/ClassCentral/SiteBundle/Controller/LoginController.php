@@ -9,7 +9,6 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
-use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserFb;
 use ClassCentral\SiteBundle\Services\Kuber;
 use Facebook\FacebookRedirectLoginHelper;
@@ -213,7 +212,7 @@ class LoginController extends Controller{
                 $user->setName($name);
                 $user->setPassword($this->getRandomPassword()); // Set a random password
                 $user->setIsverified(true);
-                $user->setSignupType(User::SIGNUP_TYPE_FACEBOOK);
+                $user->setSignupType(\ClassCentral\SiteBundle\Entity\User::SIGNUP_TYPE_FACEBOOK);
 
                 $redirectUrl = $userService->createUser($user, false, (empty($src)) ? 'facebook' : $src );
                 $userSession->setPasswordLessLogin(true); // Set the variable to show that the user didn't use a password to login
