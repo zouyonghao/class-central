@@ -207,7 +207,7 @@ class LoginController extends Controller{
 
 
                 // Create a new account
-                $user = new User();
+                $user = new \ClassCentral\SiteBundle\Entity\User();
                 $user->setEmail($email);
                 $user->setName($name);
                 $user->setPassword($this->getRandomPassword()); // Set a random password
@@ -258,7 +258,7 @@ class LoginController extends Controller{
      * @param User $user
      * @param $username
      */
-    private function uploadFacebookProfilePic( User $user, $fbId)
+    private function uploadFacebookProfilePic( \ClassCentral\SiteBundle\Entity\User $user, $fbId)
     {
         try{
             $kuber = $this->get('kuber');
