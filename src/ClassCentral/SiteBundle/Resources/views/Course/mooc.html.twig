@@ -653,7 +653,10 @@
 
     {# Banner Ad #}
     <div class="col-sm-12 course-col" align="center">
-        <a target="_blank" href="https://www.canvas.net/pages/offer-a-course/?utm_source=Class-Central&utm_medium=BannerAd&utm_campaign=CN+Banner+Ad&utm_content=Rectangle" onmousedown="ga('send','event', 'Banner Ad', 'Canvas Network','Course Page')"> <img src="https://d3r3mog6nu8pt4.cloudfront.net/ads/2016_01_ClassCentral_728x90_05b_CanvasNet.jpg" style="max-width: 728px; width: 100%" /> </a>
+        {%  include 'ClassCentralSiteBundle:Helpers:banner.ads.html.twig' with {
+        'bannerAdlocation': 'Course Page'
+        }
+        %}
     </div>
 
     <div class="col-sm-12 course-col">
