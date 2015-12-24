@@ -54,10 +54,30 @@ CC.Class['Analytics'] = (function(){
         }
     }
 
+    function logBannerAd(provider,location,desc) {
+        var bannerAd = {
+            provider: provider,
+            location: location,
+            desc: desc
+        }
+        if(keenAdTrackingClient) {
+            keenAdTrackingClient.addEvent("bannerAds",bannerAd,function(err,res){
+                if (err) {
+                    // there was an error!
+
+                }
+                else {
+
+                }
+            });
+        }
+    }
+
     return {
         'init' : init,
         'initKeenAdTrackingWriteClient' : initKeenAdTrackingWriteClient,
         'logCourseAd': logCourseAd,
-        'logTextAd' : logTextAd
+        'logTextAd' : logTextAd,
+        'logBannerAd' : logBannerAd
     };
 })();
