@@ -317,7 +317,7 @@ class Scraper extends ScraperAbstractInterface
         }
         }
         /**
-         fclose($fp);         
+         fclose($fp);
          */
         return $offerings;
 
@@ -350,7 +350,7 @@ class Scraper extends ScraperAbstractInterface
         $course->setVideoIntro( $c['course-video-youtube']);
         $course->setUrl($c['link']);
 
-        $course->setCertificate( true );
+        $course->setCertificate( false );
         $course->setVerifiedCertificate( $c['course-verified'] );
 
         // Calculate length
