@@ -17,6 +17,7 @@ class Scraper extends ScraperAbstractInterface
     const EDX_COURSE_LIST_CSV = "https://www.edx.org/api/report/course-feed/export";
     const EDX_RSS_API = "https://www.edx.org/api/v2/report/course-feed/rss?page=%s";
     const EDX_CARDS_API = "https://www.edx.org/api/discovery/v1/course_run_cards";
+    const EDX_ENROLLMENT_COURSE_DETAIL = 'https://courses.edx.org/api/enrollment/v1/course/%s?include_expired=1'; // Contains pricing information
     public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251,15861, 15381
         ,15701, 7056
     );
@@ -53,7 +54,12 @@ class Scraper extends ScraperAbstractInterface
         // Get the course list from the new RSS API
 
         $page = 0;
-
+        /*
+        $fp = fopen("extras/edX_prices.csv", "w");
+        fputcsv($fp, array(
+            'Course Name', 'Certificate Name', 'Prices(in $)'
+        ));
+        */
         while(true) {
 
             $page++;
@@ -87,6 +93,36 @@ class Scraper extends ScraperAbstractInterface
                 $cTags[] = strtolower($edxCourse['course-school'] );
             }
 
+            $courseId = $edxCourse['course-id'];
+
+            /**
+            $fileName = "/tmp/edx/{$edxCourse['title']}.json";
+            if( file_exists($fileName) )
+            {
+                $productPrices = json_decode(file_get_contents($fileName),true);
+            }
+            else
+            {
+                $productPrices =  json_decode(file_get_contents( sprintf(self::EDX_ENROLLMENT_COURSE_DETAIL, $courseId) ),true);
+                if(!empty($productPrices))
+                {
+                    file_put_contents($fileName, json_encode($productPrices));
+                }
+            }
+
+            foreach( $productPrices['course_modes'] as $mode)
+            {
+                if($mode['name'] == 'Honor Certificate' || $mode['name'] == 'Audit')
+                {
+                    continue;
+                }
+                $this->out( $edxCourse['title'] . '|||' . $mode['name'] . '|||' . $mode['min_price']);
+                fputcsv($fp, array(
+                    $edxCourse['title'], $mode['name'], $mode['min_price']
+                ));
+            }
+             continue;
+             * */
 
             $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
 
@@ -280,7 +316,9 @@ class Scraper extends ScraperAbstractInterface
 
         }
         }
-
+        /**
+         fclose($fp);         
+         */
         return $offerings;
 
     }
