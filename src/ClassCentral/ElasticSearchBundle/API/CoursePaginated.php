@@ -48,13 +48,14 @@ class CoursePaginated {
                                 "lt" => 100
                             )
                         ),
-                    ),
-                    $query
-
-
+                    )
             )
-
         ));
+
+        if(!empty($query))
+        {
+            $params['body']['query']['bool']['must'][] = $query;
+        }
         $params['body']['facets'] = $facets;
         if( !empty($filters) )
         {
@@ -65,7 +66,7 @@ class CoursePaginated {
             $params['body']['sort'] = $sort;
         }
 
-        //var_dump( json_encode( $params['body'])); exit();
+        // var_dump( json_encode( $params['body'])); exit();
 
         $results = $this->esClient->search($params);
 
