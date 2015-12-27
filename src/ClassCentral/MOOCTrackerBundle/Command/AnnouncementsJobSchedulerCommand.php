@@ -74,7 +74,6 @@ class AnnouncementsJobSchedulerCommand extends ContainerAwareCommand {
                 AnnouncementEmailJob::ANNOUNCEMENT_EMAIL_JOB_TYPE,
                 'ClassCentral\MOOCTrackerBundle\Job\AnnouncementEmailJob',
                 array(
-                    'date' => $date,
                     'template' => $template,
                     'subject'=> $subject,
                     'campaignId' => $campaignId
