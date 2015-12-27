@@ -33,7 +33,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
 
         if(!$user)
         {
-            return SchedulerJobAbstract::getStatusObject(
+            return SchedulerJobStatus::getStatusObject(
                 SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
                 "User with id $userId not found"
             );
@@ -43,6 +43,17 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
         $template = $args['template'];
         $subject = $args['subject'];
         $campaginId = $args['campaignId'];
+
+        // Check if the template file exists
+        $templateFile = "src/ClassCentral/MOOCTrackerBundle/Resources/views/Announcement/" . $template;
+        if(!file_exists($templateFile))
+        {
+            return SchedulerJobStatus::getStatusObject(
+                SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
+                "Template $template does not exist"
+            );
+        }
+
 
         $emailContent = $this->getAnnouncementHTML($user,$template,$campaginId);
 
