@@ -114,7 +114,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
         }
 
         $response = $mailgun->sendMessage( array(
-            'from' => '"Dhawal Shah" <dhawal@class-central.com>',
+            'from' => '"Class Central" <no-reply@class-central.com>',
             'to' => $email,
             'subject' => $subject,
             'html' => $html,
