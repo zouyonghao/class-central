@@ -791,20 +791,35 @@ EOD;
     public function randomAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $finder = $this->container->get('course_finder');
         $query =$em->createQueryBuilder();
 
-        $query
-            ->add('select', 'MAX(c.id)')
-            ->add('from','ClassCentralSiteBundle:Course c')
-            ;
-        $max = $query->getQuery()->getSingleScalarResult();
-        $id = rand(300, $max);
-        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($id);
+        // Find the top 250 courses.
+        $sort = array();
+        $sort[] = array(
+            'ratingSort' => array(
+                'order' => 'desc'
+            )
+        );
+        $filters = array(
+            'session' => 'upcoming,selfpaced,recent'
+        );
+
+        $results = $finder->byLanguage( 'english', Filter::getQueryFilters( $filters), $sort,-1 );
+        $courseIds = array();
+        // Capture the top 250
+        foreach($results['hits']['hits'] as $course)
+        {
+            $courseIds[] = $course['_source']['id'];
+        }
+
+        $id = rand(0, 250);
+        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseIds[$id]);
 
         if( $course && $course->getStatus() == CourseStatus::AVAILABLE)
         {
             return $this->redirect($this->generateUrl('ClassCentralSiteBundle_mooc', array(
-                'id' => $id,
+                'id' => $courseIds[$id],
                 'slug' => $course->getSlug()
             )));
         }
