@@ -96,3 +96,5 @@ parameters:
     keen_user_stats_master_key : ~
     keen_user_stats_write_key: ~
     keen_user_stats_read_key: ~
+
+    test_email: ~
