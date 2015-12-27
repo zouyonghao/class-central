@@ -31,7 +31,7 @@ class AnnouncementsJobSchedulerCommand extends ContainerAwareCommand {
             ->setDescription("Send an announcement email to the user")
             ->addArgument('date', InputArgument::REQUIRED, "Date for which the announcement email has to be sent")
             ->addArgument('subject',InputArgument::REQUIRED,"Email Subject")
-            ->addArgument('template',InputArgument::REQUIRED, "Template to send")
+            ->addArgument('template',InputArgument::REQUIRED, "Complete filename of the inlined template to send")
             ->addArgument('campaignId',InputArgument::REQUIRED, "Mailgun Campaign id")
             ;
     }
