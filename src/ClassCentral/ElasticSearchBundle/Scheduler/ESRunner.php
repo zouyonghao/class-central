@@ -93,6 +93,7 @@ class ESRunner {
             $indexer->index( $jl );
 
             $esScheduler->delete( $job->getId() );
+            unset($job); // clear memory
         }
 
         return array(
