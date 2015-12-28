@@ -93,6 +93,7 @@ class ESRunner {
             $indexer->index( $jl );
 
             $esScheduler->delete( $job->getId() );
+            unset($jl);// clear memory
             unset($job); // clear memory
         }
 
@@ -142,7 +143,7 @@ class ESRunner {
                 'message' => $status->getMessage()
             )
         );
-
+        unset($task); // clear memory
         return $status;
     }
 
