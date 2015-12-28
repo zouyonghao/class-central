@@ -43,6 +43,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
         $template = $args['template'];
         $subject = $args['subject'];
         $campaginId = $args['campaignId'];
+        $deliveryTime = $args['deliveryTime'];
 
         // Check if the template file exists
         $templateFile = "src/ClassCentral/MOOCTrackerBundle/Resources/views/Announcement/" . $template;
@@ -61,7 +62,8 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
             $subject,
             $emailContent,
             $user,
-            $campaginId
+            $campaginId,
+            $deliveryTime
         );
 
     }
@@ -102,7 +104,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
         return $html;
     }
 
-    private function sendEmail($subject, $html, User $user, $campaignId)
+    private function sendEmail($subject, $html, User $user, $campaignId, $deliveryTime)
     {
         $mailgun = $this->getContainer()->get('mailgun');
 
@@ -118,7 +120,8 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
             'to' => $email,
             'subject' => $subject,
             'html' => $html,
-            'o:campaign' => $campaignId
+            'o:campaign' => $campaignId,
+            'o:deliverytime' => $deliveryTime
         ));
 
         if( !($response && $response->http_response_code == 200))

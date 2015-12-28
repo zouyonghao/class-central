@@ -29,10 +29,11 @@ class AnnouncementsJobSchedulerCommand extends ContainerAwareCommand {
         $this
             ->setName('mooctracker:user:announcement')
             ->setDescription("Send an announcement email to the user")
-            ->addArgument('date', InputArgument::REQUIRED, "Date for which the announcement email has to be sent")
+            ->addArgument('date', InputArgument::REQUIRED, "Date for which the announcement email has to be sent i.e the job is run")
             ->addArgument('subject',InputArgument::REQUIRED,"Email Subject")
             ->addArgument('template',InputArgument::REQUIRED, "Complete filename of the inlined template to send")
             ->addArgument('campaignId',InputArgument::REQUIRED, "Mailgun Campaign id")
+            ->addArgument('deliverytime',InputArgument::REQUIRED, "datetime at which email is to be sent(uses local machine timezone) i.e 2015-12-27 21:45:00")
             ;
     }
 
@@ -44,6 +45,8 @@ class AnnouncementsJobSchedulerCommand extends ContainerAwareCommand {
         $subject = $input->getArgument('subject');
         $template = $input->getArgument('template');
         $campaignId = $input->getArgument('campaignId');
+        $deliveryTime = new \DateTime($input->getArgument('deliverytime'));
+
         $date = $input->getArgument('date'); // The date at which the job is to be run
         $dateParts = explode('-', $date);
         if( !checkdate( $dateParts[1], $dateParts[2], $dateParts[0] ) )
@@ -76,7 +79,8 @@ class AnnouncementsJobSchedulerCommand extends ContainerAwareCommand {
                 array(
                     'template' => $template,
                     'subject'=> $subject,
-                    'campaignId' => $campaignId
+                    'campaignId' => $campaignId,
+                    'deliveryTime' => $deliveryTime->format(\DateTime::RFC2822)
                 ),
                 $user['id']
             );
