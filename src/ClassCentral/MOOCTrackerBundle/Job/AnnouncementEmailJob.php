@@ -115,22 +115,32 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
             $email = $this->getContainer()->getParameter('test_email');
         }
 
-        $response = $mailgun->sendMessage( array(
-            'from' => '"Class Central" <no-reply@class-central.com>',
-            'to' => $email,
-            'subject' => $subject,
-            'html' => $html,
-            'o:campaign' => $campaignId,
-            'o:deliverytime' => $deliveryTime
-        ));
+        try {
+            $response = $mailgun->sendMessage( array(
+                'from' => '"Class Central" <no-reply@class-central.com>',
+                'to' => $email,
+                'subject' => $subject,
+                'html' => $html,
+                'o:campaign' => $campaignId,
+                'o:deliverytime' => $deliveryTime
+            ));
 
-        if( !($response && $response->http_response_code == 200))
+            if( !($response && $response->http_response_code == 200))
+            {
+                // Failed
+                return SchedulerJobStatus::getStatusObject(
+                    SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
+                    ($response && $response->http_response_body)  ?
+                        $response->http_response_body->message : "Mailgun error"
+                );
+            }
+        } catch (\Exception $e)
         {
+            // Probably a email validation error
             // Failed
             return SchedulerJobStatus::getStatusObject(
                 SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
-                ($response && $response->http_response_body)  ?
-                    $response->http_response_body->message : "Mailgun error"
+                'Mailgun Exception'
             );
         }
 
