@@ -162,12 +162,20 @@ class Review {
         $r = array();
         $reviewCount = 0;
         $ratingCount = 0;
+        $ratingsBreakdown = array(
+            1 => 0,
+            2 => 0,
+            3 => 0,
+            4 => 0,
+            5 => 0,
+        );
         foreach($reviewEntities as $review)
         {
             $review = $review[0];
             if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND )
             {
                 $ratingCount++;
+                $ratingsBreakdown[$review->getRating()]++;
 
                 if( !$review->getIsRating() )
                 {
@@ -182,9 +190,24 @@ class Review {
         $reviews['count'] = $ratingCount;
         $reviews['ratingCount'] = $ratingCount;
         $reviews['reviewCount'] = $reviewCount;
+        $reviews['ratingsBreakdown'] = $ratingsBreakdown;
         $reviews['reviews'] = $r;
 
         return $reviews;
+    }
+
+    /**
+     * Calculate the percentage of ratings
+     * @param $totalRatings
+     * @param $numRatings
+     */
+    public function calculateRatingPercentage($totalRatings, $numRatings)
+    {
+        $percent = 0;
+        if($totalRatings > 0)
+        {
+            return intval($numRatings*100/$totalRatings);
+        }
     }
 
     public function getReviewsCacheKey($courseId)
