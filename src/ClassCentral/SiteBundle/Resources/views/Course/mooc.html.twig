@@ -752,7 +752,7 @@
                                         </div>
 
                                         <div class="rating-module__total-rating">
-                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(3.5),ratingColour: 'current'} %}
+                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(rating),ratingColour: 'current'} %}
                                         </div><!-- /.rating-module__total-rating -->
 
                                         <div class="rating-module_ratings">
@@ -889,9 +889,9 @@
                                 <a href="#" class="action-button action-button--transparent">
                                     <span class="action-button__container">
                                         <span class="action-button__unit">
-                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(3.5),ratingColour: 'current'} %}
+                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(rating),ratingColour: 'current'} %}
                                         </span>
-                                        <span class="action-button__unit">48 Reviews</span>
+                                        <span class="action-button__unit">{{ reviews.ratingCount }}  {% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}</span>
                                     </span>
                                 </a>
                             </div>
