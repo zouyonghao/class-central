@@ -436,29 +436,13 @@
                         <span class="course-participants__double">Interested<br> students</span>
                     </a>
 
-                    <div class="portraits-container">
-                        {% set userCount = 0 %}
-                        {% for user in interestedUsers if userCount < 12 %}
-                            {% if user.profile is defined  %}
-                                {{ user.profile.name }}
-                            {% endif %}
-                            {% set profileUrl = user_service.getProfileUrl( user.id, user.handle ) %}
-                            {% if profileUrl %}
-                                <div class="portrait-col">
-                                    <a href="{{ profileUrl }}" title="{{ user_service.getDisplayName(user) }}'s Class Central profile" class="fluid-portrait"
-                                       onmousedown="ga('send','event','User Profile Click - Course Page','{{ course.name }}','{{ user.id  }}')"
-                                            >
-                                        <span class="fluid-portrait-image">
-                                            <div class="fluid-portrait-crop">
-                                                <img src="{{  user_service.getProfilePic(user.id) }}" alt="{{ user_service.getDisplayName(user) }}">
-                                            </div>
-                                        </span>
-                                    </a>
-                                </div>
-                                {% set userCount = userCount+1 %}
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                    {% include 'ClassCentralSiteBundle:Helpers:user.profile.html.twig' with
+                        {
+                           numProfiles: 12,
+                           profileUsers: interestedUsers,
+                           profileLocation: 'Course Page'
+                        }
+                    %}
 
 
                 </div>
@@ -945,63 +929,13 @@
 
                     <div class="action-bar__profiles">
 
-                        <div class="portraits-container">
-                            <div class="portrait-col">
-                                <a href="/u/29584" title="Bill Mcbride's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','29584')">
-                                    <span class="fluid-portrait-image">
-                                        <div class="fluid-portrait-crop">
-                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/ae636fc19471.jpeg" alt="Bill Mcbride">
-                                        </div>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="portrait-col">
-                                <a href="/u/31497" title="George Papachatzakis's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','31497')">
-                                    <span class="fluid-portrait-image">
-                                        <div class="fluid-portrait-crop">
-                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/fff27b7a0fa1.jpeg" alt="George Papachatzakis">
-                                        </div>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="portrait-col">
-                                <a href="/u/42406" title="Pavan Pola's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','42406')">
-                                    <span class="fluid-portrait-image">
-                                        <div class="fluid-portrait-crop">
-                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/954c55ac769a.jpeg" alt="Pavan Pola">
-                                        </div>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="portrait-col">
-                                <a href="/u/47301" title="C.v.r.murthy's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','47301')">
-                                    <span class="fluid-portrait-image">
-                                        <div class="fluid-portrait-crop">
-                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/3f9c115a0165.jpg" alt="C.v.r.murthy">
-                                        </div>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="portrait-col">
-                                <a href="/u/45161" title="Ali Taheri's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','45161')">
-                                    <span class="fluid-portrait-image">
-                                        <div class="fluid-portrait-crop">
-                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/8d1366d8be23.jpg" alt="Ali Taheri">
-                                        </div>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="portrait-col">
-                                <a href="/u/53683" title="Emily Douglas's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','53683')">
-                                    <span class="fluid-portrait-image">
-                                        <div class="fluid-portrait-crop">
-                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/e704f95138b9.jpg" alt="Emily Douglas">
-                                        </div>
-                                    </span>
-                                </a>
-                            </div>
-
-                        </div>
+                        {% include 'ClassCentralSiteBundle:Helpers:user.profile.html.twig' with
+                        {
+                            numProfiles: 6,
+                            profileUsers: interestedUsers,
+                            profileLocation: 'Course Page - Dock'
+                        }
+                        %}
                     </div><!-- /.action-bar__profiles -->
                 </div><!-- .action-bar -->
             </div><!-- /.dock__right -->
