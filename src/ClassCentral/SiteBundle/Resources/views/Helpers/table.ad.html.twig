@@ -1,4 +1,4 @@
-{% if tableAd == true %}
+{% if format == 'table' %}
 <tr>
     <td class="add-column">
         <span class="ad-strip__icon">Ad</span>
@@ -36,7 +36,7 @@
     </td>
 
 </tr>
-{% else %}
+{% elseif format =='course-top' %}
     <div class="course-meta__ad">
         <div class="ad-strip">
             <div class="ad-strip__icon">

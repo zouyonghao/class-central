@@ -102,7 +102,7 @@
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
 
-        {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { tableAd: false } %}
+        {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { format: 'course-top' } %}
 
 
         <div class="course-meta-main border-radius">
@@ -706,14 +706,16 @@
             <div class="dock__left">
                 <div class="promo-object">
                     <span class="promo-object__label">Promoted</span>
-                    <h3 class="promo-object__title">
-                        <a href="#">Leadership: Ten Rules for Impact and Meaning</a>
-                    </h3>
-                    <div class="promo-object__sub">
-                        <a href="#">Philantrophy University</a>
-                        Via
-                        <a href="#" class="promo-object__accent">Novoed</a>
-                    </div>
+                    <a href="#">
+                        <h3 class="promo-object__title">
+                            <span >Leadership: Ten Rules for Impact and Meaning</span>
+                        </h3>
+                        <div class="promo-object__sub">
+                            <span >Philantrophy University</span>
+                            Via
+                            <span class="promo-object__accent">Novoed</span>
+                        </div>
+                    </a>
                 </div><!-- /.promo-object -->
             </div><!-- /.dock__left -->
             <div class="dock__right">
