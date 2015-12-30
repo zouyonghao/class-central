@@ -54,4 +54,22 @@
             </div>
         </div>
     </div>
+
+{% elseif format =='dock' %}
+    <div class="promo-object">
+        <span class="promo-object__label">Promoted</span>
+        <a href="{{ courseUrl }}" target="_blank" rel="nofollow"
+           onmousedown="ga('send','event', 'Dock Ad', '{{ providerName }}', '{{ courseName }}');CC.Class['Analytics'].logCourseAd('Dock','{{ providerName }}','{{ courseName }}');"
+                >
+            <h3 class="promo-object__title">
+                <span >{{ courseName }}</span>
+            </h3>
+            <div class="promo-object__sub">
+                {% if institutionName is not empty %}<span>{{ institutionName }}</span>{% endif %}
+                Via
+                <span class="promo-object__accent">{{ providerName }}</span>
+            </div>
+        </a>
+    </div><!-- /.promo-object -->
+
 {% endif %}

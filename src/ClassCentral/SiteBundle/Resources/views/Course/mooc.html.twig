@@ -704,19 +704,7 @@
         <span class="dock__bg-decoration"></span>
         <div class="dock__inner">
             <div class="dock__left">
-                <div class="promo-object">
-                    <span class="promo-object__label">Promoted</span>
-                    <a href="#">
-                        <h3 class="promo-object__title">
-                            <span >Leadership: Ten Rules for Impact and Meaning</span>
-                        </h3>
-                        <div class="promo-object__sub">
-                            <span >Philantrophy University</span>
-                            Via
-                            <span class="promo-object__accent">Novoed</span>
-                        </div>
-                    </a>
-                </div><!-- /.promo-object -->
+                {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { format: 'dock' } %}
             </div><!-- /.dock__left -->
             <div class="dock__right">
                 <div class="action-bar">
