@@ -26,11 +26,31 @@
         { 'pageNo': pageNo, 'totalCourses': results.hits.total }
     %}
 
-{% endblock %} 
+{% endblock %}
 
 {%  block content %}
 
     {% include 'ClassCentralSiteBundle:Helpers:pageHeader.html.twig' with {'info':pageInfo} %}
+
+    <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
+        <a href="#" class="action-button action-button--transparent">
+            <span class="action-button__container">
+                <span class="action-button__unit action-button__unit-bordered">
+
+                    <div class="action-button__icon">
+                        <div class="u-scaling-svg">
+                            <svg class="u-scalingSvg__shape">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-cc-single-letter"></use>
+                            </svg>
+                        </div>
+                    </div>
+
+                </span>
+                <span class="action-button__unit">Follow <i>Computer Science</i></span>
+            </span><!-- /.action-button__container -->
+        </a>
+    </div>
+
 
 
     <section class="courses">

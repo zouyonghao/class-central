@@ -1,6 +1,6 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
-{% block headmeta %}        
+{% block headmeta %}
     <title>List of {{offeringTypes[offeringType]['desc']}} free online courses/MOOCs | Class Central</title>
     <meta name="description" content="List of {{offeringTypes[offeringType]['desc']}} free online courses/MOOCs aggregated by Class Central"/>
 
@@ -14,7 +14,7 @@
     {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
         { 'pageNo': pageNo, 'totalCourses': results.hits.total }
     %}
-{% endblock %}  
+{% endblock %}
 
 {%  block content %}
 

@@ -71,6 +71,9 @@
          <meta name="twitter:label2" content="{{twData[1].label }}">
      {% endif %}
 
+     <!-- Go to www.addthis.com/dashboard to customize your tools -->
+     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4ed5948263b508c1"></script>
+
  {% endblock %}
 
 {% block content %}
@@ -86,7 +89,7 @@
     {% if is_granted('ROLE_ADMIN') %}
 
         <p><b>Links for Admin</b></p>
-        <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_edit_lite', { 'id': course.id }) }}">Edit Course Lite</a><a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
+        <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
         {% if course.status == 101  %}
             <b><a href="{{ path('course_approve',{'courseId': course.id}) }}">Quick Approve Course</a></b>
         {% endif %}
@@ -709,6 +712,294 @@
     {# Signup form when some clicks on Get Notified For Next Session button #}
     {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'btn_get_notified', options:{ course:course}}) %}
 
+
+    {# Class central dock bar #}
+    <div class="dock">
+        <span class="dock__bg-decoration"></span>
+        <div class="dock__inner">
+            <div class="dock__left">
+                <div class="promo-object">
+                    <span class="promo-object__label">Promoted</span>
+                    <h3 class="promo-object__title">
+                        <a href="#">Leadership: Ten Rules for Impact and Meaning</a>
+                    </h3>
+                    <div class="promo-object__sub">
+                        <a href="#">Philantrophy University</a>
+                        Via
+                        <a href="#" class="promo-object__accent">Novoed</a>
+                    </div>
+                </div><!-- /.promo-object -->
+            </div><!-- /.dock__left -->
+            <div class="dock__right">
+                <div class="action-bar">
+                    <div class="action-bar__button-group">
+                        <div class="action-bar_button">
+                            <a href="#" class="action-button action-button--solid">
+                                <div class="action-button__container">
+                                    <span class="action-button__unit">Go to Class</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="action-bar_button">
+                            <div class="module-wrap">
+
+                                <div class="module-wrap__module">
+                                    <div class="rating-module">
+                                        <div class="rating-module__logo">
+                                            <div class="u-scaling-svg">
+                                                <svg class="u-scalingSvg__shape">
+                                                    <use xlink:href="#shape-cc-single-letter"></use>
+                                                </svg>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="rating-module__total-rating">
+                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(3.5),ratingColour: 'current'} %}
+                                        </div><!-- /.rating-module__total-rating -->
+
+                                        <div class="rating-module_ratings">
+                                            <div class="bar-rating">
+                                                <div class="bar-rating__title">289 ratings</div>
+                                                <div class="bar-rating__bar">
+                                                    <div class="rating-bar">
+                                                        <div class="rating-bar__label">
+                                                            <div class="rating-bar__label-text">
+                                                                5
+                                                            </div>
+                                                            <div class="rating-bar__label-icon">
+                                                                <div class="u-scaling-svg">
+                                                                    <svg class="u-scalingSvg__shape">
+                                                                        <use xlink:href="#shape-star-full"></use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="rating-bar__bar">
+                                                            <div class="rating-bar__level" style="width: 38%">
+                                                                <div class="rating-bar__info">56</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.bar-rating__bar -->
+
+                                                <div class="bar-rating__bar">
+                                                    <div class="rating-bar">
+                                                        <div class="rating-bar__label">
+                                                            <div class="rating-bar__label-text">
+                                                                4
+                                                            </div>
+                                                            <div class="rating-bar__label-icon">
+                                                                <div class="u-scaling-svg">
+                                                                    <svg class="u-scalingSvg__shape">
+                                                                        <use xlink:href="#shape-star-full"></use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="rating-bar__bar">
+                                                            <div class="rating-bar__level" style="width: 22%">
+                                                                <div class="rating-bar__info">173</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.bar-rating__bar -->
+
+                                                <div class="bar-rating__bar">
+                                                    <div class="rating-bar">
+                                                        <div class="rating-bar__label">
+                                                            <div class="rating-bar__label-text">
+                                                                3
+                                                            </div>
+                                                            <div class="rating-bar__label-icon">
+                                                                <div class="u-scaling-svg">
+                                                                    <svg class="u-scalingSvg__shape">
+                                                                        <use xlink:href="#shape-star-full"></use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="rating-bar__bar">
+                                                            <div class="rating-bar__level" style="width: 83%">
+                                                                <div class="rating-bar__info">109</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.bar-rating__bar -->
+
+                                                <div class="bar-rating__bar">
+                                                    <div class="rating-bar">
+                                                        <div class="rating-bar__label">
+                                                            <div class="rating-bar__label-text">
+                                                                2
+                                                            </div>
+                                                            <div class="rating-bar__label-icon">
+                                                                <div class="u-scaling-svg">
+                                                                    <svg class="u-scalingSvg__shape">
+                                                                        <use xlink:href="#shape-star-full"></use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="rating-bar__bar">
+                                                            <div class="rating-bar__level" style="width: 37%">
+                                                                <div class="rating-bar__info">35</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.bar-rating__bar -->
+
+                                                <div class="bar-rating__bar">
+                                                    <div class="rating-bar">
+                                                        <div class="rating-bar__label">
+                                                            <div class="rating-bar__label-text">
+                                                                1
+                                                            </div>
+                                                            <div class="rating-bar__label-icon">
+                                                                <div class="u-scaling-svg">
+                                                                    <svg class="u-scalingSvg__shape">
+                                                                        <use xlink:href="#shape-star-full"></use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="rating-bar__bar">
+                                                            <div class="rating-bar__level" style="width: 45%">
+                                                                <div class="rating-bar__info">4</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.bar-rating__bar -->
+                                            </div>
+                                        </div><!-- /.rating-module__ratings -->
+
+                                        <div class="rating-module__footer">
+                                            <div class="rating-module__footer-button">
+                                                <a href="#" class="rating-module__button rating-module__button--transparent">View All Reviews</a>
+                                            </div>
+                                            <div class="rating-module__footer-button">
+                                                <a href="#" class="rating-module__button">Write Review</a>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.rating-module -->
+                                </div><!-- /.module-wrap__module -->
+
+                                <a href="#" class="action-button action-button--transparent">
+                                    <span class="action-button__container">
+                                        <span class="action-button__unit">
+                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(3.5),ratingColour: 'current'} %}
+                                        </span>
+                                        <span class="action-button__unit">48 Reviews</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="action-bar_button action-bar_button-follow">
+                            <div class="module-wrap">
+                                <div class="module-wrap__module">
+                                    <div class="tip">
+                                        <div class="tip__symbol">
+                                            @
+                                        </div>
+                                        <h4 class="tip__title">Never. Stop. Learning.</h4>
+                                        <div class="tip__text">
+                                            Receive email alerts for this class and here's another line of text
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="#" class="action-button action-button--transparent">
+                                    <span class="action-button__container">
+                                        <span class="action-button__unit action-button__unit-bordered">
+
+                                            <div class="action-button__icon">
+                                                <div class="u-scaling-svg">
+                                                    <svg class="u-scalingSvg__shape">
+                                                        <use xlink:href="#shape-cc-single-letter"></use>
+                                                    </svg>
+                                                </div>
+                                            </div>
+
+                                        </span>
+                                        <span class="action-button__unit">Follow <i>Class</i></span>
+                                    </span><!-- /.action-button__container -->
+                                </a><!-- /.action-button -->
+                            </div><!-- /.module-wrap__module -->
+
+                        </div>
+
+                    </div><!-- /.action-bar__button-group -->
+
+                    <div class="action-bar__profiles">
+
+                        <div class="portraits-container">
+                            <div class="portrait-col">
+                                <a href="/u/29584" title="Bill Mcbride's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','29584')">
+                                    <span class="fluid-portrait-image">
+                                        <div class="fluid-portrait-crop">
+                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/ae636fc19471.jpeg" alt="Bill Mcbride">
+                                        </div>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="portrait-col">
+                                <a href="/u/31497" title="George Papachatzakis's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','31497')">
+                                    <span class="fluid-portrait-image">
+                                        <div class="fluid-portrait-crop">
+                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/fff27b7a0fa1.jpeg" alt="George Papachatzakis">
+                                        </div>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="portrait-col">
+                                <a href="/u/42406" title="Pavan Pola's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','42406')">
+                                    <span class="fluid-portrait-image">
+                                        <div class="fluid-portrait-crop">
+                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/954c55ac769a.jpeg" alt="Pavan Pola">
+                                        </div>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="portrait-col">
+                                <a href="/u/47301" title="C.v.r.murthy's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','47301')">
+                                    <span class="fluid-portrait-image">
+                                        <div class="fluid-portrait-crop">
+                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/3f9c115a0165.jpg" alt="C.v.r.murthy">
+                                        </div>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="portrait-col">
+                                <a href="/u/45161" title="Ali Taheri's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','45161')">
+                                    <span class="fluid-portrait-image">
+                                        <div class="fluid-portrait-crop">
+                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/8d1366d8be23.jpg" alt="Ali Taheri">
+                                        </div>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="portrait-col">
+                                <a href="/u/53683" title="Emily Douglas's Class Central profile" class="fluid-portrait" onmousedown="ga('send','event','User Profile Click - Course Page','An Introduction to Interactive Programming in Python (Part 1)','53683')">
+                                    <span class="fluid-portrait-image">
+                                        <div class="fluid-portrait-crop">
+                                            <img src="https://d3f1iyfxxz8i1e.cloudfront.net/users/profile_pic/e704f95138b9.jpg" alt="Emily Douglas">
+                                        </div>
+                                    </span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div><!-- /.action-bar__profiles -->
+                </div><!-- .action-bar -->
+            </div><!-- /.dock__right -->
+        </div><!-- /.dock__inner -->
+    </div><!-- /.dock -->
+
 {% endblock %}
 
 {% block customJS %}
@@ -782,5 +1073,6 @@
 
     });
 {% endblock %}
+
 
 

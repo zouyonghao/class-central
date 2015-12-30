@@ -96,6 +96,34 @@
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
+        {% if loop.index == 4 %}
+            <tr>
+                <td colspan="4" class="featured-cell">
+                    <div class="featured-cell__container">
+                        <div class="featured-cell__text">Your <i>tailored</i> weekly email digest.</div>
+                        <div class="featured-cell__button ui-theme-light">
+                            <a href="#" class="action-button action-button--transparent">
+                                <span class="action-button__container">
+                                    <span class="action-button__unit action-button__unit-bordered">
+
+                                        <div class="action-button__icon">
+                                            <div class="u-scaling-svg">
+                                                <svg class="u-scalingSvg__shape">
+                                                    <use xlink:href="#shape-cc-single-letter"></use>
+                                                </svg>
+                                            </div>
+                                        </div>
+
+                                    </span>
+                                    <span class="action-button__unit">Follow <i>Computer Science</i></span>
+                                </span><!-- /.action-button__container -->
+                            </a><!-- /.action-button -->
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endif %}
+
         <tr itemscope itemtype="http://schema.org/Event">
 
             {# add to profile column #}
