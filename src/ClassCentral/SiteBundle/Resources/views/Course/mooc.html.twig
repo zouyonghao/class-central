@@ -463,8 +463,13 @@
 
                 </div>
                 {% set userListIds = user_session.getCourseListIds(course['id']) %}
+
+                {% set go_to_class_url = course.url %}
+                {% if offeringUrl is not null %}
+                    {% set go_to_class_url = offeringUrl  %}
+                {% endif %}
                 <div class="course-data-button">
-                    <a class="cta-button" href="{% if offeringUrl is not null %}{{ offeringUrl }}{% else %}{{ course.url  }}{% endif %}" id="btnProviderCoursePage"
+                    <a class="cta-button" href="go_to_class_url" id="btnProviderCoursePage"
                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
                 </div>
                 {# if the course added to users list, don't send notification #}
@@ -731,7 +736,9 @@
                 <div class="action-bar">
                     <div class="action-bar__button-group">
                         <div class="action-bar_button">
-                            <a href="#" class="action-button action-button--solid">
+                            <a href="{{ go_to_class_url }}" class="action-button action-button--solid" target="_blank"
+                               onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')"
+                                    >
                                 <div class="action-button__container">
                                     <span class="action-button__unit">Go to Class</span>
                                 </div>
