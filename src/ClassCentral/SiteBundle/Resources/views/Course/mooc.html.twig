@@ -739,120 +739,32 @@
                                         <div class="rating-module_ratings">
                                             <div class="bar-rating">
                                                 <div class="bar-rating__title">{{ reviews.ratingCount }}  {% if reviews.ratingCount == 1 %}rating{% else %}ratings{% endif %}</div>
-                                                <div class="bar-rating__bar">
-                                                    <div class="rating-bar">
-                                                        <div class="rating-bar__label">
-                                                            <div class="rating-bar__label-text">
-                                                                5
+
+                                                {% for i in range(5,1,-1) %}
+                                                    <div class="bar-rating__bar">
+                                                        <div class="rating-bar">
+                                                            <div class="rating-bar__label">
+                                                                <div class="rating-bar__label-text">
+                                                                   {{ i }}
+                                                                </div>
+                                                                <div class="rating-bar__label-icon">
+                                                                    <div class="u-scaling-svg">
+                                                                        <svg class="u-scalingSvg__shape">
+                                                                            <use xlink:href="#shape-star-full"></use>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="rating-bar__label-icon">
-                                                                <div class="u-scaling-svg">
-                                                                    <svg class="u-scalingSvg__shape">
-                                                                        <use xlink:href="#shape-star-full"></use>
-                                                                    </svg>
+
+                                                            <div class="rating-bar__bar">
+                                                                <div class="rating-bar__level" style="width: {{ reviewService.calculateRatingPercentage(reviews.ratingCount,reviews.ratingsBreakdown[i]) }}%">
+                                                                    <div class="rating-bar__info">{{ reviews.ratingsBreakdown[i] }}</div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div><!-- /.bar-rating__bar -->
+                                                {% endfor %}
 
-                                                        <div class="rating-bar__bar">
-                                                            <div class="rating-bar__level" style="width: {{ reviewService.calculateRatingPercentage(reviews.ratingCount,reviews.ratingsBreakdown[5]) }}%">
-                                                                <div class="rating-bar__info">{{ reviews.ratingsBreakdown[5] }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.bar-rating__bar -->
-
-                                                <div class="bar-rating__bar">
-                                                    <div class="rating-bar">
-                                                        <div class="rating-bar__label">
-                                                            <div class="rating-bar__label-text">
-                                                                4
-                                                            </div>
-                                                            <div class="rating-bar__label-icon">
-                                                                <div class="u-scaling-svg">
-                                                                    <svg class="u-scalingSvg__shape">
-                                                                        <use xlink:href="#shape-star-full"></use>
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="rating-bar__bar">
-                                                            <div class="rating-bar__level" style="width: {{ reviewService.calculateRatingPercentage(reviews.ratingCount,reviews.ratingsBreakdown[4]) }}%">
-                                                                <div class="rating-bar__info">{{ reviews.ratingsBreakdown[4] }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.bar-rating__bar -->
-
-                                                <div class="bar-rating__bar">
-                                                    <div class="rating-bar">
-                                                        <div class="rating-bar__label">
-                                                            <div class="rating-bar__label-text">
-                                                                3
-                                                            </div>
-                                                            <div class="rating-bar__label-icon">
-                                                                <div class="u-scaling-svg">
-                                                                    <svg class="u-scalingSvg__shape">
-                                                                        <use xlink:href="#shape-star-full"></use>
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="rating-bar__bar">
-                                                            <div class="rating-bar__level" style="width: {{ reviewService.calculateRatingPercentage(reviews.ratingCount,reviews.ratingsBreakdown[3]) }}%">
-                                                                <div class="rating-bar__info">{{ reviews.ratingsBreakdown[3] }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.bar-rating__bar -->
-
-                                                <div class="bar-rating__bar">
-                                                    <div class="rating-bar">
-                                                        <div class="rating-bar__label">
-                                                            <div class="rating-bar__label-text">
-                                                                2
-                                                            </div>
-                                                            <div class="rating-bar__label-icon">
-                                                                <div class="u-scaling-svg">
-                                                                    <svg class="u-scalingSvg__shape">
-                                                                        <use xlink:href="#shape-star-full"></use>
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="rating-bar__bar">
-                                                            <div class="rating-bar__level" style="width: {{ reviewService.calculateRatingPercentage(reviews.ratingCount,reviews.ratingsBreakdown[2]) }}%">
-                                                                <div class="rating-bar__info">{{ reviews.ratingsBreakdown[2] }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.bar-rating__bar -->
-
-                                                <div class="bar-rating__bar">
-                                                    <div class="rating-bar">
-                                                        <div class="rating-bar__label">
-                                                            <div class="rating-bar__label-text">
-                                                                1
-                                                            </div>
-                                                            <div class="rating-bar__label-icon">
-                                                                <div class="u-scaling-svg">
-                                                                    <svg class="u-scalingSvg__shape">
-                                                                        <use xlink:href="#shape-star-full"></use>
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="rating-bar__bar">
-                                                            <div class="rating-bar__level" style="width: {{ reviewService.calculateRatingPercentage(reviews.ratingCount,reviews.ratingsBreakdown[1]) }}%">
-                                                                <div class="rating-bar__info">{{ reviews.ratingsBreakdown[1] }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.bar-rating__bar -->
                                             </div>
                                         </div><!-- /.rating-module__ratings -->
 
