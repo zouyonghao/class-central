@@ -262,7 +262,7 @@
 
 
             <div class="tiny-review-block__button-group">
-                <a href="#reviews" id="read-reviews" class="tiny-review-block__button" onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}')">
+                <a href="#reviews" id="read-reviews" class="tiny-review-block__button read-reviews-btn" onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}')">
                     Read reviews
                 </a>
 
@@ -877,16 +877,20 @@
 
                                         <div class="rating-module__footer">
                                             <div class="rating-module__footer-button">
-                                                <a href="#" class="rating-module__button rating-module__button--transparent">View All Reviews</a>
+                                                <a href="#reviews" class="rating-module__button rating-module__button--transparent read-reviews-btn">View All Reviews</a>
                                             </div>
                                             <div class="rating-module__footer-button">
-                                                <a href="#" class="rating-module__button">Write Review</a>
+                                                {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
+                                                    <a class="rating-module__button"  href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write Review</a>
+                                                {% else %}
+                                                    <span class="rating-module__button">Reviewed</span>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div><!-- /.rating-module -->
                                 </div><!-- /.module-wrap__module -->
 
-                                <a href="#" class="action-button action-button--transparent">
+                                <a href="#reviews" class="action-button action-button--transparent read-reviews">
                                     <span class="action-button__container">
                                         <span class="action-button__unit">
                                             {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(rating),ratingColour: 'current'} %}
@@ -1011,7 +1015,7 @@
     {
         $.scrollTo('.section-heading',{ duration: 500    });
     }
-    $('#read-reviews').click( function(e){
+    $('.read-reviews-btn').click( function(e){
         e.preventDefault();
         $.scrollTo('#reviews',{ duration: 1000    });
         var url = window.location.href.toString().split(window.location.host)[1];
