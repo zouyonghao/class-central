@@ -96,7 +96,7 @@
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
-        {% if loop.index == 4 %}
+        {% if loop.index == -1 %}
             <tr>
                 <td colspan="4" class="featured-cell">
                     <div class="featured-cell__container">
