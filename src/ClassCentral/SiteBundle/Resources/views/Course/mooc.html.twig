@@ -800,9 +800,13 @@
                                         <div class="tip__symbol">
                                             @
                                         </div>
-                                        <h4 class="tip__title">Never. Stop. Learning.</h4>
+                                        <h4 class="tip__title">Never Miss A Course.</h4>
                                         <div class="tip__text">
-                                            Receive email alerts for this class and here's another line of text
+                                            {% if userListIds is not empty %}
+                                                You are signed up to receive email notifications for this class.
+                                            {% else %}
+                                                Receive email notifications about course start dates and new sessions.
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
