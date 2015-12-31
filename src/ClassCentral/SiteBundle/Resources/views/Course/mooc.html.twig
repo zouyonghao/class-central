@@ -459,8 +459,8 @@
                 {# if the course added to users list, don't send notification #}
                 {% if userListIds is empty %}
                 <div class="course-data-button">
-                    <a class="light-cta-button" id="course-get-notified"
-                       data-course-id="{{ course.id }}" data-course-name="{{ course.name }}" href="#">Get notified for next session</a>
+                    <a class="light-cta-button btn-course-follow" id="course-get-notified"
+                       data-course-id="{{ course.id }}" data-course-name="{{ course.name }}" data-source='get-notified' href="#">Get notified for next session</a>
                 </div>
                 {% endif %}
 
@@ -807,7 +807,7 @@
                                     </div>
                                 </div>
 
-                                <a href="#" class="action-button action-button--transparent">
+                                <a href="#" id='follow-class' class="action-button action-button--transparent {% if userListIds is not empty %} active {% endif %} btn-course-follow" data-course-id="{{ course.id }}" data-course-name="{{ course.name }}" data-source ="follow">
                                     <span class="action-button__container">
                                         <span class="action-button__unit action-button__unit-bordered">
 
@@ -820,7 +820,7 @@
                                             </div>
 
                                         </span>
-                                        <span class="action-button__unit">Follow <i>Class</i></span>
+                                        <span class="action-button__unit">{% if userListIds is empty %}Follow {% else %}Following {% endif %} <i>Class</i></span>
                                     </span><!-- /.action-button__container -->
                                 </a><!-- /.action-button -->
                             </div><!-- /.module-wrap__module -->

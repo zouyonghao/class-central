@@ -174,11 +174,16 @@ jQuery(function($) {
     }
 
     // Get notified for next session button - below Go To Class
-    $('#course-get-notified').click(function(e){
+    $('.btn-course-follow').click(function(e){
         e.preventDefault();
         var clicked = this;
         var courseName = $(clicked).data('course-name');
         var courseId = $(clicked).data('course-id');
+        var source = $(clicked).data('source');
+        var event = 'Get notified for next session button';
+        if(source == 'follow') {
+            event = 'Follow Class';
+        }
         $.ajax({
             url: "/ajax/isLoggedIn",
             cache: true
@@ -186,7 +191,8 @@ jQuery(function($) {
             .done(function(result){
                 var loggedInResult = $.parseJSON(result);
                 if(loggedInResult.loggedIn) {
-                    ga('send','event','Get notified for next session button',"Logged in", courseName);
+
+                    ga('send','event',event,"Logged in", courseName);
                     $.ajax( "/ajax/user/course/add?c_id=" +courseId +"&l_id=1")// 1 is the id for Interested Course in UserCourse.php
                         .done(
                         function(result){
@@ -200,14 +206,20 @@ jQuery(function($) {
                                         'You will receive notifications when a new session of <i>'+ courseName +'</i> is available',
                                         'success'
                                     );
-                                $(clicked).hide("slow");
+
+                                // Hide the get notified button
+                                $('#course-get-notified').hide("slow");
+
+                                // Mark the course as followed
+                                $('#follow-class').addClass('active');
+                                $('#follow-class .action-button__unit:eq(1)').html('Following <i>Class</i>');
                             } else {
 
                             }
                         }
                     );
                 } else {
-                    ga('send','event','Get notified for next session button',"Logged Out", courseName);
+                    ga('send','event',event,"Logged Out", courseName);
                     // Save the course details in the session
                     $.ajax({
                         url: "/signup/pre_cc/" + $(clicked).data('course-id') + "/1",
