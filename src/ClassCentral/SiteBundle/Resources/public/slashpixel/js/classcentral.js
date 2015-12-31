@@ -183,6 +183,9 @@ jQuery(function($) {
         var event = 'Get notified for next session button';
         if(source == 'follow') {
             event = 'Follow Class';
+            if($('#follow-class').hasClass('active')) {
+                return; // Do nothing
+            }
         }
         $.ajax({
             url: "/ajax/isLoggedIn",
