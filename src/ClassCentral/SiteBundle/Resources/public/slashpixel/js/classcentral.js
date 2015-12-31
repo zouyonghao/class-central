@@ -763,7 +763,7 @@ jQuery(function($) {
     });
 
     // Show signup form when someones click on Go To Class
-    $('.cta-button').click( function(){
+    $('.btn_go_to_class').click( function(){
         var btnSignupCookie = 'btn_go_class_signup_shown';
         if ( Cookies.get( btnSignupCookie) === undefined ) {
             $.ajax({
