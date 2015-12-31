@@ -262,7 +262,7 @@
 
 
             <div class="tiny-review-block__button-group">
-                <a href="#reviews" id="read-reviews" class="tiny-review-block__button read-reviews-btn" onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}')">
+                <a href="#reviews" id="read-reviews" class="tiny-review-block__button read-reviews-btn" onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Top')">
                     Read reviews
                 </a>
 
@@ -710,7 +710,10 @@
                 <div class="action-bar">
                     <div class="action-bar__button-group">
                         <div class="action-bar_button">
+                            {% set courseInitiative = course['initiative']['name'] %}
+                            {% set courseName = course['name'] %}
                             <a href="{{ go_to_class_url }}" class="action-button action-button--solid btn_go_to_class" target="_blank"
+                               onmousedown="ga('send','event', 'Go to Class - Dock' ,'{{ courseInitiative }}','{{ courseName }}')"
                                onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')"
                                     >
                                 <div class="action-button__container">
@@ -770,7 +773,9 @@
 
                                         <div class="rating-module__footer">
                                             <div class="rating-module__footer-button">
-                                                <a href="#reviews" class="rating-module__button rating-module__button--transparent read-reviews-btn">View All Reviews</a>
+                                                <a href="#reviews" class="rating-module__button rating-module__button--transparent read-reviews-btn"
+                                                   onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Dock');"
+                                                        >View All Reviews</a>
                                             </div>
                                             <div class="rating-module__footer-button">
                                                 {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
