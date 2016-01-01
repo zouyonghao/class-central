@@ -1032,6 +1032,12 @@ class UserController extends Controller
                     'text'  => 'Receive alerts when courses matching your search term are announced'
                 );
                 break;
+            case 'btn_follow':
+                $mediaCard_1 = array(
+                    'title' => 'Personalized Recommendations',
+                    'text'  => 'Follow subjects, courses, universities, providers and get regular updates'
+                );
+                break;
 
         }
 

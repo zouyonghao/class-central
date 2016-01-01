@@ -58,7 +58,7 @@ CC.Class['Follow'] = (function(){
 
                 } else {
                     // Show signup modal
-                    //$('#signupModal-create_credential_review').modal('show');
+                    $('#signupModal-btn_follow').modal('show');
                 }
             }
         });
