@@ -1,6 +1,6 @@
 ClassCentral\SiteBundle\Entity\Follow:
     type: entity
-    table: follow
+    table: follows
     fields:
         id:
             id: true
