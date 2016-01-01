@@ -23,7 +23,7 @@ CC.Class['Follow'] = (function(){
             success: function( result ) {
                 var loggedInResult = $.parseJSON(result);
                 if( loggedInResult.loggedIn ){
-
+                    ga('send','event','Follow',"Logged in", item);
                     // Follow the item
                     var followUrl = '/ajax/follow/' + item +'/' + itemId;
 
@@ -57,6 +57,9 @@ CC.Class['Follow'] = (function(){
 
 
                 } else {
+
+                    ga('send','event','Follow',"Logged Out", item);
+
                     // Save the follow info in session
                     $.ajax({
                         url: '/ajax/pre_follow/' + item +'/' + itemId,
