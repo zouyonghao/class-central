@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
@@ -194,6 +195,7 @@ class StreamController extends Controller
     {
         $cl = $this->get('course_listing');
         $data = $cl->bySubject($slug,$request);
+        $subject = $data['subject'];
 
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
                 'subject' => $data['subject'],
@@ -210,7 +212,9 @@ class StreamController extends Controller
                 'sortField' => $data['sortField'],
                 'sortClass' => $data['sortClass'],
                 'pageNo' => $data['pageNo'],
-                'showHeader' => true
+                'showHeader' => true,
+                'followItem' => Item::ITEM_TYPE_SUBJECT,
+                'followItemId' => $subject->getId()
             ));
     }
 
