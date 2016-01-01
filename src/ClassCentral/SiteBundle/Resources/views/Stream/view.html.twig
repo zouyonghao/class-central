@@ -37,7 +37,8 @@
         {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
             item : followItem,
             item_id : followItemId,
-            itemName: subject.name
+            itemName: subject.name,
+            followed: user_session.isItemFollowed(followItem,followItemId)
         } %}
     </div>
 
