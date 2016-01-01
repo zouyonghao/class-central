@@ -150,14 +150,6 @@ class UserSession
         $us = $this->container->get('user_service');
         $us->addUserToReview($user);
 
-        // user has just logged in. Update the session
-        $this->saveUserInformationInSession();
-
-        // Update the last login time stamp
-        $user->setLastLogin(new \DateTime());
-        $this->em->persist($user);
-        $this->em->flush();
-
         // Instead of signing up, users choose to login. Save the session information to their account.
         $activities = $this->getAnonActivities();
         foreach($activities as $activity)
@@ -171,6 +163,16 @@ class UserSession
                     break;
             }
         }
+
+
+        // user has just logged in. Update the session
+        $this->saveUserInformationInSession();
+
+        // Update the last login time stamp
+        $user->setLastLogin(new \DateTime());
+        $this->em->persist($user);
+        $this->em->flush();
+
 
         // Send a successfull login notification
         if($facebook)
