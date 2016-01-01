@@ -214,7 +214,8 @@ class StreamController extends Controller
                 'pageNo' => $data['pageNo'],
                 'showHeader' => true,
                 'followItem' => Item::ITEM_TYPE_SUBJECT,
-                'followItemId' => $subject->getId()
+                'followItemId' => $subject->getId(),
+                'followItemName' => $subject->getName()
             ));
     }
 

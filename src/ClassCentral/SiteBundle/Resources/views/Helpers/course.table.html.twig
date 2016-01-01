@@ -96,28 +96,18 @@
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
-        {% if loop.index == -1 %}
+        {% if followItem is defined and loop.index == 5 and showHeader and not user_session.isItemFollowed(followItem,followItemId) %}
             <tr>
                 <td colspan="4" class="featured-cell">
                     <div class="featured-cell__container">
-                        <div class="featured-cell__text">Your <i>tailored</i> weekly email digest.</div>
+                        <div class="featured-cell__text">Never Miss a Course.</div>
                         <div class="featured-cell__button ui-theme-light">
-                            <a href="#" class="action-button action-button--transparent">
-                                <span class="action-button__container">
-                                    <span class="action-button__unit action-button__unit-bordered">
-
-                                        <div class="action-button__icon">
-                                            <div class="u-scaling-svg">
-                                                <svg class="u-scalingSvg__shape">
-                                                    <use xlink:href="#shape-cc-single-letter"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-
-                                    </span>
-                                    <span class="action-button__unit">Follow <i>Computer Science</i></span>
-                                </span><!-- /.action-button__container -->
-                            </a><!-- /.action-button -->
+                            {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                                item : followItem,
+                                item_id : followItemId,
+                                itemName: followItemName,
+                                followed: user_session.isItemFollowed(followItem,followItemId)
+                            } %}
                         </div>
                     </div>
                 </td>
