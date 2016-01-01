@@ -4,6 +4,8 @@ var CC = CC || {
 
 CC.Class['Follow'] = (function(){
 
+    var utilities = CC.Class['Utilities'];
+
     function init() {
         $('.btn-follow-item').click(followClicked);
     }
@@ -36,9 +38,19 @@ CC.Class['Follow'] = (function(){
                                 $('.btn-follow-item').find('.action-button__unit:eq(1)').html('Following <i>' + itemName + '</i>');
 
                                 // Show a success notification
+                                utilities.notify(
+                                    "Following " + itemName,
+                                    "You will receive regular course notifications and reminders about " + itemName,
+                                    "success"
+                                );
 
                             } else {
                                 // Show a error notification
+                                utilities.notify(
+                                    "Following Failed" + itemName,
+                                    "There was some error while following " + itemName + ". Please try again later.",
+                                    "error"
+                                );
                             }
                         }
                     });
