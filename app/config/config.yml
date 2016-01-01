@@ -128,6 +128,9 @@ services:
   spotlight:
         class: ClassCentral\SiteBundle\Services\Spotlight
         arguments: ['@service_container']
+  follow:
+        class: ClassCentral\SiteBundle\Services\Follow
+        arguments: ['@service_container']
   # Used to retrive jobs
   es_scheduler:
         class: ClassCentral\ElasticSearchBundle\API\Scheduler
