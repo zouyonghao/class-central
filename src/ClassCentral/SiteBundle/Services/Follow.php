@@ -10,7 +10,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Item;
-use ClassCentral\SiteBundle\Entity\User;
+use ClassCentral\SiteBundle\Entity\User as UserEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Follow
@@ -25,13 +25,13 @@ class Follow
         $this->em = $container->get('doctrine')->getManager();
     }
 
-    public function followUsingItemInfo(User $user, $item, $itemId)
+    public function followUsingItemInfo(UserEntity $user, $item, $itemId)
     {
         $item = Item::getItem($item,$itemId);
         return $this->followUsingItem($user,$item);
     }
 
-    public function followUsingItem(User $user, Item $item)
+    public function followUsingItem(UserEntity $user, Item $item)
     {
         $obj = $this->getObjectFromItem($item);
         if($obj)
@@ -42,7 +42,7 @@ class Follow
         return false;
     }
 
-    public function follow( User $user, $obj)
+    public function follow( UserEntity $user, $obj)
     {
         // Check if user is already is following
         $follow = $this->getFollow($user, $obj);
@@ -63,7 +63,7 @@ class Follow
         return $follow;
     }
 
-    public function getFollow(User $user, $obj)
+    public function getFollow(UserEntity $user, $obj)
     {
         $item = Item::getItemFromObject($obj);
         $follow = $this->em->getRepository('ClassCentralSiteBundle:Follow')->findOneBy( array(
