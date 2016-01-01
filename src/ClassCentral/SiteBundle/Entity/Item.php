@@ -26,6 +26,10 @@ class Item
     const ITEM_TYPE_CREDENTIAL = 'credential';
     const ITEM_TYPE_SUBJECT = 'subject';
 
+    public static $items = array(
+        self::ITEM_TYPE_CREDENTIAL, self::ITEM_TYPE_SUBJECT
+    );
+
     public static function getItemFromObject($obj)
     {
         $item = new Item();

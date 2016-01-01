@@ -36,6 +36,7 @@ twig:
       reviewService : @review
       imageService  : @image_service
       credService   : @credential
+      followSrvice  : @follow
       swiftype_engine_key : %swiftype_engine_key%
       clicky_site_id: %clicky_site_id%
       sumo_site_id  : %sumo_site_id%

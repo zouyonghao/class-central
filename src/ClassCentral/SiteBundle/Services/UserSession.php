@@ -2,6 +2,7 @@
 
 namespace  ClassCentral\SiteBundle\Services;
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -28,6 +29,7 @@ class UserSession
     const NEWSLETTER_USER_EMAIL = 'newsletter_user_email';
     const USER_REVIEWED_COURSES = 'user_review_course_ids';
     const USER_REVIEWS  = 'user_review_ids';
+    const USER_FOLLOWS = 'user_follows';
     const USER_REVIEWED_CREDENTIALS = 'user_review_credential_ids';
     const USER_CREDENTIAL_REVIEWS  = 'user_credential_review_ids';
     const PASSWORDLESS_LOGIN = 'passwordless_login';
@@ -224,6 +226,8 @@ class UserSession
 
         $this->saveCredentialReviewInformationInSession();
 
+        $this->saveFollowInformation();
+
     }
 
     /**
@@ -253,6 +257,28 @@ class UserSession
         }
 
         return array();
+    }
+
+
+    /**
+     * Saves all the iterms a user follows in the session
+     */
+    public function saveFollowInformation()
+    {
+        $user = $this->securityContext->getToken()->getUser();
+        $follows = array();
+        // Initialize the array
+        foreach(Item::$items as $item)
+        {
+            $follows[$item] = array();
+        }
+
+        foreach( $user->getFollows() as $follow )
+        {
+            $follows[ $follow->getItem() ][ $follow->getItemId()] = 1;
+        }
+
+        $this->session->set(self::USER_FOLLOWS,$follows);
     }
 
     /**
@@ -293,6 +319,12 @@ class UserSession
         $this->session->set(self::USER_REVIEWED_CREDENTIALS, $credentialIds);
     }
 
+    public function isItemFollowed($item, $itemId)
+    {
+        $follows = $this->session->get(self::USER_FOLLOWS);
+
+        return isset($follows[$item][$itemId]);
+    }
     public function isCourseReviewed($courseId)
     {
         $courseIds = $this->session->get(self::USER_REVIEWED_COURSES);
