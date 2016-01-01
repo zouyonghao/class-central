@@ -80,6 +80,9 @@ ClassCentral\SiteBundle\Entity\User:
         userCourses:
           targetEntity: UserCourse
           mappedBy: user
+        follows:
+          targetEntity: Follow
+          mappedBy: user
         reviews:
           targetEntity: Review
           mappedBy: user

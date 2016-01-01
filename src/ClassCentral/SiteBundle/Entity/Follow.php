@@ -29,6 +29,11 @@ class Follow
      */
     private $created;
 
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\User
+     */
+    private $user;
+
     public function __construct()
     {
         $this->created = new \DateTime();
@@ -111,5 +116,28 @@ class Follow
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \ClassCentral\SiteBundle\Entity\User $user
+     * @return UserCourse
+     */
+    public function setUser(\ClassCentral\SiteBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \ClassCentral\SiteBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

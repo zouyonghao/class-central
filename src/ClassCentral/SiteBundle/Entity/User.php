@@ -133,6 +133,8 @@ class User implements UserInterface, \Serializable
      */
     private $credentialReviews;
 
+    private $follows;
+
 
     const SIGNUP_TYPE_FORM = 1;
     const SIGNUP_TYPE_FACEBOOK = 2;
@@ -156,6 +158,7 @@ class User implements UserInterface, \Serializable
         $this->userPreferences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
         $this->indepthReviews = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->follows = new \Doctrine\Common\Collections\ArrayCollection();
         $this->isverified = 0;
         $this->setSignupType(self::SIGNUP_TYPE_FORM);
     }
@@ -908,4 +911,10 @@ class User implements UserInterface, \Serializable
     {
         return $this->credentialReviews;
     }
+
+    public function getFollows()
+    {
+        return $this->follows;
+    }
+
 }
