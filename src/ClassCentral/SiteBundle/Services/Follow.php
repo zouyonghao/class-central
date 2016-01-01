@@ -25,6 +25,23 @@ class Follow
         $this->em = $container->get('doctrine')->getManager();
     }
 
+    public function followUsingItemInfo(User $user, $item, $itemId)
+    {
+        $item = Item::getItem($item,$itemId);
+        return $this->followUsingItem($user,$item);
+    }
+
+    public function followUsingItem(User $user, Item $item)
+    {
+        $obj = $this->getObjectFromItem($item);
+        if($obj)
+        {
+            return $this->follow($user,$obj);
+        }
+
+        return false;
+    }
+
     public function follow( User $user, $obj)
     {
         // Check if user is already is following
@@ -33,8 +50,8 @@ class Follow
         {
             return $follow;
         }
-
         $item = Item::getItemFromObject($obj);
+
         $follow = new \ClassCentral\SiteBundle\Entity\Follow();
         $follow->setItem( $item->getType() );
         $follow->setItemId( $item->getId() );
@@ -45,7 +62,6 @@ class Follow
 
         return $follow;
     }
-
 
     public function getFollow(User $user, $obj)
     {
@@ -58,4 +74,12 @@ class Follow
 
         return $follow;
     }
+
+    public function getObjectFromItem(Item $item)
+    {
+        $itemInfo = Item::getItemInfo($item);
+        return $this->em->getRepository($itemInfo['repository'])->find( $item->getId() );
+    }
+
+
 }

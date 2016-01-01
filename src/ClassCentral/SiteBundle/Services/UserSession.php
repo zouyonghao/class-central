@@ -166,6 +166,9 @@ class UserSession
                 case 'credential_review':
                     $us->addUserToCredentialReview($user, $activity['id']);
                     break;
+                case 'follow':
+                    $us->saveFollows($user, $activity['id']);
+                    break;
             }
         }
 

@@ -131,6 +131,9 @@ class User {
                 case 'credential_review':
                     $this->addUserToCredentialReview($user, $activity['id']);
                     break;
+                case 'follow':
+                    $this->saveFollows($user,$activity['id']);
+                    break;
             }
         }
 
@@ -160,6 +163,18 @@ class User {
         }
 
 
+    }
+
+    /**
+     *
+     * @param $user
+     * @param $activityId format is item-itemId i.e subject-1 (for CS)
+     */
+    public function saveFollows($user, $activityId)
+    {
+        $followService = $this->container->get('follow');
+        $itemInfo  = explode('-',$activityId);
+        $followService->followUsingItemInfo($user,$itemInfo[0], $itemInfo[1]);
     }
 
     /**

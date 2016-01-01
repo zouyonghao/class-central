@@ -248,9 +248,13 @@ ajax_user_loggedin:
   pattern : /ajax/isLoggedIn
   defaults: {_controller: ClassCentralSiteBundle:User:isLoggedIn}
 
-ajax_follow_subject:
-  pattern: /ajax/follow/subject/{subjectId}
-  defaults: {_controller: ClassCentralSiteBundle:Follow:followSubject}
+ajax_follow:
+  pattern: /ajax/follow/{item}/{itemId}
+  defaults: {_controller: ClassCentralSiteBundle:Follow:follow}
+
+ajax_pre_follow:
+  pattern: /ajax/pre_follow/{item}/{itemId}
+  defaults:  {_controller: ClassCentralSiteBundle:Follow:preFollow}
 
 user_library:
   pattern: /user/courses

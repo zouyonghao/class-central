@@ -57,6 +57,15 @@ CC.Class['Follow'] = (function(){
 
 
                 } else {
+                    // Save the follow info in session
+                    $.ajax({
+                        url: '/ajax/pre_follow/' + item +'/' + itemId,
+                        cache: false,
+                        success: function(r){
+                            // do nothing
+                        }
+                    });
+
                     // Show signup modal
                     $('#signupModal-btn_follow').modal('show');
                 }

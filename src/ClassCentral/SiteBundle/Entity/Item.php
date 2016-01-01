@@ -30,6 +30,35 @@ class Item
         self::ITEM_TYPE_CREDENTIAL, self::ITEM_TYPE_SUBJECT
     );
 
+    private function __construct()
+    {
+
+    }
+
+    /**
+     * @param Item $item
+     */
+    public static function getItemInfo(Item $item)
+    {
+        $repository = null;
+
+        switch ($item->getType() )
+        {
+            case self::ITEM_TYPE_CREDENTIAL:
+                $repository = 'ClassCentralCredentialBundle:Credential';
+                break;
+            case self::ITEM_TYPE_SUBJECT:
+                $repository = 'ClassCentralSiteBundle:Stream';
+                break;
+            default:
+                throw new \Exception("Item does not exist");
+        }
+
+        return array(
+            'repository' => $repository
+        );
+    }
+
     public static function getItemFromObject($obj)
     {
         $item = new Item();
@@ -47,6 +76,17 @@ class Item
         }
 
         return $item;
+    }
+
+    public static function getItem($type,$itemId)
+    {
+        if( in_array($type,self::$items) )
+        {
+            $item = new Item();
+            $item->setType($type);
+            $item->setId($itemId);
+            return $item;
+        }
     }
 
     /**
