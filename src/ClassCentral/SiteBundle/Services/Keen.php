@@ -23,10 +23,15 @@ class Keen
 
     public function recordLogins(\ClassCentral\SiteBundle\Entity\User $user, $type)
     {
-        $this->keenClient->addEvent('logins', array(
-            'user_id' => $user->getId(),
-            'type' => $type
-        ));
+        try
+        {
+            $this->keenClient->addEvent('logins', array(
+                'user_id' => $user->getId(),
+                'type' => $type
+            ));
+        } catch(\Exception $e) {
+
+        }
     }
 
     /**
@@ -35,10 +40,15 @@ class Keen
      */
     public function recordSignups(\ClassCentral\SiteBundle\Entity\User $user,  $src = null)
     {
-        $this->keenClient->addEvent('signups', array(
-        'user_id' => $user->getId(),
-        'type' => $user->getSignupTypeString(),
-        'src' => $src
-    ));
+        try {
+            $this->keenClient->addEvent('signups', array(
+                'user_id' => $user->getId(),
+                'type' => $user->getSignupTypeString(),
+                'src' => $src
+            ));
+        } catch(\Exception $e) {
+
+        }
+
     }
 }
