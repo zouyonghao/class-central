@@ -32,8 +32,8 @@ CC.Class['Follow'] = (function(){
                             var result = JSON.parse(r);
                             if(result['success']) {
                                 // update the state to followed
-                                $(self).addClass('active');
-                                $(self).find('.action-button__unit:eq(1)').html('Following <i>' + itemName + '</i>');
+                                $('.btn-follow-item').addClass('active');
+                                $('.btn-follow-item').find('.action-button__unit:eq(1)').html('Following <i>' + itemName + '</i>');
 
                                 // Show a success notification
 
