@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Services\Filter;
@@ -200,6 +201,7 @@ class InitiativeController extends Controller
     {
         $cl = $this->get('course_listing');
         $data = $cl->byProvider($type,$request);
+        $provider = $data['provider'];
 
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
             'results' => $data['courses'],
@@ -215,6 +217,9 @@ class InitiativeController extends Controller
             'pageNo' => $data['pageNo'],
             'showHeader' => true,
             'breadcrumbs' => $data['breadcrumbs'],
+            'followItem' => Item::ITEM_TYPE_PROVIDER,
+            'followItemId' => $provider->getId(),
+            'followItemName' => $provider->getName()
         ));
     }
 

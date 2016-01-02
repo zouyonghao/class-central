@@ -55,7 +55,7 @@ class Item
                 $repository = 'ClassCentralSiteBundle:Stream';
                 break;
             case self::ITEM_TYPE_PROVIDER:
-                $repository ='ClassCentralSiteBundle:Provider';
+                $repository ='ClassCentralSiteBundle:Initiative';
                 break;
             case self::ITEM_TYPE_INSTITUTION:
                 $repository = 'ClassCentralSiteBundle:Institution';

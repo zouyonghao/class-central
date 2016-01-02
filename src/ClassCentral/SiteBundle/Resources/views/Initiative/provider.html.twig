@@ -33,6 +33,15 @@
 
     {% include 'ClassCentralSiteBundle:Helpers:pageHeader.html.twig' with {'info':pageInfo} %}
 
+    <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
+        {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+        item : followItem,
+        item_id : followItemId,
+        itemName: followItemName,
+        followed: user_session.isItemFollowed(followItem,followItemId)
+        } %}
+    </div>
+
     <section class="courses">
         <h2 class="section-heading">
             <span>Courses</span>
