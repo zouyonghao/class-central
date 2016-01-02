@@ -1,24 +1,24 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
 
-    {% set ad = random(2) %}
+    {% set ad = random(4) %}
 
     {% if ad == 0 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
-            'courseName': 'US, 1865 to the Present.',
-            'courseUrl' : 'https://historychannel.ou.edu/',
-            'courseDate': '2015',
-            'providerName':'History Channel',
-            'providerUrl' : 'https://historychannel.ou.edu/',
-            'institutionName':'The University of Oklahoma',
-            'institutionUrl': '/university/ou',
-            'subjectName': 'History',
-            'subjectSlug':'history',
+            'courseName': 'Unmanned Aerospace Systems (UAS) - Key Concepts for New Users',
+            'courseUrl' : 'https://www.canvas.net/browse/erau/courses/unmanned-aircraft/?utm_source=Class-Central&utm_medium=ImageAd&utm_campaign=CN+UAS&utm_content=',
+            'courseDate': '12th Jan, 2016',
+            'providerName':'Canvas Network',
+            'providerUrl' : 'https://www.canvas.net/?utm_source=Class-Central&utm_medium=ImageAd&utm_campaign=CN+UAS&utm_content=',
+            'institutionName':'Embry-Riddle Aeronautical University',
+            'institutionUrl': '/university/erau',
+            'subjectName': 'Engineering',
+            'subjectSlug':'engineering',
             'format' : format
             }
         %}
 
-      {% elseif ad == 1 %}
+   {% elseif ad == 1 %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': 'Introduction to Programming for the Visual Arts with p5.js',
         'courseUrl' : 'https://www.kadenze.com/courses/introduction-to-programming-for-the-visual-arts-with-p5-js/info?utm_source=https%3A%2F%2Fwww.class-central.com%2F&utm_medium=referral&utm_term=Programming%20Visual%20Art%20p5.js&utm_campaign=Class%20Central%20Ad',
@@ -31,17 +31,47 @@
         'subjectSlug':'programming-and-software-development',
         'format' : format
       } %}
-    {% else %}
+    {% elseif ad == 2 %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
-            'courseName': 'Basic Mandarin with Féng lǎoshī',
-            'courseUrl' : 'https://www.openlearning.com/courses/basicmandarinwithfnglosh?utm_source=classcentral',
-            'courseDate': '19th Oct, 2015',
-            'providerName':'Openlearning',
-            'providerUrl' : 'https://www.openlearning.com/?utm_source=classcentral',
+            'courseName': 'Wellness Coaching: Powerful Skills for Everyday People',
+            'courseUrl' : 'https://www.canvas.net/browse/iwe/courses/wellness-coaching/?utm_source=Class-Central&utm_medium=ImageAd&utm_campaign=CN+Wellness+Coach&utm_content=',
+            'courseDate': '11th Jan, 2016',
+            'providerName':'Canvas Network',
+            'providerUrl' : 'https://www.canvas.net/?utm_source=Class-Central&utm_medium=ImageAd&utm_campaign=CN+Wellness+Coach&utm_content=',
+            'institutionName':'Institute for Wellness Education',
+            'institutionUrl': '/institution/iwe',
+            'subjectName': 'Nutrition & Wellness',
+            'subjectSlug':'nutrition-and-wellness',
+            'format' : format
+
+        } %}
+      {% elseif ad == 3 %}
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+            'courseName': 'Project Management for Business Professionals',
+            'courseUrl' : 'https://www.canvas.net/browse/jerichohill/courses/project-management-business-professionals-7/?utm_source=Class-Central&utm_medium=TextAd&utm_campaign=CN+Project+Management&utm_content=',
+            'courseDate': '11th Jan, 2016',
+            'providerName':'Canvas Network',
+            'providerUrl' : 'https://www.canvas.net/?utm_source=Class-Central&utm_medium=TextAd&utm_campaign=CN+Project+Management&utm_content=',
+            'institutionName':'Shaping Tomorrow',
+            'institutionUrl': 'institution/shtm',
+            'subjectName': 'Management & Leadership',
+            'subjectSlug':'management-and-leadership',
+            'format' : format
+
+        } %}
+
+      {% else %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+            'courseName': 'Emotional Toughness Training',
+            'courseUrl' : 'https://www.canvas.net/browse/austinpeaystate/courses/emotional-toughness-training/?utm_source=Class-Central&utm_medium=ImageAd&utm_campaign=CN+Emotions+Tough&utm_content=',
+            'courseDate': '25th Jan, 2016',
+            'providerName':'Canvas Network',
+            'providerUrl' : 'https://www.canvas.net/?utm_source=Class-Central&utm_medium=ImageAd&utm_campaign=CN+Emotions+Tough&utm_content=',
             'institutionName':'',
             'institutionUrl': '',
-            'subjectName': 'Language & Culture',
-            'subjectSlug':'language-culture',
+            'subjectName': 'Nutrition & Wellness',
+            'subjectSlug':'nutrition-and-wellness',
             'format' : format
 
         } %}
