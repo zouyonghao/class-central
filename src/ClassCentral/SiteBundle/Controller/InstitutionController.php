@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -204,6 +205,7 @@ class InstitutionController extends Controller
 
         $cl = $this->get('course_listing');
         $data = $cl->byInstitution($slug,$request);
+        $institution = $data['institution'];
 
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
@@ -220,7 +222,10 @@ class InstitutionController extends Controller
                     'sortField' => $data['sortField'],
                     'sortClass' => $data['sortClass'],
                     'pageNo' => $data['pageNo'],
-                    'showHeader' => true
+                    'showHeader' => true,
+                    'followItem' => Item::ITEM_TYPE_INSTITUTION,
+                    'followItemId' => $institution->getId(),
+                    'followItemName' => $institution->getName()
                 ));                
     }
 
