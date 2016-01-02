@@ -25,9 +25,13 @@ class Item
 
     const ITEM_TYPE_CREDENTIAL = 'credential';
     const ITEM_TYPE_SUBJECT = 'subject';
+    const ITEM_TYPE_INSTITUTION = 'institution';
+    const ITEM_TYPE_PROVIDER = 'provider';
+    const ITEM_TYPE_TAG = 'tag';
 
     public static $items = array(
-        self::ITEM_TYPE_CREDENTIAL, self::ITEM_TYPE_SUBJECT
+        self::ITEM_TYPE_CREDENTIAL, self::ITEM_TYPE_SUBJECT, self::ITEM_TYPE_INSTITUTION,
+        self::ITEM_TYPE_PROVIDER, self::ITEM_TYPE_TAG
     );
 
     private function __construct()
@@ -50,6 +54,15 @@ class Item
             case self::ITEM_TYPE_SUBJECT:
                 $repository = 'ClassCentralSiteBundle:Stream';
                 break;
+            case self::ITEM_TYPE_PROVIDER:
+                $repository ='ClassCentralSiteBundle:Provider';
+                break;
+            case self::ITEM_TYPE_INSTITUTION:
+                $repository = 'ClassCentralSiteBundle:Institution';
+                break;
+            case self::ITEM_TYPE_TAG:
+                $repository = 'ClassCentralSiteBundle:Tag';
+                break;
             default:
                 throw new \Exception("Item does not exist");
         }
@@ -70,6 +83,15 @@ class Item
                 break;
             case $obj instanceof Stream:
                 $item->setType(self::ITEM_TYPE_SUBJECT);
+                break;
+            case $obj instanceof Initiative:
+                $item->setType(self::ITEM_TYPE_PROVIDER);
+                break;
+            case $obj instanceof Institution:
+                $item->setType(self::ITEM_TYPE_INSTITUTION);
+                break;
+            case $obj instanceof Tag:
+                $item->setType(self::ITEM_TYPE_TAG);
                 break;
             default:
                 throw new \Exception("Item does not exist");
