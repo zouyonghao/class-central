@@ -260,13 +260,17 @@ class CourseListing {
 
             $finder = $this->container->get('course_finder');
 
+            $em = $this->container->get('doctrine')->getManager();
+
+            $tagEntity = $em->getRepository('ClassCentralSiteBundle:Tag')->findOneByName($tag);
+
             extract($this->getInfoFromParams($request->query->all()));
             $courses = $finder->byTag($tag, $filters, $sort, $pageNo);
             extract($this->getFacets($courses));
 
             return compact(
                 'allSubjects', 'allLanguages', 'allSessions', 'courses',
-                'sortField', 'sortClass', 'pageNo'
+                'sortField', 'sortClass', 'pageNo', 'tagEntity'
             );
         }, array($tag, $request));
 
