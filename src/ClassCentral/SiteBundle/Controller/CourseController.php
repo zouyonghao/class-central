@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
@@ -766,6 +767,7 @@ EOD;
     {
         $cl = $this->get('course_listing');
         $data = $cl->byTag($tag,$request);
+        $tagEntity = $data['tagEntity'];
 
         return $this->render('ClassCentralSiteBundle:Course:tag.html.twig',
             array(
@@ -780,7 +782,10 @@ EOD;
                 'sortField' => $data['sortField'],
                 'sortClass' => $data['sortClass'],
                 'pageNo' => $data['pageNo'],
-                'showHeader' => true
+                'showHeader' => true,
+                'followItem' => Item::ITEM_TYPE_TAG,
+                'followItemId' => $tagEntity->getId(),
+                'followItemName' => ucfirst(strtolower( $tag))
             ));
     }
 
