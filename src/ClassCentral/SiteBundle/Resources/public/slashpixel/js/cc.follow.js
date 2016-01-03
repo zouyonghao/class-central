@@ -16,6 +16,7 @@ CC.Class['Follow'] = (function(){
         var item = $(this).data('item');
         var itemId = $(this).data('item-id');
         var itemName = $(this).data('item-name');
+        var showItemName = $(this).data('show-item-name');
 
         $.ajax({
             url: "/ajax/isLoggedIn",
@@ -34,8 +35,13 @@ CC.Class['Follow'] = (function(){
                             var result = JSON.parse(r);
                             if(result['success']) {
                                 // update the state to followed
-                                $('.btn-follow-item').addClass('active');
-                                $('.btn-follow-item').find('.action-button__unit:eq(1)').html('Following <i>' + itemName + '</i>');
+                                var itemClass = '.btn-follow-item-' + item + '-' + itemId;
+                                var btnText = "Following";
+                                if(showItemName) {
+                                    btnText = btnText + " <i>" + itemName + "</i>";
+                                }
+                                $(itemClass).addClass('active');
+                                $(itemClass).find('.action-button__unit:eq(1)').html( btnText );
 
                                 // Show a success notification
                                 utilities.notify(

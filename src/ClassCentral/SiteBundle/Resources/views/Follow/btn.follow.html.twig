@@ -1,4 +1,11 @@
-<a href="#" class="action-button action-button--transparent btn-follow-item {% if followed %}active{% endif %}" data-item="{{ item }}" data-item-id="{{ item_id }}" data-item-name="{{ itemName }}">
+<a href="#"
+   class="action-button action-button--transparent btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}
+   {% if followed %}active{% endif %}"
+   data-item="{{ item }}"
+   data-item-id="{{ item_id }}"
+   data-item-name="{{ itemName }}"
+   data-show-item-name ="{% if hideItemName is defined and hideItemName %}false{% else %}true{% endif %}"
+    >
     <span class="action-button__container">
         <span class="action-button__unit action-button__unit-bordered">
 
