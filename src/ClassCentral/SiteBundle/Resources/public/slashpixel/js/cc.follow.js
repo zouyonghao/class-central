@@ -8,6 +8,7 @@ CC.Class['Follow'] = (function(){
 
     function init() {
         $('.btn-follow-item').click(followClicked);
+        personalizationPrompt();
     }
 
     function followClicked(e) {
@@ -80,6 +81,23 @@ CC.Class['Follow'] = (function(){
                 }
             }
         });
+    }
+
+    function personalizationPrompt() {
+
+        setTimeout(function(){
+            swal({
+                title: "Meet Your Next Favourite Course",
+                text: "Get regular email updates of new and upcoming courses by following subjects, universities, and course providers.",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#043BFF",
+                confirmButtonText: "Start Personalizing Now",
+                closeOnConfirm: false
+            }, function () {
+               window.location.href = '/user/follows';
+            });
+        },5000);
     }
 
     return {
