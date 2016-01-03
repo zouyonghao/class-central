@@ -260,6 +260,10 @@ user_library:
   pattern: /user/courses
   defaults: {_controller: ClassCentralSiteBundle:User:library }
 
+user_follows:
+  pattern: /user/follows
+  defaults: {_controller: ClassCentralSiteBundle:Follow:personalization }
+
 signup_add_to_library:
   pattern: /signup/cc/{courseId}/{listId}
   defaults: {_controller: ClassCentralSiteBundle:User:signUpAddToLibrary }

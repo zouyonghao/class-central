@@ -162,6 +162,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ path('user_follows') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Personalization')" title="Personalization">
+                                    Personalization
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ path('logout') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Logout')" >Logout</a>
                             </li>
                         </ul>
