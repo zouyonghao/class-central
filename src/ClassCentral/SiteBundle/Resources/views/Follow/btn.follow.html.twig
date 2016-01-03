@@ -12,6 +12,8 @@
 
         </span>
 
-        <span class="action-button__unit">{% if followed %}Following {% else %}Follow {% endif %} <i>{{ itemName }}</i></span>
+        <span class="action-button__unit">
+            {% if followed %}Following{% else %}Follow{% endif %}<i>{% if hideItemName is defined and  hideItemName %}{% else %} {{ itemName }}{% endif %}</i>
+        </span>
     </span><!-- /.action-button__container -->
 </a>
