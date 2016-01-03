@@ -414,7 +414,7 @@
     {# show the user a personalization prompts #}
     {% if app.user and app.user.follows| length < 5 %}
         if(!isMobile.phone) {
-            CC.Class['Follow'].showPersonalizationPrompt(30000);
+            CC.Class['Follow'].showPersonalizationPrompt(20000);
         }
     {% endif %}
 
