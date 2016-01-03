@@ -412,7 +412,7 @@
     })();
 
     {# show the user a personalization prompts #}
-    {% if app.user and app.user.follows| length < 5 %}
+    {% if app.user and app.user.follows| length < 5 and app.request.attributes.get('_route') != 'user_profile' %}
         if(!isMobile.phone) {
             CC.Class['Follow'].showPersonalizationPrompt(20000);
         }
@@ -423,6 +423,7 @@
 
 {% block beforeClosingBody %}
 {% endblock %}
+{{ app.request.attributes.get('_route') }}
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];

@@ -112,11 +112,11 @@ CC.Class['Follow'] = (function(){
                             }, function () {
                                 window.location.href = '/user/follows';
                             });
+                            Cookies.set( promptShownCookie, 1, { expires :30} );
                         },delay);
                     }
                 }
             );
-            Cookies.set( promptShownCookie, 1, { expires :30} );
         }
     }
 
