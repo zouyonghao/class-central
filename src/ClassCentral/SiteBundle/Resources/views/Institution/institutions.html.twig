@@ -42,6 +42,17 @@
             <tbody>
             {% for institution in institutions %}
                 <tr>
+                    <td>
+                        <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
+                            {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                            item : followItem,
+                            item_id : institution.id,
+                            itemName: institution.name,
+                            followed: user_session.isItemFollowed(followItem,institution.id),
+                            hideItemName: true
+                            } %}
+                        </div>
+                    </td>
                     <td><a href="{{ path(urlPath, {'slug' : institution.slug}) }}" title="{{ institution.name }} MOOCs and Reviews" class="university-name">{{ institution.name }}</a></td>
                     <td><span class="courses-number">{{ institution.count }}{% if institution.count == 1 %} course {% else %} courses {% endif %}</span></td>
                     <td><a  href="{{ path(urlPath, {'slug' : institution.slug}) }}" title="{{ institution.name }} MOOCs and Reviews" class="btn">View {{ btnTitle }} Page</a></td>

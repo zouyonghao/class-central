@@ -35,10 +35,10 @@
                     <td>
                         <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
                             {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                                item : 'provider',
+                                item : followItem,
                                 item_id : provider.id,
                                 itemName: provider.name,
-                                followed: user_session.isItemFollowed('provider',provider.id),
+                                followed: user_session.isItemFollowed(followItem,provider.id),
                                 hideItemName: true
                              } %}
                         </div>

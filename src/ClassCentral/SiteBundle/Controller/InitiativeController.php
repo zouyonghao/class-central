@@ -232,7 +232,8 @@ class InitiativeController extends Controller
 
         $data = $this->getProvidersList( $this->container );
         return $this->render('ClassCentralSiteBundle:Initiative:providers.html.twig',array(
-            'providers' => $data['providers']
+            'providers' => $data['providers'],
+            'followItem' =>  Item::ITEM_TYPE_PROVIDER
         ));
     }
 

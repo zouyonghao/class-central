@@ -254,7 +254,8 @@ class InstitutionController extends Controller
 
         return $this->render('ClassCentralSiteBundle:Institution:institutions.html.twig',array(
             'institutions' => $data['institutions'],
-            'isUniversity' => $isUniversity
+            'isUniversity' => $isUniversity,
+            'followItem' => Item::ITEM_TYPE_INSTITUTION
         ));
     }
 
@@ -282,6 +283,7 @@ class InstitutionController extends Controller
                     continue;
                 }
                 $institution = array();
+                $institution['id'] = $entity->getId();
                 $institution['count'] = $count;
                 $institution['slug'] = $slug;
                 $institution['name'] = $entity->getName();
