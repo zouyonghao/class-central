@@ -266,6 +266,7 @@ class InitiativeController extends Controller
                 }
 
                 $provider = array();
+                $provider['id'] = $entity->getId();
                 $provider['count'] = $count;
                 $provider['code'] = $code;
                 $provider['name'] = $entity->getName();

@@ -32,6 +32,17 @@
            <tbody>
                 {% for provider in providers %}
                 <tr>
+                    <td>
+                        <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
+                            {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                                item : 'provider',
+                                item_id : provider.id,
+                                itemName: provider.name,
+                                followed: user_session.isItemFollowed('provider',provider.id),
+                                hideItemName: true
+                             } %}
+                        </div>
+                    </td>
                     <td><a href="{{ path('ClassCentralSiteBundle_initiative', {'type' : provider.code}) }}" title="{{ provider.name }} MOOCs and Reviews" class="university-name">{{ provider.name }}</a></td>
                     <td><span class="courses-number">{{ provider.count }}{% if provider.count == 1 %} course {% else %} courses {% endif %}</span></td>
                     <td><a  href="{{ path('ClassCentralSiteBundle_initiative', {'type' : provider.code}) }}" title="{{ provider.name }} MOOCs and Reviews" class="btn">View Provider Page</a></td>
