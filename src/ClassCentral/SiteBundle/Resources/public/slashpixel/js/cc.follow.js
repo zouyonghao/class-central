@@ -8,7 +8,6 @@ CC.Class['Follow'] = (function(){
 
     function init() {
         $('.btn-follow-item').click(followClicked);
-        personalizationPrompt();
     }
 
     function followClicked(e) {
@@ -83,25 +82,47 @@ CC.Class['Follow'] = (function(){
         });
     }
 
-    function personalizationPrompt() {
+    /**
+     * Shows a prompt asking the user if they want to be taken to the personalization
+     * page
+     * @param delay prompt delay in milliseconds
+     */
+    function showPersonalizationPrompt(delay) {
 
-        setTimeout(function(){
-            swal({
-                title: "Meet Your Next Favourite Course",
-                text: "Get regular email updates of new and upcoming courses by following subjects, universities, and course providers.",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonColor: "#043BFF",
-                confirmButtonText: "Start Personalizing Now",
-                closeOnConfirm: false
-            }, function () {
-               window.location.href = '/user/follows';
-            });
-        },5000);
+        var promptShownCookie = 'follow_personalized_page_prompt';
+        if ( Cookies.get( promptShownCookie) === undefined ) {
+            $.ajax({
+                url: "/ajax/isLoggedIn",
+                cache: true
+            })
+                .done(function(result){
+                    var loggedInResult = $.parseJSON(result);
+                    if( loggedInResult.loggedIn) {
+
+                        // Show the signup form
+                        setTimeout(function(){
+                            swal({
+                                title: "Meet Your Next Favourite Course",
+                                text: "Get regular email updates of new and upcoming courses by following subjects, universities, and course providers.",
+                                type: "info",
+                                showCancelButton: true,
+                                confirmButtonColor: "#043BFF",
+                                confirmButtonText: "Start Personalizing Now",
+                                closeOnConfirm: false
+                            }, function () {
+                                window.location.href = '/user/follows';
+                            });
+                        },delay);
+                    }
+                }
+            );
+            Cookies.set( promptShownCookie, 1, { expires :30} );
+        }
     }
 
     return {
-        init: init
+        init: init,
+        showPersonalizationPrompt:showPersonalizationPrompt
     }
 })();
 

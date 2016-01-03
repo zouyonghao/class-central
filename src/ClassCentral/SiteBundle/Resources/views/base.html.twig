@@ -410,7 +410,13 @@
         s.src = '//static.getclicky.com/js';
         ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
     })();
-</script>
+
+    {# show the user a personalization prompts #}
+    {% if app.user and app.user.follows| length < 5 %}
+        CC.Class['Follow'].showPersonalizationPrompt(30000);
+    {% endif %}
+
+    </script>
 <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100717250ns.gif" /></p></noscript>
 
 {% block beforeClosingBody %}
@@ -430,6 +436,8 @@
 {# Signup form when a non signed up users adds a course to MOOC tracker #}
 {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_add_to_my_courses', options:{ }}) %}
 {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'btn_follow', options:{ }}) %}
+
+
 
 </body>
 </html>
