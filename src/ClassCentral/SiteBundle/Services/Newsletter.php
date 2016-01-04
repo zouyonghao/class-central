@@ -92,7 +92,7 @@ class Newsletter {
      * @param $html
      * @param $date
      */
-    public function sendNewsletter(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, $html,  $subject, \DateTime $date = null)
+    public function sendNewsletter(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, $html,  $subject, \DateTime $date = null,$deliveryTime)
     {
         $listAddress = $this->getListAddress($newsLetter->getCode());
         try {
@@ -101,7 +101,8 @@ class Newsletter {
                 'to' => $listAddress,
                 'subject' =>$subject,
                 'html' => $html,
-                'o:campaign' => $newsLetter->getCode()
+                'o:campaign' => $newsLetter->getCode(),
+                'o:deliverytime' => $deliveryTime
             );
             if($date)
             {

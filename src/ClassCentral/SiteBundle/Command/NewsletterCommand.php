@@ -19,6 +19,7 @@ class NewsletterCommand extends ContainerAwareCommand {
             ->addArgument('code', InputArgument::REQUIRED,"Newsletter code e.g. mooc-report")
             ->addArgument('template', InputArgument::REQUIRED, "Newsletter template name eg. nov2013 -> views/Mail/mooc-report/nov2013.html.twig ")
             ->addArgument('subject',InputArgument::REQUIRED,"eg. List of 73 MOOCs starting in November")
+            ->addArgument('deliverytime',InputArgument::REQUIRED, "datetime at which email is to be sent(uses local machine timezone) i.e 2015-12-27 21:45:00")
         ;
     }
 
@@ -33,6 +34,7 @@ class NewsletterCommand extends ContainerAwareCommand {
         $code = $input->getArgument('code');
         $template = $input->getArgument('template');
         $subject = $input->getArgument('subject');
+        $deliveryTime = new \DateTime($input->getArgument('deliverytime'));
 
         $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode($code);
         if(!$newsletter)
@@ -41,7 +43,7 @@ class NewsletterCommand extends ContainerAwareCommand {
         }
         $html = $templating->renderResponse(sprintf('ClassCentralSiteBundle:Mail:%s/%s.html.twig',$code,$template));
 
-        $result = $ns->sendNewsletter($newsletter,$html->getContent(), $subject);
+        $result = $ns->sendNewsletter($newsletter,$html->getContent(), $subject,null,$deliveryTime->format(\DateTime::RFC2822));
         if($result)
         {
             $output->writeln("Newsletter successfully sent");
