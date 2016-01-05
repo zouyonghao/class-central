@@ -917,4 +917,9 @@ class User implements UserInterface, \Serializable
         return $this->follows;
     }
 
+    public function removeFollow(Follow $follow)
+    {
+        $this->follows->removeElement($follow);
+    }
+
 }
