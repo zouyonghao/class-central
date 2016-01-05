@@ -63,6 +63,22 @@ class Follow
         return $follow;
     }
 
+    public function unFollowUsingItemInfo(UserEntity $user, $item, $itemId)
+    {
+        $item = Item::getItem($item,$itemId);
+        $obj = $this->getObjectFromItem($item);
+        $follow = $this->getFollow($user, $obj);
+        if($follow)
+        {
+            $this->em->remove($follow);
+            $this->em->flush();
+            $user->removeFollow($follow);
+            return true;
+        }
+
+        return false;
+    }
+
     public function getFollow(UserEntity $user, $obj)
     {
         $item = Item::getItemFromObject($obj);
