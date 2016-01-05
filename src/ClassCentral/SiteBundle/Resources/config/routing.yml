@@ -252,6 +252,10 @@ ajax_follow:
   pattern: /ajax/follow/{item}/{itemId}
   defaults: {_controller: ClassCentralSiteBundle:Follow:follow}
 
+ajax_unfollow:
+  pattern: /ajax/unfollow/{item}/{itemId}
+  defaults: {_controller: ClassCentralSiteBundle:Follow:unFollow}
+
 ajax_pre_follow:
   pattern: /ajax/pre_follow/{item}/{itemId}
   defaults:  {_controller: ClassCentralSiteBundle:Follow:preFollow}
