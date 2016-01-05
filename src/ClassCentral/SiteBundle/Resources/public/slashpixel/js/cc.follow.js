@@ -51,6 +51,7 @@ CC.Class['Follow'] = (function(){
                                     // user has click the unfollow button
                                     btnText = "Follow" + btnText;
                                     $(itemClass).removeClass('active');
+                                    $(self).data('following',false);
                                     utilities.notify(
                                         "Unfollowed " + itemName,
                                         "You will no longer receive course notifications and reminders about " + itemName,
@@ -59,6 +60,7 @@ CC.Class['Follow'] = (function(){
                                 } else {
                                     btnText = "Following" + btnText;
                                     $(itemClass).addClass('active');
+                                    $(self).data('following',true);
                                     utilities.notify(
                                         "Following " + itemName,
                                         "You will receive regular course notifications and reminders about " + itemName,
