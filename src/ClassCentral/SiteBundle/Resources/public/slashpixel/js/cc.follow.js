@@ -17,6 +17,7 @@ CC.Class['Follow'] = (function(){
         var itemId = $(this).data('item-id');
         var itemName = $(this).data('item-name');
         var showItemName = $(this).data('show-item-name');
+        var following = $(this).data('following');
 
         $.ajax({
             url: "/ajax/isLoggedIn",
@@ -25,36 +26,54 @@ CC.Class['Follow'] = (function(){
                 var loggedInResult = $.parseJSON(result);
                 if( loggedInResult.loggedIn ){
                     ga('send','event','Follow',"Logged in", item);
+
+
                     // Follow the item
-                    var followUrl = '/ajax/follow/' + item +'/' + itemId;
+                    var url = '/ajax/follow/' + item +'/' + itemId;
+                    if(following) {
+                        var url = '/ajax/unfollow/' + item +'/' + itemId;
+                    }
 
                     $.ajax({
-                        url: followUrl,
+                        url: url,
                         cache:false,
                         success: function(r) {
                             var result = JSON.parse(r);
                             if(result['success']) {
                                 // update the state to followed
                                 var itemClass = '.btn-follow-item-' + item + '-' + itemId;
-                                var btnText = "Following";
+                                var btnText = '';
                                 if(showItemName) {
-                                    btnText = btnText + " <i>" + itemName + "</i>";
+                                    btnText = " <i>" + itemName + "</i>";
                                 }
-                                $(itemClass).addClass('active');
+
+                                if(following) {
+                                    // user has click the unfollow button
+                                    btnText = "Follow" + btnText;
+                                    $(itemClass).removeClass('active');
+                                    utilities.notify(
+                                        "Unfollowed " + itemName,
+                                        "You will no longer receive course notifications and reminders about " + itemName,
+                                        "success"
+                                    );
+                                } else {
+                                    btnText = "Following" + btnText;
+                                    $(itemClass).addClass('active');
+                                    utilities.notify(
+                                        "Following " + itemName,
+                                        "You will receive regular course notifications and reminders about " + itemName,
+                                        "success"
+                                    );
+                                }
+
                                 $(itemClass).find('.action-button__unit:eq(1)').html( btnText );
 
-                                // Show a success notification
-                                utilities.notify(
-                                    "Following " + itemName,
-                                    "You will receive regular course notifications and reminders about " + itemName,
-                                    "success"
-                                );
 
                             } else {
                                 // Show a error notification
                                 utilities.notify(
                                     "Following Failed" + itemName,
-                                    "There was some error while following " + itemName + ". Please try again later.",
+                                    "There was some error with " + itemName + ". Please try again later.",
                                     "error"
                                 );
                             }
