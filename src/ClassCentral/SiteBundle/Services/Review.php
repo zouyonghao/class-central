@@ -206,8 +206,14 @@ class Review {
         $percent = 0;
         if($totalRatings > 0)
         {
-            return intval($numRatings*100/$totalRatings);
+            $percent =intval($numRatings*100/$totalRatings);
+            if ($percent < 10 & $numRatings > 0)
+            {
+                $percent = 10; // Do it so that number of reviews count is visible
+            }
         }
+
+        return $percent;
     }
 
     public function getReviewsCacheKey($courseId)
