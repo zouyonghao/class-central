@@ -63,11 +63,11 @@ class OfferingController extends Controller
         // Defaults
         $entity->setStatus(Offering::START_DATES_KNOWN);
         $startDate = new \DateTime();
-        $startDate->sub(new \DateInterval('P60D'));
+        //$startDate->sub(new \DateInterval('P60D'));
         $entity->setStartDate( $startDate );
 
         $endDate = new \DateTime();
-        $endDate->sub(new \DateInterval('P30D'));
+        //$endDate->sub(new \DateInterval('P30D'));
         $entity->setEndDate( $endDate );
         
         $em = $this->getDoctrine()->getManager();
