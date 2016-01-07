@@ -10,6 +10,8 @@ namespace ClassCentral\SiteBundle\Controller;
 
 
 use ClassCentral\SiteBundle\Entity\Item;
+use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,5 +117,30 @@ class FollowController extends Controller
             'childSubjects' => $childSubjects,
             'followSubjectItem' => Item::ITEM_TYPE_SUBJECT
         ));
+    }
+
+    /**
+     * Show courses based on user recommendations
+     */
+    public function coursesAction(Request $request)
+    {
+        // Autologin if a token exists
+        $this->get('user_service')->autoLogin($request);
+        $cl = $this->get('course_listing');
+        $data = $cl->byTime('upcoming',$request);
+
+        return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
+            array(
+                'page'=>'user_course_recommendations',
+                'results' => $data['courses'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'offeringTypes' => Offering::$types,
+                'sortField' => $data['sortField'],
+                'sortClass' => $data['sortClass'],
+                'pageNo' => $data['pageNo'],
+                'showHeader' => true
+            ));
     }
 }
