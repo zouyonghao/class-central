@@ -67,7 +67,7 @@ class OfferingController extends Controller
         $entity->setStartDate( $startDate );
 
         $endDate = new \DateTime();
-        //$endDate->sub(new \DateInterval('P30D'));
+        $endDate->add(new \DateInterval('P30D'));
         $entity->setEndDate( $endDate );
         
         $em = $this->getDoctrine()->getManager();
