@@ -266,7 +266,7 @@ class UserSession
 
 
     /**
-     * Saves all the iterms a user follows in the session
+     * Saves all the items a user follows in the session
      */
     public function saveFollowInformation()
     {
@@ -284,6 +284,11 @@ class UserSession
         }
 
         $this->session->set(self::USER_FOLLOWS,$follows);
+    }
+
+    public function getFollows()
+    {
+        return $this->session->get(self::USER_FOLLOWS);
     }
 
     /**
