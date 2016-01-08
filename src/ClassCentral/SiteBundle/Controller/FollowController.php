@@ -126,8 +126,14 @@ class FollowController extends Controller
     {
         // Autologin if a token exists
         $this->get('user_service')->autoLogin($request);
+
         $cl = $this->get('course_listing');
-        $data = $cl->byTime('upcoming',$request);
+        $userSession = $this->get('user_session');
+        $follows = $userSession->getFollows();
+        $institutionIds = array_keys($follows[Item::ITEM_TYPE_INSTITUTION]);
+        $subjectIds = array_keys($follows[Item::ITEM_TYPE_SUBJECT]);
+
+        $data = $cl->byFollows($institutionIds,$subjectIds,$request);
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(

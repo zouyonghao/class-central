@@ -105,6 +105,23 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
 
+    public function byFollows($institutionIds,$subjectIds, $filters= array(), $sort = array(), $page = 1)
+    {
+
+        $query = array(
+            'terms' => array(
+                'institutions.id' => $institutionIds,
+            ),
+            'terms' => array(
+                'subjects.id' => $subjectIds
+            ),
+
+
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
+    }
+
     public function search( $keyword, $filters= array(), $sort = array(), $page = 1 )
     {
         $query = array(

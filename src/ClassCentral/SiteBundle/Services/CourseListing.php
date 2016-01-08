@@ -168,6 +168,25 @@ class CourseListing {
         return $data;
     }
 
+    public function byFollows($instituionIds,$subjectIds, Request $request)
+    {
+        $finder = $this->container->get('course_finder');
+        $params = $request->query->all();
+        $params['session'] = "upcoming,selfpaced";
+        extract($this->getInfoFromParams( $params ));
+
+        $courses = $finder->byFollows($instituionIds,$subjectIds, $filters, $sort, $pageNo);
+        extract($this->getFacets($courses));
+
+        return compact(
+            'allSubjects', 'allLanguages', 'courses',
+            'sortField', 'sortClass', 'pageNo'
+        );
+
+
+        return $data;
+    }
+
     public function byInstitution($slug, Request $request)
     {
         $cache = $this->container->get('cache');
