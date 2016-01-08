@@ -105,7 +105,7 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
 
-    public function byFollows($institutionIds,$subjectIds, $filters= array(), $sort = array(), $page = 1)
+    public function byFollows($institutionIds,$subjectIds, $providerIds,$filters= array(), $sort = array(), $page = 1)
     {
 
         $query = array(
@@ -113,15 +113,19 @@ class Finder {
                 'should' => array(
                     array(
                         'terms' => array(
-                            'subjects.id' => $subjectIds,
-                            "minimum_should_match" => 1
+                            'subjects.id' => $subjectIds
                         )),
                     array(
                         'terms' => array(
                             'institutions.id' => $institutionIds,
-                            "minimum_should_match" => 1
                         )),
-                )
+                    array(
+                        'terms' => array(
+                            'provider.id' => $providerIds
+                        )),
+
+                ),
+                'minimum_should_match' => "50%"
             )
         );
 

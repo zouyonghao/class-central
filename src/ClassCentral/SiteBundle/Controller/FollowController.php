@@ -131,9 +131,10 @@ class FollowController extends Controller
         $userSession = $this->get('user_session');
         $follows = $userSession->getFollows();
         $institutionIds = array_keys($follows[Item::ITEM_TYPE_INSTITUTION]);
+        $providerIds = array_keys($follows[Item::ITEM_TYPE_PROVIDER]);
         $subjectIds = array_keys($follows[Item::ITEM_TYPE_SUBJECT]);
 
-        $data = $cl->byFollows($institutionIds,$subjectIds,$request);
+        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds,$request);
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(
