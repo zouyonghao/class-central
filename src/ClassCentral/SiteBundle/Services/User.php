@@ -137,6 +137,8 @@ class User {
             }
         }
 
+        $userSession->saveUserInformationInSession(); // Update the session
+
         return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created','src' => $src));
     }
 
@@ -173,8 +175,14 @@ class User {
     public function saveFollows($user, $activityId)
     {
         $followService = $this->container->get('follow');
+        $em = $this->container->get('doctrine')->getManager();
+
         $itemInfo  = explode('-',$activityId);
-        $followService->followUsingItemInfo($user,$itemInfo[0], $itemInfo[1]);
+        $follow = $followService->followUsingItemInfo($user,$itemInfo[0], $itemInfo[1]);
+
+        $user->addFollow( $follow );
+        $em->persist($user);
+        $em->flush($user);
     }
 
     /**

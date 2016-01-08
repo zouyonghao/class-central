@@ -922,4 +922,9 @@ class User implements UserInterface, \Serializable
         $this->follows->removeElement($follow);
     }
 
+    public function addFollow(Follow $follow)
+    {
+        $this->follows[] = $follow;
+    }
+
 }
