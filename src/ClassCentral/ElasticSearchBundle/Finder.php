@@ -109,14 +109,20 @@ class Finder {
     {
 
         $query = array(
-            'terms' => array(
-                'institutions.id' => $institutionIds,
-            ),
-            'terms' => array(
-                'subjects.id' => $subjectIds
-            ),
-
-
+            'bool' => array(
+                'should' => array(
+                    array(
+                        'terms' => array(
+                            'subjects.id' => $subjectIds,
+                            "minimum_should_match" => 1
+                        )),
+                    array(
+                        'terms' => array(
+                            'institutions.id' => $institutionIds,
+                            "minimum_should_match" => 1
+                        )),
+                )
+            )
         );
 
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );

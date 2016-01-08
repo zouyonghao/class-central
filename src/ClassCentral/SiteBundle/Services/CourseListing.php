@@ -175,7 +175,7 @@ class CourseListing {
         $params['session'] = "upcoming,selfpaced";
         extract($this->getInfoFromParams( $params ));
 
-        $courses = $finder->byFollows($instituionIds,$subjectIds, $filters, $sort, $pageNo);
+        $courses = $finder->byFollows($instituionIds,$subjectIds, $filters, array(), $pageNo);
         extract($this->getFacets($courses));
 
         return compact(
