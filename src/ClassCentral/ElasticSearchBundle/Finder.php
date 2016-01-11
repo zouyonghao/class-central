@@ -7,6 +7,8 @@
  */
 
 namespace ClassCentral\ElasticSearchBundle;
+use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -109,25 +111,44 @@ class Finder {
     {
 
         $query = array(
-            'bool' => array(
-                'should' => array(
-                    array(
-                        'terms' => array(
-                            'subjects.id' => $subjectIds
-                        )),
-                    array(
-                        'terms' => array(
-                            'institutions.id' => $institutionIds,
-                        )),
-                    array(
-                        'terms' => array(
-                            'provider.id' => $providerIds
-                        )),
+             "function_score" => array(
+                 'query' => array(
+                    'bool' => array(
+                        'should' => array(
+                            array(
+                                'terms' => array(
+                                    'subjects.id' => $subjectIds
+                                )),
+                            array(
+                                'terms' => array(
+                                    'institutions.id' => $institutionIds,
+                                )),
+                            array(
+                                'terms' => array(
+                                    'provider.id' => $providerIds
+                                )),
 
-                ),
-                'minimum_should_match' => "50%"
-            )
-        );
+                        ),
+                        // Remove sessions where the start date is unknown
+                        'must_not' => array(
+                            "term" => array(
+                                'course.nextSession.status' => Offering::START_DATES_UNKNOWN
+                            )
+                        ),
+                        'minimum_should_match' => "50%",
+                    )
+                 ),
+                 "script_score" => array(
+                    "script" =>  "
+                        rating = doc['ratingSort'].value;
+                        followed =  doc['followed'].value;
+                        startingSoon = doc['startingSoon'].value;
+                        newCourse = doc['new'].value ;
+
+                        return _score*( rating* 25 + followed/25 + startingSoon*100 + newCourse*200);
+                    "
+                 )
+        ));
 
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
