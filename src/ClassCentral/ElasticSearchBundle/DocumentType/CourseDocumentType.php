@@ -210,10 +210,41 @@ class CourseDocumentType extends DocumentType {
         $body['ratingStars'] = ReviewUtility::getRatingStars( $body['rating'] );
         $body['formattedRating'] = ReviewUtility::formatRating( $body['rating'] );
 
-        // Get Listed count
+        // Get Followed count
         $courseRepo = $this->container->get('doctrine')
             ->getManager()->getRepository('ClassCentralSiteBundle:Course');
         $body['followed'] = intval($courseRepo->getListedCount($c));
+
+
+        // Check if the course being offered is new
+        // Definition of new - created 30 days ago
+        $oneMonthAgo = new \DateTime();
+        $oneMonthAgo->sub(new \DateInterval("P30D"));
+        $newCourse = false;
+        if($c->getCreated() >= $oneMonthAgo)
+        {
+            $newCourse = true;
+        }
+
+        // Is it being offered for the first time
+        if(count($c->getOfferings()) == 1 and $c->getCreated() > $oneMonthAgo  )
+        {
+            $newCourse = true;
+        }
+        if(count($c->getOfferings()) == 1 and $c->getStatus() != Offering::COURSE_OPEN )
+        {
+            $newCourse = true;
+        }
+        $body['new'] = intval($newCourse);
+
+        $startingSoon = false;
+        if( isset($body['nextSession']['states']) && in_array('recent', $body['nextSession']['states'])
+            && !in_array('selfpaced', $body['nextSession']['states']) )
+        {
+            $startingSoon = true;
+        }
+        $body['startingSoon'] = intval($startingSoon);
+
 
         // Get the Credential
         $credential = array();
