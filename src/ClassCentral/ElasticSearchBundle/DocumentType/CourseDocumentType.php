@@ -210,6 +210,11 @@ class CourseDocumentType extends DocumentType {
         $body['ratingStars'] = ReviewUtility::getRatingStars( $body['rating'] );
         $body['formattedRating'] = ReviewUtility::formatRating( $body['rating'] );
 
+        // Get Listed count
+        $courseRepo = $this->container->get('doctrine')
+            ->getManager()->getRepository('ClassCentralSiteBundle:Course');
+        $body['followed'] = intval($courseRepo->getListedCount($c));
+
         // Get the Credential
         $credential = array();
         if ( !$c->getCredentials()->isEmpty() )
