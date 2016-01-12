@@ -370,6 +370,10 @@ maestro_credentials:
   pattern: /maestro/certificate
   defaults: {_controller: ClassCentralSiteBundle:Maestro:credentials}
 
+maestro_user_suggestions:
+  pattern: /maestro/user/suggestions
+  defaults: {_controller: ClassCentralSiteBundle:Maestro:userSuggestions}
+
 user_profile_dummy:
   pattern: /profile
   defaults: {_controller: ClassCentralSiteBundle:User:profile }

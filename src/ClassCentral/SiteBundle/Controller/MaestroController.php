@@ -9,8 +9,10 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Services\Filter;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -147,6 +149,32 @@ class MaestroController extends Controller {
             'user-library'
         );
 
+    }
+
+    public function userSuggestionsAction(Request $request)
+    {
+        $userSession = $this->get('user_session');
+
+        // Check if user is already logged in.
+        if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return UniversalHelper::getAjaxResponse(false);
+        }
+
+        $cl = $this->get('course_listing');
+
+        $follows = $userSession->getFollows();
+        $institutionIds = array_keys($follows[Item::ITEM_TYPE_INSTITUTION]);
+        $providerIds = array_keys($follows[Item::ITEM_TYPE_PROVIDER]);
+        $subjectIds = array_keys($follows[Item::ITEM_TYPE_SUBJECT]);
+
+        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'suggestions',
+            'user_course_recommendations'
+        );
     }
 
     private function returnJsonResponse($data, $tableName, $page )
