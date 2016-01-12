@@ -226,15 +226,7 @@ class CourseDocumentType extends DocumentType {
             $newCourse = true;
         }
 
-        // Is it being offered for the first time
-        if(count($c->getOfferings()) == 1 and $c->getCreated() > $oneMonthAgo  )
-        {
-            $newCourse = true;
-        }
-        if(count($c->getOfferings()) == 1 and $c->getStatus() != Offering::COURSE_OPEN )
-        {
-            $newCourse = true;
-        }
+
         $body['new'] = intval($newCourse);
 
         $startingSoon = false;
