@@ -114,6 +114,12 @@ class Finder {
              "function_score" => array(
                  'query' => array(
                     'bool' => array(
+                        'must' => array(
+                            array(
+                                'terms' => array(
+                                    'subjects.id' => $subjectIds
+                                ))
+                        ),
                         'should' => array(
                             array(
                                 'terms' => array(
@@ -135,17 +141,31 @@ class Finder {
                                 'course.nextSession.status' => Offering::START_DATES_UNKNOWN
                             )
                         ),
-                        'minimum_should_match' => "50%",
                     )
                  ),
                  "script_score" => array(
                     "script" =>  "
                         rating = doc['ratingSort'].value;
+                        ratingCount = doc['reviewsCount'].value;
                         followed =  doc['followed'].value;
                         startingSoon = doc['startingSoon'].value;
                         newCourse = doc['new'].value ;
 
-                        return _score*( rating* 25 + followed/25 + startingSoon*100 + newCourse*200 + 1);
+                        // Calculate boost for ratings
+                        ratingScore = 0;
+                        if(rating > 4) {
+                            ratingScore = rating*25;
+                        } else if (rating >= 3) {
+                            ratingScore = rating*10;
+                        }
+                        ratingScore += (int)ratingCount/2;
+
+                        // Calculate the boost for course popularity
+                        followedScore = (int) followed/10;
+
+                        // Calculate score based on newness
+                        newScore = newCourse*1000;
+                        return _score*(ratingScore + followedScore + newScore + 1);
                     "
                  )
         ));
