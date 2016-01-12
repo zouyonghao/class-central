@@ -230,10 +230,14 @@ class CourseDocumentType extends DocumentType {
         $body['new'] = intval($newCourse);
 
         $startingSoon = false;
-        if( isset($body['nextSession']['states']) && in_array('recent', $body['nextSession']['states'])
-            && !in_array('selfpaced', $body['nextSession']['states']) )
+        $oneMonthLater = new \DateTime();
+        $oneMonthLater->add(new \DateInterval("P30D"));
+        if( $ns && !in_array('selfpaced', $body['nextSession']['states']) && in_array('upcoming', $body['nextSession']['states']))
         {
-            $startingSoon = true;
+            if($ns->getStartDate() < $oneMonthLater and $ns->getStatus() != Offering::START_DATES_UNKNOWN)
+            {
+                $startingSoon = true;
+            }
         }
         $body['startingSoon'] = intval($startingSoon);
 

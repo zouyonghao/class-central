@@ -164,8 +164,11 @@ class Finder {
                         followedScore = (int) followed/10;
 
                         // Calculate score based on newness
-                        newScore = newCourse*1000;
-                        return _score*(ratingScore + followedScore + newScore + 1);
+                        newScore = newCourse*300;
+
+                        // Starting soon score
+                        startingSoonScore = startingSoon*500;
+                        return _score*(ratingScore + followedScore + startingSoonScore  +  1);
                     "
                  )
         ));
