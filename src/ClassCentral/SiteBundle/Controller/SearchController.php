@@ -22,7 +22,7 @@ class SearchController extends Controller{
         $sortField = $sortClass = $pageNo = '';
 
         $request = $this->getRequest();
-        $keywords = $request->get('q');
+        $keywords = trim($request->get('q'));
         $total = 0;
         if  (!empty($keywords)) {
             // Perform the search
