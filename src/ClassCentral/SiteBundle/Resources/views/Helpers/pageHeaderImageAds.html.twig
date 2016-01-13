@@ -33,3 +33,18 @@
 
 #}
 
+
+
+{% set ad = random(3) %}
+
+{% if ad == 0 %}
+
+    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+        'url': 'http://skl.sh/1RJn3L0',
+        'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/Product Strategy.jpg',
+        'desc': "Product Strategy Simplified: New Product, Growth Product, Mature Product.",
+        'provider' : 'Skillshare'
+    } %}
+
+{% endif %}
+
