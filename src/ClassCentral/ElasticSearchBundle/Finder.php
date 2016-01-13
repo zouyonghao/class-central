@@ -178,6 +178,8 @@ class Finder {
 
     public function search( $keyword, $filters= array(), $sort = array(), $page = 1 )
     {
+        if(empty($keyword)) return false;
+
         $query = array(
             "function_score" => array(
                 "query" => array(
