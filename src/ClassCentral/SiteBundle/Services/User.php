@@ -836,12 +836,12 @@ class User {
 
     public function getSuggestions(\ClassCentral\SiteBundle\Entity\User $user)
     {
-        $cl = $this->get('course_listing');
+        $cl = $this->container->get('course_listing');
 
         $follows = $user->getFollowsCategorizedByItem();
-        $institutionIds = array_keys($follows[Item::ITEM_TYPE_INSTITUTION]);
-        $providerIds = array_keys($follows[Item::ITEM_TYPE_PROVIDER]);
-        $subjectIds = array_keys($follows[Item::ITEM_TYPE_SUBJECT]);
+        $institutionIds = $follows[Item::ITEM_TYPE_INSTITUTION];
+        $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
+        $subjectIds = $follows[Item::ITEM_TYPE_SUBJECT];
 
         $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds, array());
 

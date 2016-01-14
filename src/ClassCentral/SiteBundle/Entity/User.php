@@ -941,7 +941,7 @@ class User implements UserInterface, \Serializable
 
         foreach($this->getFollows() as $follow)
         {
-            $follows[$follow->getItem()] = $follow->getItemId();
+            $follows[$follow->getItem()][] = $follow->getItemId();
         }
 
         return $follows;

@@ -79,5 +79,9 @@ ClassCentralSiteBundle_interview:
   prefix:   /interview
 
 class_central_credential_credential:
-    resource: "@ClassCentralCredentialBundle/Resources/config/routing/credential.yml"
-    prefix:   /credential
+  resource: "@ClassCentralCredentialBundle/Resources/config/routing/credential.yml"
+  prefix:   /credential
+
+user_suggestions_by_id:
+  pattern: /suggestions/{userId}
+  defaults: {_controller: ClassCentralSiteBundle:Follow:suggestionsByUser }

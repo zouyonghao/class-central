@@ -150,4 +150,31 @@ class FollowController extends Controller
                 'showHeader' => true
             ));
     }
+
+    /**
+     * Generates a suggestions page by user id. Only open to admins
+     * @param Request $request
+     * @param $userId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function suggestionsByUserAction(Request $request, $userId)
+    {
+        $user = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->find($userId);
+        $userService = $this->container->get('user_service');
+        $data =$userService->getSuggestions( $user );
+
+        return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
+            array(
+                'page'=>'user_course_recommendations',
+                'results' => $data['courses'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'offeringTypes' => Offering::$types,
+                'sortField' => $data['sortField'],
+                'sortClass' => $data['sortClass'],
+                'pageNo' => $data['pageNo'],
+                'showHeader' => true
+            ));
+    }
 }
