@@ -168,7 +168,7 @@ class MaestroController extends Controller {
         $providerIds = array_keys($follows[Item::ITEM_TYPE_PROVIDER]);
         $subjectIds = array_keys($follows[Item::ITEM_TYPE_SUBJECT]);
 
-        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds,$request);
+        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds,$request->query->all());
 
         return $this->returnJsonResponse(
             $data,

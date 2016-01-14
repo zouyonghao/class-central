@@ -927,4 +927,24 @@ class User implements UserInterface, \Serializable
         $this->follows[] = $follow;
     }
 
+    /**
+     * Categorize item ids by item type
+     * @return array
+     */
+    public function getFollowsCategorizedByItem()
+    {
+        $follows = array();
+        foreach(Item::$items as $item)
+        {
+            $follows[$item] = array();
+        }
+
+        foreach($this->getFollows() as $follow)
+        {
+            $follows[$follow->getItem()] = $follow->getItemId();
+        }
+
+        return $follows;
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
 use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Entity\UserCourse;
@@ -833,5 +834,18 @@ class User {
         return $score;
     }
 
+    public function getSuggestions(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $cl = $this->get('course_listing');
+
+        $follows = $user->getFollowsCategorizedByItem();
+        $institutionIds = array_keys($follows[Item::ITEM_TYPE_INSTITUTION]);
+        $providerIds = array_keys($follows[Item::ITEM_TYPE_PROVIDER]);
+        $subjectIds = array_keys($follows[Item::ITEM_TYPE_SUBJECT]);
+
+        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds, array());
+
+        return $data;
+    }
 
 } 

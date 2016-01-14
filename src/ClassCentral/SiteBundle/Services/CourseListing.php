@@ -168,10 +168,9 @@ class CourseListing {
         return $data;
     }
 
-    public function byFollows($instituionIds,$subjectIds, $providerIds,Request $request)
+    public function byFollows($instituionIds,$subjectIds, $providerIds, $params)
     {
         $finder = $this->container->get('course_finder');
-        $params = $request->query->all();
         $params['session'] = "upcoming,selfpaced";
         extract($this->getInfoFromParams( $params ));
 
