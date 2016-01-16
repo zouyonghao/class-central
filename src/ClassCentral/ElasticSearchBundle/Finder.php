@@ -8,6 +8,7 @@
 
 namespace ClassCentral\ElasticSearchBundle;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -107,8 +108,11 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
 
-    public function byFollows($institutionIds,$subjectIds, $providerIds,$filters= array(), $sort = array(), $page = 1,$must)
+    public function byFollows($follows,$filters= array(), $sort = array(), $page = 1,$must)
     {
+        $institutionIds = $follows[Item::ITEM_TYPE_INSTITUTION];
+        $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
+        $subjectIds = $follows[Item::ITEM_TYPE_SUBJECT];
 
         $query = array(
              "function_score" => array(
