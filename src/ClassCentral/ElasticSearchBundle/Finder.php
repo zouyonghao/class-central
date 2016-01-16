@@ -108,7 +108,7 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
 
-    public function byFollows($follows,$filters= array(), $sort = array(), $page = 1,$must)
+    public function byFollows($follows,$filters= array(), $sort = array(), $page = 1,$must = array())
     {
         $institutionIds = $follows[Item::ITEM_TYPE_INSTITUTION];
         $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
@@ -118,9 +118,6 @@ class Finder {
              "function_score" => array(
                  'query' => array(
                     'bool' => array(
-                        'must' => array(
-                            $must
-                        ),
                         'should' => array(
                             array(
                                 'terms' => array(
@@ -174,7 +171,7 @@ class Finder {
                  )
         ));
 
-        return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page,$must );
     }
 
     public function search( $keyword, $filters= array(), $sort = array(), $page = 1 )

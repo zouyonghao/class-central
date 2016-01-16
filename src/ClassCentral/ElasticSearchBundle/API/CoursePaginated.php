@@ -20,7 +20,7 @@ class CoursePaginated {
         $this->esClient = $esClient;
     }
 
-    public function find( $query = array(), $filters = array(), $facets = array(), $sort = array(), $page = 1 )
+    public function find( $query = array(), $filters = array(), $facets = array(), $sort = array(), $page = 1, $must = array() )
     {
         $params = array();
 
@@ -38,19 +38,19 @@ class CoursePaginated {
 
         }
 
+        $must[] =  array(
+            "range" => array(
+                'status' => array(
+                    "lt" => 100
+                )
+            ))
+        ;
 
         $params['body']['query'] = array(
             'bool' => array(
-                'must' => array(
-                    array(
-                        "range" => array(
-                            'status' => array(
-                                "lt" => 100
-                            )
-                        ),
-                    )
+                'must' => array($must)
             )
-        ));
+        );
 
         if(!empty($query))
         {
