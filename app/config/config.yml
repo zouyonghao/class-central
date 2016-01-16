@@ -132,6 +132,9 @@ services:
   follow:
         class: ClassCentral\SiteBundle\Services\Follow
         arguments: ['@service_container']
+  suggestions:
+        class: ClassCentral\SiteBundle\Services\Suggestions
+        arguments: ['@service_container']
   # Used to retrive jobs
   es_scheduler:
         class: ClassCentral\ElasticSearchBundle\API\Scheduler
