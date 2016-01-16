@@ -106,6 +106,10 @@ class CourseDocumentType extends DocumentType {
         $body['certificate']  = $c->getCertificate();
         $body['verifiedCertificate']  = $c->getVerifiedCertificate();
         $body['url'] = $c->getUrl();
+        if($c->getCreated())
+        {
+            $body['created'] = $c->getCreated()->format(DATE_ISO8601);
+        }
 
         // Tags
         $tags = array();
