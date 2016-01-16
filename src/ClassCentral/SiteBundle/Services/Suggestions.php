@@ -25,14 +25,29 @@ class Suggestions
     }
 
     /**
-     * Find all the new courses based on user's follows added between the two dates
+     * Find all the new courses based on user's follows added between now and daysgo
      * @param User $user
      * @param $startDate
      * @param $endDate
      */
-    public function newCoursesbyUser(UserEntity $user, $startDate, $endDate)
+    public function newCoursesbyUser(UserEntity $user, $daysAgo)
     {
         // Get follows
+        $cl = $this->container->get('course_listing');
+
+        $follows = $user->getFollowsCategorizedByItem();
+
+        $must = array(
+            'range' => array(
+                'created' => array(
+                    "gte" => "now-{$daysAgo}d/d",
+                    "lt" => "now/d"
+                )
+            ));
+
+        $data = $cl->byFollows($follows, array(), $must);
+
+        return $data;
 
     }
 
@@ -42,9 +57,24 @@ class Suggestions
      * @param $startDate
      * @param $endDate
      */
-    public function suggestionsByUser(UserEntity $user, $startDate, $endDate)
+    public function byStartDate(UserEntity $user, $startDate, $endDate)
     {
+        // Get follows
+        $cl = $this->container->get('course_listing');
 
+        $follows = $user->getFollowsCategorizedByItem();
+
+        $must = array(
+            'range' => array(
+                'nextSession.startDate' => array(
+                    "gte" => $startDate,
+                    "lte" => $endDate,
+                )
+            ));
+
+        $data = $cl->byFollows($follows, array(), $must);
+
+        return $data;
     }
 
     /**
@@ -59,15 +89,12 @@ class Suggestions
 
         $follows = $user->getFollowsCategorizedByItem();
 
-        $institutionIds = $follows[Item::ITEM_TYPE_INSTITUTION];
-        $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
-        $subjectIds = $follows[Item::ITEM_TYPE_SUBJECT];
-        $must = array(
+        $must =  array(
             'terms' => array(
-                'subjects.id' => $subjectIds
+                'subjects.id' => $follows[Item::ITEM_TYPE_SUBJECT]
             ));
 
-        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds, $params, $must);
+        $data = $cl->byFollows($follows, $params, $must);
 
         return $data;
     }
