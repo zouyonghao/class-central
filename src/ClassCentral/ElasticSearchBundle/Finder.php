@@ -107,7 +107,7 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
 
-    public function byFollows($institutionIds,$subjectIds, $providerIds,$filters= array(), $sort = array(), $page = 1)
+    public function byFollows($institutionIds,$subjectIds, $providerIds,$filters= array(), $sort = array(), $page = 1,$must)
     {
 
         $query = array(
@@ -115,10 +115,7 @@ class Finder {
                  'query' => array(
                     'bool' => array(
                         'must' => array(
-                            array(
-                                'terms' => array(
-                                    'subjects.id' => $subjectIds
-                                ))
+                            $must
                         ),
                         'should' => array(
                             array(

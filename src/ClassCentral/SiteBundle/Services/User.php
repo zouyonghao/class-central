@@ -834,18 +834,4 @@ class User {
         return $score;
     }
 
-    public function getSuggestions(\ClassCentral\SiteBundle\Entity\User $user)
-    {
-        $cl = $this->container->get('course_listing');
-
-        $follows = $user->getFollowsCategorizedByItem();
-        $institutionIds = $follows[Item::ITEM_TYPE_INSTITUTION];
-        $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
-        $subjectIds = $follows[Item::ITEM_TYPE_SUBJECT];
-
-        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds, array());
-
-        return $data;
-    }
-
 } 

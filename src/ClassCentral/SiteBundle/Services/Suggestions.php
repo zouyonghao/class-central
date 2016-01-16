@@ -9,7 +9,8 @@
 namespace ClassCentral\SiteBundle\Services;
 
 
-use ClassCentral\SiteBundle\Entity\User;
+use ClassCentral\SiteBundle\Entity\Item;
+use ClassCentral\SiteBundle\Entity\User as UserEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Suggestions
@@ -29,8 +30,9 @@ class Suggestions
      * @param $startDate
      * @param $endDate
      */
-    public function newCoursesbyUser(User $user, $startDate, $endDate)
+    public function newCoursesbyUser(UserEntity $user, $startDate, $endDate)
     {
+        // Get follows
 
     }
 
@@ -40,9 +42,34 @@ class Suggestions
      * @param $startDate
      * @param $endDate
      */
-    public function suggestionsByUser(User $user, $startDate, $endDate)
+    public function suggestionsByUser(UserEntity $user, $startDate, $endDate)
     {
 
+    }
+
+    /**
+     * Gets the recommended courses for the personalized recommendations
+     * page for the user
+     * @param User $user
+     * @param $params
+     */
+    public function getRecommendations(UserEntity $user, $params)
+    {
+        $cl = $this->container->get('course_listing');
+
+        $follows = $user->getFollowsCategorizedByItem();
+
+        $institutionIds = $follows[Item::ITEM_TYPE_INSTITUTION];
+        $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
+        $subjectIds = $follows[Item::ITEM_TYPE_SUBJECT];
+        $must = array(
+            'terms' => array(
+                'subjects.id' => $subjectIds
+            ));
+
+        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds, $params, $must);
+
+        return $data;
     }
 
 }

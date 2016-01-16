@@ -127,14 +127,9 @@ class FollowController extends Controller
         // Autologin if a token exists
         $this->get('user_service')->autoLogin($request);
 
-        $cl = $this->get('course_listing');
-        $userSession = $this->get('user_session');
-        $follows = $userSession->getFollows();
-        $institutionIds = array_keys($follows[Item::ITEM_TYPE_INSTITUTION]);
-        $providerIds = array_keys($follows[Item::ITEM_TYPE_PROVIDER]);
-        $subjectIds = array_keys($follows[Item::ITEM_TYPE_SUBJECT]);
-
-        $data = $cl->byFollows($institutionIds,$subjectIds, $providerIds, $request->query->all() );
+        $user = $this->getUser();
+        $suggestions = $this->get('suggestions');
+        $data = $suggestions->getRecommendations($user,$request->query->all());
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(
@@ -160,8 +155,8 @@ class FollowController extends Controller
     public function suggestionsByUserAction(Request $request, $userId)
     {
         $user = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->find($userId);
-        $userService = $this->container->get('user_service');
-        $data =$userService->getSuggestions( $user );
+        $suggestions = $this->get('suggestions');
+        $data = $suggestions->getRecommendations($user,$request->query->all());
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(
