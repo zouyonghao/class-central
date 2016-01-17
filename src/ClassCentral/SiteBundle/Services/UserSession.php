@@ -231,7 +231,7 @@ class UserSession
 
         $this->saveCredentialReviewInformationInSession();
 
-        $this->saveFollowInformation();
+        $this->saveFollowInformation($user);
 
     }
 
@@ -268,9 +268,8 @@ class UserSession
     /**
      * Saves all the items a user follows in the session
      */
-    public function saveFollowInformation()
+    public function saveFollowInformation(User $user)
     {
-        $user = $this->securityContext->getToken()->getUser();
         $follows = array();
         // Initialize the array
         foreach(Item::$items as $item)

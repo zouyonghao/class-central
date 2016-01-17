@@ -31,7 +31,7 @@ class FollowController extends Controller
             if($f)
             {
                 // Update User Session
-                $userSession->saveFollowInformation();
+                $userSession->saveFollowInformation($user);
                 return UniversalHelper::getAjaxResponse(true);
             }
             else
@@ -59,7 +59,7 @@ class FollowController extends Controller
             if($f)
             {
                 // Update User Session
-                $userSession->saveFollowInformation();
+                $userSession->saveFollowInformation($user);
                 return UniversalHelper::getAjaxResponse(true);
             }
             else
@@ -157,6 +157,8 @@ class FollowController extends Controller
         $user = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->find($userId);
         $suggestions = $this->get('suggestions');
         $data = $suggestions->getRecommendations($user,$request->query->all());
+        // $data = $suggestions->newCoursesbyUser($user,30);
+        // $data = $suggestions->byStartDate($user, '2016-02-01','2016-02-26');
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(
@@ -171,5 +173,21 @@ class FollowController extends Controller
                 'pageNo' => $data['pageNo'],
                 'showHeader' => true
             ));
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @param $userId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function personalizationByUserAction(Request $request, $userId)
+    {
+        $user = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->find($userId);
+        $userSession = $this->get('user_session');
+        $userSession->saveFollowInformation($user);
+
+        return $this->personalizationAction($request);
+
     }
 }

@@ -85,3 +85,7 @@ class_central_credential_credential:
 user_suggestions_by_id:
   pattern: /suggestions/{userId}
   defaults: {_controller: ClassCentralSiteBundle:Follow:suggestionsByUser }
+
+user_follows_by_id:
+  pattern: /follows/{userId}
+  defaults: {_controller: ClassCentralSiteBundle:Follow:personalizationByUser }
