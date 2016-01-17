@@ -196,7 +196,7 @@ class Finder {
                             'provider.name',
                             "subjects.name^2",
                             "subject.slug",
-                            "searchDesc"
+                            "tags"
                         ),
                         "tie_breaker" => 0.1,
                         "minimum_should_match" => "2<75%"
@@ -209,7 +209,7 @@ class Finder {
                         startingSoon = doc['startingSoon'].value;
                         newCourse = doc['new'].value ;
 
-                        return _score*( rating* 25 + followed/15 + 1);
+                        return _score*( rating* 25 + followed/15 + startingSoon*150 + 1);
                     "
                 )
             )
