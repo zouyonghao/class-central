@@ -4,6 +4,9 @@
 {% if hideLogo is not defined %}
     {% set hideLogo = false %}
 {% endif %}
+{% if hideFollowing is not defined %}
+    {% set hideFollowing = false %}
+{% endif %}
 
 <a href="#"
    class="action-button action-button--transparent btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}
@@ -14,6 +17,7 @@
    data-show-item-name ="{% if hideItemName%}false{% else %}true{% endif %}"
    data-hide-logo="{{ hideLogo }}"
    data-following ="{{ followed }}"
+   data-hide-following = "{{ hideFollowing }}"
     >
     <span class="action-button__container">
       {% if hideLogo %}
@@ -31,7 +35,7 @@
         </span>
       {% endif %}
         <span class="action-button__unit btn-follow-item-box">
-            {% if followed %}Following{% else %}Follow{% endif %}<i>{% if not hideItemName %} {{ itemName }}{% endif %}</i>
+            {% if not hideFollowing %}{% if followed %}Following{% else %}Follow{% endif %}{% endif %}<i>{% if not hideItemName %} {{ itemName }}{% endif %}</i>
         </span>
     </span><!-- /.action-button__container -->
 </a>

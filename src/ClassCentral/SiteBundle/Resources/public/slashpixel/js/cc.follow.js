@@ -19,6 +19,7 @@ CC.Class['Follow'] = (function(){
         var showItemName = $(this).data('show-item-name');
         var following = $(this).data('following');
         var hideLogo  = $(this).data('hide-logo');
+        var hideFollowing = $(this).data('hide-following');
 
         $.ajax({
             url: "/ajax/isLoggedIn",
@@ -45,12 +46,14 @@ CC.Class['Follow'] = (function(){
                                 var itemClass = '.btn-follow-item-' + item + '-' + itemId;
                                 var btnText = '';
                                 if(showItemName) {
-                                    btnText = " <i>" + itemName + "</i>";
+                                    btnText = "<i>" + itemName + "</i>";
                                 }
 
                                 if(following) {
                                     // user has click the unfollow button
-                                    btnText = "Follow" + btnText;
+                                    if(!hideFollowing) {
+                                        btnText = "Follow " + btnText;
+                                    }
                                     $(itemClass).removeClass('active');
                                     $(self).data('following',false);
                                     utilities.notify(
@@ -59,7 +62,9 @@ CC.Class['Follow'] = (function(){
                                         "success"
                                     );
                                 } else {
-                                    btnText = "Following" + btnText;
+                                    if(!hideFollowing) {
+                                        btnText = "Following " + btnText;
+                                    }
                                     $(itemClass).addClass('active');
                                     $(self).data('following',true);
                                     utilities.notify(
