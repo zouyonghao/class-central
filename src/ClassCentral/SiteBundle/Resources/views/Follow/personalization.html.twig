@@ -5,6 +5,8 @@
 {% endblock %}
 
 
+{% set followButtonStyle = "display: inline-block; background-color: transparent; float: left; padding-right: 10px; padding-bottom: 10px; font-size: 1.1em" %}
+
 {% block content %}
     <div>
         <div class="intro-wrap">
@@ -23,7 +25,7 @@
         <div class="col">
             <h2>Subjects</h2>
             {% for subject in subjects.parent  %}
-                <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent; float: left; padding-right: 5px; padding-bottom: 5px" >
+                <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                     {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                     item : followSubjectItem,
                     item_id : subject.id,
@@ -38,7 +40,7 @@
 
             {# Children Subjects #}
             {% for  subject in childSubjects  %}
-                    <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent; float: left; padding-right: 5px; padding-bottom: 5px" >
+                    <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                         {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                         item : followSubjectItem,
                         item_id : subject.id,
@@ -62,7 +64,7 @@
                 {% set insCount = 0 %}
                 {% for institution in institutions if insCount <= 63 %}
                     <div>
-                        <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;  float: left; padding-right: 5px; padding-bottom: 5px" >
+                        <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                             {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                             item : followInstitutionItem,
                             item_id : institution.id,
@@ -84,7 +86,7 @@
         <div class="col">
             <h2>Providers</h2>
             {% for provider in providers %}
-                <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;  background-color: transparent; float: left; padding-right: 5px; padding-bottom: 5px" >
+                <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                     {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                     item : followProviderItem,
                     item_id : provider.id,
