@@ -20,30 +20,25 @@
     </div>
 
     <div class="row">
-        <!-- Subjects -->
-        <div class="col-md-4">
+        <div class="col">
             <h2>Subjects</h2>
-            {# Parent Subjects #}
             {% for subject in subjects.parent  %}
-                <div>
-                    <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
-                        {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                        item : followSubjectItem,
-                        item_id : subject.id,
-                        itemName: subject.name,
-                        followed: user_session.isItemFollowed(followSubjectItem,subject.id),
-                        hideItemName: false,
-                        hideLogo: true,
-                        hideFollowing: true
-                        } %}
-                    </div>
+                <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent; float: left; padding-right: 5px; padding-bottom: 5px" >
+                    {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                    item : followSubjectItem,
+                    item_id : subject.id,
+                    itemName: subject.name,
+                    followed: user_session.isItemFollowed(followSubjectItem,subject.id),
+                    hideItemName: false,
+                    hideLogo: true,
+                    hideFollowing: true
+                    } %}
                 </div>
             {% endfor %}
 
             {# Children Subjects #}
             {% for  subject in childSubjects  %}
-                <div>
-                    <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
+                    <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent; float: left; padding-right: 5px; padding-bottom: 5px" >
                         {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                         item : followSubjectItem,
                         item_id : subject.id,
@@ -54,27 +49,28 @@
                         hideFollowing: true
                         } %}
                     </div>
-                </div>
             {% endfor %}
-
         </div>
+    </div>
 
-        <!-- Universities and Corporations -->
-        <div class="col-md-4">
-            {% set insCount = 0 %}
-            <h2>Universities</h2>
+
+
+    <div class="row">
+        <div class="col">
             <div>
+                <h2>Universities</h2>
+                {% set insCount = 0 %}
                 {% for institution in institutions if insCount <= 63 %}
                     <div>
-                        <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
+                        <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;  float: left; padding-right: 5px; padding-bottom: 5px" >
                             {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                                item : followInstitutionItem,
-                                item_id : institution.id,
-                                itemName: institution.name,
-                                followed: user_session.isItemFollowed(followInstitutionItem,institution.id),
-                                hideItemName: false,
-                                hideLogo: true,
-                                hideFollowing: true
+                            item : followInstitutionItem,
+                            item_id : institution.id,
+                            itemName: institution.name,
+                            followed: user_session.isItemFollowed(followInstitutionItem,institution.id),
+                            hideItemName: false,
+                            hideLogo: true,
+                            hideFollowing: true
                             } %}
                         </div>
                     </div>
@@ -82,27 +78,24 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
 
-        <!-- Providers -->
-        <div class="col-md-4">
-            <h2> Providers</h2>
-            <div>
-                {% for provider in providers %}
-                    <div>
-                        <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
-                        {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                            item : followProviderItem,
-                            item_id : provider.id,
-                            itemName: provider.name,
-                            followed: user_session.isItemFollowed(followProviderItem,provider.id),
-                            hideItemName: false,
-                            hideLogo: true,
-                            hideFollowing: true
-                        } %}
-                      </div>
-                    </div>
-                {% endfor %}
-            </div>
+    <div class="row">
+        <div class="col">
+            <h2>Providers</h2>
+            {% for provider in providers %}
+                <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;  background-color: transparent; float: left; padding-right: 5px; padding-bottom: 5px" >
+                    {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                    item : followProviderItem,
+                    item_id : provider.id,
+                    itemName: provider.name,
+                    followed: user_session.isItemFollowed(followProviderItem,provider.id),
+                    hideItemName: false,
+                    hideLogo: true,
+                    hideFollowing: true
+                    } %}
+                </div>
+            {% endfor %}
         </div>
     </div>
 
