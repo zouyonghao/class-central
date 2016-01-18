@@ -85,6 +85,7 @@ class FollowController extends Controller
     public function personalizationAction(Request $request)
     {
         $cache = $this->get('cache');
+        $userSession = $this->get('user_session');
 
         $providerController = new InitiativeController();
         $providersData = $providerController->getProvidersList($this->container);
@@ -107,6 +108,12 @@ class FollowController extends Controller
             }
         }
 
+        // Count follows.
+        $follows = $userSession->getFollows();
+        $numSubjectsFollowed = count( $follows[Item::ITEM_TYPE_SUBJECT]);
+        $numInstitutionsFollowed = count( $follows[Item::ITEM_TYPE_INSTITUTION] );
+        $numProvidersFollowed = count( $follows[Item::ITEM_TYPE_PROVIDER]);
+
         return  $this->render('ClassCentralSiteBundle:Follow:personalization.html.twig',array(
             'providers' => $providersData['providers'],
             'followProviderItem' => Item::ITEM_TYPE_PROVIDER,
@@ -115,7 +122,10 @@ class FollowController extends Controller
             'page' => 'Personalization',
             'subjects' => $subjects,
             'childSubjects' => $childSubjects,
-            'followSubjectItem' => Item::ITEM_TYPE_SUBJECT
+            'followSubjectItem' => Item::ITEM_TYPE_SUBJECT,
+            'numSubjectsFollowed' => $numSubjectsFollowed,
+            'numInstitutionFollowed' => $numInstitutionsFollowed,
+            'numProvidersFollowed' => $numProvidersFollowed
         ));
     }
 

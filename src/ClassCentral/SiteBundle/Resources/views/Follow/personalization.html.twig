@@ -23,7 +23,8 @@
 
     <div class="row">
         <div class="col">
-            <h2>Subjects</h2>
+
+            <p>Following <b>{{ numSubjectsFollowed }} subjects</b> </p>
             {% for subject in subjects.parent  %}
                 <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                     {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
@@ -56,11 +57,11 @@
     </div>
 
 
-
+    <br/><br/><br/>
     <div class="row">
         <div class="col">
             <div>
-                <h2>Universities</h2>
+                <p>Following <b>{{ numInstitutionFollowed }} universities</b> </p>
                 {% set insCount = 0 %}
                 {% for institution in institutions if insCount <= 63 %}
                     <div>
@@ -82,9 +83,10 @@
         </div>
     </div>
 
+    <br/><br/><br/>
     <div class="row">
         <div class="col">
-            <h2>Providers</h2>
+            <p>Following <b>{{ numProvidersFollowed }} providers</b> </p>
             {% for provider in providers %}
                 <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                     {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
