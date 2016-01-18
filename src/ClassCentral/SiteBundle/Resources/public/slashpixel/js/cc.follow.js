@@ -18,6 +18,7 @@ CC.Class['Follow'] = (function(){
         var itemName = $(this).data('item-name');
         var showItemName = $(this).data('show-item-name');
         var following = $(this).data('following');
+        var hideLogo  = $(this).data('hide-logo');
 
         $.ajax({
             url: "/ajax/isLoggedIn",
@@ -68,7 +69,7 @@ CC.Class['Follow'] = (function(){
                                     );
                                 }
 
-                                $(itemClass).find('.action-button__unit:eq(1)').html( btnText );
+                                $(itemClass).find('.btn-follow-item-box').html( btnText );
 
 
                             } else {

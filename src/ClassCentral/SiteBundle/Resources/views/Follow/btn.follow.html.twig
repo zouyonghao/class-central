@@ -1,27 +1,37 @@
+{% if hideItemName is not defined %}
+   {%  set hideItemName = false  %}
+{% endif %}
+{% if hideLogo is not defined %}
+    {% set hideLogo = false %}
+{% endif %}
+
 <a href="#"
    class="action-button action-button--transparent btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}
    {% if followed %}active{% endif %}"
    data-item="{{ item }}"
    data-item-id="{{ item_id }}"
    data-item-name="{{ itemName }}"
-   data-show-item-name ="{% if hideItemName is defined and hideItemName %}false{% else %}true{% endif %}"
+   data-show-item-name ="{% if hideItemName%}false{% else %}true{% endif %}"
+   data-hide-logo="{{ hideLogo }}"
    data-following ="{{ followed }}"
     >
     <span class="action-button__container">
+      {% if hideLogo %}
+
+          {# hide the logo #}
+      {% else %}
         <span class="action-button__unit action-button__unit-bordered">
-
-            <div class="action-button__icon">
-                <div class="u-scaling-svg">
-                    <svg class="u-scalingSvg__shape">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-cc-single-letter"></use>
-                    </svg>
+                <div class="action-button__icon">
+                    <div class="u-scaling-svg">
+                        <svg class="u-scalingSvg__shape">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-cc-single-letter"></use>
+                        </svg>
+                    </div>
                 </div>
-            </div>
-
         </span>
-
-        <span class="action-button__unit">
-            {% if followed %}Following{% else %}Follow{% endif %}<i>{% if hideItemName is defined and  hideItemName %}{% else %} {{ itemName }}{% endif %}</i>
+      {% endif %}
+        <span class="action-button__unit btn-follow-item-box">
+            {% if followed %}Following{% else %}Follow{% endif %}<i>{% if not hideItemName %} {{ itemName }}{% endif %}</i>
         </span>
     </span><!-- /.action-button__container -->
 </a>
