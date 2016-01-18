@@ -45,11 +45,12 @@ CC.Class['Follow'] = (function(){
                                 // update the state to followed
                                 var itemClass = '.btn-follow-item-' + item + '-' + itemId;
                                 var btnText = '';
-                                if(showItemName) {
-                                    btnText = "<i>" + itemName + "</i>";
-                                }
+
 
                                 if(following) {
+                                    if(showItemName) {
+                                        btnText = itemName;
+                                    }
                                     // user has click the unfollow button
                                     if(!hideFollowing) {
                                         btnText = "Follow " + btnText;
@@ -62,6 +63,11 @@ CC.Class['Follow'] = (function(){
                                         "success"
                                     );
                                 } else {
+
+                                    if(showItemName) {
+                                        btnText = "<i>" + itemName + "</i>";
+                                    }
+
                                     if(!hideFollowing) {
                                         btnText = "Following " + btnText;
                                     }
