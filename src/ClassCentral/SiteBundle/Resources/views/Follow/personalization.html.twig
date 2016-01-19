@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col">
 
-            <p>Following <b>{{ numSubjectsFollowed }} subjects</b> </p>
+            <p>Following <b><span class="subject-user-follow-count">{{ numSubjectsFollowed }}</span> subjects</b> </p>
             {% for subject in subjects.parent  %}
                 <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                     {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
@@ -61,7 +61,7 @@
     <div class="row">
         <div class="col">
             <div>
-                <p>Following <b>{{ numInstitutionFollowed }} universities</b> </p>
+                <p>Following <b><span class="institution-user-follow-count">{{ numInstitutionFollowed }}</span> universities</b> </p>
                 {% set insCount = 0 %}
                 {% for institution in institutions if insCount <= 63 %}
                     <div>
@@ -86,7 +86,7 @@
     <br/><br/><br/>
     <div class="row">
         <div class="col">
-            <p>Following <b>{{ numProvidersFollowed }} providers</b> </p>
+            <p>Following <b><span class="provider-user-follow-count">{{ numProvidersFollowed }}</span> providers</b> </p>
             {% for provider in providers %}
                 <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                     {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {

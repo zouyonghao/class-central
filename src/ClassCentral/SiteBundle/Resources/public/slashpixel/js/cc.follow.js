@@ -62,6 +62,8 @@ CC.Class['Follow'] = (function(){
                                         "You will no longer receive course notifications and reminders about " + itemName,
                                         "success"
                                     );
+                                    // Decrement the user following count
+                                    decrementFollowCount( item );
                                 } else {
 
                                     if(showItemName) {
@@ -78,6 +80,7 @@ CC.Class['Follow'] = (function(){
                                         "You will receive regular course notifications and reminders about " + itemName,
                                         "success"
                                     );
+                                    incrementFollowCount( item );
                                 }
 
                                 $(itemClass).find('.btn-follow-item-box').html( btnText );
@@ -113,6 +116,24 @@ CC.Class['Follow'] = (function(){
                 }
             }
         });
+    }
+
+    function incrementFollowCount(item) {
+        var counter = item + "-user-follow-count";
+        if( $('.' + counter) ) {
+            $('.' + counter).text(  parseInt($('.' + counter).text()) + 1);
+        }
+    }
+
+    function decrementFollowCount(item) {
+        var counter = item + "-user-follow-count";
+        if( $('.' + counter) ) {
+            $('.' + counter).text(  parseInt($('.' + counter).text()) - 1);
+        }
+    }
+
+    function decrementCount(item) {
+
     }
 
     /**
