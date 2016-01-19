@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
 
-    {% set ad = random(4) %}
+    {% set ad = random(7) %}
 
     {% if ad == 0 %}
 
@@ -60,7 +60,7 @@
 
         } %}
 
-      {% else %}
+      {% elseif ad == 4 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
             'courseName': 'Emotional Toughness Training',
@@ -75,6 +75,53 @@
             'format' : format
 
         } %}
+
+    {% elseif ad == 5%}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': 'Understanding IELTS',
+        'courseUrl' : 'https://www.futurelearn.com/courses/understanding-ielts?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'courseDate': '25th Apr, 2016',
+        'providerName':'FutureLearn',
+        'providerUrl' : 'https://www.futurelearn.com/?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'institutionName':'British Council',
+        'institutionUrl': 'https://www.futurelearn.com/partners/british-council?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'subjectName': 'Test Prep',
+        'subjectSlug':'test-prep',
+        'format' : format
+        } %}
+
+    {% elseif ad == 6 %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': 'Literature & Mental Health',
+        'courseUrl' : 'https://www.futurelearn.com/courses/literature?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'courseDate': '1st Feb, 2016',
+        'providerName':'FutureLearn',
+        'providerUrl' : 'https://www.futurelearn.com/?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'institutionName':'The University of Warwick',
+        'institutionUrl': 'https://www.futurelearn.com/partners/the-university-of-warwick?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'subjectName': 'Psychology',
+        'subjectSlug':'psychology',
+        'format' : format
+        } %}
+
+
+    {% else %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': 'Understand Genealogy',
+        'courseUrl' : 'https://www.futurelearn.com/courses/genealogy?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'courseDate': '14th March, 2016',
+        'providerName':'FutureLearn',
+        'providerUrl' : 'https://www.futurelearn.com/?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'institutionName':'University of Strathclyde',
+        'institutionUrl': 'https://www.futurelearn.com/partners/university-of-strathclyde?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
+        'subjectName': 'Science',
+        'subjectSlug':'science',
+        'format' : format
+        } %}
+
 
     {% endif %}
 
