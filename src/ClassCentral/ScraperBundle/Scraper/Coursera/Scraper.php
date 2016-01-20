@@ -21,6 +21,7 @@ class Scraper extends ScraperAbstractInterface {
     const COURSE_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/courses?id=%d&fields=language,aboutTheCourse,courseSyllabus,estimatedClassWorkload&includes=sessions';
     const SESSION_CATALOG_URL = 'https://api.coursera.org/api/catalog.v1/sessions?id=%d&fields=eligibleForCertificates,eligibleForSignatureTrack';
     const ONDEMAND_COURSE_URL = 'https://www.coursera.org/api/onDemandCourses.v1?fields=partners.v1(squareLogo,rectangularLogo),instructors.v1(fullName),overridePartnerLogos&includes=instructorIds,partnerIds,_links&&q=slug&slug=%s';
+
     // Contains courses schedule
     const ONDEMAND_OPENCOURSE_API = 'https://www.coursera.org/api/opencourse.v1/course/%s?showLockedItems=true';
     CONST ONDEMAND_COURSE_SCHEDULE = 'https://www.coursera.org/api/onDemandCourseSchedules.v1/%s/?fields=defaultSchedule';
@@ -36,6 +37,8 @@ class Scraper extends ScraperAbstractInterface {
     const SPECIALIZATION_ONDEMAND_CATALOG_URL = 'https://www.coursera.org/api/onDemandSpecializations.v1';
     const SPECIALIZATION_ONDEMAND_URL = 'https://www.coursera.org/api/onDemandSpecializations.v1?fields=capstone,courseIds,description,instructorIds,interchangeableCourseIds,logo,metadata,partnerIds,partnerLogoOverrides,tagline,partners.v1(description,name,squareLogo),instructors.v1(firstName,lastName,middleName,partnerIds,photo,prefixName,profileId,shortName,suffixName,title),courses.v1(courseProgress,courseType,description,instructorIds,membershipIds,name,startDate,subtitleLanguages,v1Details,vcMembershipIds,workload),v1Details.v1(courseSyllabus),memberships.v1(grade,vcMembershipId),vcMemberships.v1(certificateCodeWithGrade)&includes=courseIds,instructorIds,partnerIds,instructors.v1(partnerIds),courses.v1(courseProgress,instructorIds,membershipIds,subtitleLanguages,v1Details,vcMembershipIds)&q=slug&slug=%s';
     const SPECIALIZATION_ONDEMAND_PAGE_URL = 'https://www.coursera.org/specializations/%s?utm_medium=classcentral';
+
+    const PRODUCT_PRICES = 'https://www.coursera.org/api/productPrices.v3/VerifiedCertificate~%s~USD~US';
     protected static $languageMap = array(
         'en' => "English",
         'en,pt' => "English",
@@ -98,10 +101,24 @@ class Scraper extends ScraperAbstractInterface {
         //$url = 'https://www.coursera.org/api/courses.v1';
         $url = self::COURSE_CATALOG_URL_v2;
         $allCourses = json_decode(file_get_contents( $url ),true);
+        $fp = fopen("extras/course_prices.csv", "w");
+        fputcsv($fp, array(
+            'Course Name', 'Prices(in $)'
+        ));
         foreach ($allCourses['linked']['courses.v1'] as $element)
         {
             if( $element['courseType'] == 'v2.ondemand' || $element['courseType'] == 'v2.capstone')
             {
+
+                /**
+                $productPrices =  json_decode(file_get_contents( sprintf(self::PRODUCT_PRICES, $element['id']) ),true);
+                if( !empty($productPrices) )
+                {
+                    $this->out( $element['name'] . ' - ' . $productPrices['elements'][0]['amount'] );
+                    fputcsv($fp,array($element['name'], $productPrices['elements'][0]['amount']));
+                }
+                 * */
+                
 
                 $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
                 //$this->out( $onDemandCourse['elements'][0]['name']  );
@@ -363,7 +380,7 @@ class Scraper extends ScraperAbstractInterface {
                 }
             }
         }
-     
+        fclose($fp);
         /*************************************
          * Session Based Courses
          *************************************/
