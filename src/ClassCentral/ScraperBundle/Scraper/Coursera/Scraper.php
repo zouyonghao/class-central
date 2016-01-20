@@ -58,6 +58,7 @@ class Scraper extends ScraperAbstractInterface {
         "tr" => "Turkish",
         "he" => "Hebrew",
         'pt-br' => 'Portuguese',
+        'pt-BR' => 'Portuguese',
         'pt' => 'Portuguese'
     );
 
@@ -118,7 +119,6 @@ class Scraper extends ScraperAbstractInterface {
                     fputcsv($fp,array($element['name'], $productPrices['elements'][0]['amount']));
                 }
                  * */
-                
 
                 $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
                 //$this->out( $onDemandCourse['elements'][0]['name']  );
@@ -127,6 +127,9 @@ class Scraper extends ScraperAbstractInterface {
                 {
                     continue; //skip
                 }
+
+
+
                 $c = $this->getOnDemandCourse( $onDemandCourse );
 
                 $dbCourse = null;
@@ -412,6 +415,7 @@ class Scraper extends ScraperAbstractInterface {
                 $course->setLanguage($dbLanguageMap[$courseLang]);
             } else {
                 $this->out("Language not found " . $courseraCourse['language']);
+                $course->setLanguage($dbLanguageMap['English']); // Use default language english
             }
 
             // Get the workload
@@ -825,6 +829,7 @@ class Scraper extends ScraperAbstractInterface {
             $course->setLanguage( $dbLanguageMap[$lang] );
         } else {
             $this->out("Language not found " . $data['elements']['0']['primaryLanguageCodes'][0] );
+            $course->setLanguage($dbLanguageMap['English']); // Use default language english
         }
 
         $course->setCertificate( false );
