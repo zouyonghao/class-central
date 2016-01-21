@@ -1,4 +1,4 @@
-{% if app.request.get('sort') == '' and page != 'user-library' and app.request.get('page') == '' %}
+{% if app.request.get('sort') == '' and page != 'user-library' and (app.request.get('page') == '' or midRowTableAd) %}
 
     {% set ad = random(7) %}
 
