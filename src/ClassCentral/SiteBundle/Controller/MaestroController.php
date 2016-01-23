@@ -151,7 +151,7 @@ class MaestroController extends Controller {
 
     }
 
-    public function userSuggestionsAction(Request $request)
+    public function userRecommendationsAction(Request $request)
     {
         // Check if user is already logged in.
         if(!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))

@@ -132,14 +132,15 @@ class FollowController extends Controller
     /**
      * Show courses based on user recommendations
      */
-    public function coursesAction(Request $request)
+    public function recommendationsAction(Request $request)
     {
         // Autologin if a token exists
         $this->get('user_service')->autoLogin($request);
 
         $user = $this->getUser();
         $suggestions = $this->get('suggestions');
-        $data = $suggestions->getRecommendations($user,$request->query->all());
+         $data = $suggestions->getRecommendations($user,$request->query->all());
+        //$data = $suggestions->byStartDate($user, '2016-02-01','2016-02-26');
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(
@@ -168,7 +169,7 @@ class FollowController extends Controller
         $suggestions = $this->get('suggestions');
         $data = $suggestions->getRecommendations($user,$request->query->all());
         // $data = $suggestions->newCoursesbyUser($user,30);
-        // $data = $suggestions->byStartDate($user, '2016-02-01','2016-02-26');
+         //$data = $suggestions->byStartDate($user, '2016-02-01','2016-02-26');
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(

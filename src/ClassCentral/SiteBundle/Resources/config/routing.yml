@@ -268,9 +268,9 @@ user_follows:
   pattern: /user/follows
   defaults: {_controller: ClassCentralSiteBundle:Follow:personalization }
 
-user_suggestions:
-  pattern: /user/suggestions
-  defaults: {_controller: ClassCentralSiteBundle:Follow:courses }
+user_recommendations:
+  pattern: /user/recommendations
+  defaults: {_controller: ClassCentralSiteBundle:Follow:recommendations }
 
 signup_add_to_library:
   pattern: /signup/cc/{courseId}/{listId}
@@ -370,9 +370,9 @@ maestro_credentials:
   pattern: /maestro/certificate
   defaults: {_controller: ClassCentralSiteBundle:Maestro:credentials}
 
-maestro_user_suggestions:
-  pattern: /maestro/user/suggestions
-  defaults: {_controller: ClassCentralSiteBundle:Maestro:userSuggestions}
+maestro_user_recommendations:
+  pattern: /maestro/user/recommendations
+  defaults: {_controller: ClassCentralSiteBundle:Maestro:userRecommendations}
 
 user_profile_dummy:
   pattern: /profile
