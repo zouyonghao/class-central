@@ -163,7 +163,7 @@ class FollowController extends Controller
      * @param $userId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function suggestionsByUserAction(Request $request, $userId)
+    public function recommendationsByUserAction(Request $request, $userId)
     {
         $user = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->find($userId);
         $suggestions = $this->get('suggestions');

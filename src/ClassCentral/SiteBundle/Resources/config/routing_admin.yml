@@ -82,9 +82,9 @@ class_central_credential_credential:
   resource: "@ClassCentralCredentialBundle/Resources/config/routing/credential.yml"
   prefix:   /credential
 
-user_suggestions_by_id:
-  pattern: /suggestions/{userId}
-  defaults: {_controller: ClassCentralSiteBundle:Follow:suggestionsByUser }
+user_recommendations_by_id:
+  pattern: /recommendations/{userId}
+  defaults: {_controller: ClassCentralSiteBundle:Follow:recommendationsByUser }
 
 user_follows_by_id:
   pattern: /follows/{userId}
