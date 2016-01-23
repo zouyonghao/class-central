@@ -114,6 +114,12 @@ class Finder {
         $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
         $subjectIds = $follows[Item::ITEM_TYPE_SUBJECT];
 
+        $startingSoonScoreMultiplier = 1;
+        if( isset ($must['terms']['subjects.id']) )
+        {
+            $startingSoonScoreMultiplier = 1000;
+        }
+
         $query = array(
              "function_score" => array(
                  'query' => array(
@@ -165,8 +171,8 @@ class Finder {
                         newScore = newCourse*300;
 
                         // Starting soon score
-                        startingSoonScore = startingSoon*500;
-                        return _score*(ratingScore + followedScore + startingSoonScore  +  1);
+                        startingSoonScore = startingSoon*{$startingSoonScoreMultiplier};
+                        return _score*(ratingScore + followedScore + startingSoonScore + newScore   +  1);
                     "
                  )
         ));
