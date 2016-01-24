@@ -11,11 +11,13 @@
     <div class="intro-wrap">
         <div class="description-wrap">
             <div class="description">
-                <h1 class='cc-page-header'>Course Recommendations</h1>
+                <h1 class='cc-page-header'>Course Recommendations  <sup>BETA</sup></h1>
                 {% if numFollows < 10 %}
                     <p>To unlock your personalized course recommendations you need  at least 10 follows. <a href="{{ path('user_follows') }}">Update your follows</a> </p>
                 {% elseif not isFollowingASubject %}
                     <p>To unlock your personalized course recommendations you need to follow at least one subject. <a href="{{ path('user_follows') }}">Update your follows</a> </p>
+                {% else %}
+                    <p>The recommendations below are based on your follows. <a href="{{ path('user_follows') }}">Update your follows</a></p>
                 {% endif %}
             </div>
         </div>
