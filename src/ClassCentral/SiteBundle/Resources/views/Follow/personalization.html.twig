@@ -11,10 +11,21 @@
     <div>
         <div class="intro-wrap">
             <div class="description-wrap">
-                <h1 class='cc-page-header'>Personalization</h1>
+                <h1 class='cc-page-header'>Follows</h1>
                 <p>
                     Personalize your experience by following subjects, universities, and course providers. Get regular updates via email and <b>never miss a course</b>.
-                    <br/> <br/>For best results, click the buttons below to <b>Follow</b> least 5 items.
+
+                    {% if numFollows < 10 %}
+                         <p>To unlock your personalized course recommendations you need at least 10 follows.</p>
+                    {% elseif not isFollowingASubject %}
+                        <p>To unlock your personalized course recommendations you need to follow at least one subject. </p>
+                    {% else %}
+                    <p>
+                        <b>
+                            <a href="{{ path('user_recommendations') }}">Check out your personalized Course Recommendations <sup>BETA</sup></a>
+                        </b>
+                    </p>
+                    {% endif %}
                 </p>
             </div>
         </div>

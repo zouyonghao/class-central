@@ -113,6 +113,8 @@ class FollowController extends Controller
         $numSubjectsFollowed = count( $follows[Item::ITEM_TYPE_SUBJECT]);
         $numInstitutionsFollowed = count( $follows[Item::ITEM_TYPE_INSTITUTION] );
         $numProvidersFollowed = count( $follows[Item::ITEM_TYPE_PROVIDER]);
+        $numFollows = count($this->getUser()->getFollows());
+        $isFollowingASubject = $this->getUser()->isFollowingASubject();
 
         return  $this->render('ClassCentralSiteBundle:Follow:personalization.html.twig',array(
             'providers' => $providersData['providers'],
@@ -125,7 +127,9 @@ class FollowController extends Controller
             'followSubjectItem' => Item::ITEM_TYPE_SUBJECT,
             'numSubjectsFollowed' => $numSubjectsFollowed,
             'numInstitutionFollowed' => $numInstitutionsFollowed,
-            'numProvidersFollowed' => $numProvidersFollowed
+            'numProvidersFollowed' => $numProvidersFollowed,
+            'numFollows' => $numFollows,
+            'isFollowingASubject' => $isFollowingASubject
         ));
     }
 
