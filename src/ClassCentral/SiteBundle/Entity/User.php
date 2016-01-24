@@ -947,4 +947,21 @@ class User implements UserInterface, \Serializable
         return $follows;
     }
 
+    /**
+     * For the recommendations page to work user needs to follow
+     * atleast 1 subject. This function checks for that.
+     */
+    public function isFollowingASubject()
+    {
+        foreach($this->getFollows() as $follow)
+        {
+            if( $follow->getItem() == Item::ITEM_TYPE_SUBJECT )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

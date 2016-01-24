@@ -138,9 +138,30 @@ class FollowController extends Controller
         $this->get('user_service')->autoLogin($request);
 
         $user = $this->getUser();
-        $suggestions = $this->get('suggestions');
-         $data = $suggestions->getRecommendations($user,$request->query->all());
-        //$data = $suggestions->byStartDate($user, '2016-02-01','2016-02-26');
+
+        // Check how many follows this user has.
+        $numFollows = count($user->getFollows());
+        $isFollowingASubject = $user->isFollowingASubject();
+
+        if($numFollows and $isFollowingASubject)
+        {
+            // Get the courses
+            $suggestions = $this->get('suggestions');
+            $data = $suggestions->getRecommendations($user,$request->query->all());
+            //$data = $suggestions->byStartDate($user, '2016-02-01','2016-02-26');
+        }
+        else
+        {
+            $data = array(
+                'allSubjects' => '',
+                'courses' => '',
+                'allLanguages' => '',
+                'sortField' => '',
+                'sortClass' => '',
+                'pageNo' => '',
+            );
+        }
+
 
         return $this->render('ClassCentralSiteBundle:Follow:courses.html.twig',
             array(
@@ -153,7 +174,9 @@ class FollowController extends Controller
                 'sortField' => $data['sortField'],
                 'sortClass' => $data['sortClass'],
                 'pageNo' => $data['pageNo'],
-                'showHeader' => true
+                'showHeader' => true,
+                'numFollows' => $numFollows,
+                'isFollowingASubject' => $isFollowingASubject
             ));
     }
 
