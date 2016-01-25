@@ -100,10 +100,16 @@ class Suggestions
         {
             $courseIds[] = $courseId;
         }
-        $mustNot =  array(
-            'terms' => array(
-                'course.id' => $courseIds
-        ));
+
+        $mustNot = array();
+        if( !empty($courseIds) )
+        {
+            $mustNot =  array(
+                'terms' => array(
+                    'course.id' => $courseIds
+            ));
+        }
+
 
 
         $data = $cl->byFollows($follows, $params, $must,$mustNot);
