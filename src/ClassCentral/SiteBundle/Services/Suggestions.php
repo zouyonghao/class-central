@@ -86,15 +86,27 @@ class Suggestions
     public function getRecommendations(UserEntity $user, $params)
     {
         $cl = $this->container->get('course_listing');
+        $userSession = $this->container->get('user_session');
 
         $follows = $user->getFollowsCategorizedByItem();
 
         $must =  array(
             'terms' => array(
                 'subjects.id' => $follows[Item::ITEM_TYPE_SUBJECT]
-            ));
+        ));
 
-        $data = $cl->byFollows($follows, $params, $must);
+        $courseIds = array();
+        foreach($userSession->getUserLibraryCourses() as $courseId => $listed)
+        {
+            $courseIds[] = $courseId;
+        }
+        $mustNot =  array(
+            'terms' => array(
+                'course.id' => $courseIds
+        ));
+
+
+        $data = $cl->byFollows($follows, $params, $must,$mustNot);
 
         return $data;
     }

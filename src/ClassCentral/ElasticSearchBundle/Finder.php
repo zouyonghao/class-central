@@ -108,7 +108,7 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort, $page );
     }
 
-    public function byFollows($follows,$filters= array(), $sort = array(), $page = 1,$must = array())
+    public function byFollows($follows,$filters= array(), $sort = array(), $page = 1,$must = array(),$mustNot =array())
     {
         $institutionIds = $follows[Item::ITEM_TYPE_INSTITUTION];
         $providerIds = $follows[Item::ITEM_TYPE_PROVIDER];
@@ -119,6 +119,22 @@ class Finder {
         {
             $startingSoonScoreMultiplier = 1000;
         }
+
+        $mn =  array(
+            array(
+                "term" => array(
+                    'course.nextSession.status' => Offering::START_DATES_UNKNOWN,
+                )
+            )
+        );
+
+        
+
+        if( !empty($mustNot) )
+        {
+            $mn[] = $mustNot;
+        }
+
 
         $query = array(
              "function_score" => array(
@@ -140,11 +156,7 @@ class Finder {
 
                         ),
                         // Remove sessions where the start date is unknown
-                        'must_not' => array(
-                            "term" => array(
-                                'course.nextSession.status' => Offering::START_DATES_UNKNOWN
-                            )
-                        ),
+                        'must_not' => $mustNot
                     )
                  ),
                  "script_score" => array(
