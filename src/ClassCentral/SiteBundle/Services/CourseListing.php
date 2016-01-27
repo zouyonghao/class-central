@@ -8,8 +8,8 @@
 
 namespace ClassCentral\SiteBundle\Services;
 use ClassCentral\SiteBundle\Entity\Initiative;
-use ClassCentral\SiteBundle\Entity\Review;
-use ClassCentral\SiteBundle\Entity\User;
+use ClassCentral\SiteBundle\Entity\Review as ReviewEntity;
+use ClassCentral\SiteBundle\Entity\User as UserEntity;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
@@ -313,7 +313,7 @@ class CourseListing {
         );
     }
 
-    public function userLibrary(User $user, Request $request)
+    public function userLibrary(UserEntity $user, Request $request)
     {
         $finder = $this->container->get('course_finder');
 
@@ -404,7 +404,7 @@ class CourseListing {
         $date->sub( new \DateInterval('P14D') );
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('course_id','course_id');
-        $reviewStatusNotShownLowerBound = Review::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND;
+        $reviewStatusNotShownLowerBound = ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND;
         $q = $this->container->get('doctrine')->getManager()->createNativeQuery("
             SELECT course_id FROM reviews WHERE created > '{$date->format('Y-m-d')}' AND status < {$reviewStatusNotShownLowerBound}  GROUP BY course_id ORDER BY count(*) DESC LIMIT 10;
         ", $rsm);
