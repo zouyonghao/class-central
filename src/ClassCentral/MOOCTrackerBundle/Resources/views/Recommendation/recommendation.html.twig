@@ -1,1 +1,6 @@
-Hello World!
+{% set courseCount = 0 %}
+{% for result in courses.hits.hits if result._source.nextSession is not empty and courseCount < 10 %}
+    {% set course = result._source %}
+    <p>{{ course.name }}</p>
+    {% set courseCount = courseCount + 1 %}
+{% endfor %}
