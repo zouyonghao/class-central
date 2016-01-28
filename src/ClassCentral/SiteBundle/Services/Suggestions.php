@@ -86,7 +86,6 @@ class Suggestions
     public function getRecommendations(UserEntity $user, $params)
     {
         $cl = $this->container->get('course_listing');
-        $userSession = $this->container->get('user_session');
 
         $follows = $user->getFollowsCategorizedByItem();
 
@@ -95,13 +94,8 @@ class Suggestions
                 'subjects.id' => $follows[Item::ITEM_TYPE_SUBJECT]
         ));
 
-        $courseIds = array();
-        foreach($userSession->getUserLibraryCourses() as $courseId => $listed)
-        {
-            $courseIds[] = $courseId;
-        }
-
         $mustNot = array();
+        $courseIds= $user->getUserCourseIds();
         if( !empty($courseIds) )
         {
             $mustNot =  array(
@@ -109,8 +103,6 @@ class Suggestions
                     'course.id' => $courseIds
             ));
         }
-
-
 
         $data = $cl->byFollows($follows, $params, $must,$mustNot);
 
