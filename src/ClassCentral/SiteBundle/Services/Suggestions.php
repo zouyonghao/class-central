@@ -45,7 +45,7 @@ class Suggestions
                 )
             ));
 
-        $data = $cl->byFollows($follows, array(), $must);
+        $data = $cl->byFollows($follows, array(), $must,$this->getMustNot($user));
 
         return $data;
 
@@ -72,7 +72,7 @@ class Suggestions
                 )
             ));
 
-        $data = $cl->byFollows($follows, array(), $must);
+        $data = $cl->byFollows($follows, array(), $must,$this->getMustNot($user));
 
         return $data;
     }
@@ -94,6 +94,14 @@ class Suggestions
                 'subjects.id' => $follows[Item::ITEM_TYPE_SUBJECT]
         ));
 
+
+        $data = $cl->byFollows($follows, $params, $must, $this->getMustNot($user));
+
+        return $data;
+    }
+
+    private function getMustNot(UserEntity $user)
+    {
         $mustNot = array();
         $courseIds= $user->getUserCourseIds();
         if( !empty($courseIds) )
@@ -101,12 +109,10 @@ class Suggestions
             $mustNot =  array(
                 'terms' => array(
                     'course.id' => $courseIds
-            ));
+                ));
         }
 
-        $data = $cl->byFollows($follows, $params, $must,$mustNot);
-
-        return $data;
+        return $mustNot;
     }
 
 }

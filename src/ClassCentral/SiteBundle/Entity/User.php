@@ -964,4 +964,16 @@ class User implements UserInterface, \Serializable
         return false;
     }
 
+    /**
+     * Get User Course Ids
+     */
+    public function getUserCourseIds()
+    {
+        $courseIds = array();
+        foreach($this->getUserCourses() as $uc)
+        {
+            $courseIds[] =$uc->getCourse()->getId();
+        }
+        return $courseIds;
+    }
 }
