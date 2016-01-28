@@ -73,7 +73,7 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
             $id = $scheduler->schedule(
                 $dt,
                 RecommendationEmailJob::RECOMMENDATION_EMAIL_JOB_TYPE,
-                'ClassCentral\MOOCTrackerBundle\Job\AnnouncementEmailJob',
+                'ClassCentral\MOOCTrackerBundle\Job\RecommendationEmailJob',
                 array(
                     'campaignId' => $campaignId,
                     'deliveryTime' =>$deliveryTime,

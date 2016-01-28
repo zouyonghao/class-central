@@ -67,8 +67,8 @@ class Suggestions
         $must = array(
             'range' => array(
                 'nextSession.startDate' => array(
-                    "gte" => $startDate,
-                    "lte" => $endDate,
+                    "gte" => $startDate->format('Y-m-d'),
+                    "lte" => $endDate->format('Y-m-d'),
                 )
             ));
 
