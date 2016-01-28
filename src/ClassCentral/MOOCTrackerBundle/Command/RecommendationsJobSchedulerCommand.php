@@ -51,7 +51,7 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
         // Get All Users
         $qb = $em->createQueryBuilder();
         $qb
-            ->add('select', 'u.id')
+            ->add('select', 'DISTINCT u.id')
             ->add('from','ClassCentralSiteBundle:User u')
             ->join('u.userPreferences', 'up')
             ->join('u.follows','uf')
@@ -62,15 +62,17 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
 
         $users = $qb->getQuery()->getArrayResult();
         $scheduled = 0;
+        $dt = new \DateTime( $date );
+        $deliveryTime =  $deliveryTime->format(\DateTime::RFC2822);
         foreach($users as $user)
         {
             $id = $scheduler->schedule(
-                new \DateTime( $date ),
+                $dt,
                 RecommendationEmailJob::RECOMMENDATION_EMAIL_JOB_TYPE,
                 'ClassCentral\MOOCTrackerBundle\Job\AnnouncementEmailJob',
                 array(
                     'campaignId' => $campaignId,
-                    'deliveryTime' => $deliveryTime->format(\DateTime::RFC2822)
+                    'deliveryTime' =>$deliveryTime
                 ),
                 $user['id']
             );
@@ -78,7 +80,6 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
             if($id){
                 $scheduled++;
             }
-
         }
 
         $output->writeln( "<info>$scheduled recommendation emails jobs scheduled</info>");

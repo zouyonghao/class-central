@@ -69,7 +69,10 @@ class Scheduler {
 
         $results = $this->esClient->search( $params );
 
-        return $results['hits']['total'] != 0;
+        $exists = ($results['hits']['total'] != 0);
+        unset($results);
+
+        return $exists;
     }
 
     public function findJobById( $id )
