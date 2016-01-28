@@ -24,6 +24,8 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
             ->setName('mooctracker:user:recommendations')
             ->setDescription("Send recommendations email to the user")
             ->addArgument('date', InputArgument::REQUIRED, "Date for which the recommendation email has to be sent i.e the job is run")
+            ->addArgument('month',InputArgument::REQUIRED,"Month for which the commendations are to be generated")
+            ->addArgument('year',InputArgument::REQUIRED,"Year for which the recommendations are to be generated")
             ->addArgument('campaignId',InputArgument::REQUIRED, "Mailgun Campaign id")
             ->addArgument('deliverytime',InputArgument::REQUIRED, "datetime at which email is to be sent(uses local machine timezone) i.e 2015-12-27 21:45:00")
         ;
@@ -36,6 +38,8 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
 
         $campaignId = $input->getArgument('campaignId');
         $deliveryTime = new \DateTime($input->getArgument('deliverytime'));
+        $month = $input->getArgument('month');
+        $year = $input->getArgument('year');
 
         $date = $input->getArgument('date'); // The date at which the job is to be run
         $dateParts = explode('-', $date);
@@ -72,7 +76,9 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
                 'ClassCentral\MOOCTrackerBundle\Job\AnnouncementEmailJob',
                 array(
                     'campaignId' => $campaignId,
-                    'deliveryTime' =>$deliveryTime
+                    'deliveryTime' =>$deliveryTime,
+                    'month' => $month,
+                    'year' => $year
                 ),
                 $user['id']
             );
