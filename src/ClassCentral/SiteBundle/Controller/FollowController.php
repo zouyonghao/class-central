@@ -147,12 +147,11 @@ class FollowController extends Controller
         $numFollows = count($user->getFollows());
         $isFollowingASubject = $user->isFollowingASubject();
 
-        if($numFollows and $isFollowingASubject)
+        if($numFollows >= 10 and $isFollowingASubject)
         {
             // Get the courses
             $suggestions = $this->get('suggestions');
             $data = $suggestions->getRecommendations($user,$request->query->all());
-            //$data = $suggestions->byStartDate($user, '2016-02-01','2016-02-26');
         }
         else
         {
