@@ -357,6 +357,7 @@ class CourseController extends Controller
          * if follow parameter exists, save the course in MOOC Tracker and mark it as interested.
          */
         $follow = $request->query->get('follow');
+        $showAddToMTModal = false;
         if(!empty($follow))
         {
             // If the user is logged mark the course as interested.
@@ -368,7 +369,11 @@ class CourseController extends Controller
             }
             else
             {
+                // User is not logged in.Show signup modal box
+                $showAddToMTModal = true;
 
+                // Save the course information in session
+                $this->get('user_session')->saveSignupReferralDetails(array('listId'=> UserCourse::LIST_TYPE_INTERESTED, 'courseId' => $courseId ));
             }
         }
 
@@ -487,7 +492,8 @@ class CourseController extends Controller
                  'ratingStars' => ReviewUtility::getRatingStars( $rating ),
                  'interestedUsers' => $interestedUsers,
                  'courseRank' =>$courseRank,
-                 'potentialDuplicates' => $potentialDuplicates
+                 'potentialDuplicates' => $potentialDuplicates,
+                 'showAddToMTModal' => $showAddToMTModal
        ));
     }
 
