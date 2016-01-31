@@ -353,6 +353,25 @@ class CourseController extends Controller
             return $this->redirect( $course['nextOffering']['url'] );
         }
 
+        /**
+         * if follow parameter exists, save the course in MOOC Tracker and mark it as interested.
+         */
+        $follow = $request->query->get('follow');
+        if(!empty($follow))
+        {
+            // If the user is logged mark the course as interested.
+            if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+            {
+                $courseEntity = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+                $this->get('user_service')->addCourse( $this->getUser(), $courseEntity, UserCourse::LIST_TYPE_INTERESTED);
+                $this->get('user_session')->saveUserInformationInSession();
+            }
+            else
+            {
+
+            }
+        }
+
 
         // Save the course and user tracking for generating recommendations later on
        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
