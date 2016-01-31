@@ -363,9 +363,14 @@ class CourseController extends Controller
             // If the user is logged mark the course as interested.
             if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
             {
+                $userSession = $this->get('user_session');
                 $courseEntity = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
-                $this->get('user_service')->addCourse( $this->getUser(), $courseEntity, UserCourse::LIST_TYPE_INTERESTED);
-                $this->get('user_session')->saveUserInformationInSession();
+                if( empty($userSession->getCourseListIds($courseId)) )
+                {
+                    $this->get('user_service')->addCourse( $this->getUser(), $courseEntity, UserCourse::LIST_TYPE_INTERESTED);
+                    $userSession->saveUserInformationInSession();
+                }
+
             }
             else
             {
