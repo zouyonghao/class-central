@@ -112,6 +112,75 @@ class CourseFormatter {
         return $line1 . '<br/>' . $line2 . '<br/>' . $lineDesc.$line3 . '<br/>';
     }
 
+
+    public function tableRowFormat(Course $course)
+    {
+        $followColumn = '';
+        $courseNameColumn = '';
+        $startDateColumn = '';
+        $ratingColumn = '';
+
+        $router = $this->container->get('router');
+        $rs = $this->container->get('review');
+
+
+        //
+        $courseUrl = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
+        $courseName = $course->getName();
+
+
+        // COLUMN 1 - FOLLOW
+        $followUrl = $courseUrl . '?follow=true';
+        $followColumn = "<td width='30px' style='vertical-align: top'><a href='$followUrl' style='color: red;font-size: 25px;text-decoration: none' target='_blank'>♥</a></td>";
+
+        // COLUMN 2 - COURSE NAME
+
+        $providerLine = '';
+        if ($course->getInstitutions()->count() > 0) {
+            $ins = $course->getInstitutions()->first();
+            $providerLine = $ins->getName();
+            $providerLine = "$providerLine";
+        }
+
+        if ($course->getInitiative()) {
+            $providerLine .= ' via ' . $course->getInitiative()->getName();
+        } else {
+            $providerLine .= ' via Independent';
+        }
+
+        $providerLine = "<i>$providerLine</i>";
+
+        $courseNameColumn = "<td><a href='$courseUrl'>$courseName</a><br/>$providerLine</td>";
+
+        // COLUMN 3 - START DATE
+        $nextOffering = CourseUtility::getNextSession($course);
+        if(!$nextOffering) return '';
+        $displayDate = $nextOffering->getDisplayDate();
+        $states = CourseUtility::getStates($nextOffering);
+        if (in_array('past', $states)) {
+            $displayDate = 'TBA';
+        }
+        if (in_array('selfpaced', $states)) {
+            $displayDate = 'Self Paced';
+        }
+        $startDateColumn = "<td>$displayDate</td>";
+
+        // COLUMN 4 - RATING
+        $ratings = $rs->getRatings( $course->getId() );
+        $reviews = $rs->getReviews($course->getId());
+        $ratingsLine = ReviewUtility::getRatingStars(0); // Default value
+        if ($ratings > 0) {
+            $formattedRatings = ReviewUtility::getRatingStars($ratings);
+            $numRatings = $reviews['ratingCount'];
+            $post = ($numRatings == 1) ? 'rating' : 'ratings';
+            $ratingsLine = "$formattedRatings (<a href='$courseUrl#reviews'>$numRatings</a>) ";
+        }
+        $ratingColumn = "<td>$ratingsLine</td>";
+
+
+        return "<tr>" . $followColumn . $courseNameColumn .$ratingColumn. "</tr>";
+    }
+
     public function emailFormat (Course $course)
     {
         $router = $this->container->get('router');
