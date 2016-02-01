@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and (app.request.get('page') == '' or midRowTableAd) %}
 
-    {% set ad = random(7) %}
+    {% set ad = random(6) %}
 
     {% if ad == 0 %}
 
@@ -17,21 +17,7 @@
             'format' : format
             }
         %}
-
-   {% elseif ad == 1 %}
-        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
-        'courseName': 'Introduction to Programming for the Visual Arts with p5.js',
-        'courseUrl' : 'https://www.kadenze.com/courses/introduction-to-programming-for-the-visual-arts-with-p5-js/info?utm_source=https%3A%2F%2Fwww.class-central.com%2F&utm_medium=referral&utm_term=Programming%20Visual%20Art%20p5.js&utm_campaign=Class%20Central%20Ad',
-        'courseDate': 'Ongoing',
-        'providerName':'Kadenze',
-        'providerUrl' : 'https://www.kadenze.com/?utm_source=https%3A%2F%2Fwww.class-central.com%2F&utm_medium=referral&utm_term=Programming%20Visual%20Art%20p5.js&utm_campaign=Class%20Central%20Ad',
-        'institutionName':'University of California, Los Angeles',
-        'institutionUrl': '/university/ucla',
-        'subjectName': 'Programming',
-        'subjectSlug':'programming-and-software-development',
-        'format' : format
-      } %}
-    {% elseif ad == 2 %}
+    {% elseif ad == 1 %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
             'courseName': 'Wellness Coaching: Powerful Skills for Everyday People',
             'courseUrl' : 'https://www.canvas.net/browse/iwe/courses/wellness-coaching/?utm_source=Class-Central&utm_medium=ImageAd&utm_campaign=CN+Wellness+Coach&utm_content=',
@@ -45,7 +31,7 @@
             'format' : format
 
         } %}
-      {% elseif ad == 3 %}
+      {% elseif ad == 2 %}
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
             'courseName': 'Project Management for Business Professionals',
             'courseUrl' : 'https://www.canvas.net/browse/jerichohill/courses/project-management-business-professionals-7/?utm_source=Class-Central&utm_medium=TextAd&utm_campaign=CN+Project+Management&utm_content=',
@@ -60,7 +46,7 @@
 
         } %}
 
-      {% elseif ad == 4 %}
+      {% elseif ad == 3 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
             'courseName': 'Emotional Toughness Training',
@@ -76,7 +62,7 @@
 
         } %}
 
-    {% elseif ad == 5%}
+    {% elseif ad == 4 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': 'Understanding IELTS',
@@ -91,7 +77,7 @@
         'format' : format
         } %}
 
-    {% elseif ad == 6 %}
+    {% elseif ad == 5 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': 'Literature & Mental Health',
