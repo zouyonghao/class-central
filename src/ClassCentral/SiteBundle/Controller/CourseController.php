@@ -10,6 +10,7 @@ use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Form\SignupType;
 use ClassCentral\SiteBundle\Services\Filter;
 use ClassCentral\SiteBundle\Services\Kuber;
+use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
@@ -369,6 +370,12 @@ class CourseController extends Controller
                 {
                     $this->get('user_service')->addCourse( $this->getUser(), $courseEntity, UserCourse::LIST_TYPE_INTERESTED);
                     $userSession->saveUserInformationInSession();
+                    $userSession->notifyUser(
+                        UserSession::FLASH_TYPE_SUCCESS,
+                        'Course Added',
+                        '<i>'. $course['name'] .'</i> added to <a href="/user/courses">My Courses</a> successfully',
+                        30 // 30 seconds delay
+                    );
                 }
 
             }
