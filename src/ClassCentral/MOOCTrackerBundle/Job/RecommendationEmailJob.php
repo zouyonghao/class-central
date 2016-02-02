@@ -41,7 +41,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
         {
             return SchedulerJobStatus::getStatusObject(
                 SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
-                "User with id $userId not found for for job " . self::RECOMMENDATION_EMAIL_JOB_TYPE
+                "User with id $userId not found for job " . self::RECOMMENDATION_EMAIL_JOB_TYPE
             );
         }
 
@@ -72,7 +72,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse(
-            'ClassCentralMOOCTrackerBundle:Recommendation:recommendation.html.twig',array(
+            'ClassCentralMOOCTrackerBundle:Recommendation:recommendation.inlined.html',array(
                 'user'   => $user,
                 'courses' => $courses,
                 'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
