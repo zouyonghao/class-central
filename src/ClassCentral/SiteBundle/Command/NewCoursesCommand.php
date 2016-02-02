@@ -72,16 +72,15 @@ class NewCoursesCommand extends ContainerAwareCommand {
         }
 
 
-
         $count = 0;
         foreach($groups as $insName => $insCourses)
         {
-            $output->writeln("<h2><b>" . strtoupper($insName)."</h2></b><br/>");
+            $output->writeln("</tbody></table><h2><b>" . strtoupper($insName)."</h2></b><br/><table width='85%' align='center'><tbody>");
             foreach($insCourses as $course)
             {
 
                 $count++;
-                echo $formatter->blogFormat($course);
+                echo $formatter->tableRowFormat($course);
             }
 
             $output->writeln( "<br/>");
