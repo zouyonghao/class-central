@@ -52,6 +52,16 @@ class RecommendationEmailJob extends SchedulerJobAbstract
         $endDate = new \DateTime("$y-$m-$lastDayOfTheMonth");
         $data = $suggestionsService->byStartDate($user,$startDate,$endDate);
 
+        if( count($data['courses']['hits']['hits']) == 0 )
+        {
+            // No courses found. Don't send email
+            return SchedulerJobStatus::getStatusObject(
+                SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS,
+                "User with id $userId has no course recommendations for job" . self::RECOMMENDATION_EMAIL_JOB_TYPE
+            );
+
+        }
+
         $emailContent = $this->getHTML($user,$data['courses'],$args['campaignId'], $startDate);
 
         return $this->sendEmail(
