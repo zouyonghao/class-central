@@ -68,7 +68,8 @@ class RecommendationEmailJob extends SchedulerJobAbstract
             $emailContent,
             $user,
             $args['campaignId'],
-            $args['deliveryTime']
+            $args['deliveryTime'],
+            $startDate
         );
 
     }
@@ -104,7 +105,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
 
         return $html;
     }
-    private function sendEmail( $html, UserEntity $user, $campaignId, $deliveryTime)
+    private function sendEmail( $html, UserEntity $user, $campaignId, $deliveryTime, $startDate)
     {
         $mailgun = $this->getContainer()->get('mailgun');
 
@@ -119,7 +120,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
             $response = $mailgun->sendMessage( array(
                 'from' => '"Class Central" <no-reply@class-central.com>',
                 'to' => $email,
-                'subject' => 'Recommendations for You',
+                'subject' => 'Course Recommendations for You • ' . $startDate->format('F Y'),
                 'html' => $html,
                 'o:campaign' => $campaignId,
                // 'o:deliverytime' => $deliveryTime
