@@ -24,6 +24,13 @@ class DefaultController extends Controller {
         // Autologin if a token exists
         $this->get('user_service')->autoLogin($request);
 
+        // Check whether there is a redirect. This is done to redirect users to login only areas of the site.
+        $redirect = $request->get('redirect');
+        if( !empty($redirect) and in_array($redirect, array('user_follows','user_recommendations')) )
+        {
+            return $this->redirect($this->generateUrl( $redirect ));
+        }
+
         $cache = $this->get('Cache');
         $esCourses = $this->get('es_courses');
         $em = $this->getDoctrine()->getManager();
