@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and (app.request.get('page') == '' or midRowTableAd) %}
 
-    {% set ad = random(6) %}
+    {% set ad = random(7) %}
 
     {% if ad == 0 %}
 
@@ -93,7 +93,7 @@
         } %}
 
 
-    {% else %}
+    {% elseif ad == 6%}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': 'Understand Genealogy',
@@ -105,6 +105,22 @@
         'institutionUrl': 'https://www.futurelearn.com/partners/university-of-strathclyde?utm_source=ClassCentral&utm_medium=TableAd&utm_campaign=CC_20-01-2016',
         'subjectName': 'Science',
         'subjectSlug':'science',
+        'format' : format
+        } %}
+
+
+    {% else %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': 'Machine Learning for Musicians and Artists',
+        'courseUrl' : 'https://www.kadenze.com/courses/machine-learning-for-musicians-and-artists/info',
+        'courseDate': '3rd Feb, 2016',
+        'providerName':'Kadenze',
+        'providerUrl' : 'https://www.kadenze.com/',
+        'institutionName':'Goldsmiths University of London',
+        'institutionUrl': '/university/goldsmiths-london',
+        'subjectName': 'Digital Media & Video Games',
+        'subjectSlug':'digital-media-and-video-games',
         'format' : format
         } %}
 
