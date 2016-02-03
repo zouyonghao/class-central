@@ -599,7 +599,7 @@
         .panel {
             background: #f2f2f2;
             border: 1px solid #d9d9d9;
-            padding: 10px !important;
+            padding: 20px !important;
         }
 
         .sub-grid table {
@@ -1092,22 +1092,22 @@
                                     <td class="wrapper last">
                                         <table class="twelve columns">
                                             <tr>
-                                                <td class="panel">
+                                                <td class="panel" style="padding: 20px;">
 
                                                         <div>
                                                             {% set courseCount = 10 %}
                                                             {% for result in courses.hits.hits if result._source.nextSession is not empty and courseCount %}
                                                                 {% set course = result._source %}
                                                                 <p>
-                                                                    <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #24313a;font-size: 16px; font-weight: 700" > {{ course.name }} </a> • Starts {{ course.nextSession.displayDate }} <br />
-                                                                    <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}#reviews" class="cc-write-a-review"><span style="color:#043bff">{{ course.ratingStars }}</span> ({{ course.reviewsCount }})</a> <br/>
+                                                                    <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #043bff;font-size: 16px; font-weight: 700" > {{ course.name }} </a> • Starts {{ course.nextSession.displayDate }} <br />
+                                                                    <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}#reviews" class="cc-write-a-review"><span style="color:#24313a">{{ course.ratingStars }}</span> ({{ course.reviewsCount }})</a> <br/>
                                                                     {% if course.institutions|length %}
                                                                         {% set institution = course.institutions[0] %}
-                                                                        <span style="color: #a9b1b4;font-size: 12px; font-weight: 400">{{ institution.name }}</span>
+                                                                        <span style="color: #999999;font-size: 12px; font-weight: 400">{{ institution.name }}</span>
                                                                     {% endif %}
                                                                     {% if course.provider %}
                                                                         <span style="color: #8e9496;font-size: 12px; font-weight: 400">via</span>
-                                                                        <span style="color: #043bff;font-weight: 700;font-size: 11px">{{ course.provider.name }}</span>
+                                                                        <span style="font-weight: 700;font-size: 11px">{{ course.provider.name }}</span>
                                                                     {% endif %}
                                                                 </p>
                                                                 <br/>

@@ -97,7 +97,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
                     'source'   => Mailgun::UTM_SOURCE_PRODUCT,
                 ),
                 'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
-                    UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs,
+                    UserPreference::USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS,
                     $this->getContainer()->getParameter('secret')
                 )
             )
