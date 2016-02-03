@@ -1073,7 +1073,11 @@
                                         <table class="twelve columns">
                                             <tr>
                                                 <td>
-                                                    <h6>Hello {{ user.displayName }},</h6>
+                                                    <h5>{{ user.displayName }}, we have some personalized course recommendations for you.</h5>
+                                                    <br/>
+                                                    <p>
+                                                        Below are some courses starting in {{ recommendationsMonth }} that you might be interested in. Don't forget to checkout Class Central's <a href="https://www.class-central.com/report/ten-most-popular-moocs-february-2016/">ten most popular courses</a> starting in February.
+                                                    </p>
                                                 </td>
 
                                             </tr>
@@ -1088,14 +1092,14 @@
                                     <td class="wrapper last">
                                         <table class="twelve columns">
                                             <tr>
-                                                <td>
+                                                <td class="panel">
 
                                                         <div>
                                                             {% set courseCount = 10 %}
                                                             {% for result in courses.hits.hits if result._source.nextSession is not empty and courseCount %}
                                                                 {% set course = result._source %}
                                                                 <p>
-                                                                    <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #24313a;font-size: 16px; font-weight: 700" > {{ course.name }} | Starts {{ course.nextSession.displayDate }}</a> <br />
+                                                                    <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #24313a;font-size: 16px; font-weight: 700" > {{ course.name }} </a> • Starts {{ course.nextSession.displayDate }} <br />
                                                                     <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}#reviews" class="cc-write-a-review"><span style="color:#043bff">{{ course.ratingStars }}</span> ({{ course.reviewsCount }})</a> <br/>
                                                                     {% if course.institutions|length %}
                                                                         {% set institution = course.institutions[0] %}
@@ -1113,10 +1117,6 @@
                                                         </div>
 
 
-                                                    Regards,<br/><br/>
-                                                    Dhawal Shah<br/>
-                                                    Founder & CEO, <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">Class Central</a><br/>
-                                                    <a href="https://www.class-central.com/@dhawal">class-central.com/@dhawal</a>
 
                                                 </td>
 
@@ -1126,6 +1126,53 @@
                                     </td>
                                 </tr>
                             </table>
+                            <br/>
+                            <table class="row">
+                                <tr>
+                                    <td class="wrapper last">
+
+                                        <table class="twelve columns">
+                                            <tr>
+                                                {% if  recommendationsPageUnlocked %}
+                                                    <td>
+
+                                                        The recommendations are based on <a href="{{ baseUrl }}{{ path('user_follows',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">your follows</a>. To see all your recommendations, visit your <a href="{{ baseUrl }}{{ path('user_recommendations',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">personalized recommendations page</a>.
+                                                        <br/> <br/>
+                                                        <table class="button success">
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="{{ baseUrl }}{{ path('user_recommendations',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">View all Recommendations</a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+
+                                                        Unlock your <a href="{{ baseUrl }}{{ path('user_recommendations',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">personalized recommendations page</a> by <a href="{{ baseUrl }}{{ path('user_follows',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">updating your follows</a>.
+
+                                                        <br/> <br/>
+
+                                                        <table class="button success">
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="{{ baseUrl }}{{ path('user_follows',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">Unlock Your Personalized Recommendations Page</a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                    </td>
+
+                                                {% endif %}
+
+                                            </tr>
+                                        </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+
                             <hr/>
                             <table class="row">
                                 <tr>

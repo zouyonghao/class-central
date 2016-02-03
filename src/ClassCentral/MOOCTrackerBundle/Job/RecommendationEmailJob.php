@@ -52,7 +52,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
         $endDate = new \DateTime("$y-$m-$lastDayOfTheMonth");
         $data = $suggestionsService->byStartDate($user,$startDate,$endDate);
 
-        $emailContent = $this->getHTML($user,$data['courses'],$args['campaignId']);
+        $emailContent = $this->getHTML($user,$data['courses'],$args['campaignId'], $startDate);
 
         return $this->sendEmail(
             $emailContent,
@@ -68,13 +68,15 @@ class RecommendationEmailJob extends SchedulerJobAbstract
         // TODO: Implement tearDown() method.
     }
 
-    public function getHTML(UserEntity $user, $courses,$campaignId)
+    public function getHTML(UserEntity $user, $courses,$campaignId, $startDate)
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse(
             'ClassCentralMOOCTrackerBundle:Recommendation:recommendation.inlined.html',array(
                 'user'   => $user,
                 'courses' => $courses,
+                'recommendationsPageUnlocked' => ( count($user->getFollows()) >= 10),
+                'recommendationsMonth' => $startDate->format('F'),
                 'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'jobType' => $this->getJob()->getJobType(),
