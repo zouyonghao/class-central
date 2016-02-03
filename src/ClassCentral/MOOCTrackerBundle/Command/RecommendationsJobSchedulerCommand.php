@@ -61,6 +61,7 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
             ->join('u.follows','uf')
             ->andWhere('uf is NOT NULL')
             ->andWhere( "up.value = 1")
+            ->andWhere('u.isverified = 1')
             ->andWhere( "up.type=" . UserPreference::USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS )
         ;
 
