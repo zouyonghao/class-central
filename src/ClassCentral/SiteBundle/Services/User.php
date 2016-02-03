@@ -469,6 +469,7 @@ class User {
         $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM, $prefs));
         $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_REVIEW_SOLICITATION, $prefs));
         $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs, $prefs));
+        $em->persist( $this->getPreference($user, UserPreference::USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS, $prefs));
         $em->flush();
     }
 
