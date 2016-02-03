@@ -61,7 +61,7 @@ class RecommendationsJobSchedulerCommand extends ContainerAwareCommand
             ->join('u.follows','uf')
             ->andWhere('uf is NOT NULL')
             ->andWhere( "up.value = 1")
-            ->andWhere( "up.type=" . UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs )
+            ->andWhere( "up.type=" . UserPreference::USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS )
         ;
 
         $users = $qb->getQuery()->getArrayResult();
