@@ -74,12 +74,23 @@ CC.Class['Follow'] = (function(){
                                         btnText = "Following " + btnText;
                                     }
                                     $(itemClass).addClass('active');
+
                                     $(self).data('following',true);
-                                    utilities.notify(
-                                        "Following " + itemName,
-                                        "You will receive regular course notifications and reminders about " + itemName,
-                                        "success"
-                                    );
+                                    if( result.message.followCount == 10 ) {
+
+                                        var recommendationsAlert=" <div class='alert alert-success alert-dismissible' role='alert' style='position: fixed; top: 100px; width: inherit;z-index: 1000000 '><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button> <a href='/user/recommendations'>Congrats! You have unlocked <strong>personalized course recommendations</strong>. Click here to view all recommendations.</a> </div>";
+                                        $('.cc-body-content').append(
+                                            recommendationsAlert
+                                        );
+
+                                    } else {
+                                        utilities.notify(
+                                            "Following " + itemName,
+                                            "You will receive regular course notifications and reminders about " + itemName,
+                                            "success"
+                                        );
+                                    }
+
                                     incrementFollowCount( item );
                                 }
 

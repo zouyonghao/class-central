@@ -32,7 +32,9 @@ class FollowController extends Controller
             {
                 // Update User Session
                 $userSession->saveFollowInformation($user);
-                return UniversalHelper::getAjaxResponse(true);
+                return UniversalHelper::getAjaxResponse(true,array(
+                    'followCount' => count( $user->getFollows() )
+                ));
             }
             else
             {
