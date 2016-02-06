@@ -64,6 +64,19 @@
 
             {% if app.user %}
                 <div class="front-page-table">
+                    <h2 class="section-heading"><span>Personalized Course Recommendations</span></h2>
+                    {% if app.user.areRecommendationsAvailable  %}
+                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recommendedCourses.courses,'tableId':'suggestions','hideLoadMore':true} %}
+                        <a href="{{ path('user_recommendations') }}" class="expand-table-btn">View All</a>
+                    {% else %}
+                        <div class='alert alert-info' role='alert'>
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"> </span>
+                            <a href='{{ path('user_follows') }}'><strong>Never Miss a Course!</strong> Unlock your <strong>personalized course recommendations</strong> by updating your follows.</a>. Get regular updates of new and upcoming courses.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="front-page-table">
                     <h2 class="section-heading"><span>My Courses</span></h2>
                     {% if ucCount > 0 %}
                         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':uc,'tableId':'interested'} %}

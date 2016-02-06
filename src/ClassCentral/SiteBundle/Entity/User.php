@@ -976,4 +976,9 @@ class User implements UserInterface, \Serializable
         }
         return $courseIds;
     }
+
+    public function areRecommendationsAvailable()
+    {
+        return (count($this->getFollows()) >= 10 ) && $this->isFollowingASubject();
+    }
 }
