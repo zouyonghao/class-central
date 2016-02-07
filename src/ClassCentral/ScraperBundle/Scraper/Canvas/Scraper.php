@@ -70,8 +70,6 @@ class Scraper extends ScraperAbstractInterface
                             $em->persist($c);
                             $em->flush();
 
-                            $this->dbHelper->sendNewCourseToSlack( $c, $this->initiative );
-
                             if( $canvasCourse['image'] )
                             {
                                 $this->uploadImageIfNecessary( $canvasCourse['image'], $c);
