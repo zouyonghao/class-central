@@ -3,6 +3,7 @@
 namespace ClassCentral\ScraperBundle\Scraper\Canvas;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
+use ClassCentral\SiteBundle\Entity\Course;
 
 class Scraper extends ScraperAbstractInterface
 {
@@ -11,8 +12,8 @@ class Scraper extends ScraperAbstractInterface
 
     public function scrape()
     {
-        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
-        $dbLanguageMap = $this->dbHelper->getLanguageMap();
+
+
         $em = $this->getManager();
         $kuber = $this->container->get('kuber'); // File Api
         $offerings = array();
@@ -32,7 +33,35 @@ class Scraper extends ScraperAbstractInterface
 
             foreach($courses['products'] as $canvasCourse)
             {
-                $this->output->writeLn( $canvasCourse['title'] );
+                //$this->output->writeLn( $canvasCourse['title'] );
+                if( !$canvasCourse['free'] )
+                {
+                    // Skip paid courses.
+                    continue;
+                }
+
+                $c = $this->getCourse( $canvasCourse );
+                $dbCourse = null;
+                $dbCourseFromSlug = $this->dbHelper->getCourseByShortName( $c->getShortName() );
+                if( $dbCourseFromSlug  )
+                {
+                    $dbCourse = $dbCourseFromSlug;
+                }
+                else
+                {
+                    $dbCourseFromName = $this->dbHelper->findCourseByName($c->getName(), $this->initiative );
+                    if($dbCourseFromName)
+                    {
+                        $dbCourse = $dbCourseFromName;
+                    }
+                }
+
+                if( empty($dbCourse) )
+                {
+                    // New Course
+                    $this->out("NEW COURSE - " . $c->getName());
+                }
+
             }
 
             $page++;
@@ -40,5 +69,38 @@ class Scraper extends ScraperAbstractInterface
 
         return $offerings;
 
+    }
+
+    public function getCourse($canvasCourse)
+    {
+        $dbLanguageMap = $this->dbHelper->getLanguageMap();
+
+        $course = new Course();
+        $course->setName( $canvasCourse['title'] );
+        $course->setInitiative($this->initiative);
+        $course->setDescription( $canvasCourse['teaser'] );
+        $course->setUrl( $canvasCourse['url'] );
+        $course->setLanguage( $dbLanguageMap['English']);
+        $course->setStream(  $this->dbHelper->getStreamBySlug('cs') ); // Default to Computer Science
+        $course->setShortName( 'canvas_' . $this->getSlug( $canvasCourse['path']) );
+
+        return $course;
+    }
+
+    /**
+     * Remove the session number from the path and returns the session slug.
+     * i.e discover-your-value-10 will turn into discover-your-value
+     * @param $path
+     */
+    private function getSlug( $path )
+    {
+        $sessionNumber = substr(strrchr($path,'-'),1);
+        if ( !empty($sessionNumber) && is_numeric($sessionNumber) )
+        {
+            // slice the session number from the path
+            return substr($path,0, strrpos($path,'-'));
+        }
+
+        return $path;
     }
 }
