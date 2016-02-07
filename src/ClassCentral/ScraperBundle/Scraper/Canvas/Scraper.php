@@ -4,6 +4,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Canvas;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Services\Kuber;
 
 class Scraper extends ScraperAbstractInterface
 {
@@ -60,6 +61,27 @@ class Scraper extends ScraperAbstractInterface
                 {
                     // New Course
                     $this->out("NEW COURSE - " . $c->getName());
+                    // Create the course
+                    if($this->doCreate())
+                    {
+                        // NEW COURSE
+                        if ($this->doModify())
+                        {
+                            $em->persist($c);
+                            $em->flush();
+
+                            $this->dbHelper->sendNewCourseToSlack( $c, $this->initiative );
+
+                            if( $canvasCourse['image'] )
+                            {
+                                $this->uploadImageIfNecessary( $canvasCourse['image'], $c);
+                            }
+
+                            // Send an update to Slack
+                            $this->dbHelper->sendNewCourseToSlack( $c, $this->initiative );
+                        }
+                        $courseChanged = true;
+                    }
                 }
 
             }
@@ -102,5 +124,26 @@ class Scraper extends ScraperAbstractInterface
         }
 
         return $path;
+    }
+
+    private function uploadImageIfNecessary( $imageUrl, Course $course)
+    {
+        $kuber = $this->container->get('kuber');
+        $uniqueKey = basename($imageUrl);
+        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
+        {
+            // Upload the file
+            $filePath = '/tmp/course_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($imageUrl));
+            $kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_COURSE,
+                Kuber::KUBER_TYPE_COURSE_IMAGE,
+                $course->getId(),
+                null,
+                $uniqueKey
+            );
+
+        }
     }
 }
