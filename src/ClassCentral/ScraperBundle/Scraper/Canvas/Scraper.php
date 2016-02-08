@@ -4,6 +4,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Canvas;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Services\Kuber;
 
 class Scraper extends ScraperAbstractInterface
@@ -43,6 +44,10 @@ class Scraper extends ScraperAbstractInterface
                     continue;
                 }
 
+
+                /****
+                 * UPDATE/ADD COURSE
+                 */
                 $c = $this->getCourse( $canvasCourse );
                 $dbCourse = null;
                 $dbCourseFromSlug = $this->dbHelper->getCourseByShortName( $c->getShortName() );
@@ -102,7 +107,14 @@ class Scraper extends ScraperAbstractInterface
                         }
                         $courseChanged = true;
                     }
+                    $c = $dbCourse;
                 }
+
+
+                /****
+                 * UPDATE/ADD OFFERING
+                 */
+                 $this->getOfferingEntity( $canvasCourse, $c);
 
             }
 
@@ -165,5 +177,47 @@ class Scraper extends ScraperAbstractInterface
             );
 
         }
+    }
+
+    private function getOfferingEntity($canvasCourse, Course $course)
+    {
+        $offering = new Offering();
+        $offering->setCourse( $course );
+        $offering->setUrl(( $course->getUrl() ));
+        $offering->setShortName( 'canvas_' . $canvasCourse['id'] );
+        if( $canvasCourse['date'] == 'Self-paced')
+        {
+            $startDate = new \DateTime();
+            $endDate = new \DateTime();
+            $endDate->add( new \DateInterval('P30D') );
+            $offering->setStatus( Offering::COURSE_OPEN);
+            $offering->setStartDate( $startDate );
+            $offering->setEndDate( $endDate );
+        }
+        elseif ( strpos($canvasCourse['date'], 'Start') === false )
+        {
+            // Date is of the follow format: Jan 25 - Feb 29, 2016
+            $date = explode(',',$canvasCourse['date']);
+            $year = $date[1];
+            $day = explode('-',$date[0]);
+            $startDate = new \DateTime( $day[0] . $year);
+            $endDate = new \DateTime( $day[1]. ' ' . $year);
+            $offering->setStatus( Offering::START_DATES_KNOWN);
+            $offering->setStartDate( $startDate );
+            $offering->setEndDate( $endDate );
+        }
+        else
+        {
+            // Date contains Started ...
+            $date = substr( $canvasCourse['date'], strpos($canvasCourse['date'], ' '));
+            $startDate = new \DateTime( $date );
+            $endDate = new \DateTime( '2018-12-31');
+
+            $offering->setStatus( Offering::START_DATES_KNOWN);
+            $offering->setStartDate( $startDate );
+            $offering->setEndDate( $endDate );
+            $this->out( $offering->getDisplayDate() );
+        }
+        return $offering;
     }
 }
