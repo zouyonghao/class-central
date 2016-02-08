@@ -11,17 +11,19 @@ class Scraper extends ScraperAbstractInterface
 
     const COURSE_CATALOG_URL = 'https://www.canvas.net/products.json?page=%s';
 
+    private $courseFields = array(
+        'Url', 'Description', 'Name', 'ShortName'
+    );
+
+
     public function scrape()
     {
 
 
         $em = $this->getManager();
-        $kuber = $this->container->get('kuber'); // File Api
         $offerings = array();
 
         $page = 1;
-
-
         while(true)
         {
             $coursesUrl = sprintf(self::COURSE_CATALOG_URL,$page);
@@ -77,6 +79,26 @@ class Scraper extends ScraperAbstractInterface
 
                             // Send an update to Slack
                             $this->dbHelper->sendNewCourseToSlack( $c, $this->initiative );
+                        }
+                        $courseChanged = true;
+                    }
+                }
+                else
+                {
+                    $changedFields = $this->dbHelper->changedFields($this->courseFields, $c,$dbCourse);
+                    if( !empty($changedFields) && $this->doUpdate() )
+                    {
+                        $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
+                        $this->dbHelper->outputChangedFields($changedFields);
+                        if ($this->doModify())
+                        {
+                            $em->persist($dbCourse);
+                            $em->flush();
+
+                            if( $canvasCourse['image'] )
+                            {
+                                $this->uploadImageIfNecessary( $canvasCourse['image'], $dbCourse);
+                            }
                         }
                         $courseChanged = true;
                     }
