@@ -16,6 +16,9 @@ class Scraper extends ScraperAbstractInterface
         'Url', 'Description', 'Name', 'ShortName'
     );
 
+    private $offeringFields = array(
+        'StartDate', 'EndDate', 'Url', 'Status', 'ShortName'
+    );
 
     public function scrape()
     {
@@ -111,10 +114,94 @@ class Scraper extends ScraperAbstractInterface
                 }
 
 
-                /****
-                 * UPDATE/ADD OFFERING
-                 */
-                 $this->getOfferingEntity( $canvasCourse, $c);
+                /***************************
+                 * CREATE OR UPDATE OFFERING
+                 ***************************/
+                $offering = $this->getOfferingEntity( $canvasCourse, $c);
+                $dbOffering = $this->dbHelper->getOfferingByShortName( $offering->getShortName() );
+                if(!$dbOffering) {
+                    // find it via url
+                    $dbOffering = $this->dbHelper->getOfferingByShortName( $offering->getUrl() );
+                }
+
+
+
+                if( !$dbOffering )
+                {
+                    foreach ($c->getOfferings() as $o)
+                    {
+                        // Check if the course is self paced
+                        if($offering->getStatus() == Offering::COURSE_OPEN and $o->getStatus() == Offering::COURSE_OPEN)
+                        {
+                            $dbOffering = $o;
+                            break;
+                        }
+
+
+                        if($o->getStatus() != Offering::COURSE_NA && $o->getStartDate() == $offering->getStartDate())
+                        {
+                            $dbOffering = $o;
+                            break;
+                        }
+                    }
+                }
+
+                if (!$dbOffering) {
+                    $this->out("NEW OFFERING - " . $offering->getName() . ' - ' . $offering->getDisplayDate());
+                    if ($this->doCreate()) {
+
+                        if ($this->doModify()) {
+                            $em->persist($offering);
+                            $em->flush();
+                        }
+
+                        $this->dbHelper->sendNewOfferingToSlack($offering);
+                        $offerings[] = $offering;
+                        $courseChanged = true;
+                    }
+                }
+                else
+                {
+                    // old offering. Check if has been modified or not
+                    $offeringModified = false;
+                    $changedFields = array();
+                    foreach ($this->offeringFields as $field)
+                    {
+                        $getter = 'get' . $field;
+                        $setter = 'set' . $field;
+                        if ($offering->$getter() != $dbOffering->$getter())
+                        {
+                            if($field == 'StartDate' && $offering->getStatus() == Offering::COURSE_OPEN && $dbOffering->getStatus() == Offering::COURSE_OPEN)
+                            {
+                                // skip update start dates for self paced courses
+                                continue;
+                            }
+
+                            $offeringModified = true;
+                            // Add the changed field to the changedFields array
+                            $changed = array();
+                            $changed['field'] = $field;
+                            $changed['old'] =$dbOffering->$getter();
+                            $changed['new'] = $offering->$getter();
+                            $changedFields[] = $changed;
+                            $dbOffering->$setter($offering->$getter());
+                        }
+                    }
+
+                    if ($offeringModified && $this->doUpdate())
+                    {
+                        // Offering has been modified
+                        $this->out("UPDATE OFFERING - " . $dbOffering->getName());
+                        $this->dbHelper->outputChangedFields($changedFields);
+                        if ($this->doModify())
+                        {
+                            $em->persist($dbOffering);
+                            $em->flush();
+                        }
+                        $offerings[] = $dbOffering;
+                        $courseChanged = true;
+                    }
+                }
 
             }
 
