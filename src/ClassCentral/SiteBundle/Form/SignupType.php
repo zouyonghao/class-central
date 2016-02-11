@@ -28,14 +28,10 @@ class SignupType extends AbstractType{
              'label' => 'Password',
              'attr'=>array(
                  'placeholder' => 'Password',
-                 'class' => 'inspectletIgnore',
              )
          ));
         $builder->add('save', 'submit',array(
             'label' => 'Sign Up',
-            'attr' => array(
-                'class' => 'btn btn-primary btn-course-cc'
-            )
         ));
         ;
     }
