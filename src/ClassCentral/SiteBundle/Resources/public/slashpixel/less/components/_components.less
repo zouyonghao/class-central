@@ -97,7 +97,8 @@
   padding: 7px 17px 7px 20px;
   border: 1px solid #efeded;
   background: #fefefe;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  border-radius: 3px;
   .clearfix;
 }
 
@@ -111,8 +112,31 @@
   padding-right: 17px;
 }
 
+.bordered-box--input .plain-input--select {
+  padding-left: 15px;
+}
+
+.cc-form-block-wrap {
+  padding-left: 20px;
+  margin-top: 28px;
+}
+
+.cc-form-block-wrap .cc-input-label {
+  margin-bottom: 0;
+}
+
+.cc-label-subtext {
+  font-size: 16px;
+  color: #3A3D42;
+  font-family: @font-family-small-text;
+  font-weight: 400;
+  margin-bottom: 10px;
+  display: block;
+  margin-bottom: 17px;
+}
+
 .bordered-box--input .plain-input {
-  margin-top: 5px;
+  margin-top: 0;
   margin-bottom: 7px;
 }
 
@@ -123,7 +147,7 @@
 }
 
 .bordered-box--input .cc-input-label {
-  margin-top: 10px;
+  margin-top: 6px;
   margin-bottom: 0;
 }
 
@@ -134,12 +158,12 @@
 .plain-input {
   display: block;
   border: none;
-  color: #473a4c;
+  color: #3A3D42;
   margin: 0;
   padding: 0;
-  font-size: 20px;
+  font-size: 16px;
   width: 100%;
-  font-family: @font-family-large-text;
+  font-family: @font-family-small-text;
   font-weight: 400;
   max-width: 100%;
   background: #fefefe;
@@ -152,6 +176,10 @@
 
 .plain-input--textarea {
   min-height: 100px;
+}
+
+.plain-input--select {
+  -webkit-appearance: none;
 }
 
 .plain-input--select.empty,
@@ -170,14 +198,29 @@
 
 .cc-input-label {
   display: block;
-  color: @brand-primary;
-  font-size: 12px;
+  color: #043BFF;
+  font-size: 11px;
   margin-bottom: 7px;
   text-transform: uppercase;
-  font-family: @font-family-large-text;
+  font-family: @font-family-small-text;
   font-weight: 400;
 }
 
+.cc-input-label-for-select {
+  position: relative;
+}
+
+.cc-input-label-for-select:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #6f6f6f;
+  position: absolute;
+  top: 18px;
+  right: 19px;
+}
 
 
 /* =photo-preview-thumb
@@ -2125,19 +2168,19 @@ a:focus .card-back__interaction-text {
 }
 
 .basic-input::-webkit-input-placeholder {
-   color: #686A6D;
+   color: #BCBFC4;
 }
 
 .basic-input:-moz-placeholder { /* Firefox 18- */
-   color: #686A6D;
+   color: #BCBFC4;
 }
 
 .basic-input::-moz-placeholder {  /* Firefox 19+ */
-   color: #686A6D;
+   color: #BCBFC4;
 }
 
 .basic-input:-ms-input-placeholder {
-   color: #686A6D;
+   color: #BCBFC4;
 }
 
 .basic-input-button {
@@ -2159,7 +2202,7 @@ a:focus .card-back__interaction-text {
   font-size: 16px;
   color: #fff;
   background-color: #47d479;
-  border: 1px solid: #47d479;
+  border: 1px solid #47d479;
   padding: 6px 20px;
 }
 

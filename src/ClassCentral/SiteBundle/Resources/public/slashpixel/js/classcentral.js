@@ -1148,7 +1148,6 @@ jQuery(function($) {
         var signupFormId = "#signupModal-" + signupForms[i];
         // mini slider functionality
         $( signupFormId + " .js-mini-slider" ).each(function( index, element ) {
-            console.log(element);
             $(element).flexslider({
                 selector: " .js-mini-slider-slides .js-mini-slider-slide",
                 slideshow: true,
@@ -1255,6 +1254,11 @@ jQuery(function($) {
             }
         });
     }
+
+
+    $("#onboarding-modal").modal("show");
+
+    $('[data-toggle="tooltip"]').tooltip();
 
 
 });
