@@ -300,7 +300,7 @@ class Scraper extends ScraperAbstractInterface
             $startDate = new \DateTime( $date );
             $endDate = new \DateTime( '2018-12-31');
 
-            $offering->setStatus( Offering::START_DATES_KNOWN);
+            $offering->setStatus( Offering::COURSE_OPEN);
             $offering->setStartDate( $startDate );
             $offering->setEndDate( $endDate );
             $this->out( $offering->getDisplayDate() );
