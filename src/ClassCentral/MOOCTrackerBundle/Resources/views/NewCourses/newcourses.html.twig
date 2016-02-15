@@ -1076,7 +1076,7 @@
                                                     <h5>{{ user.displayName }}, you have new courses waiting for you.</h5>
                                                     <br/>
                                                     <p>
-                                                         Based on your <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{ redirect : 'user_follows',autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">follows</a>, {{ courses.hits.hits|length }} brand new courses have been added to Class Central in the last month.
+                                                         Based on your <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{ redirect : 'user_follows',autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">follows</a>, {{ courses.hits.hits|length }} brand new courses have been added to Class Central in the <strong>last 30 days</strong>.
                                                     </p>
                                                 </td>
 
