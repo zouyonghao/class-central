@@ -318,11 +318,15 @@ class UserSession
         $credentialIds = array();
         $reviewIds = array();
 
-        foreach($user->getCredentialReviews() as $cr)
+        if( !empty($user->getCredentialReviews()) )
         {
-            $reviewIds[] = $cr->getId();
-            $credentialIds[] = $cr->getCredential()->getId();
+            foreach($user->getCredentialReviews() as $cr)
+            {
+                $reviewIds[] = $cr->getId();
+                $credentialIds[] = $cr->getCredential()->getId();
+            }
         }
+
 
         $this->session->set(self::USER_CREDENTIAL_REVIEWS, $reviewIds);
         $this->session->set(self::USER_REVIEWED_CREDENTIALS, $credentialIds);
