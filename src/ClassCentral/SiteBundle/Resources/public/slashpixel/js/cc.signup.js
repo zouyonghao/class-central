@@ -12,39 +12,66 @@ CC.Class['Signup'] = (function(){
 
     function signupFormSubmit(e) {
         e.preventDefault();
+        var form = $(this);
         if (isFormValid( $(this) ,getSignupFormValues($(this))) ) {
             console.log("Form is valid");
+
+            // Submit the form using post
+            var actionurl = e.currentTarget.action;
+            $.ajax({
+                url: actionurl,
+                type: 'post',
+                dataType: 'json',
+                data: $(this).serialize(),
+                success: function(result) {
+                  if(result.success) {
+                    // Signup successful. Show onboarding 
+                      location.reload();
+                  } else {
+                    // Signup failed
+                      showErrorMessage( form,result.message);
+                  }
+                }
+            });
         } else {
             console.log("Form is invalid");
+            // Error message is shown by the validate function. Do nothing
         }
 
     }
 
     function isFormValid ( form, formValues ) {
 
-        console.log( $(form).find('.cc-signup-form-error-message') );
-        $(form).find('.cc-signup-form-error-message').html("");
+        hideErrorMesssage( form );
         // Front end check
         if( utilities.isEmpty (formValues.email) || !utilities.validateEmail(formValues.email) ){
             // email is invalid
-            $(form).find('.cc-signup-form-error-message').html("Invalid Email");
+            showErrorMessage(form,"Invalid Email");
             return false;
         }
 
         if( utilities.isEmpty (formValues.name) ) {
             // name cannot be empty
-            $(form).find('.cc-signup-form-error-message').html("Name is required");
+            showErrorMessage(form,"Name is required");
             return false;
         }
 
         if( utilities.isEmpty (formValues.password) ) {
             // password cannot be empty
-            $(form).find('.cc-signup-form-error-message').html("Password cannot be empty");
+            showErrorMessage(form,"Password cannot be empty");
             return false;
         }
 
+        return true;
     }
 
+    function showErrorMessage(form, message) {
+        $(form).find('.cc-signup-form-error-message').html(message);
+    }
+
+    function hideErrorMesssage(form) {
+        $(form).find('.cc-signup-form-error-message').html("");
+    }
     function createAccount() {
 
     }

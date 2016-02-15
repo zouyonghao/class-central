@@ -300,6 +300,7 @@ class UserController extends Controller
             'action' => $this->generateUrl('signup_create_user')
         ));
         $form->handleRequest($request);
+        $modal =  $form["modal"]->getData(); // if modal = 1, it means the form has been submitted through a signup modal via AJAX
 
         if($form->isValid())
         {
@@ -307,12 +308,59 @@ class UserController extends Controller
             $src =   $request->query->get('src');
             $url = $userService->createUser($user, true, $src);
 
-            return $this->redirect($url);
+            if($modal)
+            {
+                return UniversalHelper::getAjaxResponse(true);
+            }
+            else
+            {
+                return $this->redirect($url);
+            }
 
         }
 
+
+        if( $modal )
+        {
+            // Get the error message
+            $error = 'Some error occurred';
+            $errorMessages = $this->getErrorMessages($form);
+            foreach($errorMessages as $errorMessage)
+            {
+                $error = $errorMessage[0];
+                break;
+            }
+
+            return UniversalHelper::getAjaxResponse(false,$error);
+        }
+        else
+        {
+            return $this->signUpAction($form);
+        }
+
+
         // Form is not valid
         return $this->signUpAction($form);
+    }
+
+    private function getErrorMessages($form) {
+        $errors = array();
+
+        foreach ($form->getErrors() as $key => $error) {
+            if ($form->isRoot()) {
+                $errors['#'][] = $error->getMessage();
+            } else {
+                $errors[] = $error->getMessage();
+            }
+        }
+
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $errors[$child->getName()] = $this->getErrorMessages($child);
+            }
+        }
+
+        return $errors;
     }
 
     /**
@@ -990,8 +1038,9 @@ class UserController extends Controller
 
     public function createSignupModalAction(Request $request, $src, $options = array())
     {
-        $signupForm   = $this->createForm(new SignupType(), new User(),array(
-            'action' => $this->generateUrl('signup_create_user',array('src' => $src ))
+        $modal = 1; // Signifies that the signup form is shown in a modal
+        $signupForm   = $this->createForm(new SignupType( $modal ), new User(),array(
+            'action' => $this->generateUrl('signup_create_user',array('src' => $src)),
         ));
 
         $mediaCard_1 = array(
@@ -1061,4 +1110,18 @@ class UserController extends Controller
         );
     }
 
+    public function onboardingStep1Action(Request $request)
+    {
+
+    }
+
+    public function onboardingStep2Action(Request $request)
+    {
+
+    }
+
+    public function onboardingStep3Action(Request $request)
+    {
+
+    }
 }
