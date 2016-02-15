@@ -62,6 +62,7 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
         return $this->sendEmail(
             $emailContent,
             $user,
+            count($data['courses']['hits']['hits']),
             $args['campaignId'],
             $args['deliveryTime']
         );
@@ -71,7 +72,7 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse(
-            'ClassCentralMOOCTrackerBundle:NewCourses:newcourses.follows.html',array(
+            'ClassCentralMOOCTrackerBundle:NewCourses:newcourses.inlined.html',array(
                 'user'   => $user,
                 'courses' => $courses,
                 'recommendationsPageUnlocked' => ( count($user->getFollows()) >= 10),
@@ -92,7 +93,7 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
 
         return $html;
     }
-    private function sendEmail( $html, UserEntity $user, $campaignId, $deliveryTime)
+    private function sendEmail( $html, UserEntity $user, $numCourses, $campaignId, $deliveryTime)
     {
         $mailgun = $this->getContainer()->get('mailgun');
 
@@ -107,7 +108,7 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
             $response = $mailgun->sendMessage( array(
                 'from' => '"Class Central" <no-reply@class-central.com>',
                 'to' => $email,
-                'subject' => 'New Courses',
+                'subject' => $numCourses . ' brand new courses for you to join',
                 'html' => $html,
                 'o:campaign' => $campaignId,
                 'o:deliverytime' => $deliveryTime
