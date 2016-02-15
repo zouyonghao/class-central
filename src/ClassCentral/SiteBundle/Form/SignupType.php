@@ -9,6 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SignupType extends AbstractType{
 
+    private $modal; // Is the signup form show as a modal
+
+    public function __construct($modal = 0)
+    {
+        $this->modal = $modal;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -32,6 +39,11 @@ class SignupType extends AbstractType{
          ));
         $builder->add('save', 'submit',array(
             'label' => 'Sign Up',
+        ));
+
+        $builder->add('modal','hidden',array(
+            'data' =>$this->modal,
+            'mapped' => false
         ));
         ;
     }
