@@ -32,3 +32,15 @@
 {% endif %}
 
 #}
+
+{% set ad = random(3) %}
+
+{% if ad == 0 or ad == 1%}
+    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+    'url': 'http://www.video.idc-online.com/course-list.html?utm_source=class_central&utm_medium=banner&utm_campaign=class_central',
+    'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/idc.jpg',
+    'desc': "The latest in online training and education for engineers, technicians and technologists.",
+    'provider' : 'IDC'
+    } %}
+{% endif %}
+
