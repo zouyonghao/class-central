@@ -12,46 +12,43 @@
 
                     <div class="on-modal-body">
                         <div class="on-modal-body-col on-modal-body-col--left">
+                             <span class="review-form-error" id="full-name-error" style="display:none;">
+                                Should be atleast three letters
+                            </span>
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-full-name">Full Name</label>
-                                <input class="plain-input" type="text" name="full-name" placeholder="Full name" id="edit-profile-full-name" value="Mj">
+                                <input class="plain-input" type="text" name="full-name" placeholder="Full name" id="edit-profile-full-name" value="{{ user.getDisplayName }}">
                             </div>
 
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-location">Location</label>
-                                <input class="plain-input" type="text" name="location" placeholder="My location" id="edit-profile-location" value="">
+                                <input class="plain-input" type="text" name="location" placeholder="My location" id="edit-profile-location" value="{{ profile.location }}">
                             </div>
 
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label cc-input-label-for-select" for="edit-profile-qualifications">Highest Degree obtained</label>
                                 <select class="plain-input plain-input--select js-colorize-select empty" name="highest-degree" id="edit-profile-qualifications">
                                     <option value="" class="select-placeholder">Degrees</option>
-                                    <option value="0">High School</option>
-                                    <option value="1">Associates Degree</option>
-                                    <option value="2">Bachelors Degree</option>
-                                    <option value="3">Masters Degree</option>
-                                    <option value="4">Master of Business Administration (M.B.A)</option>
-                                    <option value="5">Juris Doctor (J.D.)</option>
-                                    <option value="6">Doctor of Medicine (M.D)</option>
-                                    <option value="7">Doctor of Philosophy</option>
-                                    <option value="8">Other</option>
+                                    {% for id,degree in degrees%}
+                                        <option value="{{ id }}" {% if profile.highestDegree == degree %} selected="selected" {% endif %}>{{ degree }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
 
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-field-of-study">Field of Study</label>
-                                <input class="plain-input" type="text" name="field-of-study" placeholder="Add field of study" id="edit-profile-field-of-study" value="">
+                                <input class="plain-input" type="text" name="field-of-study" placeholder="Add field of study" id="edit-profile-field-of-study" value="{{ profile.fieldOfStudy }}">
                             </div>
                         </div>
 
                         <div class="on-modal-body-col on-modal-body-col--right">
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-job-title">Job Title</label>
-                                <input class="plain-input" type="text" name="job-title" placeholder="Current Job Title" id="edit-profile-job-title" value="">
+                                <input class="plain-input" type="text" name="job-title" placeholder="Current Job Title" id="edit-profile-job-title" value="{{ profile.jobTitle }}">
                             </div>
                             <div class="bordered-box bordered-box--input">
                                 <label class="cc-input-label" for="edit-profile-about-me">About me</label>
-                                <textarea class="plain-input plain-input--textarea" name="about-me" id="edit-profile-about-me" placeholder="A little about me..."></textarea>
+                                <textarea class="plain-input plain-input--textarea" name="about-me" id="edit-profile-about-me" placeholder="A little about me...">{{ profile.aboutMe }}</textarea>
                             </div>
 
                             <div class="cc-form-block-wrap">
