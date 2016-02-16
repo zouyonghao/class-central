@@ -440,3 +440,7 @@ auto_login_secure:
 trending:
   pattern: /trending
   defaults: { _controller: ClassCentralSiteBundle:Course:trending }
+
+onboarding_profile:
+  pattern: /user/onboarding/profile
+  defaults: { _controller: ClassCentralSiteBundle:Onboarding:stepProfile }

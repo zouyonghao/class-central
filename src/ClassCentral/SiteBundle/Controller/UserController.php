@@ -1110,18 +1110,4 @@ class UserController extends Controller
         );
     }
 
-    public function onboardingStep1Action(Request $request)
-    {
-
-    }
-
-    public function onboardingStep2Action(Request $request)
-    {
-
-    }
-
-    public function onboardingStep3Action(Request $request)
-    {
-
-    }
 }

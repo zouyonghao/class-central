@@ -16,6 +16,8 @@ CC.Class['Signup'] = (function(){
         if (isFormValid( $(this) ,getSignupFormValues($(this))) ) {
             console.log("Form is valid");
 
+            showOnboardingProfileStep();
+            return;
             // Submit the form using post
             var actionurl = e.currentTarget.action;
             $.ajax({
@@ -25,7 +27,7 @@ CC.Class['Signup'] = (function(){
                 data: $(this).serialize(),
                 success: function(result) {
                   if(result.success) {
-                    // Signup successful. Show onboarding 
+                    // Signup successful. Show onboarding
                       location.reload();
                   } else {
                     // Signup failed
@@ -38,6 +40,21 @@ CC.Class['Signup'] = (function(){
             // Error message is shown by the validate function. Do nothing
         }
 
+    }
+
+    function showOnboardingProfileStep()
+    {
+        var profileStepUrl = '/user/onboarding/profile';
+        $.ajax({
+            url: profileStepUrl,
+            cache: false,
+            success: function( result ) {
+                var response = $.parseJSON(result);
+                $('.cc-page').append(response.modal);
+                $("#onboarding-modal").modal("show");
+            },
+            async: false
+        })
     }
 
     function isFormValid ( form, formValues ) {
@@ -94,7 +111,8 @@ CC.Class['Signup'] = (function(){
     }
 
     return {
-        init: init
+        init: init,
+        'profileOnboarding' : showOnboardingProfileStep
     }
 })();
 

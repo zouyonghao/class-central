@@ -1256,9 +1256,8 @@ jQuery(function($) {
     }
 
 
-    $("#onboarding-modal").modal("show");
+    //$("#onboarding-modal").modal("show");
 
     $('[data-toggle="tooltip"]').tooltip();
-
 
 });
