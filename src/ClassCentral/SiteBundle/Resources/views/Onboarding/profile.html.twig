@@ -58,7 +58,7 @@
                                 <div class="cc-form-toggle">
                                     <div class="cc-toggle">
                                         <span class="cc-toggle__text cc-toggle__text--left">Private</span>
-                                        <input id="toggle-private" type="checkbox" class="cc-toggle__checkbox">
+                                        <input id="toggle-private" type="checkbox" class="cc-toggle__checkbox" name="privacy" id="edit-profile-qualifications"  {% if not user.isPrivate %}checked{% endif %}>
                                         <label for="toggle-private" class="cc-toggle__label"></label>
                                         <span class="cc-toggle__text cc-toggle__text--right">Public</span>
                                     </div>

@@ -44,15 +44,6 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="bordered-box bordered-box--input">
-                        <label class="cc-input-label" for="edit-profile-qualifications">Privacy</label>
-                        <select class="plain-input plain-input--select js-colorize-select" name="privacy" id="edit-profile-qualifications">
-                                <option value="0" {% if not user.isPrivate %}  selected="selected" {% endif %}>Everyone on the web</option>
-                                <option value="1" {% if user.isPrivate %}  selected="selected" {% endif %}>Only Me</option>
-                        </select>
-                    </div>
-                </div>
 
                 <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
@@ -64,12 +55,29 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="bordered-box bordered-box--input">
                         <label class="cc-input-label" for="edit-profile-about-me">About me</label>
                         <textarea class="plain-input plain-input--textarea" name="about-me" id="edit-profile-about-me" placeholder="A little about me...">{{ profile.aboutMe }}</textarea>
                     </div>
                 </div>
+
+                <div class="col-lg-6">
+                    <div class="cc-form-block-wrap">
+                        <label class="cc-input-label" for="edit-profile-job-title">Privacy</label>
+                        <span class="cc-label-subtext">My Class Central profile is...</span>
+
+                        <div class="cc-form-toggle">
+                            <div class="cc-toggle">
+                                <span class="cc-toggle__text cc-toggle__text--left">Private</span>
+                                <input id="toggle-private" type="checkbox" class="cc-toggle__checkbox" name="privacy" id="edit-profile-qualifications"  {% if not user.isPrivate %}checked{% endif %}>
+                                <label for="toggle-private" class="cc-toggle__label"></label>
+                                <span class="cc-toggle__text cc-toggle__text--right">Public</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
@@ -83,6 +91,7 @@
                         >
                     </div>
                 </div>
+
             </div>
         </div>
 
