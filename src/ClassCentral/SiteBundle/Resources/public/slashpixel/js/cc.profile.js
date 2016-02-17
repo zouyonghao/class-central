@@ -69,7 +69,7 @@ CC.Class['Profile'] = (function(){
         var fieldOfStudy = $('input:text[name=field-of-study]').val();
         var jobTitle = $('input:text[name=job-title]').val();
         var highestDegree = $('select[name=highest-degree]').val();
-        var privacy = $('select[name=privacy]').val();
+        var privacy = !$('input[name=privacy]').is(":checked");
 
         // Social
         var twitter = $('input:text[name=profile-twitter]').val();
