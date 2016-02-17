@@ -5,6 +5,7 @@ var CC = CC || {
 CC.Class['Signup'] = (function(){
 
     var utilities = CC.Class['Utilities'];
+    var profile = CC.Class['Profile'];
 
     function init() {
         $('form[name="cc-signup-form"]').submit( signupFormSubmit);
@@ -51,10 +52,25 @@ CC.Class['Signup'] = (function(){
             success: function( result ) {
                 var response = $.parseJSON(result);
                 $('.cc-page').append(response.modal);
-                $("#onboarding-modal").modal("show");
+                $("#onboarding-profile-modal").modal("show");
+                updateProfileProgess();
+                $('#onboarding-profile-modal form :input').each( function(){
+                    $(this).focusout(  updateProfileProgess );
+                });
+                $('#onboarding-profile-modal form :select').each( function(){
+                    $(this).focusout(  updateProfileProgess );
+                });
             },
             async: false
         })
+    }
+
+    function updateProfileProgess() {
+        updateOnbardingFooterProgressBar( profile.profileCompletenessPercentage() )
+    }
+
+    function updateOnbardingFooterProgressBar( percentage ) {
+        $('.meter__bar').width( percentage + '%');
     }
 
     function isFormValid ( form, formValues ) {

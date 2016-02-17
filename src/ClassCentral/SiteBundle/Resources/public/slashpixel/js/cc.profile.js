@@ -97,6 +97,25 @@ CC.Class['Profile'] = (function(){
     }
 
     /**
+     * Calculates the percentage for the completeness bar
+     * @returns {number}
+     */
+    function profileCompletenessPercentage(){
+        var listOfFields = [ 'aboutMe', 'name', 'location', 'fieldOfStudy',  'jobTitle', 'highestDegree'];
+        var formFields = getFormFields();
+        var emptyFields = 0;
+        for(var i = 0; i < listOfFields.length; i++) {
+            var field = listOfFields[i];
+            if(!utilities.isEmpty( formFields[field] )) {
+                emptyFields++;
+            }
+        }
+
+        return Number( emptyFields*100/ listOfFields.length);
+
+    }
+
+    /**
      *
      * @param button id of the save profile button
      */
@@ -515,7 +534,8 @@ CC.Class['Profile'] = (function(){
 
     return {
         init: init,
-        initPrivateForm: initPrivateForm
+        initPrivateForm: initPrivateForm,
+        profileCompletenessPercentage: profileCompletenessPercentage
     };
 })();
 
