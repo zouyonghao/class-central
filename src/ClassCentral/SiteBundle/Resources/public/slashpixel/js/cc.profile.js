@@ -72,12 +72,12 @@ CC.Class['Profile'] = (function(){
         var privacy = !$('input[name=privacy]').is(":checked");
 
         // Social
-        var twitter = $('input:text[name=profile-twitter]').val();
-        var coursera = $('input:text[name=profile-coursera]').val();
-        var linkedin= $('input:text[name=profile-linkedin]').val();
-        var website = $('input:text[name=profile-website]').val();
-        var facebook = $('input:text[name=profile-facebook]').val();
-        var gplus = $('input:text[name=profile-gplus]').val();
+        var twitter =  getFormFieldValue ($('input:text[name=profile-twitter]').val());
+        var coursera = getFormFieldValue ($('input:text[name=profile-coursera]').val());
+        var linkedin= getFormFieldValue ($('input:text[name=profile-linkedin]').val());
+        var website = getFormFieldValue ($('input:text[name=profile-website]').val());
+        var facebook = getFormFieldValue ($('input:text[name=profile-facebook]').val());
+        var gplus = getFormFieldValue ($('input:text[name=profile-gplus]').val());
 
         return {
             aboutMe: aboutMe,
@@ -94,6 +94,13 @@ CC.Class['Profile'] = (function(){
             gplus: gplus,
             facebook: facebook
         };
+    }
+
+    function getFormFieldValue (data) {
+        if( typeof  data === "undefined" ) {
+            return '';
+        }
+        return data;
     }
 
     /**
@@ -347,6 +354,13 @@ CC.Class['Profile'] = (function(){
         event.preventDefault();
         // Disable the save profile button
         button.attr('disabled',true);
+        if(validateAndSaveProfile()) {
+            button.attr('disabled',false);
+        }
+
+    }
+
+    function validateAndSaveProfile() {
         var profile = getFormFields();
         var validationError = validate(profile);
 
@@ -359,10 +373,12 @@ CC.Class['Profile'] = (function(){
                 "Please make sure to enter only valid values in the form",
                 "error"
             );
-            button.attr('disabled',false);
+            return false;
         }
 
+        return true;
     }
+
 
     /**
      * Function to save the validated profile
@@ -535,7 +551,8 @@ CC.Class['Profile'] = (function(){
     return {
         init: init,
         initPrivateForm: initPrivateForm,
-        profileCompletenessPercentage: profileCompletenessPercentage
+        profileCompletenessPercentage: profileCompletenessPercentage,
+        validateAndSaveProfile: validateAndSaveProfile
     };
 })();
 

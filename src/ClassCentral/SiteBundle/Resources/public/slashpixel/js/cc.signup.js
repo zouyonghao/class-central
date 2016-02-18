@@ -53,19 +53,24 @@ CC.Class['Signup'] = (function(){
                 var response = $.parseJSON(result);
                 $('.cc-page').append(response.modal);
                 $("#onboarding-profile-modal").modal("show");
-                updateProfileProgess();
+                updateProfileProgress();
+                $('#onboarding-profile-modal__save').click( profile.validateAndSaveProfile );
+                // update the progress of the profile fields when form fields are updated
                 $('#onboarding-profile-modal form :input').each( function(){
-                    $(this).focusout(  updateProfileProgess );
+                    $(this).focusout(  updateProfileProgress );
                 });
-                $('#onboarding-profile-modal form :select').each( function(){
-                    $(this).focusout(  updateProfileProgess );
+                $('#onboarding-profile-modal form select').change(  updateProfileProgress );
+
+                // Reload the page if someone says skip profile
+                $('#onboarding-profile-modal__skip').click( function(){
+                    location.reload();
                 });
             },
             async: false
         })
     }
 
-    function updateProfileProgess() {
+    function updateProfileProgress() {
         updateOnbardingFooterProgressBar( profile.profileCompletenessPercentage() )
     }
 
