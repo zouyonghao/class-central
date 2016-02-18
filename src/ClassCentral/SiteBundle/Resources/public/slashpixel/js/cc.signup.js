@@ -13,12 +13,11 @@ CC.Class['Signup'] = (function(){
 
     function signupFormSubmit(e) {
         e.preventDefault();
+        // Disable the button
+        $('#classcentral_sitebundle_signuptype_save').attr('disabled',true);
+        $('#classcentral_sitebundle_signuptype_save').html("Creating account...");
         var form = $(this);
         if (isFormValid( $(this) ,getSignupFormValues($(this))) ) {
-            console.log("Form is valid");
-
-            showOnboardingProfileStep();
-            return;
             // Submit the form using post
             var actionurl = e.currentTarget.action;
             $.ajax({
@@ -28,16 +27,19 @@ CC.Class['Signup'] = (function(){
                 data: $(this).serialize(),
                 success: function(result) {
                   if(result.success) {
-                    // Signup successful. Show onboarding
-                      location.reload();
+                      // Signup successful. Hide the modal
+                      form.parent().parent().parent().parent().parent().parent().modal("hide");
+                      // Show the form update
+                      showOnboardingProfileStep();
                   } else {
                     // Signup failed
                       showErrorMessage( form,result.message);
+                      $('#classcentral_sitebundle_signuptype_save').attr('disabled',false);
+                      $('#classcentral_sitebundle_signuptype_save').html("Sign Up");
                   }
                 }
             });
         } else {
-            console.log("Form is invalid");
             // Error message is shown by the validate function. Do nothing
         }
 
