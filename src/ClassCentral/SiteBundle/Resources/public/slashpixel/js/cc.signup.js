@@ -78,6 +78,11 @@ CC.Class['Signup'] = (function(){
 
     function updateOnbardingFooterProgressBar( percentage ) {
         $('.meter__bar').width( percentage + '%');
+        if( percentage == 100 ) {
+            $('#onboarding-profile-modal__save').addClass('active');
+        } else {
+            $('#onboarding-profile-modal__save').removeClass('active');
+        }
     }
 
     function isFormValid ( form, formValues ) {
