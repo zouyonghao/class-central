@@ -8,7 +8,9 @@ CC.Class['Signup'] = (function(){
     var profile = CC.Class['Profile'];
 
     function init() {
-        $('form[name="cc-signup-form"]').submit( signupFormSubmit);
+        $( document).ready(function () {
+            $('form[name="cc-signup-form"]').submit( signupFormSubmit);
+        });
     }
 
     function signupFormSubmit(e) {
