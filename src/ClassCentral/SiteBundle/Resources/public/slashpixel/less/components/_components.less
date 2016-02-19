@@ -1988,14 +1988,18 @@ a:focus .card-back__interaction-text {
 
 .sumome-popup .sumome-popup-close,
 .sumome-popup-preview .sumome-popup-close {
-  top: auto !important;
+  top: -7px !important;
+  right: auto !important;
   bottom: auto !important;
-  right: auto;
-  position: relative !important;
-  width: 100%;
+  position: absolute !important;
   display: block;
-  text-align: center;
+  text-align: right;
   padding-top: 29px;
+  padding: 13px 0;
+  width: 100%;
+  max-width: 400px;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 .sumome-popup .sumome-popup-close:before,
@@ -2003,12 +2007,37 @@ a:focus .card-back__interaction-text {
   display: inline-block !important;
   position: static !important;
   color: #fff !important;
+  background-color: #E62921 !important;
+  border-radius: 50% !important;
+}
+
+@media (min-width: 420px) {
+  .sumome-popup .sumome-popup-close:before,
+  .sumome-popup-preview .sumome-popup-close:before {
+    margin-right: -10px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .sumome-popup .sumome-popup-close:before,
+  .sumome-popup-preview .sumome-popup-close:before {
+    margin-right: 0;
+  }
+
+}
+
+@media (min-width: 1350px) {
+  .sumome-popup .sumome-popup-close:before,
+  .sumome-popup-preview .sumome-popup-close:before {
+    margin-right: -10px;
+  }
+
 }
 
 .sumome-popup .sumome-popup-close:after,
 .sumome-popup-preview .sumome-popup-close:after {
   content: "Not right now, thanks.";
-  display: inline-block;
+  display: none;
   color: #fff;
   font-family: @font-family-small-text;
   line-height: 30px;
