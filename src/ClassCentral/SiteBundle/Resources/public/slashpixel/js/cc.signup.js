@@ -55,7 +55,7 @@ CC.Class['Signup'] = (function(){
             cache: false,
             success: function( result ) {
                 var response = $.parseJSON(result);
-                $('.cc-page').append(response.modal);
+                $(response.modal).appendTo("body");
                 $("#onboarding-profile-modal").modal("show");
                 updateProfileProgress();
                 $('#onboarding-profile-modal__save').click( profile.validateAndSaveProfile );

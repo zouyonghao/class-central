@@ -209,6 +209,7 @@ class CredentialReviewController extends Controller
         if(!$user)
         {
             $this->get('user_session')->saveAnonActivity( 'credential_review', $cr->getId() );
+            $this->get('session')->getFlashBag()->set('show_post_credential_review_signup_prompt',1);
         }
         else
         {

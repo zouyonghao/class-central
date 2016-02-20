@@ -183,19 +183,8 @@ CC.Class['Credential'] = (function(){
                     function(result) {
                         result = JSON.parse(result);
                         if(result['success']) {
-                           // Check if user is logged in.
-                            $.ajax({
-                                url: "/ajax/isLoggedIn",
-                                cache: false,
-                                success: function( result ) {
-                                    var loggedInResult = $.parseJSON(result);
-                                    if( loggedInResult.loggedIn ){
-                                        window.location.href = '/certificate/' + $('#credentialslug').data('value');
-                                    } else {
-                                        $('#signupModal-create_credential_review').modal('show');
-                                    }
-                                }
-                            });
+                            // Redirect back to the certificate apage
+                            window.location.href = '/certificate/' + $('#credentialslug').data('value');
                         } else {
                             // Show an error message
                         }
