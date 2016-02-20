@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+
+{% set showProfileEditModal = false %}
+{% for flashMessage in app.session.flashbag.get('show_post_fb_signup_profile_modal') %}
+    {% set showProfileEditModal = true %}
+{% endfor %}
+
 <html lang="en">
 {% if app.request.get('_route') == 'ClassCentralSiteBundle_homepage' %}
     <head itemscope itemtype="http://schema.org/WebSite">
@@ -418,6 +424,12 @@
         if(!isMobile.phone) {
             CC.Class['Follow'].showPersonalizationPrompt(20000);
         }
+    {% endif %}
+
+    {% if showProfileEditModal %}
+        $( document).ready(function () {
+            CC.Class["Signup"].profileOnboarding();
+        });
     {% endif %}
 
     </script>

@@ -214,8 +214,14 @@ class LoginController extends Controller{
                 $user->setIsverified(true);
                 $user->setSignupType(\ClassCentral\SiteBundle\Entity\User::SIGNUP_TYPE_FACEBOOK);
 
-                $redirectUrl = $userService->createUser($user, false, (empty($src)) ? 'facebook' : $src );
+                $userService->createUser($user, false, (empty($src)) ? 'facebook' : $src );
                 $userSession->setPasswordLessLogin(true); // Set the variable to show that the user didn't use a password to login
+
+                // Note: A profile edit modal will be shown to the user
+                $redirectUrl =
+                    ($this->getLastAccessedPage($request->getSession())) ?
+                        $this->getLastAccessedPage($request->getSession()):
+                        $this->generateUrl('user_library');
 
                 // Create a FB info
                 $ufb = new UserFb();
@@ -234,6 +240,9 @@ class LoginController extends Controller{
                     'newsletter' => $newsletter->getCode(),
                     'subscribed' => $subscribed
                 ));
+
+                // Show the user a profile edit window
+                $this->get('session')->getFlashBag()->set('show_post_fb_signup_profile_modal',1);
 
                 return $this->redirect($redirectUrl);
             }
