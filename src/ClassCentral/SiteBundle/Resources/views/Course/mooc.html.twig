@@ -1,5 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+{# logged out user finished writing a review and has been redirected here. Show the user a signup form#}
+ {% set showPostReviewSignupForm = false %}
+{% for flashMessage in app.session.flashbag.get('show_post_review_signup_prompt') %}
+  {% set showPostReviewSignupForm = true %}
+{% endfor %}
 
  {% block headmeta %}
      {% set courseImageUrl = null %}
@@ -852,6 +857,15 @@
         </div><!-- /.dock__inner -->
     </div><!-- /.dock -->
 
+
+
+
+
+
+    {% if showPostReviewSignupForm  %}
+        {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'create_course_review', options:{}}) %}
+    {% endif %}
+
 {% endblock %}
 
 {% block customJS %}
@@ -926,6 +940,10 @@
         courseAdded = true;
     {% endif %}
 
+    {# redirect after a logged out user completes a review. Show a signup portal #}
+        {% if showPostReviewSignupForm  %}
+            $('#signupModal-create_course_review').modal('show');
+        {% endif %}
     });
 {% endblock %}
 

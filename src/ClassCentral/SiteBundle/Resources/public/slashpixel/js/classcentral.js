@@ -514,12 +514,8 @@ jQuery(function($) {
                 function(result){
                     result = JSON.parse(result);
                     if(result['success']) {
-                        // Clear the form
-                        var rating = $('#rating').raty('score');
-                        $('textarea[name=review-text]').val("");
-                        $('input:radio[name=progress]:checked').prop('checked',false);
-
-                        $('#signupModal-create_course_review').modal('show');
+                        // Redirect back to the course page and ask the user if they want to signup for the course
+                        window.location.href = $('#courseUrl').data("value");
                     } else {
                         // Show an error message
                         showPinesNotification('error','Some error occurred',result['message']);

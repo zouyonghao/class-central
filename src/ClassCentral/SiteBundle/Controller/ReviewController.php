@@ -364,6 +364,7 @@ class ReviewController extends Controller {
         // save the review id in the session.
         $session->set('user_review_id', $review->getId());
         $session->set('user_course_reviewed_for', $review->getCourse()->getId() ); // don't allow the user to write a review
+        $session->getFlashBag()->set('show_post_review_signup_prompt',1);
 
         return $this->getAjaxResponse(true,$review->getId());
     }
