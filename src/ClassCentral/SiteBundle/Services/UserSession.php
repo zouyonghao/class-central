@@ -47,7 +47,7 @@ class UserSession
      * @var array
      */
     private static $skipRoutes = array(
-        'signup', 'signup_mooc', 'signup_search_term', 'signup_create_user',
+        'signup', 'signup_mooc', 'pre_signup_search_term', 'signup_create_user',
         'forgotpassword', 'forgotpassword_sendemail', 'resetPassword', 'resetPassword_save',
         'fb_authorize_start', 'fb_authorize_redirect',
         'review_save', 'review_create',
@@ -118,6 +118,7 @@ class UserSession
             return;
         }
         unset($routeParams['_route']);
+        $routeParams = array_merge($routeParams, $request->query->all() );
         $routeData = array('name' => $routeName, 'params' => $routeParams);
 
         //Skipping duplicates
