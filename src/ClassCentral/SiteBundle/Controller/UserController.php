@@ -234,17 +234,6 @@ class UserController extends Controller
      * @param Request $request
      * @param $searchTerm
      */
-    public function signUpSearchTermAction(Request $request, $searchTerm)
-    {
-        $this->get('user_session')->saveSignupReferralDetails(array('searchTerm' => $searchTerm));
-        return $this->redirect($this->generateUrl('signup'));
-    }
-
-    /**
-     * Saves the search term in session before redirecting the user to signup page
-     * @param Request $request
-     * @param $searchTerm
-     */
     public function preSignUpSearchTermAction(Request $request, $searchTerm)
     {
         $this->get('user_session')->saveSignupReferralDetails(array('searchTerm' => $searchTerm));

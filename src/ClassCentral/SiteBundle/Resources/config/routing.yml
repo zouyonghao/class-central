@@ -136,11 +136,6 @@ signup_mooc:
   defaults: {_controller: ClassCentralSiteBundle:User:signupMooc }
   schemes:  [https]
 
-signup_search_term:
-  pattern: /signup/q/{searchTerm}
-  defaults: {_controller: ClassCentralSiteBundle:User:signupSearchTerm }
-  schemes:  [https]
-
 pre_signup_search_term:
   pattern: /signup/pre_q/{searchTerm}
   defaults: {_controller: ClassCentralSiteBundle:User:preSignupSearchTerm }
