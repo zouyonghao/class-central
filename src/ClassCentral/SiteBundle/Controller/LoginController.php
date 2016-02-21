@@ -60,12 +60,18 @@ class LoginController extends Controller{
         );
     }
 
-    private function getLastAccessedPage($session)
+    private function getLastAccessedPage($session, $src = null)
     {
         $last_route = $session->get('this_route');
         $redirectUrl = null;
         if(! empty($last_route))
         {
+            if(!empty($src)) {
+                $last_route['params'] = array_merge( $last_route['params'], array(
+                    'ref' => 'user_created',
+                    'src' => $src
+                ) );
+            }
             $redirectUrl = $this->generateUrl($last_route['name'], $last_route['params']);
         }
 
@@ -214,13 +220,14 @@ class LoginController extends Controller{
                 $user->setIsverified(true);
                 $user->setSignupType(\ClassCentral\SiteBundle\Entity\User::SIGNUP_TYPE_FACEBOOK);
 
-                $userService->createUser($user, false, (empty($src)) ? 'facebook' : $src );
+                $signupSrc = (empty($src)) ? 'facebook' : $src;
+                $userService->createUser($user, false, $signupSrc );
                 $userSession->setPasswordLessLogin(true); // Set the variable to show that the user didn't use a password to login
 
                 // Note: A profile edit modal will be shown to the user
                 $redirectUrl =
-                    ($this->getLastAccessedPage($request->getSession())) ?
-                        $this->getLastAccessedPage($request->getSession()):
+                    ($this->getLastAccessedPage($request->getSession(),$signupSrc)) ?
+                        $this->getLastAccessedPage($request->getSession(),$signupSrc):
                         $this->generateUrl('user_library');
 
                 // Create a FB info
