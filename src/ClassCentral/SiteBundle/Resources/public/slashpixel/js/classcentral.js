@@ -1252,7 +1252,7 @@ jQuery(function($) {
     }
 
 
-    //$("#onboarding-modal").modal("show");
+
 
     $('[data-toggle="tooltip"]').tooltip();
 

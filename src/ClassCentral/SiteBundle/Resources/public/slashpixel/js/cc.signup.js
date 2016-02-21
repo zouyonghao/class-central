@@ -29,6 +29,8 @@ CC.Class['Signup'] = (function(){
                 data: $(this).serialize(),
                 success: function(result) {
                   if(result.success) {
+                      var userSignedUpSrc = $(form).find('.signup-modal-src').text();
+                      ga('send','event','New User Created', userSignedUpSrc);
                       // Signup successful. Hide the modal
                       form.parent().parent().parent().parent().parent().parent().modal("hide");
                       // Show the form update
@@ -118,9 +120,6 @@ CC.Class['Signup'] = (function(){
 
     function hideErrorMesssage(form) {
         $(form).find('.cc-signup-form-error-message').html("");
-    }
-    function createAccount() {
-
     }
 
     function getSignupFormValues( form ){
