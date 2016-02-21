@@ -19,7 +19,7 @@ CC.Class['Signup'] = (function(){
         $('#classcentral_sitebundle_signuptype_save').attr('disabled',true);
         $('#classcentral_sitebundle_signuptype_save').html("Creating account...");
         var form = $(this);
-        if (isFormValid( $(this) ,getSignupFormValues($(this))) ) {
+        if (isFormValid( $(this), getSignupFormValues($(this))) ) {
             // Submit the form using post
             var actionurl = e.currentTarget.action;
             $.ajax({
@@ -52,6 +52,7 @@ CC.Class['Signup'] = (function(){
     function showOnboardingProfileStep()
     {
         var profileStepUrl = '/user/onboarding/profile';
+        ga('send','event','Onboarding Nav', 'Profile','Shown');
         $.ajax({
             url: profileStepUrl,
             cache: false,
@@ -60,7 +61,10 @@ CC.Class['Signup'] = (function(){
                 $(response.modal).appendTo("body");
                 $("#onboarding-profile-modal").modal("show");
                 updateProfileProgress();
-                $('#onboarding-profile-modal__save').click( profile.validateAndSaveProfile );
+                $('#onboarding-profile-modal__save').click( function(){
+                    ga('send','event','Onboarding Nav', 'Profile','Update');
+                    profile.validateAndSaveProfile();
+                });
                 // update the progress of the profile fields when form fields are updated
                 $('#onboarding-profile-modal form :input').each( function(){
                     $(this).focusout(  updateProfileProgress );
@@ -69,6 +73,7 @@ CC.Class['Signup'] = (function(){
 
                 // Reload the page if someone says skip profile
                 $('#onboarding-profile-modal__skip').click( function(){
+                    ga('send','event','Onboarding Nav', 'Profile','Skip');
                     location.reload();
                 });
             },
