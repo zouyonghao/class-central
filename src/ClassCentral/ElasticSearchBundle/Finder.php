@@ -143,7 +143,8 @@ class Finder {
                         'should' => array(
                             array(
                                 'terms' => array(
-                                    'subjects.id' => $subjectIds
+                                    'subjects.id' => $subjectIds,
+                                    'boost' => 3
                                 )),
                             array(
                                 'terms' => array(
@@ -166,6 +167,7 @@ class Finder {
                         followed =  doc['followed'].value;
                         startingSoon = doc['startingSoon'].value;
                         newCourse = doc['new'].value ;
+                        numSessions =  doc['numSessions'].value;
 
                         // Calculate boost for ratings
                         ratingScore = 0;
@@ -180,11 +182,15 @@ class Finder {
                         followedScore = (int) followed/10;
 
                         // Calculate score based on newness
-                        newScore = newCourse*300;
+                        newScore = newCourse*500;
 
                         // Starting soon score
                         startingSoonScore = startingSoon*{$startingSoonScoreMultiplier};
-                        return _score*(ratingScore + followedScore + startingSoonScore + newScore   +  1);
+
+                        // Number of sessions
+
+                        numSessionsScore = numSessions*20;
+                        return _score*(ratingScore + followedScore + startingSoonScore + newScore - numSessionsScore  +  1);
                     "
                  )
         ));

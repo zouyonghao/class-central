@@ -206,6 +206,7 @@ class CourseDocumentType extends DocumentType {
             $sessions[] = $sDoc->getBody();
         }
         $body['sessions'] = $sessions;
+        $body['numSessions'] = count( $sessions );
 
         $body['rating'] = $rs->getRatings($c->getId());
         $body['ratingSort'] = $rs->getBayesianAverageRating( $c->getId() );
