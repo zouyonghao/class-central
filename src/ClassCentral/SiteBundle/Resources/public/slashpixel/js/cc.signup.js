@@ -92,6 +92,9 @@ CC.Class['Signup'] = (function(){
                 var response = $.parseJSON(result);
                 $(response.modal).appendTo("body");
                 $("#onboarding-follow-subjects-modal").modal("show");
+
+                // Init and attach event handlers to the follow buttons
+                CC.Class['Follow'].init();
             },
             async: false
         })
