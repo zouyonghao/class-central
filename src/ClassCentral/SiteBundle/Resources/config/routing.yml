@@ -443,3 +443,7 @@ onboarding_profile:
 onboarding_follow_subjects:
   pattern: /user/onboarding/follow-subjects
   defaults: { _controller: ClassCentralSiteBundle:Onboarding:stepFollowSubjects }
+
+onboarding_follow_institutions:
+  pattern: /user/onboarding/follow-institutions
+  defaults: { _controller: ClassCentralSiteBundle:Onboarding:stepFollowInstitutions }

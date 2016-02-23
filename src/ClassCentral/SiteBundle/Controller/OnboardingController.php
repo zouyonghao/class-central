@@ -75,4 +75,28 @@ class OnboardingController extends Controller
 
         return new Response( json_encode($response) );
     }
+
+    public function stepFollowInstitutionsAction(Request $request)
+    {
+        $user = $this->getUser();
+        $userSession = $this->get('user_session');
+        $cache = $this->get('cache');
+
+        $insController = new InstitutionController();
+        $insData = $insController->getInstitutions($this->container,true);
+
+        $html = $this->render('ClassCentralSiteBundle:Onboarding:followInstitutions.html.twig',
+            array(
+                'user' => $user,
+                'followInstitutionItem' => Item::ITEM_TYPE_INSTITUTION,
+                'institutions' => $insData['institutions'],
+            ))
+            ->getContent();
+
+        $response = array(
+            'modal' => $html,
+        );
+
+        return new Response( json_encode($response) );
+    }
 }

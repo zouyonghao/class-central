@@ -183,10 +183,31 @@ CC.Class['Signup'] = (function(){
         }
     }
 
+    function showOnboardingFollowInstitutionsStep()
+    {
+        var url = '/user/onboarding/follow-institutions';
+        ga('send','event','Onboarding Nav', 'Follow Institutions','Shown');
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function( result ) {
+                var response = $.parseJSON(result);
+                $(response.modal).appendTo("body");
+
+                $("#onboarding-follow-institutions-modal").modal("show");
+
+                // Init and attach event handlers to the follow buttons
+                CC.Class['Follow'].init();
+            },
+            async: false
+        })
+    }
+
     return {
         init: init,
         'profileOnboarding' : showOnboardingProfileStep,
-        'followSubjectOnboarding' : showOnboardingFollowSubjectStep
+        'followSubjectOnboarding' : showOnboardingFollowSubjectStep,
+        'followInstitutionOnboarding' : showOnboardingFollowInstitutionsStep
     }
 })();
 
