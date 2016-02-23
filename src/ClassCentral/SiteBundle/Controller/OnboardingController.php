@@ -36,4 +36,21 @@ class OnboardingController extends Controller
 
         return new Response( json_encode($response) );
     }
+
+    public function stepFollowSubjectsAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        $html = $this->render('ClassCentralSiteBundle:Onboarding:followsubjects.html.twig',
+            array(
+                'user' => $user,
+            ))
+            ->getContent();
+
+        $response = array(
+            'modal' => $html
+        );
+
+        return new Response( json_encode($response) );
+    }
 }

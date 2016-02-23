@@ -81,6 +81,22 @@ CC.Class['Signup'] = (function(){
         })
     }
 
+    function showOnboardingFollowSubjectStep()
+    {
+        var url = '/user/onboarding/follow-subjects';
+        ga('send','event','Onboarding Nav', 'Follow Subjects','Shown');
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function( result ) {
+                var response = $.parseJSON(result);
+                $(response.modal).appendTo("body");
+                $("#onboarding-follow-subjects-modal").modal("show");
+            },
+            async: false
+        })
+    }
+
     function updateProfileProgress() {
         updateOnbardingFooterProgressBar( profile.profileCompletenessPercentage() )
     }
@@ -146,7 +162,8 @@ CC.Class['Signup'] = (function(){
 
     return {
         init: init,
-        'profileOnboarding' : showOnboardingProfileStep
+        'profileOnboarding' : showOnboardingProfileStep,
+        'followSubjectOnboarding' : showOnboardingFollowSubjectStep
     }
 })();
 
