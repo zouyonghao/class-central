@@ -150,10 +150,10 @@ CC.Class['Signup'] = (function(){
                 var response = $.parseJSON(result);
                 $(response.modal).appendTo("body");
 
-                updateFollowSubjectModalFooter(); // Update follow button text
+                updateFollowSubjecstModalFooter(); // Update follow button text
                 $("#onboarding-follow-subjects-modal").modal("show");
 
-                $("#onboarding-follow-subjects-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowSubjectModalFooter);
+                $("#onboarding-follow-subjects-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowSubjecstModalFooter);
 
                 // Init and attach event handlers to the follow buttons
                 CC.Class['Follow'].init();
@@ -162,7 +162,7 @@ CC.Class['Signup'] = (function(){
         })
     }
     // Update the footer to show correct percentage and proper messages on the next button
-    function updateFollowSubjectModalFooter(){
+    function updateFollowSubjecstModalFooter(){
         var nextButton = $('#onboarding-follow-subjects__next');
         var numFollows = $("#onboarding-follow-subjects-modal").find('.tagboard__tag.active').length;
 
@@ -194,13 +194,37 @@ CC.Class['Signup'] = (function(){
                 var response = $.parseJSON(result);
                 $(response.modal).appendTo("body");
 
+                updateFollowInstitutionsModalFooter();
                 $("#onboarding-follow-institutions-modal").modal("show");
+                $("#onboarding-follow-institutions-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowInstitutionsModalFooter);
 
                 // Init and attach event handlers to the follow buttons
                 CC.Class['Follow'].init();
             },
             async: false
         })
+    }
+
+    // Update the footer to show correct percentage and proper messages on the next button
+    function updateFollowInstitutionsModalFooter(){
+        var nextButton = $('#onboarding-follow-institutions__next');
+        var numFollows = $("#onboarding-follow-institutions-modal").find('.tagboard__tag.active').length;
+
+        var percentage = numFollows*100/5;
+        $("#onboarding-follow-institutions-modal .meter__bar").width( percentage + '%');
+
+        if(numFollows >= 5) {
+            $(nextButton).addClass('active');
+            $(nextButton).find("span").text('Click here once you are done choosing');
+        } else {
+            var followsLeft = 5 - numFollows;
+            $(nextButton).removeClass('active');
+            if( followsLeft == 1) {
+                $(nextButton).find("span").text('Almost there...');
+            } else {
+                $(nextButton).find("span").text('Pick ' + followsLeft + ' more universities to unlock recommendations');
+            }
+        }
     }
 
     return {
