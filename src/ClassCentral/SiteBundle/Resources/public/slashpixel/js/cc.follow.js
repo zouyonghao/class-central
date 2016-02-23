@@ -93,9 +93,8 @@ CC.Class['Follow'] = (function(){
 
                                     incrementFollowCount( item );
                                 }
-
                                 $(itemClass).find('.btn-follow-item-box').html( btnText );
-
+                                $(self).trigger('followingChanged'); // fire an event to so that onboarding modals can update count
 
                             } else {
                                 // Show a error notification

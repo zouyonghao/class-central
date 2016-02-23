@@ -15,7 +15,8 @@
 
 {% if simpleButton %}
     <a href="#"
-       class="tagboard__tag btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}" data-toggle="tooltip" data-placement="top"
+       class="tagboard__tag btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}  {% if followed %}active{% endif %}"
+       data-toggle="tooltip" data-placement="top"
        title=""
        data-original-title="{{ itemName }}"
        data-item="{{ item }}"

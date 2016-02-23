@@ -81,25 +81,6 @@ CC.Class['Signup'] = (function(){
         })
     }
 
-    function showOnboardingFollowSubjectStep()
-    {
-        var url = '/user/onboarding/follow-subjects';
-        ga('send','event','Onboarding Nav', 'Follow Subjects','Shown');
-        $.ajax({
-            url: url,
-            cache: false,
-            success: function( result ) {
-                var response = $.parseJSON(result);
-                $(response.modal).appendTo("body");
-                $("#onboarding-follow-subjects-modal").modal("show");
-
-                // Init and attach event handlers to the follow buttons
-                CC.Class['Follow'].init();
-            },
-            async: false
-        })
-    }
-
     function updateProfileProgress() {
         updateOnbardingFooterProgressBar( profile.profileCompletenessPercentage() )
     }
@@ -158,9 +139,48 @@ CC.Class['Signup'] = (function(){
         }
     }
 
-    function isEmail(email) {
-        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        return regex.test(email);
+    function showOnboardingFollowSubjectStep()
+    {
+        var url = '/user/onboarding/follow-subjects';
+        ga('send','event','Onboarding Nav', 'Follow Subjects','Shown');
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function( result ) {
+                var response = $.parseJSON(result);
+                $(response.modal).appendTo("body");
+
+                updateFollowSubjectModalFooter(); // Update follow button text
+                $("#onboarding-follow-subjects-modal").modal("show");
+
+                $("#onboarding-follow-subjects-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowSubjectModalFooter);
+
+                // Init and attach event handlers to the follow buttons
+                CC.Class['Follow'].init();
+            },
+            async: false
+        })
+    }
+    // Update the footer to show correct percentage and proper messages on the next button
+    function updateFollowSubjectModalFooter(){
+        var nextButton = $('#onboarding-follow-subjects__next');
+        var numFollows = $("#onboarding-follow-subjects-modal").find('.tagboard__tag.active').length;
+
+        var percentage = numFollows*100/5;
+        $("#onboarding-follow-subjects-modal .meter__bar").width( percentage + '%');
+
+        if(numFollows >= 5) {
+            $(nextButton).addClass('active');
+            $(nextButton).find("span").text('Click here once you are done choosing');
+        } else {
+            var followsLeft = 5 - numFollows;
+            $(nextButton).removeClass('active');
+            if( followsLeft == 1) {
+                $(nextButton).find("span").text('Almost there...');
+            } else {
+                $(nextButton).find("span").text('Pick ' + followsLeft + ' more subjects to unlock recommendations');
+            }
+        }
     }
 
     return {
