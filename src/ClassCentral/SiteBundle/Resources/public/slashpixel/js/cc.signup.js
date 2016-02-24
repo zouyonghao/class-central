@@ -71,6 +71,8 @@ CC.Class['Signup'] = (function(){
                 });
                 $('#onboarding-profile-modal form select').change(  updateProfileProgress );
 
+                $('#onboarding-profile-modal__back').click(onboardingProfileUpdateBackStepButton);
+
                 // Reload the page if someone says skip profile
                 $('#onboarding-profile-modal__skip').click( function(){
                     ga('send','event','Onboarding Nav', 'Profile','Skip');
@@ -79,6 +81,12 @@ CC.Class['Signup'] = (function(){
             },
             async: false
         })
+    }
+
+    function onboardingProfileUpdateBackStepButton() {
+        $("#onboarding-profile-modal").modal("hide") // hide the modal
+        $("#onboarding-profile-modal").remove();
+        showOnboardingFollowSubjectStep(); // show the next step
     }
 
     function updateProfileProgress() {
@@ -157,10 +165,25 @@ CC.Class['Signup'] = (function(){
 
                 // Init and attach event handlers to the follow buttons
                 CC.Class['Follow'].init();
+
+
+                // Hookup next and skip buttons
+                $('#onboarding-follow-subjects__next').click(onboardingFollowSubjectNextStepButton);
+                $('#onboarding-follow-subjects__skip').click(onboardingFollowSubjectNextStepButton);
             },
             async: false
         })
     }
+
+    /**
+     * When the next/skip button is clicked on the follow subject onboarding button
+     */
+    function onboardingFollowSubjectNextStepButton() {
+        $("#onboarding-follow-subjects-modal").modal("hide"); // hide the modal
+        $("#onboarding-follow-subjects-modal").remove();
+        showOnboardingFollowInstitutionsStep(); // show the next step
+    }
+
     // Update the footer to show correct percentage and proper messages on the next button
     function updateFollowSubjecstModalFooter(){
         var nextButton = $('#onboarding-follow-subjects__next');
@@ -200,9 +223,28 @@ CC.Class['Signup'] = (function(){
 
                 // Init and attach event handlers to the follow buttons
                 CC.Class['Follow'].init();
+
+                $('#onboarding-follow-institutions__next').click(onboardingFollowInstitutionsNextStepButton);
+                $('#onboarding-follow-institutions__skip').click(onboardingFollowInstitutionsNextStepButton);
+                $('#onboarding-follow-institutions__back').click(onboardingFollowInstitutionsBackStepButton);
             },
             async: false
         })
+    }
+
+    /**
+     * When the next/skip button is clicked on the follow institution onboarding button
+     */
+    function onboardingFollowInstitutionsNextStepButton() {
+        $("#onboarding-follow-institutions-modal").modal("hide"); // hide the modal
+        $("#onboarding-follow-institutions-modal").remove();
+        showOnboardingProfileStep(); // show the next step
+    }
+
+    function onboardingFollowInstitutionsBackStepButton() {
+        $("#onboarding-follow-institutions-modal").modal("hide"); // hide the modal
+        $("#onboarding-follow-institutions-modal").remove();
+        showOnboardingFollowSubjectStep(); // show the next step
     }
 
     // Update the footer to show correct percentage and proper messages on the next button
