@@ -120,7 +120,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
             $response = $mailgun->sendMessage( array(
                 'from' => '"Class Central" <no-reply@class-central.com>',
                 'to' => $email,
-                'subject' => 'Course Recommendations for You • ' . $startDate->format('F Y'),
+                'subject' => 'Course Recommendations for You • ' . $startDate->format('F Y') . ' (corrected)',
                 'html' => $html,
                 'o:campaign' => $campaignId,
                 'o:deliverytime' => $deliveryTime
