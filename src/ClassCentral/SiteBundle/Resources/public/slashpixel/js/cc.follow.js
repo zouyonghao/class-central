@@ -22,6 +22,10 @@ CC.Class['Follow'] = (function(){
         var hideFollowing = $(this).data('hide-following');
         var hideNotification = $(this).data('hide-notification');
 
+        if(self.hasClass('tagboard__tag')) {
+            ga('send','event','Follow - Onboarding',item, itemName);
+        }
+
         $.ajax({
             url: "/ajax/isLoggedIn",
             cache: false,
