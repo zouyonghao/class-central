@@ -13,6 +13,10 @@
     {% set simpleButton = false %}
 {% endif %}
 
+{% if hideNotification is not defined %}
+    {% set hideNotification = false %}
+{% endif %}
+
 {% if simpleButton %}
     <a href="#"
        class="tagboard__tag btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}  {% if followed %}active{% endif %}"
@@ -23,6 +27,7 @@
        data-item-id="{{ item_id }}"
        data-item-name="{{ itemName }}"
        data-following ="{{ followed }}"
+       data-hide-notification ="{{ hideNotification }}"
             >
         {{ itemName }}
     </a>
@@ -37,6 +42,7 @@
        data-hide-logo="{{ hideLogo }}"
        data-following ="{{ followed }}"
        data-hide-following = "{{ hideFollowing }}"
+       data-hide-notification ="{{ hideNotification }}"
         >
         <span class="action-button__container">
           {% if hideLogo %}

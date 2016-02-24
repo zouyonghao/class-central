@@ -24,7 +24,8 @@
                                             item_id : subject.id,
                                             itemName: subject.name,
                                             followed: user_session.isItemFollowed(followSubjectItem,subject.id),
-                                            simpleButton: true
+                                            simpleButton: true,
+                                            hideNotification: true
                                         } %}
 
                                     {% endfor %}
@@ -32,16 +33,15 @@
                                     {% for subject in childSubjects  %}
 
                                         {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                                        item : followSubjectItem,
-                                        item_id : subject.id,
-                                        itemName: subject.name,
-                                        followed: user_session.isItemFollowed(followSubjectItem,subject.id),
-                                        simpleButton: true
+                                            item : followSubjectItem,
+                                            item_id : subject.id,
+                                            itemName: subject.name,
+                                            followed: user_session.isItemFollowed(followSubjectItem,subject.id),
+                                            simpleButton: true,
+                                            hideNotification: true
                                         } %}
 
                                     {% endfor %}
-
-
 
                                 </div>
                             </div>

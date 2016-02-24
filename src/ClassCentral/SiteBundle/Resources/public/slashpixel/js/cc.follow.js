@@ -20,6 +20,7 @@ CC.Class['Follow'] = (function(){
         var following = $(this).data('following');
         var hideLogo  = $(this).data('hide-logo');
         var hideFollowing = $(this).data('hide-following');
+        var hideNotification = $(this).data('hide-notification');
 
         $.ajax({
             url: "/ajax/isLoggedIn",
@@ -57,11 +58,13 @@ CC.Class['Follow'] = (function(){
                                     }
                                     $(itemClass).removeClass('active');
                                     $(self).data('following',false);
-                                    utilities.notify(
-                                        "Unfollowed " + itemName,
-                                        "You will no longer receive course notifications and reminders about " + itemName,
-                                        "success"
-                                    );
+                                    if(!hideNotification) {
+                                        utilities.notify(
+                                            "Unfollowed " + itemName,
+                                            "You will no longer receive course notifications and reminders about " + itemName,
+                                            "success"
+                                        );
+                                    }
                                     // Decrement the user following count
                                     decrementFollowCount( item );
                                 } else {
@@ -78,17 +81,21 @@ CC.Class['Follow'] = (function(){
                                     $(self).data('following',true);
                                     if( result.message.followCount == 10 ) {
 
-                                        var recommendationsAlert=" <div class='alert alert-success alert-dismissible' role='alert' style='position: fixed; top: 100px; width: inherit;z-index: 1000000 '><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button> <a href='/user/recommendations'>Congrats! You have unlocked <strong>personalized course recommendations</strong>. Click here to view all recommendations.</a> </div>";
-                                        $('.cc-body-content').append(
-                                            recommendationsAlert
-                                        );
+                                        if(!hideNotification) {
+                                            var recommendationsAlert = " <div class='alert alert-success alert-dismissible' role='alert' style='position: fixed; top: 100px; width: inherit;z-index: 1000000 '><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button> <a href='/user/recommendations'>Congrats! You have unlocked <strong>personalized course recommendations</strong>. Click here to view all recommendations.</a> </div>";
+                                            $('.cc-body-content').append(
+                                                recommendationsAlert
+                                            );
+                                        }
 
                                     } else {
-                                        utilities.notify(
-                                            "Following " + itemName,
-                                            "You will receive regular course notifications and reminders about " + itemName,
-                                            "success"
-                                        );
+                                        if(!hideNotification) {
+                                            utilities.notify(
+                                                "Following " + itemName,
+                                                "You will receive regular course notifications and reminders about " + itemName,
+                                                "success"
+                                            );
+                                        }
                                     }
 
                                     incrementFollowCount( item );

@@ -26,7 +26,8 @@
                                             item_id : institution.id,
                                             itemName: institution.name,
                                             followed: user_session.isItemFollowed(followInstitutionItem,institution.id),
-                                            simpleButton: true
+                                            simpleButton: true,
+                                            hideNotification: true
                                         } %}
 
                                         {% set insCount = insCount + 1 %}
