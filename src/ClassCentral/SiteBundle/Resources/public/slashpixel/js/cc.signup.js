@@ -71,7 +71,10 @@ CC.Class['Signup'] = (function(){
                 });
                 $('#onboarding-profile-modal form select').change(  updateProfileProgress );
 
-                $('#onboarding-profile-modal__back').click(onboardingProfileUpdateBackStepButton);
+                $('#onboarding-profile-modal__back').click(function(){
+                    ga('send','event','Onboarding Nav', 'Profile','Back');
+                    onboardingProfileUpdateBackStepButton();
+                });
 
                 // Reload the page if someone says skip profile
                 $('#onboarding-profile-modal__skip').click( function(){
@@ -87,7 +90,7 @@ CC.Class['Signup'] = (function(){
     function onboardingProfileUpdateBackStepButton() {
         $("#onboarding-profile-modal").modal("hide") // hide the modal
         $("#onboarding-profile-modal").remove();
-        showOnboardingFollowSubjectStep(); // show the next step
+        showOnboardingFollowInstitutionsStep(); // show the previous modal
     }
 
     function updateProfileProgress() {
@@ -159,18 +162,24 @@ CC.Class['Signup'] = (function(){
                 var response = $.parseJSON(result);
                 $(response.modal).appendTo("body");
 
-                updateFollowSubjecstModalFooter(); // Update follow button text
+                updateFollowSubjectsModalFooter(); // Update follow button text
                 $("#onboarding-follow-subjects-modal").modal("show");
 
-                $("#onboarding-follow-subjects-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowSubjecstModalFooter);
+                $("#onboarding-follow-subjects-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowSubjectsModalFooter);
 
                 // Init and attach event handlers to the follow buttons
                 CC.Class['Follow'].init();
 
 
                 // Hookup next and skip buttons
-                $('#onboarding-follow-subjects__next').click(onboardingFollowSubjectNextStepButton);
-                $('#onboarding-follow-subjects__skip').click(onboardingFollowSubjectNextStepButton);
+                $('#onboarding-follow-subjects__next').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Subjects','Next');
+                    onboardingFollowSubjectNextStepButton()
+                });
+                $('#onboarding-follow-subjects__skip').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Subjects','Skip');
+                    onboardingFollowSubjectNextStepButton();
+                });
 
                 $('[data-toggle="tooltip"]').tooltip(); // load the tooltips
             },
@@ -188,7 +197,7 @@ CC.Class['Signup'] = (function(){
     }
 
     // Update the footer to show correct percentage and proper messages on the next button
-    function updateFollowSubjecstModalFooter(){
+    function updateFollowSubjectsModalFooter(){
         var nextButton = $('#onboarding-follow-subjects__next');
         var numFollows = $("#onboarding-follow-subjects-modal").find('.tagboard__tag.active').length;
 
@@ -227,9 +236,20 @@ CC.Class['Signup'] = (function(){
                 // Init and attach event handlers to the follow buttons
                 CC.Class['Follow'].init();
 
-                $('#onboarding-follow-institutions__next').click(onboardingFollowInstitutionsNextStepButton);
-                $('#onboarding-follow-institutions__skip').click(onboardingFollowInstitutionsNextStepButton);
-                $('#onboarding-follow-institutions__back').click(onboardingFollowInstitutionsBackStepButton);
+                $('#onboarding-follow-institutions__next').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Institutions','Next');
+                    onboardingFollowInstitutionsNextStepButton();
+                });
+
+                $('#onboarding-follow-institutions__skip').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Institutions','Skip');
+                    onboardingFollowInstitutionsNextStepButton();
+                });
+
+                $('#onboarding-follow-institutions__back').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Institutions','Back');
+                    onboardingFollowInstitutionsBackStepButton();
+                });
 
                 $('[data-toggle="tooltip"]').tooltip(); // load the tooltips
             },
