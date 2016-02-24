@@ -17,11 +17,16 @@
     {% set hideNotification = false %}
 {% endif %}
 
+{% set truncate = false %}
+{% if itemName|length > 35 %}
+    {% set truncate = true %}
+{% endif %}
+
 {% if simpleButton %}
     <a href="#"
        class="tagboard__tag btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}  {% if followed %}active{% endif %}"
-       data-toggle="tooltip" data-placement="top"
-       title=""
+       {% if truncate %}data-toggle="tooltip" data-placement="top"{% endif %}
+       title="{{ itemName }}"
        data-original-title="{{ itemName }}"
        data-item="{{ item }}"
        data-item-id="{{ item_id }}"
@@ -29,7 +34,12 @@
        data-following ="{{ followed }}"
        data-hide-notification ="{{ hideNotification }}"
             >
-        {{ itemName }}
+        {% if truncate %}
+            {{ itemName|slice(0,27) }}...
+        {% else %}
+            {{ itemName }}
+        {% endif %}
+
     </a>
 {% else %}
     <a href="#"

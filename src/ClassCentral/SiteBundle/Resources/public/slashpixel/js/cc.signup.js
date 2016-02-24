@@ -78,6 +78,7 @@ CC.Class['Signup'] = (function(){
                     ga('send','event','Onboarding Nav', 'Profile','Skip');
                     location.reload();
                 });
+
             },
             async: false
         })
@@ -170,6 +171,8 @@ CC.Class['Signup'] = (function(){
                 // Hookup next and skip buttons
                 $('#onboarding-follow-subjects__next').click(onboardingFollowSubjectNextStepButton);
                 $('#onboarding-follow-subjects__skip').click(onboardingFollowSubjectNextStepButton);
+
+                $('[data-toggle="tooltip"]').tooltip(); // load the tooltips
             },
             async: false
         })
@@ -227,6 +230,8 @@ CC.Class['Signup'] = (function(){
                 $('#onboarding-follow-institutions__next').click(onboardingFollowInstitutionsNextStepButton);
                 $('#onboarding-follow-institutions__skip').click(onboardingFollowInstitutionsNextStepButton);
                 $('#onboarding-follow-institutions__back').click(onboardingFollowInstitutionsBackStepButton);
+
+                $('[data-toggle="tooltip"]').tooltip(); // load the tooltips
             },
             async: false
         })
