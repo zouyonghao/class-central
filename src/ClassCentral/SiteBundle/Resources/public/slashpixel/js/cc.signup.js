@@ -194,12 +194,12 @@ CC.Class['Signup'] = (function(){
 
         if(numFollows >= 5) {
             $(nextButton).addClass('active');
-            $(nextButton).find("span").text('Click here once you are done choosing');
+            $(nextButton).find("span").text('Pick more subjects or move on to Step 2 (of 3)');
         } else {
             var followsLeft = 5 - numFollows;
             $(nextButton).removeClass('active');
             if( followsLeft == 1) {
-                $(nextButton).find("span").text('Almost there...');
+                $(nextButton).find("span").text('One more to go...');
             } else {
                 $(nextButton).find("span").text('Pick ' + followsLeft + ' more subjects to unlock recommendations');
             }
@@ -257,12 +257,12 @@ CC.Class['Signup'] = (function(){
 
         if(numFollows >= 5) {
             $(nextButton).addClass('active');
-            $(nextButton).find("span").text('Click here once you are done choosing');
+            $(nextButton).find("span").text('Pick more universities or move on to the last step');
         } else {
             var followsLeft = 5 - numFollows;
             $(nextButton).removeClass('active');
             if( followsLeft == 1) {
-                $(nextButton).find("span").text('Almost there...');
+                $(nextButton).find("span").text('One more to go...');
             } else {
                 $(nextButton).find("span").text('Pick ' + followsLeft + ' more universities to unlock recommendations');
             }
