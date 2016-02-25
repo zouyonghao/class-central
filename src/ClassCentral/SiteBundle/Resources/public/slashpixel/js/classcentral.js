@@ -580,7 +580,8 @@ jQuery(function($) {
             $('#progress-error').hide();
         }
 
-        // Review if exits should be atleast 20 words long
+        // Review if exists should be atleast 20 words long
+        // Make review text mandatory
         if(!isEmpty(review.reviewText)) {
             // Non empty review. Should be 20 words long
             var words = review.reviewText.split(' ');
@@ -591,7 +592,8 @@ jQuery(function($) {
                 $('#review-text-error').hide();
             }
         } else {
-            $('#review-text-error').hide();
+            $('#review-text-error').show();
+            validationError = true;
         }
 
         return validationError;
