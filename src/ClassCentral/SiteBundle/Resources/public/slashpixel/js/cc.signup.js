@@ -282,14 +282,14 @@ CC.Class['Signup'] = (function(){
 
         if(numFollows >= 5) {
             $(nextButton).addClass('active');
-            $(nextButton).find("span").text('Pick more universities or move on to the last step');
+            $(nextButton).find("span").text('Pick more providers or move on to the last step');
         } else {
             var followsLeft = 5 - numFollows;
             $(nextButton).removeClass('active');
             if( followsLeft == 1) {
                 $(nextButton).find("span").text('One more to go...');
             } else {
-                $(nextButton).find("span").text('Pick ' + followsLeft + ' more universities to unlock recommendations');
+                $(nextButton).find("span").text('Pick ' + followsLeft + ' more providers to unlock recommendations');
             }
         }
     }

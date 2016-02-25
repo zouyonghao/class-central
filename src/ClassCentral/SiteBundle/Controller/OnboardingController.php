@@ -85,11 +85,16 @@ class OnboardingController extends Controller
         $insController = new InstitutionController();
         $insData = $insController->getInstitutions($this->container,true);
 
+        $providerController = new InitiativeController();
+        $providersData = $providerController->getProvidersList($this->container);
+
         $html = $this->render('ClassCentralSiteBundle:Onboarding:followInstitutions.html.twig',
             array(
                 'user' => $user,
                 'followInstitutionItem' => Item::ITEM_TYPE_INSTITUTION,
+                'followProviderItem' => Item::ITEM_TYPE_PROVIDER,
                 'institutions' => $insData['institutions'],
+                'providers' => $providersData['providers'],
             ))
             ->getContent();
 
