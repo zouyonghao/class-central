@@ -1258,4 +1258,10 @@ jQuery(function($) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    // Clipboard.js is only included for admins
+    if (typeof Clipboard === 'function') {
+        new Clipboard('.btn-course-name-copy');
+    }
+
+
 });

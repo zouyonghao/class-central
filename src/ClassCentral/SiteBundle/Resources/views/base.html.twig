@@ -274,7 +274,12 @@
     '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modal.js'
 #}
 
+
 <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
+
+{% if is_granted('ROLE_ADMIN') %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.8/clipboard.min.js"></script>
+{% endif %}
 
 {% endjavascripts %}
 

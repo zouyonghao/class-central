@@ -172,6 +172,11 @@
                     <div class="course-rating" data-score="{{ course.rating }}"></div>
                 </div>
 
+                {% if is_granted('ROLE_ADMIN') and app.request.get('copy-course') is not empty %}
+                    <button class="btn-course-name-copy" data-clipboard-text="{{ course.id }}|||{{ course.name }}">
+                        Copy
+                    </button>
+                {% endif %}
                 <a class="course-name" itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}"
                    onmousedown='recordInboundLink(
                            "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
