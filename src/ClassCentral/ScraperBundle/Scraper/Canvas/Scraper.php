@@ -281,6 +281,20 @@ class Scraper extends ScraperAbstractInterface
             $offering->setStartDate( $startDate );
             $offering->setEndDate( $endDate );
         }
+        elseif ( strpos($canvasCourse['date'], 'Ends') !== false )
+        {
+            // Date contains Ends ...
+            $date = substr( $canvasCourse['date'], strpos($canvasCourse['date'], ' '));
+            $this->out( $date );
+            $startDate = new \DateTime( $date );
+            $startDate->sub( new \DateInterval('P30D') );
+            $endDate = new \DateTime( $date);
+
+            $offering->setStatus( Offering::COURSE_OPEN);
+            $offering->setStartDate( $startDate );
+            $offering->setEndDate( $endDate );
+            $this->out( $offering->getDisplayDate() );
+        }
         elseif ( strpos($canvasCourse['date'], 'Start') === false )
         {
             // Date is of the follow format: Jan 25 - Feb 29, 2016
