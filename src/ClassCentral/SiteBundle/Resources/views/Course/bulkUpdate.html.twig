@@ -1,0 +1,37 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+    <div>
+        {% if succeeded is not empty %}
+            <h3>Successfully updated</h3>
+            {% for id,name in succeeded %}
+                {{ id }}|||{{ name }}<br/>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        {% if failed is not empty %}
+            <h3>Failed</h3>
+            {% for id,name in succeeded %}
+                {{ id }}|||{{ name }}<br/>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
+    <form method="post">
+        <label>Pick a subject</label>
+        <select name="subject">
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name  }}</option>
+            {% endfor %}
+        </select>
+        <br/><br/>
+        <label>Paste courses with ids</label>
+        <textarea name="courses" rows="25" cols="100"></textarea>
+        <br/><br/>
+
+        <input type="submit" value="Update Courses">
+    </form>
+{% endblock %}

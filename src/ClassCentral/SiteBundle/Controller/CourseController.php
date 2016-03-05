@@ -749,6 +749,51 @@ EOD;
             ));
     }
 
+    public function bulkUpdateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $subjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+
+        $postFields = $request->request->all();
+        $succeeded = array();
+        $failed = array();
+
+        if(isset($postFields["subject"]) && isset($postFields["courses"]))
+        {
+
+            // Form has been posted. Update the subject
+            $subject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('id' => $postFields['subject']));
+            if($subject && $postFields["courses"] )
+            {
+                $courses = explode(PHP_EOL, $postFields["courses"]);
+                foreach($courses as $courseRow)
+                {
+                    $courseParts = explode('|||', $courseRow);
+                    $courseId = $courseParts[0];
+                    $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+                    if($course)
+                    {
+                        $course->setStream($subject);
+                        $em->persist( $course );
+                        $succeeded[ $courseId ] = $courseParts[1];
+                        $this->get('cache')->deleteCache( 'course_'.$courseId );
+                    }
+                    else
+                    {
+                        $failed[ $courseId ] = $courseParts[1];
+                    }
+                }
+                $em->flush();
+            }
+        }
+
+        return $this->render('ClassCentralSiteBundle:Course:bulkUpdate.html.twig', array(
+            'subjects' => $subjects,
+            'succeeded' => $succeeded,
+            'failed' => $failed
+        ));
+    }
+
     /**
      * A button on the course page to quickly approve
      * @param Request $request
