@@ -144,7 +144,7 @@ class Scraper extends ScraperAbstractInterface
 
             */
 
-            $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll(
+            $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findBy(
                 array('initiative'=>$this->getInitiative())
             );
 
@@ -162,11 +162,12 @@ class Scraper extends ScraperAbstractInterface
 
                 $offering = new Offering();
                 $offering->setCourse($course);
-                $offering->setStartDate($startDate));
+                $offering->setStartDate($startDate);
                 $offering->setEndDate($endDate);
                 $offering->setStatus(Offering::START_DATES_KNOWN);
                 $offering->setLength(4);
-                //$offering->setShortName($shortName);
+                $offering->setShortName( $this->getOfferingShortName($course->getId(),self::$NEXT_SESSION_START_DATE));
+                $this->out( $course->getUrl() );
                 $offering->setUrl($course->getUrl());
                 if ($this->doModify()) {
                     try {
@@ -189,9 +190,9 @@ class Scraper extends ScraperAbstractInterface
      * Gets the short name which is a unique key to identify the course
      * @param $courseDetail
      */
-    private function getOfferingShortName($courseDetail)
+    private function getOfferingShortName($courseId, $startDate)
     {
-        return strtolower($this->initiative->getCode() . '_' . $courseDetail['shortName']. '_'.str_replace('/','_', $courseDetail['start_date']));
+        return strtolower($this->initiative->getCode() . '_' . $courseId. '_'.str_replace('-','_', $startDate));
     }
 
     /**
