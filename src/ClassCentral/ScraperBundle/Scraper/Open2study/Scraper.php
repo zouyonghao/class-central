@@ -17,6 +17,8 @@ class Scraper extends ScraperAbstractInterface
 {
     const COURSE_CATALOGUE = 'https://www.open2study.com/courses';
     const BASE_URL = 'https://www.open2study.com/';
+    public static $SELF_PACED_COURSES = array(899,904,1645);
+    public static $NEXT_SESSION_START_DATE = '2016-03-21';
 
     public function scrape()
     {
@@ -25,7 +27,8 @@ class Scraper extends ScraperAbstractInterface
         $offerings = array();
 
         $this->out("Scraping " . $this->initiative->getName());
-
+        /**
+         * No new couress are being added. So commented out
         // Step 1: Getting a list of course URLs
         $this->out("Getting a list of course pages");
         $urls = $this->getListOfCoursePages();
@@ -88,11 +91,7 @@ class Scraper extends ScraperAbstractInterface
         $this->out("Default stream is " . $stream->getName());
         foreach($courseDetails as $courseDetail)
         {
-            /**
-             * Taking a shortcut here. Check if a course is created or not. If it isn't create the
-             * course,offering, etc. Updates are ignored
-             * TODO: Not take a shortcut
-             */
+
 
             // Build a course object
             $course = new Course();
@@ -143,35 +142,45 @@ class Scraper extends ScraperAbstractInterface
                 continue;
             }
 
-            $offering = new Offering();
-            $offering->setCourse($course);
-            $offering->setStartDate( \DateTime::createFromFormat("d/m/Y",$courseDetail['start_date']) );
-            $offering->setEndDate( \DateTime::createFromFormat("d/m/Y",$courseDetail['end_date']) );
-            $offering->setStatus(Offering::START_DATES_KNOWN);
-            $offering->setLength(4);
-            $offering->setShortName($shortName);
-            $offering->setUrl(self::BASE_URL . $courseDetail['url']);
-            $offering->setVideoIntro($courseDetail['video']);
-            $offering->setSearchDesc($courseDetail['desc']);
-            $offering->setCreated(new \DateTime());
+            */
 
-            if($this->doModify())
+            $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll(
+                array('initiative'=>$this->getInitiative())
+            );
+
+            foreach($courses as $course)
             {
-                try {
-                    $em->persist($offering);
-                    $em->flush();
-                    $this->out("OFFERING {$courseDetail['name']} created");
-                }
-                catch(\Exception $e) {
-                    $this->out("OFFERING {$courseDetail['name']} creation FAILED");
+                if(in_array($course->getId(),self::$SELF_PACED_COURSES))
+                {
+                    continue;
                 }
 
+                $this->out($course->getName());
+                $startDate = new \DateTime(self::$NEXT_SESSION_START_DATE);
+                $endDate = new \DateTime(self::$NEXT_SESSION_START_DATE);
+                $endDate->add(new \DateInterval('P30D'));
 
+                $offering = new Offering();
+                $offering->setCourse($course);
+                $offering->setStartDate($startDate));
+                $offering->setEndDate($endDate);
+                $offering->setStatus(Offering::START_DATES_KNOWN);
+                $offering->setLength(4);
+                //$offering->setShortName($shortName);
+                $offering->setUrl($course->getUrl());
+                if ($this->doModify()) {
+                    try {
+                        $em->persist($offering);
+                        $em->flush();
+                    } catch (\Exception $e) {
+                        $this->out("OFFERING creation FAILED");
+                    }
+
+
+                }
+
+                $offerings[] = $offering;
             }
-
-            $offerings[] = $offering;
-
-        }
 
         return $offerings;
     }
