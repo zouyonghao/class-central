@@ -29,6 +29,8 @@ class Scraper extends ScraperAbstractInterface {
     const ONDEMAND_SESSION_IDS = 'https://www.coursera.org/api/onDemandSessions.v1/?q=currentOpenByCourse&courseId=%s&includes=memberships&fields=moduleDeadlines';
 
     const COURSE_CATALOG_URL_v2 = 'https://www.coursera.org/api/catalogResults.v2?q=search&query=&limit=5000&debug=false&fields=debug,courseId,domainId,onDemandSpecializationId,specializationId,subdomainId,suggestions,courses.v1(name,description,slug,photoUrl,courseStatus,partnerIds),onDemandSpecializations.v1(name,description,slug,logo,courseIds,launchedAt,partnerIds),specializations.v1(name,description,shortName,logo,primaryCourseIds,display,partnerIds),partners.v1(name)&includes=courseId,domainId,onDemandSpecializationId,specializationId,subdomainId,suggestions,courses.v1(partnerIds),onDemandSpecializations.v1(partnerIds),specializations.v1(partnerIds)';
+    const COURSE_FACILITATED_GROUPS = 'https://www.coursera.org/api/onDemandFacilitatedGroups.v1/?q=firstAvailableInScope&scopeId=session~%s!~%s&fields=groupId,scopeId,facilitators,mentorProfiles.v1(fullName,bio,email,photoUrl,title,social),onDemandFacilitatedGroupAvailabilities.v1(spotsTaken,spotsLeft,memberLimit,hasAvailability)&includes=mentorProfiles,availability';
+
     // CREDENTIAL_URS
     const SPECIALIZATION_CATALOG_URL = 'https://www.coursera.org/api/specializations.v1';
     const SPECIALIZATION_URL  = 'https://www.coursera.org/maestro/api/specialization/info/%s?currency=USD&origin=US';
@@ -127,10 +129,36 @@ class Scraper extends ScraperAbstractInterface {
                 {
                     continue; //skip
                 }
-
-
-
                 $c = $this->getOnDemandCourse( $onDemandCourse );
+
+
+                /**
+
+                // Details for mentor sessions
+                $courseId = $onDemandCourse['elements'][0]['id'];
+                $sessionDetails = '';
+                try{
+                    $sessionDetails =  json_decode(file_get_contents( sprintf(self::ONDEMAND_SESSION_IDS,$courseId) ),true);
+                } catch(\Exception $e) {
+                    continue;
+                }
+
+                if(!empty($sessionDetails['elements']))
+                {
+                    foreach( $sessionDetails['elements'] as $session ) {
+                        $sessionId = $session['id'];
+                        $groupsUrl = sprintf(self::COURSE_FACILITATED_GROUPS, $courseId,$sessionId);
+                        $groups = json_decode(file_get_contents($groupsUrl),true);
+                        if(!empty($groups['elements']))
+                        {
+                            $this->out("MENTORED COURSE - " . $c->getName() );
+                            $this->out ( $groups['linked']['onDemandFacilitatedGroupAvailabilities.v1'][0]['spotsTaken']);
+                        }
+                    }
+                }
+                continue;
+                **/
+
 
                 $dbCourse = null;
                 $dbCourseFromSlug = $this->dbHelper->getCourseByShortName( $c->getShortName() );
