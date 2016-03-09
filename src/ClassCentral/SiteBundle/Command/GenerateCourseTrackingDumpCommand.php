@@ -11,10 +11,12 @@ namespace ClassCentral\SiteBundle\Command;
 
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
 
@@ -34,11 +36,11 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->generateUserTrackingCSV();
+        //$this->generateUserTrackingCSV();
 
         $this->generateCoursesCSV();
 
-        $this->generateUserCoursesCSV();
+        //$this->generateUserCoursesCSV();
 
     }
 
@@ -75,7 +77,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
         $fp = fopen("extras/user_course.csv", "w");
         while(true)
         {
-            $results = $em->createNativeQuery("SELECT id,user_identifier,course_id FROM $tbl WHERE id > $id LIMIT 10000", $rsm)->getResult();
+            $results = $em->createNativeQuery("SELECT id,user_identifier,course_id,created FROM $tbl WHERE id > $id LIMIT 10000", $rsm)->getResult();
 
             if(empty($results))
             {
@@ -119,20 +121,30 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             'Universities/Institutions',
             'Parent Subject',
             'Child Subject',
+            'Category',
             'Url',
             'Next Session Date',
             'Length',
-            'Video(Url)'
+            'Language',
+            'Video(Url)',
+            'Course Description',
+            'Credential Name',
+            'Created',
+            'Status'
         );
         fputcsv($fp,$title);
-
+        $dt = new \DateTime('2016-02-29');
         foreach($courses as $course)
         {
-            if($course->getStatus() == CourseStatus::NOT_AVAILABLE)
+            if($course->getStatus() != CourseStatus::AVAILABLE )
             {
                 continue;
             }
-            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "" ;
+            if($course->getCreated() > $dt)
+            {
+                continue;
+            }
+            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
             $ins = array();
             foreach($course->getInstitutions() as $institution)
             {
@@ -160,6 +172,41 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
                 $subject = "";
             }
 
+            $language = 'English';
+            if($course->getLanguage())
+            {
+                $language = $course->getLanguage()->getName();
+            }
+
+            $credential = '';
+            if ( !$course->getCredentials()->isEmpty() )
+            {
+                $cred = $course->getCredentials()->first();
+                $credential = $cred->getName();
+            }
+
+            $created = null;
+            if ($course->getCreated())
+            {
+                $created = $course->getCreated()->format('Y-m-d');
+            }
+
+            $description = $course->getLongDescription();
+            if(!$description)
+            {
+                $description = $course->getDescription();
+            }
+
+            $status = '';
+            if( $course->getNextOffering() )
+            {
+                $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $course->getNextOffering() ));
+                if(!empty($states))
+                {
+                    $status = array_pop($states);
+                }
+            }
+
             $line = array(
                 $course->getId(),
                 $course->getName(),
@@ -167,10 +214,16 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
                 implode($ins,"|||"),
                 $parent,
                 $subject,
+                $course->getStream()->getName(),
                 $url,
                 $date,
                 $course->getLength(),
-                $course->getVideoIntro()
+                $language,
+                $course->getVideoIntro(),
+                $course->getDescription(),
+                $credential,
+                $created,
+                $status
             );
 
             fputcsv($fp,$line);
@@ -192,7 +245,8 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
         $rsm->addScalarResult('user_id','user_id');
         $rsm->addScalarResult('list_id','list_id');
         $rsm->addScalarResult('course_id','course_id');
-        $results = $em->createNativeQuery('SELECT user_id,course_id,list_id FROM users_courses', $rsm)->getResult();
+        $rsm->addScalarResult('created','created');
+        $results = $em->createNativeQuery('SELECT user_id,course_id,list_id,created FROM users_courses', $rsm)->getResult();
 
 
         $fp = fopen("extras/user_library.csv", "w");
@@ -202,6 +256,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
                 $userCourse['user_id'],
                 $userCourse['course_id'],
                 UserCourse::$lists[$userCourse['list_id']]['slug'],
+                $userCourse['created'],
             );
 
             fputcsv($fp,$line);
