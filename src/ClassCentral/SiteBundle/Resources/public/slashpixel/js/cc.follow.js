@@ -176,6 +176,7 @@ CC.Class['Follow'] = (function(){
 
                         // Show the signup form
                         setTimeout(function(){
+                            /*
                             swal({
                                 title: "Meet Your Next Favourite Course",
                                 text: "Get regular email updates of new and upcoming courses by following subjects, universities, and course providers.",
@@ -187,6 +188,8 @@ CC.Class['Follow'] = (function(){
                             }, function () {
                                 window.location.href = '/user/follows';
                             });
+                            */
+                            CC.Class["Signup"].followSubjectOnboarding();
                             Cookies.set( promptShownCookie, 1, { expires :30} );
                         },delay);
                     }
