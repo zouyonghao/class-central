@@ -498,6 +498,9 @@ class ReviewController extends Controller {
         $em->persist( $review );
         $em->flush();
 
+        //
+        $this->get('review')->clearCache($review->getCourse()->getId());
+
         return UniversalHelper::getAjaxResponse(true);
     }
 
