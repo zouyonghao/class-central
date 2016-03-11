@@ -90,5 +90,6 @@
     {# edit button for all admins#}
     {% if is_granted('ROLE_ADMIN') %}
         <div class="question"><a href="{{ path('review_edit',{reviewId:review.id}) }}">edit review (admin only)</a></div>
+        <a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">Approve</a>|<a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 100, reviewId: review.id}) }}">Don't Show</a>
     {% endif %}
 </div>

@@ -1,9 +1,16 @@
+
+{% if is_granted('ROLE_ADMIN') and review.id is not empty %}
+    <h3>Quick approve/reject</h3>
+    <a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">Approve</a>|<a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 100, reviewId: review.id}) }}">Don't Show</a>
+{% endif %}
+
 <header>
     <h2><span>Review </span>{{ course.name }}</h2>
 </header>
 <span id="courseId" data-value="{{ course.id }}" class="hidden"></span>
 <span id="reviewid" data-value="{{ review.id }}" class="hidden"></span>
 <span id="courseUrl" data-value="{{ path('ClassCentralSiteBundle_mooc',{id:course.id,slug:course.slug }) }}" class="hidden"></span>
+
 <div class="review-form-wrap">
     <form id="review-form" class="clearfix" method="post" action="#review-form">
         <div class="course-quality">
