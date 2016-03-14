@@ -45,7 +45,8 @@ class Suggestions
                 )
             ));
 
-        $data = $cl->byFollows($follows, array(), $must,$this->getMustNot($user));
+        // Set the page as -1 to get all courses
+        $data = $cl->byFollows($follows, array('page' => -1), $must,$this->getMustNot($user));
 
         return $data;
 
