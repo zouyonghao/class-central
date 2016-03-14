@@ -154,6 +154,8 @@ CC.Class['Signup'] = (function(){
     function showOnboardingFollowSubjectStep()
     {
         var url = '/user/onboarding/follow-subjects';
+        // Set the cookie - so that the user is not shown the popup again in the same session
+        Cookies.set( 'follow_personalized_page_prompt', 1, { expires :30} );
         ga('send','event','Onboarding Nav', 'Follow Subjects','Shown');
         $.ajax({
             url: url,
