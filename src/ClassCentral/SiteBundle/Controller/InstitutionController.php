@@ -235,6 +235,9 @@ class InstitutionController extends Controller
      */
     public function universitiesAction(Request $request)
     {
+        // Autologin if a token exists
+        $this->get('user_service')->autoLogin($request);
+        
         return $this->getInstitutionsView(true);
     }
 
