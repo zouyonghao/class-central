@@ -437,6 +437,16 @@
         });
     {% endif %}
 
+    {# show the update follows modal if it contains query parameter update_follows #}
+    {% if app.user and app.request.get('update_follows') is not empty  %}
+        $( document).ready(function () {
+              if (Cookies.get( 'follow_personalized_page_prompt' ) === undefined) {
+                  CC.Class["Signup"].followSubjectOnboarding();
+              }
+        });
+    {% endif %}
+
+
     </script>
 <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100717250ns.gif" /></p></noscript>
 
