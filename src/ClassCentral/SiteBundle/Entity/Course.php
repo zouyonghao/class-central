@@ -26,6 +26,7 @@ class Course {
         $this->setStatus(CourseStatus::TO_BE_REVIEWED);
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
         $this->credentials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->careers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     const THUMBNAIL_BASE_URL = 'https://d3r3mog6nu8pt4.cloudfront.net/spotlight/courses/';
@@ -206,7 +207,10 @@ class Course {
      */
     private $credentials;
 
-
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $careers;
 
 
     /**
@@ -289,7 +293,6 @@ class Course {
     public function getOfferings() {
         return $this->offerings;
     }
-    
     
     /**
      * Set initiative
@@ -918,6 +921,39 @@ class Course {
         return $this->credentials;
     }
 
+    /**
+     * Add careers
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Career $careers
+     * @return Course
+     */
+    public function addCareer(\ClassCentral\SiteBundle\Entity\Career $careers)
+    {
+        $this->careers[] = $careers;
+
+        return $this;
+    }
+
+    /**
+     * Remove careers
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Career $careers
+     */
+    public function removeCareer(\ClassCentral\SiteBundle\Entity\Career $careers)
+    {
+        $this->careers->removeElement($careers);
+    }
+
+    /**
+     * Get careers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCareers()
+    {
+        return $this->careers;
+    }
+
 }
 
 /**
@@ -948,5 +984,4 @@ abstract class CourseStatus
             self::PAID_COURSE => 'Paid'
         );
     }
-
 }

@@ -29,6 +29,19 @@ class Career
      */
     private $category;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $courses;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
     /**
      * Get id
@@ -107,5 +120,38 @@ class Career
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Add courses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
+     * @return Career
+     */
+    public function addCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    {
+        $this->courses[] = $courses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove courses
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Course $courses
+     */
+    public function removeCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    {
+        $this->courses->removeElement($courses);
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCourses()
+    {
+        return $this->courses;
     }
 }

@@ -155,6 +155,9 @@ ClassCentral\SiteBundle\Entity\Course:
     credentials:
        targetEntity: ClassCentral\CredentialBundle\Entity\Credential
        mappedBy: courses
+    careers:
+       targetEntity: Career
+       mappedBy: courses
     tags:
       targetEntity: Tag
       inversedBy: courses

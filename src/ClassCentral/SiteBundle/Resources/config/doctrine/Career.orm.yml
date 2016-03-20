@@ -29,4 +29,8 @@ ClassCentral\SiteBundle\Entity\Career:
                 category_id:
                     referencedColumnName: id
             orphanRemoval: false
+    manyToMany:
+        courses:
+         targetEntity: Course
+         inversedBy: careers
     lifecycleCallbacks: {  }
