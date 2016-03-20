@@ -61,7 +61,16 @@ class CourseType extends AbstractType {
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('i')->orderBy('i.id','DESC');
                 }
-            ));
+            ))
+                ->add('careers', null, array(
+                    'required'=>false,
+                    'empty_value'=>true,
+                    'class' => 'ClassCentralSiteBundle:Career',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('i')->orderBy('i.name','DESC');
+                    }
+                ))
+            ;
         }
 
         $builder->add('language',null,array('required'=>false,'empty_value' => true))

@@ -158,6 +158,14 @@ ClassCentral\SiteBundle\Entity\Course:
     careers:
        targetEntity: Career
        mappedBy: courses
+       joinTable:
+          name: courses_careers
+          joinColumns:
+            course_id:
+              referencedColumnName: id
+          inverseJoinColumns:
+             career_id:
+               referencedColumnName: id
     tags:
       targetEntity: Tag
       inversedBy: courses

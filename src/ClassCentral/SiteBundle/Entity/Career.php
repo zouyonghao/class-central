@@ -154,4 +154,9 @@ class Career
     {
         return $this->courses;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

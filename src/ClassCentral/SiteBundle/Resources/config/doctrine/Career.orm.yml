@@ -31,6 +31,14 @@ ClassCentral\SiteBundle\Entity\Career:
             orphanRemoval: false
     manyToMany:
         courses:
-         targetEntity: Course
-         inversedBy: careers
+            targetEntity: Course
+            inversedBy: careers
+            joinTable:
+                name: courses_careers
+                joinColumns:
+                    career_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    course_id:
+                        referencedColumnName: id
     lifecycleCallbacks: {  }
