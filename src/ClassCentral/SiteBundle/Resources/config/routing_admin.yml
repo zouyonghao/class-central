@@ -93,3 +93,8 @@ user_follows_by_id:
 ClassCentralSiteBundle_category:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/category.yml"
   prefix:   /category
+
+ClassCentralSiteBundle_career:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/career.yml"
+  prefix:   /career
+
