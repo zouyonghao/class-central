@@ -32,7 +32,7 @@ ClassCentral\SiteBundle\Entity\Career:
     manyToMany:
         courses:
             targetEntity: Course
-            inversedBy: careers
+            mappedBy: careers
             joinTable:
                 name: courses_careers
                 joinColumns:

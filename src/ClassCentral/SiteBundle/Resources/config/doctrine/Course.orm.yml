@@ -157,7 +157,7 @@ ClassCentral\SiteBundle\Entity\Course:
        mappedBy: courses
     careers:
        targetEntity: Career
-       mappedBy: courses
+       inversedBy: courses
        joinTable:
           name: courses_careers
           joinColumns:
