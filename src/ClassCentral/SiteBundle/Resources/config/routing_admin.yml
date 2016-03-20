@@ -89,3 +89,7 @@ user_recommendations_by_id:
 user_follows_by_id:
   pattern: /follows/{userId}
   defaults: {_controller: ClassCentralSiteBundle:Follow:personalizationByUser }
+
+ClassCentralSiteBundle_category:
+  resource: "@ClassCentralSiteBundle/Resources/config/routing/category.yml"
+  prefix:   /category
