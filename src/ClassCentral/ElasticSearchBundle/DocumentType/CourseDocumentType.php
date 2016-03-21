@@ -10,6 +10,7 @@ namespace ClassCentral\ElasticSearchBundle\DocumentType;
 
 
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
+use ClassCentral\SiteBundle\Entity\Career;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
@@ -56,6 +57,10 @@ class CourseDocumentType extends DocumentType {
         $nsDoc = new SessionDocumentType( new Offering(), $this->container);
         $nsMapping= $nsDoc->getMapping();
 
+        // Career mapping
+        $cDoc = new CareerDocumentType(new Career(), $this->container);
+        $cMapping = $cDoc->getMapping();
+
         return array(
             'provider' => array(
                 'properties' => $pMapping
@@ -68,6 +73,9 @@ class CourseDocumentType extends DocumentType {
             ),
             'nextSession' => array(
                 'properties' => $nsMapping
+            ),
+            'career' => array(
+                'properties' => $cMapping
             ),
             'tags' => array(
                 'type' => "string",
@@ -190,6 +198,14 @@ class CourseDocumentType extends DocumentType {
         $subjects[] = $sDoc->getBody();
         $body['subjects'] = $subjects;
 
+        // Careers
+        $careers = array();
+        foreach($c->getCareers() as $career)
+        {
+            $cDoc = new CareerDocumentType( $career, $this->container );
+            $careers[] = $cDoc->getBody();
+        }
+        $body['careers'] = $careers;
 
         // Sessions. Add sessions to the records
         $sessions = array();
