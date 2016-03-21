@@ -182,4 +182,49 @@ class CareerController extends Controller
             ->getForm()
         ;
     }
+
+    public function bulkUpdateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $careers = $em->getRepository('ClassCentralSiteBundle:Career')->findAll();
+
+        $postFields = $request->request->all();
+        $succeeded = array();
+        $failed = array();
+
+        if(isset($postFields["career"]) && isset($postFields["courses"]))
+        {
+
+            // Form has been posted. Update the subject
+            $career = $em->getRepository('ClassCentralSiteBundle:Career')->findOneBy(array('id' => $postFields['career']));
+            if($career && $postFields["courses"] )
+            {
+                $courses = explode(PHP_EOL, $postFields["courses"]);
+                foreach($courses as $courseRow)
+                {
+                    $courseParts = explode('|||', $courseRow);
+                    $courseId = $courseParts[0];
+                    $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+                    if($course)
+                    {
+                        $course->addCareer($career);
+                        $em->persist( $course );
+                        $succeeded[ $courseId ] = $courseParts[1];
+                        $this->get('cache')->deleteCache( 'course_'.$courseId );
+                    }
+                    else
+                    {
+                        $failed[ $courseId ] = $courseParts[1];
+                    }
+                }
+                $em->flush();
+            }
+        }
+
+        return $this->render('ClassCentralSiteBundle:Career:bulkUpdate.html.twig', array(
+            'careers' => $careers,
+            'succeeded' => $succeeded,
+            'failed' => $failed
+        ));
+    }
 }

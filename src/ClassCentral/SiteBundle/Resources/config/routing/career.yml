@@ -28,3 +28,7 @@ career_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ClassCentralSiteBundle:Career:delete" }
     requirements: { _method: post|delete }
+
+career_bulk_update:
+    pattern:  /bulkUpdate
+    defaults: { _controller: "ClassCentralSiteBundle:Career:bulkUpdate" }
