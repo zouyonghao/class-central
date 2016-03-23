@@ -273,4 +273,21 @@ class StreamController extends Controller
         return array('parent'=>$parentSubjects,'children'=>$childSubjects);
     }
 
+    public function textViewAction(Request $request,$slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $subject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('slug'=>$slug));
+        if($subject)
+        {
+            $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findBy(array('stream' => $subject));
+
+            return $this->render('ClassCentralSiteBundle:Stream:text.view.html.twig', array(
+                'subject' => $subject,
+                'courses' => $courses,
+            ));
+        }
+
+
+    }
+
 }
