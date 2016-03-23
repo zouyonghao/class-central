@@ -29,6 +29,6 @@ stream_delete:
     defaults: { _controller: "ClassCentralSiteBundle:Stream:delete" }
     requirements: { _method: post }
 
-stream_:
+stream_text_view:
     pattern:  /text-view/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Stream:textView }
