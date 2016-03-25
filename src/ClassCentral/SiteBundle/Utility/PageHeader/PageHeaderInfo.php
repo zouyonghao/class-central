@@ -30,7 +30,7 @@ class PageHeaderInfo {
     private $tweet;
 
     /**
-     * Type of header - initiative, stream, institution
+     * Type of header - initiative, stream, institution, career
      * @var
      */
     private $type;

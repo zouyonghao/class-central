@@ -183,6 +183,11 @@ class CareerController extends Controller
         ;
     }
 
+    /**
+     * A way to update courses in bulk
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function bulkUpdateAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -226,5 +231,23 @@ class CareerController extends Controller
             'succeeded' => $succeeded,
             'failed' => $failed
         ));
+    }
+
+    /**
+     * Adding a careers action
+     * @param Request $request
+     */
+    public function career(Request $request)
+    {
+
+    }
+
+    /**
+     * Adding a careers action
+     * @param Request $request
+     */
+    public function careers(Request $request)
+    {
+
     }
 }

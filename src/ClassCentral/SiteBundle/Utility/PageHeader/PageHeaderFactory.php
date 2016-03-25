@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Utility\PageHeader;
 
 
+use ClassCentral\SiteBundle\Entity\Career;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\Language;
@@ -36,6 +37,11 @@ class PageHeaderFactory {
         if($entity instanceof Language)
         {
             return self::getFromLanguage($entity);
+        }
+
+        if($entity instanceof Career)
+        {
+            return self::getFromCareer($entity);
         }
 
         // Should not reach here
@@ -88,6 +94,14 @@ class PageHeaderFactory {
         $info->setName($entity->getName() . " Language");
 
         return $info;
+    }
+
+    private static function getFromCareer(Career $career)
+    {
+        $info = new PageHeaderInfo("Career");
+        $info->setName($career->getName() . ' Online Courses');
+
+        return $career;
     }
 
 } 
