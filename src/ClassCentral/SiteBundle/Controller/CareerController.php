@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -237,16 +238,36 @@ class CareerController extends Controller
      * Adding a careers action
      * @param Request $request
      */
-    public function career(Request $request)
+    public function careerAction(Request $request, $slug)
     {
+        $cl = $this->get('course_listing');
+        $data = $cl->byCareer($slug,$request);
+        $career = $data['career'];
 
+        return $this->render('ClassCentralSiteBundle:Career:career.html.twig',
+            array(
+                'career' => $career,
+                'page'=>'career',
+                'slug' => $slug,
+                'results' => $data['courses'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'allSessions' => $data['allSessions'],
+                'breadcrumbs' => $data['breadcrumbs'],
+                'pageInfo' => $data['pageInfo'],
+                'sortField' => $data['sortField'],
+                'sortClass' => $data['sortClass'],
+                'pageNo' => $data['pageNo'],
+                'showHeader' => true
+            ));
     }
 
     /**
      * Adding a careers action
      * @param Request $request
      */
-    public function careers(Request $request)
+    public function careersAction(Request $request)
     {
 
     }

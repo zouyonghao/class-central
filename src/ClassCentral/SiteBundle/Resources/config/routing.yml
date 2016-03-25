@@ -48,13 +48,13 @@ tag_courses:
   pattern: /tag/{tag}
   defaults: { _controller: ClassCentralSiteBundle:Course:tag }
 
-career:
-    pattern:  /career/{slug}
-    defaults: { _controller: ClassCentralSiteBundle:Career:career }
+career_page:
+  pattern: /career/{slug}
+  defaults: { _controller: ClassCentralSiteBundle:Career:career }
 
 careers:
-    pattern:  /careers
-    defaults: { _controller: ClassCentralSiteBundle:Career:careers }
+  pattern: /careers
+  defaults: { _controller: ClassCentralSiteBundle:Career:careers }
 
 ClassCentralSiteBundle_stream:
     pattern:  /subject/{slug}

@@ -101,7 +101,7 @@ class PageHeaderFactory {
         $info = new PageHeaderInfo("Career");
         $info->setName($career->getName() . ' Online Courses');
 
-        return $career;
+        return $info;
     }
 
 } 

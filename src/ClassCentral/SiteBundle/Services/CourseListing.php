@@ -295,6 +295,46 @@ class CourseListing {
         return $data;
     }
 
+    public function byCareer($slug, Request $request)
+    {
+        $cache = $this->container->get('cache');
+        $data = $cache->get(
+            'career' . $slug . $request->server->get('QUERY_STRING'), function ($slug, $request) {
+
+            $finder = $this->container->get('course_finder');
+            $em = $this->container->get('doctrine')->getManager();
+
+            $career = $em->getRepository('ClassCentralSiteBundle:Career')->findOneBySlug($slug);
+            if(!$career) {
+                throw new \Exception("Institution/University $slug not found");
+            }
+
+            $pageInfo =  PageHeaderFactory::get($career);
+            $pageInfo->setPageUrl(
+                $this->container->getParameter('baseurl'). $this->container->get('router')->generate('career_page', array('slug' => $slug))
+            );
+
+            extract($this->getInfoFromParams($request->query->all()));
+            $courses = $finder->byCareer($slug, $filters, $sort, $pageNo);
+            extract($this->getFacets($courses));
+
+            $breadcrumbs = array(
+                Breadcrumb::getBreadCrumb('Careers', $this->container->get('router')->generate('careers')),
+            );
+
+
+            $breadcrumbs[] = Breadcrumb::getBreadCrumb($career->getName());
+
+
+            return compact(
+                'allSubjects', 'allLanguages', 'allSessions', 'courses',
+                'sortField', 'sortClass', 'pageNo', 'pageInfo', 'career', 'breadcrumbs'
+            );
+        }, array($slug, $request));
+
+        return $data;
+    }
+
     public function search($keyword, Request $request)
     {
         $finder = $this->container->get('course_finder');

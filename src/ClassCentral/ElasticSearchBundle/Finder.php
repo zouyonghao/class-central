@@ -64,6 +64,17 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
+    public function byCareer( $career, $filters= array(), $sort = array(), $page = 1 )
+    {
+        $query = array(
+            'term' => array(
+                'careers.slug' => strtolower($career)
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+    }
+
     public function byLanguage( $language, $filters= array(), $sort = array(), $page = 1 )
     {
         $query = array(
