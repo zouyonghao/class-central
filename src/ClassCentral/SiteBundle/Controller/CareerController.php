@@ -213,10 +213,13 @@ class CareerController extends Controller
                     $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
                     if($course)
                     {
-                        $course->addCareer($career);
-                        $em->persist( $course );
+                        if(!$course->getCareers()->contains($career))
+                        {
+                            $course->addCareer($career);
+                            $em->persist( $course );
+                            $this->get('cache')->deleteCache( 'course_'.$courseId );
+                        }
                         $succeeded[ $courseId ] = $courseParts[1];
-                        $this->get('cache')->deleteCache( 'course_'.$courseId );
                     }
                     else
                     {
