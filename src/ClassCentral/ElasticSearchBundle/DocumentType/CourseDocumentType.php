@@ -74,7 +74,7 @@ class CourseDocumentType extends DocumentType {
             'nextSession' => array(
                 'properties' => $nsMapping
             ),
-            'career' => array(
+            'careers' => array(
                 'properties' => $cMapping
             ),
             'tags' => array(
