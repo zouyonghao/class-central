@@ -348,6 +348,10 @@ maestro_institution:
     pattern:  /maestro/institution/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Maestro:institution }
 
+maestro_career:
+  pattern: /maestro/career/{slug}
+  defaults: { _controller: ClassCentralSiteBundle:Maestro:career }
+
 maestro_lang:
     pattern:  /maestro/language/{slug}
     defaults: { _controller: ClassCentralSiteBundle:Maestro:language }

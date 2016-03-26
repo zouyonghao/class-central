@@ -80,6 +80,18 @@ class MaestroController extends Controller {
         );
     }
 
+    public function careerAction(Request $request, $slug)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->byCareer($slug,$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'careertable',
+            'career'
+        );
+    }
+
     public function tagAction(Request $request, $tag)
     {
         $cl = $this->get('course_listing');
