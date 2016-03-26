@@ -272,6 +272,10 @@ class CareerController extends Controller
      */
     public function careersAction(Request $request)
     {
-
+        $em = $this->getDoctrine()->getManager();
+        $categories = $em->getRepository('ClassCentralSiteBundle:Category')->findAll();
+        return $this->render('ClassCentralSiteBundle:Career:careers.html.twig', array(
+            'categories' => $categories
+        ));
     }
 }
