@@ -24,6 +24,11 @@ class Category
      */
     private $slug;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $careers;
+
 
     /**
      * Get id
@@ -84,5 +89,46 @@ class Category
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->careers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add careers
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Career $careers
+     * @return Category
+     */
+    public function addCareer(\ClassCentral\SiteBundle\Entity\Career $careers)
+    {
+        $this->careers[] = $careers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove careers
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Career $careers
+     */
+    public function removeCareer(\ClassCentral\SiteBundle\Entity\Career $careers)
+    {
+        $this->careers->removeElement($careers);
+    }
+
+    /**
+     * Get careers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCareers()
+    {
+        return $this->careers;
     }
 }

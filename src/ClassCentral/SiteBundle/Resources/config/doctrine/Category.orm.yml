@@ -19,4 +19,8 @@ ClassCentral\SiteBundle\Entity\Category:
             length: 100
             fixed: false
             nullable: false
+    oneToMany:
+        careers:
+          targetEntity: Career
+          mappedBy: category
     lifecycleCallbacks: {  }
