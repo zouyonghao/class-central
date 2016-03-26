@@ -28,10 +28,11 @@ class Item
     const ITEM_TYPE_INSTITUTION = 'institution';
     const ITEM_TYPE_PROVIDER = 'provider';
     const ITEM_TYPE_TAG = 'tag';
+    const ITEM_TYPE_CAREER = 'career';
 
     public static $items = array(
         self::ITEM_TYPE_CREDENTIAL, self::ITEM_TYPE_SUBJECT, self::ITEM_TYPE_INSTITUTION,
-        self::ITEM_TYPE_PROVIDER, self::ITEM_TYPE_TAG
+        self::ITEM_TYPE_PROVIDER, self::ITEM_TYPE_TAG, self::ITEM_TYPE_CAREER
     );
 
     private function __construct()
@@ -63,6 +64,9 @@ class Item
             case self::ITEM_TYPE_TAG:
                 $repository = 'ClassCentralSiteBundle:Tag';
                 break;
+            case self::ITEM_TYPE_CAREER:
+                $repository = 'ClassCentralSiteBundle:Career';
+                break;
             default:
                 throw new \Exception("Item does not exist");
         }
@@ -92,6 +96,9 @@ class Item
                 break;
             case $obj instanceof Tag:
                 $item->setType(self::ITEM_TYPE_TAG);
+                break;
+            case $obj instanceof Career:
+                $item->setType(self::ITEM_TYPE_CAREER);
                 break;
             default:
                 throw new \Exception("Item does not exist");

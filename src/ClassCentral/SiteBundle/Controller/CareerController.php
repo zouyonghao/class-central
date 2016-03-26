@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -262,7 +263,10 @@ class CareerController extends Controller
                 'sortField' => $data['sortField'],
                 'sortClass' => $data['sortClass'],
                 'pageNo' => $data['pageNo'],
-                'showHeader' => true
+                'showHeader' => true,
+                'followItem' => Item::ITEM_TYPE_CAREER,
+                'followItemId' => $career->getId(),
+                'followItemName' => $career->getName()
             ));
     }
 

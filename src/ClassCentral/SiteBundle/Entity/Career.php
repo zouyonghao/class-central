@@ -171,6 +171,7 @@ class Career implements \Serializable
     {
        return serialize(
            array(
+               'id' => $this->getId(),
                'name' => $this->name,
                'slug' => $this->slug,
            )
@@ -191,6 +192,7 @@ class Career implements \Serializable
         $data = unserialize($serialized);
         $this->name = $data['name'];
         $this->slug = $data['slug'];
+        $this->id = $data['id'];
 
     }
 }
