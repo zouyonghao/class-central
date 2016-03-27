@@ -1,4 +1,5 @@
 
+   {#
     <div class="spotlight-logo-wrap">
         <a href="{{ path('ClassCentralSiteBundle_initiative',{type : 'coursera'}) }}" class="spot-logo coursera-logo"
            onmousedown="ga('send','event','Tagline Clicks','Provider','Coursera')"
@@ -11,6 +12,7 @@
                 >edX</a>
         <a href="{{  path('providers') }}" style="text-decoration:none !important "><span  class="no-logo"> Plus Many More </span></a>
     </div>
+    #}
     <h2 class="section-heading">
         <span>Spotlight</span>
     </h2>
@@ -29,19 +31,28 @@
                                 '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}');"
                         {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
                         >
+
                     <div class="img-wrap">
                         {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
-                        <img src="{{ spotlightImage }}" alt="spotlight background image">
-                        {% if spotlight.title %}
+                        <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
+                        <div class="spotlight-item__overlay"></div>
+
+                        <div class="spotlight-item__image-content">
+                          {% if spotlight.title %}
+                          <div class="spotlight-item-title">
                             <h3>
                                 {{ spotlight.title }}
                             </h3>
+                          </div>
+
                         {% endif %}
+                        </div>
+
                     </div>
-                    <p class="excerpt">
+                    <div class="excerpt">
                         {{ spotlight.description }}
-                    </p>
-                    <span class="action">{{ spotlightMap[spotlight.type].text }}</span>
+                    </div>
+                    <div class="spotlight-item__action">View course overview</div>
                 </a>
             </div>
         {% endfor %}
@@ -50,10 +61,12 @@
 
     {# Banner Ad #}
     <div class="course-col row" align="center">
+      <div class="full-width-bg-row">
         {%  include 'ClassCentralSiteBundle:Helpers:banner.ads.html.twig' with {
             'bannerAdlocation': 'Homepage'
            }
          %}
+      </div>
     </div>
 
 
@@ -62,6 +75,8 @@
     </h2>
 
     <div class="row">
+
+        <!--
         {% for position in 13..17 %}
             {% set spotlight = spotlights[position] %}
             <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
@@ -74,21 +89,52 @@
                            '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}');"
                         {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
                         >
+
                     <div class="img-wrap">
                         {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
-                        <img src="{{ spotlightImage }}" alt="spotlight background image">
+                        <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
                         {% if spotlight.title %}
+                          <div class="spotlight-item-title">
                             <h3>
-                                {{ spotlight.title }}
+                               {{ spotlight.title }}
                             </h3>
+                          </div>
                         {% endif %}
                     </div>
                     <p class="excerpt">
                         {{ spotlight.description }}
                     </p>
-                    <span class="action">{{ spotlightMap[spotlight.type].text }}</span>
                 </a>
             </div>
         {% endfor %}
+        -->
+
+
+
+        <div class="spotlight-col-aside">
+          <div class="featured-media">
+            <img src="http://placehold.it/446x305" alt="Image title" class="featured-media__img">
+            <h2 class="featured-media__title">Exploring Course Structure at HarvardX: A New Year's Resolution for MOOC Research</h2>
+            <div class="featured-media__content">
+              One of the minds behind HarvardX shares glimpse into how their courses are structured
+            </div>
+            <div class="featured-media__meta">
+              Published on Wednesday 2nd March 2016
+            </div>
+          </div>
+        </div>
+
+        <div class="spotlight-col-main">
+
+          <div class="media-object media-object--bordered">
+            <img class="media-object__image" src="http://placehold.it/446x305" alt="Image title" class="media-object">
+            <h2 class="media-object__title">MOOCWatch Feb 2016:More Students, More dfasfa afa sdfas fas af jas l</h2>
+            <div class="media-object__meta">
+              Published on Tuesday 1st March 2016
+            </div>
+          </div>
+
+        </div>
+
 
     </div>

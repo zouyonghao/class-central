@@ -1264,4 +1264,40 @@ jQuery(function($) {
     }
 
 
+    // Intro line slider
+    var initIntroSlider = function() {
+
+      $('.js-lineSlider').each(function(i) {
+        var $slider = $(this);
+        var sliderId = ('slider-' + i);
+        var $slides = $slider.find(".js-lineSlider_slide");
+        var numberOfSlides = $slides.length;
+
+        $slider.attr('data-slider-id', sliderId);
+
+        while (i < numberOfSlides) {
+          $('.js-lineSlider[data-slider-id="'+ sliderId +'"] .js-lineSlider_nav').append('<a class="js-lineSlider_bullet lineSlider_bullet"></a>')
+          i++;
+        }
+
+        $slider.flexslider({
+          selector: ".js-lineSlider_slides .js-lineSlider_slide",
+          slideshow: true,
+          slideshowSpeed: 4000,
+          directionNav: false,
+          manualControls: '.js-lineSlider[data-slider-id="'+ sliderId +'"] .js-lineSlider_nav .js-lineSlider_bullet'
+        });
+
+        $slides.on("click", function(e) {
+          $slider.flexslider("next");
+        });
+
+      });
+
+
+
+    };
+    initIntroSlider();
+
+
 });

@@ -10,54 +10,99 @@
  {% endblock %}
 
 {% block contentheader %}
-    <section class="header-area">
+    <section class="headerArea">
         <div class="container">
-            <div class="header-content">
-                <h1 class='free-online-ed'>Never Stop Learning</h1>
-                <h2>Discover free online courses & MOOCs from top universities like
-                    <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','MIT')"> MIT</a>,
-                    <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','Harvard')">Harvard</a>,
-                <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'penn'}) }}" onmousedown="ga('send','event','Tagline Clicks','University','Penn')">Penn</a>, etc.</h2>
+          <div class="headerIntro">
 
-                <nav class="page-tabs">
-                    <ul>
-                        <li class="home-tab active-tab"><!-- the ".active-tab" class has active styles-->
-                            <a href="#" data-target-section="spotlight">
-                                <span class="icon-home-png"></span>
-                                <svg viewBox="0 0 32 32" class="icon-home">
-                                    <use xlink:href="#icon-home"></use>
-                                </svg>
-                                Home
-                            </a>
-                        </li>
-                        <li class="learn-more-tab">
-                            <a href="#" data-target-section="learn-more-tab-section">Learn More</a>
-                        </li>
-                        <li class="subjects-tab">
-                            <a href="#" data-target-section="subjects-tab-section">The Subjects</a>
-                        </li>
-                        <li class="credential-tab tab-with-flag hidden-xs">
-                            <a href="{{ path('credentials') }}"  id="home-credentials-tab">
-                                    <span class="tab-flag">new!</span>
-                                    Earn A Credential
-                            </a>
-                        </li>
-
-                        {% if not app.user %}
-                            <li class="create-account-tab">
-                                <a href="" id="home-create-free-account">Create free account</a>
-                            </li>
-                        {% endif %}
-                    </ul>
+            <div class="headerIntro_slider">
+              <div class="lineSlider js-lineSlider">
+                <nav class="lineSlider_nav js-lineSlider_nav">
                 </nav>
+                <div class="lineSlider_slides js-lineSlider_slides">
+                  <div class="lineSlider_slide js-lineSlider_slide">
+                    Discover free online courses & MOOCs from top universities & companies
+                  </div>
+                  <div class="lineSlider_slide js-lineSlider_slide">
+                    asdfasfdas fa sdf asdf aksdf jaskl javdkcas,caodas gasdf sadkf ajsgafsdvdscvxbv dvb  dg sadfasd
+                  </div>
+                  <div class="lineSlider_slide js-lineSlider_slide">
+                    sadfa dfas fasdf asdfa sdf asdf s
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <h1 class="headerIntro_title">Make informed online learning decisions</h1>
+
+            <div class="headerIntro_buttons">
+              <div class="headerIntro_button">
+                <a href="#" class="baseButton animation-rollButton">meet your next course</a>
+                <span class="headerIntro_buttonSub">no sign up required</span>
+              </div>
+
+              <div class="headerIntro_button">
+                <a href="#" class="baseButton baseButton-alt">browse subjects</a>
+              </div>
+
+              <div class="headerIntro_button">
+                <a href="#" class="linkButton">FAQ</a>
+              </div>
+
+            </div>
+          </div>
+
+
+          {#
+          <h1 class='free-online-ed'>Never Stop Learning</h1>
+          <h2>Discover free online courses & MOOCs from top universities like
+              <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'mit'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','MIT')"> MIT</a>,
+              <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}"  onmousedown="ga('send','event','Tagline Clicks','University','Harvard')">Harvard</a>,
+          <a style="color: white" href="{{ path('ClassCentralSiteBundle_university',{slug : 'penn'}) }}" onmousedown="ga('send','event','Tagline Clicks','University','Penn')">Penn</a>, etc.</h2>
+          #}
+
+
+          {#
+          <nav class="page-tabs">
+              <ul>
+                  <li class="home-tab active-tab"><!-- the ".active-tab" class has active styles-->
+                      <a href="#" data-target-section="spotlight">
+                          <span class="icon-home-png"></span>
+                          <svg viewBox="0 0 32 32" class="icon-home">
+                              <use xlink:href="#icon-home"></use>
+                          </svg>
+                          Home
+                      </a>
+                  </li>
+                  <li class="learn-more-tab">
+                      <a href="#" data-target-section="learn-more-tab-section">Learn More</a>
+                  </li>
+                  <li class="subjects-tab">
+                      <a href="#" data-target-section="subjects-tab-section">The Subjects</a>
+                  </li>
+                  <li class="credential-tab tab-with-flag hidden-xs">
+                      <a href="{{ path('credentials') }}"  id="home-credentials-tab">
+                              <span class="tab-flag">new!</span>
+                              Earn A Credential
+                      </a>
+                  </li>
+
+                  {% if not app.user %}
+                      <li class="create-account-tab">
+                          <a href="" id="home-create-free-account">Create free account</a>
+                      </li>
+                  {% endif %}
+              </ul>
+          </nav>
+          #}
+
         </div><!-- /container -->
+        <div class="headerArea_tilt"></div>
     </section>
 {% endblock %}
 
 {% block content %}
     <div class="home-spotlight-wrapper">
-        <section class="spotlight section-tab-content">
+        <section class="spotlight">
             <div class="search-wrapper visible-xs visible-sm">
                 {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' with {keywords: null} %}
             </div>
@@ -87,15 +132,16 @@
                 </div>
             {% endif %}
 
+
             {% include 'ClassCentralSiteBundle:Helpers:spotlight.html.twig' with{ spotlights:spotlights, spotlightMap : spotlightMap } %}
 
         </section>
 
 
-        <section class="learn-more-tab-section section-tab-content">
+        <section class="learn-more-tab-section">
             {% include 'ClassCentralSiteBundle:Helpers:faq.html.twig' with{ } %}
         </section>
-        <section class="subjects-tab-section section-tab-content">
+        <section class="subjects-tab-section">
             <div class="subjects">
                 {% include 'ClassCentralSiteBundle:Helpers:subjects.html.twig' with{ subjects : subjects } %}
             </div>
