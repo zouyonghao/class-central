@@ -35,10 +35,12 @@
             <h1 class="headerIntro_title">Make informed online learning decisions</h1>
 
             <div class="headerIntro_buttons">
-              <div class="headerIntro_button">
-                <a href="#" class="baseButton animation-rollButton">meet your next course</a>
-                <span class="headerIntro_buttonSub">no sign up required</span>
-              </div>
+              {% if not app.user %}
+                  <div class="headerIntro_button">
+                    <a href="#" class="baseButton animation-rollButton" id="home-create-free-account">Create Free Account</a>
+                    <!-- <span class="headerIntro_buttonSub">no sign up required</span> -->
+                  </div>
+              {% endif %}
 
               <div class="headerIntro_button">
                 <a href="{{ path('subjects') }}"    onmousedown="ga('send','event','Homepage Hero','Subjects');" class="baseButton baseButton-alt">browse subjects</a>
