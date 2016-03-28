@@ -1,4 +1,4 @@
-<nav class="navbar {% if page is defined and (page == 'credentials' or page=='credential') %} navbar-white navbar-colored {% endif %} navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar  {% if page is defined and (page == 'credentials' or page=='credential' or page=='home') %}navbar-white navbar-colored{% endif %} navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -121,12 +121,17 @@
                 #}
                 <li class="user-menu-wrap">
 
+                    <!--
+                    <div class="userMenu_tooltip">
+                      <div class="bottomTip">
+                        <div class="bottomTip_title">Save Your Results</div>
+                        <div class="bottomTip_body">Sign up to receive updates on new and upcoming courses.</div>
+                      </div>
+                    </div>
+                    -->
+
                     {% if app.user %}
                         <a href="#" class="dropdown-toggle"  data-toggle="dropdown">
-                            <span class="icon-user-png"></span>
-                            <svg viewBox="0 0 32 32" class="icon-user">
-                                <use xlink:href="#icon-user"></use>
-                            </svg>
                             {% if app.user.name %}
                                 {% set n =  app.user.name|split(' ') %}
                                 {% set name = n[0] %}
@@ -180,15 +185,15 @@
 
                     {% else %}
                         <a href="{{ path('login') }}" class="nav-title" onClick="ga('send','event', '{{ navEventName }}', 'Login')">
-                            <span class="icon-lock-png"></span>
-                            <svg viewBox="0 0 32 32" class="icon-lock">
-                                <use xlink:href="#icon-lock"></use>
-                            </svg>
                             Sign in
                         </a>
-                        <!--<a href="{{ path('signup') }}" class="nav-title" title="Class Central Signup" onClick="ga('send','event', '{{ navEventName }}', 'Class Central Signup User Menu')" title="Class Central Signup">
-                            Sign Up
-                        </a>-->
+
+                        {% if page is defined and (page == 'credentials' or page=='credential' or page=='home') %}
+                        /
+                        <a href="{{ path('signup') }}" id="navbar-create-free-account" class="nav-title" title="Class Central Signup" onClick="ga('send','event', '{{ navEventName }}', 'Class Central Signup User Menu')" title="Class Central Signup">
+                            Create account
+                        </a>
+                        {% endif %}
                     {% endif %}
                 </li>
             </ul>
