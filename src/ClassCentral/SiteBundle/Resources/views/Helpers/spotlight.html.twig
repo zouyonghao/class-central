@@ -52,7 +52,7 @@
                     <div class="excerpt">
                         {{ spotlight.description }}
                     </div>
-                    <div class="spotlight-item__action">View course overview</div>
+                    <div class="spotlight-item__action">{{ spotlightMap[spotlight.type].text }}</div>
                 </a>
             </div>
         {% endfor %}
@@ -76,7 +76,7 @@
 
     <div class="row">
 
-        <!--
+
         {% for position in 13..17 %}
             {% set spotlight = spotlights[position] %}
             <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
@@ -93,24 +93,29 @@
                     <div class="img-wrap">
                         {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
                         <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
-                        {% if spotlight.title %}
-                          <div class="spotlight-item-title">
-                            <h3>
-                               {{ spotlight.title }}
-                            </h3>
-                          </div>
-                        {% endif %}
+                        <div class="spotlight-item__overlay"></div>
+                        <div class="spotlight-item__image-content">
+                            {% if spotlight.title %}
+                                <div class="spotlight-item-title">
+                                    <h3>
+                                        {{ spotlight.title }}
+                                    </h3>
+                                </div>
+
+                            {% endif %}
+                        </div>
                     </div>
                     <p class="excerpt">
                         {{ spotlight.description }}
                     </p>
+                    <div class="spotlight-item__action">{{ spotlightMap[spotlight.type].text }}</div>
                 </a>
             </div>
         {% endfor %}
-        -->
 
 
 
+    <!--
         <div class="spotlight-col-aside">
           <div class="featured-media">
             <img src="http://placehold.it/446x305" alt="Image title" class="featured-media__img">
@@ -135,6 +140,6 @@
           </div>
 
         </div>
-
+-->
 
     </div>
