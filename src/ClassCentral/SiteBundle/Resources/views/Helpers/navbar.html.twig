@@ -190,7 +190,7 @@
 
                         {% if page is defined and (page == 'credentials' or page=='credential' or page=='home') %}
                         /
-                        <a href="{{ path('signup') }}" class="nav-title" title="Class Central Signup" onClick="ga('send','event', '{{ navEventName }}', 'Class Central Signup User Menu')" title="Class Central Signup">
+                        <a href="{{ path('signup') }}" id="navbar-create-free-account" class="nav-title" title="Class Central Signup" onClick="ga('send','event', '{{ navEventName }}', 'Class Central Signup User Menu')" title="Class Central Signup">
                             Create account
                         </a>
                         {% endif %}

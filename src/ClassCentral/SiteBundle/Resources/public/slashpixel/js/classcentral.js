@@ -775,6 +775,14 @@ jQuery(function($) {
         }catch (e){}
     });
 
+    $('#navbar-create-free-account').click( function(e){
+        e.preventDefault();
+        $('#signupModal-navbar_create_free_account').modal('show');
+        try {
+            ga('send','event','Create Free Account','Navbar');
+        }catch (e){}
+    });
+
     // Show signup form when someones click on Go To Class
     $('.btn_go_to_class').click( function(){
         var btnSignupCookie = 'btn_go_class_signup_shown';
@@ -1140,7 +1148,7 @@ jQuery(function($) {
     } );
 
     var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms',
-        'home_create_free_account','convincer_create_free_account','create_course_review','create_credential_review','btn_follow'];
+        'home_create_free_account','convincer_create_free_account','navbar_create_free_account','create_course_review','create_credential_review','btn_follow'];
     for(var i =0 ; i < signupForms.length; i++)
     {
         var signupFormId = "#signupModal-" + signupForms[i];
