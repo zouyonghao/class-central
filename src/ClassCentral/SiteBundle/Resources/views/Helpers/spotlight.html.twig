@@ -62,10 +62,24 @@
     {# Banner Ad #}
     <div class="course-col row" align="center">
       <div class="full-width-bg-row">
-        {%  include 'ClassCentralSiteBundle:Helpers:banner.ads.html.twig' with {
-            'bannerAdlocation': 'Homepage'
-           }
-         %}
+          <div class="banner-ad">
+              <div class="banner-ad__left">
+                  <h4 class="banner-ad__title">Thanks to our sponsors <i>canvas</i></h4>
+                  <div class="banner-ad__text">
+                      enroll in open, online courses from colleges universities, and organisations worldwide
+                  </div>
+                  <div class="banner-ad__subtext">
+                      canvas.net
+                  </div>
+              </div>
+              <div class="banner-ad__right">
+                  {%  include 'ClassCentralSiteBundle:Helpers:banner.ads.html.twig' with {
+                  'bannerAdlocation': 'Homepage'
+                  }
+                  %}
+              </div>
+
+          </div>
       </div>
     </div>
 
