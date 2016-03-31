@@ -1302,7 +1302,7 @@ jQuery(function($) {
 
       });
 
-
+        $('.headerIntro_slider').show(); // to avoid flickering
 
     };
     initIntroSlider();
