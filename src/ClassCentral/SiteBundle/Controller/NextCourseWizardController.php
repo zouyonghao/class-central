@@ -64,7 +64,26 @@ class NextCourseWizardController extends Controller
 
     public function stepPickProvidersAction(Request $request)
     {
+        $insController = new InstitutionController();
+        $insData = $insController->getInstitutions($this->container,true);
 
+        $providerController = new InitiativeController();
+        $providersData = $providerController->getProvidersList($this->container);
+
+        $html = $this->render('ClassCentralSiteBundle:NextCourse:pickproviders.html.twig',
+            array(
+                'followInstitutionItem' => Item::ITEM_TYPE_INSTITUTION,
+                'followProviderItem' => Item::ITEM_TYPE_PROVIDER,
+                'institutions' => $insData['institutions'],
+                'providers' => $providersData['providers'],
+            ))
+            ->getContent();
+
+        $response = array(
+            'modal' => $html,
+        );
+
+        return new Response( json_encode($response) );
     }
 
     public function stepLoadingtAction(Request $request)
