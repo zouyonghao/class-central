@@ -86,9 +86,20 @@ class NextCourseWizardController extends Controller
         return new Response( json_encode($response) );
     }
 
-    public function stepLoadingtAction(Request $request)
-    {
 
+    public function stepLoadingScreenAction(Request $request)
+    {
+        $html = $this->render('ClassCentralSiteBundle:NextCourse:loadingscreen.html.twig',
+            array(
+
+            ))
+            ->getContent();
+
+        $response = array(
+            'modal' => $html,
+        );
+
+        return new Response( json_encode($response) );
     }
 
 

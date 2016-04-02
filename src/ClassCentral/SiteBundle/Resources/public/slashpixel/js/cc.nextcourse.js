@@ -111,10 +111,26 @@ CC.Class['NextCourse'] = (function(){
         }
     }
 
+    function showLoadingScreenStep() {
+        var url = '/next-course/loading-screen';
+        ga('send','event','Meet your next course', 'Loading Screen','Shown');
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function( result ) {
+                var response = $.parseJSON(result);
+                $(response.modal).appendTo("body");
+                $("#next-course-loading-screen-modal").modal("show");
+            },
+            async: false
+        })
+    }
+
     return {
         init: init,
         showPickSubjectsStep: showPickSubjectsStep,
-        showPickProvidersStep: showPickProvidersStep
+        showPickProvidersStep: showPickProvidersStep,
+        showLoadingScreenStep: showLoadingScreenStep
     }
 })();
 

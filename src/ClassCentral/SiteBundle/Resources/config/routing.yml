@@ -466,3 +466,7 @@ next_course_pick_subjects:
 next_course_pick_providers:
   pattern: /next-course/pick-providers
   defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:stepPickProviders }
+
+next_course_loading_screen:
+  pattern: /next-course/loading-screen
+  defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:stepLoadingScreen }
