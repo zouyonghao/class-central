@@ -81,7 +81,9 @@ CC.Class['NextCourse'] = (function(){
                 // Hookup next button
                 $('#next-course-pick-providers__next').click(function(){
                     ga('send','event','Meet your next course', 'Pick Providers','Next');
-                    // onboardingFollowSubjectNextStepButton()
+                    $("#next-course-pick-providers-modal").modal("hide"); // hide the modal
+                    $("#next-course-pick-providers-modal").remove();
+                    showLoadingScreenStep();
                 });
 
 
@@ -121,6 +123,36 @@ CC.Class['NextCourse'] = (function(){
                 var response = $.parseJSON(result);
                 $(response.modal).appendTo("body");
                 $("#next-course-loading-screen-modal").modal("show");
+
+                var stepTime = 600;
+                var step = 1;
+                var progressBar =  $("#next-course-loading-screen-modal .meter__bar");
+                var nextText = $('#next-course-loading-screen__next__text');
+                // update the loading bar
+                setTimeout(function(){
+                    $(progressBar).width('20%');
+                    $(nextText).html("<b style='color: black'>5..</b>4..3..2..1");
+                    setTimeout(function(){
+                        $(progressBar).width( '40%');
+                        $(nextText).html("<b style='color: black'>5..4..</b>3..2..1");
+                        setTimeout(function(){
+                            $(progressBar).width( '60%');
+                            $(nextText).html("<b style='color: black'>5..4..3..</b>2..1");
+                            setTimeout(function(){
+                                $(progressBar).width( '80%');
+                                $(nextText).html("<b style='color: black'>5..4..3..2..</b>1");
+                                setTimeout(function(){
+                                    $(progressBar).width( '100%');
+                                    $(nextText).html("<b style='color: black'>5..4..3..2..1</b>");
+
+                                    // Redirect to the next course
+                                },stepTime)
+                            },stepTime)
+                        },stepTime)
+                    },stepTime)
+                },stepTime);
+
+
             },
             async: false
         })
