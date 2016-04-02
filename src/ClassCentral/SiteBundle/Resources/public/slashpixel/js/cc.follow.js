@@ -8,6 +8,7 @@ CC.Class['Follow'] = (function(){
 
     function init() {
         $('.btn-follow-item').click(followClicked);
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
     function followClicked(e) {
