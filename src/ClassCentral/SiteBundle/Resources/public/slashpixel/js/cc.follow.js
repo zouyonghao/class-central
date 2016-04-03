@@ -22,122 +22,169 @@ CC.Class['Follow'] = (function(){
         var hideLogo  = $(this).data('hide-logo');
         var hideFollowing = $(this).data('hide-following');
         var hideNotification = $(this).data('hide-notification');
+        var nextCourseWizard =  $(this).data('next-course-wizard');
 
-        if(self.hasClass('tagboard__tag')) {
-            ga('send','event','Follow - Onboarding',item, itemName);
-        }
+        if(nextCourseWizard) {
+            // Meet your next course clicked. Save the follows in sessions
+            var url = '/next-course/follow/' + item +'/' + itemId;
+            if(following) {
+                var url = '/next-course/unfollow/' + item + '/' + itemId;
+            }
 
-        $.ajax({
-            url: "/ajax/isLoggedIn",
-            cache: false,
-            success: function( result ) {
-                var loggedInResult = $.parseJSON(result);
-                if( loggedInResult.loggedIn ){
-                    ga('send','event','Follow',"Logged in", item);
+            $.ajax({
+                url: url,
+                cache: false,
+                success: function (r) {
+                    // update the state to followed
+                    var itemClass = '.btn-follow-item-' + item + '-' + itemId;
+                    var btnText = '';
+                    var itemText = "<span>" + itemName + "</span>";
 
-
-                    // Follow the item
-                    var url = '/ajax/follow/' + item +'/' + itemId;
                     if(following) {
-                        var url = '/ajax/unfollow/' + item +'/' + itemId;
+                        if(showItemName) {
+                            btnText = itemText;
+                        }
+                        // user has click the unfollow button
+                        if(!hideFollowing) {
+                            btnText = "Follow " + btnText;
+                        }
+                        $(itemClass).removeClass('active');
+                        $(self).data('following',false);
+                    } else {
+
+                        if(showItemName) {
+                            btnText = "<i>" + itemText + "</i>";
+                        }
+
+                        if(!hideFollowing) {
+                            btnText = "Following " + btnText;
+                        }
+                        $(itemClass).addClass('active');
+
+                        $(self).data('following',true);
                     }
+                    $(itemClass).find('.btn-follow-item-box').html( btnText );
+                    $(self).trigger('followingChanged'); // fire an event to so that onboarding modals can update count
 
-                    $.ajax({
-                        url: url,
-                        cache:false,
-                        success: function(r) {
-                            var result = JSON.parse(r);
-                            if(result['success']) {
-                                // update the state to followed
-                                var itemClass = '.btn-follow-item-' + item + '-' + itemId;
-                                var btnText = '';
-                                var itemText = "<span>" + itemName + "</span>";
+                }
+            });
+        } else {
+            if(self.hasClass('tagboard__tag')) {
+                ga('send','event','Follow - Onboarding',item, itemName);
+            }
 
-                                if(following) {
-                                    if(showItemName) {
-                                        btnText = itemText;
-                                    }
-                                    // user has click the unfollow button
-                                    if(!hideFollowing) {
-                                        btnText = "Follow " + btnText;
-                                    }
-                                    $(itemClass).removeClass('active');
-                                    $(self).data('following',false);
-                                    if(!hideNotification) {
-                                        utilities.notify(
-                                            "Unfollowed " + itemName,
-                                            "You will no longer receive course notifications and reminders about " + itemName,
-                                            "success"
-                                        );
-                                    }
-                                    // Decrement the user following count
-                                    decrementFollowCount( item );
-                                } else {
+            $.ajax({
+                url: "/ajax/isLoggedIn",
+                cache: false,
+                success: function( result ) {
+                    var loggedInResult = $.parseJSON(result);
+                    if( loggedInResult.loggedIn ){
+                        ga('send','event','Follow',"Logged in", item);
 
-                                    if(showItemName) {
-                                        btnText = "<i>" + itemText + "</i>";
-                                    }
 
-                                    if(!hideFollowing) {
-                                        btnText = "Following " + btnText;
-                                    }
-                                    $(itemClass).addClass('active');
+                        // Follow the item
+                        var url = '/ajax/follow/' + item +'/' + itemId;
+                        if(following) {
+                            var url = '/ajax/unfollow/' + item +'/' + itemId;
+                        }
 
-                                    $(self).data('following',true);
-                                    if( result.message.followCount == 10 ) {
+                        $.ajax({
+                            url: url,
+                            cache:false,
+                            success: function(r) {
+                                var result = JSON.parse(r);
+                                if(result['success']) {
+                                    // update the state to followed
+                                    var itemClass = '.btn-follow-item-' + item + '-' + itemId;
+                                    var btnText = '';
+                                    var itemText = "<span>" + itemName + "</span>";
 
-                                        if(!hideNotification) {
-                                            var recommendationsAlert = " <div class='alert alert-success alert-dismissible' role='alert' style='position: fixed; top: 100px; width: inherit;z-index: 1000000 '><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button> <a href='/user/recommendations'>Congrats! You have unlocked <strong>personalized course recommendations</strong>. Click here to view all recommendations.</a> </div>";
-                                            $('.cc-body-content').append(
-                                                recommendationsAlert
-                                            );
+                                    if(following) {
+                                        if(showItemName) {
+                                            btnText = itemText;
                                         }
-
-                                    } else {
+                                        // user has click the unfollow button
+                                        if(!hideFollowing) {
+                                            btnText = "Follow " + btnText;
+                                        }
+                                        $(itemClass).removeClass('active');
+                                        $(self).data('following',false);
                                         if(!hideNotification) {
                                             utilities.notify(
-                                                "Following " + itemName,
-                                                "You will receive regular course notifications and reminders about " + itemName,
+                                                "Unfollowed " + itemName,
+                                                "You will no longer receive course notifications and reminders about " + itemName,
                                                 "success"
                                             );
                                         }
+                                        // Decrement the user following count
+                                        decrementFollowCount( item );
+                                    } else {
+
+                                        if(showItemName) {
+                                            btnText = "<i>" + itemText + "</i>";
+                                        }
+
+                                        if(!hideFollowing) {
+                                            btnText = "Following " + btnText;
+                                        }
+                                        $(itemClass).addClass('active');
+
+                                        $(self).data('following',true);
+                                        if( result.message.followCount == 10 ) {
+
+                                            if(!hideNotification) {
+                                                var recommendationsAlert = " <div class='alert alert-success alert-dismissible' role='alert' style='position: fixed; top: 100px; width: inherit;z-index: 1000000 '><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button> <a href='/user/recommendations'>Congrats! You have unlocked <strong>personalized course recommendations</strong>. Click here to view all recommendations.</a> </div>";
+                                                $('.cc-body-content').append(
+                                                    recommendationsAlert
+                                                );
+                                            }
+
+                                        } else {
+                                            if(!hideNotification) {
+                                                utilities.notify(
+                                                    "Following " + itemName,
+                                                    "You will receive regular course notifications and reminders about " + itemName,
+                                                    "success"
+                                                );
+                                            }
+                                        }
+
+                                        incrementFollowCount( item );
                                     }
+                                    $(itemClass).find('.btn-follow-item-box').html( btnText );
+                                    $(self).trigger('followingChanged'); // fire an event to so that onboarding modals can update count
 
-                                    incrementFollowCount( item );
+                                } else {
+                                    // Show a error notification
+                                    utilities.notify(
+                                        "Following Failed" + itemName,
+                                        "There was some error with " + itemName + ". Please try again later.",
+                                        "error"
+                                    );
                                 }
-                                $(itemClass).find('.btn-follow-item-box').html( btnText );
-                                $(self).trigger('followingChanged'); // fire an event to so that onboarding modals can update count
-
-                            } else {
-                                // Show a error notification
-                                utilities.notify(
-                                    "Following Failed" + itemName,
-                                    "There was some error with " + itemName + ". Please try again later.",
-                                    "error"
-                                );
                             }
-                        }
-                    });
+                        });
 
 
-                } else {
+                    } else {
 
-                    ga('send','event','Follow',"Logged Out", item);
+                        ga('send','event','Follow',"Logged Out", item);
 
-                    // Save the follow info in session
-                    $.ajax({
-                        url: '/ajax/pre_follow/' + item +'/' + itemId,
-                        cache: false,
-                        success: function(r){
-                            // do nothing
-                        }
-                    });
+                        // Save the follow info in session
+                        $.ajax({
+                            url: '/ajax/pre_follow/' + item +'/' + itemId,
+                            cache: false,
+                            success: function(r){
+                                // do nothing
+                            }
+                        });
 
-                    // Show signup modal
-                    $('#signupModal-btn_follow').modal('show');
+                        // Show signup modal
+                        $('#signupModal-btn_follow').modal('show');
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     function incrementFollowCount(item) {
