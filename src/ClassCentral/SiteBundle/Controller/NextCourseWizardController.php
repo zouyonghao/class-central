@@ -10,6 +10,8 @@ namespace ClassCentral\SiteBundle\Controller;
 
 
 use ClassCentral\SiteBundle\Entity\Item;
+use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,9 +111,30 @@ class NextCourseWizardController extends Controller
      */
     public function nextCourseAction(Request $request)
     {
-        return $this->render('ClassCentralSiteBundle:NextCourse:meetyournextcourse.html.twig', array(
-
+        $cl = $this->container->get('course_listing');
+        $userSession = $this->get('user_session');
+        $follows = $userSession->getNextCourseFollows();
+        $must =  array(
+            'terms' => array(
+                'subjects.id' => $follows[Item::ITEM_TYPE_SUBJECT]
         ));
+
+        $data = $cl->byFollows($follows, $request->query->all(), $must, array());
+
+        return $this->render('ClassCentralSiteBundle:NextCourse:meetyournextcourse.html.twig',
+            array(
+                'page'=>'user_course_recommendations',
+                'results' => $data['courses'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'offeringTypes' => Offering::$types,
+                'sortField' => $data['sortField'],
+                'sortClass' => $data['sortClass'],
+                'pageNo' => $data['pageNo'],
+                'showHeader' => true,
+            )
+        );
     }
 
     // Save the follow in the session
