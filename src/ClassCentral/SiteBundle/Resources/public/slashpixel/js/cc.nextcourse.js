@@ -7,7 +7,9 @@ CC.Class['NextCourse'] = (function(){
     var utilities = CC.Class['Utilities'];
 
     function init() {
-
+        $( document).ready(function () {
+            $('#meet-your-next-course').click(showPickSubjectsStep);
+        });
     }
 
     function showPickSubjectsStep()
@@ -145,6 +147,7 @@ CC.Class['NextCourse'] = (function(){
                                     $(nextText).html("<b style='color: black'>5..4..3..2..1</b>");
 
                                     // Redirect
+                                    window.location = '/course-recommendations';
                                 },stepTime)
                             },stepTime)
                         },stepTime)
