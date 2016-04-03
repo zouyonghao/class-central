@@ -474,3 +474,11 @@ next_course_loading_screen:
 next_course_courses:
    pattern: /course-recommendations
    defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:nextCourse }
+
+next_course_follow:
+  pattern: /next-course/follow/{item}/{itemId}
+  defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:Follow }
+
+next_course_un_follow:
+  pattern: /next-course/unfollow/{item}/{itemId}
+  defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:UnFollow }

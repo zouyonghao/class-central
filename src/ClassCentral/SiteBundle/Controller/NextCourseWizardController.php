@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 
 use ClassCentral\SiteBundle\Entity\Item;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -111,5 +112,21 @@ class NextCourseWizardController extends Controller
         return $this->render('ClassCentralSiteBundle:NextCourse:meetyournextcourse.html.twig', array(
 
         ));
+    }
+
+    // Save the follow in the session
+    public function followAction(Request $request, $item,$itemId)
+    {
+        $userSession = $this->get('user_session');
+        $userSession->nextCourseFollow($item,$itemId);
+        return UniversalHelper::getAjaxResponse(true);
+    }
+
+    // Remove the follow from the session
+    public function unfollowAction(Request $request, $item, $itemId)
+    {
+        $userSession = $this->get('user_session');
+        $userSession->nextCourseUnFollow($item,$itemId);
+        return UniversalHelper::getAjaxResponse(true);
     }
 }
