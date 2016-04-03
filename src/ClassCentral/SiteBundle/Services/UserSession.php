@@ -34,6 +34,7 @@ class UserSession
     const USER_CREDENTIAL_REVIEWS  = 'user_credential_review_ids';
     const PASSWORDLESS_LOGIN = 'passwordless_login';
     const ANONYMOUS_USER_ACTIVITY_KEY = 'anonymous_user_activity_key';
+    const NEXT_COURSE_WIZARD_FOLLOWS = 'next_course_wizard_follows';
 
     // Flash message types
     const FLASH_TYPE_NOTICE = 'notice';
@@ -540,4 +541,42 @@ class UserSession
                 'delay' => $delay
             ));
     }
+
+    public function nextCourseFollow($item,$itemId)
+    {
+        $follows = $this->getNextCourseFollows();
+        if(isset($follows[$item]))
+        {
+            $follows[$item][] = $itemId;
+        }
+        $this->session->set(self::NEXT_COURSE_WIZARD_FOLLOWS, $follows);
+    }
+
+    public function nextCourseUnFollow($item,$itemId)
+    {
+        $follows = $this->getNextCourseFollows();
+        if(isset($follows[$item]))
+        {
+            $follows[$item][] = array_diff($follows[$item][], array($itemId));
+        }
+        $this->session->set(self::NEXT_COURSE_WIZARD_FOLLOWS, $follows);
+    }
+
+    public function getNextCourseFollows()
+    {
+        if( $this->session->has(self::NEXT_COURSE_WIZARD_FOLLOWS))
+        {
+             return $this->session->get(self::NEXT_COURSE_WIZARD_FOLLOWS);
+        }
+
+        // Initiate empty follows array
+        $follows = array();
+        foreach(Item::$items as $item)
+        {
+            $follows[$item] = array();
+        }
+
+        return $follows;
+    }
+
 }
