@@ -102,9 +102,14 @@ class NextCourseWizardController extends Controller
         return new Response( json_encode($response) );
     }
 
-
+    /**
+     * Meet your next course page
+     * @param Request $request
+     */
     public function nextCourseAction(Request $request)
     {
+        return $this->render('ClassCentralSiteBundle:NextCourse:meetyournextcourse.html.twig', array(
 
+        ));
     }
 }

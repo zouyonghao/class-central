@@ -470,3 +470,7 @@ next_course_pick_providers:
 next_course_loading_screen:
   pattern: /next-course/loading-screen
   defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:stepLoadingScreen }
+
+next_course_courses:
+   pattern: /course-recommendations
+   defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:nextCourse }

@@ -125,7 +125,6 @@ CC.Class['NextCourse'] = (function(){
                 $("#next-course-loading-screen-modal").modal("show");
 
                 var stepTime = 600;
-                var step = 1;
                 var progressBar =  $("#next-course-loading-screen-modal .meter__bar");
                 var nextText = $('#next-course-loading-screen__next__text');
                 // update the loading bar
@@ -145,7 +144,7 @@ CC.Class['NextCourse'] = (function(){
                                     $(progressBar).width( '100%');
                                     $(nextText).html("<b style='color: black'>5..4..3..2..1</b>");
 
-                                    // Redirect to the next course
+                                    // Redirect
                                 },stepTime)
                             },stepTime)
                         },stepTime)
