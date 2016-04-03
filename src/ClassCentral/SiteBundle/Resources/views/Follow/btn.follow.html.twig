@@ -22,6 +22,10 @@
     {% set truncate = true %}
 {% endif %}
 
+{% if nextCourseWizard is not defined %}
+    {% set nextCourseWizard = false %}
+{% endif %}
+
 {% if simpleButton %}
     <a href="#"
        class="tagboard__tag btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}  {% if followed %}active{% endif %}"
@@ -33,6 +37,7 @@
        data-item-name="{{ itemName }}"
        data-following ="{{ followed }}"
        data-hide-notification ="{{ hideNotification }}"
+       data-next-course-wizard = "{{ nextCourseWizard }}"
             >
         {% if truncate %}
             {{ itemName|slice(0,27) }}...
@@ -53,6 +58,7 @@
        data-following ="{{ followed }}"
        data-hide-following = "{{ hideFollowing }}"
        data-hide-notification ="{{ hideNotification }}"
+       data-next-course-wizard = "{{ nextCourseWizard }}"
         >
         <span class="action-button__container">
           {% if hideLogo %}
