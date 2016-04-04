@@ -32,7 +32,7 @@ CC.Class['NextCourse'] = (function(){
                 $('#next-course-pick-subjects__next').click(function(){
                     ga('send','event','Meet your next course', 'Pick Subjects','Next');
                     $("#next-course-pick-subjects-modal").modal("hide"); // hide the modal
-                    $("#next-course-pick-subjects-modal").remove();
+                    // $("#next-course-pick-subjects-modal").remove();
                     showPickProvidersStep();
                 });
 
@@ -84,7 +84,7 @@ CC.Class['NextCourse'] = (function(){
                 $('#next-course-pick-providers__next').click(function(){
                     ga('send','event','Meet your next course', 'Pick Providers','Next');
                     $("#next-course-pick-providers-modal").modal("hide"); // hide the modal
-                    $("#next-course-pick-providers-modal").remove();
+                    // $("#next-course-pick-providers-modal").remove();
                     showLoadingScreenStep();
                 });
             },
