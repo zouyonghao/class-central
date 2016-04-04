@@ -99,7 +99,7 @@ CC.Class['NextCourse'] = (function(){
         var numFollows = $("#next-course-pick-providers-modal").find('.tagboard__tag.active').length;
 
         var percentage = numFollows*100/5;
-        $("#next-course-pick-subjects-modal .meter__bar").width( percentage + '%');
+        $("#next-course-pick-providers-modal .meter__bar").width( percentage + '%');
 
         if(numFollows >= 5) {
             $(nextButton).addClass('active');
