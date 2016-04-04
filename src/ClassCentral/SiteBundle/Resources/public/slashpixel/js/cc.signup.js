@@ -34,7 +34,13 @@ CC.Class['Signup'] = (function(){
                       // Signup successful. Hide the modal
                       form.parent().parent().parent().parent().parent().parent().modal("hide");
                       // Show the form update
-                      showOnboardingFollowSubjectStep();
+                      if($('#meet-your-next-course-page')) {
+                          // Skip the first two steps and move to the profile step
+                          showOnboardingProfileStep();
+                      } else {
+                          showOnboardingFollowSubjectStep();
+                      }
+
                   } else {
                     // Signup failed
                       showErrorMessage( form,result.message);
