@@ -579,4 +579,19 @@ class UserSession
         return $follows;
     }
 
+    /**
+     * Unset the follows
+     */
+    public function clearNextCourseFollows()
+    {
+        // Initiate empty follows array
+        $follows = array();
+        foreach(Item::$items as $item)
+        {
+            $follows[$item] = array();
+        }
+
+        $this->session->set(self::NEXT_COURSE_WIZARD_FOLLOWS, $follows);
+    }
+
 }

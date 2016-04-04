@@ -117,6 +117,14 @@ class DefaultController extends Controller {
 
         }
 
+        $meetYourNextCourse =false;
+        if( !empty ($request->query->get('meet-your-next-course') ) )
+        {
+            $meetYourNextCourse =true;
+            $this->get('user_session')->clearNextCourseFollows();
+
+        }
+
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
@@ -128,6 +136,7 @@ class DefaultController extends Controller {
                 'uc' => $uc,
                 'ucCount' => $ucCount,
                 'recommendedCourses' => $recommendedCourses,
+                'meetYourNextCourse' => $meetYourNextCourse
                ));
     }
 

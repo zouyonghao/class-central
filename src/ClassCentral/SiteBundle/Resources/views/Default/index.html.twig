@@ -180,3 +180,11 @@
     {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'convincer_create_free_account', options:{}}) %}
 
 {% endblock %}
+
+{% block customJS %}
+    $( document ).ready(function() {
+        {% if meetYourNextCourse %}
+            CC.Class['NextCourse'].showPickSubjectsStep();
+        {% endif %}
+    });
+{% endblock %}
