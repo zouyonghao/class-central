@@ -783,6 +783,14 @@ jQuery(function($) {
         }catch (e){}
     });
 
+    $('#meetyournextcourse-create-free-account').click( function(e){
+        e.preventDefault();
+        $('#signupModal-navbar_create_free_account').modal('show');
+        try {
+            ga('send','event','Create Free Account','Meet your next course');
+        }catch (e){}
+    });
+
     // Show signup form when someones click on Go To Class
     $('.btn_go_to_class').click( function(){
         var btnSignupCookie = 'btn_go_class_signup_shown';

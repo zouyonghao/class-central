@@ -87,8 +87,6 @@ CC.Class['NextCourse'] = (function(){
                     $("#next-course-pick-providers-modal").remove();
                     showLoadingScreenStep();
                 });
-
-
             },
             async: false
         })
