@@ -138,6 +138,21 @@ class User {
             }
         }
 
+        // Save the follows if the user has any through the Next Course Wizard
+        $follows = $userSession->getNextCourseFollows();
+        $followService = $this->container->get('Follow');
+        foreach($follows as $item => $itemIds)
+        {
+            if(!empty($itemIds))
+            {
+                foreach($itemIds as $itemId)
+                {
+                    $follow = $followService->followUsingItemInfo($user, $item, $itemId);
+                    $user->addFollow($follow);
+                }
+            }
+        }
+
         $userSession->saveUserInformationInSession(); // Update the session
 
         return $router->generate('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created','src' => $src));
