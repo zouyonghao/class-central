@@ -103,7 +103,7 @@ CC.Class['NextCourse'] = (function(){
 
         if(numFollows >= 5) {
             $(nextButton).addClass('active');
-            $(nextButton).find("span").text('Pick more providers or click to move on');
+            $(nextButton).find("span").text('Pick more providers or click to generate recommendations');
         } else {
             var followsLeft = 5 - numFollows;
             $(nextButton).removeClass('active');

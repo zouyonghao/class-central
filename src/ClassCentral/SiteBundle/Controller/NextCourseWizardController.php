@@ -123,7 +123,7 @@ class NextCourseWizardController extends Controller
 
         return $this->render('ClassCentralSiteBundle:NextCourse:meetyournextcourse.html.twig',
             array(
-                'page'=>'user_course_recommendations',
+                'page'=>'meet_your_next_course',
                 'results' => $data['courses'],
                 'listTypes' => UserCourse::$lists,
                 'allSubjects' => $data['allSubjects'],
