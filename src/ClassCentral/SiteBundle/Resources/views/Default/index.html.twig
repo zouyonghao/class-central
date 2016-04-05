@@ -40,6 +40,16 @@
                     <a href="#" class="baseButton animation-rollButton" id="meet-your-next-course"  onmousedown="ga('send','event','Homepage Hero','Meet Your Next Course');" >Meet Your Next Course</a>
                     <span class="headerIntro_buttonSub">no sign up required</span>
                   </div>
+              {% else %}
+                  {% if app.user.areRecommendationsAvailable  %}
+                      <div class="headerIntro_button">
+                          <a href="{{ path('user_recommendations') }}" class="baseButton animation-rollButton"  onmousedown="ga('send','event','Homepage Hero','View Personalized Recommendations');" >View Personalized Recommendations</a>
+                      </div>
+                  {% else %}
+                      <div class="headerIntro_button">
+                          <a href="{{ path('user_follows') }}" class="baseButton animation-rollButton"  onmousedown="ga('send','event','Homepage Hero','Unlock Personalized Recommendations');" >Unlock Personalized Recommendations</a>
+                      </div>
+                  {% endif %}
               {% endif %}
 
               <div class="headerIntro_button">
