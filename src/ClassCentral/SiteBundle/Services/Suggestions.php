@@ -101,6 +101,21 @@ class Suggestions
         return $data;
     }
 
+    public function meetYourNextCourse($params)
+    {
+        $cl = $this->container->get('course_listing');
+        $userSession = $this->container->get('user_session');
+        $follows = $userSession->getNextCourseFollows();
+        $must =  array(
+            'terms' => array(
+                'subjects.id' => $follows[Item::ITEM_TYPE_SUBJECT]
+            ));
+
+        $data = $cl->byFollows($follows, $params, $must, array());
+
+        return $data;
+    }
+
     private function getMustNot(UserEntity $user)
     {
         $mustNot = array();

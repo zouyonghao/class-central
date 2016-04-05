@@ -111,15 +111,8 @@ class NextCourseWizardController extends Controller
      */
     public function nextCourseAction(Request $request)
     {
-        $cl = $this->container->get('course_listing');
-        $userSession = $this->get('user_session');
-        $follows = $userSession->getNextCourseFollows();
-        $must =  array(
-            'terms' => array(
-                'subjects.id' => $follows[Item::ITEM_TYPE_SUBJECT]
-        ));
-
-        $data = $cl->byFollows($follows, $request->query->all(), $must, array());
+        $suggestions = $this->get('suggestions');
+        $data = $suggestions->meetYourNextCourse($request->query->all());
 
         return $this->render('ClassCentralSiteBundle:NextCourse:meetyournextcourse.html.twig',
             array(

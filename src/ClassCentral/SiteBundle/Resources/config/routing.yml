@@ -380,6 +380,10 @@ maestro_user_recommendations:
   pattern: /maestro/user/recommendations
   defaults: {_controller: ClassCentralSiteBundle:Maestro:userRecommendations}
 
+maestro_next_course:
+  pattern: /maestro/course-recommendations
+  defaults: {_controller: ClassCentralSiteBundle:Maestro:nextCourse}
+
 user_profile_dummy:
   pattern: /profile
   defaults: {_controller: ClassCentralSiteBundle:User:profile }

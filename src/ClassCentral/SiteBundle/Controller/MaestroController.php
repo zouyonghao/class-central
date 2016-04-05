@@ -184,6 +184,19 @@ class MaestroController extends Controller {
         );
     }
 
+    public function nextCourseAction(Request $request)
+    {
+        $suggestions = $this->get('suggestions');
+        $data = $suggestions->meetYourNextCourse($request->query->all());
+        return $this->returnJsonResponse(
+            $data,
+            'meetyournextcourse',
+            'meet_your_next_course'
+        );
+
+    }
+
+
     private function returnJsonResponse($data, $tableName, $page )
     {
         extract( $data );
