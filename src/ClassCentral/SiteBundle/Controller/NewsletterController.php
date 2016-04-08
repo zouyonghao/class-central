@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\User;
+use ClassCentral\SiteBundle\Services\UserSession;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
@@ -213,6 +214,12 @@ class NewsletterController extends Controller
      */
     public function subscribeToAction(Request $request, $code)
     {
+        $referUrl = $this->getRequest()->headers->get('referer'); // The url redirect
+        if(strpos($referUrl,'/subscribe/') !== false)
+        {
+            // Came from the dedicated newsletter signup form and not popup.
+            $referUrl = $this->generateUrl('ClassCentralSiteBundle_homepage');
+        }
         $em = $this->getDoctrine()->getManager();
         $session = $this->get('session');
         $userSession = $this->get('user_session');
@@ -265,6 +272,7 @@ class NewsletterController extends Controller
             }
         }
 
+        $redirectUrl = null;
         if($user)
         {
             // Save the subscription prefrences
@@ -289,6 +297,14 @@ class NewsletterController extends Controller
                         ));
                 }
             }
+
+            $redirectUrl = $referUrl;
+            // Send a notification
+            $userSession->notifyUser(
+                UserSession::FLASH_TYPE_SUCCESS,
+                'Subscribed to Newsletter',
+                ''
+            );
         }
         else
         {
@@ -318,11 +334,13 @@ class NewsletterController extends Controller
                         ));
                 }
             }
+
+            $redirectUrl = $this->generateUrl('newsletter_subscribed');
         }
 
         $em->flush();
 
-        return $this->redirect($this->generateUrl('newsletter_subscribed'));
+        return $this->redirect($redirectUrl);
     }
 
     private function sendEmailVerification($email)
