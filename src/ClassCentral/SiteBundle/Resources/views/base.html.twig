@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 {% set showProfileEditModal = false %}
-{% for flashMessage in app.session.flashbag.get('show_post_fb_signup_profile_modal') %}
+{% for flashMessage in app.session.flashbag.get('show_post_signup_profile_modal') %}
     {% set showProfileEditModal = true %}
 {% endfor %}
 

@@ -249,7 +249,7 @@ class LoginController extends Controller{
                 ));
 
                 // Show the user a profile edit window
-                $this->get('session')->getFlashBag()->set('show_post_fb_signup_profile_modal',1);
+                $this->get('session')->getFlashBag()->set('show_post_signup_profile_modal',1);
 
                 return $this->redirect($redirectUrl);
             }

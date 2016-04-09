@@ -426,7 +426,7 @@ class NewsletterController extends Controller
         {
             $user->addNewsletter($newsletter);
         }
-        $user = $userService->signup($user, false); // don't send an email verification.
+        $user = $userService->signup($user, false,'newsletter'); // don't send an email verification.
 
         // Clean the email entities subscriptions
         $newsletters = $emailEntity->getNewsletters();
@@ -434,8 +434,12 @@ class NewsletterController extends Controller
         $em->persist($emailEntity);
         $em->flush();
 
+        // Get the refer url and redirect here after signup
+        $referUrl =   $session->get('newsletter_signup_refer_url');
+        $this->get('session')->getFlashBag()->set('show_post_signup_profile_modal',1);
+
         // Redirect to MOOC Tracker page
-        return $this->redirect($this->generateUrl('user_profile', array('slug' => $user->getId(),'tab' => 'edit-profile','ref' => 'user_created','src' => 'newsletter')));
+        return $this->redirect($referUrl);
     }
 
     public function moocWatchAction(Request $request)
