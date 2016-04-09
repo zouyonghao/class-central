@@ -275,7 +275,7 @@ class NewsletterController extends Controller
         $redirectUrl = null;
         if($user)
         {
-            // Save the subscription prefrences
+            // Save the subscription preferences
             $user->subscribe($newsletter);
             $em->persist($user);
 
@@ -336,6 +336,8 @@ class NewsletterController extends Controller
             }
 
             $redirectUrl = $this->generateUrl('newsletter_subscribed');
+            // Save the refer url in the session
+            $session->set('newsletter_signup_refer_url',$referUrl);
         }
 
         $em->flush();
@@ -371,9 +373,12 @@ class NewsletterController extends Controller
     public function subscribedAction(Request $request)
     {
         $userSession = $this->get('user_session');
+        $session = $this->get('session');
         $email = $userSession->getNewsletterUserEmail();
+        $referUrl =   $session->get('newsletter_signup_refer_url');
         return $this->render('ClassCentralSiteBundle:Newsletter:subscribed.html.twig',array(
-                'newsletterEmail' => $email
+                'newsletterEmail' => $email,
+                'referUrl' => $referUrl
             ));
     }
 

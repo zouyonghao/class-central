@@ -1149,12 +1149,6 @@ jQuery(function($) {
         return '';
     }
 
-    // Redirect back to the previous page on newsletter-signup flow
-    $('#newsletter-subscribe-cancel-button').click( function(){
-        var previous = document.referrer;
-        window.location.replace(previous);
-    } );
-
     var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms',
         'home_create_free_account','convincer_create_free_account','navbar_create_free_account','create_course_review','create_credential_review','btn_follow'];
     for(var i =0 ; i < signupForms.length; i++)
