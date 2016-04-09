@@ -237,8 +237,13 @@ CC.Class['Follow'] = (function(){
                                 window.location.href = '/user/follows';
                             });
                             */
-                            CC.Class["Signup"].followSubjectOnboarding();
-                            Cookies.set( promptShownCookie, 1, { expires :30} );
+
+                            // Check the cookie again
+                            if(Cookies.get( promptShownCookie) === undefined ) {
+                                CC.Class["Signup"].followSubjectOnboarding();
+                                Cookies.set( promptShownCookie, 1, { expires :30} );
+                            }
+
                         },delay);
                     }
                 }
