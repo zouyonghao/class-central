@@ -45,6 +45,8 @@ class CourseUtility {
         $twoWeeksLater->add(new \DateInterval('P14D'));
         $yesterday = clone $now;
         $yesterday->sub(new \DateInterval('P1D'));
+        $fourWeeksAgo = clone $now;
+        $fourWeeksAgo->sub(new \DateInterval('P28D'));
 
         $startDate = $offering->getStartDate();
         $endDate = $offering->getEndDate();
@@ -55,7 +57,8 @@ class CourseUtility {
         }
 
         // Check if its recently added
-        if ( $offering->getCreated() >= $twoWeeksAgo ) {
+        $course = $offering->getCourse();
+        if ( $course->getCreated() >= $fourWeeksAgo ) {
             $state += Offering::STATE_JUST_ANNOUNCED;
         }
 
