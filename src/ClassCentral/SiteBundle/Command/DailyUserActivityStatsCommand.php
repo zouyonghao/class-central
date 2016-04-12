@@ -140,6 +140,19 @@ class DailyUserActivityStatsCommand extends ContainerAwareCommand
         $newCredentialReviews = $credentialReviewQuery->getQuery()->getSingleScalarResult();
         $output->writeln( $newCredentialReviews );
 
+        // Follows count query
+        $followQuery = $em->createQueryBuilder();
+        $followQuery
+            ->add('select','count(f.id) as new_follows')
+            ->add('from','ClassCentralSiteBundle:Follow f')
+            ->Where('f.created >= :created and f.created <= :created_1')
+            ->setParameter('created', $dt_start)
+            ->setParameter('created_1',  $dt_end)
+        ;
+
+        $newFollows = $followQuery->getQuery()->getSingleScalarResult();
+        $output->writeln( $newFollows );
+
         // Send it to slack
         $this->getContainer()
             ->get('slack_client')
@@ -153,6 +166,7 @@ New Credential Reviews: $newCredentialReviews
 Courses Added to MOOC Tracker : $newMOOCTrackerCourses
 Courses marked as Completed : $completedMOOCTrackerCourses
 Courses marked as Interested : $interestedMOOCTrackerCourses
+New Follows : $newFollows
             ");
     }
 }
