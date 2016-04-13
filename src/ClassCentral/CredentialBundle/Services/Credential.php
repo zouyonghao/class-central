@@ -255,6 +255,13 @@ class Credential {
         $reviewCount = 0;
         $ratingCount = 0;
         $r = array();
+        $ratingsBreakdown = array(
+            1 => 0,
+            2 => 0,
+            3 => 0,
+            4 => 0,
+            5 => 0,
+        );
         foreach($reviewEntities as $review)
         {
             $review = $review[0];
@@ -262,6 +269,7 @@ class Credential {
             {
                 $ratingCount++;
                 $reviewCount++;
+                $ratingsBreakdown[$review->getRating()]++;
                 $r[] = $this->getCredentialReviewArray($review);
             }
         }
@@ -272,6 +280,7 @@ class Credential {
         $reviews['reviewCount'] = $reviewCount;
         $reviews['rating'] = $rating['rating'];
         $reviews['formattedRating'] = ReviewUtility::formatRating( $rating['rating'] );
+        $reviews['ratingsBreakdown'] = $ratingsBreakdown;
 
         $reviews['reviews'] = $r;
 
