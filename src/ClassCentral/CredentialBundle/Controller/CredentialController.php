@@ -2,6 +2,7 @@
 
 namespace ClassCentral\CredentialBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -237,7 +238,10 @@ class CredentialController extends Controller
                 'reviews'=>$reviews,
                 'breadcrumbs' => $breadCrumbs,
                 'showDefaultBreadcrumb' => false,
-                'tab' => $tab
+                'tab' => $tab,
+                'followItem' => Item::ITEM_TYPE_CREDENTIAL,
+                'followItemId' => $credential['id'],
+                'followItemName' => $credential['name']
         ));
     }
 
