@@ -25,6 +25,7 @@ class Scraper extends ScraperAbstractInterface {
     // Contains courses schedule
     const ONDEMAND_OPENCOURSE_API = 'https://www.coursera.org/api/opencourse.v1/course/%s?showLockedItems=true';
     CONST ONDEMAND_COURSE_SCHEDULE = 'https://www.coursera.org/api/onDemandCourseSchedules.v1/%s/?fields=defaultSchedule';
+    const ONDEMAND_COURSE_MATERIALS = 'https://www.coursera.org/api/onDemandCourseMaterials.v1/?q=slug&slug=%s&includes=moduleIds,lessonIds,itemIds,tracks&fields=moduleIds,onDemandCourseMaterialModules.v1(name,slug,description,timeCommitment,lessonIds,optional),onDemandCourseMaterialLessons.v1(name,slug,timeCommitment,itemIds,optional,trackId),onDemandCourseMaterialItems.v1(name,slug,timeCommitment,content,isLocked,lockableByItem,itemLockedReasonCode,trackId),onDemandCourseMaterialTracks.v1(passablesCount)&showLockedItems=true';
 
     const ONDEMAND_SESSION_IDS = 'https://www.coursera.org/api/onDemandSessions.v1/?q=currentOpenByCourse&courseId=%s&includes=memberships&fields=moduleDeadlines';
 
@@ -121,6 +122,18 @@ class Scraper extends ScraperAbstractInterface {
                     fputcsv($fp,array($element['name'], $productPrices['elements'][0]['amount']));
                 }
                  * */
+
+                // On Demand Course Materials
+                /**
+                $onDemandCourseMaterials =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_MATERIALS, $element['slug']) ),true);
+                foreach( $onDemandCourseMaterials['linked']['onDemandCourseMaterialTracks.v1'] as $track)
+                {
+                    if($track['id'] == 'honors')
+                    {
+                        $this->out( $element['name'] );
+                    }
+                }
+                **/
 
                 $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
                 //$this->out( $onDemandCourse['elements'][0]['name']  );
