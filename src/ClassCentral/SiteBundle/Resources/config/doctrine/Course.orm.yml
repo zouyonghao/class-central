@@ -74,6 +74,43 @@ ClassCentral\SiteBundle\Entity\Course:
       length: 255
       fixed: false
       nullable: true
+    price:
+        type: integer
+        unsigned: false
+        nullable: false
+    pricePeriod:
+        type: string
+        length: 2
+        fixed: false
+        nullable: false
+        column: price_period
+    certificatePrice:
+        type: integer
+        unsigned: false
+        nullable: true
+        column: certificate_price
+    workloadType:
+        type: string
+        length: 2
+        fixed: false
+        nullable: true
+        column: workload_type
+    durationMin:
+        type: integer
+        unsigned: false
+        nullable: true
+        column: duration_min
+    durationMax:
+        type: integer
+        unsigned: false
+        nullable: true
+        column: duration_max
+    durationType:
+        type: string
+        length: 2
+        fixed: false
+        nullable: true
+        column: duration_type
   oneToOne:
     indepthReview:
       targetEntity: IndepthReview

@@ -212,6 +212,41 @@ class Course {
      */
     private $careers;
 
+    /**
+     * @var integer
+     */
+    private $price;
+
+    /**
+     * @var string
+     */
+    private $pricePeriod;
+
+    /**
+     * @var integer
+     */
+    private $certificatePrice;
+
+    /**
+     * @var string
+     */
+    private $workloadType;
+
+    /**
+     * @var integer
+     */
+    private $durationMin;
+
+    /**
+     * @var integer
+     */
+    private $durationMax;
+
+    /**
+     * @var string
+     */
+    private $durationType;
+
 
     /**
      * Set name
@@ -952,6 +987,167 @@ class Course {
     public function getCareers()
     {
         return $this->careers;
+    }
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     * @return Course
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set pricePeriod
+     *
+     * @param string $pricePeriod
+     * @return Course
+     */
+    public function setPricePeriod($pricePeriod)
+    {
+        $this->pricePeriod = $pricePeriod;
+
+        return $this;
+    }
+
+    /**
+     * Get pricePeriod
+     *
+     * @return string
+     */
+    public function getPricePeriod()
+    {
+        return $this->pricePeriod;
+    }
+
+    /**
+     * Set certificatePrice
+     *
+     * @param integer $certificatePrice
+     * @return Course
+     */
+    public function setCertificatePrice($certificatePrice)
+    {
+        $this->certificatePrice = $certificatePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get certificatePrice
+     *
+     * @return integer
+     */
+    public function getCertificatePrice()
+    {
+        return $this->certificatePrice;
+    }
+
+    /**
+     * Set workloadType
+     *
+     * @param string $workloadType
+     * @return Course
+     */
+    public function setWorkloadType($workloadType)
+    {
+        $this->workloadType = $workloadType;
+
+        return $this;
+    }
+
+    /**
+     * Get workloadType
+     *
+     * @return string
+     */
+    public function getWorkloadType()
+    {
+        return $this->workloadType;
+    }
+
+    /**
+     * Set durationMin
+     *
+     * @param integer $durationMin
+     * @return Course
+     */
+    public function setDurationMin($durationMin)
+    {
+        $this->durationMin = $durationMin;
+
+        return $this;
+    }
+
+    /**
+     * Get durationMin
+     *
+     * @return integer
+     */
+    public function getDurationMin()
+    {
+        return $this->durationMin;
+    }
+
+    /**
+     * Set durationMax
+     *
+     * @param integer $durationMax
+     * @return Course
+     */
+    public function setDurationMax($durationMax)
+    {
+        $this->durationMax = $durationMax;
+
+        return $this;
+    }
+
+    /**
+     * Get durationMax
+     *
+     * @return integer
+     */
+    public function getDurationMax()
+    {
+        return $this->durationMax;
+    }
+
+    /**
+     * Set durationType
+     *
+     * @param string $durationType
+     * @return Course
+     */
+    public function setDurationType($durationType)
+    {
+        $this->durationType = $durationType;
+
+        return $this;
+    }
+
+    /**
+     * Get durationType
+     *
+     * @return string
+     */
+    public function getDurationType()
+    {
+        return $this->durationType;
     }
 
 }
