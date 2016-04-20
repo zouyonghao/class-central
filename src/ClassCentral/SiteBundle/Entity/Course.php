@@ -1150,6 +1150,11 @@ class Course {
         return $this->durationType;
     }
 
+    public function isPaid()
+    {
+        return $this->getPrice() != 0;
+    }
+
 }
 
 /**
@@ -1169,7 +1174,8 @@ abstract class CourseStatus
     const AVAILABLE = 0;
     const NOT_AVAILABLE = 100;
     const TO_BE_REVIEWED = 101; // To be reviewed by someone before it is displayed
-    const PAID_COURSE = 102;
+    const HIDDEN = 102; // Hidden courses are hidden from search and discovery experience. i.e Capstone project
+    const UNLISTED = 103; // Unlisted courses are not shown in the discovery experience, but show up when they are searched for.
 
     public static function getStatuses()
     {
@@ -1177,7 +1183,8 @@ abstract class CourseStatus
             self::AVAILABLE => 'Available',
             self::NOT_AVAILABLE => 'Not Available',
             self::TO_BE_REVIEWED => 'To Be Reviewed',
-            self::PAID_COURSE => 'Paid'
+            self::UNLISTED => 'Unlisted',
+            self::HIDDEN => 'Hidden'
         );
     }
 }
