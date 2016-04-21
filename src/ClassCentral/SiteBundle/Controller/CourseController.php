@@ -406,8 +406,6 @@ class CourseController extends Controller
            }
            $sessionId = $session->getId();
        }
-       $em->getConnection()->executeUpdate("INSERT INTO user_courses_tracking(user_identifier,course_id)
-                                VALUES ('$sessionId', $courseId)");
 
        $rankings = $this->get('cache')->get('course_rankings', array($this,'generateCourseRankings'));
        $courseRank = isset($rankings[$courseId]) ?  $rankings[$courseId] : array();
