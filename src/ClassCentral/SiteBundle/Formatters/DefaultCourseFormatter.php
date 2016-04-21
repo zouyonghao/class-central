@@ -1,0 +1,71 @@
+<?php
+
+namespace ClassCentral\ClassCentralSiteBundle\Formatters;
+
+use ClassCentral\SiteBundle\Entity\Course;
+
+class DefaultCourseFormatter extends CourseFormatterAbstract
+{
+
+    public function getPrice()
+    {
+        if($this->course->getPrice() > 0)
+        {
+            switch($this->course->getPricePeriod())
+            {
+                case Course::PRICE_PERIOD_MONTHLY:
+                    return '$' . $this->course->getPrice(). '/month';
+                case Course::PRICE_PERIOD_TOTAL:
+                    return'$'. $this->course->getPrice();
+            }
+        }
+
+        return '0';
+    }
+
+    public function getDuration()
+    {
+
+    }
+
+    public function getWorkload()
+    {
+        if( $this->course->getWorkloadMin() && $this->course->getWorkloadMax() )
+        {
+            $effort = '';
+            if( $this->course->getWorkloadMin() == $this->course->getWorkloadMax() )
+            {
+                $effort = $this->course->getWorkloadMin();
+            }
+            else
+            {
+                $effort = "{$this->course->getWorkloadMin()}-{$this->course->getWorkloadMax()}";
+            }
+
+            switch($this->course->getWorkloadType())
+            {
+                case Course::WORKLOAD_TYPE_HOURS_PER_WEEK:
+                    $effort .= ' hours a week';
+                    break;
+                case Course::WORKLOAD_TYPE_TOTAL_HOURS:
+                    $effort .= ' total hours';
+                    break;
+            }
+
+            return $effort;
+
+        }
+
+        return '';
+    }
+
+    public function getCertificate()
+    {
+        if($this->course->getCertificate())
+        {
+            
+        }
+
+        return '';
+    }
+}

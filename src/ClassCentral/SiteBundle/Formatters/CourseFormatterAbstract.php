@@ -1,5 +1,7 @@
 <?php
 
+namespace ClassCentral\ClassCentralSiteBundle\Formatters;
+
 /**
  * Created by PhpStorm.
  * User: dhawal
@@ -17,7 +19,7 @@ abstract class CourseFormatterAbstract
 
     abstract public function getPrice();
     abstract public function getDuration();
-    abstract public function getWorkdload();
+    abstract public function getWorkload();
     abstract public function getCertificate();
 
 }
