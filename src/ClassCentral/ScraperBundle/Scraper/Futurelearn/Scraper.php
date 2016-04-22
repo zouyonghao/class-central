@@ -27,7 +27,7 @@ class Scraper extends ScraperAbstractInterface {
     const COURSES_API_ENDPOINT = 'https://www.futurelearn.com/feeds/courses';
 
     private $courseFields = array(
-        'Url', 'Description', 'Length', 'Name','LongDescription','Certificate',
+        'Url', 'Description', 'DurationMin','DurationMax','Name','LongDescription','Certificate','WorkloadType','CertificatePrice'
     );
 
     private $offeringFields = array(
@@ -241,12 +241,18 @@ class Scraper extends ScraperAbstractInterface {
         $course->setStream($defaultStream); // Default to Computer Science
         $course->setUrl($c['url']);
         $course->setCertificate( $c['has_certificates'] );
+        if($c['has_certificates'])
+        {
+            $course->setCertificatePrice('49');
+        }
+        $course->setWorkloadType(Course::WORKLOAD_TYPE_HOURS_PER_WEEK);
         $course->setWorkloadMin( $c['hours_per_week'] ) ;
         $course->setWorkloadMax( $c['hours_per_week'] ) ;
         // Get the length
         if( $c['runs'] )
         {
-            $course->setLength( $c['runs'][0]['duration_in_weeks'] );
+            $course->setDurationMin($c['runs'][0]['duration_in_weeks']);
+            $course->setDurationMax($c['runs'][0]['duration_in_weeks']);
         }
 
         return $course;
