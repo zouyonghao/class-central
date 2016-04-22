@@ -27,7 +27,7 @@ class Scraper extends ScraperAbstractInterface
 
 
     private $courseFields = array(
-        'Url', 'Description', 'Length', 'Name','LongDescription','VideoIntro', 'VerifiedCertificate','Certificate'
+        'Url', 'Description', 'DurationMin','DurationMax', 'Name','LongDescription','VideoIntro','Certificate'
     );
 
     private $offeringFields = array(
@@ -350,8 +350,7 @@ class Scraper extends ScraperAbstractInterface
         $course->setVideoIntro( $c['course-video-youtube']);
         $course->setUrl($c['link']);
 
-        $course->setCertificate( false );
-        $course->setVerifiedCertificate( $c['course-verified'] );
+        $course->setCertificate( $c['course-verified'] );
 
         // Calculate length
         $length = null;
@@ -362,7 +361,8 @@ class Scraper extends ScraperAbstractInterface
             $length = ceil( $start->diff($end)->days/7 );
         }
 
-        $course->setLength( $length );
+        $course->setDurationMin($length);
+        $course->setDurationMax($length);
 
         return $course;
     }
