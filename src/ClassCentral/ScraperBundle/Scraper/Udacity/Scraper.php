@@ -20,8 +20,8 @@ class Scraper extends ScraperAbstractInterface{
     const COURSES_API_ENDPOINT = 'https://www.udacity.com/public-api/v0/courses';
 
     private $courseFields = array(
-        'Url', 'Description', 'Length', 'Name','LongDescription','Certificate','VideoIntro', 'Syllabus',
-        'WorkloadMin','WorkloadMax'
+        'Url', 'Description', 'DurationMin','DurationMax', 'Name','LongDescription','Certificate','VideoIntro', 'Syllabus',
+        'WorkloadMin','WorkloadMax','WorkloadType'
     );
 
     private $credentialFields = array(
@@ -196,6 +196,7 @@ class Scraper extends ScraperAbstractInterface{
         $course->setSyllabus( nl2br($udacityCourse['syllabus']) );
         $course->setWorkloadMin( 6 ) ;
         $course->setWorkloadMax( 6 ) ;
+        $course->setWorkloadType(Course::WORKLOAD_TYPE_HOURS_PER_WEEK);
         ;
 
         // Calculate length
@@ -209,7 +210,8 @@ class Scraper extends ScraperAbstractInterface{
         {
             $length = $expectedDuration;
         }
-        $course->setLength( $length );
+        $course->setDurationMin($length);
+        $course->setDurationMax($length);
 
         // Calculate Description
         $course->setLongDescription( nl2br($udacityCourse['summary'] . '<br/><br/><b>Why Take This Course?</b><br/>' .  $udacityCourse['expected_learning']));
