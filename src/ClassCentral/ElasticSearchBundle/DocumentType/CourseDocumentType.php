@@ -102,9 +102,13 @@ class CourseDocumentType extends DocumentType {
         $c = $this->entity ; // Alias for entity
 
         $body['name'] = $c->getName();
+        $body['isMOOC'] = $c->getIsMOOC();
         $body['id'] = $c->getId();
         $body['videoIntro'] = $c->getVideoIntro();
         $body['length'] = $c->getLength();
+        $body['workloadType'] = $c->getWorkloadType();
+        $body['workloadMin'] = $c->getWorkloadMin();
+        $body['workloadMax'] = $c->getWorkloadMax();
         $body['slug'] = $c->getSlug();
         $body['description'] = $c->getDescription();
         $body['longDescription'] = $c->getLongDescription();
@@ -112,7 +116,13 @@ class CourseDocumentType extends DocumentType {
         $body['searchDesc'] = $c->getSearchDesc();
         $body['status'] = $c->getStatus();
         $body['certificate']  = $c->getCertificate();
+        $body['certificatePrice'] = $c->getCertificatePrice();
         $body['verifiedCertificate']  = $c->getVerifiedCertificate();
+        $body['durationMin'] = $c->getDurationMin();
+        $body['durationMax'] = $c->getDurationMax();
+        $body['price'] = $c->getPrice();
+        $body['pricePeriod'] = $c->getPricePeriod();
+
         $body['url'] = $c->getUrl();
         if($c->getCreated())
         {
