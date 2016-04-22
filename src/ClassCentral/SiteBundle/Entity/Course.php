@@ -11,11 +11,29 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Course {
 
+
+    const PRICE_PERIOD_MONTHLY         = 'M';
+    const PRICE_PERIOD_TOTAL           = 'T';
+    const WORKLOAD_TYPE_HOURS_PER_WEEK = 'W';
+    const WORKLOAD_TYPE_TOTAL_HOURS    = 'T';
+
+    public static $PRICE_PERIODS = array(
+        self::PRICE_PERIOD_MONTHLY =>'Monthly',
+        self::PRICE_PERIOD_TOTAL => 'Total'
+    );
+
+    public static $WORKLOAD = array(
+        self::WORKLOAD_TYPE_HOURS_PER_WEEK => 'Hours Per Week',
+        self::WORKLOAD_TYPE_TOTAL_HOURS => 'Total Hours',
+    );
+
+
     public static $providersWithFavicons = array(
         'canvas','coursera','edraak','edx','futurelearn','iversity',
         'novoed','open2study','janux','openhpi','10gen','ce','stanford',
         'gatech-oms-cs','miriadax','acumen', 'udacity'
     );
+
 
     public function __construct() {
         $this->offerings = new ArrayCollection();   
@@ -246,6 +264,11 @@ class Course {
      * @var string
      */
     private $durationType;
+
+    /**
+     * @var string
+     */
+    private $isMooc;
 
 
     /**
@@ -1153,6 +1176,30 @@ class Course {
     public function isPaid()
     {
         return $this->getPrice() != 0;
+    }
+
+
+    /**
+     * Set isMooc
+     *
+     * @param string $isMooc
+     * @return Course
+     */
+    public function setIsMooc($isMooc)
+    {
+        $this->isMooc = $isMooc;
+
+        return $this;
+    }
+
+    /**
+     * Get isMooc
+     *
+     * @return string
+     */
+    public function getIsMooc()
+    {
+        return $this->isMooc;
     }
 
 }

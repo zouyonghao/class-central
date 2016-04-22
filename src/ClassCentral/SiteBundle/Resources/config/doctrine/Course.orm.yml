@@ -111,6 +111,12 @@ ClassCentral\SiteBundle\Entity\Course:
         fixed: false
         nullable: true
         column: duration_type
+    isMooc:
+        type: string
+        length: 2
+        fixed: false
+        nullable: true
+        column: is_mooc
   oneToOne:
     indepthReview:
       targetEntity: IndepthReview

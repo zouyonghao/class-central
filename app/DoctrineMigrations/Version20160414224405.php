@@ -21,7 +21,8 @@ class Version20160414224405 extends AbstractMigration
         ADD COLUMN workload_type VARCHAR(2) NULL,
         ADD COLUMN duration_min INT NULL,
         ADD COLUMN duration_max INT NULL,
-        ADD COLUMN duration_type VARCHAR(2) NULL
+        ADD COLUMN duration_type VARCHAR(2) NULL,
+        ADD COLUMN is_mooc VARCHAR(2) DEFAULT 1
         ");
 
     }
