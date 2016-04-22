@@ -66,13 +66,13 @@ class Scraper extends ScraperAbstractInterface {
     );
 
     private $courseFields = array(
-        'Url', 'SearchDesc', 'Description', 'Length', 'Name', 'Language','LongDescription','Syllabus', 'WorkloadMin', 'WorkloadMax',
-        'Certificate', 'VerifiedCertificate', 'VideoIntro'
+        'Url', 'SearchDesc', 'Description', 'Name', 'Language','LongDescription','Syllabus', 'WorkloadMin', 'WorkloadMax','WorkloadType',
+        'Certificate', 'VideoIntro','DurationMin','DurationMax'
     );
 
     private $onDemandCourseFields = array(
-        'Url', 'Description', 'Length', 'Name', 'Language','LongDescription','Syllabus',
-        'Certificate', 'VerifiedCertificate',
+        'Url', 'Description', 'Name', 'Language','LongDescription','Syllabus',
+        'Certificate','DurationMin','DurationMax'
     );
 
     private $credentialFields = array(
@@ -462,6 +462,7 @@ class Scraper extends ScraperAbstractInterface {
             // Get the workload
             if( !empty($catalogDetails['estimatedClassWorkload']) && $workload = $this->getWorkLoad($catalogDetails['estimatedClassWorkload']) )
             {
+                $course->setWorkloadType(Course::WORKLOAD_TYPE_HOURS_PER_WEEK);
                 $course->setWorkloadMin( $workload[0] );
                 $course->setWorkloadMax( $workload[1] );
             }
@@ -471,8 +472,7 @@ class Scraper extends ScraperAbstractInterface {
             if( $sid )
             {
                 $sDetails  = $this->getDetailsFromSessionCatalog( $sid );
-                $course->setCertificate( $sDetails['eligibleForCertificates'] );
-                $course->setVerifiedCertificate( $sDetails['eligibleForSignatureTrack'] );
+                $course->setCertificate( $sDetails['eligibleForCertificates'] || $sDetails['eligibleForSignatureTrack'] );
             }
 
             // Add the university
@@ -501,7 +501,9 @@ class Scraper extends ScraperAbstractInterface {
             if(!empty($courseraOfferings))
             {
                 $newestOffering = end($courseraOfferings);
-                $course->setLength($this->getOfferingLength($newestOffering['duration_string']));
+                $courseLength = $this->getOfferingLength($newestOffering['duration_string']);
+                $course->setDurationMin($courseLength);
+                $course->setDurationMax($courseLength);
                 reset($courseraOfferings);
             }
 
@@ -873,8 +875,7 @@ class Scraper extends ScraperAbstractInterface {
             $course->setLanguage($dbLanguageMap['English']); // Use default language english
         }
 
-        $course->setCertificate( false );
-        $course->setVerifiedCertificate( $data['elements'][0]['isVerificationEnabled'] );
+        $course->setCertificate( $data['elements'][0]['isVerificationEnabled'] );
 
         // Add the university
         foreach ($data['linked']['partners.v1'] as $university)
@@ -926,7 +927,9 @@ class Scraper extends ScraperAbstractInterface {
 
             if($length > 0)
             {
-                $course->setLength( $length );
+                // Length of the course in weeks
+                $course->setDurationMin($length);
+                $course->setDurationMax($length);
             }
         }
 
