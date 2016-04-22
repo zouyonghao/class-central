@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Form;
 
+use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -23,6 +24,7 @@ class CourseType extends AbstractType {
 
         $builder
             ->add('name')
+            ->add('isMOOC','checkbox', array('label' => 'IS MOOC','required'=>false))
             ->add('description', null, array('required'=>false))
             ->add('longDescription', null, array('required'=>false))
             ->add('syllabus', null, array('required'=>false))
@@ -76,11 +78,15 @@ class CourseType extends AbstractType {
         $builder->add('language',null,array('required'=>false,'empty_value' => true))
             ->add('url')
             ->add('videoIntro')
-            ->add('length')
+            ->add('price')
+            ->add('pricePeriod','choice', array('choices'=> Course::$PRICE_PERIODS))
             ->add('certificate')
-            ->add('verifiedCertificate')
-            ->add('workloadMin')
-            ->add('workloadMax')
+            ->add('certificatePrice')
+            ->add('workloadType','choice', array('choices'=> Course::$WORKLOAD))
+            ->add('workloadMin',null,array('label'=>'Min Effort Required (in hours)'))
+            ->add('workloadMax',null,array('label'=>'Max Effort Required (in hours)'))
+            ->add('durationMin',null,array('label' => 'Min Duration Min (in Weeks)' ))
+            ->add('durationMax',null,array('label' => 'Max Duration Max (in Weeks)' ))
             //->add('searchDesc')
             ->add('one_liner',null,array('required' => false))
             ->add('thumbnail')

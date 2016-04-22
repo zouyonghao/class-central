@@ -18,8 +18,8 @@ class Course {
     const WORKLOAD_TYPE_TOTAL_HOURS    = 'T';
 
     public static $PRICE_PERIODS = array(
-        self::PRICE_PERIOD_MONTHLY =>'Monthly',
-        self::PRICE_PERIOD_TOTAL => 'Total'
+        self::PRICE_PERIOD_TOTAL => 'Total',
+        self::PRICE_PERIOD_MONTHLY =>'Monthly'
     );
 
     public static $WORKLOAD = array(

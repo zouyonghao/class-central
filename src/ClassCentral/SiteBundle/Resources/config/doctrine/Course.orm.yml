@@ -112,7 +112,7 @@ ClassCentral\SiteBundle\Entity\Course:
         nullable: true
         column: duration_type
     isMooc:
-        type: string
+        type: boolean
         length: 2
         fixed: false
         nullable: true
