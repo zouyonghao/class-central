@@ -16,6 +16,7 @@ class Course {
     const PRICE_PERIOD_TOTAL           = 'T';
     const WORKLOAD_TYPE_HOURS_PER_WEEK = 'W';
     const WORKLOAD_TYPE_TOTAL_HOURS    = 'T';
+    const PAID_CERTIFICATE = -1; // Special price to denote that the certificate is paid but price not known.
 
     public static $PRICE_PERIODS = array(
         self::PRICE_PERIOD_TOTAL => 'Total',

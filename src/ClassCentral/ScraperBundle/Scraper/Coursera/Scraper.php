@@ -67,12 +67,12 @@ class Scraper extends ScraperAbstractInterface {
 
     private $courseFields = array(
         'Url', 'SearchDesc', 'Description', 'Name', 'Language','LongDescription','Syllabus', 'WorkloadMin', 'WorkloadMax','WorkloadType',
-        'Certificate', 'VideoIntro','DurationMin','DurationMax'
+        'Certificate','CertificatePrice' ,'VideoIntro','DurationMin','DurationMax'
     );
 
     private $onDemandCourseFields = array(
         'Url', 'Description', 'Name', 'Language','LongDescription','Syllabus',
-        'Certificate','DurationMin','DurationMax'
+        'Certificate','CertificatePrice','DurationMin','DurationMax'
     );
 
     private $credentialFields = array(
@@ -876,6 +876,7 @@ class Scraper extends ScraperAbstractInterface {
         }
 
         $course->setCertificate( $data['elements'][0]['isVerificationEnabled'] );
+        $course->setCertificatePrice(Course::PAID_CERTIFICATE); // Price not known. Signify paid certificate.
 
         // Add the university
         foreach ($data['linked']['partners.v1'] as $university)

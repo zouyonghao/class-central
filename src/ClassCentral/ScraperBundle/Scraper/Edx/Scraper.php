@@ -27,7 +27,8 @@ class Scraper extends ScraperAbstractInterface
 
 
     private $courseFields = array(
-        'Url', 'Description', 'DurationMin','DurationMax', 'Name','LongDescription','VideoIntro','Certificate'
+        'Url', 'Description', 'DurationMin','DurationMax', 'Name','LongDescription','VideoIntro','Certificate',
+        'CertificatePrice'
     );
 
     private $offeringFields = array(
@@ -351,6 +352,15 @@ class Scraper extends ScraperAbstractInterface
         $course->setUrl($c['link']);
 
         $course->setCertificate( $c['course-verified'] );
+        if($c['course-verified'])
+        {
+            // Signify its a paid certificate
+            $course->setCertificatePrice( Course::PAID_CERTIFICATE );
+        }
+        else
+        {
+            $course->setCertificatePrice( 0 );
+        }
 
         // Calculate length
         $length = null;
