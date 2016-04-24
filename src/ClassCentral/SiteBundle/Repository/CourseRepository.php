@@ -21,6 +21,7 @@ class CourseRepository extends EntityRepository{
     public function getCourseArray( Course $course)
     {
         $courseDetails = array();
+        $formatter = $course->getFormatter();
 
         $courseDetails['id'] = $course->getId();
         $courseDetails['name'] = $course->getName();
@@ -33,6 +34,7 @@ class CourseRepository extends EntityRepository{
         $courseDetails['imageUrl'] = CourseUtility::getImageUrl($course);
         $courseDetails['status'] = $course->getStatus();
         $courseDetails['certificate'] = $course->getCertificate();
+        $courseDetails['certificateDisplay'] = $formatter->getCertificate();
         $courseDetails['verifiedCertificate'] = $course->getVerifiedCertificate();
         $courseDetails['workloadMin'] = $course->getWorkloadMin();
         $courseDetails['workloadMax'] = $course->getWorkloadMax();

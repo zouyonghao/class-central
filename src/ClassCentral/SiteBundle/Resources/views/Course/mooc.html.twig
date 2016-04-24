@@ -352,18 +352,7 @@
                             <svg class="icon icon-certificate" viewBox="0 0 32 32"><use xlink:href="#icon-certificate"></use></svg>
                             Certificates
                         </span>
-                        <span class="course-data-value">Certificate available</span>
-                    </div>
-                {% endif %}
-
-                {# Verified Certificate #}
-                {% if course.verifiedCertificate %}
-                    <div class="course-data-row course-verified-certificates">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-verifiedcertificate" viewBox="0 0 32 32"><use xlink:href="#icon-verifiedcertificate"></use></svg>
-                            Verified Certificates
-                        </span>
-                        <span class="course-data-value">Verified Certificate available</span>
+                        <span class="course-data-value">{{ course.certificateDisplay }}</span>
                     </div>
                 {% endif %}
 

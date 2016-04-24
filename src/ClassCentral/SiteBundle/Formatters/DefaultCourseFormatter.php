@@ -1,6 +1,6 @@
 <?php
 
-namespace ClassCentral\ClassCentralSiteBundle\Formatters;
+namespace ClassCentral\SiteBundle\Formatters;
 
 use ClassCentral\SiteBundle\Entity\Course;
 
@@ -61,11 +61,24 @@ class DefaultCourseFormatter extends CourseFormatterAbstract
 
     public function getCertificate()
     {
+        $str = '';
+
         if($this->course->getCertificate())
         {
-            
+            if($this->course->getCertificatePrice() == Course::PAID_CERTIFICATE)
+            {
+                $str = 'Paid Certificate Available';
+            }
+            elseif ($this->course->getCertificatePrice() > 0)
+            {
+                $str = '$' . $this->course->getCertificatePrice() . ' Certificate Available';
+            }
+            else
+            {
+                $str = 'Certificate Available';
+            }
         }
 
-        return '';
+        return $str;
     }
 }

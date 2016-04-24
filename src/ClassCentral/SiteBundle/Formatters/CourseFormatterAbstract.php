@@ -1,6 +1,7 @@
 <?php
 
-namespace ClassCentral\ClassCentralSiteBundle\Formatters;
+namespace ClassCentral\SiteBundle\Formatters;
+use ClassCentral\SiteBundle\Entity\Course;
 
 /**
  * Created by PhpStorm.
@@ -12,7 +13,7 @@ abstract class CourseFormatterAbstract
 {
     protected $course = null;
 
-    public function __construct(\ClassCentral\SiteBundle\Entity\Course $course)
+    public function __construct(Course $course)
     {
         $this->course = $course;
     }

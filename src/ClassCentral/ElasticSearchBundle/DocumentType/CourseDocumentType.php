@@ -100,6 +100,7 @@ class CourseDocumentType extends DocumentType {
         $rs = $this->container->get('review');
         $body = array();
         $c = $this->entity ; // Alias for entity
+        $formatter = $c->getFormatter();
 
         $body['name'] = $c->getName();
         $body['isMOOC'] = $c->getIsMOOC();
@@ -117,6 +118,7 @@ class CourseDocumentType extends DocumentType {
         $body['status'] = $c->getStatus();
         $body['certificate']  = $c->getCertificate();
         $body['certificatePrice'] = $c->getCertificatePrice();
+        $body['certificateDisplay'] = $formatter->getCertificate();
         $body['verifiedCertificate']  = $c->getVerifiedCertificate();
         $body['durationMin'] = $c->getDurationMin();
         $body['durationMax'] = $c->getDurationMax();

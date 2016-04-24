@@ -2,6 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Entity;
 
+use ClassCentral\SiteBundle\Formatters\DefaultCourseFormatter;
 use ClassCentral\CredentialBundle\Entity\Credential;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -1201,6 +1202,11 @@ class Course {
     public function getIsMooc()
     {
         return $this->isMooc;
+    }
+
+    public function getFormatter()
+    {
+        return new DefaultCourseFormatter($this);
     }
 
 }
