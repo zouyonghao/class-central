@@ -40,6 +40,9 @@ class CourseRepository extends EntityRepository{
         $courseDetails['workloadMax'] = $course->getWorkloadMax();
         $courseDetails['workloadType'] = $course->getWorkloadType();
         $courseDetails['workloadDisplay'] = $formatter->getWorkload();
+        $courseDetails['durationMin'] = $course->getDurationMin();
+        $courseDetails['durationMax'] = $course->getDurationMax();
+        $courseDetails['durationDisplay'] = $formatter->getDuration();
 
         // Calculate the workload
         $workload = '';

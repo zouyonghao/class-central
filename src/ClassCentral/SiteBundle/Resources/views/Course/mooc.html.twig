@@ -413,8 +413,8 @@
                                     {% endfor %}
                                 </select>
                             {% endif %}
-                            {% if course.length > 0 %}
-                                <span  class="course-length">{{ course.length }} weeks long</span>
+                            {% if course.durationMin > 0 %}
+                                <span  class="course-length">{{ course.durationDisplay }}</span>
                             {% endif %}
 
                         </span>

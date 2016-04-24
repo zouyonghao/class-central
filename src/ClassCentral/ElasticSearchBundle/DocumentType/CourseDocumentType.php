@@ -110,7 +110,7 @@ class CourseDocumentType extends DocumentType {
         $body['workloadType'] = $c->getWorkloadType();
         $body['workloadMin'] = $c->getWorkloadMin();
         $body['workloadMax'] = $c->getWorkloadMax();
-        $body['workloadDisplay'] = $c->getWorkloadDisplay();
+        $body['workloadDisplay'] = $formatter->getWorkload();
         $body['slug'] = $c->getSlug();
         $body['description'] = $c->getDescription();
         $body['longDescription'] = $c->getLongDescription();
@@ -123,6 +123,7 @@ class CourseDocumentType extends DocumentType {
         $body['verifiedCertificate']  = $c->getVerifiedCertificate();
         $body['durationMin'] = $c->getDurationMin();
         $body['durationMax'] = $c->getDurationMax();
+        $body['durationDisplay'] = $formatter->getDuration();
         $body['price'] = $c->getPrice();
         $body['pricePeriod'] = $c->getPricePeriod();
 

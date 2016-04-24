@@ -25,7 +25,19 @@ class DefaultCourseFormatter extends CourseFormatterAbstract
 
     public function getDuration()
     {
+        if( $this->course->getDurationMin() && $this->course->getDurationMax() )
+        {
+            if ($this->course->getDurationMin() == $this->course->getDurationMax() )
+            {
+                return "{$this->course->getDurationMin()} weeks long";
+            }
+            else
+            {
+                return "{$this->course->getDurationMin()}-{$this->course->getDurationMax()} weeks long";
+            }
 
+        }
+        return '';
     }
 
     public function getWorkload()
