@@ -30,9 +30,9 @@ class DefaultCourseFormatter extends CourseFormatterAbstract
 
     public function getWorkload()
     {
+        $effort = '';
         if( $this->course->getWorkloadMin() && $this->course->getWorkloadMax() )
         {
-            $effort = '';
             if( $this->course->getWorkloadMin() == $this->course->getWorkloadMax() )
             {
                 $effort = $this->course->getWorkloadMin();
@@ -48,15 +48,12 @@ class DefaultCourseFormatter extends CourseFormatterAbstract
                     $effort .= ' hours a week';
                     break;
                 case Course::WORKLOAD_TYPE_TOTAL_HOURS:
-                    $effort .= ' total hours';
+                    $effort .= ' hours worth of material';
                     break;
             }
-
-            return $effort;
-
         }
 
-        return '';
+        return $effort;
     }
 
     public function getCertificate()

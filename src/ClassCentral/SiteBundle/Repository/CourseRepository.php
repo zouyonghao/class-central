@@ -38,6 +38,8 @@ class CourseRepository extends EntityRepository{
         $courseDetails['verifiedCertificate'] = $course->getVerifiedCertificate();
         $courseDetails['workloadMin'] = $course->getWorkloadMin();
         $courseDetails['workloadMax'] = $course->getWorkloadMax();
+        $courseDetails['workloadType'] = $course->getWorkloadType();
+        $courseDetails['workloadDisplay'] = $formatter->getWorkload();
 
         // Calculate the workload
         $workload = '';

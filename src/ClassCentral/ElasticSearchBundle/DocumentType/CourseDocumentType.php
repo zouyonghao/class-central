@@ -110,6 +110,7 @@ class CourseDocumentType extends DocumentType {
         $body['workloadType'] = $c->getWorkloadType();
         $body['workloadMin'] = $c->getWorkloadMin();
         $body['workloadMax'] = $c->getWorkloadMax();
+        $body['workloadDisplay'] = $c->getWorkloadDisplay();
         $body['slug'] = $c->getSlug();
         $body['description'] = $c->getDescription();
         $body['longDescription'] = $c->getLongDescription();
