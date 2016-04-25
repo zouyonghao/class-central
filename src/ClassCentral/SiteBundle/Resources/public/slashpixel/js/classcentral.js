@@ -74,9 +74,9 @@ jQuery(function($) {
     // Handle calls to add/remove courses to users library
     $('input[class="course-list-checkbox"]').change( courseListCheckboxHandler );
 
-    // Completed, Audited, Partially Completed, Dropped, Current
+    // Completed, Audited, Partially Completed
     var listCourseDone = [
-        3,4,5,6
+        3,4,5
     ];
 
     // Enrolled
