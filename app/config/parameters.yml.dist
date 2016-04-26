@@ -98,3 +98,4 @@ parameters:
     keen_user_stats_read_key: ~
 
     test_email: ~
+    segment_write_key: ~
