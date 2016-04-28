@@ -115,6 +115,7 @@
             #}
         </section>
 
+
     </div>
 
 {% endblock %}
@@ -134,13 +135,16 @@
                 <img src="{{ blog1.imageUrl }}" alt="post-background">
             </div>
             <div class="single-post-content">
-                <h3>
+                <div class="single-post-content__title">
+                  <h3>
                     {{ blog1.title }}
-                </h3>
+                  </h3>
+                </div>
+
                 <p class="excerpt">
                     {{ blog1.description }}
                 </p>
-                <span class="read-more">READ MORE</span>
+                <span class="single-post__button">READ MORE</span>
             </div>
         </a>
 
@@ -152,13 +156,15 @@
                 <img src="{{ blog2.imageUrl }}" alt="post-background">
             </div>
             <div class="single-post-content">
-                <h3>
+                <div class="single-post-content__title">
+                  <h3>
                     {{ blog2.title }}
-                </h3>
+                  </h3>
+                </div>
                 <p class="excerpt">
                     {{ blog2.description }}
                 </p>
-                <span class="read-more">READ MORE</span>
+                <span class="single-post__button">READ MORE</span>
             </div>
         </a>
     </section>
