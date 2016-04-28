@@ -233,6 +233,12 @@ jQuery(function($) {
         }
     }
 
+    // Certificate filter
+    var qCertificateFilter = $.url().param('certificate');
+    if(qCertificateFilter) {
+        $('#certificate-toggle').find('.tick').addClass('ticked');
+    }
+
     /**
      * Updates the url to reflect the filters using pushstate
      * @param subjects
