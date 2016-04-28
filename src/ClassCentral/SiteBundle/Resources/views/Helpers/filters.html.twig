@@ -40,7 +40,24 @@
             </div>
         </div>
         {% endif %}
+
+
         <ul class="filter-nav">
+
+            <li class="filter-certificate active">
+                <ul class="main-filter-dropdown">
+                    <li>
+                        <div class="tick-wrap">
+                               <span class="tick tick-icon-bg">
+                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                        <use xlink:href="#icon-cc-tick"></use>
+                                    </svg>
+                                </span>
+                            <a href="#" class="filter-dropdown-toggle sub-category">By Certificate</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
 
             {# user course lists #}
             {% if userLists is defined and userLists|length > 0 %}

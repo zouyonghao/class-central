@@ -308,6 +308,11 @@ jQuery(function($) {
             sessions.push($.trim($(this).data("session")));
         });
 
+        var certificate = false;
+        $(".filter-certificate .ticked + .sub-category").each(function () {
+            certificate = true;
+        });
+
         var params = {};
         if( tickedSubjects.length > 0 ) {
             params['subject'] = tickedSubjects.join();
@@ -317,6 +322,10 @@ jQuery(function($) {
         }
         if( courseLists.length > 0 ) {
             params['list'] = courseLists.join();
+        }
+        if( certificate ) {
+            console.log("Certificate");
+            params['certificate'] = true;
         }
         var sorting = [];
         $('th.sorting').each(function(){
@@ -347,7 +356,7 @@ jQuery(function($) {
 
         $qParams = $.url().param();
         for(var param in $qParams) {
-            if($.inArray(param,['session','subject','lang','sort','page','list']) == -1 ) {
+            if($.inArray(param,['session','subject','lang','sort','page','list','certificate']) == -1 ) {
                 params[param ] = $qParams[param];
             }
         }
