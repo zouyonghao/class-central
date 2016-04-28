@@ -43,6 +43,10 @@ class DefaultController extends Controller {
             $spotlights = array();
             foreach($s as $item)
             {
+                if($item->getCourse())
+                {
+                    $item->setCourseId( $item->getCourse()->getId() ); // Cache the course id
+                }
                 $spotlights[$item->getPosition()] = $item;
             }
 

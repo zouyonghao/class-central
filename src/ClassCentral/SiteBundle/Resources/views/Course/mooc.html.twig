@@ -175,6 +175,12 @@
                         <span class="with-separator"> &nbsp;with&nbsp;</span>
                         <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
                     {% endif %}
+
+                    <!--
+                    <div class="course-provider-wrap--sub">
+                        This course prepares you for a career in...
+                    </div>
+                    -->
                 </div>
 
                 {% if course.credential is not empty %}
@@ -282,7 +288,16 @@
 
         <div class="course-data">
 
+
             <div class="course-data-inner">
+
+                <div class="course-data-row course-provider">
+                        <span class="course-data-icon">
+                            <svg class="icon icon-paid-icon" viewBox="0 0 32 32"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-paid-icon"></use></svg>
+                            Cost
+                        </span>
+                    <span class="course-data-value">{% if course.price > 0 %} ${{ course.price }} {% else %} Free Online Course {% endif %}</span>
+                </div>
 
                 {# Course Status - Self Paced, Upcoming, etc #}
                 {% if course.nextOffering is defined and course.nextOffering.state is defined %}
