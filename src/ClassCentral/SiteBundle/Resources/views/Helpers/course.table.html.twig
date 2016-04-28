@@ -182,7 +182,14 @@
                            "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
                            "{{course.provider.name}}","{{course.name}}","{{ tableId }}");return false'
 
-                   title="{{ course.name }} - MOOC"><span itemprop="name">{{ course.name }}</span></a>
+                   title="{{ course.name }}"><span itemprop="name" class="course-name-text">{{ course.name }}</span>
+
+                    {% if course.price > 0 %}
+                    <span class="course-name-icon">
+                       <svg viewBox="0 0 32 32"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-paid-icon"></use></svg>
+                   </span>
+                    {% endif %}
+                </a>
 
 
                 {# showing institutions and universities #}
@@ -245,7 +252,7 @@
                 <div class="rating-and-count-wrap">
 
                     <div class="course-table-rating">
-                        {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(course.rating),ratingColour: 'dark'} %}
+                        {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(course.rating),ratingColour: 'brand'} %}
                     </div>
 
 
