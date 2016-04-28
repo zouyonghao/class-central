@@ -44,6 +44,8 @@ class Spotlight
      */
     private $course;
 
+    private $courseId;
+
     const SPOTLIGHT_TYPE_DEMO = 1; // Only show in dev
     const SPOTLIGHT_TYPE_COURSE = 2;
     const SPOTLIGHT_TYPE_NEWS = 3;
@@ -245,5 +247,22 @@ class Spotlight
     public function getCourse()
     {
         return $this->course;
+    }
+
+    public function getCourseId()
+    {
+        return $this->courseId;
+    }
+
+    public function setCourseId ($courseId)
+    {
+        $this->courseId = $courseId;
+
+        return $this;
+    }
+
+    public function __sleep()
+    {
+        return array('id','position','title','title','description','url','imageUrl','type','courseId');
     }
 }

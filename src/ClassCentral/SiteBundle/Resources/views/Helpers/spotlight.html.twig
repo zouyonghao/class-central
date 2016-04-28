@@ -35,6 +35,20 @@
                     <div class="img-wrap">
                         {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
                         <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
+                        {% if spotlight.type == 2 %}
+
+                            {{ spotlight.courseId }}
+                            {%  set spotlightCourseRating = reviewService.calculateAverageRating(spotlight.courseId)  %}
+                            <div class="spotlight-item__rating">
+                              {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(spotlightCourseRating.rating),ratingColour: 'white'} %}
+                            </div>
+
+
+                            <div class="spotlight-item__reviews">
+                              <span class="numberBubble">{{ spotlightCourseRating.numRatings }}</span>
+                            </div>
+                        {% endif %}
+
                         <div class="spotlight-item__overlay"></div>
 
                         <div class="spotlight-item__image-content">
@@ -90,7 +104,6 @@
 
     <div class="row">
 
-
         {% for position in 13..17 %}
             {% set spotlight = spotlights[position] %}
             <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
@@ -128,14 +141,19 @@
         {% endfor %}
 
 
-
-    <!--
+        {#
         <div class="spotlight-col-aside">
           <div class="featured-media">
-            <img src="http://placehold.it/446x305" alt="Image title" class="featured-media__img">
-            <h2 class="featured-media__title">Exploring Course Structure at HarvardX: A New Year's Resolution for MOOC Research</h2>
+
+             <a href="#" class="featured-media__imageLink">
+               <img src="http://placehold.it/446x305" alt="Image title" class="featured-media__img">
+             </a>
+
+            <h2 class="featured-media__title">
+              <a href="">Exploring Course Structure at HarvardX: A New Year's Resolution for MOOC Research</a>
+            </h2>
             <div class="featured-media__content">
-              One of the minds behind HarvardX shares glimpse into how their courses are structured
+              One of the minds behind HarvardX shares a glimpse into how their courses are structured
             </div>
             <div class="featured-media__meta">
               Published on Wednesday 2nd March 2016
@@ -146,14 +164,74 @@
         <div class="spotlight-col-main">
 
           <div class="media-object media-object--bordered">
-            <img class="media-object__image" src="http://placehold.it/446x305" alt="Image title" class="media-object">
-            <h2 class="media-object__title">MOOCWatch Feb 2016:More Students, More dfasfa afa sdfas fas af jas l</h2>
-            <div class="media-object__meta">
-              Published on Tuesday 1st March 2016
+            <a href="#" class="media-object__image">
+              <img src="http://placehold.it/446x305" alt="Image title" class="media-object">
+            </a>
+
+            <div class="media-object__content">
+              <h2 class="media-object__title">
+                <a href="#">MOOCWatch Feb 2016: More Students, More Price Points, <br> More Models</a>
+              </h2>
+              <div class="media-object__meta">
+                Published on Tuesday 1st March 2016
+              </div>
             </div>
+
           </div>
 
+          <div class="media-object media-object--bordered">
+            <a href="#" class="media-object__image">
+              <img src="http://placehold.it/446x305" alt="Image title" class="media-object">
+            </a>
+
+            <div class="media-object__content">
+              <h2 class="media-object__title">
+                <a href="#">MOOCWatch Feb 2016:More Students, More dfasfa afa sdfas fas af jas l</a>
+              </h2>
+              <div class="media-object__meta">
+                {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(4),ratingColour: 'brightBlue'} %}
+                Review on Friday 28th February 2016
+              </div>
+            </div>
+
+          </div>
+
+          <div class="media-object media-object--bordered">
+            <a href="#" class="media-object__image">
+              <img src="http://placehold.it/446x305" alt="Image title" class="media-object">
+            </a>
+
+            <div class="media-object__content">
+              <h2 class="media-object__title">
+                <a href="#">MOOCWatch Feb 2016:More Students, More dfasfa afa sdfas fas af jas l</a>
+              </h2>
+              <div class="media-object__meta">
+                Published on Tuesday 1st March 2016
+              </div>
+            </div>
+
+          </div>
+
+          <div class="media-object media-object--bordered">
+            <a href="#" class="media-object__image">
+              <img src="http://placehold.it/446x305" alt="Image title" class="media-object">
+            </a>
+
+            <div class="media-object__content">
+              <h2 class="media-object__title">
+                <a href="#">MOOCWatch Feb 2016:More Students, More dfasfa afa sdfas fas af jas l</a>
+              </h2>
+              <div class="media-object__meta">
+                Published on Tuesday 1st March 2016
+              </div>
+            </div>
+
+          </div>
+
+
+
+
         </div>
--->
+        #}
 
     </div>
