@@ -330,7 +330,6 @@ jQuery(function($) {
             params['list'] = courseLists.join();
         }
         if( certificate ) {
-            console.log("Certificate");
             params['certificate'] = true;
         }
         var sorting = [];
