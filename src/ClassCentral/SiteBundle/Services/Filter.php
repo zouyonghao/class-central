@@ -171,6 +171,11 @@ class Filter {
             $and[] = self::getTermsQuery('subjects.slug', $params['subject']);
         }
 
+        if( isset($params['certificate']))
+        {
+            $and[] = self::getTermsQuery('certificate',true);
+        }
+
         /**
          * Whenever the results are sorted by dates,
          * remove the courses which have a start date that is unknown
