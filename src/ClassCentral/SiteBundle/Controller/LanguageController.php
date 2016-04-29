@@ -210,6 +210,7 @@ class LanguageController extends Controller
                 'listTypes' => UserCourse::$lists,
                 'allSubjects' => $data['allSubjects'],
                 'allSessions' => $data['allSessions'],
+                'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
                 'pageInfo' => $data['pageInfo'],
                 'breadcrumbs' => $data['breadcrumbs'],
                 'sortField' => $data['sortField'],

@@ -857,6 +857,7 @@ EOD;
                 'allSubjects' => $data['allSubjects'],
                 'allLanguages' => $data['allLanguages'],
                 'allSessions' => $data['allSessions'],
+                'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
                 'tag' => $tag,
                 'tagDisplayName' => ucfirst(strtolower( $tag) ),
                 'sortField' => $data['sortField'],

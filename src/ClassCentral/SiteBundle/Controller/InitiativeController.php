@@ -209,6 +209,7 @@ class InitiativeController extends Controller
             'allSubjects' => $data['allSubjects'],
             'allLanguages' => $data['allLanguages'],
             'allSessions' => $data['allSessions'],
+            'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
             'page' => 'initiative',
             'provider' => $data['provider'],
             'pageInfo' => $data['pageInfo'],

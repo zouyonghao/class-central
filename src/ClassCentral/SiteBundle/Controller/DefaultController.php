@@ -166,6 +166,7 @@ class DefaultController extends Controller {
                     'listTypes' => UserCourse::$lists,
                     'allSubjects' => $data['allSubjects'],
                     'allLanguages' => $data['allLanguages'],
+                    'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
                      'offeringTypes' => Offering::$types,
                     'sortField' => $data['sortField'],
                     'sortClass' => $data['sortClass'],

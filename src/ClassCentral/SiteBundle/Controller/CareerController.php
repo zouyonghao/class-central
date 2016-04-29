@@ -259,6 +259,7 @@ class CareerController extends Controller
                 'allLanguages' => $data['allLanguages'],
                 'allSessions' => $data['allSessions'],
                 'breadcrumbs' => $data['breadcrumbs'],
+                'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
                 'pageInfo' => $data['pageInfo'],
                 'sortField' => $data['sortField'],
                 'sortClass' => $data['sortClass'],

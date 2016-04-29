@@ -217,6 +217,7 @@ class InstitutionController extends Controller
                     'allSubjects' => $data['allSubjects'],
                     'allLanguages' => $data['allLanguages'],
                     'allSessions' => $data['allSessions'],
+                    'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
                     'breadcrumbs' => $data['breadcrumbs'],
                     'pageInfo' => $data['pageInfo'],
                     'sortField' => $data['sortField'],

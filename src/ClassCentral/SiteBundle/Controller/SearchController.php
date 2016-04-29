@@ -19,6 +19,7 @@ class SearchController extends Controller{
         $allLanguages = array();
         $allSubjects = array();
         $allSessions = array();
+        $numCoursesWithCertificates = 0;
         $sortField = $sortClass = $pageNo = '';
 
         $request = $this->getRequest();
@@ -39,6 +40,7 @@ class SearchController extends Controller{
             'allSubjects' => $allSubjects,
             'allLanguages' => $allLanguages,
             'allSessions'  => $allSessions,
+            'numCoursesWithCertificates' => $numCoursesWithCertificates,
             'sortField' =>$sortField,
             'sortClass' => $sortClass,
             'pageNo' => $pageNo,
