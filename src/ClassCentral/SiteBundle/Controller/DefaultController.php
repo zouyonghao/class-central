@@ -129,6 +129,17 @@ class DefaultController extends Controller {
 
         }
 
+        // MOOC Report posts
+        $moocReport = $this->get('mooc_report');
+        $newestPosts = array();
+        try{
+            $newestPosts = $moocReport->getPosts();
+        }
+        catch(\Exception $e)
+        {
+
+        }
+
         return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
                 'page' => 'home',
                 'listTypes' => UserCourse::$lists,
@@ -141,7 +152,8 @@ class DefaultController extends Controller {
                 'ucCount' => $ucCount,
                 'recommendedCourses' => $recommendedCourses,
                 'meetYourNextCourse' => $meetYourNextCourse,
-                'spotlightPaidCourse' => $this->get('course')->getRandomPaidCourse()
+                'spotlightPaidCourse' => $this->get('course')->getRandomPaidCourse(),
+                'newestPosts' => $newestPosts
                ));
     }
 
@@ -242,7 +254,7 @@ class DefaultController extends Controller {
             array('colour' => 'yellowScheme' , 'numText' => 'Two' ),
             array('colour' => 'aquaScheme' , 'numText' => 'Three' )
         );
-        $deal = $this->get('course')->getRandomPaidCourse();
+        
         $deals = array();
         while(count($deals) < 3 )
         {
