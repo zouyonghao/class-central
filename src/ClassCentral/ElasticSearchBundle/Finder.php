@@ -273,10 +273,22 @@ class Finder {
         {
             $sessions[ $term['term'] ] = $term['count'];
         }
+
+        $certificates = 0;
+        foreach($results['facets']['certificate']['terms'] as $term)
+        {
+            if( $term['term'] == 'T')
+            {
+                $certificates = $term['count'];
+                break;
+            }
+        }
+
         return array(
             'subjectIds' => $subjectIds,
             'languageIds' => $languageIds,
             'sessions'    => $sessions,
+            'certificates' => $certificates
         );
     }
 
@@ -301,6 +313,12 @@ class Finder {
                     'size' => 10
                 )
             ),
+            'certificate' => array(
+                'terms' => array(
+                    'field' => 'certificate',
+                    'size' => 2
+                )
+            )
         );
 
         return $facets;

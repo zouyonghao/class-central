@@ -206,6 +206,7 @@ class StreamController extends Controller
                 'listTypes' => UserCourse::$lists,
                 'allSubjects' => $data['allSubjects'],
                 'allLanguages' => $data['allLanguages'],
+                'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
                 'pageInfo' => $data['pageInfo'],
                 'allSessions' => $data['allSessions'],
                 'breadcrumbs' => $data['breadcrumbs'],

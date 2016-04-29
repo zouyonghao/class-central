@@ -44,6 +44,8 @@
 
         <ul class="filter-nav">
 
+            {# show a certificate filter #}
+            {% if numCoursesWithCertificates is defined and numCoursesWithCertificates > 0 %}
             <li class="filter-certificate active">
                 <ul class="main-filter-dropdown">
                     <li id="certificate-toggle">
@@ -53,11 +55,12 @@
                                         <use xlink:href="#icon-cc-tick"></use>
                                     </svg>
                                 </span>
-                            <a href="#" class="filter-dropdown-toggle sub-category">By Certificate</a>
+                            <a href="#" class="filter-dropdown-toggle sub-category">With Certificate ({{ numCoursesWithCertificates }})</a>
                         </div>
                     </li>
                 </ul>
             </li>
+            {% endif %}
 
             {# user course lists #}
             {% if userLists is defined and userLists|length > 0 %}
