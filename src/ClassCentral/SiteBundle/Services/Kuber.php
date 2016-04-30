@@ -255,6 +255,13 @@ class Kuber {
             {
                 $extension = $fileParts['extension'];
             }
+
+            // Get the extension from mimetype
+            if(empty($extension))
+            {
+                $parts =  explode('/',mime_content_type($filePath));
+                $extension = $parts[1];
+            }
         }
         $time = microtime();
         return substr(md5( $this->generateRandomString() + $time ),0,12). '.'.$extension ;
