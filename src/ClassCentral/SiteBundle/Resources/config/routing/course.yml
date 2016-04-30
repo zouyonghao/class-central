@@ -68,3 +68,7 @@ course_merge_save:
 course_approve:
   pattern: /approve/{courseId}
   defaults: { _controller: ClassCentralSiteBundle:Course:quickApprove }
+
+course_image_upload:
+  pattern: /image-upload
+  defaults: { _controller: ClassCentralSiteBundle:Course:imageUpload }

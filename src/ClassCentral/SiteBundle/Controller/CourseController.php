@@ -1213,4 +1213,15 @@ EOD;
         return $rankings;
     }
 
+    /**
+     * Uploads and saves an image to a course
+     * @param Request $request
+     */
+    public function imageUploadAction(Request $request)
+    {
+        return $this->render('ClassCentralSiteBundle:Course:image.upload.html.twig',
+            array(
+            ));
+    }
+
 }
