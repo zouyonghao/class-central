@@ -211,6 +211,9 @@ services:
   slack_client:
          class: Maknz\Slack\Client
          arguments: ['%slack_webhook%']
+  course:
+        class: ClassCentral\SiteBundle\Services\Course
+        arguments: ['@service_container']
   session.memcached:
     class: Memcached
     arguments:
