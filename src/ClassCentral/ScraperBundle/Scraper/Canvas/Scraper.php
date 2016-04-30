@@ -25,6 +25,7 @@ class Scraper extends ScraperAbstractInterface
 
 
         $em = $this->getManager();
+        $courseService = $this->container->get('course');
         $offerings = array();
 
         $page = 1;
@@ -82,7 +83,7 @@ class Scraper extends ScraperAbstractInterface
 
                             if( $canvasCourse['image'] )
                             {
-                                $this->uploadImageIfNecessary( $canvasCourse['image'], $c);
+                                $courseService->uploadImageIfNecessary( $canvasCourse['image'], $c);
                             }
 
                             // Send an update to Slack
@@ -105,7 +106,7 @@ class Scraper extends ScraperAbstractInterface
 
                             if( $canvasCourse['image'] )
                             {
-                                $this->uploadImageIfNecessary( $canvasCourse['image'], $dbCourse);
+                                $courseService->uploadImageIfNecessary( $canvasCourse['image'], $dbCourse);
                             }
                         }
                         $courseChanged = true;
@@ -244,28 +245,7 @@ class Scraper extends ScraperAbstractInterface
 
         return $path;
     }
-
-    private function uploadImageIfNecessary( $imageUrl, Course $course)
-    {
-        $kuber = $this->container->get('kuber');
-        $uniqueKey = basename($imageUrl);
-        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
-        {
-            // Upload the file
-            $filePath = '/tmp/course_'.$uniqueKey;
-            file_put_contents($filePath,file_get_contents($imageUrl));
-            $kuber->upload(
-                $filePath,
-                Kuber::KUBER_ENTITY_COURSE,
-                Kuber::KUBER_TYPE_COURSE_IMAGE,
-                $course->getId(),
-                null,
-                $uniqueKey
-            );
-
-        }
-    }
-
+    
     private function getOfferingEntity($canvasCourse, Course $course)
     {
         $offering = new Offering();
