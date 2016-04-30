@@ -3,7 +3,10 @@
 {% block content %}
     <h1>Image Upload</h1>
     <p>Either the course image url or Course image is required</p>
-    <form method="post" enctype="multipart/form-data">
+    {% if msg is not empty %}
+        <h3>{{ msg }}</h3>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" name="course-image-upload">
         <label>Course Id</label>
         <input type="number" name="course-id" id="course-id"/>
         <br/>

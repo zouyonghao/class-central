@@ -1219,9 +1219,53 @@ EOD;
      */
     public function imageUploadAction(Request $request)
     {
+        $msg ='';
+        if($request->isMethod('POST'))
+        {
+            $postFields = $request->request->all();
+            $courseId = $postFields['course-id'];
+            $courseImageUrl = $postFields['course-image-url'];
+            $courseImage = $request->files->get('course-image');
+
+            $courseService = $this->get('course');
+            $course = $this->getDoctrine()->getManager()
+                ->getRepository('ClassCentralSiteBundle:Course')
+                ->find($courseId);
+            if($course)
+            {
+                if($courseImage)
+                {
+                    $fileSize = $courseImage->getClientSize()/1024;
+                    if($fileSize > 1024 )
+                    {
+                        $msg ='File Size Greater than 1mb';
+                    }
+                    else
+                    {
+                        $courseService->uploadImageIfNecessary($courseImage->getPathname(),$course);
+                    }
+
+                }
+                elseif($courseImageUrl)
+                {
+                    $courseService->uploadImageIfNecessary($courseImageUrl,$course);
+                }
+                else
+                {
+                    $msg = 'Either the course image url or course image is required';
+                }
+            }
+            else
+            {
+                $msg = 'Course not found';
+            }
+
+        }
+
         return $this->render('ClassCentralSiteBundle:Course:image.upload.html.twig',
             array(
-            ));
+                'msg' => $msg
+        ));
     }
 
 }
