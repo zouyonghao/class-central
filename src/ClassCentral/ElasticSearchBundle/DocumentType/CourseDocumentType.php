@@ -98,6 +98,7 @@ class CourseDocumentType extends DocumentType {
         $indexer = $this->container->get('es_indexer');
         $em = $this->container->get('doctrine')->getManager();
         $rs = $this->container->get('review');
+        $courseService = $this->container->get('course');
         $body = array();
         $c = $this->entity ; // Alias for entity
         $formatter = $c->getFormatter();
@@ -106,6 +107,7 @@ class CourseDocumentType extends DocumentType {
         $body['isMOOC'] = $c->getIsMOOC();
         $body['id'] = $c->getId();
         $body['videoIntro'] = $c->getVideoIntro();
+        $body['oneLiner']= $c->getOneliner();
         $body['length'] = $c->getLength();
         $body['workloadType'] = $c->getWorkloadType();
         $body['workloadMin'] = $c->getWorkloadMin();
@@ -126,6 +128,7 @@ class CourseDocumentType extends DocumentType {
         $body['durationDisplay'] = $formatter->getDuration();
         $body['price'] = $c->getPrice();
         $body['pricePeriod'] = $c->getPricePeriod();
+        $body['imageUrl'] = $courseService->getCourseImage($c);
 
         $body['url'] = $c->getUrl();
         if($c->getCreated())

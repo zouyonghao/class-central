@@ -41,4 +41,32 @@ class Course
 
         }
     }
+
+    // Used for spotlight section
+    public function getRandomPaidCourse()
+    {
+        $finder = $this->container->get('course_finder');
+        $results = $finder->paidCourses();
+        $courses = array();
+        foreach($results['hits']['hits'] as $course)
+        {
+            $courses[] = $course['_source'];
+        }
+
+        $index = rand(0,count($courses)-1);
+
+        return $courses[$index];
+    }
+
+    public function getCourseImage(\ClassCentral\SiteBundle\Entity\Course $course)
+    {
+        return $this->getCourseImageFromId($course->getId());
+    }
+
+    public function getCourseImageFromId($courseId)
+    {
+        $kuber = $this->container->get('kuber');
+        $url = $kuber->getUrl( Kuber::KUBER_ENTITY_COURSE ,Kuber::KUBER_TYPE_COURSE_IMAGE, $courseId );
+        return $url;
+    }
 }

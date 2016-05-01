@@ -108,6 +108,19 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
+    public function paidCourses($filters= array(), $sort = array(), $page = 1)
+    {
+        $query = array(
+            'range' => array(
+                'price' => array(
+                    'gt' => 0
+                )
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+    }
+
     public function byCourseIds( $ids = array(), $filters= array(), $sort = array(), $page = 1 )
     {
         $query = array(
