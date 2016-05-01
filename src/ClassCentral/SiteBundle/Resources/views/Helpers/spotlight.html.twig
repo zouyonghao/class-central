@@ -77,7 +77,7 @@
                    {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}"
 
                      id="home-spotlight-{{ spotlight.position }}">
-                    <a class="spotlight-item {{ spotlightMap[2].class }}" href="{{ spotlightPaidCourse.nextSession.url }}"
+                    <a class="spotlight-item {{ spotlightMap[2].class }}" href="{{ path('ClassCentralSiteBundle_mooc',{ id: spotlightPaidCourse.id, slug:spotlightPaidCourse.slug}) }}{{ spotlightPaidCourse.nextSession.url }}"
                        onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
                                '{{ spotlightPaidCourse.name }}');"
                             >
