@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Services;
 
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use ClassCentral\SiteBundle\Entity\Course as CourseEntity;
 
 class Course
 {
@@ -20,7 +21,7 @@ class Course
         $this->container = $container;
     }
 
-    public function uploadImageIfNecessary( $imageUrl, \ClassCentral\SiteBundle\Entity\Course $course)
+    public function uploadImageIfNecessary( $imageUrl, CourseEntity $course)
     {
         $kuber = $this->container->get('kuber');
         $uniqueKey = basename($imageUrl);
@@ -58,7 +59,7 @@ class Course
         return $courses[$index];
     }
 
-    public function getCourseImage(\ClassCentral\SiteBundle\Entity\Course $course)
+    public function getCourseImage(CourseEntity $course)
     {
         return $this->getCourseImageFromId($course->getId());
     }
