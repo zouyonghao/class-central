@@ -2,7 +2,7 @@
 
 namespace ClassCentral\SiteBundle\Services;
 
-use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Course as CourseEntity;
 use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm;
 use ClassCentral\SiteBundle\Entity\Profile;
@@ -354,7 +354,7 @@ class User {
      * @param Course $course
      * @param $listId
      */
-    public function addCourse(\ClassCentral\SiteBundle\Entity\User $user, Course $course, $listId)
+    public function addCourse(\ClassCentral\SiteBundle\Entity\User $user, CourseEntity $course, $listId)
     {
         $em = $this->container->get('doctrine')->getManager();
         // Check if the list id is valid
@@ -386,7 +386,7 @@ class User {
      * @param Course $course
      * @param $listId
      */
-    public function removeCourse(\ClassCentral\SiteBundle\Entity\User $user, Course $course, $listId)
+    public function removeCourse(\ClassCentral\SiteBundle\Entity\User $user, CourseEntity $course, $listId)
     {
         $em = $this->container->get('doctrine')->getManager();
         $userCourseId = $this->getUserCourseId($user,$course,$listId);
@@ -411,7 +411,7 @@ class User {
      * @param Course $course
      * @param $listId
      */
-    private function getUserCourseId(\ClassCentral\SiteBundle\Entity\User $user, Course $course, $listId)
+    private function getUserCourseId(\ClassCentral\SiteBundle\Entity\User $user, CourseEntity $course, $listId)
     {
         $em = $this->container->get('doctrine')->getManager();
         $rsm = new ResultSetMapping();
