@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and (app.request.get('page') == '' or midRowTableAd) %}
 
-    {% set ad = random(7) %}
+    {% set ad = random(8) %}
 
     {% if ad == 0 %}
 
@@ -109,7 +109,7 @@
         } %}
 
 
-    {% else %}
+    {% elseif ad == 7 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': 'The Nature of Code',
@@ -121,6 +121,21 @@
         'institutionUrl': '/institution/processing-foundation',
         'subjectName': 'Visual Arts',
         'subjectSlug':'visual-arts',
+        'format' : format
+        } %}
+
+    {% else %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': "Harvard's Intro to Computer Science",
+        'courseUrl' : 'https://www.edx.org/course/introduction-computer-science-harvardx-cs50x?utm_source=class-central.com&utm_medium=cpc&utm_content=cs50&utm_campaign=cs50',
+        'courseDate': 'Self Paced',
+        'providerName':'edX',
+        'providerUrl' : 'https://www.edx.org/?utm_source=class-central.com&utm_medium=cpc&utm_content=cs50&utm_campaign=cs50',
+        'institutionName':'',
+        'institutionUrl': 'https://www.edx.org/school/harvardx?utm_source=class-central.com&utm_medium=cpc&utm_content=cs50&utm_campaign=cs50',
+        'subjectName': 'Computer Science',
+        'subjectSlug':'cs',
         'format' : format
         } %}
 
