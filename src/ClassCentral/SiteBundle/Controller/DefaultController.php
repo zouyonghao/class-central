@@ -140,7 +140,8 @@ class DefaultController extends Controller {
                 'uc' => $uc,
                 'ucCount' => $ucCount,
                 'recommendedCourses' => $recommendedCourses,
-                'meetYourNextCourse' => $meetYourNextCourse
+                'meetYourNextCourse' => $meetYourNextCourse,
+                'spotlightPaidCourse' => $this->get('course')->getRandomPaidCourse()
                ));
     }
 

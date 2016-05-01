@@ -20,55 +20,101 @@
     <div class="row">
 
         {% for position in 1..10 %}
-            {% set spotlight = spotlights[position] %}
-            <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
-               {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}
-            "
+            {% if position != 2 %}
+                {% set spotlight = spotlights[position] %}
+                <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
+                   {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}
+                "
 
-                 id="home-spotlight-{{ spotlight.position }}">
-                <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
-                        onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
-                                '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}');"
-                        {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
-                        >
+                     id="home-spotlight-{{ spotlight.position }}">
+                    <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
+                            onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
+                                    '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}');"
+                            {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
+                            >
 
-                    <div class="img-wrap">
-                        {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
-                        <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
-                        {% if spotlight.type == 2 %}
+                        <div class="img-wrap">
+                            {% set spotlightImage = imageService.getSpotlightImage (spotlight.imageUrl, spotlight.id) %}
+                            <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
+                            {% if spotlight.type == 2 %}
 
-                            {{ spotlight.courseId }}
-                            {%  set spotlightCourseRating = reviewService.calculateAverageRating(spotlight.courseId)  %}
-                            <div class="spotlight-item__rating">
-                              {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(spotlightCourseRating.rating),ratingColour: 'white'} %}
+                                {{ spotlight.courseId }}
+                                {%  set spotlightCourseRating = reviewService.calculateAverageRating(spotlight.courseId)  %}
+                                <div class="spotlight-item__rating">
+                                  {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(spotlightCourseRating.rating),ratingColour: 'white'} %}
+                                </div>
+
+
+                                <div class="spotlight-item__reviews">
+                                  <span class="numberBubble">{{ spotlightCourseRating.numRatings }}</span>
+                                </div>
+                            {% endif %}
+
+                            <div class="spotlight-item__overlay"></div>
+
+                            <div class="spotlight-item__image-content">
+                              {% if spotlight.title %}
+                              <div class="spotlight-item-title">
+                                <h3>
+                                    {{ spotlight.title }}
+                                </h3>
+                              </div>
+
+                            {% endif %}
                             </div>
 
-
-                            <div class="spotlight-item__reviews">
-                              <span class="numberBubble">{{ spotlightCourseRating.numRatings }}</span>
-                            </div>
-                        {% endif %}
-
-                        <div class="spotlight-item__overlay"></div>
-
-                        <div class="spotlight-item__image-content">
-                          {% if spotlight.title %}
-                          <div class="spotlight-item-title">
-                            <h3>
-                                {{ spotlight.title }}
-                            </h3>
-                          </div>
-
-                        {% endif %}
                         </div>
+                        <div class="excerpt">
+                            {{ spotlight.description }}
+                        </div>
+                        <div class="spotlight-item__action">{{ spotlightMap[spotlight.type].text }}</div>
+                    </a>
+                </div>
 
-                    </div>
-                    <div class="excerpt">
-                        {{ spotlight.description }}
-                    </div>
-                    <div class="spotlight-item__action">{{ spotlightMap[spotlight.type].text }}</div>
-                </a>
-            </div>
+            {% else %}
+                {# Show courses that are part of the educator program #}
+                <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[2].visible }}
+                   {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}"
+
+                     id="home-spotlight-{{ spotlight.position }}">
+                    <a class="spotlight-item {{ spotlightMap[2].class }}" href="{{ spotlightPaidCourse.nextSession.url }}"
+                       onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
+                               '{{ spotlightPaidCourse.name }}');"
+                            >
+
+                        <div class="img-wrap">
+                            {% if spotlightPaidCourse.imageUrl is not empty %}
+                                {% set spotlightImage = imageService.getSpotlightImage (spotlightPaidCourse.imageUrl, spotlightPaidCourse.id) %}
+                            {% endif %}
+                            <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
+                                {%  set spotlightCourseRating = reviewService.calculateAverageRating(spotlightPaidCourse.id)  %}
+                                <div class="spotlight-item__rating">
+                                    {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(spotlightCourseRating.rating),ratingColour: 'white'} %}
+                                </div>
+
+
+                                <div class="spotlight-item__reviews">
+                                    <span class="numberBubble">{{ spotlightCourseRating.numRatings }}</span>
+                                </div>
+                            <div class="spotlight-item__overlay"></div>
+
+                            <div class="spotlight-item__image-content">
+                                    <div class="spotlight-item-title">
+                                        <h3>
+                                            {{ spotlightPaidCourse.name }}
+                                        </h3>
+                                    </div>
+                            </div>
+
+                        </div>
+                        <div class="excerpt">
+                            {{ spotlightPaidCourse.oneLiner }}
+                        </div>
+                        <div class="spotlight-item__action">{{ spotlightMap[spotlight.type].text }}</div>
+                    </a>
+                </div>
+
+            {% endif %}
         {% endfor %}
 
     </div>
