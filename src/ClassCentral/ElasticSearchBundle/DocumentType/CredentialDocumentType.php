@@ -104,6 +104,7 @@ class CredentialDocumentType extends DocumentType {
         $body['displayWorkload'] = $formatter->getWorkload();
         $body['url'] = $c->getUrl();
         $body['description'] = $c->getDescription();
+        $body['syllabus'] = $c->getSyllabus();
         $body['status'] = $c->getStatus();
         $body['image'] = $credentialService->getImage( $c );
         $body['cardImage'] = $credentialService->getCardImage( $c );
