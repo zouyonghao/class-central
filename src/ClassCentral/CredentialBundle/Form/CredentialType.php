@@ -19,6 +19,7 @@ class CredentialType extends AbstractType
             ->add('oneLiner')
             ->add('subTitle')
             ->add('description')
+            ->add('syllabus')
             ->add('price')
             ->add('pricePeriod','choice', array('choices'=> Credential::$CREDENTIAL_PRICE_PERIODS))
             ->add('durationMin')
