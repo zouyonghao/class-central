@@ -4,6 +4,7 @@ namespace ClassCentral\CredentialBundle\Entity;
 
 use ClassCentral\CredentialBundle\Formatters\CourseraCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\EdxCredentialFormatter;
+use ClassCentral\CredentialBundle\Formatters\FlatironCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\HBXCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\UdacityCredentialFormatter;
 use Doctrine\ORM\Mapping as ORM;
@@ -147,6 +148,11 @@ class Credential
      * @var string
      */
     private $subject;
+
+    /**
+     * @var string
+     */
+    private $syllabus;
 
 
     // Any course above this status will not be shown to the user
@@ -882,6 +888,9 @@ class Credential
             case 'edX':
                 $formatter = new EdxCredentialFormatter( $this );
                 break;
+            case 'Flatiron School':
+                $formatter = new FlatironCredentialFormatter($this);
+                break;
             default:
                 throw new \Exception("Credential formatter for this provider does not exist");
         }
@@ -889,4 +898,27 @@ class Credential
         return $formatter;
     }
 
+
+    /**
+     * Set syllabus
+     *
+     * @param string $syllabus
+     * @return Credential
+     */
+    public function setSyllabus($syllabus)
+    {
+        $this->syllabus = $syllabus;
+    
+        return $this;
+    }
+
+    /**
+     * Get syllabus
+     *
+     * @return string 
+     */
+    public function getSyllabus()
+    {
+        return $this->syllabus;
+    }
 }
