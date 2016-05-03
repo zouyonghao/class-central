@@ -96,5 +96,10 @@ abstract class CredentialFormatterAbstract
         return '';
     }
 
+    public  function getButtonCTA()
+    {
+        return 'Go To Credential';
+    }
+
 
 }

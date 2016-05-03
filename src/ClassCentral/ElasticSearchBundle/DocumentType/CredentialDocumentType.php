@@ -108,6 +108,7 @@ class CredentialDocumentType extends DocumentType {
         $body['status'] = $c->getStatus();
         $body['image'] = $credentialService->getImage( $c );
         $body['cardImage'] = $credentialService->getCardImage( $c );
+        $body['buttonCTA'] = $formatter->getButtonCTA();
 
         $body['subjectSlug'] = null;
         $body['subject'] = null;
@@ -204,8 +205,6 @@ class CredentialDocumentType extends DocumentType {
         }
 
         $body['bulletPoints'] =$bulletPoints;
-
-
 
         return $body;
     }

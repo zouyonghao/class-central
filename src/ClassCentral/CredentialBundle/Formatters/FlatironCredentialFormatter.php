@@ -14,11 +14,21 @@ class FlatironCredentialFormatter extends CredentialFormatterAbstract
 
     public function getCertificateName()
     {
-        return 'Learn Verified';
+        return 'Flatiron School Certified';
     }
 
     public function getCertificateSlug()
     {
         // TODO: Implement getCertificateSlug() method.
+    }
+    
+    public function getWorkload()
+    {
+        return 'Part time, or full time';
+    }
+
+    public function getButtonCTA()
+    {
+        return 'Get started for Free';
     }
 }
