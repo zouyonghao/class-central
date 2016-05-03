@@ -7,21 +7,21 @@
 
     <td class="course-name-column">
         <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
-        <a class="course-name ad-name"  rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown="ga('send','event', 'Table Ad', '{{ providerName }} - {{ tableId }}', '{{ courseName }}'); CC.Class['Analytics'].logCourseAd('Table Ad','{{ providerName }}','{{ courseName }}');" title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
+        <a class="course-name ad-name"  rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown='ga("send","event", "Table Ad", "{{ providerName }} - {{ tableId }}", "{{ courseName }}"); CC.Class["Analytics"].logCourseAd("Table Ad","{{ providerName }}","{{ courseName }}");' title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span></a>
         <ul class="table-uni-list">
             {% if institutionName is not empty %}
                 <li>
-                    <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onmousedown="ga('send','event', 'Inbound Clicks - University', '{{ institutionName }}', '{{ courseName }}')">{{ institutionName }}</a>
+                    <a class="uni-name" rel="nofollow" href="{{ institutionUrl }}"  onmousedown='ga("send","event", "Inbound Clicks - University", "{{ institutionName }}", "{{ courseName }}")'>{{ institutionName }}</a>
 
                 </li>
             {% endif %}
             <span class="via">via</span>
-            <a rel="nofollow" href="{{ providerUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick="ga('send','event', 'Table Ad - Provider', '{{ providerName }}', '{{ courseName }}')">{{ providerName }}</a>
+            <a rel="nofollow" href="{{ providerUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick="ga("send","event", "Table Ad - Provider", "{{ providerName }}", "{{ courseName }}")'>{{ providerName }}</a>
         </ul>
     </td>
 
     {% if page is defined and page != 'stream' and page=='home' %}
-        <td class="subject-column"> <a class="subject" href="/subject/{{ subjectSlug }}" title="List of {{ subjectName }} MOOCs" onclick="ga('send','event', 'Inbound Clicks - Stream', '{{ subjectName }}', '{{ courseName }}')" data-category="{{ subjectName }}">{{ subjectName }}</a>
+        <td class="subject-column"> <a class="subject" href="/subject/{{ subjectSlug }}" title="List of {{ subjectName }} MOOCs" onclick='ga("send","event", "Inbound Clicks - Stream", "{{ subjectName }}", "{{ courseName }}")' data-category="{{ subjectName }}">{{ subjectName }}</a>
         </td>
     {% endif %}
 
@@ -44,22 +44,22 @@
             </div>
             <div class="ad-strip__content">
                     <span class="ad-strip__large-text">
-                        <a href="{{ courseUrl }}" target="_blank" rel="nofollow" onmousedown="ga('send','event', 'Course Page Ad', '{{ providerName }}', '{{ courseName }}');CC.Class['Analytics'].logCourseAd('Course Page Ad','{{ providerName }}','{{ courseName }}');"> {{ courseName }} </a>
+                        <a href="{{ courseUrl }}" target="_blank" rel="nofollow" onmousedown='ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");CC.Class["Analytics"].logCourseAd("Course Page Ad","{{ providerName }}","{{ courseName }}");'> {{ courseName }} </a>
                     </span>
 
                     <span class="ad-strip__small-text">
                         {% if institutionName is not empty %} {{ institutionName }}{% endif %} via
-                        <a rel="nofollow" href="{{ providerUrl }}" target="_blank" onmousedown="ga('send','event', 'Course Page Ad - Provider', '{{ providerName }}', '{{ courseName }}')">{{ providerName }}</a>
+                        <a rel="nofollow" href="{{ providerUrl }}" target="_blank" onmousedown='ga("send","event", "Course Page Ad - Provider", "{{ providerName }}", "{{ courseName }}")'>{{ providerName }}</a>
                     </span>
             </div>
         </div>
     </div>
 
-{% elseif format =='dock' %}
+{% elseif format =="dock" %}
     <div class="promo-object">
         <span class="promo-object__label">Promoted</span>
         <a href="{{ courseUrl }}" target="_blank" rel="nofollow"
-           onmousedown="ga('send','event', 'Dock Ad', '{{ providerName }}', '{{ courseName }}');CC.Class['Analytics'].logCourseAd('Dock','{{ providerName }}','{{ courseName }}');"
+           onmousedown='ga("send","event", "Dock Ad", "{{ providerName }}", "{{ courseName }}");CC.Class["Analytics"].logCourseAd("Dock","{{ providerName }}","{{ courseName }}");'
                 >
             <h3 class="promo-object__title">
                 <span >{{ courseName }}</span>
