@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and (app.request.get('page') == '' or midRowTableAd) %}
 
-    {% set ad = random(8) %}
+    {% set ad = random(9) %}
 
     {% if ad == 0 %}
 
@@ -124,7 +124,7 @@
         'format' : format
         } %}
 
-    {% else %}
+    {% elseif  ad == 8 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': "Harvard's Intro to Computer Science",
@@ -134,6 +134,21 @@
         'providerUrl' : 'https://www.edx.org/?utm_source=class-central.com&utm_medium=cpc&utm_content=cs50&utm_campaign=cs50',
         'institutionName':'',
         'institutionUrl': 'https://www.edx.org/school/harvardx?utm_source=class-central.com&utm_medium=cpc&utm_content=cs50&utm_campaign=cs50',
+        'subjectName': 'Computer Science',
+        'subjectSlug':'cs',
+        'format' : format
+        } %}
+
+    {% else %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+        'courseName': "Android Developer Nanodegree",
+        'courseUrl' : 'https://www.udacity.com/course/android-developer-nanodegree--nd801?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-text-android',
+        'courseDate': 'Self Paced',
+        'providerName':'Udacity',
+        'providerUrl' : 'https://www.udacity.com/?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-text-android',
+        'institutionName':'Google',
+        'institutionUrl': 'https://www.udacity.com/course/android-developer-nanodegree--nd801?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-text-android',
         'subjectName': 'Computer Science',
         'subjectSlug':'cs',
         'format' : format
