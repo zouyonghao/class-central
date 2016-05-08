@@ -102,6 +102,7 @@ class CourseDocumentType extends DocumentType {
         $body = array();
         $c = $this->entity ; // Alias for entity
         $formatter = $c->getFormatter();
+        $addCourseInfo = $courseService->getCourseAdditionalInfo($c);
 
         $body['name'] = $c->getName();
         $body['isMOOC'] = $c->getIsMOOC();
@@ -298,6 +299,17 @@ class CourseDocumentType extends DocumentType {
             }
         }
         $body['credential'] = $credential;
+
+        // Merge the extra information with the course object
+        $body['discounted_price'] = 0;
+        $body['discount_percentage'] = 0;
+        if($addCourseInfo)
+        {
+            $body['price'] = $addCourseInfo['price'];
+            $body['discounted_price'] = $addCourseInfo['discounted_price'];
+            $body['discount_percentage'] = $addCourseInfo['discount_percentage'];
+
+        }
         return $body;
     }
 

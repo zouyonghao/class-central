@@ -8,7 +8,7 @@
 
 namespace ClassCentral\SiteBundle\Services;
 
-use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Course as CourseEntity;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Entity\ReviewSummary;
@@ -523,7 +523,7 @@ class Review {
      * @param Course $course
      * @return int
      */
-    public function summarizeReviewsForACourse (Course $course)
+    public function summarizeReviewsForACourse (CourseEntity $course)
     {
         $numSummarized = 0;
         foreach ($course->getReviews() as $review)
