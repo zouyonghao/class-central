@@ -296,7 +296,18 @@
                             <svg class="icon icon-paid-icon" viewBox="0 0 32 32"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-paid-icon"></use></svg>
                             Cost
                         </span>
-                    <span class="course-data-value">{% if course.price > 0 %} ${{ course.price }} {% else %} Free Online Course {% endif %}</span>
+                    <span class="course-data-value">
+                        {% if course.price > 0 %}
+                                {% if course.discounted_price > 0 and course.discounted_price < course.price %}
+                                    <span style="text-decoration: line-through;">${{ course.price }}</span> ${{ course.discounted_price }}
+                                {% else %}
+                                    ${{ course.price }}
+                                {% endif %}
+
+                        {% else %}
+                            Free Online Course
+                        {% endif %}
+                    </span>
                 </div>
 
                 {# Course Status - Self Paced, Upcoming, etc #}

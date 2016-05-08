@@ -18,7 +18,7 @@ class CourseRepository extends EntityRepository{
      * it can be serialized and saved in a cache
      * @param Course $course
      */
-    public function getCourseArray( Course $course)
+    public function getCourseArray( Course $course, $addCourseInfo = array())
     {
         $courseDetails = array();
         $formatter = $course->getFormatter();
@@ -233,6 +233,17 @@ class CourseRepository extends EntityRepository{
             }
         }
         $courseDetails['credential'] = $credential;
+
+        // Merge the extra information with the course object
+        $courseDetails['discounted_price'] = 0;
+        $courseDetails['discount_percentage'] = 0;
+        if($addCourseInfo)
+        {
+            $courseDetails['price'] = $addCourseInfo['price'];
+            $courseDetails['discounted_price'] = $addCourseInfo['discounted_price'];
+            $courseDetails['discount_percentage'] = $addCourseInfo['discount_percentage'];
+
+        }
 
         return $courseDetails;
     }

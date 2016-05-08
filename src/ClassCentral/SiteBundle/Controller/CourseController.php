@@ -662,7 +662,12 @@ EOD;
             // Invalid course
             return null;
         }
-        $courseDetails = $em->getRepository('ClassCentralSiteBundle:Course')->getCourseArray($courseEntity);
+
+        $courseService = $this->get('course');
+        $addCourseInfo = $courseService->getCourseAdditionalInfo($courseEntity);
+
+        $courseDetails = $em->getRepository('ClassCentralSiteBundle:Course')
+            ->getCourseArray($courseEntity,$addCourseInfo );
         // Course exists get all the offerings
         $courseDetails['offerings'] = $em->getRepository('ClassCentralSiteBundle:Offering')->findAllByCourseIds(array($courseId));
 
