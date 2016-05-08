@@ -1310,4 +1310,26 @@ jQuery(function($) {
     initIntroSlider();
 
 
+    var closableAd = function(wrapSelector) {
+
+        $(wrapSelector).each(function(index, element) {
+            var wrap = $(element);
+            var closeButton = wrap.find('.js-close-this-ad');
+
+            setTimeout(function () {
+                wrap.show(500);
+            }, 4000);
+
+            closeButton.on('click', function(e) {
+               e.preventDefault();
+               wrap.hide();
+            });
+        });
+    };
+
+    closableAd('.js-closable-ad');
+
+
+
+
 });

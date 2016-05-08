@@ -122,6 +122,28 @@
 
 {% block abovefooter %}
 
+
+    {% if not app.user %}
+        <section class="convincer">
+            <div class="container">
+
+                <div class="imageConvincer">
+
+                    <div class="imageConvincer_imageCol">
+                        <img src="/bundles/classcentralsite/slashpixel/images/convincer-image.jpg" alt="Illustration of two file cabinets and a desk">
+                    </div>
+
+                    <div class="imageConvincer_textCol">
+                        <h2 class="imageConvincer_title">Personalized recommendations, reviews, reminders, and more.</h2>
+                        <a href="#" class="imageConvincer_button" id="convincer-create-free-account">Get Started</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    {% endif %}
+
     {% set blog1 = spotlights[100] %}
     {% set blog2 = spotlights[101] %}
     <section class="blog-spotlight">
@@ -169,16 +191,7 @@
         </a>
     </section>
 
-    {% if not app.user %}
-        <section class="convincer">
-            <div class="container">
-                <div class="convincer-wrap">
-                    <span>Receive course recommendations & reminders with MOOC Tracker</span>
-                    <a class="create-free-account" id="convincer-create-free-account" href="">Create free account</a>
-                </div>
-            </div>
-        </section>
-    {% endif %}
+
     <section class="footer-logos">
         <ul>
             <li><a class="harvard-logo" href="{{ path('ClassCentralSiteBundle_university',{slug : 'harvard'}) }}">Harvard University</a></li>

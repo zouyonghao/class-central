@@ -13,6 +13,7 @@
     1.4 =Search Form
     1.5 =Modals
     1.6 =Breadcrumbs
+    1.7 =Grid modifications
   2. =Navbar
    2.1 =Typeahead styles
   3. =Header Area
@@ -32,13 +33,12 @@
   10. =Spotlight
   11. =Learn More section
   12. =Subjects section
-  14. =Convincer
-  15. =Blog Posts
-  16. =Universities
-  17. =Footer logos
-  18. =Footer
-    18.1 =Link Columns
-    18.2 =Newsletter
+  13. =Blog Posts
+  14. =Universities
+  15. =Footer logos
+  16. =Footer
+    16.1 =Link Columns
+    16.2 =Newsletter
 
 */
 
@@ -61,8 +61,9 @@ body {
   to   { opacity: 1; }
 }
 
-
-
+@-ms-viewport {
+  width: auto !important;
+}
 /*
 some sections have overflowing elements,
 .sitewrap overflow:hidden prevents these elements from causing
@@ -650,6 +651,23 @@ unwanted scrollbars
   color: @gray-breadcrumb;
 }
 
+
+/* =Grid modifications
+----------------------------------------------------------------------------- */
+
+@media (min-width: @screen-lg-min) {
+  .row-extraMargin {
+    margin-left: -25px;
+    margin-right: -25px;
+  }
+
+  .col-extraPadding {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
+
 /* ==========================================================================
    =Navbar
    ========================================================================== */
@@ -925,9 +943,18 @@ unwanted scrollbars
   color: @gray-dark;
 }
 
+
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
+  background-color: transparent;
+  color: #fff;
+}
+
+
+.navbar-white .navbar-nav > .open > a,
+.navbar-white .navbar-nav > .open > a:hover,
+.navbar-white .navbar-nav > .open > a:focus {
   background-color: @brand-secondary;
   color: #fff;
 }
@@ -4727,83 +4754,6 @@ input.filter-search:focus {
 }
 
 
-/* ==========================================================================
-   =Convincer
-   ========================================================================== */
-
-.convincer {
-  height: 330px;
-  background: @blue;
-  color: @white;
-  display: table;
-  width: 100%;
-}
-
-.convincer > .container {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.convincer-wrap {
-  overflow: hidden;
-}
-
-.convincer span,
-.convincer .create-free-account {
-  display: block;
-  margin: 0 auto;
-  font-weight: 500;
-}
-
-.convincer span {
-  font-size: 26px;
-  color: @beige;
-}
-
-.convincer .create-free-account {
-  font-size: 14px;
-  text-transform: uppercase;
-  color: @beige;
-  border: 1px solid @beige;
-  padding: 21px 0;
-  text-align: center;
-  width: 250px;
-  .border-radius(5px);
-  margin-top: 30px;
-}
-
-@media (min-width: 560px) {
-  .convincer span {
-    font-size: 30px;
-  }
-}
-
-@media (min-width: 700px) {
-  .convincer span {
-    font-size: 40px;
-  }
-}
-
-@media (min-width: 1420px) {
-  .convincer-wrap {
-    display: inline-block;
-  }
-
-  .convincer span,
-  .convincer .create-free-account {
-    float: left;
-  }
-
-  .convincer .create-free-account {
-    margin-left: 15px;
-    margin-top: 0;
-  }
-
-  .convincer span {
-    margin-top: 4px;
-  }
-}
 /* ==========================================================================
    =Blog posts
    ========================================================================== */
@@ -9318,3 +9268,236 @@ footer ul > li > a {
   display: block;
   width: 0;
 }
+
+
+
+
+// .blackBoardCard
+
+@blackBoardCard-bar-green:     #45ea94;
+@blackBoardCard-bar-yellow:     #ffe659;
+@blackBoardCard-bar-aqua:     #9fffdd;
+
+
+.blackBoardCard {
+  display: block;
+  position: relative;
+  font-size: 16px;
+  font-family: @font-family-small-text;
+  text-align: center;
+  margin-bottom: 20px;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+.blackBoardCard_wrap {
+  background-image: url("/bundles/classcentralsite/slashpixel/images/chalk-tile-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: @gray-dark;
+  padding-bottom: 1.3125em;
+}
+
+.blackBoardCard:hover .blackBoardCard_wrap,
+.blackBoardCard:focus .blackBoardCard_wrap {
+  background-image: none;
+}
+
+.blackBoardCard_inner {
+  padding: .8125em 1.875em 1.75em 1.875em;
+}
+
+.blackBoardCard_text {
+  font-size: .875em;
+  color: #ababab;
+}
+
+.blackBoardCard_text-caps {
+  text-transform: uppercase;
+  font-size: .75em;
+}
+
+.blackBoardCard_title {
+  font-family: @font-family-large-text;
+  font-size: 1.5em;
+  color: #fff;
+  font-weight: 400;
+  margin-bottom: 0;
+  margin-top: .5417em;
+}
+
+.blackBoardCard_colorBar {
+  background-color: @blackBoardCard-bar-green;
+  color: @gray-dark;
+  font-size: 1em;
+  margin-left: -.5em;
+  margin-right: -.5em;
+  padding: .5625em 1.125em;
+}
+
+.blackBoardCard-aquaScheme .blackBoardCard_colorBar {
+  background-color: @blackBoardCard-bar-aqua;
+}
+
+.blackBoardCard-yellowScheme .blackBoardCard_colorBar {
+  background-color: @blackBoardCard-bar-yellow;
+}
+
+.blackBoardCard-greenScheme .blackBoardCard_colorBar {
+  background-color: @blackBoardCard-bar-green;
+}
+
+
+
+// .stickyAd
+
+@stickyAd-color-scheme:     #1a1a1a;
+
+.stickyAd {
+  font-size: 16px;
+  display: block;
+  position: fixed;
+  right: 40px;
+  bottom: 0;
+  z-index: 1000;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-color: @stickyAd-color-scheme;
+  padding: .625em;
+  width: 9.125em;
+}
+
+@media (min-width: @screen-md-min) {
+  .stickyAd {
+    bottom: 140px;
+    right: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.stickyAd_image {
+  display: block;
+  margin-bottom: .625em;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+.stickyAd_image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.stickyAd_text {
+  display: block;
+  font-family: @font-family-small-text;
+  font-size: .75em;
+  color: #d3d2ce;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+    color: #d3d2ce;
+  }
+}
+
+.stickyAd_close {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: -.6875em;
+  background-color: @stickyAd-color-scheme;
+  width: 1.3125em;
+  padding: 0 .125em;
+  height: 1.0625em;
+  fill: #fff;
+}
+
+// .imageConvincer
+
+.imageConvincer {
+  display: block;
+  overflow: hidden;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.imageConvincer_imageCol,
+.imageConvincer_textCol {
+  display: block;
+}
+
+.imageConvincer_imageCol img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.imageConvincer_title {
+  font-size: 31px;
+  font-family: @font-family-large-text;
+  color: @gray-text;
+  font-weight: 400;
+  margin-top: 17px;
+  margin-bottom: 26px;
+  display: block;
+}
+
+.imageConvincer_button {
+  display: inline-block;
+  font-family: @font-family-small-text;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 2px;
+  background-color: @gray-dark;
+  padding: 11px 21px;
+  letter-spacing: .7px;
+  &:hover,
+  &:focus {
+    opacity: .8;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+
+  .imageConvincer {
+    text-align: left;
+  }
+
+  .imageConvincer_imageCol img {
+    float: right;
+  }
+
+  .imageConvincer_imageCol,
+  .imageConvincer_textCol {
+    width: 50%;
+    float: left;
+  }
+
+  .imageConvincer_textCol {
+    padding-left: 67px;
+  }
+}
+
+@media (min-width: @screen-lg-min) {
+  .imageConvincer {
+    margin-top: 104px;
+    margin-bottom: 118px;
+  }
+}
+
+
