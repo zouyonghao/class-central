@@ -171,16 +171,28 @@ class CredentialDocumentType extends DocumentType {
 
         // Build the bullet points in the array
         $bulletPoints = array();
+
+        if($provider->getName() == 'Flatiron School')
+        {
+            $bulletPoints[] = '<a href="http://hubs.ly/H02TfJ60" target="_blank">99% graduate employment rate</a>';
+        }
+
         $bulletPoints[]  = $bulletOrg . UniversalHelper::commaSeparateList( $orgs ) ;
 
         // Bullet Price and Duration
         $bulletPriceAndDuration = $formatter->getPrice();
+
         $displayDuration = $formatter->getDuration();
         if( $displayDuration )
         {
             $bulletPriceAndDuration .= ' for ' . $displayDuration;
         }
+        if($provider->getName() == 'Flatiron School')
+        {
+            $bulletPriceAndDuration = '$1500/month, capped at $12,000';
+        }
         $bulletPoints[] = $bulletPriceAndDuration;
+
 
         // Bullet effort
         $effort = $formatter->getWorkload();
@@ -188,6 +200,7 @@ class CredentialDocumentType extends DocumentType {
         {
             $bulletPoints[] = $effort . ' of effort';
         }
+
 
         if( $provider->getName() == 'Coursera')
         {
