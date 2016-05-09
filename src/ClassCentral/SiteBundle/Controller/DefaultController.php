@@ -230,5 +230,31 @@ class DefaultController extends Controller {
         }
 
     }
+
+    /**
+     * Showcase the deals i
+     * @param Request $request
+     */
+    public function dealsAction(Request $request)
+    {
+        $dealsMeta = array(
+            array('colour' => 'greenScheme' , 'numText' => 'One' ),
+            array('colour' => 'yellowScheme' , 'numText' => 'Two' ),
+            array('colour' => 'aquaScheme' , 'numText' => 'Three' )
+        );
+        $deal = $this->get('course')->getRandomPaidCourse();
+        $deals = array();
+        while(count($deals) < 3 )
+        {
+            $deal = $this->get('course')->getRandomPaidCourse();
+            if( empty($deals[$deal['id']]) && $deal['discounted_price'] > 0 )
+            {
+                $deal = array_merge($deal, array_shift($dealsMeta));
+                $deals[$deal['id']] = $deal;
+            }
+        }
+
+        return $this->render('ClassCentralSiteBundle:Default:deals.html.twig',array('deals' => $deals));
+    }
     
 }
