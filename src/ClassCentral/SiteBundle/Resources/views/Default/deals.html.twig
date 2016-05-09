@@ -33,7 +33,9 @@
 
         <div class="col-lg-4 col-md-4 col-extraPadding">
 
-            <a href="{{ path('ClassCentralSiteBundle_mooc',{id: deal.id,slug:deal.slug}) }}" class="blackBoardCard blackBoardCard-{{ deal.colour }}">
+            <a href="{{ path('ClassCentralSiteBundle_mooc',{id: deal.id,slug:deal.slug}) }}" class="blackBoardCard blackBoardCard-{{ deal.colour }}"
+                        onmousedown="ga('send','event','Homepage Deals','{{ deal.name }}');"
+                    >
                 <div class="blackBoardCard_wrap">
                     <div class="blackBoardCard_inner">
                         <span class="blackBoardCard_text blackBoardCard_text-caps">Deal {{ deal.numText }}</span>
