@@ -196,7 +196,7 @@ class CredentialDocumentType extends DocumentType {
 
         // Bullet effort
         $effort = $formatter->getWorkload();
-        if($effort)
+        if($effort && $provider->getName() != 'Udacity')
         {
             $bulletPoints[] = $effort . ' of effort';
         }
@@ -209,6 +209,11 @@ class CredentialDocumentType extends DocumentType {
         elseif ($provider->getName() == 'HBX')
         {
             $bulletPoints[] = '3 courses and a final exam. Application Required';
+        }
+        elseif ($provider->getName() == 'Udacity')
+        {
+            $bulletPoints[] = 'Graduate in 12 months, get a 50% tuition refund';
+            $bulletPoints[] = '1:1 feedback - Rigorous, timely project and code reviews';
         }
 
 

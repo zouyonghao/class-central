@@ -32,5 +32,10 @@ class UdacityCredentialFormatter extends CredentialFormatterAbstract {
         return '';
     }
 
+    public function getButtonCTA()
+    {
+        return 'Go To Nanodegree';
+    }
+
 
 }
