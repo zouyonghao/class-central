@@ -60,7 +60,7 @@
                 {% elseif page == 'credential' %}
                     properties.credentialId = {{ credential.id }};
                     properties.credentialProvider = '{{  credential.provider.name }}';
-                    properties.credentialName = '{{ credential.name }}'             
+                    properties.credentialName = '{{ credential.name }}'
                 {% elseif page == 'subject'%}
                     properties.subjectName = '{{ subject.name }}'
                     properties.subjectSlug = '{{ subject.slug }}'
@@ -415,7 +415,7 @@
     {% endblock %}
 </script>
 
-{% if page is defined and page != 'course'%}
+{% if page is defined and page != 'course' and false%}
     <script type="text/javascript">
 
         {# feedback #}
