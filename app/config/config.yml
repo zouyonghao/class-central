@@ -34,6 +34,7 @@ twig:
       user_session  : @user_session
       user_service  : @user_service
       reviewService : @review
+      courseService : @course
       imageService  : @image_service
       credService   : @credential
       followSrvice  : @follow

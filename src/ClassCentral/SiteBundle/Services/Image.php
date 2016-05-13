@@ -163,4 +163,38 @@ class Image {
         );
     }
 
+    public function getCourseImageAd($imageUrl, $courseId)
+    {
+        $uniqueKey = 'course_image_ad_'. basename( $imageUrl );
+
+        // Check if the file exists or has changed.
+        if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE_AD, $courseId ,$uniqueKey ) )
+        {
+            // Upload the hew file
+            $croppedImageUrl = $this->cropImage( $imageUrl, 100, 130 );
+
+            // Upload the file
+            $filePath = '/tmp/modified_'.$uniqueKey;
+            file_put_contents($filePath,file_get_contents($croppedImageUrl));
+
+            $file = $this->kuber->upload(
+                $filePath,
+                Kuber::KUBER_ENTITY_COURSE,
+                Kuber::KUBER_TYPE_COURSE_IMAGE_AD,
+                $courseId,
+                null,
+                $uniqueKey
+            );
+
+            return $this->kuber->getUrlFromFile( $file );
+        }
+
+        // File exists
+        return $this->kuber->getUrl(
+            Kuber::KUBER_ENTITY_INTERVIEW,
+            Kuber::KUBER_TYPE_COURSE_IMAGE_AD,
+            $courseId
+        );
+    }
+
 } 

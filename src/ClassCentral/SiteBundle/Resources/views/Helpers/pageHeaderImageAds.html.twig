@@ -53,6 +53,14 @@
         } %}
 
     {% endif %}
+{% else %}
+    {% set paidCourse = courseService.getRandomPaidCourse() %}
+    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+        'url': paidCourse.nextSession.url,
+        'imageUrl' : imageService.getCourseImageAd(courseService.getCourseImageFromId(paidCourse.id), paidCourse.id),
+        'desc': paidCourse.name,
+        'provider' : paidCourse.provider.name
+    } %}
 
 
 {% endif %}

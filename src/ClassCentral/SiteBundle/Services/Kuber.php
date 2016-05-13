@@ -36,6 +36,7 @@ class Kuber {
     const KUBER_TYPE_USER_PROFILE_PIC_TMP = "profile_pic_tmp";
     const KUBER_TYPE_COURSE_IMAGE = 'course_image';
     const KUBER_TYPE_COURSE_INTERVIEW_IMAGE = 'course_interview_image';
+    const KUBER_TYPE_COURSE_IMAGE_AD = 'course_image_ad';
     const KUBER_TYPE_SPOTLIGHT_IMAGE = 'image';
     const KUBER_TYPE_CREDENTIAL_IMAGE = 'credential_image';
     const KUBER_TYPE_CREDENTIAL_CARD_IMAGE = 'credential_card_image';
