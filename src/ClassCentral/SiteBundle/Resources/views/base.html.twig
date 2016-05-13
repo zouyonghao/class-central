@@ -57,6 +57,10 @@
                     {% endif %}
                     properties.courseStatus = '{{ course.status }}'
                     properties.courseSubject = '{{ course.stream.name }}'
+                {% elseif page == 'credential' %}
+                    properties.credentialId = {{ credential.id }};
+                    properties.credentialProvider = '{{  credential.provider.name }}';
+                    properties.credentialName = '{{ credential.name }}'             
                 {% elseif page == 'subject'%}
                     properties.subjectName = '{{ subject.name }}'
                     properties.subjectSlug = '{{ subject.slug }}'
@@ -76,6 +80,8 @@
                     properties.careerId = '{{ career.id }}'
                 {% elseif page == 'tag' %}
                     properties.tagName = '{{ tag }}'
+                {% elseif page == 'search' %}
+                    properties.searchKeywords = '{{ keywords }}'
                 {% endif %}
 
                 analytics.page({
