@@ -197,4 +197,45 @@ class Image {
         );
     }
 
+    public function getPostThumbnailSmall($imageUrl,$postId)
+    {
+        $cache = $this->container->get('cache');
+        $uniqueKey = 'post_thumbnail_small'. basename( $imageUrl );
+
+        return $cache->get($uniqueKey,function($uniqueKey,$imageUrl,$postId){
+
+
+            // Check if the file exists or has changed.
+            if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_POST,Kuber::KUBER_TYPE_POST_THUMBNAIL_SMALL, $postId ,$uniqueKey ) )
+            {
+                // Upload the hew file
+                $croppedImageUrl = $this->cropImage( $imageUrl, 305,446  );
+
+                // Upload the file
+                $filePath = '/tmp/modified_'.$uniqueKey;
+                file_put_contents($filePath,file_get_contents($croppedImageUrl));
+
+                $file = $this->kuber->upload(
+                    $filePath,
+                    Kuber::KUBER_ENTITY_POST,
+                    Kuber::KUBER_TYPE_POST_THUMBNAIL_SMALL,
+                    $postId,
+                    null,
+                    $uniqueKey
+                );
+
+                return $this->kuber->getUrlFromFile( $file );
+            }
+
+            // File exists
+            return $this->kuber->getUrl(
+                Kuber::KUBER_ENTITY_POST,
+                Kuber::KUBER_TYPE_POST_THUMBNAIL_SMALL,
+                $postId
+            );
+
+        },array($uniqueKey,$imageUrl,$postId));
+
+    }
+
 } 

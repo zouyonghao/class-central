@@ -31,6 +31,8 @@ class Kuber {
     const KUBER_ENTITY_SPOTLIGHT = 'spotlights'; // Images folder used for cropped and resized images from embedly
     const KUBER_ENTITY_INTERVIEW = 'interviews';
     const KUBER_ENTITY_CREDENTIAL = 'credentials';
+    const KUBER_ENTITY_POST = 'posts';
+
 
     const KUBER_TYPE_USER_PROFILE_PIC = "profile_pic";
     const KUBER_TYPE_USER_PROFILE_PIC_TMP = "profile_pic_tmp";
@@ -40,6 +42,7 @@ class Kuber {
     const KUBER_TYPE_SPOTLIGHT_IMAGE = 'image';
     const KUBER_TYPE_CREDENTIAL_IMAGE = 'credential_image';
     const KUBER_TYPE_CREDENTIAL_CARD_IMAGE = 'credential_card_image';
+    const KUBER_TYPE_POST_THUMBNAIL_SMALL = 'post_thumbnail_small';
 
 
 
