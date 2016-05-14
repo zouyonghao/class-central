@@ -98,35 +98,39 @@ class Image {
     private function cropAndSaveSpotlightImage($imageURl, $spotlightId, $height, $width)
     {
         $uniqueKey = 'spl1'. basename($imageURl );
+        $cache = $this->container->get('cache');
 
-        // Check if the file exists or has changed.
-        if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_SPOTLIGHT,Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE, $spotlightId ,$uniqueKey ) )
-        {
-            // Upload the hew file
-            $croppedImageUrl = $this->cropImage( $imageURl, $height, $width );
+        $cache->get($uniqueKey,function($uniqueKey,$imageURl,$spotlightId,$height,$width){
+            // Check if the file exists or has changed.
+            if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_SPOTLIGHT,Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE, $spotlightId ,$uniqueKey ) )
+            {
+                // Upload the hew file
+                $croppedImageUrl = $this->cropImage( $imageURl, $height, $width );
 
-            // Upload the file
-            $filePath = '/tmp/modified_'.$uniqueKey;
-            file_put_contents($filePath,file_get_contents($croppedImageUrl));
+                // Upload the file
+                $filePath = '/tmp/modified_'.$uniqueKey;
+                file_put_contents($filePath,file_get_contents($croppedImageUrl));
 
-            $file = $this->kuber->upload(
-                $filePath,
+                $file = $this->kuber->upload(
+                    $filePath,
+                    Kuber::KUBER_ENTITY_SPOTLIGHT,
+                    Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE,
+                    $spotlightId,
+                    null,
+                    $uniqueKey
+                );
+
+                return $this->kuber->getUrlFromFile( $file );
+            }
+
+            // File exists
+            return $this->kuber->getUrl(
                 Kuber::KUBER_ENTITY_SPOTLIGHT,
                 Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE,
-                $spotlightId,
-                null,
-                $uniqueKey
+                $spotlightId
             );
+        },array($uniqueKey,$imageURl,$spotlightId,$height,$width));
 
-            return $this->kuber->getUrlFromFile( $file );
-        }
-
-        // File exists
-        return $this->kuber->getUrl(
-            Kuber::KUBER_ENTITY_SPOTLIGHT,
-            Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE,
-            $spotlightId
-        );
     }
 
     public function getInterviewImage($imageUrl, $interviewId)
