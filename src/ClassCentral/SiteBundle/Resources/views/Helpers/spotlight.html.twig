@@ -146,7 +146,7 @@
       </div>
     </div>
 
-
+   {% if newestPosts is not empty %}
     <h2 class="section-heading">
         <span>MOOC Report</span>
     </h2>
@@ -196,22 +196,24 @@
 
 
             {% set featuredPostShown = false %}
-            {% for post in newestPosts if featuredPostShown %}
-                {% if post.sticky %}
-                    <a href="#" class="featured-media__imageLink">
-                        <img src="http://placehold.it/446x305" alt="Image title" class="featured-media__img">
+            {% set featuredPostId = 0 %}
+            {% for post in newestPosts if not featuredPostShown %}
+                {% if post.acf.pinned is not empty %}
+                    <a href="{{ post.link }}" class="featured-media__imageLink">
+                        <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url,post.id) }}" alt="Image title" class="featured-media__img">
                     </a>
                     <div class="featured-media">
                     <h2 class="featured-media__title">
-                      <a href="{{ post.link }}">{{ post.title }}</a>
+                      <a href="{{ post.link }}">{{ post.title.rendered|raw }}</a>
                     </h2>
                     <div class="featured-media__content">
-                     {{ post.excerpt }}
+                     {{ post.acf.subtitle }}
                     </div>
                     <div class="featured-media__meta">
-                      Published on Wednesday 2nd March 2016
+                        {{ moocReport.author(post.author).name }} • Published on {{ post.date|date("jS M, Y") }}
                     </div>
-                {% set featuredPostShown = true %}
+                    {% set featuredPostShown = true %}
+                        {% set featuredPostId = post.id %}
                 {% endif %}
             {% endfor %}
           </div>
@@ -220,29 +222,28 @@
         <div class="spotlight-col-main">
             {% set postsShown = 0 %}
             {% for post in newestPosts if postsShown < 4%}
+                    {% if post.id != featuredPostId %}
+                        <div class="media-object media-object--bordered">
+                            <a href="{{ post.link }}" class="media-object__image">
+                                <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url,post.id) }}" alt="{{ post.title.rendered|raw }}" class="media-object">
+                            </a>
 
-                    <div class="media-object media-object--bordered">
-                        <a href="{{ post.link }}" class="media-object__image">
-                            <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url,post.id) }}" alt="{{ post.title.rendered|raw }}" class="media-object">
-                        </a>
-
-                        <div class="media-object__content">
-                            <h2 class="media-object__title">
-                                <a href="{{ post.link }}">{{ post.title.rendered|raw }}</a>
-                            </h2>
-                            <div class="media-object__meta">
-                                {{ moocReport.author(post.author).name }} • Published on {{ post.date|date("jS M, Y") }}
+                            <div class="media-object__content">
+                                <h2 class="media-object__title">
+                                    <a href="{{ post.link }}">{{ post.title.rendered|raw }}</a>
+                                </h2>
+                                <div class="media-object__meta">
+                                    {{ moocReport.author(post.author).name }} • Published on {{ post.date|date("jS M, Y") }}
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
-                    {% set postsShown = postsShown + 1 %}
+                        </div>
+                        {% set postsShown = postsShown + 1 %}
+                    {% endif %}
 
             {% endfor %}
-
-
-
 
         </div>
 
     </div>
+   {% endif %}
