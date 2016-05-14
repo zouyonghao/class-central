@@ -29,12 +29,26 @@ class MOOCReport
     public function getPosts()
     {
         $client = new Client();
-        $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/posts');
+        $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts');
         $response = $request->send();
 
         if($response->getStatusCode() !== 200)
         {
             throw new  \Exception('Error pulling down posts');
+        }
+
+        return json_decode($response->getBody(true),true);
+    }
+
+    public function getAuthor($authorId)
+    {
+        $client = new Client();
+        $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/users/'. $authorId);
+        $response = $request->send();
+
+        if($response->getStatusCode() !== 200)
+        {
+            throw new  \Exception('Error pulling down authors');
         }
 
         return json_decode($response->getBody(true),true);

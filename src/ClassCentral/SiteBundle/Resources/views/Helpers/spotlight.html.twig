@@ -220,7 +220,6 @@
         <div class="spotlight-col-main">
             {% set postsShown = 0 %}
             {% for post in newestPosts if postsShown < 4%}
-                {% if post.status == 'publish' %}
 
                     <div class="media-object media-object--bordered">
                         <a href="{{ post.link }}" class="media-object__image">
@@ -229,16 +228,16 @@
 
                         <div class="media-object__content">
                             <h2 class="media-object__title">
-                                <a href="{{ post.link }}">{{ post.title|raw }}</a>
+                                <a href="{{ post.link }}">{{ post.title.rendered|raw }}</a>
                             </h2>
                             <div class="media-object__meta">
-                                {{ post.author.name }} • Published on {{ post.date|date("jS M, Y") }}
+                                {{ moocReport.author(post.author).name }} • Published on {{ post.date|date("jS M, Y") }}
                             </div>
                         </div>
 
                     </div>
                     {% set postsShown = postsShown + 1 %}
-                {% endif %}
+
             {% endfor %}
 
 

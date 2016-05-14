@@ -36,6 +36,7 @@ twig:
       reviewService : @review
       courseService : @course
       imageService  : @image_service
+      moocReport    : @mooc_report
       credService   : @credential
       followSrvice  : @follow
       swiftype_engine_key : %swiftype_engine_key%
