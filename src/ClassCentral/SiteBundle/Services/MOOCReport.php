@@ -28,30 +28,40 @@ class MOOCReport
 
     public function getPosts()
     {
-        $client = new Client();
-        $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts');
-        $response = $request->send();
+        $cache = $this->container->get('cache');
 
-        if($response->getStatusCode() !== 200)
-        {
-            throw new  \Exception('Error pulling down posts');
-        }
+        return $cache->get('wp_new_posts',function(){
+            $client = new Client();
+            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts');
+            $response = $request->send();
 
-        return json_decode($response->getBody(true),true);
+            if($response->getStatusCode() !== 200)
+            {
+                return array();
+            }
+
+            return json_decode($response->getBody(true),true);
+        });
     }
 
     public function getAuthor($authorId)
     {
-        $client = new Client();
-        $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/users/'. $authorId);
-        $response = $request->send();
+        $cache = $this->container->get('cache');
 
-        if($response->getStatusCode() !== 200)
-        {
-            throw new  \Exception('Error pulling down authors');
-        }
+        return $cache->get('wp_post_author_'.$authorId, function($authorId){
+            $client = new Client();
+            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/users/'. $authorId);
+            $response = $request->send();
 
-        return json_decode($response->getBody(true),true);
+            if($response->getStatusCode() !== 200)
+            {
+                return array();
+            }
+
+            return json_decode($response->getBody(true),true);
+        }, array($authorId));
+
+
     }
 
 }
