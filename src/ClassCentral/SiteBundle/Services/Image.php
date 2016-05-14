@@ -100,7 +100,7 @@ class Image {
         $uniqueKey = 'spl1'. basename($imageURl );
         $cache = $this->container->get('cache');
 
-        $cache->get($uniqueKey,function($uniqueKey,$imageURl,$spotlightId,$height,$width){
+        return $cache->get($uniqueKey,function($uniqueKey,$imageURl,$spotlightId,$height,$width){
             // Check if the file exists or has changed.
             if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_SPOTLIGHT,Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE, $spotlightId ,$uniqueKey ) )
             {
