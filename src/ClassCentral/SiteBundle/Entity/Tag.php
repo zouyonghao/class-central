@@ -3,6 +3,8 @@
 namespace ClassCentral\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ClassCentral\SiteBundle\Entity\Course as CourseEntity;
+
 
 /**
  * Tag
@@ -71,7 +73,7 @@ class Tag
      * @param \ClassCentral\SiteBundle\Entity\Course $courses
      * @return Tag
      */
-    public function addCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    public function addCourse(CourseEntity $courses)
     {
         $this->courses[] = $courses;
     
@@ -83,7 +85,7 @@ class Tag
      *
      * @param \ClassCentral\SiteBundle\Entity\Course $courses
      */
-    public function removeCourse(\ClassCentral\SiteBundle\Entity\Course $courses)
+    public function removeCourse(CourseEntity $courses)
     {
         $this->courses->removeElement($courses);
     }

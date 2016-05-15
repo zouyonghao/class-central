@@ -42,6 +42,7 @@ class Scraper extends ScraperAbstractInterface{
 
         $em = $this->getManager();
         $udacityCourses = json_decode( file_get_contents(self::COURSES_API_ENDPOINT), true );
+        $courseService = $this->container->get('course');
         $coursesChanged = array();
 
         foreach ($udacityCourses['courses'] as $udacityCourse)
@@ -72,7 +73,7 @@ class Scraper extends ScraperAbstractInterface{
 
                         if( $udacityCourse['banner_image'] )
                         {
-                            $this->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
+                            $courseService->uploadImageIfNecessary( $udacityCourse['banner_image'], $course);
                         }
 
 
@@ -135,7 +136,7 @@ class Scraper extends ScraperAbstractInterface{
 
                         if( $udacityCourse['banner_image'] )
                         {
-                            $this->uploadImageIfNecessary( $udacityCourse['banner_image'], $dbCourse);
+                            $courseService->uploadImageIfNecessary( $udacityCourse['banner_image'], $course);
                         }
                     }
                     $courseChanged = true;
@@ -224,27 +225,6 @@ class Scraper extends ScraperAbstractInterface{
 
 
         return $course;
-    }
-
-    private function uploadImageIfNecessary( $imageUrl, Course $course)
-    {
-        $kuber = $this->container->get('kuber');
-        $uniqueKey = basename($imageUrl);
-        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
-        {
-            // Upload the file
-            $filePath = '/tmp/course_'.$uniqueKey;
-            file_put_contents($filePath,file_get_contents($imageUrl));
-            $kuber->upload(
-                $filePath,
-                Kuber::KUBER_ENTITY_COURSE,
-                Kuber::KUBER_TYPE_COURSE_IMAGE,
-                $course->getId(),
-                null,
-                $uniqueKey
-            );
-
-        }
     }
 
     private function outputChangedFields($changedFields)
