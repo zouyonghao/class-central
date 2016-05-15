@@ -84,6 +84,15 @@ class Scraper extends ScraperAbstractInterface {
         'StartDate', 'EndDate', 'Status','Url','ShortName'
     );
 
+    public static $credentialSlugs = array(
+        'computer-fundamentals' => 'fundamentalscomputing2',
+        'data-mining' => 'datamining',
+        'cyber-security' => 'cybersecurity',
+        'virtual-teacher' => 'virtualteacher',
+        'computational-biology' => 'bioinformatics',
+        'content-strategy' => 'contentstrategy'
+    );
+
     public function scrape()
     {
         if($this->isCredential)
@@ -1018,14 +1027,14 @@ class Scraper extends ScraperAbstractInterface {
 
     public function scrapeCredentials()
     {
-        $specializations = json_decode(file_get_contents( self::SPECIALIZATION_CATALOG_URL ),true);
-        foreach($specializations['elements'] as $item)
-        {
-            $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_URL, $item['id']) ),true);
-
-            $credential =$this->getCredentialFromSpecialization( $details );
-            $this->saveOrUpdateCredential( $credential, $details['logo'] );
-        }
+//        $specializations = json_decode(file_get_contents( self::SPECIALIZATION_CATALOG_URL ),true);
+//        foreach($specializations['elements'] as $item)
+//        {
+//            $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_URL, $item['id']) ),true);
+//
+//            $credential =$this->getCredentialFromSpecialization( $details );
+//            $this->saveOrUpdateCredential( $credential, $details['logo'] );
+//        }
 
         // Scrape Ondemand specializations
         $onDemandSpecializations = json_decode(file_get_contents( self::SPECIALIZATION_ONDEMAND_CATALOG_URL ),true);
@@ -1044,6 +1053,10 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setName( $details['elements'][0]['name'] );
         $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
         $credential->setPrice(0);
+        if( isset(self::$credentialSlugs[$details['elements'][0]['slug'] ]))
+        {
+            $details['elements'][0]['slug']  = self::$credentialSlugs[$details['elements'][0]['slug'] ];
+        }
         $credential->setSlug( $details['elements'][0]['slug'] . '-specialization' );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( sprintf(self::SPECIALIZATION_ONDEMAND_PAGE_URL,$details['elements'][0]['slug']));
