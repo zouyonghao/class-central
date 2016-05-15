@@ -32,6 +32,11 @@ class Scraper extends ScraperAbstractInterface{
        'Url'
     );
 
+    public static $credentialSlugs = array(
+        'ruby-programming-nanodegree--nd010' => 'beginning-ruby-nanodegree--nd010',
+        'beginning-ios-app-development-nanodegree--nd006' => 'beginning-ios-app-development--nd006'
+    );
+
     public function scrape()
     {
         if($this->isCredential)
@@ -256,6 +261,10 @@ class Scraper extends ScraperAbstractInterface{
         $credential->setName( $nanodegree['title'] );
         $credential->setPricePeriod( Credential::CREDENTIAL_PRICE_PERIOD_MONTHLY);
         $credential->setPrice(200);
+        if (isset(self::$credentialSlugs[ $nanodegree['slug']]))
+        {
+            $nanodegree['slug'] = self::$credentialSlugs[ $nanodegree['slug']];
+        }
         $credential->setSlug( $nanodegree['slug'] );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( $nanodegree['homepage'] );
