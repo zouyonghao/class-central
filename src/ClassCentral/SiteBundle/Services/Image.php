@@ -195,7 +195,7 @@ class Image {
 
         // File exists
         return $this->kuber->getUrl(
-            Kuber::KUBER_ENTITY_INTERVIEW,
+            Kuber::KUBER_ENTITY_COURSE,
             Kuber::KUBER_TYPE_COURSE_IMAGE_AD,
             $courseId
         );
