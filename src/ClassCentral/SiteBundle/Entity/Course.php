@@ -49,6 +49,7 @@ class Course {
         $this->careers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->price = 0;
         $this->pricePeriod = self::PRICE_PERIOD_TOTAL;
+        $this->setIsMooc(true);
     }
 
     const THUMBNAIL_BASE_URL = 'https://d3r3mog6nu8pt4.cloudfront.net/spotlight/courses/';
