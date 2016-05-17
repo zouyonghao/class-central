@@ -24,9 +24,8 @@ class HBXCredentialFormatter extends CredentialFormatterAbstract
 
     public function getWorkload()
     {
-        return "150 total hours; " .  parent::getWorkload();
+        return "Estimated 150 hours of learning on HBX platform";
     }
 
-    
 
 }

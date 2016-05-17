@@ -191,6 +191,10 @@ class CredentialDocumentType extends DocumentType {
         {
             $bulletPriceAndDuration = '$1500/month, capped at $12,000';
         }
+        if($provider->getName() == 'HBX')
+        {
+            $bulletPriceAndDuration = '$1800 for 8-18 weeks (program lengths vary)';
+        }
         $bulletPoints[] = $bulletPriceAndDuration;
 
 
@@ -198,7 +202,14 @@ class CredentialDocumentType extends DocumentType {
         $effort = $formatter->getWorkload();
         if($effort && $provider->getName() != 'Udacity')
         {
-            $bulletPoints[] = $effort . ' of effort';
+            if($provider->getName() == 'HBX')
+            {
+                $bulletPoints[] = "Estimated 150 hours of learning on HBX platform";
+            }
+            else
+            {
+                $bulletPoints[] = $effort . ' of effort';
+            }
         }
 
 
