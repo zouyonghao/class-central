@@ -210,7 +210,7 @@
                      {{ post.acf.subtitle }}
                     </div>
                     <div class="featured-media__meta">
-                        {{ moocReport.author(post.author).name }} • Published on {{ post.date|date("jS M, Y") }}
+                        {{ moocReport.author(post.author).name }} • {{ post.date|date("jS M, Y") }}
                     </div>
                     {% set featuredPostShown = true %}
                         {% set featuredPostId = post.id %}
@@ -233,7 +233,7 @@
                                     <a href="{{ post.link }}">{{ post.title.rendered|raw }}</a>
                                 </h2>
                                 <div class="media-object__meta">
-                                    {{ moocReport.author(post.author).name }} • Published on {{ post.date|date("jS M, Y") }}
+                                    {{ moocReport.author(post.author).name }} • {{ post.date|date("jS M, Y") }}
                                 </div>
                             </div>
 
