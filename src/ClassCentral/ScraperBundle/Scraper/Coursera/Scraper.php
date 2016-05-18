@@ -191,7 +191,7 @@ class Scraper extends ScraperAbstractInterface {
                 else
                 {
                     $dbCourseFromName = $this->findCourseByName($c->getName(), $this->initiative );
-                    if($dbCourseFromName)
+                    if($dbCourseFromName && $c->getName() != 'Portfolio and Risk Management')
                     {
                         $dbCourse = $dbCourseFromName;
                     }
