@@ -13,6 +13,7 @@ use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
+use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 
@@ -49,9 +50,15 @@ class CredentialDocumentType extends DocumentType {
         $iDoc = new InstitutionDocumentType(new Institution(), $this->container);
         $iMapping = $iDoc->getMapping();
 
+        $sDoc = new SubjectDocumentType(new Stream(), $this->container);
+        $sMapping = $sDoc->getMapping();
+
         return array(
             'provider' => array(
                 'properties' => $pMapping
+            ),
+            'subjects' => array(
+                "properties" => $sMapping
             ),
             'institutions' => array(
                 "properties" => $iMapping
@@ -118,6 +125,23 @@ class CredentialDocumentType extends DocumentType {
             $body['subjectSlug'] = $c->getSubject();
             $body['subject'] = Credential::$SUBJECTS[$c->getSubject()];
         }
+
+        // Subjects from the subject taxonomy
+        $subjects = array();
+        $sub = $c->getStream();
+
+        if($sub)
+        {
+            if($sub->getParentStream())
+            {
+                // Add the parent stream first
+                $psDoc = new SubjectDocumentType($sub->getParentStream(), $this->container);
+                $subjects[] = $psDoc->getBody();
+            }
+            $sDoc = new SubjectDocumentType($sub, $this->container);
+            $subjects[] = $sDoc->getBody();
+        }
+        $body['subjects'] = $subjects;
 
         $orgs = array(); // Array of names of organizations who are involved in creating the credential
 
