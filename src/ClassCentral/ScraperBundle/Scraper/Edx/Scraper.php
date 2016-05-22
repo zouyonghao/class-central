@@ -167,7 +167,10 @@ class Scraper extends ScraperAbstractInterface
                             foreach( $edxCourse['course-instructors']['course-staff'] as $staff )
                             {
                                 $insName = $staff['staff-name'];
-                                $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+                                if(!empty($insName))
+                                {
+                                    $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+                                }
                             }
                         }
 
