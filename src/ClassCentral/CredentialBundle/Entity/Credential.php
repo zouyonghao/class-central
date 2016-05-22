@@ -154,6 +154,11 @@ class Credential
      */
     private $syllabus;
 
+    /**
+     * @var \ClassCentral\SiteBundle\Entity\Stream
+     */
+    private $stream;
+
 
     // Any course above this status will not be shown to the user
     const CREDENTIAL_NOT_SHOWN_LOWER_BOUND = 100;
@@ -920,5 +925,29 @@ class Credential
     public function getSyllabus()
     {
         return $this->syllabus;
+    }
+
+
+    /**
+     * Set stream
+     *
+     * @param \ClassCentral\SiteBundle\Entity\Stream $stream
+     * @return Credential
+     */
+    public function setStream(\ClassCentral\SiteBundle\Entity\Stream $stream = null)
+    {
+        $this->stream = $stream;
+    
+        return $this;
+    }
+
+    /**
+     * Get stream
+     *
+     * @return \ClassCentral\SiteBundle\Entity\Stream 
+     */
+    public function getStream()
+    {
+        return $this->stream;
     }
 }
