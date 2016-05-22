@@ -5675,24 +5675,26 @@ footer ul > li > a {
 }
 
 .cred-cta__buttons {
-  margin-top: 29px;
-  margin-left: 46px;
+  margin-left: 12px;
   display: block;
   clear: both;
   .clearfix;
 }
 
-
 .cred-cta__button {
   width: 200px;
   float: left;
-  margin-right: 38px;
+  margin-right: 20px;
+  margin-top: 29px;
 }
 
 .cred-cta__link {
   float: left;
-  margin-top: 17px;
+  margin-top: 18px;
+  width: 200px;
+  text-align: center;
 }
+
 
 .cred-cta__link a {
   color: @brand-secondary;
@@ -8845,7 +8847,6 @@ footer ul > li > a {
 }
 
 
-
 // header area
 
 .headerArea {
@@ -8855,6 +8856,10 @@ footer ul > li > a {
   background: url("/bundles/classcentralsite/slashpixel/images/introbg.jpg") center top no-repeat;
   background-size: cover;
   overflow: hidden;
+}
+
+.headerArea-slim {
+  padding-bottom: 68px;
 }
 
 .headerArea_tilt {
@@ -8881,13 +8886,31 @@ footer ul > li > a {
   background-color: @body-bg;
 }
 
-
 .headerIntro {
   padding: 104px 0 84px 0;
   text-align: center;
   color: @beige;
   max-width: 710px;
   margin: 0 auto;
+}
+
+.headerArea-slim .headerIntro {
+  max-width: 780px;
+  padding: 0;
+}
+
+.headerIntro_topText {
+  font-size: 16px;
+  font-family: @font-family-large-text;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+
+.headerIntro_subTitle {
+  margin-top: 0;
+  margin-bottom: 32px;
+  font-size: 15px;
+  font-family: @font-family-small-text;
 }
 
 .headerIntro_title {
@@ -8899,6 +8922,10 @@ footer ul > li > a {
   letter-spacing: 5px;
   text-transform: uppercase;
   margin-bottom: 55px;
+}
+
+.headerArea-slim .headerIntro_title {
+  margin-bottom: 6px;
 }
 
 @media (min-width: @screen-xs-min) {
@@ -8920,6 +8947,11 @@ footer ul > li > a {
   font-family: @font-family-small-text;
   letter-spacing: .3px;
   margin-top: 5px;
+}
+
+.headerIntro_buttonSub-larger {
+  font-size: 12px;
+  margin-top: 7px;
 }
 
 
