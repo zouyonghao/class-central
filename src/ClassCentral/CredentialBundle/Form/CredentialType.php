@@ -3,6 +3,7 @@
 namespace ClassCentral\CredentialBundle\Form;
 
 use ClassCentral\CredentialBundle\Entity\Credential;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -13,7 +14,17 @@ class CredentialType extends AbstractType
     {
         $builder
             ->add('status','choice',array('choices' => Credential::getStatuses()))
-            ->add('subject','choice',array('choices' => Credential::$SUBJECTS ))
+            ->add('subject','choice',array('choices' => Credential::$SUBJECTS,'label' => 'Subject (credentials page filters)' ))
+            ->add('stream', 'entity', array(
+                'class' => 'ClassCentralSiteBundle:Stream',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.name', 'ASC');
+                },
+                'label' => 'Subject (from the subject taxonomy)',
+                'empty_value'=>true,
+                'required'=>false,
+            ))
             ->add('name')
             ->add('slug')
             ->add('oneLiner')
