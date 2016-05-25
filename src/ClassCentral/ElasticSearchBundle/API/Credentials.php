@@ -80,6 +80,14 @@ class Credentials {
             ));
         }
 
+        if( !empty($queryFilters['provider']) )
+        {
+            $filters[] =  array('terms' => array(
+                'provider.code' => $queryFilters['provider'],
+                'execution' => 'or'
+            ));
+        }
+
         if( !empty($filters) )
         {
             $params['body']['filter'] = array(
