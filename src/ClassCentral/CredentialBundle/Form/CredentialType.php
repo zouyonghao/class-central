@@ -46,7 +46,7 @@ class CredentialType extends AbstractType
             ->add('url')
             ->add('initiative')
             ->add('institutions', null, array('required' => false))
-            ->add('courses')
+            ->add('courses',null, array('required' => false))
         ;
     }
 
