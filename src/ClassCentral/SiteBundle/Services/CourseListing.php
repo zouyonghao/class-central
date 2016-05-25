@@ -40,6 +40,7 @@ class CourseListing {
     public function byProvider($slug, Request $request)
     {
         $cache = $this->container->get('cache');
+
         $data = $cache->get(
             'provider_' . $slug . $request->server->get('QUERY_STRING'), function ($slug, $request) {
 
@@ -73,9 +74,19 @@ class CourseListing {
             );
             $breadcrumbs[] = Breadcrumb::getBreadCrumb($provider->getName());
 
+
+            // get credentials
+            $credentialService = $this->container->get('credential');
+            $credParams = $credentialService->getCredentialsFilterParams($request->query->all());
+            $credParams['provider'] = array(strtolower( $provider->getCode() ));
+            $credData = $credentialService->getCredentialsInfo( $credParams );
+            $credentials = $credData['credentials'];
+            $numCredentials = $credData['numCredentials'];
+
             return compact(
                 'provider', 'allSubjects', 'allLanguages', 'allSessions', 'courses',
-                'sortField', 'sortClass', 'pageNo', 'pageInfo','breadcrumbs','numCoursesWithCertificates'
+                'sortField', 'sortClass', 'pageNo', 'pageInfo','breadcrumbs','numCoursesWithCertificates',
+                'credentials','numCredentials'
             );
         }, array($slug, $request));
 
