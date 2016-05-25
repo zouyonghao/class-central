@@ -162,24 +162,33 @@ jQuery(function($) {
         })
             .done(function(result){
                 var response = $.parseJSON(result);
-                if( page > 1 ) {
-                    $('#course-listing-tbody').append(response.table);
-                } else {
-                    $('.tables-wrap').html( response.table );
-                    $('#number-of-courses').html( response.numCourses );
-                    // The show more courses is part of the response returned
-                    // attach the event click handler
-                    $('#show-more-courses').click( showMoreOnClick );
+                if(params['credential'])
+                {
+                    $('.tables-wrap').html( response.creds );
+                }
+                else
+                {
+                    if( page > 1 ) {
+                        $('#course-listing-tbody').append(response.table);
+                    } else {
+                        $('.tables-wrap').html( response.table );
+                        $('#number-of-courses').html( response.numCourses );
+                        // The show more courses is part of the response returned
+                        // attach the event click handler
+                        $('#show-more-courses').click( showMoreOnClick );
+                    }
+
+                    // Reload after adding the dom back
+                    $('th.sorting').click( tableSort );
+                    loadRaty();
+                    // Attach handlers to checkboxes
+                    $('input[class="course-list-checkbox"]').change( courseListCheckboxHandler );
+
+                    updateLoadMore( page + 1, response.numCourses);
                 }
 
-                // Reload after adding the dom back
-                $('th.sorting').click( tableSort );
-                loadRaty();
-                // Attach handlers to checkboxes
-                $('input[class="course-list-checkbox"]').change( courseListCheckboxHandler );
-
-                updateLoadMore( page + 1, response.numCourses);
             });
+
     }
 
     var showMoreOnClick =  function(){
@@ -239,6 +248,12 @@ jQuery(function($) {
         $('#certificate-toggle').find('.tick').addClass('ticked');
     }
 
+    var qCredentialFilter = $.url().param('credential');
+    if(qCredentialFilter) {
+        $('#credential-toggle').find('.tick').addClass('ticked');
+    }
+
+
     /**
      * Updates the url to reflect the filters using pushstate
      * @param subjects
@@ -296,6 +311,13 @@ jQuery(function($) {
             });
         });
 
+
+        // Credentials
+        var credential = false;
+        $(".filter-credentials .ticked + .sub-category").each(function() {
+            credential = true;
+        });
+
         // Languages
         var filterLang = [];
         $(".filter-languages .ticked + .sub-category").each(function() {
@@ -332,6 +354,9 @@ jQuery(function($) {
         if( certificate ) {
             params['certificate'] = true;
         }
+        if( credential ) {
+            params['credential'] = true;
+        }
         var sorting = [];
         $('th.sorting').each(function(){
             var fieldName = $(this).data('sort');
@@ -361,7 +386,7 @@ jQuery(function($) {
 
         $qParams = $.url().param();
         for(var param in $qParams) {
-            if($.inArray(param,['session','subject','lang','sort','page','list','certificate']) == -1 ) {
+            if($.inArray(param,['session','subject','lang','sort','page','list','certificate','credential']) == -1 ) {
                 params[param ] = $qParams[param];
             }
         }

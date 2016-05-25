@@ -203,6 +203,7 @@ class InitiativeController extends Controller
         $data = $cl->byProvider($type,$request);
         $provider = $data['provider'];
 
+
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
             'results' => $data['courses'],
             'listTypes' => UserCourse::$lists,
@@ -220,7 +221,9 @@ class InitiativeController extends Controller
             'breadcrumbs' => $data['breadcrumbs'],
             'followItem' => Item::ITEM_TYPE_PROVIDER,
             'followItemId' => $provider->getId(),
-            'followItemName' => $provider->getName()
+            'followItemName' => $provider->getName(),
+            'credentials' => $data['credentials'],
+            'numCredentials' => $data['numCredentials'],
         ));
     }
 

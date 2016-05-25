@@ -211,9 +211,19 @@ class MaestroController extends Controller {
             'pageNo'=>$pageNo,
             'showHeader' => false
         ))->getContent();
+
+        $creds = null;
+        if(!empty($numCredentials) && $numCredentials > 0)
+        {
+            $creds = $this->render('ClassCentralCredentialBundle:Credential:credentialcards.html.twig',array(
+               'credentials' => $credentials
+            ))->getContent();
+        }
+
         $response = array(
             'table' => $table,
-            'numCourses' => $courses['hits']['total']
+            'numCourses' => $courses['hits']['total'],
+            'creds' => $creds
         );
 
         return new Response( json_encode( $response ) );

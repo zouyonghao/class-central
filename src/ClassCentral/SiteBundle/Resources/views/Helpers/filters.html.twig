@@ -1,25 +1,39 @@
 <div class="cat-filter-wrap">
-    {#
-    <div class="category-filter category-filter--dark-ribbon">
 
-        <div class="ribbon-wrap">
-            <div class="ribbon">
-                <span class="number-of-courses"><span id="number-of-credentials">36</span> Credentials available</span>
+    {% if numCredentials is defined and numCredentials > 0 %}
+
+        <div class="category-filter category-filter--dark-ribbon">
+
+            <div class="ribbon-wrap">
+                <div class="ribbon">
+                    <span class="number-of-courses"><span id="number-of-credentials">{{ numCredentials }}</span> Credentials available</span>
+                </div>
             </div>
+
+            <ul class="filter-nav">
+
+
+                <li class="filter-credentials active">
+                    <ul class="main-filter-dropdown">
+                        <li id="credential-toggle">
+                            <div class="tick-wrap">
+                               <span class="tick tick-icon-bg">
+                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                        <use xlink:href="#icon-cc-tick"></use>
+                                    </svg>
+                                </span>
+                                <a href="#" class="filter-dropdown-toggle sub-category" data-type="credential">View Credentials</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul><!-- /.filter-nav -->
+
         </div>
 
-        <ul class="filter-nav">
+    {% endif %}
 
-            <li class="filter-credentials active">
-                <a href="#" class="filter-dropdown-toggle main-category">
-                    View credentials
-                </a>
-            </li><!-- /.filter-subjects -->
-
-        </ul><!-- /.filter-nav -->
-
-    </div>
-    #}
     <div class="category-filter">
         {# hide search box on search pages #}
         {% if page is defined and page != 'search' and false %}
@@ -36,7 +50,7 @@
         {% if results is defined and results.hits is defined %}
         <div class="ribbon-wrap">
             <div class="ribbon">
-                <span class="number-of-courses"><span id="number-of-courses">{{  results.hits.total }} </span> courses available</span>
+                <span class="number-of-courses"><span id="number-of-courses">{{ results.hits.total }} </span> courses available</span>
             </div>
         </div>
         {% endif %}
