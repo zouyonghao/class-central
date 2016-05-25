@@ -80,6 +80,9 @@ class Credential {
             case 'hbxcore':
                 return array('name'=>'HBX CORe', 'slug' => 'hbxcore');
                 break;
+            case 'techdegree':
+                return array('name'=>'Techdegree', 'slug' => 'techdegree');
+                break;
         }
 
     }

@@ -6,6 +6,7 @@ use ClassCentral\CredentialBundle\Formatters\CourseraCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\EdxCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\FlatironCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\HBXCredentialFormatter;
+use ClassCentral\CredentialBundle\Formatters\TreehouseCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\UdacityCredentialFormatter;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -895,6 +896,9 @@ class Credential
                 break;
             case 'Flatiron School':
                 $formatter = new FlatironCredentialFormatter($this);
+                break;
+            case 'Treehouse':
+                $formatter = new TreehouseCredentialFormatter($this);
                 break;
             default:
                 throw new \Exception("Credential formatter for this provider does not exist");

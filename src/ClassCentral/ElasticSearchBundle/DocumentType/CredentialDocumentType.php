@@ -250,6 +250,11 @@ class CredentialDocumentType extends DocumentType {
             $bulletPoints[] = 'Graduate in 12 months, get a 50% tuition refund';
             $bulletPoints[] = '1:1 feedback - Rigorous, timely project and code reviews';
         }
+        elseif ($provider->getName() == 'Treehouse')
+        {
+            $bulletPoints[] = 'Personal project reviews, Portfolio of 12 real-world projects';
+            $bulletPoints[] = '1-on-1 mentor sessions';
+        }
 
 
         if( $formatter->getEnrollment() )
