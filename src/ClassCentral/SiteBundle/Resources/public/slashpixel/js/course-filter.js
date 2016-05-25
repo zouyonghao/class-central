@@ -70,6 +70,14 @@ jQuery(function($) {
         var node = $(this).parent().children('a');
         var type = node.data('type');
         var value = node.data(type);
+        if(type != 'credential') {
+            // something else was clicked. untoggle credential
+            var qCredentialFilter = $.url().param('credential');
+            if(qCredentialFilter) {
+                $('#credential-toggle').find('.tick').removeClass('ticked');
+            }
+
+        }
         filterCourses();
         gaqPush(type, value);
     });
@@ -91,6 +99,14 @@ jQuery(function($) {
             $(span).toggleClass('ticked');
             var type = $(this).data('type');
             var value = $(this).data(type);
+            if(type != 'credential') {
+                // something else was clicked. untoggle credential
+                var qCredentialFilter = $.url().param('credential');
+                if(qCredentialFilter) {
+                    $('#credential-toggle').find('.tick').removeClass('ticked');
+                }
+
+            }
             filterCourses();
             gaqPush(type, value);
         }
