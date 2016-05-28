@@ -80,6 +80,17 @@ class Credentials {
             ));
         }
 
+        /**
+         * This is the one thats tied to the course subject taxonomy
+         */
+        if( !empty($queryFilters['streams']) )
+        {
+            $filters[] =  array('terms' => array(
+                'subjects.slug' => $queryFilters['streams'],
+                'execution' => 'or'
+            ));
+        }
+
         if( !empty($queryFilters['provider']) )
         {
             $filters[] =  array('terms' => array(

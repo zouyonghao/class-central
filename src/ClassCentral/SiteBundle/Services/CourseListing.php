@@ -141,9 +141,18 @@ class CourseListing {
             $breadcrumbs[] = Breadcrumb::getBreadCrumb($subject->getName());
             $subject->setParentStream( null ); // To avoid cache errors
 
+            // get credentials
+            $credentialService = $this->container->get('credential');
+            $credParams = $credentialService->getCredentialsFilterParams($request->query->all());
+            $credParams['streams'] = array(strtolower( $subject->getSlug() ));
+            $credData = $credentialService->getCredentialsInfo( $credParams );
+            $credentials = $credData['credentials'];
+            $numCredentials = $credData['numCredentials'];
+
             return compact(
                 'subject', 'allSubjects', 'allLanguages', 'allSessions', 'courses',
-                'sortField', 'sortClass', 'pageNo', 'pageInfo','breadcrumbs','numCoursesWithCertificates'
+                'sortField', 'sortClass', 'pageNo', 'pageInfo','breadcrumbs','numCoursesWithCertificates',
+                'credentials','numCredentials'
             );
         }, array($slug, $request));
 

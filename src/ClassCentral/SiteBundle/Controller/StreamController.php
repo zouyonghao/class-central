@@ -197,6 +197,7 @@ class StreamController extends Controller
         $data = $cl->bySubject($slug,$request);
         $subject = $data['subject'];
 
+
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
                 'subject' => $data['subject'],
                 'page' => 'subject',
@@ -216,7 +217,9 @@ class StreamController extends Controller
                 'showHeader' => true,
                 'followItem' => Item::ITEM_TYPE_SUBJECT,
                 'followItemId' => $subject->getId(),
-                'followItemName' => $subject->getName()
+                'followItemName' => $subject->getName(),
+                'credentials' => $data['credentials'],
+                'numCredentials' => $data['numCredentials'],
             ));
     }
 
