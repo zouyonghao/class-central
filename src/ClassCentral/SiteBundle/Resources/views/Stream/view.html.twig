@@ -114,7 +114,11 @@
                 </div>
                 <div class="col-sm-8 col-lg-9 table-column">
                     <div class="tables-wrap">
-                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'subjectstable'} %}
+                        {% if app.request.get('credential') == true %}
+                            {% include 'ClassCentralCredentialBundle:Credential:credentialcards.html.twig' %}
+                        {% else %}
+                         {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'subjectstable'} %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
