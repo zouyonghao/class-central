@@ -120,6 +120,9 @@ class Suggestions
     {
         $mustNot = array();
         $courseIds= $user->getUserCourseIds();
+        // Limit the course Ids to prevent ES from breaking.
+        $courseIds = array_slice( $courseIds,0,100  );
+
         if( !empty($courseIds) )
         {
             $mustNot =  array(
