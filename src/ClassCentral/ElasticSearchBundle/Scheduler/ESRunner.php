@@ -32,6 +32,8 @@ class ESRunner {
         $logger = $this->getLogger();
         $esScheduler = $this->container->get('es_scheduler');
         $indexer = $this->container->get('es_indexer');
+        $em = $this->container->get('doctrine')->getManager();
+
 
         // Retrieve the job
         try
@@ -43,6 +45,8 @@ class ESRunner {
             // Create a log item
             $jl = ESJobLog::getJobLog( $job, $status );
             $indexer->index( $jl );
+
+            $em->flush(); // Flush doctrine;
 
             return $status;
         }
@@ -71,6 +75,7 @@ class ESRunner {
         $logger = $this->getLogger();
         $esScheduler = $this->container->get('es_scheduler');
         $indexer = $this->container->get('es_indexer');
+        $em = $this->container->get('doctrine')->getManager();
 
         $dt = $date->format('Y-m-d');
 
@@ -78,27 +83,49 @@ class ESRunner {
         $logger->info("RUNNER: runByDate called with parameters date $dt & type $type");
 
         // Retrieve all jobs for this date and type
-        $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type );
+        $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type, 100 );
 
         $totalJobs = $results['hits']['total'];
         $logger->info("RUNNER: $totalJobs jobs found");
         $statuses = array(); // Array of status of all jobs
-        foreach ($results['hits']['hits'] as $result)
-        {
-            $job = ESJob::getObjFromArray( $result );
-            $status = $this->run( $job );
-            $statuses[ $job->getId() ] = $status;
-            // Create a log item
-            $jl = ESJobLog::getJobLog( $job, $status );
-            $indexer->index( $jl );
+        $count = 0;
+        //$start = microtime(true);
 
-            $esScheduler->delete( $job->getId() );
-            unset($jl);// clear memory
-            unset($job); // clear memory
+        while($totalJobs)
+        {
+            foreach ($results['hits']['hits'] as $result)
+            {
+                $job = ESJob::getObjFromArray( $result );
+                if( isset( $statuses[ $job->getId() ]))
+                {
+                    // Job already ran
+                    continue;
+                }
+                $status = $this->run( $job );
+                $statuses[ $job->getId() ] = $status;
+                // Create a log item
+                $jl = ESJobLog::getJobLog( $job, $status );
+                $indexer->index( $jl );
+
+                $esScheduler->delete( $job->getId() );
+                unset($jl);// clear memory
+                unset($job); // clear memory
+                $count++;
+            }
+
+            $em->flush();
+            $em->clear();
+//            $time_elapsed_secs = microtime(true) - $start;
+//            echo "Took $time_elapsed_secs seconds \n";
+//            $start = microtime(true);
+
+            $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type, 100 );
+            $totalJobs = $results['hits']['total'];
         }
 
+
         return array(
-            'total' => $totalJobs,
+            'total' => $count,
             'statuses' => $statuses
         );
     }
