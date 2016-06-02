@@ -123,7 +123,7 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
             'ClassCentralMOOCTrackerBundle:Review:single.course.inlined.html',array(
               'course' => $course,
               'user'   => $user,
-              'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+              'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
               'baseUrl' => $this->getContainer()->getParameter('baseurl'),
               'jobType' => $this->getJob()->getJobType(),
                'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,

@@ -76,7 +76,7 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
                 'user'   => $user,
                 'courses' => $courses,
                 'recommendationsPageUnlocked' => ( count($user->getFollows()) >= 10),
-                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'jobType' => $this->getJob()->getJobType(),
                 'utm' => array(

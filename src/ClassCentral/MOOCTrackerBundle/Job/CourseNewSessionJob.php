@@ -88,7 +88,7 @@ class CourseNewSessionJob extends SchedulerJobAbstract{
                 'results' => $courses,
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'user' => $user,
-                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
                 'numCourses' => $numCourses,
                 'showDesc' => ($numCourses <= 10),
                 'coursesHidden' => ($numCourses > 40),

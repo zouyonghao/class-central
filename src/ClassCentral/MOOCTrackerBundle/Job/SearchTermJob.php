@@ -133,7 +133,7 @@ class SearchTermJob extends SchedulerJobAbstract {
             'user' => $user,
             'jobType' => $jobType,
             'numCourses' => $count,
-            'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+            'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
             'showDesc' => ($count <= 10),
             'coursesHidden' => ($count > 40),
             'counts' => $this->getCounts(),

@@ -207,7 +207,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         return $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:single.course.inlined.html', array(
             'course' => $courseArray,
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
-            'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+            'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user, false),
             'interested' => $isInterested,
             'user' => $user,
             'jobType' => $jobType,
@@ -233,7 +233,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
             'user' => $user,
             'jobType' => $this->getJob()->getJobType(),
-            'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+            'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
             'counts' => $counts,
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
                     UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,

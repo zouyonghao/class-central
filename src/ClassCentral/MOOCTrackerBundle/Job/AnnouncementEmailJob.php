@@ -86,7 +86,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
         $html = $templating->renderResponse(
             'ClassCentralMOOCTrackerBundle:Announcement:'.$template,array(
                 'user'   => $user,
-                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'jobType' => $this->getJob()->getJobType(),
                 'utm' => array(

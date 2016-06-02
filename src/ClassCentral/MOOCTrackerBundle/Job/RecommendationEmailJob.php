@@ -88,7 +88,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
                 'courses' => $courses,
                 'recommendationsPageUnlocked' => ( count($user->getFollows()) >= 10),
                 'recommendationsMonth' => $startDate->format('F'),
-                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user),
+                'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),
                 'jobType' => $this->getJob()->getJobType(),
                 'utm' => array(
