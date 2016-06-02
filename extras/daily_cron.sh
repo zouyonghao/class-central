@@ -34,6 +34,9 @@ echo "Update Canvas courses"
 php app/console classcentral:scrape Canvas --simulate=N --type=add
 php app/console classcentral:scrape Canvas --simulate=N --type=update
 
+echo "Update Kadenze courses"
+php app/console classcentral:scrape Kadenze --simulate=N --type=add
+php app/console classcentral:scrape Kadenze --simulate=N --type=update
 
 echo "Reindexing all the courses"
 php app/console classcentral:elasticsearch:indexer --env=$env --no-debug
