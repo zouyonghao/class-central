@@ -43,6 +43,16 @@ class Scraper extends \ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterfa
                     // NEW COURSE
                     if ($this->doModify())
                     {
+                        // Add instructors
+                        foreach( $kcourse['instructors'] as $staff )
+                        {
+                            $insName = $staff['full_name'];
+                            if(!empty($insName))
+                            {
+                                $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+                            }
+                        }
+
                         $em->persist($course);
                         $em->flush();
 
@@ -84,7 +94,7 @@ class Scraper extends \ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterfa
 
                 if($courseModified && $this->doUpdate())
                 {
-                    //$this->out( "Database course changed " . $dbCourse->getName());
+
                     // Course has been modified
                     $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
                     $this->dbHelper->outputChangedFields($changedFields);
