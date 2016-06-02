@@ -760,10 +760,10 @@ class User {
      * Generates a login token that allows the user to auto login
      * @param \ClassCentral\SiteBundle\Entity\User $user
      */
-    public function getLoginToken( \ClassCentral\SiteBundle\Entity\User $user)
+    public function getLoginToken( \ClassCentral\SiteBundle\Entity\User $user, $flush = true)
     {
         $tokenService = $this->container->get('verification_token');
-        $loginToken = $tokenService->create("login_token=1&user_id=" . $user->getId(), 2*VerificationToken::EXPIRY_1_WEEK);
+        $loginToken = $tokenService->create("login_token=1&user_id=" . $user->getId(), 2*VerificationToken::EXPIRY_1_WEEK,$flush);
 
         return $loginToken->getToken();
     }

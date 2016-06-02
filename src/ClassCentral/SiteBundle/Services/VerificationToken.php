@@ -22,7 +22,7 @@ class VerificationToken {
      * @return \ClassCentral\SiteBundle\Entity\VerificationToken
      * @throws \Exception
      */
-    public function create($value, $expiry = \ClassCentral\SiteBundle\Entity\VerificationToken::EXPIRY_1_WEEK )
+    public function create($value, $expiry = \ClassCentral\SiteBundle\Entity\VerificationToken::EXPIRY_1_WEEK, $flush = true )
     {
         $expiry = intval($expiry);
         $vToken = new \ClassCentral\SiteBundle\Entity\VerificationToken();
@@ -44,7 +44,10 @@ class VerificationToken {
         }
 
         $this->em->persist($vToken);
-        $this->em->flush();
+        if($flush)
+        {
+            $this->em->flush();
+        }
         return $vToken;
     }
 
