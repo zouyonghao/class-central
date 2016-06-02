@@ -85,7 +85,7 @@ class Scheduler {
         return $this->esClient->get( $params );
     }
 
-    public function findJobsByDateAndType( $date, $type)
+    public function findJobsByDateAndType( $date, $type, $size = 10000)
     {
         $params = array();
         $params['index'] = $this->indexName;
@@ -114,7 +114,7 @@ class Scheduler {
         );
 
         $params['body']['query'] = $query;
-        $params['body']['size'] = 10000;
+        $params['body']['size'] = $size;
 
         $results = $this->esClient->search( $params );
 
