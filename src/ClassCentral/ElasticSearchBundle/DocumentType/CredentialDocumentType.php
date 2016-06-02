@@ -209,7 +209,15 @@ class CredentialDocumentType extends DocumentType {
         $displayDuration = $formatter->getDuration();
         if( $displayDuration )
         {
-            $bulletPriceAndDuration .= ' for ' . $displayDuration;
+            if(!empty($bulletPriceAndDuration))
+            {
+                $bulletPriceAndDuration .= ' for ' . $displayDuration;
+            }
+            else
+            {
+                $bulletPriceAndDuration .= 'For ' . $displayDuration;
+            }
+
         }
         if($provider->getName() == 'Flatiron School')
         {

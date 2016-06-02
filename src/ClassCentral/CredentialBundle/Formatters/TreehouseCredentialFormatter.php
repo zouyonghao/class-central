@@ -26,4 +26,14 @@ class TreehouseCredentialFormatter extends CredentialFormatterAbstract
     {
         return 'Go To Techdegree';
     }
+
+    public function getPrice()
+    {
+        return '';
+    }
+
+    public function getDuration()
+    {
+        return ucwords( parent::getDuration() );
+    }
 }
