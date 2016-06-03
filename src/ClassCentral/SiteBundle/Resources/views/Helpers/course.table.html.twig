@@ -98,7 +98,7 @@
         {% set course = result._source %}
 
 
-        {% if loop.index == 25 %}
+        {% if loop.index is divisibleby(20)  %}
             {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { format: 'table','midRowTableAd' : true} %}
         {% endif %}
 

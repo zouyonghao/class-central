@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and (app.request.get('page') == '' or midRowTableAd) %}
 
-    {% set ad = random(11) %}
+    {% set ad = random(12) %}
 
     {% if ad == 0 %}
 
@@ -168,19 +168,32 @@
             'subjectSlug':'business',
             'format' : format
         } %}
-
-    {% else %}
+    {% elseif  ad == 11 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
-            'courseName': "Launch A Rocket: Learn JavaScript Basics The Fun Way!",
-            'courseUrl' : 'http://skl.sh/1UkQZuf',
+        'courseName': "Launch A Rocket: Learn JavaScript Basics The Fun Way!",
+        'courseUrl' : 'http://skl.sh/1UkQZuf',
+        'courseDate': 'Self Paced',
+        'providerName':'Skillshare',
+        'providerUrl' : 'http://skl.sh/1UkQZuf',
+        'institutionName':'',
+        'institutionUrl': '',
+        'subjectName': 'Computer Science',
+        'subjectSlug':'cs',
+        'format' : format
+        } %}
+
+    {% else %}
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+            'courseName': "Intro to Data Analysis",
+            'courseUrl' : 'https://www.udacity.com/course/data-analyst-nanodegree--nd002?utm_source=class-central&utm_medium=ads&utm_campaign=2016-06-class-central-course-table-header-text-data-analyst',
             'courseDate': 'Self Paced',
-            'providerName':'Skillshare',
-            'providerUrl' : 'http://skl.sh/1UkQZuf',
-            'institutionName':'',
-            'institutionUrl': '',
-            'subjectName': 'Computer Science',
-            'subjectSlug':'cs',
+            'providerName':'Udacity',
+            'providerUrl' : 'https://www.udacity.com/?utm_source=class-central&utm_medium=ads&utm_campaign=2016-06-class-central-course-table-header-text-data-analyst',
+            'institutionName':'Facebook',
+            'institutionUrl': 'https://www.udacity.com/course/data-analyst-nanodegree--nd002?utm_source=class-central&utm_medium=ads&utm_campaign=2016-06-class-central-course-table-header-text-data-analyst',
+            'subjectName': 'Data Science',
+            'subjectSlug':'data-science',
             'format' : format
         } %}
 
