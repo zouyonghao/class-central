@@ -1,6 +1,6 @@
 {% if app.request.get('sort') == '' and page != 'user-library' and (app.request.get('page') == '' or midRowTableAd) %}
 
-    {% set ad = random(9) %}
+    {% set ad = random(11) %}
 
     {% if ad == 0 %}
 
@@ -139,7 +139,7 @@
         'format' : format
         } %}
 
-    {% else %}
+    {% elseif  ad == 9 %}
 
         {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
         'courseName': "Intro to Android Development",
@@ -154,6 +154,35 @@
         'format' : format
         } %}
 
+    {% elseif  ad == 10 %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+            'courseName': "Fundamentals of Product Management",
+            'courseUrl' : 'http://skl.sh/1UkQ7ph',
+            'courseDate': 'Self Paced',
+            'providerName':'Skillshare',
+            'providerUrl' : 'http://skl.sh/1UkQ7ph',
+            'institutionName':'',
+            'institutionUrl': '',
+            'subjectName': 'Business and Management',
+            'subjectSlug':'business',
+            'format' : format
+        } %}
+
+    {% else %}
+
+        {%  include 'ClassCentralSiteBundle:Helpers:table.ad.html.twig' with {
+            'courseName': "Launch A Rocket: Learn JavaScript Basics The Fun Way!",
+            'courseUrl' : 'http://skl.sh/1UkQZuf',
+            'courseDate': 'Self Paced',
+            'providerName':'Skillshare',
+            'providerUrl' : 'http://skl.sh/1UkQZuf',
+            'institutionName':'',
+            'institutionUrl': '',
+            'subjectName': 'Computer Science',
+            'subjectSlug':'cs',
+            'format' : format
+        } %}
 
     {% endif %}
 
