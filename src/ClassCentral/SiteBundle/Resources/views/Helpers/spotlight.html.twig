@@ -199,12 +199,12 @@
             {% set featuredPostId = 0 %}
             {% for post in newestPosts if not featuredPostShown %}
                 {% if post.acf.pinned is not empty %}
-                    <a href="{{ post.link }}" class="featured-media__imageLink">
+                    <a href="{{ post.link }}" class="featured-media__imageLink"  onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">
                         <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url,post.id) }}" alt="Image title" class="featured-media__img">
                     </a>
                     <div class="featured-media">
                     <h2 class="featured-media__title">
-                      <a href="{{ post.link }}">{{ post.title.rendered|raw }}</a>
+                      <a href="{{ post.link }}"  onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">{{ post.title.rendered|raw }}</a>
                     </h2>
                     <div class="featured-media__content">
                      {{ post.acf.subtitle }}
@@ -224,13 +224,13 @@
             {% for post in newestPosts if postsShown < 4%}
                     {% if post.id != featuredPostId %}
                         <div class="media-object media-object--bordered">
-                            <a href="{{ post.link }}" class="media-object__image">
+                            <a href="{{ post.link }}" class="media-object__image"    onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">
                                 <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url,post.id) }}" alt="{{ post.title.rendered|raw }}" class="media-object">
                             </a>
 
                             <div class="media-object__content">
                                 <h2 class="media-object__title">
-                                    <a href="{{ post.link }}">{{ post.title.rendered|raw }}</a>
+                                    <a href="{{ post.link }}"  onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">{{ post.title.rendered|raw }}</a>
                                 </h2>
                                 <div class="media-object__meta">
                                     {{ moocReport.author(post.author).name }} • {{ post.date|date("jS M, Y") }}
