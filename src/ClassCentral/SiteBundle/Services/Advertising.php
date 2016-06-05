@@ -56,7 +56,7 @@ class Advertising
         $len = count($freq);
         $id = mt_rand(0,$len - 1);
 
-        return $textAds[$id];
+        return $textAds[$freq[$id]];
     }
 
     /**
