@@ -91,15 +91,21 @@
     </thead>
     <tbody class="table-body-{{ tableId }}" id="course-listing-tbody">
 {% endif %}
-    {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { format: 'table','midRowTableAd' : false} %}
+        {{ cc_ads.renderTextRowAd('table',{
+            'tableId': tableId,
+            'midRowTableAd': false
+        })|raw }}
 
 
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
-
         {% if loop.index is divisibleby(20)  %}
-            {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { format: 'table','midRowTableAd' : true} %}
+            {{ cc_ads.renderTextRowAd('table',{
+                'tableId': tableId,
+                'midRowTableAd': true
+            })|raw }}
+
         {% endif %}
 
         {% if followItem is defined and loop.index == 5 and showHeader and not user_session.isItemFollowed(followItem,followItemId) %}

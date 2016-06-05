@@ -107,7 +107,8 @@
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
 
-        {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { format: 'course-top' } %}
+        {# Text Row ad #}
+        {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
 
 
         <div class="course-meta-main border-radius">
@@ -723,7 +724,7 @@
         <span class="dock__bg-decoration"></span>
         <div class="dock__inner">
             <div class="dock__left">
-                {% include 'ClassCentralSiteBundle:Helpers:table.ads.html.twig' with { format: 'dock' } %}
+                {{ cc_ads.renderTextRowAd('dock',{})|raw }}
             </div><!-- /.dock__left -->
             <div class="dock__right">
                 <div class="action-bar">
