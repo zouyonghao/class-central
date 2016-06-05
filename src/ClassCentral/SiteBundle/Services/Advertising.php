@@ -24,7 +24,7 @@ class Advertising
      * Reads the text ads from the json file
      * @return array|mixed
      */
-    private function getTextRowAds()
+    public function getTextRowAds()
     {
         $filePath = $this->container->get('kernel')->getRootDir(). '/../extras/text_row_ads.json';
         $ads = file_get_contents($filePath);
@@ -65,8 +65,8 @@ class Advertising
      */
     public function renderTextRowAd($location,$options = array())
     {
-        // To do: Cache this
-        $adsInfo = $this->getTextRowAds();
+        $cache = $this->container->get('cache');
+        $adsInfo = $cache->get('text_row_ads',array($this,'getTextRowAds'),array());
         $templating = $this->container->get('templating');
 
         $textAd = $this->getTextAdBasedOnFrequency($adsInfo['ads'],$adsInfo['freq']);
