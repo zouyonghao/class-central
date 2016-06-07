@@ -302,7 +302,7 @@
                                 {% if course.discounted_price > 0 and course.discounted_price < course.price %}
                                     <span style="text-decoration: line-through;">${{ course.price }}</span> ${{ course.discounted_price }}
                                 {% else %}
-                                    ${{ course.price }}
+                                    {{ course.priceDisplay }}
                                 {% endif %}
 
                         {% else %}

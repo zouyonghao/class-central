@@ -45,6 +45,7 @@ class CourseRepository extends EntityRepository{
         $courseDetails['durationDisplay'] = $formatter->getDuration();
         $courseDetails['price'] = $course->getPrice();
         $courseDetails['pricePeriod'] = $course->getPricePeriod();
+        $courseDetails['priceDisplay'] = $formatter->getPrice();
 
 
         // Calculate the workload
