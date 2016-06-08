@@ -8,6 +8,9 @@
 {% if allowSorting is defined %}
     {%  set sorting = allowSorting %}
 {% endif %}
+{% if showSubjectInTable is not defined %}
+    {% set showSubjectInTable = false %}
+{% endif %}
 {% if pageNo == 1 or showHeader %}
 <table class="table table-bordered" id='{{ tableId}}list'>
     <thead>
@@ -93,7 +96,8 @@
 {% endif %}
         {{ cc_ads.renderTextRowAd('table',{
             'tableId': tableId,
-            'midRowTableAd': false
+            'midRowTableAd': false,
+            'showSubjectInTable': showSubjectInTable
         })|raw }}
 
 
@@ -103,7 +107,8 @@
         {% if loop.index is divisibleby(20)  %}
             {{ cc_ads.renderTextRowAd('table',{
                 'tableId': tableId,
-                'midRowTableAd': true
+                'midRowTableAd': true,
+                'showSubjectInTable':showSubjectInTable
             })|raw }}
 
         {% endif %}

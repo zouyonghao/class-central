@@ -20,7 +20,7 @@
         </ul>
     </td>
 
-    {% if page is defined and page != 'stream' and page=='home' %}
+    {% if showSubjectInTable %}
         <td class="subject-column"> <a class="subject" href="/subject/{{ subjectSlug }}" title="List of {{ subjectName }} MOOCs" onclick='ga("send","event", "Inbound Clicks - Stream", "{{ subjectName }}", "{{ courseName }}")' data-category="{{ subjectName }}">{{ subjectName }}</a>
         </td>
     {% endif %}
