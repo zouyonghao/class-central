@@ -9,6 +9,7 @@
 namespace ClassCentral\ScraperBundle\Scraper\Futurelearn;
 
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
@@ -25,6 +26,7 @@ use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 class Scraper extends ScraperAbstractInterface {
 
     const COURSES_API_ENDPOINT = 'https://www.futurelearn.com/feeds/courses';
+    const PROGRAMS_API_ENDPOINT ='https://www.futurelearn.com/feeds/programs';
 
     private $courseFields = array(
         'Url', 'Description', 'DurationMin','DurationMax','Name','LongDescription','Certificate','WorkloadType','CertificatePrice'
@@ -34,8 +36,18 @@ class Scraper extends ScraperAbstractInterface {
         'StartDate', 'EndDate', 'Url', 'Status'
     );
 
+    private $credentialFields = array(
+        'Description','Name', 'OneLiner', 'SubTitle'
+    );
+
     public function scrape()
     {
+        if($this->isCredential)
+        {
+            $this->scrapeCredentials();
+            return;
+        }
+
         $em = $this->getManager();
         $flCourses = json_decode(file_get_contents( self::COURSES_API_ENDPOINT ), true );
         $coursesChanged = array();
@@ -290,5 +302,79 @@ class Scraper extends ScraperAbstractInterface {
             $this->out("$field changed from - '$old' to '$new'");
         }
     }
+
+    public function scrapeCredentials()
+    {
+        $flPrograms = json_decode(file_get_contents( self::PROGRAMS_API_ENDPOINT ), true );
+        foreach ($flPrograms as $program)
+        {
+            $credential = $this->getCredential($program);
+            $this->saveOrUpdateCredential( $credential, $program['image_url'] );
+        }
+    }
+
+
+    public function getCredential( $program )
+    {
+        $credential = new Credential();
+        $credential->setName( $program['name'] );
+        $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
+        $credential->setPrice(0);
+        $credential->setSlug( 'fl_'.$this->getCredentialSlug($program['url']) );
+        $credential->setInitiative( $this->initiative );
+        $credential->setUrl( $program['url'] );
+        $credential->setOneLiner( $program['introduction'] );
+        $credential->setDescription( $program['description'] );
+
+        return $credential;
+    }
+
+    public function getCredentialSlug($url)
+    {
+        $slug = substr($url, strrpos($url,'/') + 1 );
+        $slugParts = explode('?',$slug);
+
+        return $slugParts[0];
+    }
+
+
+    private function saveOrUpdateCredential(Credential $credential, $imageUrl)
+    {
+        $dbCredential = $this->dbHelper->getCredentialBySlug( $credential->getSlug() ) ;
+        $em = $this->getManager();
+        if( !$dbCredential )
+        {
+            if($this->doCreate())
+            {
+                $this->out("New Credential - " . $credential->getName() );
+                if ($this->doModify())
+                {
+                    $em->persist( $credential );
+                    $em->flush();
+
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential);
+                }
+            }
+        }
+        else
+        {
+            // Update the credential
+            $changedFields = $this->dbHelper->changedFields($this->credentialFields,$credential,$dbCredential);
+            if(!empty($changedFields) && $this->doUpdate())
+            {
+                $this->out("UPDATE CREDENTIAL - " . $dbCredential->getName() );
+                $this->outputChangedFields( $changedFields );
+                if ($this->doModify())
+                {
+                    $em->persist($dbCredential);
+                    $em->flush();
+
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential);
+                }
+            }
+
+        }
+    }
+
 
 } 
