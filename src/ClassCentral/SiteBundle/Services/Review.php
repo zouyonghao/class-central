@@ -196,6 +196,46 @@ class Review {
         return $reviews;
     }
 
+    public function getRatingsSummary($courseId)
+    {
+
+        $reviewEntities = $this->em->createQuery("
+               SELECT r,f, LENGTH (r.review) as reviewLength from ClassCentralSiteBundle:Review r JOIN r.course c LEFT JOIN r.fbSummary f WHERE c.id = $courseId
+                ORDER BY r.score DESC")
+            ->getResult();
+
+        $reviewCount = 0;
+        $ratingCount = 0;
+        $ratingsBreakdown = array(
+            1 => 0,
+            2 => 0,
+            3 => 0,
+            4 => 0,
+            5 => 0,
+        );
+        foreach($reviewEntities as $review)
+        {
+            $review = $review[0];
+            if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND )
+            {
+                $ratingCount++;
+                $ratingsBreakdown[$review->getRating()]++;
+
+                if( !$review->getIsRating() )
+                {
+                    $reviewCount++;
+                }
+            }
+        }
+
+        $reviews = array();
+        $reviews['count'] = $ratingCount;
+        $reviews['ratingCount'] = $ratingCount;
+        $reviews['reviewCount'] = $reviewCount;
+        $reviews['ratingsBreakdown'] = $ratingsBreakdown;
+        return $reviews;
+    }
+
     /**
      * Calculate the percentage of ratings
      * @param $totalRatings
