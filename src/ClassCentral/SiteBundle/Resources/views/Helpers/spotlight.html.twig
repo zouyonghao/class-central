@@ -21,7 +21,50 @@
 
         {% for position in 1..10 %}
             {% set spotlight = spotlights[position] %}
-            {% if position != 2 %}
+            {% if position == 6 %}
+                {# Show courses that are part of the educator program #}
+                <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[6].visible }}
+                   {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}"
+
+                     id="home-spotlight-{{ spotlight.position }}">
+                    <a class="spotlight-item {{ spotlightMap[2].class }}" href="{{ path('ClassCentralSiteBundle_mooc',{ id: spotlightCourseSecondRow.id, slug:spotlightCourseSecondRow.slug}) }}"
+                       onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
+                               '{{ spotlightCourseSecondRow.name }}');"
+                            >
+
+                        <div class="img-wrap">
+                            {% if spotlightCourseSecondRow.imageUrl is not empty %}
+                                {% set spotlightImage = imageService.getSpotlightImage (spotlightCourseSecondRow.imageUrl, spotlightPaidCourse.id) %}
+                            {% endif %}
+                            <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
+                            {%  set spotlightCourseRating = reviewService.calculateAverageRating(spotlightCourseSecondRow.id)  %}
+                            <div class="spotlight-item__rating">
+                                {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(spotlightCourseRating.rating),ratingColour: 'white'} %}
+                            </div>
+
+
+                            <div class="spotlight-item__reviews">
+                                <span class="numberBubble">{{ spotlightCourseRating.numRatings }}</span>
+                            </div>
+                            <div class="spotlight-item__overlay"></div>
+
+                            <div class="spotlight-item__image-content">
+                                <div class="spotlight-item-title">
+                                    <h3>
+                                        {{ spotlightCourseSecondRow.name }}
+                                    </h3>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="excerpt">
+                            {{ spotlightCourseSecondRow.oneLiner }}
+                        </div>
+                        <div class="spotlight-item__action">{{ spotlightMap[spotlight.type].text }}</div>
+                    </a>
+                </div>
+
+            {% elseif position != 2 %}
                 <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
                    {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}
                 "

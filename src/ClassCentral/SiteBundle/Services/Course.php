@@ -59,6 +59,28 @@ class Course
         return $courses[$index];
     }
 
+    public function getRandomPaidCourseByProvider($providerName)
+    {
+        $paidCourse = $this->getRandomPaidCourse();
+        if($paidCourse['provider']['name'] != $providerName )
+        {
+            return $this->getRandomPaidCourseByProvider($providerName);
+        }
+
+        return $paidCourse;
+    }
+
+    public function getRandomPaidCourseExcludeByProvider($providerName)
+    {
+        $paidCourse = $this->getRandomPaidCourse();
+        if($paidCourse['provider']['name'] == $providerName )
+        {
+            return $this->getRandomPaidCourseExcludeByProvider($providerName);
+        }
+
+        return $paidCourse;
+    }
+
     public function getCourseImage(CourseEntity $course)
     {
         return $this->getCourseImageFromId($course->getId());

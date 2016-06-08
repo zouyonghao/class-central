@@ -152,7 +152,8 @@ class DefaultController extends Controller {
                 'ucCount' => $ucCount,
                 'recommendedCourses' => $recommendedCourses,
                 'meetYourNextCourse' => $meetYourNextCourse,
-                'spotlightPaidCourse' => $this->get('course')->getRandomPaidCourse(),
+                'spotlightPaidCourse' => $this->get('course')->getRandomPaidCourseExcludeByProvider('Treehouse'),
+                'spotlightCourseSecondRow' =>$this->get('course')->getRandomPaidCourseByProvider('Treehouse'),
                 'newestPosts' => $newestPosts
                ));
     }
