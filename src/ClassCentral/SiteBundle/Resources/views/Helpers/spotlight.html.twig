@@ -34,7 +34,7 @@
 
                         <div class="img-wrap">
                             {% if spotlightCourseSecondRow.imageUrl is not empty %}
-                                {% set spotlightImage = imageService.getSpotlightImage (spotlightCourseSecondRow.imageUrl, spotlightPaidCourse.id) %}
+                                {% set spotlightImage = imageService.getSpotlightImage (spotlightCourseSecondRow.imageUrl, spotlightCourseSecondRow.id) %}
                             {% endif %}
                             <div class="spotlight-item-image" style="background-image: url({{ spotlightImage }});"></div>
                             {%  set spotlightCourseRating = reviewService.calculateAverageRating(spotlightCourseSecondRow.id)  %}
