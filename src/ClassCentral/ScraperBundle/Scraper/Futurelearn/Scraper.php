@@ -320,11 +320,20 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setName( $program['name'] );
         $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
         $credential->setPrice(0);
-        $credential->setSlug( 'fl_'.$this->getCredentialSlug($program['url']) );
+        $credential->setSlug( 'futurelearn-programs-'.$this->getCredentialSlug($program['url']) );
         $credential->setInitiative( $this->initiative );
         $credential->setUrl( $program['url'] );
         $credential->setOneLiner( $program['introduction'] );
         $credential->setDescription( $program['description'] );
+
+        foreach($program['courses'] as $flCourse)
+        {
+            $course = $this->dbHelper->getCourseByShortName( $flCourse['uuid']  );
+            if( $course )
+            {
+                $credential->addCourse( $course );
+            }
+        }
 
         return $credential;
     }

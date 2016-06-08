@@ -5,6 +5,7 @@ namespace ClassCentral\CredentialBundle\Entity;
 use ClassCentral\CredentialBundle\Formatters\CourseraCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\EdxCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\FlatironCredentialFormatter;
+use ClassCentral\CredentialBundle\Formatters\FutureLearnCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\HBXCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\TreehouseCredentialFormatter;
 use ClassCentral\CredentialBundle\Formatters\UdacityCredentialFormatter;
@@ -899,6 +900,9 @@ class Credential
                 break;
             case 'Treehouse':
                 $formatter = new TreehouseCredentialFormatter($this);
+                break;
+            case 'FutureLearn':
+                $formatter = new FutureLearnCredentialFormatter($this);
                 break;
             default:
                 throw new \Exception("Credential formatter for this provider does not exist");

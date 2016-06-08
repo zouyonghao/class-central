@@ -82,6 +82,8 @@ class Credential {
                 break;
             case 'techdegree':
                 return array('name'=>'Techdegree', 'slug' => 'techdegree');
+            case 'programs':
+                return array('name'=>'FutureLearn Programs', 'slug' => 'programs');
                 break;
         }
 
