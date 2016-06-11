@@ -145,4 +145,19 @@ class Course
 
         return array();
     }
+
+    public function getOldStackCourse($courseId)
+    {
+        $filePath = $this->container->get('kernel')->getRootDir(). '/../extras/coursera_old_stack.json';
+        $coursesJson = file_get_contents($filePath);
+        if($coursesJson)
+        {
+            $courses = json_decode($coursesJson,true);
+            if(isset($courses[$courseId]))
+            {
+                return $courses[$courseId];
+            }
+        }
+        return false;
+    }
 }

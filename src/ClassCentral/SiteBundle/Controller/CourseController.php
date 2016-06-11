@@ -482,6 +482,9 @@ class CourseController extends Controller
             $potentialDuplicates['courses']['hits']['hits'] = array_slice( $potentialDuplicates['courses']['hits']['hits'], 0 ,5 );
         }
 
+        // See if the course is part of Coursera's Old Stack
+        $courseraOldStackCourse = $this->get('course')->getOldStackCourse($course['id']);
+
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
@@ -503,7 +506,8 @@ class CourseController extends Controller
                  'interestedUsers' => $interestedUsers,
                  'courseRank' =>$courseRank,
                  'potentialDuplicates' => $potentialDuplicates,
-                 'showAddToMTModal' => $showAddToMTModal
+                 'showAddToMTModal' => $showAddToMTModal,
+                 'courseraOldStackCourse' => $courseraOldStackCourse
        ));
     }
 

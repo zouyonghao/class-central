@@ -214,6 +214,29 @@
                         <br/>
                     {% endif %}
 
+                    {% if courseraOldStackCourse is not empty %}
+                        <div class="alert alert-danger">
+                            <h3><b>PSA:</b> This Course will no longer be available June 30th 2016 onwards</h3><br/>
+                            <p>Coursera announced that they will be shutting off their old platform on June 30th. Over  <a  class="alert-link" href="/collection/coursera-old-stack-all">400 courses</a> that are part
+                                of the old stack will be no longer be available. You can find the <a  class="alert-link" href="/collection/coursera-old-stack-all"> complete list here</a>.
+                            </p>
+
+                            <br/>
+                            {% if courseraOldStackCourse.coursera_status %}
+                                <p>But you can still download the course materials for this course by visiting the following url (you need to be logged in):<br/>
+                                    {% set lectureUrl = courseraOldStackCourse.coursera_material_url~ 'lecture' %}
+                                    <a href="{{ lectureUrl  }}" class="alert-link">{{ lectureUrl }}</a>
+                                    <br/><br/>
+                                    If you can't access the link, enroll in the course here first:
+                                    <a class="alert-link" href="{{ courseraOldStackCourse.coursera_syllabus_url }}">{{ courseraOldStackCourse.coursera_syllabus_url }}</a>
+                                </p>
+                            {% else %}
+                                <p>But if you had signed up for this course you will be able to download and save the course materials before June 30th. Click on Go To Class and Log in to your Coursera account to do so.</p>
+
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
                     {{ course.desc|raw }}
 
                     {% if course.syllabus %}
