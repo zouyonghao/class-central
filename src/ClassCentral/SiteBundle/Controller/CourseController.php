@@ -1280,9 +1280,23 @@ EOD;
      */
     public function collectionAction(Request $request, $slug)
     {
+        $cl = $this->get('course_listing');
+        $data = $cl->collection(array(309,374,375,376,329,328),$request);
+
+
         return $this->render('ClassCentralSiteBundle:Course:collection.html.twig',
             array(
-
+                 'page'=>'collection',
+                 'results' => $data['courses'],
+                 'listTypes' => UserCourse::$lists,
+                 'allSubjects' => $data['allSubjects'],
+                 'allLanguages' => $data['allLanguages'],
+                 'allSessions' => $data['allSessions'],
+                 'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
+                 'sortField' => $data['sortField'],
+                 'sortClass' => $data['sortClass'],
+                 'pageNo' => $data['pageNo'],
+                 'showHeader' => true,
             ));
     }
 }

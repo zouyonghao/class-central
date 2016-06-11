@@ -196,6 +196,18 @@ class MaestroController extends Controller {
 
     }
 
+    public function collectionAction(Request $request,$slug)
+    {
+        $cl = $this->get('course_listing');
+        $data = $cl->collection(array(309,374,375,376,329,328),$request);
+
+        return $this->returnJsonResponse(
+            $data,
+            'collectiontable',
+            'collection'
+        );
+    }
+
 
     private function returnJsonResponse($data, $tableName, $page )
     {
