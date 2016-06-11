@@ -1273,4 +1273,16 @@ EOD;
         ));
     }
 
+    /**
+     *
+     * @param Request $request
+     * @param $slug
+     */
+    public function collectionAction(Request $request, $slug)
+    {
+        return $this->render('ClassCentralSiteBundle:Course:collection.html.twig',
+            array(
+
+            ));
+    }
 }
