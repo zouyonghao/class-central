@@ -1281,7 +1281,11 @@ EOD;
     public function collectionAction(Request $request, $slug)
     {
         $cl = $this->get('course_listing');
-        $data = $cl->collection(array(309,374,375,376,329,328),$request);
+        $courseService = $this->get('course');
+        $cache = $this->get('Cache');
+
+        $collection = $cache->get('json_collection_'.$slug,array($courseService,'getCollection'),array($slug));
+        $data = $cl->collection($collection['courses'],$request);
 
 
         return $this->render('ClassCentralSiteBundle:Course:collection.html.twig',
@@ -1297,6 +1301,8 @@ EOD;
                  'sortClass' => $data['sortClass'],
                  'pageNo' => $data['pageNo'],
                  'showHeader' => true,
+                 'pageTitle' => $collection['title'],
+                 'pageDescription' => $collection['description']
             ));
     }
 }

@@ -199,7 +199,14 @@ class MaestroController extends Controller {
     public function collectionAction(Request $request,$slug)
     {
         $cl = $this->get('course_listing');
-        $data = $cl->collection(array(309,374,375,376,329,328),$request);
+
+        $courseService = $this->container->get('course');
+
+        $cache = $this->container->get('Cache');
+
+        $collection = $cache->get('json_collection_'.$slug,array($courseService,'getCollection'),array($slug));
+        $collection = $courseService->getCollection( $slug );
+        $data = $cl->collection($collection['courses'],$request);
 
         return $this->returnJsonResponse(
             $data,

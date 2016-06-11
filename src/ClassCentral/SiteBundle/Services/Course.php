@@ -125,4 +125,24 @@ class Course
 
         return array();
     }
+
+    /**
+     * Gets the collection json
+     * @param $slug
+     */
+    public function getCollection($slug)
+    {
+        $filePath = $this->container->get('kernel')->getRootDir(). '/../extras/collection.json';
+        $coursesJson = file_get_contents($filePath);
+        if($coursesJson)
+        {
+            $courses = json_decode($coursesJson,true);
+            if(isset($courses[$slug]))
+            {
+                return $courses[$slug];
+            }
+        }
+
+        return array();
+    }
 }
