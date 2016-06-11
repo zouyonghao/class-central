@@ -390,6 +390,10 @@ maestro_next_course:
   pattern: /maestro/course-recommendations
   defaults: {_controller: ClassCentralSiteBundle:Maestro:nextCourse}
 
+maestro_collection:
+  pattern: /maestro/collection/{slug}
+  defaults: {_controller: ClassCentralSiteBundle:Maestro:collection}
+
 user_profile_dummy:
   pattern: /profile
   defaults: {_controller: ClassCentralSiteBundle:User:profile }

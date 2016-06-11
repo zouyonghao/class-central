@@ -459,6 +459,20 @@ class CourseListing {
         );
     }
 
+    public function collection($courseIds = array(),Request $request)
+    {
+        $finder = $this->container->get('course_finder');
+        extract($this->getInfoFromParams($request->query->all()));
+        $courses = $finder->byCourseIds($courseIds,$filters, $sort, $pageNo);
+        extract($this->getFacets($courses));
+
+        return compact(
+            'allSubjects', 'allLanguages', 'allSessions', 'courses',
+            'sortField', 'sortClass', 'pageNo','lists', 'listCounts','coursesByLists','showInstructions',
+            'searchTerms', 'reviewedCourses','numCoursesWithCertificates'
+        );
+    }
+
     public function trending()
     {
         $date = new \DateTime();
