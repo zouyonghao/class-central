@@ -37,7 +37,8 @@ class Scraper extends ScraperAbstractInterface {
     );
 
     private $credentialFields = array(
-        'Description','Name', 'OneLiner', 'SubTitle'
+        'Description','Name', 'OneLiner', 'SubTitle','Price',
+        'PricePeriod','DurationMin','DurationMax'
     );
 
     public function scrape()
@@ -325,6 +326,10 @@ class Scraper extends ScraperAbstractInterface {
         $credential->setUrl( $program['url'] );
         $credential->setOneLiner( $program['introduction'] );
         $credential->setDescription( $program['description'] );
+        $credential->setPrice($program['total_cost']/100);
+        $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_TOTAL);
+        $credential->setDurationMin($program['total_week_count']);
+        $credential->setDurationMax($program['total_week_count']);
 
         foreach($program['courses'] as $flCourse)
         {
