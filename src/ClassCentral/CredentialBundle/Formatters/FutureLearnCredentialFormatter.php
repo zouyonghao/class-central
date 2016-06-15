@@ -20,4 +20,9 @@ class FutureLearnCredentialFormatter extends CredentialFormatterAbstract
     {
         return 'programs';
     }
+
+    public function getPrice()
+    {
+        return '£' . $this->credential->getPrice();
+    }
 }
