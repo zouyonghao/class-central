@@ -220,25 +220,48 @@
                             <p>Coursera announced that they will be shutting off their old platform on June 30th. Over  <a  class="alert-link" href="/collection/coursera-old-stack-all">400 courses</a> that are part
                                 of the old stack will be no longer be available. You can find the <a  class="alert-link" href="/collection/coursera-old-stack-all"> complete list here</a>.
                             </p>
-
                             <br/>
+
+                            <p>
+                                Read this <a class="alert-link" href="https://www.class-central.com/report/coursera-old-platform-shutdown-download-courses/">guide to learn how to download this course</a> before the old platform shuts down. <br/><br/>
+
+                                The guide provides two ways to download the courses - Chrome Plugin and Python Script. Depending on which method you use, check the appropriate sections below for further details.
+                            </p>
+
+                            <h3>Chrome Plugin</h3>
+
                             {% if courseraOldStackCourse.coursera_status %}
-                                <p>But you can still download the course materials for this course by visiting the following url (you need to be logged in):<br/>
-                                    {% set lectureUrl = courseraOldStackCourse.coursera_material_url~ 'lecture' %}
+                                <p>You can download the course materials for this course by visiting the following url (you need to be logged in):<br/>
+                                    {% set lectureUrl = courseraOldStackCourse.coursera_material_url %}
                                     <a href="{{ lectureUrl  }}" class="alert-link">{{ lectureUrl }}</a>
                                     <br/><br/>
                                     If you can't access the link, enroll in the course here first:
                                     <a class="alert-link" href="{{ courseraOldStackCourse.coursera_syllabus_url }}">{{ courseraOldStackCourse.coursera_syllabus_url }}</a>
                                 </p>
                             {% else %}
-                                <p>But if you had signed up for this course you will be able to download and save the course materials before June 30th. Click on Go To Class and Log in to your Coursera account to do so.</p>
-
+                                <p>Unfortunately this course is closed for enrollment for new students. If you hadn't signed up before, you will not be able to use the chrome plugin.
+                                <br/><br/>
+                                    But if you had signed up for this course you will be able to download and save the course materials using the chrome plugin. Click on Go To Class and Log in to your Coursera account to do so.</p>
                             {% endif %}
 
-                            <br/> <br/>
+                            <h3>Python Script</h3>
                             <p>
-                                Here is a <a class="alert-link" href="https://www.class-central.com/report/coursera-old-platform-shutdown-download-courses/"> guide on how to batch download these courses </a> from the old platform before it shuts down.
+                                {% set slugs = courseraOldStackCourse.coursera_slug|split(',')%}
+                                For the python script to work you will need a class name. Pick one from below:<br/>
+                                {% for slug in slugs  %}
+                                    <b>{{ slug }}</b><br/>
+                                {% endfor %}
+
+                                <br/>
+                                If more than one class name below, pick the last one. If the script fails, pick the one above that and try again. Not all of these class names are guranteed to work.
+
+
                             </p>
+
+
+
+
+
 
                         </div>
                     {% endif %}
