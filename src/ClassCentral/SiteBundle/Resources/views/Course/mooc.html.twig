@@ -227,6 +227,18 @@
 
                                 The guide provides two ways to download the courses - Chrome Plugin and Python Script. Depending on which method you use, check the appropriate sections below for further details.
                             </p>
+                            <br/>
+                            <p>
+                                To download this course you need to be enrolled in the course.
+                                {% if courseraOldStackCourse.coursera_status %}
+                                    You can enroll for the course here:
+                                    <a class="alert-link" href="{{ courseraOldStackCourse.coursera_syllabus_url }}">{{ courseraOldStackCourse.coursera_syllabus_url }}</a>
+                                {% else %}
+                                Unfortunately this course is closed for enrollment to new students. If you hadn't signed up before, you will not be able to download the course.
+                                <br/><br/>
+
+                                {% endif %}
+                            </p>
 
                             <h3>Chrome Plugin</h3>
 
@@ -234,14 +246,9 @@
                                 <p>You can download the course materials for this course by visiting the following url (you need to be logged in):<br/>
                                     {% set lectureUrl = courseraOldStackCourse.coursera_material_url %}
                                     <a href="{{ lectureUrl  }}" class="alert-link">{{ lectureUrl }}</a>
-                                    <br/><br/>
-                                    If you can't access the link, enroll in the course here first:
-                                    <a class="alert-link" href="{{ courseraOldStackCourse.coursera_syllabus_url }}">{{ courseraOldStackCourse.coursera_syllabus_url }}</a>
                                 </p>
                             {% else %}
-                                <p>Unfortunately this course is closed for enrollment for new students. If you hadn't signed up before, you will not be able to use the chrome plugin.
-                                <br/><br/>
-                                    But if you had signed up for this course you will be able to download and save the course materials using the chrome plugin. Click on Go To Class and Log in to your Coursera account to do so.</p>
+                                    If you had signed up for this course you will be able to download and save the course materials using the chrome plugin. Click on Go To Class and Log in to your Coursera account to do so.</p>
                             {% endif %}
 
                             <h3>Python Script</h3>
