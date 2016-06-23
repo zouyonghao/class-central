@@ -40,6 +40,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
         //$this->generateUserTrackingCSV();
 
         //$this->generateCoursesCSV();
+        $this->generateCoursesCSVDetailed();
 
         //$this->generateUserCoursesCSV();4
 
@@ -147,7 +148,12 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             }
             if($course->getCreated() > $dt)
             {
-                // continue;
+                //continue;
+            }
+
+            if(!$course->getIsMooc())
+            {
+                continue;
             }
             $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
             $ins = array();
@@ -237,6 +243,156 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
 
     }
 
+    private function generateCoursesCSVDetailed()
+    {
+        $courses = $this->getContainer()->get('doctrine')->getManager()
+            ->getRepository('ClassCentralSiteBundle:Course')
+            ->findAll();
+
+
+        $fp = fopen("extras/courses.csv", "w");
+        $rs = $this->getContainer()->get('review');
+
+        // Add a title line to the CSV
+        $title = array(
+            'Course Id',
+            'Course Name',
+            'Slug',
+            'Provider',
+            'Universities/Institutions',
+            'Parent Subject',
+            'Child Subject',
+            'Category',
+            'Url',
+            'Next Session Date',
+            'Length',
+            'Language',
+            'Video(Url)',
+            'Course Description',
+            'Credential Name',
+            'Created',
+            'Status',
+            'Rating',
+            'Number of Ratings',
+            'Certificate',
+            'Workload'
+        );
+        fputcsv($fp,$title);
+
+        foreach($courses as $course)
+        {
+            if($course->getStatus() != CourseStatus::AVAILABLE )
+            {
+                continue;
+            }
+
+            if(!$course->getIsMooc())
+            {
+                continue;
+            }
+
+            $formatter = $course->getFormatter();
+            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
+            $ins = array();
+            foreach($course->getInstitutions() as $institution)
+            {
+                $ins[] = $institution->getName();
+            }
+
+            $nextSession = $course->getNextOffering();
+            $date = "";
+            $url = $course->getUrl();
+            if($nextSession)
+            {
+                $url = $nextSession->getUrl();
+                $date = $nextSession->getDisplayDate();
+            }
+
+            $subject = $course->getStream();
+            if($subject->getParentStream())
+            {
+                $parent = $subject->getParentStream()->getName();
+                $subject = $subject->getName();
+            }
+            else
+            {
+                $parent = $subject->getName();
+                $subject = "";
+            }
+
+            $language = 'English';
+            if($course->getLanguage())
+            {
+                $language = $course->getLanguage()->getName();
+            }
+
+            $credential = '';
+            if ( !$course->getCredentials()->isEmpty() )
+            {
+                $cred = $course->getCredentials()->first();
+                $credential = $cred->getName();
+            }
+
+            $created = null;
+            if ($course->getCreated())
+            {
+                $created = $course->getCreated()->format('Y-m-d');
+            }
+
+            $description = $course->getLongDescription();
+            if(!$description)
+            {
+                $description = $course->getDescription();
+            }
+
+            $status = '';
+            if( $course->getNextOffering() )
+            {
+                $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $course->getNextOffering() ));
+                if(!empty($states))
+                {
+                    $status = array_pop($states);
+                }
+            }
+
+            $rating = $rs->getRatings($course->getId());
+            $rArray = $rs->getRatingsSummary($course->getId());
+            $numRatings = $rArray['count'];
+
+            $line = array(
+                $course->getId(),
+                $course->getName(),
+                $course->getSlug(),
+                $provider,
+                implode($ins,"|||"),
+                $parent,
+                $subject,
+                $course->getStream()->getName(),
+                $url,
+                $date,
+                $course->getLength(),
+                $language,
+                $course->getVideoIntro(),
+                $course->getDescription(),
+                $credential,
+                $created,
+                $status,
+                $rating,
+                $numRatings,
+                $course->getCertificate(),
+                $formatter->getWorkload(),
+
+            );
+
+            fputcsv($fp,$line);
+        }
+        fclose($fp);
+
+    }
+
+    /**
+     * Generate a csv with user_id,course_id, list_id(interested, currently doing)
+     */
     private function generateUserCoursesCSV()
     {
         $courses = $this->getContainer()->get('doctrine')->getManager()
