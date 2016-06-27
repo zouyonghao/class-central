@@ -61,24 +61,35 @@ class Course
 
     public function getRandomPaidCourseByProvider($providerName)
     {
-        $paidCourse = $this->getRandomPaidCourse();
-        if($paidCourse['provider']['name'] != $providerName )
+        $finder = $this->container->get('course_finder');
+        $results = $finder->byProvider('treehouse');
+
+        $courses = array();
+        foreach($results['hits']['hits'] as $course)
         {
-            return $this->getRandomPaidCourseByProvider($providerName);
+            $courses[] = $course['_source'];
         }
 
-        return $paidCourse;
+        $index = rand(0,count($courses)-1);
+        return $courses[$index];
     }
 
     public function getRandomPaidCourseExcludeByProvider($providerName)
     {
-        $paidCourse = $this->getRandomPaidCourse();
-        if($paidCourse['provider']['name'] == $providerName )
+        $finder = $this->container->get('course_finder');
+        $results = $finder->paidCourses();
+
+        $courses = array();
+        foreach($results['hits']['hits'] as $course)
         {
-            return $this->getRandomPaidCourseExcludeByProvider($providerName);
+            if($course['_source']['provider']['name'] != $providerName)
+            {
+                $courses[] = $course['_source'];
+            }
         }
 
-        return $paidCourse;
+        $index = rand(0,count($courses)-1);
+        return $courses[$index];
     }
 
     public function getCourseImage(CourseEntity $course)
