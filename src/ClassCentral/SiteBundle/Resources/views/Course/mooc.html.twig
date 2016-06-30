@@ -510,7 +510,7 @@
                     <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" title="List of Class Central users interested in {{ course.name }}"
                        onmousedown="ga('send','event', 'View all interested users', '{{ course.name }}')"
                     >
-                        {% set countWidth = 28 + course.listed|length * 13  %}
+                        {% set countWidth = 10 + course.listed|length * 20  %}
                         <span class="course-participants__single" id="mycourses-listed-count" style="width: {{ countWidth }}px">0</span>
                         <span class="course-participants__double">Interested<br> students</span>
                     </a>
