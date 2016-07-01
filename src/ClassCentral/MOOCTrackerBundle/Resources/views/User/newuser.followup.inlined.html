@@ -371,7 +371,7 @@ background: #CC0000 !important;
                                     </p><ul>
                                         {% for course in courses %}
                                         <li> 
-                                            <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug,autoLogin:loginToken,direct:'true'}) }}" style="color: #2ba6cb; text-decoration: none;"><strong>{{ course.name }}</strong></a> <br />                                            
+                                            <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug,autoLogin:loginToken}) }}" style="color: #2ba6cb; text-decoration: none;"><strong>{{ course.name }}</strong></a> <br />
                                             {{ reviews[course.id]['starRating'] }} <small style="font-size: 10px;"> <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id,  'slug': course.slug ,autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }} #course-all-reviews" style="color: #2ba6cb; text-decoration: none;">Read Reviews</a></small>                                            
                                         </li>
                                         {% endfor %}
