@@ -25,4 +25,21 @@ class FutureLearnCredentialFormatter extends CredentialFormatterAbstract
     {
         return '£' . $this->credential->getPrice();
     }
+
+    public function getDuration()
+    {
+        if( $this->credential->getDurationMin() && $this->credential->getDurationMax() )
+        {
+            if ($this->credential->getDurationMin() == $this->credential->getDurationMax() )
+            {
+                return "{$this->credential->getDurationMin()} weeks";
+            }
+            else
+            {
+                return "{$this->credential->getDurationMin()}-{$this->credential->getDurationMax()} weeks";
+            }
+
+        }
+        return '';
+    }
 }
