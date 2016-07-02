@@ -1,0 +1,59 @@
+<div class="modal fade" id="ask-for-shares-classcentral"  role="dialog" aria-labelledby="write-modal-title-here"  aria-hidden="true" style="display: none;" >
+    <div class="modal-dialog modal-dialog__large" role="document">
+        <div class="modal-base-wrap">
+
+
+            <div class="modal-base-layout">
+
+
+                <div id="modal-pane-2" class="modal-pane">
+                    <div class="on-modal-header">
+                        <h1 class="on-modal-title">Could you help us out real quick?</h1>
+                        <h2 class="on-modal-subtitle">We would appreciate if you could tell your friends that you found a course via Class Central</h2>
+                    </div>
+
+                    <div class="on-modal-body">
+                       <div style="margin: 0 auto; width: 300px;min-width: 300px">
+                           <a href=""
+                              id="btn-fb-share-class-central"
+                              onmousedown="ga('send','event','Go To Class - Share Class Central','Share Button Clicked','Facebook');$('#ask-for-shares-classcentral').modal('hide')">
+                            <image src="/bundles/classcentralsite/slashpixel/images/facebook_big.png"></image>
+                           </a>
+                           <a
+                                   href=https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.class-central.com&text=Love%20to%20learn%3F%20You%20can%20find%20thousands%20of%20FREE%20online%20courses%20from%20top%20universities%20and%20companies%20on%20@classcentral&"
+                                   target="_blank"
+                                   onmousedown="ga('send','event','Go To Class - Share Class Central','Share Button Clicked','Twitter');$('#ask-for-shares-classcentral').modal('hide')"
+                            >
+                            <image src="/bundles/classcentralsite/slashpixel/images/twitter_big.png"></image>
+                           </a>
+                       </div>
+                    </div>
+
+                    <div class="on-modal-footer">
+
+                        <div class="on-modal-footer__button" style="visibility: hidden">
+                            <a href="#" class="on-modal-button " id="onboarding-follow-institutions__next">
+                                <div class="on-modal-button__icon">
+                                    <div class="u-scaling-svg">
+                                        <svg class="u-scalingSvg__shape">
+                                            <use xlink:href="#shape-arrow-right-thin" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span >Close</span>
+                            </a>
+                        </div>
+                        <div class="on-modal-footer__nav" style="min-height: 17px">
+                            <a href="#" class="on-modal-navbutton on-modal-navbutton-right" id="ask-for-shares-classcentral-close"
+                               onmousedown="ga('send','event','Go To Class - Share Class Central','Close');"
+                               onclick="$('#ask-for-shares-classcentral').modal('hide');return true"
+                                    >Close</a>
+                        </div>
+                    </div>
+                </div><!-- /.modal-pane -->
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -794,6 +794,7 @@ jQuery(function($) {
     // Show signup form when someones click on Go To Class
     $('.btn_go_to_class').click( function(){
         var btnSignupCookie = 'btn_go_class_signup_shown';
+        var btnAskForSharesCookie = 'btn_go_class_ask_for_shares_shown';
         if ( Cookies.get( btnSignupCookie) === undefined ) {
             $.ajax({
                 url: "/ajax/isLoggedIn",
@@ -808,10 +809,29 @@ jQuery(function($) {
                     }
                 }
              );
-            Cookies.set( btnSignupCookie, 1, { expires :30} );
+            Cookies.set( btnSignupCookie, 1, { expires :365} );
+        } else if (Cookies.get( btnAskForSharesCookie ) === undefined) {
+            $('#ask-for-shares-classcentral').modal('show');
+            Cookies.set( btnAskForSharesCookie, 1, { expires :365} );
         }
-
     });
+
+
+    /***
+     * btn go to class ask for shares
+     */
+
+    $('#btn-fb-share-class-central').click(function (e) {
+        FB.ui({
+            method: 'share',
+            href: 'https://www.class-central.com',
+            caption: 'Free Online Courses'
+        }, function(response){});
+    });
+
+    /**
+     * ends here
+     */
 
     // Typeahead
 
