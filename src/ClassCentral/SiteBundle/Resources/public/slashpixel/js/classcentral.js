@@ -813,6 +813,7 @@ jQuery(function($) {
         } else if (Cookies.get( btnAskForSharesCookie ) === undefined) {
             $('#ask-for-shares-classcentral').modal('show');
             Cookies.set( btnAskForSharesCookie, 1, { expires :365} );
+            ga('send','event','Go To Class - Share Class Central','Shown');
         }
     });
 
