@@ -825,7 +825,7 @@ jQuery(function($) {
     $('#btn-fb-share-class-central').click(function (e) {
         FB.ui({
             method: 'share',
-            href: 'https://www.class-central.com',
+            href: 'https://www.class-central.com?utm_campaign=go_to_class_share_prompt_fb',
             caption: 'Free Online Courses'
         }, function(response){});
     });
