@@ -126,4 +126,13 @@ class TextAdController extends Controller
         ));
     }
 
+    public function textRowAdsAction(Request $request)
+    {
+        $adsInfo = $this->get('advertising')->getTextRowAds();
+
+        return $this->render('ClassCentralSiteBundle:TextAd:text.row.ads.html.twig',array(
+            'ads' => $adsInfo['ads']
+        ));
+    }
+
 }

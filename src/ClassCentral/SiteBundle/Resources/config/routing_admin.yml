@@ -98,3 +98,6 @@ ClassCentralSiteBundle_career:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/career.yml"
   prefix:   /career
 
+textrow_ads_show_all:
+  pattern: /textrow-ads
+  defaults: {_controller: ClassCentralSiteBundle:TextAd:textRowAds }
