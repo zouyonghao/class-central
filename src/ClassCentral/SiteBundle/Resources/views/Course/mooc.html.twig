@@ -107,8 +107,17 @@
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
 
-        {# Text Row ad #}
-        {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+        <div class="course-meta__ad">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                </div>
+
+                <div class="col-sm-6">
+                        {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                </div>
+            </div>
+        </div>
 
 
         <div class="course-meta-main border-radius">
@@ -330,7 +339,6 @@
 
             </div>
 
-
             <div class="tiny-review-block__button-group">
                 <a href="#reviews" id="read-reviews" class="tiny-review-block__button read-reviews-btn" onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Top')">
                     Read reviews
@@ -345,6 +353,18 @@
 
 
         </div><!-- /.tiny-review-block -->
+
+
+
+
+        {#
+        <div class="basicAdWrap">
+            {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+        </div>
+        #}
+
+
+
 
         <div class="course-data">
 
