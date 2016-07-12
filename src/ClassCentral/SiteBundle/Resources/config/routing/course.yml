@@ -72,3 +72,7 @@ course_approve:
 course_image_upload:
   pattern: /image-upload
   defaults: { _controller: ClassCentralSiteBundle:Course:imageUpload }
+
+courses_all:
+  pattern: /all
+  defaults: { _controller: ClassCentralSiteBundle:Course:allCourses }
