@@ -1309,4 +1309,30 @@ EOD;
                  'pageDescription' => $collection['description']
             ));
     }
+
+
+    public function allCoursesAction(Request $request)
+    {
+        $cl = $this->get('course_listing');
+        $courseService = $this->get('course');
+        $cache = $this->get('Cache');
+
+        $data = $cl->getAll($request);
+
+
+        return $this->render('ClassCentralSiteBundle:Course:all.courses.html.twig',
+            array(
+                'page'=>'all_courses',
+                'results' => $data['courses'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'allSessions' => $data['allSessions'],
+                'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
+                'sortField' => $data['sortField'],
+                'sortClass' => $data['sortClass'],
+                'pageNo' => $data['pageNo'],
+                'showHeader' => true,
+            ));
+    }
 }

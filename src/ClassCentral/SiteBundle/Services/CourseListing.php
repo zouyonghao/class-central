@@ -188,6 +188,35 @@ class CourseListing {
         return $data;
     }
 
+    public function getAll(Request $request)
+    {
+        $cache = $this->container->get('cache');
+        $data = $cache->get(
+            'course_get_all_' . $request->server->get('QUERY_STRING'), function ($request) {
+
+            $finder = $this->container->get('course_finder');
+
+            $params = $request->query->all();
+            if( empty($params['sort']) )
+            {
+                // make the default sort by rating
+                $params['sort'] = 'rating-up';
+            }
+
+            extract($this->getInfoFromParams( $params ));
+
+            $courses = $finder->getAll( $filters, $sort, $pageNo);
+            extract($this->getFacets($courses));
+
+            return compact(
+                'allSubjects', 'allLanguages', 'courses',
+                'sortField', 'sortClass', 'pageNo','numCoursesWithCertificates'
+            );
+        }, array($request));
+
+        return $data;
+    }
+
     public function byFollows($follows, $params, $must, $mustNot = array())
     {
         $finder = $this->container->get('course_finder');
