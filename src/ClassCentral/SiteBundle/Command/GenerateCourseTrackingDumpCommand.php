@@ -38,9 +38,11 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
     {
         //$this->generateUserTrackingCSV();
 
-        $this->generateCoursesCSV();
+        // $this->generateCoursesCSV();
 
-        //$this->generateUserCoursesCSV();
+        // $this->generateUserCoursesCSV();
+
+        $this->generateSessionsCSV();
 
     }
 
@@ -133,7 +135,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             'Status'
         );
         fputcsv($fp,$title);
-        $dt = new \DateTime('2016-02-29');
+        $dt = new \DateTime('2016-06-30');
         foreach($courses as $course)
         {
             if($course->getStatus() != CourseStatus::AVAILABLE )
@@ -263,5 +265,84 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
         }
         fclose($fp);
 
+    }
+
+    public function generateSessionsCSV()
+    {
+        $offerings = $this->getContainer()->get('doctrine')->getManager()
+            ->getRepository('ClassCentralSiteBundle:Offering')
+            ->findAll();
+
+
+
+        $fp = fopen("extras/session.csv", "w");
+
+        // Add a title line to the CSV
+        $title = array(
+            'Session Id',
+            'Course Id',
+            'Start Date',
+            'End Date',
+            'Display Date',
+            'Status',
+            'Created'
+        );
+        fputcsv($fp,$title);
+
+        foreach($offerings as $offering)
+        {
+            if($offering->getStatus() == 3)
+            {
+                continue; //offering not available
+            }
+
+            $created = null;
+            if(!empty($offering->getCreated()))
+            {
+                $created = $offering->getCreated()->format('Y-m-d');
+            }
+
+            $endDate = null;
+            if(!empty($offering->getEndDate()))
+            {
+                $endDate = $offering->getEndDate()->format('Y-m-d');
+            }
+
+            $line = array(
+                $offering->getId(),
+                $offering->getCourse()->getId(),
+                $offering->getStartDate()->format('Y-m-d'),
+                $endDate,
+                $offering->getDisplayDate(),
+                $offering->getStatus(),
+                $created,
+            );
+
+            fputcsv($fp,$line);
+        }
+
+        fclose($fp);
+    }
+
+    public function generateUniversityCSV()
+    {
+        $insController = new InstitutionController();
+        $data = $insController->getInstitutions($this->getContainer(), true);
+
+        $fp = fopen("extras/universities.csv", "w");
+        fputcsv($fp,array(
+            "Name",
+            "Count",
+            "Slug"
+        ));
+
+        foreach( $data['institutions'] as $ins)
+        {
+            fputcsv($fp,array(
+                $ins['name'],
+                $ins['count'],
+                $ins['slug']
+            ));
+        }
     }
 } 
