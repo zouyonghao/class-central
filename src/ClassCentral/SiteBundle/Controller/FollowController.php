@@ -98,6 +98,11 @@ class FollowController extends Controller
         $subjectsController = new StreamController();
         $subjects = $cache->get('stream_list_count', array($subjectsController, 'getSubjectsList'),array($this->container));
 
+        // Get Languages
+        $langController = new LanguageController();
+        $languages = $cache->get('language_list_count', array($langController, 'getLanguagesList'),array($this->container));
+
+
         $childSubjects = array();
         foreach($subjects['parent'] as $parent)
         {
@@ -118,6 +123,9 @@ class FollowController extends Controller
         $numFollows = count($this->getUser()->getFollows());
         $isFollowingASubject = $this->getUser()->isFollowingASubject();
 
+
+
+
         return  $this->render('ClassCentralSiteBundle:Follow:personalization.html.twig',array(
             'providers' => $providersData['providers'],
             'followProviderItem' => Item::ITEM_TYPE_PROVIDER,
@@ -131,7 +139,9 @@ class FollowController extends Controller
             'numInstitutionFollowed' => $numInstitutionsFollowed,
             'numProvidersFollowed' => $numProvidersFollowed,
             'numFollows' => $numFollows,
-            'isFollowingASubject' => $isFollowingASubject
+            'isFollowingASubject' => $isFollowingASubject,
+            'followLanguageItem' => Item::ITEM_TYPE_LANGUAGE,
+            'languages' => $languages
         ));
     }
 
