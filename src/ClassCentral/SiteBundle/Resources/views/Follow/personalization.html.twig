@@ -114,4 +114,24 @@
         </div>
     </div>
 
+    <br/><br/><br/>
+    <div class="row">
+        <div class="col">
+            <p> <b><span class="provider-user-follow-count">Select which languages you want to see courses in</b> </p>
+            {% for language in languages %}
+                <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
+                    {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                    item : followLanguageItem,
+                    item_id : language.id,
+                    itemName: language.name,
+                    followed: user_session.isItemFollowed(followLanguageItem,language.id),
+                    hideItemName: false,
+                    hideLogo: true,
+                    hideFollowing: true
+                    } %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
