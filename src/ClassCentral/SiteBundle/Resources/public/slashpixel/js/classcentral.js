@@ -795,7 +795,7 @@ jQuery(function($) {
     $('.btn_go_to_class').click( function(){
         var btnSignupCookie = 'btn_go_class_signup_shown';
         var btnAskForSharesCookie = 'btn_go_class_ask_for_shares_shown';
-        if ( Cookies.get( btnSignupCookie) === undefined ) {
+        if ( false && Cookies.get( btnSignupCookie) === undefined ) {
             $.ajax({
                 url: "/ajax/isLoggedIn",
                 cache: true
