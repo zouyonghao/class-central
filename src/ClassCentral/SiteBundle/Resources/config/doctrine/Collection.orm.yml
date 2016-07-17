@@ -1,6 +1,6 @@
 ClassCentral\SiteBundle\Entity\Collection:
     type: entity
-    table: collection
+    table: collections
     fields:
         id:
             id: true

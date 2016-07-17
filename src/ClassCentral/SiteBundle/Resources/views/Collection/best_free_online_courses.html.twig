@@ -12,13 +12,13 @@
      <meta property="og:site_name" content="Class Central" />
      <meta property="fb:admins" content="{{ fb_admins }}" />
      <meta property="og:description"
-           content="The 50 best free online courses & MOOCs from top universities around the world" />
+           content="50 highest rated free online courses & MOOCs from top universities around the world" />
 
      <meta name="twitter:card" content="summary_large_image">
      <meta name="twitter:site" content="@classcentral">
      <meta name="twitter:creator" content="@dhawalhshah">
      <meta name="twitter:title" content="Top 50 Free Online Courses">
-     <meta name="twitter:description" content="The 50 best FREE online courses & MOOCs from top universities around the world">
+     <meta name="twitter:description" content="50 highest rated FREE online courses & MOOCs from top universities around the world">
      <meta name="twitter:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/top_50.png">
  {% endblock %}
 
@@ -28,31 +28,20 @@
             <div class="headerIntro">
 
                 <div class="headerIntro_topText">
-                    Highest Rated MOOCs of All Time
+                    Highest Rated MOOCs
                 </div>
 
-                <h1 class="headerIntro_title headerIntro_title-noSpacing">Top 50 Free Online Courses</h1>
-                <h2 class="headerIntro_subTitle">The 50 best free online courses & MOOCs from top universities around the world</h2>
+                <h1 class="headerIntro_title headerIntro_title-noSpacing">Top 50 Free Online Courses  of All Time</h1>
+                <h2 class="headerIntro_subTitle">The 50 best free online courses and MOOCs based on thousands of reviews from Class Central users</h2>
 
                 <div class="headerIntro_buttons">
                     <div class="headerIntro_button">
-                        <a href="#" class="action-button action-button--transparent">
-
-                        <span class="action-button__container">
-                            <span class="action-button__unit action-button__unit-bordered">
-                                <div class="action-button__icon">
-                                    <div class="u-scaling-svg">
-                                        <svg class="u-scalingSvg__shape">
-                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-cc-single-letter"></use>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </span>
-                            <span class="action-button__unit action-button__unit-bordered btn-follow-item-box">
-                            Follow<span> Top 50</span> </span>
-                        </span>
-                            <!-- /.action-button__container -->
-                        </a>
+                        {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                            item : followItem,
+                            item_id : followItemId,
+                            itemName: 'Top 50',
+                            followed: user_session.isItemFollowed(followItem,followItemId)
+                        } %}
                         <span class="headerIntro_buttonSub headerIntro_buttonSub-larger"></span>
                     </div>
                 </div>

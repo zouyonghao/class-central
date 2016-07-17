@@ -1292,10 +1292,15 @@ EOD;
         $data = $cl->collection($collection['courses'],$request);
 
         $template = 'ClassCentralSiteBundle:Course:collection.html.twig';
-        if($slug == 'best-free-online-courses')
+        if($slug == 'top-free-online-courses')
         {
             $template = 'ClassCentralSiteBundle:Collection:best_free_online_courses.html.twig';
         }
+
+        // Get the collection object
+        $colObj = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Collection')
+            ->findOneBy(array('slug' => $slug));
+
         return $this->render($template,
             array(
                  'page'=>'collection',
@@ -1310,7 +1315,11 @@ EOD;
                  'pageNo' => $data['pageNo'],
                  'showHeader' => true,
                  'pageTitle' => $collection['title'],
-                 'pageDescription' => $collection['description']
+                 'pageDescription' => $collection['description'],
+                  'followItem' => Item::ITEM_TYPE_COLLECTION,
+                  'followItemId' => $colObj->getId(),
+                  'followItemName' => $colObj->getTitle(),
+
             ));
     }
 
