@@ -174,7 +174,7 @@ class CourseReportCommand extends ContainerAwareCommand
                     if ($timesOffered < 1 )
                     {
                         $timesAdded = count($added);
-                        $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                        $coursesByCount[$offering->getCourse()->getId()] = $timesAdded;
                     }
                 }
             }

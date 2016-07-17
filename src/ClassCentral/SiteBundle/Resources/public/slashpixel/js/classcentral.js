@@ -1351,57 +1351,29 @@ jQuery(function($) {
 
     closableAd('.js-closable-ad');
 
-
-    // Guided tours with hopscotch https://github.com/linkedin/hopscotch
-    // Define the tour!
+    /**
+     * Create a tour for Top 50 free online courses
+     */
     var tour = {
-        id: "test_tour",
+        id: "top_50_tour",
         i18n: {
             closeTooltip: "Close",
             nextBtn: 'Next tip'
         },
         steps: [
             {
-                title: "Tour step 1",
-                content: "This is the header of my page.",
-                target: document.querySelector("#tourTest1"),
-                width: 230,
+                title: "Follow",
+                content: "The top 50 list will be updated regularly as new courses and ratings come in. Receive notifications of these updates by following it on Class Central",
+                target: document.querySelector("#top-50-tour"),
+                width: 400,
                 xOffset: "center",
                 arrowOffset: "center",
-                placement: "left"
+                placement: "bottom",
+                showCloseButton: false
             },
-            {
-                title: "Tour step 2",
-                content: "Here is where I put my content.",
-                target: document.querySelector("#tourTest2"),
-                width: 230,
-                yOffset: "center",
-                arrowOffset: "center",
-                placement: "right",
-            },
-            {
-                title: "Tour step 3",
-                content: "This is the header of my page.",
-                target: document.querySelector("#tourTest3"),
-                width: 230,
-                xOffset: "center",
-                arrowOffset: "center",
-                placement: "top"
-            },
-            {
-                title: "Tour step 4",
-                content: "10% discount means <a href='asdfasfa'>you pay $20</a>",
-                target: document.querySelector("#tourTest4"),
-                width: 230,
-                yOffset: "center",
-                arrowOffset: "center",
-                placement: "right"
-            }
         ]
     };
 
-
-    var initTourPoints = function (tour) {
 
         $('.js-tour-point').on('click', function (e) {
             e.preventDefault();
@@ -1415,10 +1387,13 @@ jQuery(function($) {
                 var startAt = $(this).data('step-nr');
                 hopscotch.startTour(tour, startAt);
             }
-
         });
     };
+
     initTourPoints(tour);
 
+    /**
+     * End Tour
+     * */
 
 });
