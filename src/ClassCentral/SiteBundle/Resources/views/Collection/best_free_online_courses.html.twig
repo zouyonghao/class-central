@@ -34,8 +34,13 @@
                 <h1 class="headerIntro_title headerIntro_title-noSpacing">Top 50 Free Online Courses  of All Time</h1>
                 <h2 class="headerIntro_subTitle"></h2>
 
-                <div class="headerIntro_buttons">
+                <div class="headerIntro_buttons js-tour-point" id="top-50-tour" data-step-nr="0" >
+                    <a href="#" class="pulseCircle" >
+                            <div class="pulseCircle_dot"></div>
+                            <div class="pulseCircle_pulse"></div>
+                     </a>
                     <div class="headerIntro_button">
+
                         {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                             item : followItem,
                             item_id : followItemId,

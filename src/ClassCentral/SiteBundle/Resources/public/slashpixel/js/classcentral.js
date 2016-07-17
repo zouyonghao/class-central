@@ -1350,7 +1350,51 @@ jQuery(function($) {
 
     closableAd('.js-closable-ad');
 
+    /**
+     * Create a tour for Top 50 free online courses
+     */
+    var tour = {
+        id: "top_50_tour",
+        i18n: {
+            closeTooltip: "Close",
+            nextBtn: 'Next tip'
+        },
+        steps: [
+            {
+                title: "Follow",
+                content: "The top 50 list will be updated regularly as new courses and ratings come in. Receive notifications of these updates by following it on Class Central",
+                target: document.querySelector("#top-50-tour"),
+                width: 400,
+                xOffset: "center",
+                arrowOffset: "center",
+                placement: "bottom",
+                showCloseButton: false
+            },
+        ]
+    };
 
 
+    var initTourPoints = function (tour) {
+
+        $('.js-tour-point').on('click', function (e) {
+            e.preventDefault();
+            var activePoint = hopscotch.getCurrStepNum();
+            var thisPoint = $(this).data('step-nr');
+
+            var currentTour = hopscotch.getCurrTour();
+            if (currentTour && activePoint === thisPoint) {
+                hopscotch.endTour();
+            } else {
+                var startAt = $(this).data('step-nr');
+                hopscotch.startTour(tour, startAt);
+            }
+
+        });
+    };
+    initTourPoints(tour);
+
+    /**
+     * End Tour
+     * */
 
 });
