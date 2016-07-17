@@ -1291,8 +1291,12 @@ EOD;
         $collection = $cache->get('json_collection_'.$slug,array($courseService,'getCollection'),array($slug));
         $data = $cl->collection($collection['courses'],$request);
 
-
-        return $this->render('ClassCentralSiteBundle:Course:collection.html.twig',
+        $template = 'ClassCentralSiteBundle:Course:collection.html.twig';
+        if($slug == 'best-online-courses')
+        {
+            $template = 'ClassCentralSiteBundle:Collection:best_free_online_courses.html.twig';
+        }
+        return $this->render($template,
             array(
                  'page'=>'collection',
                  'results' => $data['courses'],
