@@ -1292,7 +1292,7 @@ EOD;
         $data = $cl->collection($collection['courses'],$request);
 
         $template = 'ClassCentralSiteBundle:Course:collection.html.twig';
-        if($slug == 'best-online-courses')
+        if($slug == 'best-free-online-courses')
         {
             $template = 'ClassCentralSiteBundle:Collection:best_free_online_courses.html.twig';
         }
