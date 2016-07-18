@@ -1362,10 +1362,10 @@ jQuery(function($) {
         },
         steps: [
             {
-                title: "Follow",
-                content: "The top 50 list will be updated regularly as new courses and ratings come in. Receive notifications of these updates by following it on Class Central",
+                title: "Receive regular updates",
+                content: "Followers will receive a notification whenever the Top 50 MOOCs list is updated",
                 target: document.querySelector("#top-50-tour"),
-                width: 400,
+                width: 300,
                 xOffset: "center",
                 arrowOffset: "center",
                 placement: "bottom",
