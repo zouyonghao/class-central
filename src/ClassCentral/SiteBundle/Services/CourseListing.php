@@ -491,7 +491,12 @@ class CourseListing {
     public function collection($courseIds = array(),Request $request)
     {
         $finder = $this->container->get('course_finder');
-        extract($this->getInfoFromParams($request->query->all()));
+        $params =  $request->query->all();
+        if(empty($params['sort']))
+        {
+            $params['sort'] = 'rating-up';
+        }
+        extract( $this->getInfoFromParams($params) );
         $courses = $finder->byCourseIds($courseIds,$filters, $sort, $pageNo);
         extract($this->getFacets($courses));
 
