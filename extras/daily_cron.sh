@@ -15,7 +15,7 @@ php app/console classcentral:reviews:score --env=$env
 
 # Computing profile score
 echo "Calculating profile score"
-php app/console classcentral:user:profilescore --env=$env
+# php app/console classcentral:user:profilescore --env=$env
 
 # Run edX scraper
 echo "Updating edX courses"
