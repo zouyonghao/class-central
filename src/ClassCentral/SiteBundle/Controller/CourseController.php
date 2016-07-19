@@ -1284,6 +1284,8 @@ EOD;
      */
     public function collectionAction(Request $request, $slug)
     {
+        $this->get('user_service')->autoLogin($request);
+
         $cl = $this->get('course_listing');
         $courseService = $this->get('course');
         $cache = $this->get('Cache');
