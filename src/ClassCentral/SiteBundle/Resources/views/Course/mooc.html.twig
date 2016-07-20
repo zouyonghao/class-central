@@ -107,17 +107,19 @@
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
 
-        <div class="course-meta__ad">
-            <div class="row">
-                <div class="col-sm-6">
-                    {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
-                </div>
-
-                <div class="col-sm-6">
+        {#
+            <div class="course-meta__ad">
+                <div class="row">
+                    <div class="col-sm-6">
                         {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                    </div>
+
+                    <div class="col-sm-6">
+                            {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                    </div>
                 </div>
             </div>
-        </div>
+        #}
 
 
         <div class="course-meta-main border-radius">
@@ -357,11 +359,10 @@
 
 
 
-        {#
         <div class="basicAdWrap">
             {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
         </div>
-        #}
+
 
 
 
