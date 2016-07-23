@@ -14,7 +14,8 @@
         <div class="container">
           <div class="headerIntro">
 
-            <div class="headerIntro_slider" style="display:none">
+            <!--
+              <div class="headerIntro_slider" style="display:none">
               <div class="lineSlider js-lineSlider">
                 <nav class="lineSlider_nav js-lineSlider_nav">
                 </nav>
@@ -31,14 +32,21 @@
                 </div>
               </div>
             </div>
+            -->
 
-            <h1 class="headerIntro_title">Make informed online learning decisions</h1>
+            <h1 class="headerIntro_title">Find the Best in Online Education</h1>
 
             <div class="headerIntro_buttons">
               {% if not app.user %}
+                  <!--
                   <div class="headerIntro_button">
                     <a href="#" class="baseButton animation-rollButton" id="meet-your-next-course"  onmousedown="ga('send','event','Homepage Hero','Meet Your Next Course');" >Meet Your Next Course</a>
                     <span class="headerIntro_buttonSub">no sign up required</span>
+                  </div>
+                  -->
+                  <div class="headerIntro_button">
+                      <a href="/collection/top-free-online-courses" class="baseButton animation-rollButton"  onmousedown="ga('send','event','Homepage Hero','View Top 50');" >View Top 50 MOOCs of All Time</a>
+                      <span class="headerIntro_buttonSub">highest rated free online courses</span>
                   </div>
               {% else %}
                   {% if app.user.areRecommendationsAvailable  %}
@@ -56,9 +64,11 @@
                 <a href="{{ path('subjects') }}"    onmousedown="ga('send','event','Homepage Hero','Subjects');" class="baseButton baseButton-alt">browse subjects</a>
               </div>
 
+              <!--
               <div class="headerIntro_button">
                 <a href="{{ path('ClassCentralSiteBundle_faq') }}"    onmousedown="ga('send','event','Homepage Hero','FAQ');" class="linkButton">FAQ</a>
               </div>
+              -->
 
             </div>
           </div>
