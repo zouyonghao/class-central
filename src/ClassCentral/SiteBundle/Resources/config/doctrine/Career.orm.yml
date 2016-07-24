@@ -24,7 +24,7 @@ ClassCentral\SiteBundle\Entity\Career:
             targetEntity: Category
             cascade: {  }
             mappedBy: null
-            inversedBy: null
+            inversedBy: careers
             joinColumns:
                 category_id:
                     referencedColumnName: id
