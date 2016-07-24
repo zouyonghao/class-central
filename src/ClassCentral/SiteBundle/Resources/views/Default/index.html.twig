@@ -10,7 +10,7 @@
  {% endblock %}
 
 {% block contentheader %}
-    <section class="headerArea">
+    <section class="headerArea headerArea-slim">
         <div class="container">
           <div class="headerIntro">
 
@@ -34,8 +34,11 @@
             </div>
             -->
 
-            <h1 class="headerIntro_title">Find the Best in Online Education</h1>
-
+              <div class="headerIntro_topText">
+                  ★★★★★
+              </div>
+              <h1 class="headerIntro_title">Find The Best Online Courses From Top Universities</h1>
+              <h2 class="headerIntro_subTitle"></h2>
             <div class="headerIntro_buttons">
               {% if not app.user %}
                   <!--
@@ -44,8 +47,9 @@
                     <span class="headerIntro_buttonSub">no sign up required</span>
                   </div>
                   -->
+
                   <div class="headerIntro_button">
-                      <a href="/collection/top-free-online-courses" class="baseButton animation-rollButton"  onmousedown="ga('send','event','Homepage Hero','View Top 50');" >View Top 50 MOOCs of All Time</a>
+                      <a href="/collection/top-free-online-courses" class="baseButton animation-rollButton"  onmousedown="ga('send','event','Homepage Hero','View Top 50');" >Top 50 MOOCs of All Time</a>
                       <span class="headerIntro_buttonSub">highest rated free online courses</span>
                   </div>
               {% else %}
