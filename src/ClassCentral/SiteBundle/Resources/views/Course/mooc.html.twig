@@ -195,6 +195,7 @@
                     -->
                 </div>
 
+
                 {% if course.credential is not empty %}
                     <div class="course-name-column-cred" style="padding-left:45px;margin-bottom: 25px">
                         <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">
@@ -207,6 +208,19 @@
 
 
                 <div class="course-desc">
+
+
+                    <div class="course-meta__ad">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                            </div>
+
+                            <div class="col-sm-6">
+                                {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                            </div>
+                        </div>
+                    </div>
 
                     {% if courseRank is not empty %}
                         <strong>Class Central Course Rank </strong> <br/>
@@ -357,12 +371,12 @@
         </div><!-- /.tiny-review-block -->
 
 
+        {#
 
-
-        <div class="basicAdWrap">
-            {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
-        </div>
-
+            <div class="basicAdWrap">
+                {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+            </div>
+        #}
 
 
 
