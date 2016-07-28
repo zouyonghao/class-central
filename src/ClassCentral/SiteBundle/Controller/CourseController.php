@@ -1368,12 +1368,12 @@ EOD;
                 'python' => array(
                     'name' => 'Python',
                     'tag'  => 'python',
-                    'count' => '50',
+                    'count' => '0',
                 ),
                 'scala' => array(
                     'name' =>'Scala',
                     'tag' => 'scala',
-                    'count' => '5',
+                    'count' => '0',
                 ),
                 'java' => array(
                     'name' =>'Java',
@@ -1383,8 +1383,66 @@ EOD;
                 'haskell' => array(
                     'name' =>'Haskell',
                     'tag' => 'haskell',
-                    'count' => '5',
+                    'count' => '0',
                 ),
+                'swift' => array(
+                    'name' =>'Swift',
+                    'tag' => 'swift',
+                    'count' => '0',
+                ),
+                'R' => array(
+                    'name' =>'R',
+                    'tag' => 'r programming',
+                    'count' => '0',
+                ),
+                'javascript' => array(
+                    'name' =>'Javascript',
+                    'tag' => 'javascript',
+                    'count' => '0',
+                ),
+                'ruby' => array(
+                    'name' =>'Ruby',
+                    'tag' => 'ruby',
+                    'count' => '0',
+                ),
+                'Matlab' => array(
+                    'name' =>'Matlab',
+                    'tag' => 'matlab',
+                    'count' => '0',
+                ),
+                'objective c' => array(
+                    'name' =>'Objective C',
+                    'tag' => 'objective-c',
+                    'count' => '0',
+                ),
+                'C' => array(
+                    'name' =>'C',
+                    'tag' => 'c programming',
+                    'count' => '0',
+                ),
+                'c++' => array(
+                    'name' =>'C++',
+                    'tag' => 'C++',
+                    'count' => '0',
+                ),
+                'c++' => array(
+                    'name' =>'C++',
+                    'tag' => 'C++',
+                    'count' => '0',
+                ),
+                'c#' => array(
+                    'name' =>'C#',
+                    'tag' => 'c#',
+                    'count' => '0',
+                ),
+                'F#' => array(
+                    'name' =>'F#',
+                    'tag' => 'f#',
+                    'count' => '0',
+                ),
+
+
+
 
             );
 
