@@ -96,7 +96,7 @@ ClassCentralSiteBundle_news:
   defaults: {_controller: ClassCentralSiteBundle:News:home}
 
 programming_languages:
-  pattern: /programming-languages-moocs
+  pattern: /programming-online-courses
   defaults: { _controller: ClassCentralSiteBundle:Course:programmingLanguages }
 
 ClassCentralSiteBundle_admin:
