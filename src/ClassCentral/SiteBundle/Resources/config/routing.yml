@@ -94,7 +94,11 @@ mooc_interested:
 ClassCentralSiteBundle_news:
   pattern: /news
   defaults: {_controller: ClassCentralSiteBundle:News:home}
-  
+
+programming_languages:
+  pattern: /programming-languages-moocs
+  defaults: { _controller: ClassCentralSiteBundle:Course:programmingLanguages }
+
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
     prefix: /admin
