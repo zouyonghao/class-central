@@ -1350,4 +1350,44 @@ EOD;
                 'showHeader' => true,
             ));
     }
+
+    /**
+     * A dedicated page which shows all the programming languages. Each programming language
+     * will link to the equivalent tag
+     * @param Request $request
+     */
+    public function programmingLanguagesAction(Request $request)
+    {
+        $languages = array(
+            'python' => array(
+                'name' => 'Python',
+                'tag'  => 'python',
+                'count' => '50',
+            ),
+            'scala' => array(
+                'name' =>'Scala',
+                'tag' => 'scala',
+                'count' => '5',
+            ),
+            'java' => array(
+                'name' =>'Scala',
+                'tag' => 'scala',
+                'count' => '5',
+            ),
+            'haskell' => array(
+                'name' =>'Haskell',
+                'tag' => 'haskell',
+                'count' => '5',
+            ),
+
+        );
+
+        return $this->render('ClassCentralSiteBundle:Course:programming.languages.html.twig',
+            array(
+                'page'=>'programming_languages',
+                'languages' => $languages
+            ));
+    }
+
+
 }
