@@ -1358,29 +1358,51 @@ EOD;
      */
     public function programmingLanguagesAction(Request $request)
     {
-        $languages = array(
-            'python' => array(
-                'name' => 'Python',
-                'tag'  => 'python',
-                'count' => '50',
-            ),
-            'scala' => array(
-                'name' =>'Scala',
-                'tag' => 'scala',
-                'count' => '5',
-            ),
-            'java' => array(
-                'name' =>'Scala',
-                'tag' => 'scala',
-                'count' => '5',
-            ),
-            'haskell' => array(
-                'name' =>'Haskell',
-                'tag' => 'haskell',
-                'count' => '5',
-            ),
 
-        );
+        $cache = $this->container->get('cache');
+
+
+        $languages = $cache->get('programming_language_moocs',function() {
+            $finder = $this->container->get('course_finder');
+            $languages = array(
+                'python' => array(
+                    'name' => 'Python',
+                    'tag'  => 'python',
+                    'count' => '50',
+                ),
+                'scala' => array(
+                    'name' =>'Scala',
+                    'tag' => 'scala',
+                    'count' => '5',
+                ),
+                'java' => array(
+                    'name' =>'Java',
+                    'tag' => 'java',
+                    'count' => '5',
+                ),
+                'haskell' => array(
+                    'name' =>'Haskell',
+                    'tag' => 'haskell',
+                    'count' => '5',
+                ),
+
+            );
+
+            // get the count for each of these languages
+            foreach($languages as &$language)
+            {
+                $results = $finder->byTag($language['tag']);
+                $language['count'] = $results['hits']['total'];
+            }
+
+            usort($languages,function($a,$b){
+                return $a['count'] < $b['count'];
+            });
+
+            return $languages;
+        },array());
+
+
 
         return $this->render('ClassCentralSiteBundle:Course:programming.languages.html.twig',
             array(
