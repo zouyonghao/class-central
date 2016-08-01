@@ -434,10 +434,13 @@ class Scraper extends ScraperAbstractInterface {
             }
         }
         fclose($fp);
+
+
         /*************************************
          * Session Based Courses
          *************************************/
-        $courseraCourses = $this->getCoursesArray();
+        //$courseraCourses = $this->getCoursesArray();
+        $courseraCourses = array(); // Skipping session based courses
         foreach($courseraCourses as $courseraCourse)
         {
             $selfServingId = $courseraCourse['self_service_course_id'];
