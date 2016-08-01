@@ -398,7 +398,8 @@
                                 {% else %}
                                     {{ course.priceDisplay }}
                                 {% endif %}
-
+                        {% elseif course.price == -1 %}
+                            Paid Course
                         {% else %}
                             Free Online Course
                         {% endif %}
