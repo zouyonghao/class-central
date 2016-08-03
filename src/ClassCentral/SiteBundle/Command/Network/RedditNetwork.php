@@ -152,14 +152,15 @@ class RedditNetwork extends NetworkAbstractInterface
         }
         $url = 'https://www.class-central.com'. $this->router->generate('reviews_short_url', array('courseId' => $offering->getCourse()->getId() ));
         //$url .= '#reviews';
-        $ratingStars = ReviewUtility::getRatingStars($courseRating);
+        // $ratingStars = ReviewUtility::getRatingStars($courseRating);
+        $ratingStars = $courseRating . '★';
         if($courseRating > 0)
         {
-            $rating = "$ratingStars [$reviewText]($url)";    
+            $rating = "[$ratingStars $reviewText]($url)";
         }
         else
         {
-            $rating = "$ratingStars";
+            $rating = "NA";
         }
 
         $new ='';
