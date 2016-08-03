@@ -122,9 +122,11 @@ class Finder {
     public function paidCourses($filters= array(), $sort = array(), $page = 1)
     {
         $query = array(
-            'range' => array(
-                'price' => array(
-                    'gt' => 0
+            'bool' => array(
+                'must_not' => array(
+                'term' => array(
+                    'price' => 0
+                )
                 )
             )
         );
