@@ -795,7 +795,7 @@ jQuery(function($) {
     $('.btn_go_to_class').click( function(){
         var btnSignupCookie = 'btn_go_class_signup_shown';
         var btnAskForSharesCookie = 'btn_go_class_ask_for_shares_shown';
-        if ( false && Cookies.get( btnSignupCookie) === undefined ) {
+        if ( Cookies.get( btnSignupCookie) === undefined ) {
             $.ajax({
                 url: "/ajax/isLoggedIn",
                 cache: true
@@ -810,7 +810,8 @@ jQuery(function($) {
                 }
              );
             Cookies.set( btnSignupCookie, 1, { expires :365} );
-        } else if (Cookies.get( btnAskForSharesCookie ) === undefined) {
+        } else if (false && Cookies.get( btnAskForSharesCookie ) === undefined) {
+            // Disabled shares modal
             $('#ask-for-shares-classcentral').modal('show');
             Cookies.set( btnAskForSharesCookie, 1, { expires :365} );
             ga('send','event','Go To Class - Share Class Central','Shown');
