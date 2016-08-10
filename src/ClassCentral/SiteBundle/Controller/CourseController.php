@@ -1298,6 +1298,10 @@ EOD;
         {
             $template = 'ClassCentralSiteBundle:Collection:best_free_online_courses.html.twig';
         }
+        elseif($slug == 'learn-a-language')
+        {
+            $template = 'ClassCentralSiteBundle:Collection:language_courses.html.twig';
+        }
 
         // Get the collection object
         $colObj = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Collection')
