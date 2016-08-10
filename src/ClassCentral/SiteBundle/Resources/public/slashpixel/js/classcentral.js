@@ -1364,7 +1364,7 @@ jQuery(function($) {
         steps: [
             {
                 title: "Receive regular updates",
-                content: "Followers will receive a notification whenever the Top 50 MOOCs list is updated",
+                content: "Followers will receive a notification whenever this collection is updated",
                 target: document.querySelector("#top-50-tour"),
                 width: 300,
                 xOffset: "center",
