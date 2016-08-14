@@ -71,9 +71,9 @@
 
                      id="home-spotlight-{{ spotlight.position }}">
                     <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
-                            onmousedown="ga('send','event','Spotlight','{{ spotlight.position }}',
-                                    '{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}');"
-                            {% if spotlight.type == 5 %} rel="nofollow" {% endif %} {# sponsor links #}
+                            onmousedown='{% if spotlight.type == 5 %}CC.Class["Analytics"].logAds("{{ spotlight.provider }}","Homepage Spotlight","{{ spotlight.title }}");{% endif %}ga("send","event","Spotlight","{{ spotlight.position }}",
+            "{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}");'
+                            {% if spotlight.type == 5 %} rel="nofollow" target="_blank" {% endif %} {# sponsor links #}
                             >
 
                         <div class="img-wrap">
