@@ -44,6 +44,8 @@ class Spotlight
      */
     private $course;
 
+    private $provider;
+
     private $courseId;
 
     const SPOTLIGHT_TYPE_DEMO = 1; // Only show in dev
@@ -266,8 +268,33 @@ class Spotlight
 
     public function __sleep()
     {
-        return array('id','position','title','title','description','url','imageUrl','type','courseId');
+        return array('id','position','title','title','description','url','imageUrl','type','courseId','provider');
     }
 
+    public function getProvider()
+    {
+        if($this->provider)
+        {
+            return $this->provider;
+        }
+        else
+        {
+            if($this->getCourse() && $this->getCourse()->getInitiative() )
+            {
+                $this->provider = $this->getCourse()->getInitiative()->getName();
+                return $this->provider;
+            }
+
+            return 'No Provider Name';
+        }
+    }
+
+
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
 
 }

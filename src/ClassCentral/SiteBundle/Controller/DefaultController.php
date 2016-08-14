@@ -46,6 +46,7 @@ class DefaultController extends Controller {
                 if($item->getCourse())
                 {
                     $item->setCourseId( $item->getCourse()->getId() ); // Cache the course id
+                    $item->getProvider(); // Calling this here so that the provider name gets cached
                 }
                 $spotlights[$item->getPosition()] = $item;
             }
