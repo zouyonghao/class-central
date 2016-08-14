@@ -16,6 +16,7 @@ class TextAdType extends AbstractType
             ->add('description')
             ->add('url')
             ->add('visible',null,array('required' => false))
+            ->add('providerName')
         ;
     }
 

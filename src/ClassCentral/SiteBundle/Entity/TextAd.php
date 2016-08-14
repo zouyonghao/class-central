@@ -39,6 +39,10 @@ class TextAd
      */
     private $visible;
 
+    /**
+     * @var string
+     */
+    private $providerName;
 
     /**
      * Get id
@@ -163,5 +167,30 @@ class TextAd
     public function getVisible()
     {
         return $this->visible;
+    }
+
+
+
+    /**
+     * Set providerName
+     *
+     * @param string $providerName
+     * @return TextAd
+     */
+    public function setProviderName($providerName)
+    {
+        $this->providerName = $providerName;
+    
+        return $this;
+    }
+
+    /**
+     * Get providerName
+     *
+     * @return string 
+     */
+    public function getProviderName()
+    {
+        return $this->providerName;
     }
 }
