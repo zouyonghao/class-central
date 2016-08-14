@@ -399,7 +399,7 @@ class OfferingRepository extends EntityRepository {
                 // skip the course
                 continue;
             }
-            if($course->getPrice() > 0)
+            if($course->getPrice() != 0)
             {
                 continue;
             }
