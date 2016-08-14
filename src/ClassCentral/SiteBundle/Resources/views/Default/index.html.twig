@@ -47,13 +47,20 @@
               <h2 class="headerIntro_subTitle"></h2>
             <div class="headerIntro_buttons">
               {% if not app.user %}
+                  {% set btnVersion = random(1) %}
 
+                  {% if btnVersion == 0 %}
                   <div class="headerIntro_button">
                     <a href="#" class="baseButton animation-rollButton" id="meet-your-next-course"  onmousedown="ga('send','event','Homepage Hero','Meet Your Next Course');" >Meet Your Next Course</a>
                     <span class="headerIntro_buttonSub">no sign up required</span>
                   </div>
+                  {% else %}
+                      <div class="headerIntro_button">
+                          <a href="#" class="baseButton animation-rollButton" id="meet-your-next-course"  onmousedown="ga('send','event','Homepage Hero','Get Personalized Recommendations');" >Get Personalized Recommendations</a>
+                          <span class="headerIntro_buttonSub">no sign up required</span>
+                      </div>
 
-
+                  {% endif %}
                 <!--
                   <div class="headerIntro_button">
                       <a href="/collection/top-free-online-courses" class="baseButton animation-rollButton"  onmousedown="ga('send','event','Homepage Hero','View Top 50');" >Top 50 MOOCs of All Time</a>
