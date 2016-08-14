@@ -280,4 +280,9 @@ class Spotlight
 
         return 'No Provider Name';
     }
+
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+    }
 }
