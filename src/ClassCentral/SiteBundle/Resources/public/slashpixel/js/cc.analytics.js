@@ -6,6 +6,8 @@ CC.Class['Analytics'] = (function(){
 
     var keenAdTrackingClient;
     var utilities = CC.Class['Utilities'];
+
+
     function init() {
     }
 
@@ -23,6 +25,9 @@ CC.Class['Analytics'] = (function(){
             provider : providerName,
             course : courseName
         }
+
+        //
+
         if(keenAdTrackingClient) {
             keenAdTrackingClient.addEvent("courseAds", courseAd, function(err, res){
                 if (err) {
@@ -73,11 +78,36 @@ CC.Class['Analytics'] = (function(){
         }
     }
 
+    function logAds(provider,adUnit,title) {
+        var adClick = {
+            provider: provider,
+            adUnit: adUnit,
+            title: title
+        }
+
+        ga("send","event","Ad Clicks - By Provider", provider,title.concat(' | ', adUnit));
+        ga("send","event","Ad Clicks - By Ad Unit", adUnit,title);
+
+        if(keenAdTrackingClient) {
+            keenAdTrackingClient.addEvent("Ad Clicks",adClick,function(err,res){
+                if (err) {
+                    // there was an error!
+
+                }
+                else {
+
+                }
+            });
+        }
+
+    }
+
     return {
         'init' : init,
         'initKeenAdTrackingWriteClient' : initKeenAdTrackingWriteClient,
         'logCourseAd': logCourseAd,
         'logTextAd' : logTextAd,
-        'logBannerAd' : logBannerAd
+        'logBannerAd' : logBannerAd,
+        'logAds': logAds
     };
 })();
