@@ -33,4 +33,10 @@ ClassCentral\SiteBundle\Entity\TextAd:
         visible:
             type: boolean
             nullable: false
+        providerName:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: provider_name
     lifecycleCallbacks: {  }

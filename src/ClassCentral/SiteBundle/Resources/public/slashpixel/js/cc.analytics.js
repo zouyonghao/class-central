@@ -6,6 +6,8 @@ CC.Class['Analytics'] = (function(){
 
     var keenAdTrackingClient;
     var utilities = CC.Class['Utilities'];
+
+
     function init() {
     }
 
@@ -17,51 +19,18 @@ CC.Class['Analytics'] = (function(){
         });
     }
 
-    function logCourseAd(src, providerName, courseName) {
-        var courseAd = {
-            src : src,
-            provider : providerName,
-            course : courseName
-        }
-        if(keenAdTrackingClient) {
-            keenAdTrackingClient.addEvent("courseAds", courseAd, function(err, res){
-                if (err) {
-                    // there was an error!
-
-                }
-                else {
-
-                }
-            });
-        }
-    }
-
-    function logTextAd(src,adTitle) {
-        var textAd = {
-            src: src,
-            adTitle: adTitle
-        }
-        if(keenAdTrackingClient) {
-            keenAdTrackingClient.addEvent("textAds",textAd,function(err,res){
-                if (err) {
-                    // there was an error!
-
-                }
-                else {
-
-                }
-            });
-        }
-    }
-
-    function logBannerAd(provider,location,desc) {
-        var bannerAd = {
+    function logAds(provider,adUnit,title) {
+        var adClick = {
             provider: provider,
-            location: location,
-            desc: desc
+            adUnit: adUnit,
+            title: title
         }
+
+        ga("send","event","Ad Clicks - By Provider", provider,title.concat(' | ', adUnit));
+        ga("send","event","Ad Clicks - By Ad Unit", adUnit,title);
+
         if(keenAdTrackingClient) {
-            keenAdTrackingClient.addEvent("bannerAds",bannerAd,function(err,res){
+            keenAdTrackingClient.addEvent("Ad Clicks",adClick,function(err,res){
                 if (err) {
                     // there was an error!
 
@@ -71,13 +40,12 @@ CC.Class['Analytics'] = (function(){
                 }
             });
         }
+
     }
 
     return {
         'init' : init,
         'initKeenAdTrackingWriteClient' : initKeenAdTrackingWriteClient,
-        'logCourseAd': logCourseAd,
-        'logTextAd' : logTextAd,
-        'logBannerAd' : logBannerAd
+        'logAds': logAds
     };
 })();
