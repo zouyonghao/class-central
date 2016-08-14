@@ -60,9 +60,9 @@
 
     <div class="flexAd">
         <div class="flexAd_tag">Sponsored</div>
-        <a href="{{ courseUrl }}" rel="nofollow" target="_blank" class="flexAd_title" onmousedown='ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");CC.Class["Analytics"].logCourseAd("Course Page Ad","{{ providerName }}","{{ courseName }}");'>{{ courseName }}</a>
+        <a href="{{ courseUrl }}" rel="nofollow" target="_blank" class="flexAd_title" onmousedown='CC.Class["Analytics"].logAds("{{ providerName }}","Course Page Text Ad","{{ courseName }}");ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>{{ courseName }}</a>
         <div class="flexAd_meta">
-            {% if institutionName is not empty %} {{ institutionName }}{% endif %} via <a href="{{ courseUrl }}" rel="nofollow" target="_blank" onmousedown='ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");CC.Class["Analytics"].logCourseAd("Course Page Ad","{{ providerName }}","{{ courseName }}");'>{{ providerName }}</a>
+            {% if institutionName is not empty %} {{ institutionName }}{% endif %} via <a href="{{ courseUrl }}" rel="nofollow" target="_blank" onmousedown='CC.Class["Analytics"].logAds("{{ providerName }}","Course Page Text Ad","{{ courseName }}");ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>{{ providerName }}</a>
         </div>
     </div>
 

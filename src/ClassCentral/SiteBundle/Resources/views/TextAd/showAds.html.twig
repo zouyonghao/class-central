@@ -4,16 +4,14 @@
             <div class="ad-content">
 
                 <a class="ad-title" href="{{ ad.url }}" target="_blank"
-                   onmousedown="ga('send','event', 'Text Ad', '{{ ad.title }}', '{{ pageName }}');
-                           CC.Class['Analytics'].logTextAd('{{ pageName }}','{{ ad.title }}');
-                           " rel="nofollow">
+                   onmousedown='CC.Class["Analytics"].logAds("{{ ad.providerName }}","Sidebar Text Ad","{{ ad.title }}");ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}")';
+                            rel="nofollow">
                 {{ ad.title }}
                 </a>
 
                 <a class="ad-link" href="{{ ad.url }}" target="_blank"
-                   onmousedown="ga('send','event', 'Text Ad', '{{ ad.title }}', '{{ pageName }}');
-                           CC.Class['Analytics'].logTextAd('{{ pageName }}','{{ ad.title }}');
-                           " rel="nofollow">
+                   onmousedown='CC.Class["Analytics"].logAds("{{ ad.providerName }}","Sidebar Text Ad","{{ ad.title }}");ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}")';
+                           rel="nofollow">
                     {{ ad.displayUrl }}
                 </a>
                 <p class="ad-text">{{ ad.description }}</p>

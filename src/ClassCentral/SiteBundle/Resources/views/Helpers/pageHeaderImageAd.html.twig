@@ -1,6 +1,6 @@
 <div class="intro-wrap__ad">
     <div class="ad-box ad-box--horizontal">
-        <a href="{{ url }}" class="ad-box__link" rel="nofollow" target="_blank"  onmousedown="ga('send','event', 'PageHeader Ad', '{{ provider }}','{{ desc }}')" >
+        <a href="{{ url }}" class="ad-box__link" rel="nofollow" target="_blank"  onmousedown='CC.Class["Analytics"].logAds("{{ provider }}","PageHeader Image Ad","{{ desc }}");ga("send","event", "PageHeader Ad", "{{ provider }}","{{ desc }}")' >
 
             <div class="ad-box__left-col">
                 <img src="{{ imageUrl }}" alt="" class="ad-box__img">
