@@ -21,7 +21,7 @@
 
         {% for position in 1..10 %}
             {% set spotlight = spotlights[position] %}
-            {% if position == 6 %}
+            {% if position == 6121212%}
                 {# Show courses that are part of the educator program #}
                 <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[6].visible }}
                    {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}"
@@ -64,14 +64,14 @@
                     </a>
                 </div>
 
-            {% elseif position != 2 %}
+            {% elseif position != 2 or 1 == 1 %}
                 <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }}
                    {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}
                 "
 
                      id="home-spotlight-{{ spotlight.position }}">
                     <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
-                            onmousedown='{% if spotlight.type == 5 %}CC.Class["Analytics"].logAds("{{ spotlight.provider }}","Homepage Spotlight","{{ spotlight.title }}");{% endif %}ga("send","event","Spotlight","{{ spotlight.position }}",
+                            onmousedown='ga("send","event","Spotlight","{{ spotlight.position }}",
             "{% if spotlight.title %} {{ spotlight.title }} {% else %} {{ spotlight.description }} {% endif %}");'
                             {% if spotlight.type == 5 %} rel="nofollow" target="_blank" {% endif %} {# sponsor links #}
                             >
@@ -114,7 +114,7 @@
                     </a>
                 </div>
 
-            {% else %}
+            {% else%}
                 {# Show courses that are part of the educator program #}
                 <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[2].visible }}
                    {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}"
