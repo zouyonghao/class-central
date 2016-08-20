@@ -33,11 +33,21 @@ class CourseController extends Controller
      * Lists all Course entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $offset = 0;
+        if ( !empty($request->query->get('offset') ))
+        {
+            $offset = $request->query->get('offset');
+        }
 
-        $entities = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
+        $entities = $em->getRepository('ClassCentralSiteBundle:Course')->findBy(
+            array(),
+            array(),
+            1000,
+            $offset
+        );
 
         return $this->render('ClassCentralSiteBundle:Course:index.html.twig', array(
             'entities' => $entities
