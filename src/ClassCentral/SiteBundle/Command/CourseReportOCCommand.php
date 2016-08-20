@@ -51,22 +51,44 @@ class CourseReportOCCommand extends ContainerAwareCommand {
 
         $results = $esCourses->findByNextSessionStartDate($start, $end);
 
+        $courseraSkipped = 0;
+
         foreach($results['results']['hits']['hits'] as $course)
         {
             $c = $course['_source'];
-            $output->writeln( $this->getHtml($c) );
-        }
+            $newCourse = false;
+            if($c['provider']['name'] == 'Coursera')
+            {
+                if(count($c['sessions']) > 4)
+                {
+                    $courseraSkipped++;
+                    continue;
+                }
 
-        $output->writeLn($results['results']['hits']['total'] . " courses");
+                if( count($c['sessions']) == 1)
+                {
+                    $newCourse = true;
+                }
+            }
+
+            $output->writeln(  $this->getHtml($c, $newCourse) );
+        }
+        $output->writeln( $courseraSkipped);
+        $output->writeLn($results['results']['hits']['total'] - $courseraSkipped. " courses");
     }
 
-    private function getHtml( $course )
+    private function getHtml( $course, $newCourse = false )
     {
-        $format = '<li><a href="%s">%s</a> (%s) -%s %s - %s %s</li>';
+        $format = '<li>%s<a href="%s">%s</a> (%s) -%s %s - %s %s</li>';
 
         // Course Name
         $name = trim($course['name']);
 
+        $newCourseText = '';
+        if($newCourse)
+        {
+            $newCourseText = '[New]';
+        }
 
         // Course Url
         $url  = $course['nextSession']['url'];
@@ -130,6 +152,6 @@ class CourseReportOCCommand extends ContainerAwareCommand {
             $length = "({$course['length']} weeks)";
         }
 
-        return sprintf($format, $url,$name,$cert, $institutionName, $provider, $date, $length);
+        return sprintf($format,$newCourseText, $url,$name,$cert, $institutionName, $provider, $date, $length);
     }
 }
