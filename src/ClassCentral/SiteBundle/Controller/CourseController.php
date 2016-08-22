@@ -1373,6 +1373,8 @@ EOD;
     public function programmingLanguagesAction(Request $request)
     {
 
+        $this->get('user_service')->autoLogin($request);
+
         $cache = $this->container->get('cache');
 
 
