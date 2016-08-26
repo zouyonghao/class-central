@@ -44,7 +44,18 @@ php app/console classcentral:scrape Kadenze --simulate=N --type=add
 php app/console classcentral:scrape Kadenze --simulate=N --type=update
 
 echo "Reindexing all the courses"
-php app/console classcentral:elasticsearch:indexer --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=1 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=1000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=2000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=3000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=4000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=5000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=6000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=7000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=8000 --env=$env --no-debug
+php app/console classcentral:elasticsearch:indexer --courses=No --env=$env --no-debug
+
+
 today=`date +%F`
 yesterday=`date +%F --date="-1 day"`
 
