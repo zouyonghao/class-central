@@ -61,6 +61,11 @@ class NewCoursesCommand extends ContainerAwareCommand {
                 continue;
             }
 
+            if( !$course->getIsMooc() )
+            {
+                continue;
+            }
+
             $subject = $course->getStream();
             if($subject->getParentStream())
             {
