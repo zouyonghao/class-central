@@ -97,7 +97,7 @@ class Newsletter {
         $listAddress = $this->getListAddress($newsLetter->getCode());
         try {
             $params = array(
-                'from' => 'Class Central <newsletter@'. $this->mailDomain . '>',
+                'from' => "Class Central's MOOC Report <newsletter@". $this->mailDomain . '>',
                 'to' => $listAddress,
                 'subject' =>$subject,
                 'html' => $html,
