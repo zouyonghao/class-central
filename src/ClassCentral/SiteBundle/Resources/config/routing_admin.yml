@@ -101,3 +101,7 @@ ClassCentralSiteBundle_career:
 textrow_ads_show_all:
   pattern: /textrow-ads
   defaults: {_controller: ClassCentralSiteBundle:TextAd:textRowAds }
+
+tags_view_all:
+  pattern: /tags
+  defaults: {_controller: ClassCentralSiteBundle:Tag:index }
