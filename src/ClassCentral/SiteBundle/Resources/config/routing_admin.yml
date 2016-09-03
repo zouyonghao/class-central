@@ -114,3 +114,7 @@ tags_delete:
 tags_show:
     pattern:  /tags/{id}/show
     defaults: { _controller: "ClassCentralSiteBundle:Tag:show" }
+
+tags_show:
+    pattern:  /tags/copy-courses
+    defaults: { _controller: "ClassCentralSiteBundle:Tag:copyCourses" }

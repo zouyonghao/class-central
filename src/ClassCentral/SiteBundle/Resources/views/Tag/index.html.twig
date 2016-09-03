@@ -6,6 +6,7 @@
     <table class="records_list">
         <thead>
         <tr>
+            <th>Id</th>
             <th>Name</th>
             <th>Count</th>
 
@@ -14,6 +15,7 @@
         <tbody>
         {% for tag in tags %}
             <tr>
+                <td>{{ tag.id }}</td>
                 <td><a href="/tag/{{ tag.name }}"> {{ tag.name }}</a></td>
                 <td>{{ tag.courses|length }}</td>
                 <td>
