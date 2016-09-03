@@ -16,6 +16,10 @@
             <tr>
                 <td><a href="/tag/{{ tag.name }}"> {{ tag.name }}</a></td>
                 <td>{{ tag.courses|length }}</td>
+                <td>
+                    <a href="{{ path('tags_show',{id:tag.id}) }}">view</a>
+
+                </td>
             </tr>
         {% endfor %}
         </tbody>
