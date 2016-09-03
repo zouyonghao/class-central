@@ -26,4 +26,56 @@ class TagController extends Controller
             'tags' => $tags,
         ));
     }
+
+    public function deleteAction($id)
+    {
+        $form = $this->createDeleteForm($id);
+        $request = $this->getRequest();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ClassCentralSiteBundle:Tag')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Tag entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('ClassCentralSiteBundle_admin'));
+    }
+
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+            ;
+    }
+
+    /**
+     * Finds and displays a Institution entity.
+     *
+     */
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ClassCentralSiteBundle:Tag')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Tag entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('ClassCentralSiteBundle:Tag:show.html.twig', array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
 }

@@ -105,3 +105,12 @@ textrow_ads_show_all:
 tags_view_all:
   pattern: /tags
   defaults: {_controller: ClassCentralSiteBundle:Tag:index }
+
+tags_delete:
+    pattern:  /tags/{id}/delete
+    defaults: { _controller: "ClassCentralSiteBundle:Tag:delete" }
+    requirements: { _method: post }
+
+tags_show:
+    pattern:  /tags/{id}/show
+    defaults: { _controller: "ClassCentralSiteBundle:Tag:show" }
