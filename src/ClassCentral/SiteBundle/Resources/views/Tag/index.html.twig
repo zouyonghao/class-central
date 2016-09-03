@@ -1,0 +1,24 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>Tag list</h1>
+
+    <table class="records_list">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Count</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td><a href="/tag/{{ tag.name }}"> {{ tag.name }}</a></td>
+                <td>{{ tag.courses|length }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
