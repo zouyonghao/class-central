@@ -105,5 +105,20 @@ class Tag {
         }
     }
 
+    public function copyCourses(\ClassCentral\SiteBundle\Entity\Tag $tagOrig, \ClassCentral\SiteBundle\Entity\Tag $tagDup)
+    {
+        $copied = 0;
+        foreach($tagDup->getCourses() as $course)
+        {
+            $course->removeTag($tagOrig); // if it exists to avoid duplicates
+            $course->addTag($tagOrig);
+            $this->em->persist($course);
+            $copied++;
+        }
+        $this->em->flush();
+
+        return $copied;
+    }
+
 
 } 

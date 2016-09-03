@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class TagController extends Controller
 {
@@ -77,5 +78,33 @@ class TagController extends Controller
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    public function copyCoursesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $msg = null;
+
+        if($request->isMethod('POST'))
+        {
+            $tagService = $this->get('tag');
+            $orig = $em->getRepository('ClassCentralSiteBundle:Tag')->find( $request->request->get('orig') );
+            $dup = $em->getRepository('ClassCentralSiteBundle:Tag')->find( $request->request->get('dup') );
+
+            if( !$orig || !$dup)
+            {
+                $msg = 'One of the tags is invalid';
+            }
+            else
+            {
+                $count = $tagService->copyCourses($orig,$dup);
+                $msg = 'Number of Courses copied - ' . $count;
+            }
+        }
+
+        return $this->render('ClassCentralSiteBundle:Tag:copy.courses.html.twig',array(
+            'msg' => $msg
+        ));
+
     }
 }
