@@ -117,6 +117,12 @@ class Tag {
         }
         $this->em->flush();
 
+        // Update the follows table
+        $conn = $this->em->getConnection();
+        $conn->exec("
+            UPDATE follows SET item_id ={$tagOrig->getId()} WHERE item='tag' and item_id = {$tagDup->getId()}
+        ");
+
         return $copied;
     }
 
