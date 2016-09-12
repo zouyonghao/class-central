@@ -1486,4 +1486,91 @@ EOD;
     }
 
 
+    /**
+     * A dedicated page which shows all the programming languages. Each programming language
+     * will link to the equivalent tag
+     * @param Request $request
+     */
+    public function computerScienceCoursesAction(Request $request)
+    {
+
+        $this->get('user_service')->autoLogin($request);
+
+        $cache = $this->container->get('cache');
+
+
+        $topics = $cache->get('cs_moocs',function() {
+            $finder = $this->container->get('course_finder');
+            $topics = array(
+                'artificial intelligence' => array(
+                    'name' => 'Artificial Intelligence',
+                    'tag'  => 'artificial intelligence',
+                    'count' => '0',
+                ),
+                'biocomputation' => array(
+                    'name' =>'Biocomputation',
+                    'tag' => 'biocomputation',
+                    'count' => '0',
+                ),
+                'computer engineering' => array(
+                    'name' =>'Computer Engineering',
+                    'tag' => 'computer engineering',
+                    'count' => '0',
+                ),
+                'graphics' => array(
+                    'name' =>'Graphics',
+                    'tag' => 'graphics',
+                    'count' => '0',
+                ),
+                'hci' => array(
+                    'name' =>'Human-Computer Interaction',
+                    'tag' => 'hci',
+                    'count' => '0',
+                ),
+                'machine learning' => array(
+                    'name' =>'Machine Learning',
+                    'tag' => 'machine learning',
+                    'count' => '0',
+                ),
+                'systems' => array(
+                    'name' =>'Systems',
+                    'tag' => 'systems',
+                    'count' => '0',
+                ),
+                'theory' => array(
+                    'name' =>'Theory',
+                    'tag' => 'theory',
+                    'count' => '0',
+                ),
+                'programming languages' => array(
+                    'name' =>'Programming Languages',
+                    'tag' => 'programming languages',
+                    'count' => '0',
+                ),
+
+            );
+
+            // get the count for each of these languages
+            foreach($topics as &$topic)
+            {
+                $results = $finder->byTag($topic['tag']);
+                $topic['count'] = $results['hits']['total'];
+            }
+
+            usort($topics,function($a,$b){
+                return $a['count'] < $b['count'];
+            });
+
+            return $topics;
+        },array());
+
+
+
+        return $this->render('ClassCentralSiteBundle:Course:computer.science.courses.html.twig',
+            array(
+                'page'=>'cs_moocs',
+                'topics' => $topics
+            ));
+    }
+
 }

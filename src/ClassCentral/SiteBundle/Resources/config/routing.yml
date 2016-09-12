@@ -99,6 +99,10 @@ programming_languages:
   pattern: /programming-online-courses
   defaults: { _controller: ClassCentralSiteBundle:Course:programmingLanguages }
 
+computer_science_moocs:
+  pattern: /computer-science-online-courses
+  defaults: { _controller: ClassCentralSiteBundle:Course:computerScienceCourses }
+
 ClassCentralSiteBundle_admin:
     resource: "@ClassCentralSiteBundle/Resources/config/routing_admin.yml"
     prefix: /admin
