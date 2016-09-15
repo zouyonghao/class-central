@@ -90,4 +90,51 @@ class DefaultCourseFormatter extends CourseFormatterAbstract
 
         return $str;
     }
+
+    /**
+     *  Get all the organzations
+     */
+    public function getSchemaOrgs()
+    {
+        // Start with institutions
+        $orgs = array();
+        foreach($this->course->getInstitutions() as $ins)
+        {
+            $type =  "Organization";
+            if($ins->getIsUniversity())
+            {
+                $type='CollegeOrUniversity';
+            }
+
+            $orgs[] = array(
+                "@type" => $type,
+                "name" => "{$ins->getName()}",
+                "sameAs" => "{$ins->getUrl()}"
+            );
+        }
+        if($this->course->getInitiative())
+        {
+            $provider = $this->course->getInitiative();
+            $orgs[] = array(
+                "@type" => "Organization",
+                "name" => "{$provider->getName()}",
+                "sameAs" => "{$provider->getUrl()}"
+            );
+        }
+        else
+        {
+            if( empty($orgs) )
+            {
+                // create an independent provider
+                $orgs[] = array(
+                    "@type" => "Organization",
+                    "name" => "Independent",
+                    "sameAs" => "https://www.class-central.com/provider/independent"
+                );
+            }
+
+        }
+
+        return $orgs;
+    }
 }

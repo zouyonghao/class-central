@@ -87,6 +87,7 @@ class CourseRepository extends EntityRepository{
         $courseDetails['syllabus'] = $syllabus;
         $courseDetails['longDesc'] = $longDesc;
         $courseDetails['desc'] = $desc;
+        $courseDetails['oneLiner'] = $course->getOneliner();
 
         $nextOffering = $course->getNextOffering();
         if($nextOffering) {
@@ -167,7 +168,9 @@ class CourseRepository extends EntityRepository{
             $courseDetails['instructors'][] = $instructor->getName();
         }
         $courseDetails['instructorsSingleLineDisplay'] = $this->getInstructorsSingleLineDisplay($courseDetails['instructors']);
-        
+
+        $courseDetails['schemaOrgs'] = $formatter->getSchemaOrgs();
+
         // Check if the course has a duplicate course id
         if( $course->getDuplicateCourse() )
         {

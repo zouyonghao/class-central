@@ -711,4 +711,35 @@ class Review {
 
         return $result[0];
     }
+
+    public function getReviewsSchema($reviews)
+    {
+        $r = array();
+
+        foreach($reviews as $review)
+        {
+
+            $reviewer = $review['user']['name'];
+            if( !empty($review['externalReviewerName']) )
+            {
+                $reviewer = $review['externalReviewerName'];
+            }
+
+            $r[] = array(
+                '@type' => 'review',
+                'datePublished' => $review['publishedDate'],
+                'reviewBody' => $review['reviewText'],
+                'author' => array(
+                    '@type' => 'Person',
+                    'name' => $reviewer
+                ),
+                'reviewRating' => array(
+                    '@type' => 'Rating',
+                    'ratingValue' => $review['rating']
+                )
+            );
+        }
+
+        return $r;
+    }
 } 
