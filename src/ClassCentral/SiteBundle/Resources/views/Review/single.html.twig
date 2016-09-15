@@ -1,12 +1,12 @@
 
-<div class="single-review"  id="review-{{ review.id }}" itemscope itemtype="http://data-vocabulary.org/Review">
+<div class="single-review"  id="review-{{ review.id }}" >
     {% if review.fb.total > 0 %}
         <div class="review-feedback">{{review.fb.positive }} out of {{ review.fb.total  }} people found the following review useful</div>
     {% endif %}
     {# <span class="author" itemprop="author">{{ review.user.name }}</span> #}
 
     {% if course is defined %}
-        <meta itemprop="itemreviewed" content="{{ course.name}}">
+        <meta content="{{ course.name}}">
     {% else %}
         {# This is for My Reviews page#}
         <span class="author"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}"> {{ review.course.name }}</a></span>
@@ -29,8 +29,8 @@
 
     <div>
     {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle, review.user.isPrivate) %}
-        <a class="review-date" href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}#review-{{ review.id }}"> {{ review.displayDate }}<meta itemprop="dtreviewed" content="{{ review.publishedDate }}"></a>
-        <div class="review-title title-with-image" itemprop="summary">
+        <a class="review-date" href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}#review-{{ review.id }}"> {{ review.displayDate }}</a>
+        <div class="review-title title-with-image" >
             <div class="crop-circle crop-circle--bordered">
                 {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')"> {% endif %}
                     <img src="{{  user_service.getProfilePic(review.user.id) }}" alt="profile picture">
@@ -38,7 +38,7 @@
             </div>
 
             {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')"> {% endif %}
-                <span class="author" itemprop="reviewer">{{ reviewer  }}</span>
+                <span class="author">{{ reviewer  }}</span>
             {% if reviewerProfileUrl %}</a> {% endif %}
             {{ review.reviewTitle|raw }}
         </div>
@@ -49,7 +49,7 @@
             <span class="star-rating-3"></span>
             <span class="star-rating-4"></span>
             <span class="star-rating-5"></span>
-            <meta itemprop="rating" content="{{ review.rating }}">
+            <meta  content="{{ review.rating }}">
         </div>
 
         <div class="review-content wide-border-left">
@@ -66,7 +66,7 @@
                 </div>
 
         {% endif %}
-        <div class="review-full" itemprop="description">
+        <div class="review-full">
             {{ review.reviewText|striptags('<br>')|raw }}
         </div>
         </div>

@@ -6,13 +6,15 @@
   {% set showPostReviewSignupForm = true %}
 {% endfor %}
 
- {% block headmeta %}
-     {% set courseImageUrl = null %}
+ {% set courseImageUrl = null %}
      {%  if courseImage  %}
-        {% set courseImageUrl = courseImage %}
+         {% set courseImageUrl = courseImage %}
      {% elseif course.imageUrl %}
-        {% set courseImageUrl = rackspace_cdn_base_url~course.imageUrl %}
+         {% set courseImageUrl = rackspace_cdn_base_url~course.imageUrl %}
      {% endif %}
+
+ {% block headmeta %}
+
      <title>Reviews for {{ course['pageTitle'] }} | Class Central</title>
      <meta name="description"
            content="{{ course['shortDesc'] }}"/>
@@ -79,6 +81,60 @@
  {% endblock %}
 
 {% block content %}
+
+    {% set courseDesc = course.shortDesc %}
+    {% if course.oneLiner is not empty %}
+        {% set courseDesc = course.oneLiner %}
+    {% endif %}
+
+    {#
+        <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Course",
+          {% if course.price == 0 %}
+            "isAccessibleForFree":"http://schema.org/True",
+          {% endif %}
+          "name": "{{ course.name }}",
+          "description": "{{ courseDesc|escape }}",
+          "provider": {{ course.schemaOrgs|json_encode(constant('JSON_PRETTY_PRINT'))|raw }},
+          "image": "{{ courseImageUrl }}",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ rating }}",
+            "reviewCount": "{{ reviews.ratingCount }}"
+          }
+        }
+       </script>
+   #}
+
+            <script type="application/ld+json">
+        {
+          "@context": "http://schema.org/",
+          "@type": "Product",
+          "name": "{{ course.name }}",
+          "image": "{{ courseImageUrl }}",
+          "description": "{{ courseDesc  }}",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{ rating }}",
+            "reviewCount": "{{ reviews.ratingCount }}",
+            "worstRating":  1,
+            "bestRating": 5
+          },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "price": "{{ course.price }}",
+            "seller": {
+              "@type": "Organization",
+              "name": "{{ course.initiative.name }}"
+            }
+          },
+          "reviews": {{ reviewService.getReviewsSchema(reviews.reviews)|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}
+        }
+        </script>
+
     {# whether to display create review/review form for logged out users  #}
     {% set hideCreateReview = false %}
     {% if app.session.get('user_course_reviewed_for') is defined and app.session.get('user_course_reviewed_for') == course.id %}
@@ -103,7 +159,7 @@
         <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ reviews.ratingCount }} {% if reviews.ratingCount > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
         <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }}{% endif %}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
     {% endif %}
-    <div class="course-block row" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
+    <div class="course-block row">
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
 
@@ -147,7 +203,7 @@
             </div>
             <div class='course-info'>
 
-                <h1 class="course-title" itemprop="itemreviewed">{{ course['name'] }}</h1>
+                <h1 class="course-title" >{{ course['name'] }}</h1>
 
 
 
@@ -331,12 +387,12 @@
 
         <div class="tiny-review-block">
 
-            <div class="tiny-review-block__rating-group">
+            <div class="tiny-review-block__rating-group" >
 
                 <div class="tiny-review-block__rating-group-inner">
                     <div class="tiny-review-block__count">
-                        <span itemprop="count" class="tiny-review-block__single">
-                            <span itemprop="votes" >{{ reviews.ratingCount }}</span>
+                        <span class="tiny-review-block__single">
+                            <span  >{{ reviews.ratingCount }}</span>
                         </span>
                         <span class="tiny-review-block__double">
                             Student<br>
@@ -347,7 +403,6 @@
 
                     <div class="tiny-review-block__star-rating">
                         <div class="average-rating course-rating-course-page" data-score="{{ rating }}">
-                            <meta itemprop="rating" content="{{ rating }}" />
                         </div>
                     </div>
                 </div>
