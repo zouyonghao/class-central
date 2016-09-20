@@ -49,6 +49,7 @@ twig:
       keen_project_id: %keen_project_id%
       keen_write_key:  %keen_write_key%
       segment_write_key: %segment_write_key%
+      coursera_url: %coursera_url%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

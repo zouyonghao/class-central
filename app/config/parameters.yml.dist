@@ -99,3 +99,5 @@ parameters:
 
     test_email: ~
     segment_write_key: ~
+
+    coursera_url: ~
