@@ -622,6 +622,9 @@
                 {% if offeringUrl is not null %}
                     {% set go_to_class_url = offeringUrl  %}
                 {% endif %}
+                {% if course.initiative.name == 'Coursera' %}
+                     {% set go_to_class_url = coursera_url~offeringUrl|url_encode  %}
+                {% endif %}
                 <div class="course-data-button">
                     <a class="cta-button btn_go_to_class" href="{{ go_to_class_url }}" id="btnProviderCoursePage"
                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
