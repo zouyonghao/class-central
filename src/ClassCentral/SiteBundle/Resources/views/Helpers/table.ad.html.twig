@@ -11,12 +11,12 @@
         <ul class="table-uni-list">
             {% if institutionName is not empty %}
                 <li>
-                    <a class="uni-name" rel="nofollow" target="_blank" href="{{ institutionUrl }}"  onmousedown='CC.Class["Analytics"].logAds("{{ providerName }}","Table Text Ad","{{ courseName }}")'>{{ institutionName }}</a>
+                    <a class="uni-name" rel="nofollow" target="_blank" href="{{ courseUrl }}"  onmousedown='CC.Class["Analytics"].logAds("{{ providerName }}","Table Text Ad","{{ courseName }}")'>{{ institutionName }}</a>
 
                 </li>
             {% endif %}
             <span class="via">via</span>
-            <a rel="nofollow" href="{{ providerUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick="CC.Class['Analytics'].logAds("{{ providerName }}","Table Text Ad","{{ courseName }}");'>{{ providerName }}</a>
+            <a rel="nofollow" href="{{ courseUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick="CC.Class['Analytics'].logAds("{{ providerName }}","Table Text Ad","{{ courseName }}");'>{{ providerName }}</a>
         </ul>
     </td>
 
