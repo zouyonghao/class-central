@@ -172,6 +172,10 @@ class Finder {
             $mn[] = $mustNot;
         }
 
+        $must[] =  array(
+            'term' => array(
+                'language.slug' => 'english'
+        ));
 
         $query = array(
              "function_score" => array(
