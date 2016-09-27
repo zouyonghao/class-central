@@ -26,9 +26,18 @@ class DefaultController extends Controller {
 
         // Check whether there is a redirect. This is done to redirect users to login only areas of the site.
         $redirect = $request->get('redirect');
-        if( !empty($redirect) and in_array($redirect, array('user_follows','user_recommendations')) )
+        if( !empty($redirect) && in_array($redirect, array('user_follows','user_recommendations')) )
         {
             return $this->redirect($this->generateUrl( $redirect ));
+        }
+
+        if( !empty($redirect))
+        {
+            $url = urldecode($redirect);
+            if($url == 'https://www.class-central.com/report/best-programming-courses-data-science/')
+            {
+                return $this->redirect( $url );
+            }
         }
 
         $cache = $this->get('Cache');
