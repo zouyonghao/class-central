@@ -5,7 +5,7 @@
 {# two out of 4 #}
 {% if ad == 0 or ad == 1 %}
 
-    {% set variation = random(1) %}
+    {% set variation = random(0) %}
 
     {% if variation == 0 %}
         {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
