@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('ClassCentralSiteBundle_homepage')}}" title="MOOC aggregator">
+            <a class="navbar-brand" href="{{ path('ClassCentralSiteBundle_homepage')}}" title="#1 Search Engine For Online Courses and MOOCs">
                 <span class="cc-logo-navbar"></span>
                 <svg role="logo" aria-label="class central logo" viewBox="0 0 332 32" class="class-central-logo">
                     <use xlink:href="#icon-cc-logo"></use>
@@ -57,7 +57,12 @@
 
                 {# Subjects #}
                 <li><a href="{{ path('subjects',{}) }}" class="nav-title" title="Subjects" onClick="ga('send','event', '{{ navEventName }}', 'Subjects')">Subjects</a></li>
-                <li><a href="{{ path('credentials') }}" class="nav-title" title="Earn A Credential" onClick="ga('send','event', '{{ navEventName }}', 'Credentials')">Credentials</a></li>
+                {% set showCred = random(1) %}
+                {% if showCred %}
+                    <li><a href="{{ path('credentials') }}" class="nav-title" title="Earn A Credential" onClick="ga('send','event', '{{ navEventName }}', 'Credentials')">Credentials</a></li>
+                {% else %}
+                    <li><a href="{{ path('credentials') }}" class="nav-title" title="Earn A Credential" onClick="ga('send','event', '{{ navEventName }}', 'Certifications')">Certifications</a></li>
+                {% endif %}
                 <li><a href="/report" class="nav-title" title="MOOC News, Interviews, and Analysis" onClick="ga('send','event', '{{ navEventName }}', 'MOOC Report')">MOOC Report</a></li>
                 <!--<li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="ga('send','event', '{{ navEventName }}', 'News')">News</a></li>-->
 
