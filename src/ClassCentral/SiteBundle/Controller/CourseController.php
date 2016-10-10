@@ -494,6 +494,12 @@ class CourseController extends Controller
 
         // See if the course is part of Coursera's Old Stack
         $courseraOldStackCourse = $this->get('course')->getOldStackCourse($course['id']);
+        $top50Courses = $this->get('course')->getCollection('top-free-online-courses');
+        $top50Course = false;
+        if(in_array($course['id'],$top50Courses['courses']))
+        {
+            $top50Course = true;
+        }
 
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
@@ -517,7 +523,8 @@ class CourseController extends Controller
                  'courseRank' =>$courseRank,
                  'potentialDuplicates' => $potentialDuplicates,
                  'showAddToMTModal' => $showAddToMTModal,
-                 'courseraOldStackCourse' => $courseraOldStackCourse
+                 'courseraOldStackCourse' => $courseraOldStackCourse,
+                 'top50course' => $top50Course
        ));
     }
 

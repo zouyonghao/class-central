@@ -295,7 +295,17 @@
                         <br/>
                     {% endif %}
 
-                    {% if courseraOldStackCourse is not empty %}
+                    {% if top50course %}
+                        <div class="alert alert-success">
+                            <h3><b>HIGHEST RATED MOOC</b></h3>
+                            <p>This course is a <i>Top 50 MOOC of All Time</i> based on thousands of reviews written by Class Central users. Its guaranteed to be good!</p>
+                            <p>
+                                Check out the rest of the <a href="https://www.class-central.com/collection/top-free-online-courses?utm_source=top-50-course-page">Top 50 here</a>.
+                            </p>
+                        </div>
+                    {% endif %}
+
+                    {% if courseraOldStackCourse is not empty and false%}
                         <div class="alert alert-danger">
                             <h3><b>PSA:</b> This Course will no longer be available June 30th 2016 onwards</h3><br/>
                             <p>Coursera announced that they will be shutting off their old platform on June 30th. Over  <a  class="alert-link" href="/collection/coursera-old-stack-all">400 courses</a> that are part
