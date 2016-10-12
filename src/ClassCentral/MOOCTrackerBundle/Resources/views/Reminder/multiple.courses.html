@@ -1149,13 +1149,19 @@ body.outlook p {
                                                     {% else %}
                                                     {% set courseUrlText='Access the course' %}
                                                     {% endif %}
+
+                                                    {% set go_to_class_url =  course.nextOffering.url %}
+                                                    {% if initiative == 'Coursera'  %}
+                                                        {% set go_to_class_url = coursera_url~go_to_class_url|url_encode ~ '&u1=mooc_tracker_reminder' %}
+                                                    {% endif %}
+
                                                     <table class="row">
                                                         <tr>
                                                             <td class="wrapper last">
                                                                 <table class="button radius cc-go-to-class" >
                                                                     <tr>
                                                                         <td>
-                                                                            <a href="{{ course.nextOffering.url }}" >Go to Class</a>
+                                                                            <a href="{{ go_to_class_url }}" >Go to Class</a>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
