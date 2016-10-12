@@ -260,9 +260,16 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
     {
         $mailgun = $this->getContainer()->get('mailgun');
 
+        $email = $user->getEmail();
+        $env = $this->getContainer()->getParameter('kernel.environment');
+        if($env !== 'prod')
+        {
+            $email = $this->getContainer()->getParameter('test_email');
+        }
+
         $response = $mailgun->sendMessage( array(
             'from' => '"Class Central\'s MOOC Tracker" <no-reply@class-central.com>',
-            'to' => $user->getEmail(),
+            'to' => $email,
             'subject' => $subject,
             'html' => $html,
             'o:campaign' => $campaignId
