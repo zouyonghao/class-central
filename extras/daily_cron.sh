@@ -92,3 +92,6 @@ php app/console classcentral:elasticsearch:runjobs mt_ask_for_reviews_for_comple
 
 echo "Running job to send follow up emails"
 php app/console classcentral:elasticsearch:runjobs mt_new_user_follow_up $today --env=$env --no-debug
+
+echo "Generating Sitemap"
+php app/console classcentral:sitemap:generate --env=$env --no-debug
