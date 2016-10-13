@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 
+use ClassCentral\CredentialBundle\Entity\Credential;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,6 +49,21 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                        array('id' => $course->getId(),'slug'=>$course->getSlug())
                     );
                 fwrite($sitemap,$coursePageUrl."\n");
+            }
+        }
+
+        // CREDENTIALS
+        fwrite($sitemap,$baseUrl. $router->generate('credentials')."\n");
+        $credentials = $em->getRepository('ClassCentralCredentialBundle:Credential')->findAll();
+        foreach($credentials as $credential)
+        {
+            if($credential->getStatus() < Credential::CREDENTIAL_NOT_SHOWN_LOWER_BOUND)
+            {
+                $credentialPageUrl = $baseUrl . $router->generate(
+                        'credential_page',
+                        array('slug'=>$credential->getSlug())
+                    );
+                fwrite($sitemap,$credentialPageUrl."\n");
             }
         }
 
