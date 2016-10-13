@@ -501,6 +501,12 @@
         }
     {% endif %}
 
+    {% if not app.user and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' %}
+        if(!isMobile.phone ) {
+            CC.Class['Signup'].showSignupPrompt(20000);
+        }
+    {% endif %}
+
     {% if showProfileEditModal %}
         $( document).ready(function () {
             CC.Class["Signup"].followSubjectOnboarding();
