@@ -302,11 +302,38 @@ CC.Class['Signup'] = (function(){
         }
     }
 
+    function showSignupPrompt(delay){
+        var promptShownCookie = 'signup_prompt';
+        if ( Cookies.get( promptShownCookie) === undefined ) {
+            $.ajax({
+                url: "/ajax/isLoggedIn",
+                cache: true
+            })
+                .done(function(result){
+                    var loggedInResult = $.parseJSON(result);
+                    if( !loggedInResult.loggedIn) {
+
+                        // Show the signup form
+                        setTimeout(function() {
+                            // Check the cookie again
+                            if(Cookies.get( promptShownCookie) === undefined ) {
+                                $('#signupModal-navbar_create_free_account').modal('show');
+                                Cookies.set( promptShownCookie, 1, { expires :30} );
+                            }
+
+                        },delay);
+                    }
+                }
+            );
+        }
+    }
+
     return {
         init: init,
         'profileOnboarding' : showOnboardingProfileStep,
         'followSubjectOnboarding' : showOnboardingFollowSubjectStep,
-        'followInstitutionOnboarding' : showOnboardingFollowInstitutionsStep
+        'followInstitutionOnboarding' : showOnboardingFollowInstitutionsStep,
+        'showSignupPrompt' : showSignupPrompt
     }
 })();
 
