@@ -50,6 +50,7 @@ twig:
       keen_write_key:  %keen_write_key%
       segment_write_key: %segment_write_key%
       coursera_url: %coursera_url%
+      edx_url: %edx_url%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
