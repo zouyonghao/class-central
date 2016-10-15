@@ -57,12 +57,9 @@
 
                 {# Subjects #}
                 <li><a href="{{ path('subjects',{}) }}" class="nav-title" title="Subjects" onClick="ga('send','event', '{{ navEventName }}', 'Subjects')">Subjects</a></li>
-                {% set showCred = random(1) %}
-                {% if showCred %}
-                    <li><a href="{{ path('credentials') }}" class="nav-title" title="Earn A Credential" onClick="ga('send','event', '{{ navEventName }}', 'Credentials')">Credentials</a></li>
-                {% else %}
-                    <li><a href="{{ path('credentials') }}" class="nav-title" title="Earn A Credential" onClick="ga('send','event', '{{ navEventName }}', 'Certifications')">Certifications</a></li>
-                {% endif %}
+
+                <li><a href="{{ path('credentials') }}" class="nav-title" title="Earn A Credential" onClick="ga('send','event', '{{ navEventName }}', 'Certifications')">Certifications</a></li>
+
                 <li><a href="/report" class="nav-title" title="MOOC News, Interviews, and Analysis" onClick="ga('send','event', '{{ navEventName }}', 'MOOC Report')">MOOC Report</a></li>
                 <!--<li><a href="{{ path('ClassCentralSiteBundle_news',{}) }}" class="nav-title" title="MOOC news" onClick="ga('send','event', '{{ navEventName }}', 'News')">News</a></li>-->
 
