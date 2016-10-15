@@ -48,7 +48,7 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
         }
         $courses = array();
         $reviews = array();
-        foreach( array(2161,361,461,889,442) as $courseId )
+        foreach( array(2161,4319,461,2750,442) as $courseId )
         {
             $courses[] = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId);
             $review = $reviewService->getReviewsArray($courseId );
