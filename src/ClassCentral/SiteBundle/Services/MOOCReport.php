@@ -44,6 +44,25 @@ class MOOCReport
         });
     }
 
+
+    public function getOpEds()
+    {
+        $cache = $this->container->get('cache');
+
+        return $cache->get('wp_op_ed_posts',function(){
+            $client = new Client();
+            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts/?filter[category_name]=mooc-commentary');
+            $response = $request->send();
+
+            if($response->getStatusCode() !== 200)
+            {
+                return array();
+            }
+
+            return json_decode($response->getBody(true),true);
+        });
+    }
+
     public function getAuthor($authorId)
     {
         $cache = $this->container->get('cache');
@@ -60,7 +79,6 @@ class MOOCReport
 
             return json_decode($response->getBody(true),true);
         }, array($authorId));
-
 
     }
 

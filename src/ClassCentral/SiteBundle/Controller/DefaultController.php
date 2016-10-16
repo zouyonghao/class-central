@@ -142,8 +142,10 @@ class DefaultController extends Controller {
         // MOOC Report posts
         $moocReport = $this->get('mooc_report');
         $newestPosts = array();
+        $opEds = array();
         try{
             $newestPosts = $moocReport->getPosts();
+            $opEds = $moocReport->getOpEds();
         }
         catch(\Exception $e)
         {
@@ -164,7 +166,8 @@ class DefaultController extends Controller {
                 'meetYourNextCourse' => $meetYourNextCourse,
                 // 'spotlightPaidCourse' => $this->get('course')->getRandomPaidCourseExcludeByProvider('Treehouse'),
                 //'spotlightCourseSecondRow' =>$this->get('course')->getRandomPaidCourseByProvider('Treehouse'),
-                'newestPosts' => $newestPosts
+                'newestPosts' => $newestPosts,
+                'opEds' => $opEds
                ));
     }
 

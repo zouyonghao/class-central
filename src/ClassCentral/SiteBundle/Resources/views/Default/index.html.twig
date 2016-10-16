@@ -199,47 +199,88 @@
         </section>
     {% endif %}
 
-    {% set blog1 = spotlights[100] %}
-    {% set blog2 = spotlights[101] %}
+
+
+    {# Figure out shown posts in the MOOC Report block. Have to re-caclulate because the data cannot be bubbled up from spotlight.html.twig #}
+    {% set shownPosts = [] %}
+
+    {% set featuredPostShown = false %}
+    {% set featuredPostId = 0 %}
+    {% for post in newestPosts if not featuredPostShown %}
+        {% if post.acf.pinned is not empty %}
+            {% set featuredPostShown = true %}
+            {% set featuredPostId = post.id %}
+            {% set shownPosts = shownPosts|merge([post.id]) %}
+
+        {% endif %}
+    {% endfor %}
+
+    {% set postsShown = 0 %}
+    {% for post in newestPosts if postsShown < 4%}
+        {% if post.id != featuredPostId %}
+            {% set postsShown = postsShown + 1 %}
+            {% set shownPosts = shownPosts|merge([post.id]) %}
+        {% endif %}
+
+    {% endfor %}
+
+    {% set blog1 = null %}
+    {% set blog2 = null %}
+
+    {% for opEd in opEds %}
+        {% if blog1 is  null %}
+            {% if opEd.id not in shownPosts %}
+                {% set blog1 = opEd %}
+            {% endif %}
+
+        {% elseif blog2 is  null %}
+
+            {% if opEd.id not in shownPosts %}
+                {% set blog2 = opEd %}
+            {% endif %}
+
+        {% endif %}
+    {% endfor %}
+
+
     <section class="blog-spotlight">
         <div class="container">
             <h2 class="section-heading"><span>Op-Eds</span></h2>
         </div>
-        <a href="{{ blog1.url }}" class="single-post single-post-left"
-           onmousedown="ga('send','event','Spotlight','{{ blog1.position }}','{{ blog1.title }}');"
+        <a href="{{ blog1.link }}" class="single-post single-post-left"
+           onmousedown="ga('send','event','MOOC Report - Op Ed Section','{{ blog1.title.rendered|raw }}');"
                 >
             <div class="post-bg-left post-bg">
-                <img src="{{ blog1.imageUrl }}" alt="post-background">
+                <img src="{{ blog1.acf.banner.url }}" alt="post-background">
             </div>
             <div class="single-post-content">
                 <div class="single-post-content__title">
                   <h3>
-                    {{ blog1.title }}
+                      {{ blog1.title.rendered|raw }}
                   </h3>
                 </div>
 
                 <p class="excerpt">
-                    {{ blog1.description }}
+                    {{ blog1.acf.subtitle }}
                 </p>
                 <span class="single-post__button">READ MORE</span>
             </div>
         </a>
 
 
-        <a href="{{ blog2.url }}" class="single-post single-post-right"
-           onmousedown="ga('send','event','Spotlight','{{ blog2.position }}','{{ blog2.title }}');"
+        <a href="{{ blog2.link }}" class="single-post single-post-right"
+           onmousedown="ga('send','event','MOOC Report - Op Ed Section','{{ blog2.title.rendered|raw }}');"
                 >
             <div class="post-bg-right post-bg">
-                <img src="{{ blog2.imageUrl }}" alt="post-background">
+                <img src="{{  blog2.acf.banner.url }}" alt="post-background">
             </div>
             <div class="single-post-content">
                 <div class="single-post-content__title">
                   <h3>
-                    {{ blog2.title }}
-                  </h3>
+                      {{ blog2.title.rendered|raw }}                  </h3>
                 </div>
                 <p class="excerpt">
-                    {{ blog2.description }}
+                    {{ blog2.acf.subtitle }}
                 </p>
                 <span class="single-post__button">READ MORE</span>
             </div>
