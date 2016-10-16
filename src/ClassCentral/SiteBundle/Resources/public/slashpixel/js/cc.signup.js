@@ -317,7 +317,7 @@ CC.Class['Signup'] = (function(){
                         setTimeout(function() {
                             // Check the cookie again
                             if(Cookies.get( promptShownCookie) === undefined ) {
-                                $('#signupModal-navbar_create_free_account').modal('show');
+                                $('#signupModal-ask_for_signup').modal('show');
                                 Cookies.set( promptShownCookie, 1, { expires :30} );
                             }
 
