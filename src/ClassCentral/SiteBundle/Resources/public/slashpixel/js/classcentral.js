@@ -1172,7 +1172,7 @@ jQuery(function($) {
     }
 
     var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms',
-        'home_create_free_account','convincer_create_free_account','navbar_create_free_account','create_course_review','create_credential_review','btn_follow'];
+        'home_create_free_account','convincer_create_free_account','navbar_create_free_account','create_course_review','create_credential_review','btn_follow','ask_for_signup'];
     for(var i =0 ; i < signupForms.length; i++)
     {
         var signupFormId = "#signupModal-" + signupForms[i];
