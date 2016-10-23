@@ -494,9 +494,17 @@ jQuery(function($) {
 
     });
 
+    var createReviewClicked = false;
     $('#submit-signup-review').click(function(event){
         event.preventDefault();
         $('#submit-signup-review').attr('disabled', true);
+        if (createReviewClicked)
+        {
+         // do nothing
+            return false;
+        }
+
+        createReviewClicked = true;
 
         var review = getReviewFormFields();
         var validationError = validateReviewForm(review);
@@ -519,7 +527,9 @@ jQuery(function($) {
                     } else {
                         // Show an error message
                         showPinesNotification('error','Some error occurred',result['message']);
+                        createReviewClicked = false;
                     }
+
                 }
             );
 
