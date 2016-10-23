@@ -532,7 +532,8 @@ jQuery(function($) {
 
                 }
             );
-
+        } else {
+            createReviewClicked = false;
         }
 
     });
