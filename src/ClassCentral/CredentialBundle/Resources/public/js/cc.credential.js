@@ -6,6 +6,7 @@ CC.Class['Credential'] = (function(){
 
     var utilities = CC.Class['Utilities'];
     var user = CC.Class["User"];
+    var saveReviewClicked = false;
 
     function init() {
        ;
@@ -165,6 +166,13 @@ CC.Class['Credential'] = (function(){
     function saveReview(event) {
         event.preventDefault();
         $('#cr-save-review').attr('disabled', true);
+        if(saveReviewClicked)
+        {
+            // Do nothing. Prevents duplicate clicks
+            return false;
+        }
+
+        saveReviewClicked = true;
 
         var review = getReviewFormFields();
         var validationError = validateReviewForm( review );
@@ -187,12 +195,14 @@ CC.Class['Credential'] = (function(){
                             window.location.href = '/certificate/' + $('#credentialslug').data('value');
                         } else {
                             // Show an error message
+                            saveReviewClicked = false;
                         }
                     }
                 );
 
         } else {
             $('#cr-save-review').attr('disabled', false);
+            saveReviewClicked = false;
         }
     }
 
