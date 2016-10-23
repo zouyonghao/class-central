@@ -1040,17 +1040,13 @@
         </div><!-- /.dock__inner -->
     </div><!-- /.dock -->
 
-
-
-
-
+    {# include share buttons #}
 
     {% if showPostReviewSignupForm  %}
         {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'create_course_review', options:{}}) %}
     {% endif %}
 
-    {# include share buttons #}
-   
+
     {% include 'ClassCentralSiteBundle:Helpers:share.classcentral.html.twig' %}
 
 {% endblock %}
