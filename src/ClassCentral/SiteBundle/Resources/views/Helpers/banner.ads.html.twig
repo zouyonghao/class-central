@@ -1,9 +1,9 @@
-{% set ad = random(1) %}
+{% set ad = random(13) %}
 {% set bannerAdUrl = 'https://info.canvas.net/offer-a-course?utm_source=Class-Central&utm_medium=BannerAd&utm_campaign=Canvas+Network+About+Us&utm_content=Canvas+Network+About+Us+Static+Page+Report' %}
 {% set bannerAdStudentUrl = 'https://www.canvas.net/?utm_source=Class-Central&utm_medium=BannerAd&utm_campaign=Canvas+Network+Home&utm_content=Canvas+Network' %}
 {% set bannerAdProvider = 'Canvas Network' %}
 {% set bannerAdBaseImageUrl = 'https://d3r3mog6nu8pt4.cloudfront.net/ads/' %}
-
+{#
 {% if ad == 0 %}
     {%  include 'ClassCentralSiteBundle:Helpers:banner.ad.html.twig' with {
     'url':'https://www.canvas.net/browse/stem/?utm_source=Class-Central&utm_medium=BannerAd&utm_campaign=Canvas+Network+boost+trajectory&utm_content=Canvas+Network+boost+trajectory+course',
@@ -24,8 +24,8 @@
     } %}
 
 {% endif %}
+#}
 
-{#
 {% if ad == 0 %}
     {%  include 'ClassCentralSiteBundle:Helpers:banner.ad.html.twig' with {
     'url': bannerAdUrl,
