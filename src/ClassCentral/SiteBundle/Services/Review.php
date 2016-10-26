@@ -54,6 +54,22 @@ class Review {
     }
 
     /**
+     * Calculate ratings for a particular course
+     * @param Course $course
+     */
+    public function getRatingsAndCount($courseId)
+    {
+        $ratingDetails = $this->cache->get(
+            $this->getRatingsCacheKey($courseId),
+            array($this,'calculateAverageRating'),
+            array($courseId)
+        );
+
+        return $ratingDetails;
+    }
+
+
+    /**
      * Calculates the average rating
      * @param $courseId
      * @return array
