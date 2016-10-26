@@ -38,11 +38,11 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
     {
         //$this->generateUserTrackingCSV();
 
-        // $this->generateCoursesCSV();
+        //$this->generateCoursesCSV();
 
-        // $this->generateUserCoursesCSV();
+        $this->generateUserCoursesCSV();
 
-        $this->generateSessionsCSV();
+        //$this->generateSessionsCSV();
 
     }
 
@@ -135,7 +135,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             'Status'
         );
         fputcsv($fp,$title);
-        $dt = new \DateTime('2016-06-30');
+        $dt = new \DateTime('2016-07-31');
         foreach($courses as $course)
         {
             if($course->getStatus() != CourseStatus::AVAILABLE )
@@ -144,7 +144,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             }
             if($course->getCreated() > $dt)
             {
-                continue;
+                // continue;
             }
             $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
             $ins = array();
@@ -234,31 +234,137 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
 
     }
 
-    /**
-     * Generate a csv with user_id,course_id, list_id(interested, currently doing)
-     */
     private function generateUserCoursesCSV()
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $conn = $em->getConnection();
+        $courses = $this->getContainer()->get('doctrine')->getManager()
+            ->getRepository('ClassCentralSiteBundle:Course')
+            ->findAll();
+        $reviewService = $this->getContainer()->get('review');
 
+        $fp = fopen("extras/courses.csv", "w");
 
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('user_id','user_id');
-        $rsm->addScalarResult('list_id','list_id');
-        $rsm->addScalarResult('course_id','course_id');
-        $rsm->addScalarResult('created','created');
-        $results = $em->createNativeQuery('SELECT user_id,course_id,list_id,created FROM users_courses', $rsm)->getResult();
-
-
-        $fp = fopen("extras/user_library.csv", "w");
-        foreach($results as $userCourse)
+        // Add a title line to the CSV
+        $title = array(
+            'Course Id',
+            'Course Name',
+            'Provider',
+            'Universities/Institutions',
+            'Parent Subject',
+            'Child Subject',
+            'Category',
+            'Url',
+            'Next Session Date',
+            'Length',
+            'Language',
+            'Video(Url)',
+            'Course Description',
+            'Credential Name',
+            'Created',
+            'Status',
+            'Avg. Rating',
+            'Bayesian Avg. Rating',
+            'Total Ratings'
+        );
+        fputcsv($fp,$title);
+        //$dt = new \DateTime('2016-07-31');
+        foreach($courses as $course)
         {
+            if($course->getStatus() != CourseStatus::AVAILABLE )
+            {
+                continue;
+            }
+//            if($course->getCreated() > $dt)
+//            {
+//                // continue;
+//            }
+            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
+            $ins = array();
+            foreach($course->getInstitutions() as $institution)
+            {
+                $ins[] = $institution->getName();
+            }
+
+            $nextSession = $course->getNextOffering();
+            $date = "";
+            $url = $course->getUrl();
+            if($nextSession)
+            {
+                $url = $nextSession->getUrl();
+                $date = $nextSession->getDisplayDate();
+            }
+
+            $subject = $course->getStream();
+            if($subject->getParentStream())
+            {
+                $parent = $subject->getParentStream()->getName();
+                $subject = $subject->getName();
+            }
+            else
+            {
+                $parent = $subject->getName();
+                $subject = "";
+            }
+
+            $language = 'English';
+            if($course->getLanguage())
+            {
+                $language = $course->getLanguage()->getName();
+            }
+
+            $credential = '';
+            if ( !$course->getCredentials()->isEmpty() )
+            {
+                $cred = $course->getCredentials()->first();
+                $credential = $cred->getName();
+            }
+
+            $created = null;
+            if ($course->getCreated())
+            {
+                $created = $course->getCreated()->format('Y-m-d');
+            }
+
+            $description = $course->getLongDescription();
+            if(!$description)
+            {
+                $description = $course->getDescription();
+            }
+
+            $status = '';
+            if( $course->getNextOffering() )
+            {
+                $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $course->getNextOffering() ));
+                if(!empty($states))
+                {
+                    $status = array_pop($states);
+                }
+            }
+
+            $ratings = $reviewService->calculateAverageRating($course->getId());
+            $rating = $ratings['rating'];
+            $totalRatings = $ratings['numRatings'];;
+            $bayesianRating = $reviewService->getBayesianAverageRating($course->getId());
+
             $line = array(
-                $userCourse['user_id'],
-                $userCourse['course_id'],
-                UserCourse::$lists[$userCourse['list_id']]['slug'],
-                $userCourse['created'],
+                $course->getId(),
+                $course->getName(),
+                $provider,
+                implode($ins,"|||"),
+                $parent,
+                $subject,
+                $course->getStream()->getName(),
+                $url,
+                $date,
+                $course->getLength(),
+                $language,
+                $course->getVideoIntro(),
+                $description,
+                $credential,
+                $created,
+                $status,
+                $rating,
+                $bayesianRating,
+                $totalRatings
             );
 
             fputcsv($fp,$line);
@@ -266,6 +372,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
         fclose($fp);
 
     }
+
 
     public function generateSessionsCSV()
     {
