@@ -340,7 +340,7 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
                 }
             }
 
-            $ratings = $reviewService->calculateAverageRating($course->getId());
+            $ratings = $reviewService->getRatingsAndCount($course->getId());
             $rating = $ratings['rating'];
             $totalRatings = $ratings['numRatings'];;
             $bayesianRating = $reviewService->getBayesianAverageRating($course->getId());
