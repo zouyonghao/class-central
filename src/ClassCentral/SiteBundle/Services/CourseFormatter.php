@@ -8,6 +8,7 @@
 
 namespace ClassCentral\SiteBundle\Services;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -46,6 +47,7 @@ class CourseFormatter {
 
         // LINE 1
         $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
+        $bookmarkUrl = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'follow'=>true));
         $name = $course->getName();
         $line1 = "<a href='$url'><b>$name</b></a>";
 
@@ -91,7 +93,7 @@ class CourseFormatter {
                 $formattedRatings = ReviewUtility::getRatingStars( $ratings );
                 $numRatings =  $reviews['ratingCount'];
                 $post = ($numRatings == 1) ? 'rating' : 'ratings';
-                $ratingsLine = " | $formattedRatings (<a href='$url#course-all-reviews'>$numRatings $post</a>) ";
+                $ratingsLine = " | $formattedRatings (<a href='$url#reviews'>$numRatings $post</a>) ";
             }
 
             $lineDesc = '';
@@ -105,11 +107,10 @@ class CourseFormatter {
             }
 
 
-
             $line3 = "<b> <a href='$directUrl' target='_blank'>Go To Class</a> $ratingsLine | Next Session : $displayDate </b><br/>";
         }
 
-        return $line1 . '<br/>' . $line2 . '<br/>' . $lineDesc.$line3 . '<br/>';
+        return $line1 . '<br/>' . $line2 . '<br/>' .$line3 . '<br/>';
     }
 
 
@@ -128,6 +129,31 @@ class CourseFormatter {
         $courseUrl = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
         $courseName = $course->getName();
 
+
+        $newCourse = false;
+        $oneMonthAgo = new \DateTime();
+        $oneMonthAgo->sub(new \DateInterval("P30D"));
+        // Check if its a new course - offered for the first time or added recently
+        if($course->getCreated() >= $oneMonthAgo)
+        {
+            $newCourse = true;
+        }
+
+        $offering = $course->getNextOffering();
+        if(count($course->getOfferings()) == 1 and $offering->getCreated() > $oneMonthAgo  )
+        {
+            $newCourse = true;
+        }
+        if(count($course->getOfferings()) == 1 and $offering->getStatus() != Offering::COURSE_OPEN )
+        {
+            $newCourse = true;
+        }
+
+        $newCourseTxt = '';
+        if($newCourse)
+        {
+            $newCourseTxt = '[New] ';
+        }
 
         // COLUMN 1 - FOLLOW
         $followUrl = $courseUrl . '?follow=true';
@@ -150,7 +176,7 @@ class CourseFormatter {
 
         $providerLine = "<i>$providerLine</i>";
 
-        $courseNameColumn = "<td><a href='$courseUrl'>$courseName</a><br/>$providerLine</td>";
+        $courseNameColumn = "<td><a href='$courseUrl'>{$newCourseTxt}$courseName</a><br/>$providerLine</td>";
 
         // COLUMN 3 - START DATE
         $nextOffering = CourseUtility::getNextSession($course);
@@ -184,8 +210,8 @@ class CourseFormatter {
     public function emailFormat (Course $course)
     {
         $router = $this->container->get('router');
-        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
+        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'newsletter_october','utm_medium' =>'email','utm_campaign'=>'cc_newsletter'));
 
-        return sprintf("<li><a href='%s'>%s</a></li>", $url, $course->getName());
+        return sprintf("<li><a href='%s'>%s</a></li> ", $url, $course->getName());
     }
 } 
