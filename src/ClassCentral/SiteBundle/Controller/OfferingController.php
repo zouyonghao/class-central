@@ -90,7 +90,7 @@ class OfferingController extends Controller
             }
 
         }
-        $form   = $this->createForm(new OfferingType(), $entity);
+        $form   = $this->createForm(new OfferingType($em), $entity);
 
         return $this->render('ClassCentralSiteBundle:Offering:new.html.twig', array(
             'entity' => $entity,
@@ -106,7 +106,7 @@ class OfferingController extends Controller
     {
         $entity  = new Offering();
         $request = $this->getRequest();
-        $form    = $this->createForm(new OfferingType(), $entity);
+        $form    = $this->createForm(new OfferingType($this->getDoctrine()->getManager()), $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {                      
@@ -142,7 +142,7 @@ class OfferingController extends Controller
             throw $this->createNotFoundException('Unable to find Offering entity.');
         }
 
-        $editForm = $this->createForm(new OfferingType(), $entity);
+        $editForm = $this->createForm(new OfferingType($em), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ClassCentralSiteBundle:Offering:edit.html.twig', array(
@@ -166,7 +166,7 @@ class OfferingController extends Controller
             throw $this->createNotFoundException('Unable to find Offering entity.');
         }
 
-        $editForm   = $this->createForm(new OfferingType(), $entity);
+        $editForm   = $this->createForm(new OfferingType($em), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
