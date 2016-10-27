@@ -76,3 +76,7 @@ course_image_upload:
 courses_all:
   pattern: /all
   defaults: { _controller: ClassCentralSiteBundle:Course:allCourses }
+
+course_autocomplete:
+  pattern: /autocomplete
+  defaults: { _controller: ClassCentralSiteBundle:Course:autoCompleteCourse }

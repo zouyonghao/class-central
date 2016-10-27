@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Form\CourseType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Email;
@@ -1578,6 +1579,33 @@ EOD;
                 'page'=>'cs_moocs',
                 'topics' => $topics
             ));
+    }
+
+    public function autoCompleteCourseAction(Request $request)
+    {
+        $names = array();
+        $term = trim(strip_tags($request->get('term')));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('ClassCentralSiteBundle:Course')->createQueryBuilder('c')
+            ->where('c.name LIKE :name')
+            ->setParameter('name', '%'.$term.'%')
+            ->getQuery()
+            ->getResult();
+
+        foreach ($entities as $entity)
+        {
+            $names[] = array(
+                'label' => $entity->getName(),
+                'value' => $entity->getId()
+            );
+        }
+
+        $response = new JsonResponse();
+        $response->setData($names);
+
+        return $response;
     }
 
 }

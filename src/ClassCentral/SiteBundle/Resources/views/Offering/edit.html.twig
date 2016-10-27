@@ -23,7 +23,9 @@
     </li>
     <li>
         <form action="{{ path('offering_delete', { 'id': entity.id }) }}" method="post">
+
             {{ form_widget(delete_form) }}
+
             <button type="submit">Delete</button>
         </form>
     </li>
@@ -32,17 +34,18 @@
 
 
 {%  block beforeClosingBody %}
-    {% javascripts '@ClassCentralSiteBundle/Resources/public/slashpixel/js/selectize.min.js' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 
-    {% stylesheets '@ClassCentralSiteBundle/Resources/public/slashpixel/css/selectize.bootstrap2.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/black-tie/jquery-ui.css" />
 {% endblock %}
 
 {% block customJS %}
     $(document).ready(function () {
-        $('#classcentral_sitebundle_offeringtype_course').selectize();
+        //$('#classcentral_sitebundle_offeringtype_course').selectize();
+
+        $( "#classcentral_sitebundle_offeringtype_course" ).autocomplete({
+        source: "{{ path('course_autocomplete') }}",
+        minLength: 2,
+        });
     });
 {% endblock %}
