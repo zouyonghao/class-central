@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Instructor;
 use ClassCentral\SiteBundle\Form\InstructorType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Instructor controller.
@@ -183,5 +185,38 @@ class InstructorController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    /**
+     * Only accessible to admins. moves the
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function autoCompleteInstructorAction(Request $request)
+    {
+        $names = array();
+        $term = trim(strip_tags($request->get('term')));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('ClassCentralSiteBundle:Instructor')->createQueryBuilder('i')
+            ->where('i.name LIKE :name')
+            ->setParameter('name', '%'.$term.'%')
+            ->getQuery()
+            ->setMaxResults(10)
+            ->getResult();
+
+        foreach ($entities as $entity)
+        {
+            $names[] = array(
+                'label' => $entity->getName(),
+                'value' => $entity->getId()
+            );
+        }
+
+        $response = new JsonResponse();
+        $response->setData($names);
+
+        return $response;
     }
 }
