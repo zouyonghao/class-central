@@ -1592,6 +1592,7 @@ EOD;
             ->where('c.name LIKE :name')
             ->setParameter('name', '%'.$term.'%')
             ->getQuery()
+            ->setMaxResults(10)
             ->getResult();
 
         foreach ($entities as $entity)

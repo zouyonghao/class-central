@@ -19,12 +19,21 @@ class OfferingType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {               
+        $entity = $builder->getData();
+
         $builder
             ->add('startDate')
             ->add('endDate')
             ->add('status','choice', array('choices'=> \ClassCentral\SiteBundle\Entity\Offering::getStatuses() ))
             ->add('course','text',array(
                 'invalid_message' => 'That is not a valid course id',
+                'label' =>'Course Id',
+                'read_only' => true,
+                'attr' => array('style' => 'color: #DCDAD1')
+            ))
+            ->add('course_search','text',array(
+                'label'=>'Course','data'=>$entity->getName(),'mapped'=>false,
+                'attr' => array('style' => 'width: 400px')
             ))
             //->add('name')
             ->add('shortName',null, array('required'=>false))
