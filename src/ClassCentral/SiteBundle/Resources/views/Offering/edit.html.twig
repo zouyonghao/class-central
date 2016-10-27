@@ -41,11 +41,14 @@
 
 {% block customJS %}
     $(document).ready(function () {
-        //$('#classcentral_sitebundle_offeringtype_course').selectize();
-
-        $( "#classcentral_sitebundle_offeringtype_course" ).autocomplete({
+        $( "#classcentral_sitebundle_offeringtype_course_search" ).autocomplete({
         source: "{{ path('course_autocomplete') }}",
         minLength: 2,
+        select: function(event, ui) {
+            event.preventDefault();
+            $("#classcentral_sitebundle_offeringtype_course").val(ui.item.value);
+            $("#classcentral_sitebundle_offeringtype_course_search").val(ui.item.label);
+        }
         });
     });
 {% endblock %}
