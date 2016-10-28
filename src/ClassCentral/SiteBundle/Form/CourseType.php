@@ -76,6 +76,7 @@ class CourseType extends AbstractType {
                     'required'=>false, 'mapped'=>false,
                     'data' => implode(', ',$instructors),
                     'attr' => array('style' => 'width: 400px'),
+                    'required'=>false
 
                 ))
                 ->add('careers', null, array(
