@@ -28,3 +28,7 @@ instructor_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ClassCentralSiteBundle:Instructor:delete" }
     requirements: { _method: post }
+
+instructor_autocomplete:
+  pattern: /autocomplete
+  defaults: { _controller: ClassCentralSiteBundle:Instructor:autoCompleteInstructor }
