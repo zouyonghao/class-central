@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Form;
 
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,13 +15,22 @@ class CourseType extends AbstractType {
      * If true does not show fields like instructors, institutions, tags, to load faster
      * @var bool
      */
-    private $lite;
-    public function __construct($lite = false)
+    private $lite = false;
+    private $manager;
+
+    public function __construct(ObjectManager $manager)
     {
-        $this->lite = $lite;
+        $this->manager = $manager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+
+        $entity = $builder->getData();
+        $instructors = array();
+        foreach($entity->getInstructors() as $ins)
+        {
+            $instructors[] = $ins->getName();
+        }
 
         $builder
             ->add('name')
@@ -46,8 +56,7 @@ class CourseType extends AbstractType {
                     return $er->createQueryBuilder('i')->orderBy('i.name','ASC');
                 }
              ));
-        if(!$this->lite)
-        {
+
             $builder->add('institutions', null, array(
                 'required'=>false,
                 'empty_value'=>true,
@@ -56,14 +65,19 @@ class CourseType extends AbstractType {
                     return $er->createQueryBuilder('i')->orderBy('i.name','ASC');
                 }
             ))
-                ->add('instructors', null, array(
+                ->add('instructors', 'text', array(
                 'required'=>false,
-                'empty_value'=>true,
-                'class' => 'ClassCentralSiteBundle:Instructor',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('i')->orderBy('i.id','DESC');
-                }
+                'label' =>'Instructor Ids',
+                'read_only' => true,
+                'attr' => array('style' => 'color: #DCDAD1')
+
             ))
+                ->add('instructors_search', 'text', array(
+                    'required'=>false, 'mapped'=>false,
+                    'data' => implode(', ',$instructors),
+                    'attr' => array('style' => 'width: 400px'),
+
+                ))
                 ->add('careers', null, array(
                     'required'=>false,
                     'empty_value'=>true,
@@ -73,7 +87,7 @@ class CourseType extends AbstractType {
                     }
                 ))
             ;
-        }
+
 
         $builder->add('language',null,array('required'=>false,'empty_value' => true))
             ->add('url')
@@ -92,7 +106,9 @@ class CourseType extends AbstractType {
             ->add('thumbnail')
             ->add('interview')
         ;
-       
+
+        $builder->get('instructors')
+            ->addModelTransformer(new InstructorIdToNameTransformer($this->manager));
       
     }
 

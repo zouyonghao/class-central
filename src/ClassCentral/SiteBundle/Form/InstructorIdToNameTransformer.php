@@ -9,9 +9,12 @@
 namespace ClassCentral\SiteBundle\Form;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
-class InstructorIdToNameTransformer
+class InstructorIdToNameTransformer implements DataTransformerInterface
 {
     private $manager;
 
@@ -20,34 +23,47 @@ class InstructorIdToNameTransformer
         $this->manager = $manager;
     }
 
-    public function transform($instructor)
+    public function transform($instructors)
     {
-        if(null == $instructor)
+        if(null == $instructors)
         {
             return '';
         }
 
-        return $instructor->getId();
+        $ids = array();
+        foreach($instructors as $ins)
+        {
+            $ids[] = $ins->getId();
+        }
+
+        $ids = implode(",", $ids);
+
+        return $ids;
     }
 
 
-    public function reverseTransform($id)
+    public function reverseTransform($ids)
     {
-        if( !$id )
-        {
-            return ;
+        if ('' === $ids || null === $ids) {
+            return array();
         }
 
-        $instructor = $this->manager->getRepository('ClassCentralSiteBundle:Instructor')->find($id);
+        if (!is_string($ids)) {
+            throw new UnexpectedTypeException($ids, 'string');
+        }
 
-        if(null === $instructor)
+        $idsArray = explode(",", $ids);
+        $idsArray = array_filter ($idsArray, 'is_numeric');
+        $instructors = $this->manager->getRepository('ClassCentralSiteBundle:Instructor')->findById($idsArray);
+
+        if(null === $instructors)
         {
             throw new TransformationFailedException(
-                "Instructor with $id does not exit"
+                "Instructor with $ids does not exit"
             );
         }
 
-        return $instructor;
+        return $instructors;
     }
 
 }

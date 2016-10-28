@@ -106,7 +106,7 @@ class CourseController extends Controller
     {
         $ts = $this->get('tag'); // tag service
         $entity = new Course();
-        $form   = $this->createForm(new CourseType(), $entity);
+        $form   = $this->createForm(new CourseType($this->getDoctrine()->getManager()), $entity);
 
         return $this->render('ClassCentralSiteBundle:Course:new.html.twig', array(
             'entity' => $entity,
@@ -124,7 +124,7 @@ class CourseController extends Controller
         $ts = $this->get('tag'); // tag service
         $entity  = new Course();
         $request = $this->getRequest();
-        $form    = $this->createForm(new CourseType(), $entity);
+        $form    = $this->createForm(new CourseType($this->getDoctrine()->getManager()), $entity);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $entity->setLongDescription( $this->replaceHtmlTags( $entity->getLongDescription() ));
@@ -213,7 +213,7 @@ class CourseController extends Controller
             $ct[] = $tag->getName();
         }
 
-        $editForm = $this->createForm(new CourseType($lite), $entity);
+        $editForm = $this->createForm(new CourseType($em), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $tags = array();
@@ -247,7 +247,7 @@ class CourseController extends Controller
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
 
-        $editForm   = $this->createForm(new CourseType(), $entity);
+        $editForm   = $this->createForm(new CourseType($em), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
