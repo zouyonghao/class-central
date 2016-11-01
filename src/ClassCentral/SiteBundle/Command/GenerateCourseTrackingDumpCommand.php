@@ -40,7 +40,9 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
 
         //$this->generateCoursesCSV();
 
-        $this->generateUserCoursesCSV();
+        //$this->generateUserCoursesCSV();4
+
+        $this->generateReviews();
 
         //$this->generateSessionsCSV();
 
@@ -449,6 +451,44 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
                 $ins['name'],
                 $ins['count'],
                 $ins['slug']
+            ));
+        }
+    }
+
+
+    public function generateReviews()
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $reviews = $em->getRepository('ClassCentralSiteBundle:Review')->findAll();
+        $fp = fopen("extras/reviews.csv", "w");
+        fputcsv($fp,array(
+            "id",
+            "Course Id",
+            "Course Name",
+            "Course Provider",
+            "rating",
+            "review",
+            "created"
+        ));
+
+
+        foreach($reviews as $review)
+        {
+            $course = $review->getCourse();
+            $provider = 'Independent';
+            if($course->getInitiative())
+            {
+                $provider = $course->getInitiative()->getName();
+            }
+
+            fputcsv($fp,array(
+               $review->getId(),
+                $course->getId(),
+                $course->getName(),
+                $provider,
+                $review->getRating(),
+                $review->getReview(),
+                $review->getCreated()->format('Y-m-d')
             ));
         }
     }
