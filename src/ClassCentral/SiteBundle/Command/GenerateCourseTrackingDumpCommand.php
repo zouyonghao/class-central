@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Command;
 
 
 use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -474,6 +475,11 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
 
         foreach($reviews as $review)
         {
+            if($review->getStatus() >= Review::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND)
+            {
+                continue;
+            }
+
             $course = $review->getCourse();
             $provider = 'Independent';
             if($course->getInitiative())
