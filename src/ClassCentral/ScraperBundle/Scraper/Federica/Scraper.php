@@ -203,6 +203,7 @@ class Scraper extends ScraperAbstractInterface
         $course->setStream($defaultStream); // Default to Computer Science
         $course->setUrl($c['link']);
 
+        $course->addInstitution($this->dbHelper->getInstitutionBySlug('university-of-naples'));
 
         return $course;
     }
