@@ -4,6 +4,7 @@ namespace ClassCentral\ScraperBundle\Scraper\Federica;
 
 use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Offering;
 
 class Scraper extends ScraperAbstractInterface
 {
@@ -32,6 +33,7 @@ class Scraper extends ScraperAbstractInterface
         foreach($fCourses['channel']['item'] as $fCourse)
         {
 
+            $courseChanged = false;
             $course =  $this->getCourseEntity( $fCourse );
             $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
 
@@ -114,6 +116,70 @@ class Scraper extends ScraperAbstractInterface
 
                 $course = $dbCourse;
             }
+
+            /***************************
+             * CREATE OR UPDATE OFFERING
+             ***************************/
+            $offering = $this->getOfferingEntity( $fCourse, $course);
+            $dbOffering = $this->dbHelper->getOfferingByShortName( $offering->getShortName() );
+
+            if (!$dbOffering)
+            {
+                if($this->doCreate())
+                {
+                    $this->out("NEW OFFERING - " . $offering->getName());
+                    if ($this->doModify())
+                    {
+                        $em->persist($offering);
+                        $em->flush();
+                    }
+
+                    $this->dbHelper->sendNewOfferingToSlack( $offering);
+                    $offerings[] = $offering;
+                    $courseChanged = true;
+                }
+            }
+            else
+            {
+                // old offering. Check if has been modified or not
+                $offeringModified = false;
+                $changedFields = array();
+                foreach ($this->offeringFields as $field)
+                {
+                    $getter = 'get' . $field;
+                    $setter = 'set' . $field;
+                    if ($offering->$getter() != $dbOffering->$getter())
+                    {
+                        $offeringModified = true;
+                        // Add the changed field to the changedFields array
+                        $changed = array();
+                        $changed['field'] = $field;
+                        $changed['old'] =$dbOffering->$getter();
+                        $changed['new'] = $offering->$getter();
+                        $changedFields[] = $changed;
+                        $dbOffering->$setter($offering->$getter());
+                    }
+                }
+
+                if ($offeringModified && $this->doUpdate())
+                {
+                    // Offering has been modified
+                    $this->out("UPDATE OFFERING - " . $dbOffering->getName());
+                    $this->dbHelper->outputChangedFields($changedFields);
+                    if ($this->doModify())
+                    {
+                        $em->persist($dbOffering);
+                        $em->flush();
+                    }
+                    $offerings[] = $dbOffering;
+                    $courseChanged = true;
+                }
+            }
+
+            if( $courseChanged )
+            {
+                $coursesChanged[] = $course;
+            }
         }
     }
 
@@ -125,7 +191,6 @@ class Scraper extends ScraperAbstractInterface
         if( !empty($c['feu-language']) && $c['feu-language']=='en' )
         {
             $defaultLanguage = $langMap[ 'English' ];
-            echo "English";
         }
 
         $course = new Course();
@@ -140,7 +205,32 @@ class Scraper extends ScraperAbstractInterface
 
 
         return $course;
+    }
 
+
+    private function getOfferingEntity ($fCourse, $course)
+    {
+        $offering = new Offering();
+        $offering->setShortName( 'federica_'. $fCourse['feu-unique_id'].'_'. $fCourse['feu-start_date']);
+        $offering->setCourse( $course );
+        $offering->setUrl( $course->getUrl() );
+
+        $startDate = new \DateTime($fCourse['feu-start_date']);
+        $endDate = new \DateTime($fCourse['feu-end_date']);
+        $offering->setStartDate( $startDate );
+        $offering->setEndDate( $endDate );
+        $offering->setStatus( Offering::START_DATES_KNOWN );
+
+        $dt = new \DateTime('2016-01-01');
+        if($startDate < $dt)
+        {
+            // Courses with no start date
+            $offering->setStartDate( new \DateTime('2019-01-01') );
+            $offering->setEndDate(  new \DateTime('2019-01-06') );
+            $offering->setStatus( Offering::START_DATES_UNKNOWN );
+        }
+
+        return $offering;
     }
 
 }
