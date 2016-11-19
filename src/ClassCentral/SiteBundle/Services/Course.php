@@ -9,12 +9,15 @@
 namespace ClassCentral\SiteBundle\Services;
 
 
+use Guzzle\Http\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use ClassCentral\SiteBundle\Entity\Course as CourseEntity;
 
 class Course
 {
     private $container;
+
+    public static $UDEMY_API_URL = 'https://www.udemy.com/api-2.0';
 
     public function __construct(ContainerInterface $container)
     {
@@ -170,5 +173,31 @@ class Course
             }
         }
         return false;
+    }
+
+    /**
+     * Get Udemy courses
+     * $options contains fields mentioned here: https://www.udemy.com/developers/methods/get-courses-list/
+     * @param $courses
+     */
+    public function getUdemyCourses($options = array())
+    {
+        $client = new Client();
+        $clientId = $this->container->getParameter('udemy_client_id');
+        $clientSecret = $this->container->getParameter('udemy_client_secret');
+        $credentials = base64_encode("$clientId:$clientSecret");
+        $query = http_build_query($options);
+        $request =  $client->get(self::$UDEMY_API_URL . '/courses?'. $query, [
+            'Authorization' => ['Basic '.$credentials]
+        ]);
+
+        $response = $request->send();
+
+        if($response->getStatusCode() !== 200)
+        {
+            return array();
+        }
+
+        return json_decode($response->getBody(true),true);
     }
 }

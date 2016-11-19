@@ -101,3 +101,5 @@ parameters:
     segment_write_key: ~
 
     coursera_url: ~
+    udemy_client_id: ~
+    udemy_client_secret: ~
