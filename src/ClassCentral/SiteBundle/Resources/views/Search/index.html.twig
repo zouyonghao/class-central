@@ -24,6 +24,23 @@
                  ga('send','event', 'Search Feedback' , feedback, '{{keywords}}' );
             } catch(err){}
         });
+
+        var keywords = '{{keywords}}';
+        totalCourses = {{ results.hits.total }};
+        $.ajax({
+            type: "get",
+            url: "{{ path('maestro_udemy_courses',{'term':keywords|url_encode}) }}"
+        })
+        .done(
+            function(result){
+                result = JSON.parse(result);
+                if(result.success) {
+                    udemy = result;
+                    $('#course-listing-tbody').append(result.tableRows);
+                }
+            }
+        );
+
      });    
 {% endblock %}
     
@@ -92,4 +109,4 @@
 
     {% render controller("ClassCentralSiteBundle:User:createSignupModal", { src: 'mooc_tracker_search_terms', options:{}}) %}
 {% endblock %}  
-        
+

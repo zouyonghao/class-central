@@ -1609,4 +1609,35 @@ EOD;
         return $response;
     }
 
+    public function getUdemyCoursesTableHtmlAction(Request $request)
+    {
+        $term = $request->query->get('term');
+
+        $response = array(
+            'success' => false,
+            'tableRows' => array(),
+        );
+
+        if(!empty($term))
+        {
+            $courseService = $this->get('course');
+            $udemyCourses = $courseService->getUdemyCourses(array('search'=>$term,'page_size'=>5));
+            if(!empty($udemyCourses))
+            {
+
+                $courseTableRows = $this->render('ClassCentralSiteBundle:Course:udemy.courses.html.twig',array(
+                    'udemyCourses' => $udemyCourses
+                ))->getContent();
+
+                $response = array(
+                    'tableRows' => $courseTableRows,
+                    'success' => true
+                );
+
+            }
+        }
+
+        return new Response( json_encode($response) );
+    }
+
 }

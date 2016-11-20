@@ -402,6 +402,10 @@ maestro_collection:
   pattern: /maestro/collection/{slug}
   defaults: {_controller: ClassCentralSiteBundle:Maestro:collection}
 
+maestro_udemy_courses:
+  pattern: /maestro/udemy
+  defaults: {_controller: ClassCentralSiteBundle:Course:getUdemyCoursesTableHtml}
+
 user_profile_dummy:
   pattern: /profile
   defaults: {_controller: ClassCentralSiteBundle:User:profile }
