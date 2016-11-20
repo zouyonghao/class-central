@@ -302,6 +302,45 @@ CC.Class['Signup'] = (function(){
         }
     }
 
+    function showOnboardingFollowCoursesStep()
+    {
+        var url = '/user/onboarding/follow-courses';
+        ga('send','event','Onboarding Nav', 'Follow Courses','Shown');
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function( result ) {
+                var response = $.parseJSON(result);
+                $(response.modal).appendTo("body");
+
+                // updateFollowInstitutionsModalFooter();
+                $("#onboarding-follow-courses-modal").modal("show");
+                //$("#onboarding-follow-courses-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowInstitutionsModalFooter);
+
+                // Init and attach event handlers to the follow buttons
+                CC.Class['Follow'].init();
+
+                //$('#onboarding-follow-institutions__next').click(function(){
+                //    ga('send','event','Onboarding Nav', 'Follow Institutions','Next');
+                //    onboardingFollowInstitutionsNextStepButton();
+                //});
+                //
+                //$('#onboarding-follow-institutions__skip').click(function(){
+                //    ga('send','event','Onboarding Nav', 'Follow Institutions','Skip');
+                //    onboardingFollowInstitutionsNextStepButton();
+                //});
+                //
+                //$('#onboarding-follow-institutions__back').click(function(){
+                //    ga('send','event','Onboarding Nav', 'Follow Institutions','Back');
+                //    onboardingFollowInstitutionsBackStepButton();
+                //});
+
+                $('[data-toggle="tooltip"]').tooltip(); // load the tooltips
+            },
+            async: false
+        })
+    }
+
     function showSignupPrompt(delay){
         var promptShownCookie = 'signup_prompt';
         if ( Cookies.get( promptShownCookie) === undefined ) {
@@ -333,6 +372,7 @@ CC.Class['Signup'] = (function(){
         'profileOnboarding' : showOnboardingProfileStep,
         'followSubjectOnboarding' : showOnboardingFollowSubjectStep,
         'followInstitutionOnboarding' : showOnboardingFollowInstitutionsStep,
+        'followCourseOnboarding':showOnboardingFollowCoursesStep,
         'showSignupPrompt' : showSignupPrompt
     }
 })();

@@ -11,6 +11,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Profile;
+use ClassCentral\SiteBundle\Services\Filter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,6 +96,41 @@ class OnboardingController extends Controller
                 'followProviderItem' => Item::ITEM_TYPE_PROVIDER,
                 'institutions' => $insData['institutions'],
                 'providers' => $providersData['providers'],
+            ))
+            ->getContent();
+
+        $response = array(
+            'modal' => $html,
+        );
+
+        return new Response( json_encode($response) );
+    }
+
+    public function stepFollowCoursesAction(Request $request)
+    {
+        $user = $this->getUser();
+        $cl = $this->get('course_listing');
+
+        // Top 250 Courses
+        $finder = $this->container->get('course_finder');
+        // Find the top 250 courses.
+        $sort = array();
+        $sort[] = array(
+            'ratingSort' => array(
+                'order' => 'desc'
+            )
+        );
+        $filters = array(
+            'session' => 'upcoming,selfpaced,recent'
+        );
+
+        $results = $finder->byLanguage( 'english', Filter::getQueryFilters( $filters), $sort,-1 );
+
+        $html = $this->render('ClassCentralSiteBundle:Onboarding:followCourses.html.twig',
+            array(
+                'user' => $user,
+                'followCourseItem' => Item::ITEM_TYPE_COURSE,
+                'courses' => $results,
             ))
             ->getContent();
 
