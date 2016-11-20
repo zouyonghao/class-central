@@ -14,7 +14,28 @@
     {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
         { 'pageNo': pageNo, 'totalCourses': results.hits.total }
     %}
-{% endblock %}  
+{% endblock %}
+
+
+{% block customJS %}
+    $(document).ready(function(){
+     
+        $.ajax({
+            type: "get",
+            url: "{{ path('maestro_udemy_courses',{'term':tag|url_encode}) }}"
+        })
+        .done(
+            function(result){
+                result = JSON.parse(result);
+                if(result.success) {
+                    udemy = result;
+                    $('#course-listing-tbody').append(result.tableRows);
+                }
+            }
+        );
+
+     });
+{% endblock %}
 
 {%  block content %}
 
