@@ -23,24 +23,46 @@ class FollowController extends Controller
     {
         $followService = $this->get('follow');
         $userSession = $this->get('user_session');
+        $userService = $this->get('user_service');
 
         $user = $this->get('security.context')->getToken()->getUser();
         if($user)
         {
-            $f = $followService->followUsingItemInfo($user,$item,$itemId);
-            if($f)
+            // If $item is course then its marked as interested
+            if($item == Item::ITEM_TYPE_COURSE)
             {
-                // Update User Session
-                $userSession->saveFollowInformation($user);
-                return UniversalHelper::getAjaxResponse(true,array(
-                    'followCount' => count( $user->getFollows() )
-                ));
+                $course = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Course')->find($itemId);
+                if($course)
+                {
+
+                    $userService->addCourse($user,$course,UserCourse::LIST_TYPE_INTERESTED);
+                    $userSession->saveUserInformationInSession(); // Update the session
+
+                    return UniversalHelper::getAjaxResponse(true,array(
+                        'followCount' => count( $user->getFollows() )
+                    ));
+
+                }
+
+                return UniversalHelper::getAjaxResponse (false, "Follow Failed");
+
             }
             else
             {
-                return UniversalHelper::getAjaxResponse (false, "Follow Failed");
+                $f = $followService->followUsingItemInfo($user,$item,$itemId);
+                if($f)
+                {
+                    // Update User Session
+                    $userSession->saveFollowInformation($user);
+                    return UniversalHelper::getAjaxResponse(true,array(
+                        'followCount' => count( $user->getFollows() )
+                    ));
+                }
+                else
+                {
+                    return UniversalHelper::getAjaxResponse (false, "Follow Failed");
+                }
             }
-
         }
         else
         {
@@ -53,22 +75,43 @@ class FollowController extends Controller
     {
         $followService = $this->get('follow');
         $userSession = $this->get('user_session');
+        $userService = $this->get('user_service');
 
         $user = $this->get('security.context')->getToken()->getUser();
         if($user)
         {
-            $f = $followService->unFollowUsingItemInfo($user,$item,$itemId);
-            if($f)
+            if($item == Item::ITEM_TYPE_COURSE)
             {
-                // Update User Session
-                $userSession->saveFollowInformation($user);
-                return UniversalHelper::getAjaxResponse(true);
+                $course = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Course')->find($itemId);
+                if($course)
+                {
+
+                    $userService->removeCourse($user,$course,UserCourse::LIST_TYPE_INTERESTED);
+                    $userSession->saveUserInformationInSession(); // Update the session
+
+                    return UniversalHelper::getAjaxResponse(true,array(
+                        'followCount' => count( $user->getFollows() )
+                    ));
+
+                }
+
+                return UniversalHelper::getAjaxResponse (false, "Follow Failed");
+
             }
             else
             {
-                return UniversalHelper::getAjaxResponse (false, "Unfollowing Failed");
+                $f = $followService->unFollowUsingItemInfo($user,$item,$itemId);
+                if($f)
+                {
+                    // Update User Session
+                    $userSession->saveFollowInformation($user);
+                    return UniversalHelper::getAjaxResponse(true);
+                }
+                else
+                {
+                    return UniversalHelper::getAjaxResponse (false, "Unfollowing Failed");
+                }
             }
-
         }
         else
         {

@@ -485,6 +485,10 @@ onboarding_follow_institutions:
   pattern: /user/onboarding/follow-institutions
   defaults: { _controller: ClassCentralSiteBundle:Onboarding:stepFollowInstitutions }
 
+onboarding_follow_courses:
+  pattern: /user/onboarding/follow-courses
+  defaults: { _controller: ClassCentralSiteBundle:Onboarding:stepFollowCourses }
+
 next_course_pick_subjects:
   pattern: /next-course/pick-subjects
   defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:stepPickSubjects }

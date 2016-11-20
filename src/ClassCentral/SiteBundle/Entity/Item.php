@@ -31,12 +31,13 @@ class Item
     const ITEM_TYPE_CAREER = 'career';
     const ITEM_TYPE_LANGUAGE = 'language';
     const ITEM_TYPE_COLLECTION = 'collection';
+    const ITEM_TYPE_COURSE = 'course';
 
 
     public static $items = array(
         self::ITEM_TYPE_CREDENTIAL, self::ITEM_TYPE_SUBJECT, self::ITEM_TYPE_INSTITUTION,
         self::ITEM_TYPE_PROVIDER, self::ITEM_TYPE_TAG, self::ITEM_TYPE_CAREER,
-        self::ITEM_TYPE_LANGUAGE,self::ITEM_TYPE_COLLECTION
+        self::ITEM_TYPE_LANGUAGE,self::ITEM_TYPE_COLLECTION,self::ITEM_TYPE_COURSE
     );
 
     private function __construct()
@@ -77,6 +78,9 @@ class Item
             case self::ITEM_TYPE_COLLECTION:
                 $repository = 'ClassCentralSiteBundle:Collection';
                 break;
+            case self::ITEM_TYPE_COURSE:
+                $repository = 'ClassCentralSiteBundle:Course';
+                break;
             default:
                 throw new \Exception("Item does not exist");
         }
@@ -115,6 +119,9 @@ class Item
                 break;
             case $obj instanceof Collection:
                 $item->setType(self::ITEM_TYPE_COLLECTION);
+                break;
+            case $obj instanceof Course:
+                $item->setType(self::ITEM_TYPE_COURSE);
                 break;
             default:
                 throw new \Exception("Item does not exist");

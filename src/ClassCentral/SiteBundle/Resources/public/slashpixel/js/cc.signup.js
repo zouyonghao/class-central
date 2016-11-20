@@ -96,7 +96,7 @@ CC.Class['Signup'] = (function(){
     function onboardingProfileUpdateBackStepButton() {
         $("#onboarding-profile-modal").modal("hide") // hide the modal
         $("#onboarding-profile-modal").remove();
-        showOnboardingFollowInstitutionsStep(); // show the previous modal
+        showOnboardingFollowCoursesStep(); // show the previous modal
     }
 
     function updateProfileProgress() {
@@ -214,7 +214,7 @@ CC.Class['Signup'] = (function(){
 
         if(numFollows >= 5) {
             $(nextButton).addClass('active');
-            $(nextButton).find("span").text('Pick more subjects or move on to Step 2 (of 3)');
+            $(nextButton).find("span").text('Pick more subjects or move on to Step 2 (of 4)');
         } else {
             var followsLeft = 5 - numFollows;
             $(nextButton).removeClass('active');
@@ -271,7 +271,7 @@ CC.Class['Signup'] = (function(){
     function onboardingFollowInstitutionsNextStepButton() {
         $("#onboarding-follow-institutions-modal").modal("hide"); // hide the modal
         $("#onboarding-follow-institutions-modal").remove();
-        showOnboardingProfileStep(); // show the next step
+        showOnboardingFollowCoursesStep(); // show the next step
     }
 
     function onboardingFollowInstitutionsBackStepButton() {
@@ -290,7 +290,7 @@ CC.Class['Signup'] = (function(){
 
         if(numFollows >= 5) {
             $(nextButton).addClass('active');
-            $(nextButton).find("span").text('Pick more providers or move on to the last step');
+            $(nextButton).find("span").text('Pick more providers or move on to the next step');
         } else {
             var followsLeft = 5 - numFollows;
             $(nextButton).removeClass('active');
@@ -300,6 +300,60 @@ CC.Class['Signup'] = (function(){
                 $(nextButton).find("span").text('Pick ' + followsLeft + ' more providers to unlock recommendations');
             }
         }
+    }
+
+    function showOnboardingFollowCoursesStep()
+    {
+        var url = '/user/onboarding/follow-courses';
+        ga('send','event','Onboarding Nav', 'Follow Courses','Shown');
+        $.ajax({
+            url: url,
+            cache: false,
+            success: function( result ) {
+                var response = $.parseJSON(result);
+                $(response.modal).appendTo("body");
+
+                // updateFollowInstitutionsModalFooter();
+                $("#onboarding-follow-courses-modal").modal("show");
+                //$("#onboarding-follow-courses-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowInstitutionsModalFooter);
+
+                // Init and attach event handlers to the follow buttons
+                CC.Class['Follow'].init();
+
+                $('#onboarding-follow-courses__next').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Courses','Next');
+                    onboardingFollowCoursesNextStepButton();
+                });
+
+                $('#onboarding-follow-courses__skip').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Courses','Skip');
+                    onboardingFollowCoursesNextStepButton();
+                });
+
+                $('#onboarding-follow-courses__back').click(function(){
+                    ga('send','event','Onboarding Nav', 'Follow Courses','Back');
+                    onboardingFollowCoursesBackStepButton();
+                });
+
+                $('[data-toggle="tooltip"]').tooltip(); // load the tooltips
+            },
+            async: false
+        })
+    }
+
+    /**
+     * When the next/skip button is clicked on the follow courses onboarding modal
+     */
+    function onboardingFollowCoursesNextStepButton() {
+        $("#onboarding-follow-courses-modal").modal("hide"); // hide the modal
+        $("#onboarding-follow-courses-modal").remove();
+        showOnboardingProfileStep(); // show the next step
+    }
+
+    function onboardingFollowCoursesBackStepButton() {
+        $("#onboarding-follow-courses-modal").modal("hide"); // hide the modal
+        $("#onboarding-follow-courses-modal").remove();
+        showOnboardingFollowInstitutionsStep(); // show the next step
     }
 
     function showSignupPrompt(delay){
@@ -333,6 +387,7 @@ CC.Class['Signup'] = (function(){
         'profileOnboarding' : showOnboardingProfileStep,
         'followSubjectOnboarding' : showOnboardingFollowSubjectStep,
         'followInstitutionOnboarding' : showOnboardingFollowInstitutionsStep,
+        'followCourseOnboarding':showOnboardingFollowCoursesStep,
         'showSignupPrompt' : showSignupPrompt
     }
 })();
