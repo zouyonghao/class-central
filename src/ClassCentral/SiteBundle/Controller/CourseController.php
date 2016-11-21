@@ -1612,6 +1612,7 @@ EOD;
     public function getUdemyCoursesTableHtmlAction(Request $request)
     {
         $term = $request->query->get('term');
+        $cache = $this->get('cache');
 
         $response = array(
             'success' => false,
@@ -1621,7 +1622,7 @@ EOD;
         if(!empty($term))
         {
             $courseService = $this->get('course');
-            $udemyCourses = $courseService->getUdemyCourses(array('search'=>$term,'page_size'=>5));
+            $udemyCourses = $cache->get('udemy_courses_'.$term,array($courseService,'getUdemyCourses'),array(array('search'=>$term,'page_size'=>5)));
             if(!empty($udemyCourses))
             {
 
