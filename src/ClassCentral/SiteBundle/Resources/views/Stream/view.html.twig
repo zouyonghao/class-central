@@ -28,6 +28,32 @@
 
 {% endblock %}
 
+
+{% block customJS %}
+    $(document).ready(function(){
+        var skipSubjects = ['Political Science','Law','Theoretical Computer Science','Science','Environmental Science','Course Development',
+            'Test Prep','K12','Visual Arts'
+        ];
+        if($.inArray("{{ subject.name }}",skipSubjects) == -1)
+        {
+            $.ajax({
+                type: "get",
+                url: "{{ path('maestro_udemy_courses',{'term':subject.name|url_encode}) }}"
+            })
+            .done(
+                function(result){
+                    result = JSON.parse(result);
+                    if(result.success) {
+                        udemy = result;
+                        $('#course-listing-tbody').append(result.tableRows);
+                    }
+                }
+            );
+        }
+
+     });
+{% endblock %}
+
 {%  block content %}
 
     {% include 'ClassCentralSiteBundle:Helpers:pageHeader.html.twig' with {'info':pageInfo} %}
