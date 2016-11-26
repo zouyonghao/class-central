@@ -16,6 +16,27 @@
                         <div class="on-modal-body__tags">
                             <div class="on-modal-body__tagswrap js-custom-scrollbar">
                                 <div class="tagboard">
+
+                                    {% for result in interestingCourses.hits.hits %}
+                                        {% set course = result._source %}
+                                        {% set userListIds = user_session.getCourseListIds(course.id) %}
+                                        {% set followed = true %}
+                                        {% if userListIds is empty %}
+                                            {% set followed = false %}
+                                        {% endif %}
+
+                                        {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                                            item : followCourseItem,
+                                            item_id : course.id,
+                                            itemName: course.name,
+                                            followed: followed,
+                                            simpleButton: true,
+                                            hideNotification: true
+                                            }
+                                        %}
+
+                                    {% endfor %}
+
                                     {% for result in courses.hits.hits %}
                                         {% set course = result._source %}
                                         {% set userListIds = user_session.getCourseListIds(course.id) %}
