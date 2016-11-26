@@ -358,7 +358,7 @@ CC.Class['Signup'] = (function(){
 
     function showSignupPrompt(delay){
         var promptShownCookie = 'signup_prompt';
-        if ( Cookies.get( promptShownCookie) === undefined ) {
+        if ( !isMobile.phone && Cookies.get( promptShownCookie) === undefined ) {
             $.ajax({
                 url: "/ajax/isLoggedIn",
                 cache: true
