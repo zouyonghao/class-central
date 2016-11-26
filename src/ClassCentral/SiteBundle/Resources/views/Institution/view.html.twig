@@ -37,6 +37,14 @@
     {% include 'ClassCentralSiteBundle:Helpers:pageHeader.html.twig' with {'info':pageInfo} %}
 
     <div class="header-follow-button ui-theme-light" style="display: inline-block; background-color: transparent;" >
+        <div class="headerIntro_buttons js-tour-point" id="tour-follow-btn" data-step-nr="0" style="float: right" >
+            <a href="#" class="pulseCircle" >
+                <div class="pulseCircle_dot"></div>
+                <div class="pulseCircle_pulse"></div>
+            </a>
+            <span class="headerIntro_buttonSub headerIntro_buttonSub-larger"></span>
+        </div>
+        
         {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
         item : followItem,
         item_id : followItemId,

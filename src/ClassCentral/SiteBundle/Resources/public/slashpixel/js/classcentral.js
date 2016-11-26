@@ -1386,6 +1386,27 @@ jQuery(function($) {
         ]
     };
 
+    // Create a tour for follow buttons.
+
+    var tourFollowBtn = {
+        id: "tour-follow-btn",
+        i18n: {
+            closeTooltip: "Close",
+            nextBtn: 'Next tip'
+        },
+        steps: [
+            {
+                title: "Follow on Class Central",
+                content: "Click the Follow button to receive updates when new courses are added",
+                target: document.querySelector("#tour-follow-btn"),
+                width: 250,
+                placement: "right",
+                showCloseButton: true
+            },
+        ]
+    };
+
+    var initTourPoints = function (tour) {
 
         $('.js-tour-point').on('click', function (e) {
             e.preventDefault();
@@ -1403,6 +1424,7 @@ jQuery(function($) {
     };
 
     initTourPoints(tour);
+    initTourPoints(tourFollowBtn);
 
     /**
      * End Tour
