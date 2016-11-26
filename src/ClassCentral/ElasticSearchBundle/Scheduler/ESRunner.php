@@ -89,7 +89,7 @@ class ESRunner {
         $logger->info("RUNNER: $totalJobs jobs found");
         $statuses = array(); // Array of status of all jobs
         $count = 0;
-        //$start = microtime(true);
+        $start = microtime(true);
 
         while($totalJobs)
         {
@@ -115,9 +115,9 @@ class ESRunner {
 
             $em->flush();
             $em->clear();
-//            $time_elapsed_secs = microtime(true) - $start;
-//            echo "Took $time_elapsed_secs seconds \n";
-//            $start = microtime(true);
+            $time_elapsed_secs = microtime(true) - $start;
+            echo "Took $time_elapsed_secs seconds \n";
+            $start = microtime(true);
 
             $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type, 100 );
             $totalJobs = $results['hits']['total'];

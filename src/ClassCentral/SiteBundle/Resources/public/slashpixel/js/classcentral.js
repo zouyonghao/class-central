@@ -1265,6 +1265,7 @@ jQuery(function($) {
 
     });
 
+
     if ($("html").hasClass("no-touch")) {
         if ($(window).width() > 800 ) {
             $("#sticky-cred").stick_in_parent();
@@ -1386,8 +1387,6 @@ jQuery(function($) {
     };
 
 
-    var initTourPoints = function (tour) {
-
         $('.js-tour-point').on('click', function (e) {
             e.preventDefault();
             var activePoint = hopscotch.getCurrStepNum();
@@ -1400,9 +1399,9 @@ jQuery(function($) {
                 var startAt = $(this).data('step-nr');
                 hopscotch.startTour(tour, startAt);
             }
-
         });
     };
+
     initTourPoints(tour);
 
     /**
