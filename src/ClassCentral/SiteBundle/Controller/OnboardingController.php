@@ -110,9 +110,15 @@ class OnboardingController extends Controller
     {
         $user = $this->getUser();
         $cl = $this->get('course_listing');
+        $finder = $this->container->get('course_finder');
+
+
+        // Additional upcoming or interested courses to gauge interest:
+        $courses = array(7130,2572,7463,7630,7518);
+        $interestingCourses = $finder->byCourseIds($courses);
+
 
         // Top 250 Courses
-        $finder = $this->container->get('course_finder');
         // Find the top 250 courses.
         $sort = array();
         $sort[] = array(
@@ -131,6 +137,7 @@ class OnboardingController extends Controller
                 'user' => $user,
                 'followCourseItem' => Item::ITEM_TYPE_COURSE,
                 'courses' => $results,
+                'interestingCourses'=>$interestingCourses
             ))
             ->getContent();
 
