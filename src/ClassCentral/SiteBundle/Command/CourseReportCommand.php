@@ -53,6 +53,11 @@ class CourseReportCommand extends ContainerAwareCommand
             'advanced' => array(),
             'uncategorized' => array()
         );
+
+        $newOfferings = array();
+        $totalCourses = 0;
+        $courseraSkipped = 0;
+        $selfPacedSkipped = 0;
         foreach($offerings as $offering)
         {
             if($offering->getInitiative() == null)
@@ -74,12 +79,52 @@ class CourseReportCommand extends ContainerAwareCommand
             {
                 continue;
             }
+            if($offering->getCourse()->getPrice() != 0)
+            {
+                continue;
+            }
+
+
 
             // Skip self paced courses
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
-                 continue;
+
+                continue;
+                // Check if the course is less than month old
+                // Check if the course is a new course
+                $course = $offering->getCourse();
+                $oneMonthAgo = new \DateTime();
+                $oneMonthAgo->sub(new \DateInterval("P60D"));
+                $newCourse = false;
+                if($course->getCreated() >= $oneMonthAgo)
+                {
+                    $newCourse = true;
+                }
+
+                if(!$newCourse)
+                {
+                    $selfPacedSkipped++;
+                    continue;
+                }
             }
+
+            if($offering->getCourse()->getLanguage() && $offering->getCourse()->getLanguage()->getName() != 'English')
+            {
+                // continue;
+            }
+            $totalCourses++;
+
+            // Check if its a Coursera course.
+            if($offering->getCourse()->getInitiative() && $offering->getCourse()->getInitiative()->getName() == 'Coursera')
+            {
+                if(count($offering->getCourse()->getOfferings()) > 6)
+                {
+                    $courseraSkipped++;
+                    //continue;
+                }
+            }
+
 
 
             $offeringsByInitiative[$initiative][] = $offering;
@@ -92,6 +137,7 @@ class CourseReportCommand extends ContainerAwareCommand
 
             if($isReddit && ($subject->getName() == 'Computer Science' || $subject->getName() == 'Programming'))
             {
+                $totalCourses++;
                 $courseId = $offering->getCourse()->getId();
                 if(isset($courseToLevelMap[$courseId]))
                 {
@@ -105,8 +151,6 @@ class CourseReportCommand extends ContainerAwareCommand
         }
 
         // Segregate by Stream
-
-
         $network->setRouter($this->getContainer()->get('router'));
 
         $coursesByCount = array();
@@ -174,29 +218,69 @@ class CourseReportCommand extends ContainerAwareCommand
                     if ($timesOffered < 1 )
                     {
                         $timesAdded = count($added);
-                        $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                        $coursesByCount[$offering->getCourse()->getId()] = $timesAdded;
+                        $newOfferings[] = $offering;
+                    }
+                    else
+                    {
+                        // Check if the course is less than month old
+                        // Check if the course is a new course
+                        $course = $offering->getCourse();
+                        $oneMonthAgo = new \DateTime();
+                        $oneMonthAgo->sub(new \DateInterval("P60D"));
+                        $newCourse = false;
+                        if($course->getCreated() >= $oneMonthAgo)
+                        {
+                            $newCourse = true;
+                        }
+                        // Is it being offered for he first time
+                        if(count($course->getOfferings()) == 1 and $offering->getCreated() > $oneMonthAgo  )
+                        {
+                            $newCourse = true;
+                        }
+                        if(count($course->getOfferings()) == 1 and $offering->getStatus() != Offering::COURSE_OPEN )
+                        {
+                            $newCourse = true;
+                        }
+
+                        if($newCourse)
+                        {
+                            $newOfferings[] = $offering;
+                        }
                     }
                 }
             }
         }
 
+        // Output new offerings
+        echo count($newOfferings). ' courses';
 
-        asort($coursesByCount);
-        /*
-        $formatter = $this->getContainer()->get('course_formatter');
-        $repo = $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course');
-        $i= 0;
+//        $network->beforeOffering();
+//        foreach($newOfferings as $newOffering)
+//        {
+//            $network->outOffering( $newOffering );
+//        }
 
-        foreach($coursesByCount as $courseId => $count)
-        {
-            $c = $repo->find($courseId );
-            echo $formatter->blogFormat( $c ) . "\n";
-            $i++;
-            if($i == 10) break;
-        }
-        */
 
-        print_r($coursesByCount);
+        echo "<br/> Total Courses: " . $totalCourses;
+        echo "<br/>" . $courseraSkipped;
+        echo "<br/>" . $selfPacedSkipped;
+
+//        arsort($coursesByCount);
+//
+//        $formatter = $this->getContainer()->get('course_formatter');
+//        $repo = $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course');
+//        $i= 0;
+//
+//        foreach($coursesByCount as $courseId => $count)
+//        {
+//            $c = $repo->find($courseId );
+//            echo $formatter->blogFormat( $c ) . "\n";
+//            $i++;
+//            if($i == 20) break;
+//        }
+//
+//        print_r($coursesByCount);
 
     }
 
