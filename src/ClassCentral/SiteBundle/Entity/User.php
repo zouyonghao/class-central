@@ -109,6 +109,11 @@ class User implements UserInterface, \Serializable
     private $fb;
 
     /**
+     * @var \ClassCentral\SiteBundle\Entity\UserGoogle
+     */
+    private $google;
+
+    /**
      * @var string
      */
     private $handle;
@@ -138,7 +143,7 @@ class User implements UserInterface, \Serializable
 
     const SIGNUP_TYPE_FORM = 1;
     const SIGNUP_TYPE_FACEBOOK = 2;
-
+    const SIGNUP_TYPE_GOOGLE = 3;
     // Special User - George P Burdell used for including external reviews
     const SPECIAL_USER_ID = 6915;
 
@@ -774,6 +779,29 @@ class User implements UserInterface, \Serializable
     public function getFb()
     {
         return $this->fb;
+    }
+
+    /**
+     * Set Google
+     *
+     * @param \ClassCentral\SiteBundle\Entity\UserGoogle $fb
+     * @return User
+     */
+    public function setGoogle(\ClassCentral\SiteBundle\Entity\UserGoogle $google = null)
+    {
+        $this->google = $google;
+
+        return $this;
+    }
+
+    /**
+     * Get Google
+     *
+     * @return \ClassCentral\SiteBundle\Entity\UserGoogle
+     */
+    public function getGoogle()
+    {
+        return $this->google;
     }
 
 
