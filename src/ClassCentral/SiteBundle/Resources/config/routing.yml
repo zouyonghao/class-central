@@ -139,6 +139,11 @@ login:
   defaults: {_controller: ClassCentralSiteBundle:Login:login }
   schemes:  [https]
 
+google_auth:
+  pattern: /google-auth
+  defaults: { _controller: ClassCentralSiteBundle:Login:googleAuth }
+  methods: [post]
+
 login_check:
   pattern: /login_check
   schemes:  [https]

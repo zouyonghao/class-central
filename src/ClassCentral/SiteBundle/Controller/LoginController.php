@@ -10,12 +10,13 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\UserFb;
+use ClassCentral\SiteBundle\Entity\UserGoogle;
 use ClassCentral\SiteBundle\Services\Kuber;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequest;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookSession;
-use Facebook\GraphObject;
 use Facebook\GraphUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -302,6 +303,32 @@ class LoginController extends Controller{
 
     }
 
+    private function uploadGoogleProfilePic( \ClassCentral\SiteBundle\Entity\User $user, $imageUrl)
+    {
+        try{
+            $kuber = $this->get('kuber');
+
+            //Get the extension
+            $size = getimagesize($imageUrl);
+            $extension = image_type_to_extension($size[2]);
+            $imgFile = '/tmp/google_profile_'. $user->getId();
+            file_put_contents( $imgFile, file_get_contents($imageUrl)); // Gets a silhouette if image does not exist
+
+            // Upload the file to S3 using Kuber
+            $kuber->upload( $imgFile, Kuber::KUBER_ENTITY_USER, Kuber::KUBER_TYPE_USER_PROFILE_PIC, $user->getId(), ltrim($extension,'.'));
+            // Clear the cache for profile pic
+            $this->get('cache')->deleteCache('user_profile_pic_' . $user->getId());
+            // Delete the temporary file
+            unlink( $imgFile );
+        } catch ( \Exception $e ) {
+            $this->get('logger')->error(
+                "Failed uploading Google Profile Picture for user id " . $user->getId() .
+                ' with error: ' . $e->getMessage()
+            );
+        }
+
+    }
+
 
     private function getRandomPassword()
     {
@@ -309,6 +336,146 @@ class LoginController extends Controller{
         $str = substr( str_shuffle( $chars ), 0, 20 );
 
         return $str;
+    }
+
+    /**
+     * Called from the front end
+     */
+    public function googleAuthAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $data = $request->getContent();
+        $logger = $this->get('logger');
+        $userService = $this->get('user_service');
+        $userSession = $this->get('user_session');
+        $errorMsg = '';
+
+        if(!empty($data))
+        {
+            $params = json_decode($data,true);
+            $token = $params['token'];
+
+            // if user account exists login, else signup
+            $client = new \Google_Client();
+            $client->setClientId($this->container->getParameter('google_auth_client_id'));
+            $payload = $client->verifyIdToken( $token );
+            if($payload)
+            {
+                // validate the token
+                if( ($payload['iss'] == 'https://accounts.google.com' || $payload['iss'] == 'accounts.google.com') &&  $payload['aud'] == $this->container->getParameter('google_auth_client_id'))
+                {
+
+                    // Valid user
+                    $email = $payload['email'];
+                    $googleId = $payload['sub'];
+
+                    // Check if the Google user has logged in before using the Google Id. Its being stored in the userFb table.
+                    $usersGoogle = $em->getRepository('ClassCentralSiteBundle:UserGoogle')->findOneBy(array(
+                        'googleId' => $googleId
+                    ));
+
+                    if($usersGoogle)
+                    {
+                        $user = $usersGoogle->getUser();
+                    }
+                    else
+                    {
+                        // Check if an account with this email address exist. If it does then merge
+                        // these accounts
+                        $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy(array(
+                            'email' => $email
+                        ));
+                    }
+
+                    $newUser = false;
+
+                    if($user)
+                    {
+                        $userService->login($user);
+
+                        // Record Logins
+                        $keen = $this->container->get('keen');
+                        $keen->recordLogins($user,'google');
+
+                        // Check whether the user has fb details
+                        $ugoogle = $user->getGoogle();
+                        if($ugoogle)
+                        {
+                            $logger->info("Google Auth: Google user exists");
+                        }
+                        else
+                        {
+                            $logger->info("Google Auth: Email exists but UserGoogle table is empty");
+                            // Create Google info
+                            $ugoogle = new UserGoogle();
+                            $ugoogle->setGoogleEmail($email);
+                            $ugoogle->setGoogleId($googleId);
+                            $ugoogle->setUser($user);
+                            $em->persist($ugoogle);
+                            $em->flush();
+                        }
+
+                        $userSession->setPasswordLessLogin(true);
+                        $userSession->login($user, true);
+                    }
+                    else
+                    {
+                        // User signup. New user
+                        $newsletterService = $this->get('newsletter');
+                        $newsletter = $em->getRepository('ClassCentralSiteBundle:Newsletter')->findOneByCode('mooc-report');
+
+
+                        // Create a new account
+                        $user = new \ClassCentral\SiteBundle\Entity\User();
+                        $user->setEmail($email);
+                        $user->setName($payload['name']);
+                        $user->setPassword($this->getRandomPassword()); // Set a random password
+                        $user->setIsverified($payload['email_verified']);
+                        $user->setSignupType(\ClassCentral\SiteBundle\Entity\User::SIGNUP_TYPE_GOOGLE);
+
+                        $signupSrc = (empty($src)) ? 'google' : $src;
+                        $userService->createUser($user, false, $signupSrc );
+                        $userSession->setPasswordLessLogin(true); // Set the variable to show that the user didn't use a password to login
+
+                        $ugoogle = new UserGoogle();
+                        $ugoogle->setGoogleEmail($email);
+                        $ugoogle->setGoogleId($googleId);
+                        $ugoogle->setUser($user);
+                        $em->persist($ugoogle);
+                        $em->flush();
+
+                        if($payload['picture'])
+                        {
+                            $this->uploadGoogleProfilePic($user,$payload['picture']);
+                        }
+
+                        // Subscribe to newsletter
+                        $subscribed = $newsletterService->subscribeUser($newsletter, $user);
+
+                        // Show the user a profile edit window
+                        $this->get('session')->getFlashBag()->set('show_post_signup_profile_modal',1);
+                    }
+
+                    return UniversalHelper::getAjaxResponse(true,array('newUser'=>$newUser));
+                }
+                else
+                {
+                    $errorMsg = 'Token validation failed';
+                }
+            }
+            else
+            {
+                $errorMsg = 'Authentication failed';
+            }
+
+        }
+        else
+        {
+            $errorMsg = 'Invalid Request';
+        }
+
+        return UniversalHelper::getAjaxResponse(false,$errorMsg);
+
     }
 
 }

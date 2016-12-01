@@ -67,6 +67,9 @@ ClassCentral\SiteBundle\Entity\User:
         fb:
             targetEntity: UserFb
             mappedBy: user
+        google:
+            targetEntity: UserGoogle
+            mappedBy: user
         profile:
             targetEntity: Profile
             mappedBy: user

@@ -23,7 +23,29 @@ CC.Class['User'] = (function(){
             async: false
         })
     }
-    return {
-        isLoggedIn: isLoggedIn
+
+    function googleAuth(token) {
+
+        var data = {
+            "token": token
+        }
+        $.ajax({
+            url : '/google-auth',
+            type: 'post',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function(result) {
+                console.log(result);
+                if (result.success) {
+                    location.reload();
+                }
+            }
+        });
     }
+
+    return {
+        isLoggedIn: isLoggedIn,
+        googleAuth: googleAuth
+    }
+
 })();
