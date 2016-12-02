@@ -31,10 +31,16 @@
                 </div>
                 <div class="form-box-body">
 
-                    <a class="sign-in-with-facebook" href="{{ path('fb_authorize_start') }}" onmousedown="ga('send','event','Sign In with Facebook', 'Login Form');">
-                        <span class="icon-facebook2-png"></span>
-                        <svg class="icon icon-facebook2" viewBox="0 0 32 32"><use xlink:href="#icon-facebook2"></use></svg>
-                        Sign in with Facebook
+                    <a href="{{ path('fb_authorize_start') }}" onmousedown="ga('send','event','Sign In with Facebook', 'Login Form');">
+                        <button class="loginBtn loginBtn--facebook" >
+                           Login with Facebook
+                        </button>
+                    </a>
+
+                    <a class='sign-in-with-google'  href="#" onmousedown="ga('send','event','Sign In with Google', 'Login Form');">
+                        <button  class="loginBtn loginBtn--google">
+                            Login with Google
+                        </button>
                     </a>
 
                     <div class="or-separator">

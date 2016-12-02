@@ -13,6 +13,7 @@
 {% endif %}
     <script type="text/javascript" src="//use.typekit.net/gdf6zoz.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <meta name="google-signin-client_id" content="543074773853-5o4th7sqent0dc5f0slvn0cakr152fpv.apps.googleusercontent.com">
 
     {% if app.environment == 'prod' %}
         <!-- Begin Inspectlet Embed Code -->
@@ -523,6 +524,41 @@
     {% endif %}
 
 
+    {% if not app.user %}
+        var googleUser = {};
+        var startApp = function() {
+            gapi.load('auth2', function(){
+                // Retrieve the singleton for the GoogleAuth library and set up the client.
+                auth2 = gapi.auth2.init({
+                    client_id: '{{ google_auth_client_id }}',
+                    cookiepolicy: 'single_host_origin',
+                    // Request scopes in addition to 'profile' and 'email'
+                    //scope: 'additional_scope'
+                });
+
+                var signInButtons = document.getElementsByClassName("sign-in-with-google");
+                for(var i = 0; i < signInButtons.length; i++)
+                {
+                    attachSignin(signInButtons.item(i));
+                }
+            });
+        };
+
+        function attachSignin(element) {
+            auth2.attachClickHandler(element, {},
+                    function(googleUser) {
+                        CC.Class['User'].googleAuth(googleUser.getAuthResponse().id_token);
+                    }, function(error) {
+                        //alert(JSON.stringify(error, undefined, 2));
+                    });
+        }
+
+        $(function() {
+            startApp();
+        });
+
+    {% endif %}
+
     </script>
 <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100717250ns.gif" /></p></noscript>
 
@@ -537,8 +573,11 @@
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=214375822097453&version=v2.0";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
+    
+    <script src="https://apis.google.com/js/api:client.js"></script>
 
-{# Rating popup box #}
+
+    {# Rating popup box #}
 {% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
 
 {# Signup form when a non signed up users adds a course to MOOC tracker #}

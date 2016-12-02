@@ -82,12 +82,16 @@
 </div>
 <div class="modal-base__col modal-base__col--right">
     <div class="modal-base__header">
-        <a class="sign-in-with-facebook" href="{{ path('fb_authorize_start', { src: src}) }}" onmousedown="ga('send','event','Sign up with Facebook', 'Go To Class Modal');">
-            <span class="icon-facebook2-png"></span>
-            <svg class="icon icon-facebook2" viewBox="0 0 32 32">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-facebook2"></use>
-            </svg>
-            <span class="sign-in-with-facebook__text">Sign up with Facebook</span>
+        <a  href="{{ path('fb_authorize_start', { src: src}) }}" onmousedown="ga('send','event','Sign up with Facebook', 'Go To Class Modal');">
+            <button class="loginBtn loginBtn--facebook" >
+                Sign up with Facebook
+            </button>
+        </a>
+
+        <a class='sign-in-with-google'  href="#" onmousedown="ga('send','event','Sign up with Google', 'Go To Class Modal');">
+            <button  class="loginBtn loginBtn--google">
+                Sign up  with Google
+            </button>
         </a>
     </div>
 

@@ -11,10 +11,16 @@
                 {% if formTitle is defined %}
                     <h4>{{ formTitle|raw }}</h4>
                 {% endif %}
-                <a class="sign-in-with-facebook" href="{{ path('fb_authorize_start') }}" onmousedown="ga('send','event','Sign In with Facebook', 'Login Form');">
-                    <span class="icon-facebook2-png"></span>
-                    <svg class="icon icon-facebook2" viewBox="0 0 32 32"><use xlink:href="#icon-facebook2"></use></svg>
-                    Sign up with Facebook
+                <a href="{{ path('fb_authorize_start') }}" onmousedown="ga('send','event','Sign In with Facebook', 'Signup Form');">
+                    <button class="loginBtn loginBtn--facebook" >
+                        Sign up with Facebook
+                    </button>
+                </a>
+
+                <a class='sign-in-with-google'  href="#" onmousedown="ga('send','event','Sign In with Google', 'Signup Form');">
+                    <button  class="loginBtn loginBtn--google">
+                        Sign up with Google
+                    </button>
                 </a>
 
                 <div class="or-separator">

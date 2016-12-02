@@ -12,7 +12,7 @@ framework:
     validation:      { enable_annotations: true }
     templating:
       engines: ['twig']
-      assets_version: 82
+      assets_version: 83
     default_locale: "%locale%"
     trusted_proxies: ~
     session:
@@ -52,6 +52,7 @@ twig:
       coursera_url: %coursera_url%
       edx_url: %edx_url%
       udemy_url: %udemy_url%
+      google_auth_client_id: %google_auth_client_id%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
