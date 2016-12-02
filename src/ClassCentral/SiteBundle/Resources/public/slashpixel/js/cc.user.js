@@ -35,9 +35,10 @@ CC.Class['User'] = (function(){
             dataType: 'json',
             data: JSON.stringify(data),
             success: function(result) {
-                console.log(result);
                 if (result.success) {
                     location.reload();
+                } else {
+                    alert("Authentication with Google failed");
                 }
             }
         });
