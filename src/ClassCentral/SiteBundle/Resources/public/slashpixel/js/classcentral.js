@@ -665,6 +665,10 @@ jQuery(function($) {
         if( title == 'Logged in via Facebook' ) {
             ga('send','event', 'Logged In', 'Facebook');
         }
+
+        if( title == 'Logged in via Google' )  {
+            ga('send','event', 'Logged In', 'Google');
+        }
     });
 
 

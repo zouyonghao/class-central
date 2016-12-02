@@ -9,6 +9,7 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserFb;
 use ClassCentral\SiteBundle\Entity\UserGoogle;
 use ClassCentral\SiteBundle\Services\Kuber;
@@ -195,7 +196,7 @@ class LoginController extends Controller{
                 $em->persist($ufb);
                 $em->flush();
 
-                $userSession->login($user, true);
+                $userSession->login($user, User::SIGNUP_TYPE_FACEBOOK);
 
                 $redirectUrl =
                     ($this->getLastAccessedPage($request->getSession())) ?
@@ -416,7 +417,7 @@ class LoginController extends Controller{
                         }
 
                         $userSession->setPasswordLessLogin(true);
-                        $userSession->login($user, true);
+                        $userSession->login($user, User::SIGNUP_TYPE_GOOGLE);
                     }
                     else
                     {

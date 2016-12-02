@@ -145,7 +145,7 @@ class UserSession
      * @param bool|false $facebook true if logged in via facebook
      * @throws \Exception
      */
-    public function login(User $user, $facebook = false)
+    public function login(User $user, $signupType = User::SIGNUP_TYPE_FORM)
     {
 
         // Create a review for this user if it exists
@@ -177,11 +177,19 @@ class UserSession
 
 
         // Send a successfull login notification
-        if($facebook)
+        if($signupType == User::SIGNUP_TYPE_FACEBOOK)
         {
             $this->notifyUser(
                 self::FLASH_TYPE_SUCCESS,
                 'Logged in via Facebook',
+                'You have been logged in successfully'
+            );
+        }
+        elseif($signupType == User::SIGNUP_TYPE_GOOGLE)
+        {
+            $this->notifyUser(
+                self::FLASH_TYPE_SUCCESS,
+                'Logged in via Google',
                 'You have been logged in successfully'
             );
         }
