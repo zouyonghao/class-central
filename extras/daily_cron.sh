@@ -43,6 +43,9 @@ echo "Update Kadenze courses"
 php app/console classcentral:scrape Kadenze --simulate=N --type=add
 php app/console classcentral:scrape Kadenze --simulate=N --type=update
 
+echo "Update Open2Study courses"
+php app/console classcentral:scrape Open2study --simulate=N --type=add
+
 echo "Reindexing all the courses"
 php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=1 --env=$env --no-debug
 php app/console classcentral:elasticsearch:indexer --courses=Yes --offset=1000 --env=$env --no-debug
