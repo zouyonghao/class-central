@@ -9,6 +9,7 @@ class Scraper extends ScraperAbstractInterface
 {
 
     const COURSES_API = 'https://learn.eduopen.org/rss/courses.php';
+    const COURSE_PAGE_URL = 'https://learn.eduopen.org/eduopen/course_details.php?courseid=';
 
     private $courseFields = array(
         'Url', 'Description', 'DurationMin','DurationMax','Name','LongDescription','Certificate','WorkloadType','CertificatePrice'
@@ -67,8 +68,6 @@ class Scraper extends ScraperAbstractInterface
                         {
                             $courseService->uploadImageIfNecessary( $eduOpenCourse['course_image_url'], $course);
                         }
-
-
                     }
                     $courseChanged = true;
 
@@ -104,7 +103,7 @@ class Scraper extends ScraperAbstractInterface
                     //$this->out( "Database course changed " . $dbCourse->getName());
                     // Course has been modified
                     $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
-                    $this->outputChangedFields($changedFields);
+                    $this->dbHelper->outputChangedFields($changedFields);
                     if ($this->doModify())
                     {
                         $em->persist($dbCourse);
@@ -112,13 +111,11 @@ class Scraper extends ScraperAbstractInterface
 
                         if( $eduOpenCourse['course_image_url'] )
                         {
-                            $courseService->uploadImageIfNecessary( $eduOpenCourse['course_image_url'], $course);
+                            $courseService->uploadImageIfNecessary( $eduOpenCourse['course_image_url'], $dbCourse);
                         }
                     }
                     $courseChanged = true;
                 }
-
-                $course = $dbCourse;
             }
 
 
@@ -215,7 +212,7 @@ class Scraper extends ScraperAbstractInterface
         $course->setLongDescription( $c['description_local'] );
         $course->setLanguage( $language);
         $course->setStream( $stream ); // Default to Computer Science
-        $course->setUrl($c['course_url']);
+        $course->setUrl( self::COURSE_PAGE_URL . $c['uuid'] );
         $course->setCertificate( $c['has_attendance_certificates'] );
 
         $course->setWorkloadType(Course::WORKLOAD_TYPE_HOURS_PER_WEEK);
@@ -239,7 +236,7 @@ class Scraper extends ScraperAbstractInterface
         $offering = new Offering();
         $offering->setShortName('eduopen_' . $c['uuid'] . '_' . $c['start_date']);
         $offering->setCourse( $course );
-        $offering->setUrl( $course->getUrl() );
+        $offering->setUrl( self::COURSE_PAGE_URL . $c['uuid'] );
         $startDate = \DateTime::createFromFormat('U', $c['start_date']) ;
         $endDate = \DateTime::createFromFormat('U', $c['start_date']) ;
         $numDays = $c['duration_in_weeks']*7;
