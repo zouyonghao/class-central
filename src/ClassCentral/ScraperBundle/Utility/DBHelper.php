@@ -230,7 +230,7 @@ class DBHelper
         $message ="[New Course] *{$course->getName()}*\n" .$coursePageUrl ;
         $this->scraper->getContainer()
             ->get('slack_client')
-            ->to('@dhawal')
+            ->to('cc-activity-data')
             ->from( $initiative->getName() )
             ->withIcon( $logo )
             ->send( $message );
@@ -255,7 +255,7 @@ class DBHelper
             $message ="[New Session] *{$course->getName()}* -  {$offering->getDisplayDate()}\n" .$coursePageUrl ;
             $this->scraper->getContainer()
                 ->get('slack_client')
-                ->to('@dhawal')
+                ->to('cc-activity-data')
                 ->from( $initiative->getName() )
                 ->withIcon( $logo )
                 ->send( $message );
