@@ -178,11 +178,6 @@ class Scraper extends ScraperAbstractInterface
                     $courseChanged = true;
                 }
             }
-
-            if( $courseChanged )
-            {
-                $coursesChanged[] = $course;
-            }
         }
 
     }
@@ -221,10 +216,19 @@ class Scraper extends ScraperAbstractInterface
         // Get the length
         $course->setDurationMax($c['duration_in_weeks']);
 
-        $ins = $this->dbHelper->getInstitutionByName($c['organisation_name_en']);
+        $ins = $this->dbHelper->getInstitutionByName( trim($c['organisation_name_en']) );
         if($ins)
         {
             $course->addInstitution( $ins );
+        }
+        elseif ($this->dbHelper->getInstitutionByName($c['organisation_name_it']) )
+        {
+            $course->addInstitution( $this->dbHelper->getInstitutionByName($c['organisation_name_it']) );
+
+        }
+        else
+        {
+          $this->out( $c['organisation_name_en'] );
         }
 
 
