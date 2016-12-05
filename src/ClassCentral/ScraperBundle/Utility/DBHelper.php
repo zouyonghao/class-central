@@ -161,6 +161,16 @@ class DBHelper
         return $offering;
     }
 
+
+    public function getOfferingByUrl($url)
+    {
+        $em = $this->scraper->getManager();
+        $offering = $em->getRepository('ClassCentralSiteBundle:Offering')->findOneBy(array(
+            'url' => $url
+        ));
+        return $offering;
+    }
+
     public function getCourseByShortName($shortName)
     {
         $em = $this->scraper->getManager();
@@ -175,6 +185,16 @@ class DBHelper
         $em = $this->scraper->getManager();
         $ins = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy(array(
             'slug' => $slug
+        ));
+
+        return $ins;
+    }
+
+    public function getInstitutionByName( $name )
+    {
+        $em = $this->scraper->getManager();
+        $ins = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy(array(
+            'name' => $name
         ));
 
         return $ins;
@@ -210,7 +230,7 @@ class DBHelper
         $message ="[New Course] *{$course->getName()}*\n" .$coursePageUrl ;
         $this->scraper->getContainer()
             ->get('slack_client')
-            ->to('#cc-activity-data')
+            ->to('@dhawal')
             ->from( $initiative->getName() )
             ->withIcon( $logo )
             ->send( $message );
@@ -235,7 +255,7 @@ class DBHelper
             $message ="[New Session] *{$course->getName()}* -  {$offering->getDisplayDate()}\n" .$coursePageUrl ;
             $this->scraper->getContainer()
                 ->get('slack_client')
-                ->to('#cc-activity-data')
+                ->to('@dhawal')
                 ->from( $initiative->getName() )
                 ->withIcon( $logo )
                 ->send( $message );
@@ -301,5 +321,17 @@ class DBHelper
         }
 
         return $changedFields;
+    }
+
+    public function outputChangedFields($changedFields)
+    {
+        foreach($changedFields as $changed)
+        {
+            $field = $changed['field'];
+            $old = is_a($changed['old'], 'DateTime') ? $changed['old']->format('jS M, Y') : $changed['old'];
+            $new = is_a($changed['new'], 'DateTime') ? $changed['new']->format('jS M, Y') : $changed['new'];
+
+            $this->scraper->out("$field changed from - '$old' to '$new'");
+        }
     }
 }
