@@ -373,6 +373,7 @@ CC.Class['Signup'] = (function(){
                             if(Cookies.get( promptShownCookie) === undefined ) {
                                 $('#signupModal-ask_for_signup').modal('show');
                                 Cookies.set( promptShownCookie, 1, { expires :30} );
+                                CC.Class['Utilities'].hideWidgets();
                             }
 
                         },delay);

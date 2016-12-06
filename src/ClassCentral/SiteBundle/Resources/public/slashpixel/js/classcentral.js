@@ -55,6 +55,7 @@ jQuery(function($) {
                         url: "/signup/pre_cc/" + $(clicked).data('course-id') +  "/" + $(clicked).val(),
                     }).done(function(result){
                         // Show the singup popups
+                        CC.Class['Utilities'].hideWidgets();
                         $('#signupModal-mooc_tracker_add_to_my_courses').modal('show');
                     });
                 }
@@ -229,6 +230,7 @@ jQuery(function($) {
                         cache: true
                     }).done(function(result){
                         // Show the singup popups
+                        CC.Class['Utilities'].hideWidgets();
                         $('#signupModal-btn_get_notified').modal('show');
                     });
 
@@ -776,6 +778,7 @@ jQuery(function($) {
 
     $('#home-create-free-account').click( function(e){
         e.preventDefault();
+        CC.Class['Utilities'].hideWidgets();
         $('#signupModal-home_create_free_account').modal('show');
         try {
             ga('send','event','Create Free Account','Home Tab');
@@ -784,6 +787,7 @@ jQuery(function($) {
 
     $('#convincer-create-free-account').click( function(e){
         e.preventDefault();
+        CC.Class['Utilities'].hideWidgets();
         $('#signupModal-convincer_create_free_account').modal('show');
         try {
             ga('send','event','Create Free Account','Convincer');
@@ -792,6 +796,7 @@ jQuery(function($) {
 
     $('#navbar-create-free-account').click( function(e){
         e.preventDefault();
+        CC.Class['Utilities'].hideWidgets();
         $('#signupModal-navbar_create_free_account').modal('show');
         try {
             ga('send','event','Create Free Account','Navbar');
@@ -800,6 +805,7 @@ jQuery(function($) {
 
     $('#meetyournextcourse-create-free-account').click( function(e){
         e.preventDefault();
+        CC.Class['Utilities'].hideWidgets();
         $('#signupModal-navbar_create_free_account').modal('show');
         try {
             ga('send','event','Create Free Account','Meet your next course');
@@ -820,6 +826,7 @@ jQuery(function($) {
                     if( !loggedInResult.loggedIn) {
 
                         // Show the signup form
+                        CC.Class['Utilities'].hideWidgets();
                         $('#signupModal-go_to_class').modal('show');
                     }
                 }

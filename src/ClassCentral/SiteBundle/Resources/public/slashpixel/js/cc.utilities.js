@@ -56,10 +56,17 @@ CC.Class['Utilities'] = (function(){
         return re.test(email);
     }
 
+    function hideWidgets() {
+        $('w-div').hide();
+    }
+
     return {
         notify: notify,
         notifyWithDelay: notifyWithDelay,
         isEmpty:isEmpty,
-        validateEmail:validateEmail
+        validateEmail:validateEmail,
+        hideWidgets: hideWidgets
     };
+
+
 })();
