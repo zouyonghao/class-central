@@ -18,27 +18,28 @@ class CourseStatsCommand extends ContainerAwareCommand{
     
     protected function execute(InputInterface $input, OutputInterface $output){
 
-        /*
-        $stats = $this
-            ->getContainer()->get('doctrine')
-            ->getManager()
-            ->getRepository('ClassCentralSiteBundle:Offering')
-            ->courseStats();
-        
-        print_r($stats);
-
-        $totalCount = 0;
-        ksort($stats);
-        foreach($stats as $year => $months)
-        {
-            ksort($months);
-            foreach($months as $month => $count)
-            {
-                $totalCount += $count;
-                echo sprintf("[Date.UTC(%s, %s, 1), %s ]",$year,$month,$totalCount).",\n";
-            }
-        }
-        */
+//        $stats = $this
+//            ->getContainer()->get('doctrine')
+//            ->getManager()
+//            ->getRepository('ClassCentralSiteBundle:Offering')
+//            ->courseStats();
+//
+//        print_r($stats);
+//
+//        $totalCount = 0;
+//        ksort($stats);
+//        foreach($stats as $year => $months)
+//        {
+//            ksort($months);
+//            foreach($months as $month => $count)
+//            {
+//                $totalCount += $count;
+//                // echo sprintf("%s-%s,%d",$year,$month,$totalCount)."\n";
+//                echo sprintf("%d",$totalCount)."\n";
+//            }
+//        }
+//
+//        exit();
 
 
 
@@ -91,7 +92,13 @@ class CourseStatsCommand extends ContainerAwareCommand{
                 $lang[$course->getLanguage()->getName()]++;
             }
 
-            $subjects[$course->getStream()->getName()]++;
+            $streamName = $course->getStream()->getName();
+            if($course->getStream()->getParentStream())
+            {
+                $streamName = $course->getStream()->getParentStream()->getName();
+            }
+
+            $subjects[$streamName]++;
 
             if($course->getInitiative())
             {
