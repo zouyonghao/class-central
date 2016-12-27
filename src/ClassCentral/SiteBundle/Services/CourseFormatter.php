@@ -107,7 +107,7 @@ class CourseFormatter {
             }
 
 
-            $line3 = "<b> <a href='$directUrl' target='_blank'>Go To Class</a> $ratingsLine | Next Session : $displayDate </b><br/>";
+            $line3 = "<b> <a href='$bookmarkUrl' target='_blank'>Bookmark</a> $ratingsLine |  $displayDate </b><br/>";
         }
 
         return $line1 . '<br/>' . $line2 . '<br/>' .$line3 . '<br/>';
@@ -152,7 +152,7 @@ class CourseFormatter {
         $newCourseTxt = '';
         if($newCourse)
         {
-            $newCourseTxt = '[New] ';
+           // $newCourseTxt = '[New] ';
         }
 
         // COLUMN 1 - FOLLOW

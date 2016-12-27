@@ -332,6 +332,7 @@ class OfferingRepository extends EntityRepository {
         // Iterate through the courses
         foreach($courses as $course )
         {
+
             if($course->getStatus() >= CourseStatus::COURSE_NOT_SHOWN_LOWER_BOUND)
             {
                 // skip the course
@@ -341,6 +342,11 @@ class OfferingRepository extends EntityRepository {
             if($course->getPrice() > 0)
             {
                 continue;
+            }
+
+            if(!$course->getIsMooc())
+            {
+               continue;
             }
 
             // Determine the first run of the course
@@ -403,9 +409,15 @@ class OfferingRepository extends EntityRepository {
             {
                 continue;
             }
-//          $liveCourses[] = $course;
-//
-//           continue;
+
+            if(!$course->getIsMooc())
+            {
+                continue;
+            }
+
+            //$liveCourses[] = $course;
+
+            // continue;
             // Determine the first run of the course
             $firstRun = null;
             $offerings = $course->getOfferings();
@@ -439,7 +451,7 @@ class OfferingRepository extends EntityRepository {
             }
 
             // get the start year and month for the first run if it exists
-            if($firstRun and $firstRun->getStartDate()->format('Y') == '2015' )
+            if($firstRun and $firstRun->getStartDate()->format('Y') == 2016 )
             {
                $liveCourses[] = $course;
             }

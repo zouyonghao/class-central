@@ -134,27 +134,36 @@ class Review {
     public function getAverageRatingForInstitution(Institution $ins)
     {
         $numCourses = 0;
+        $coursesWithRatings = 0;
         $numRatings = 0;
         $avgRatingSum = 0;
         $rating = 0;
+        $totalRating = 0;
         foreach($ins->getCourses() as $course)
         {
             if($course->getStatus() == CourseStatus::AVAILABLE)
             {
                 $numCourses++;
                 $courseRatings = $this->calculateAverageRating($course->getId());
-                $numRatings += $courseRatings['numRatings'];
-                $avgRatingSum += $courseRatings['rating'];
+                if ( $courseRatings['rating'] > 0 )
+                {
+                    $numRatings += $courseRatings['numRatings'];
+                    $totalRating+= $courseRatings['numRatings']*$courseRatings['rating'];
+                    $avgRatingSum += $courseRatings['rating'];
+                    $coursesWithRatings++;
+                }
             }
         }
-        if($numCourses > 0)
+        if($numRatings > 0)
         {
-            $rating = $avgRatingSum/$numCourses;
+            $rating = $totalRating/$numRatings;
         }
 
         return array(
             'rating' => $rating,
-            'numRatings' => $numRatings
+            'numRatings' => $numRatings,
+            'numCourses' => $numCourses,
+            'coursesWithRatings'=>$coursesWithRatings
         );
     }
 
