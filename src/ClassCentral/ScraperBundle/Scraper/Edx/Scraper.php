@@ -44,6 +44,40 @@ class Scraper extends ScraperAbstractInterface
         'StartDate', 'EndDate', 'Url'
     );
 
+    private $subjectsMap = array(
+        'Computer Science' => 'cs',
+        'Data Analysis & Statistics' => 'data-science',
+        'Biology & Life Sciences' => 'biology',
+        'Education & Teacher Training' => 'education',
+        'Engineering' => 'engineering',
+        'Economics & Finance' => 'economics',
+        'Science' => 'science',
+        'Social Sciences' => 'social-sciences',
+        'Physics' => 'Physics',
+        'Business & Management' => 'business',
+        'Humanities' => 'humanities',
+        'Law' => 'law',
+        'History' => 'history',
+        'Communication' => 'communication-skills',
+        'Literature' => 'literature',
+        'Math' => 'maths',
+        'Food & Nutrition' =>'nutrition-and-wellness',
+        'Art & Culture' => 'art-and-design',
+        'Chemistry' => 'chemistry',
+        'Health & Safety' => 'health',
+        'Philosophy & Ethics' => 'philosophy',
+        'Language' => 'language-culture',
+        'Music' => 'music',
+        'Electronics' => 'electrical-engineering',
+        'Design' => 'art-and-design',
+        'Environmental Studies' => 'environmental-science',
+        'Medicine' => 'health',
+        'Architecture' => 'visual-arts',
+        'Energy & Earth Sciences' => 'environmental-science',
+        'Ethics' => 'social-sciences',
+    );
+
+
     private $skipNames = array('DELETE','OBSOLETE','STAGE COURSE', 'Test Course');
 
     /**
@@ -79,12 +113,9 @@ class Scraper extends ScraperAbstractInterface
          */
         // Build the catalog.
         $edxCourses = $this->getEdxDrupalJson();
-        $courseFound = 0;
-        $courseModes = array();
-        $pacingType = array();
+
         foreach($edxCourses as $edxCourse)
         {
-
             $course = $this->getCourseEntityFromDrupalAPI($edxCourse);
 
             $cTags = array();
@@ -201,9 +232,7 @@ class Scraper extends ScraperAbstractInterface
                 $course = $dbCourse;
             }
         }
-        $this->out($courseFound);
-        print_r($courseModes);
-        print_r($pacingType);
+        
         exit();
 
 
@@ -730,12 +759,26 @@ class Scraper extends ScraperAbstractInterface
      */
     private function getCourseEntityFromDrupalAPI ($c = array())
     {
-        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
+
         $langMap = $this->dbHelper->getLanguageMap();
         $language = $langMap[ 'English' ];
-        if( isset($langMap[$c['language']]))
+        $edXLanguage = $c['language'];
+        if($edXLanguage == 'Chinese - Mandarin')
         {
-            $language = $langMap[$c['language']];
+            $edXLanguage ='Chinese';
+        }
+        if( isset($langMap[$edXLanguage]))
+        {
+            $language = $langMap[$edXLanguage];
+        }
+        $stream = $this->dbHelper->getStreamBySlug('cs');
+        foreach($c['course_page_info']['subjects'] as $sub)
+        {
+            if(isset($this->subjectsMap[ $sub['title'] ]))
+            {
+                $stream = $this->dbHelper->getStreamBySlug( $this->subjectsMap[ $sub['title'] ] );
+            }
+            break;
         }
 
         $shortName = strtolower('edx_'.$c['number'].'_'.$c['org']);
@@ -749,10 +792,19 @@ class Scraper extends ScraperAbstractInterface
         $course->setLongDescription( $c['course_page_info']['description'] );
         $course->setSyllabus( $c['course_page_info']['syllabus']);
         $course->setLanguage( $language);
-        $course->setStream($defaultStream); // Default to Computer Science
+        $course->setStream($stream); // Default to Computer Science
         $course->setUrl($c['marketing_url']);
         $course->setCertificate( false );
         $course->setCertificatePrice( 0 );
+
+        foreach($c['course_page_info']['subjects'] as $sub)
+        {
+            if(isset($this->subjectsMap[ $sub['title'] ]))
+            {
+                $stream = $this->dbHelper->getStreamBySlug( $this->subjectsMap[ $sub['title'] ] );
+            }
+            break;
+        }
 
         if(!empty($c['course_page_info']['video']['url']))
         {
