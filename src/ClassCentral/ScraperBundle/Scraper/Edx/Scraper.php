@@ -21,6 +21,12 @@ class Scraper extends ScraperAbstractInterface
     const EDX_ENROLLMENT_COURSE_DETAIL = 'https://courses.edx.org/api/enrollment/v1/course/%s?include_expired=1'; // Contains pricing information
     const EDX_API_ALL_COURSES_BASE_v1 = 'https://api.edx.org';
     const EDX_API_ALL_COURSES_PATH_v1 = '/catalog/v1/catalogs/11/courses/';
+
+    const EDX_DRUPAL_CATALOG = 'https://www.edx.org/api/v1/catalog/search?page_size=2000&partner=edx&content_type[]=courserun';
+    const EDX_DRUPAL_INDIVIDUAL = 'https://www.edx.org/api/catalog/v2/courses/%s';
+    const EDX_DRUPAL_COURSE_RUNS =  'https://www.edx.org/api/v1/catalog/course_runs/%s'; // contains uuids required for sessions/offerings
+    const EDX_DRUPAL_COURSE_MODES = 'https://courses.edx.org/api/enrollment/v1/course/course-v1:Microsoft+DAT203.2x+1T2017'; // contains pricing ino
+
     public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251,15861, 15381
         ,15701, 7056
     );
@@ -31,7 +37,7 @@ class Scraper extends ScraperAbstractInterface
 
     private $courseFields = array(
         'Url', 'Description', 'DurationMin','DurationMax', 'Name','LongDescription','VideoIntro','Certificate',
-        'CertificatePrice','ShortName'
+        'CertificatePrice','ShortName','Syllabus','IsMooc'
     );
 
     private $offeringFields = array(
@@ -56,6 +62,7 @@ class Scraper extends ScraperAbstractInterface
         //$this->buildSelfPacedCourseList();
 
         $tagService = $this->container->get('tag');
+        $em = $this->getManager();
 
         // Get the course list from the new RSS API
 
@@ -68,6 +75,139 @@ class Scraper extends ScraperAbstractInterface
         */
 
         /**
+         * The edX.org drupal AI used to render courses pages and course catalog
+         */
+        // Build the catalog.
+        $edxCourses = $this->getEdxDrupalJson();
+        $courseFound = 0;
+        $courseModes = array();
+        $pacingType = array();
+        foreach($edxCourses as $edxCourse)
+        {
+
+            $course = $this->getCourseEntityFromDrupalAPI($edxCourse);
+
+            $cTags = array();
+            foreach( $edxCourse['course_page_info']['schools']  as $school)
+            {
+                $cTags[] = strtolower($school['title']);
+            }
+
+            $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
+
+            // Do a fuzzy match on the course title
+            if (!$dbCourse)
+            {
+                $result = $this->findCourseByName( $edxCourse['title'], $this->initiative);
+                if( count($result) > 1)
+                {
+                    $this->out("DUPLICATE ENTRIES FOR: " . $edxCourse['title']);
+                    foreach ($result as $item)
+                    {
+                        $this->out( "COURSE ID" . $item->getId() );
+                    }
+                    continue;
+                }
+                else if (count($result) == 1)
+                {
+                    $dbCourse = $result;
+                }
+            }
+
+            if( !$dbCourse )
+            {
+
+                if($this->doCreate())
+                {
+                    $this->out("NEW COURSE - " . $course->getName());
+                    // NEW COURSE
+                    if ($this->doModify())
+                    {
+                        if(!empty($edxCourse['course_page_info']['staff']))
+                        {
+                            foreach( $edxCourse['course_page_info']['staff'] as $staff )
+                            {
+                                $insName = $staff['title'];
+                                if(!empty($insName))
+                                {
+                                    $course->addInstructor($this->dbHelper->createInstructorIfNotExists($insName));
+                                }
+                            }
+                        }
+
+
+                        $em->persist($course);
+                        $em->flush();
+
+                        $tagService->saveCourseTags( $course, $cTags);
+
+                        $this->dbHelper->sendNewCourseToSlack( $course, $this->initiative );
+
+                        if( $edxCourse['course_page_info']['image'] )
+                        {
+                            $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $course);
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                // Check if any fields are modified
+                $courseModified = false;
+                $changedFields = array(); // To keep track of fields that have changed
+                foreach($this->courseFields as $field)
+                {
+                    $getter = 'get' . $field;
+                    $setter = 'set' . $field;
+                    if($course->$getter() != $dbCourse->$getter())
+                    {
+                        $courseModified = true;
+
+                        // Add the changed field to the changedFields array
+                        $changed = array();
+                        $changed['field'] = $field;
+                        $changed['old'] =$dbCourse->$getter();
+                        $changed['new'] = $course->$getter();
+                        $changedFields[] = $changed;
+
+                        $dbCourse->$setter($course->$getter());
+                    }
+
+                }
+
+                if($courseModified && $this->doUpdate())
+                {
+                    //$this->out( "Database course changed " . $dbCourse->getName());
+                    // Course has been modified
+                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
+                    $this->outputChangedFields($changedFields);
+                    if ($this->doModify())
+                    {
+                        $em->persist($dbCourse);
+                        $em->flush();
+
+                        // Update tags
+                        $tagService->saveCourseTags( $dbCourse, $cTags);
+
+                        if( $edxCourse['course_page_info']['image'] )
+                        {
+                            $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $course);
+                        }
+                    }
+
+                }
+
+                $course = $dbCourse;
+            }
+        }
+        $this->out($courseFound);
+        print_r($courseModes);
+        print_r($pacingType);
+        exit();
+
+
+        /**
          * NEW OFFICIAL API
          */
         $accessToken = $this->getAccessToken();
@@ -76,15 +216,11 @@ class Scraper extends ScraperAbstractInterface
         ]);
         $em = $this->getManager();
         $nextUrl = self::EDX_API_ALL_COURSES_PATH_v1;
-        while($nextUrl)
-        {
-            $response = $client->get($nextUrl,[
-                'headers'=>[
-                    'Authorization' => "JWT {$accessToken}"
-                ]
-            ]);
+        while($nextUrl) {
 
-            $edxCourses = json_decode($response->getBody(),true);
+            $edxCourses = json_decode( $this->getedXJson($client,$nextUrl),true);
+            //$this->out(json_encode($edxCourses));
+
             foreach($edxCourses['results'] as $edxCourse)
             {
                 $course = $this->getCourseEntity($edxCourse);
@@ -101,7 +237,7 @@ class Scraper extends ScraperAbstractInterface
                 }
                 if($skip) continue;
 
-                // Get the latest run of hte course
+                // Get the latest run of the course
                 $latestRun = null;
                 if(!empty($edxCourse['course_runs']))
                 {
@@ -122,7 +258,6 @@ class Scraper extends ScraperAbstractInterface
                     $dbCourse = $this->dbHelper->getCourseByShortName( $this->getOldShortName($edxCourse['key']));
                 }
 
-
                 // Do a fuzzy match on the course title
                 if (!$dbCourse)
                 {
@@ -142,6 +277,12 @@ class Scraper extends ScraperAbstractInterface
                     }
                 }
 
+
+                if(!$dbCourse)
+                {
+                    $this->out($course->getName() . ' - ' . $edxCourse['uuid']);
+                }
+                continue;
 
                 if( !$dbCourse )
                 {
@@ -245,7 +386,6 @@ class Scraper extends ScraperAbstractInterface
             $nextUrl = $edxCourses['next'];
             $this->out( $nextUrl );
         }
-
 
         echo $edxCourses['count'] . "\n";
         echo $edxCourses['next'] . "\n";
@@ -583,6 +723,72 @@ class Scraper extends ScraperAbstractInterface
 
         return $course;
     }
+
+    /**
+     * Given an array built from edX csv returns a course entity
+     * @param array $c
+     */
+    private function getCourseEntityFromDrupalAPI ($c = array())
+    {
+        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
+        $langMap = $this->dbHelper->getLanguageMap();
+        $language = $langMap[ 'English' ];
+        if( isset($langMap[$c['language']]))
+        {
+            $language = $langMap[$c['language']];
+        }
+
+        $shortName = strtolower('edx_'.$c['number'].'_'.$c['org']);
+
+        $course = new Course();
+        $course->setShortName( $shortName );
+        $course->setInitiative( $this->initiative );
+        $course->setIsMooc(true);
+        $course->setName(  $c['title'] );
+        $course->setDescription( $c['course_page_info']['subtitle'] );
+        $course->setLongDescription( $c['course_page_info']['description'] );
+        $course->setSyllabus( $c['course_page_info']['syllabus']);
+        $course->setLanguage( $language);
+        $course->setStream($defaultStream); // Default to Computer Science
+        $course->setUrl($c['marketing_url']);
+        $course->setCertificate( false );
+        $course->setCertificatePrice( 0 );
+
+        if(!empty($c['course_page_info']['video']['url']))
+        {
+            $course->setVideoIntro($c['course_page_info']['video']['url'] );
+        }
+        // Check if the video is in course runs
+        if (isset($c['course_modes']['course_modes']))
+        {
+            foreach($c['course_modes']['course_modes'] as $courseMode)
+            {
+
+                if($courseMode['slug'] == 'verified')
+                {
+                    $course->setCertificatePrice( $courseMode['min_price'] );
+                    $course->setCertificate( true );
+                }
+            }
+        }
+
+        // the course is archived. available to register, but certificates not available.
+        if($c['availability'] =='Archived')
+        {
+            $course->setCertificate( false );
+            $course->setCertificatePrice( 0 );
+        }
+
+        if(isset($c['course_runs']) && $c['course_runs']['type'] =='professional')
+        {
+            $course->setIsMooc(false);
+            $course->setPrice(  $course->getCertificatePrice() );
+            $course->setPricePeriod( Course::PRICE_PERIOD_TOTAL );
+        }
+
+        return $course;
+    }
+
 
     private function getShortName( $details )
     {
@@ -933,5 +1139,67 @@ class Scraper extends ScraperAbstractInterface
 
         return $offering;
     }
+
+    public function getedXJson($client, $nextUrl)
+    {
+        $today = new \DateTime();
+        $today = $today->format('Y_m_d');
+        $filename =md5($nextUrl) . "_$today.json";
+        $filePath = '/tmp/'.$filename;
+        $edXCourses = null;
+        if(file_exists($filePath))
+        {
+            $edXCourses = file_get_contents($filePath);
+            $this->out("Read from cache");
+        }
+        else
+        {
+            try {
+                $response = $client->get($nextUrl, [
+                    'headers' => [
+                        'Authorization' => "JWT {$this->getAccessToken()}"
+                    ]
+                ]);
+                $edXCourses = $response->getBody();
+                file_put_contents($filePath,$edXCourses);
+            } catch(\Exception $e)
+            {
+                $this->out($e->getMessage()); exit();
+            }
+        }
+
+        return $edXCourses;
+    }
+
+    public function getEdxDrupalJson()
+    {
+        $today = new \DateTime();
+        $today = $today->format('Y_m_d');
+        $filename = "edx_$today.json";
+        $filePath = '/tmp/'.$filename;
+        $edXCourses = array();
+        if(file_exists($filePath))
+        {
+
+            $edXCourses = json_decode(file_get_contents($filePath),true);
+            $this->out("Read from cache");
+        }
+        else
+        {
+            $allCourses =  json_decode( file_get_contents(self::EDX_DRUPAL_CATALOG),true);
+            foreach($allCourses['objects']['results'] as $edXCourse)
+            {
+                $this->out($edXCourse['title']);
+                $edXCourse['course_page_info'] =  json_decode( file_get_contents(sprintf(self::EDX_DRUPAL_INDIVIDUAL,$edXCourse['key'])),true);
+                $edXCourse['course_runs'] = json_decode( file_get_contents(sprintf(self::EDX_DRUPAL_COURSE_RUNS,$edXCourse['key'])),true);
+                $edXCourse['course_modes'] = json_decode( file_get_contents(sprintf(self::EDX_DRUPAL_COURSE_MODES,$edXCourse['key'])),true);
+
+                $edXCourses[] = $edXCourse;
+            }
+            file_put_contents($filePath,json_encode($edXCourses));
+        }
+        return $edXCourses;
+    }
+
 
 }
