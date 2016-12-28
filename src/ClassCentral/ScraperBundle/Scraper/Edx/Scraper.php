@@ -36,7 +36,7 @@ class Scraper extends ScraperAbstractInterface
 
 
     private $courseFields = array(
-        'Url', 'Description', 'DurationMin','DurationMax', 'Name','LongDescription','VideoIntro','Certificate',
+        'Url', 'Description', 'Name','LongDescription','VideoIntro','Certificate',
         'CertificatePrice','ShortName','Syllabus','IsMooc'
     );
 
@@ -192,7 +192,7 @@ class Scraper extends ScraperAbstractInterface
 
                         if( $edxCourse['course_page_info']['image'] )
                         {
-                            $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $course);
+                            $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $dbCourse);
                         }
                     }
 
@@ -784,6 +784,15 @@ class Scraper extends ScraperAbstractInterface
             $course->setIsMooc(false);
             $course->setPrice(  $course->getCertificatePrice() );
             $course->setPricePeriod( Course::PRICE_PERIOD_TOTAL );
+        }
+
+        foreach( $c['course_page_info']['schools']  as $school)
+        {
+            $ins = $this->dbHelper->getInstitutionByName( trim($school['name']) );
+            if($ins)
+            {
+                $course->addInstitution( $ins );
+            }
         }
 
         return $course;
