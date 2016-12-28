@@ -25,7 +25,7 @@ class Scraper extends ScraperAbstractInterface
     const EDX_DRUPAL_CATALOG = 'https://www.edx.org/api/v1/catalog/search?page_size=2000&partner=edx&content_type[]=courserun';
     const EDX_DRUPAL_INDIVIDUAL = 'https://www.edx.org/api/catalog/v2/courses/%s';
     const EDX_DRUPAL_COURSE_RUNS =  'https://www.edx.org/api/v1/catalog/course_runs/%s'; // contains uuids required for sessions/offerings
-    const EDX_DRUPAL_COURSE_MODES = 'https://courses.edx.org/api/enrollment/v1/course/course-v1:Microsoft+DAT203.2x+1T2017'; // contains pricing ino
+    const EDX_DRUPAL_COURSE_MODES = 'https://courses.edx.org/api/enrollment/v1/course/%s'; // contains pricing ino
 
     public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251,15861, 15381
         ,15701, 7056
@@ -41,7 +41,7 @@ class Scraper extends ScraperAbstractInterface
     );
 
     private $offeringFields = array(
-        'StartDate', 'EndDate', 'Url'
+        'StartDate', 'EndDate', 'Url','ShortName','Status'
     );
 
     private $subjectsMap = array(
@@ -92,28 +92,15 @@ class Scraper extends ScraperAbstractInterface
             return;
         }
 
-
-        //$this->buildSelfPacedCourseList();
-
         $tagService = $this->container->get('tag');
         $em = $this->getManager();
 
-        // Get the course list from the new RSS API
-
-        $page = 0;
-        /*
-        $fp = fopen("extras/edX_prices.csv", "w");
-        fputcsv($fp, array(
-            'Course Name', 'Certificate Name', 'Prices(in $)'
-        ));
-        */
-
         /**
-         * The edX.org drupal AI used to render courses pages and course catalog
+         * The edX.org drupal API used to render courses pages and course catalog
          */
         // Build the catalog.
         $edxCourses = $this->getEdxDrupalJson();
-
+        $duplicateOfferings = 0;
         foreach($edxCourses as $edxCourse)
         {
             $course = $this->getCourseEntityFromDrupalAPI($edxCourse);
@@ -231,8 +218,89 @@ class Scraper extends ScraperAbstractInterface
 
                 $course = $dbCourse;
             }
+
+            /***************************
+             * CREATE OR UPDATE OFFERING
+             ***************************/
+
+            // Check if the course run is not empty
+            if(empty($edxCourse['course_runs']))
+            {
+                continue;
+            }
+
+            $offering = $this->getOffering($edxCourse,$course);
+
+            $dbOffering = $this->dbHelper->getOfferingByShortName($offering->getShortName());
+
+            // figure out if its a duplicate
+            if(!$dbOffering)
+            {
+                foreach($course->getOfferings() as $off)
+                {
+                    if( $off->getStartDate()->format('Y-m') == $offering->getStartDate()->format('Y-m') )
+                    {
+                        $dbOffering = $off;
+                        $duplicateOfferings++;
+                        break;
+                    }
+                }
+            }
+
+            if (!$dbOffering)
+            {
+                if($this->doCreate())
+                {
+                    $this->out("NEW OFFERING - " . $offering->getName());
+                    if ($this->doModify())
+                    {
+                        $em->persist($offering);
+                        $em->flush();
+                    }
+                    $this->dbHelper->sendNewOfferingToSlack( $offering);
+                    $offerings[] = $offering;
+                }
+            }
+            else
+            {
+                // old offering. Check if has been modified or not
+                $offeringModified = false;
+                $changedFields = array();
+                foreach ($this->offeringFields as $field)
+                {
+                    $getter = 'get' . $field;
+                    $setter = 'set' . $field;
+                    if ($offering->$getter() != $dbOffering->$getter())
+                    {
+                        $offeringModified = true;
+                        // Add the changed field to the changedFields array
+                        $changed = array();
+                        $changed['field'] = $field;
+                        $changed['old'] =$dbOffering->$getter();
+                        $changed['new'] = $offering->$getter();
+                        $changedFields[] = $changed;
+                        $dbOffering->$setter($offering->$getter());
+                    }
+                }
+
+                if ($offeringModified && $this->doUpdate())
+                {
+                    // Offering has been modified
+                    $this->out("UPDATE OFFERING - " . $dbOffering->getName());
+                    $this->outputChangedFields($changedFields);
+                    if ($this->doModify())
+                    {
+                        $em->persist($dbOffering);
+                        $em->flush();
+                    }
+                    $offerings[] = $dbOffering;
+
+                }
+            }
         }
-        
+
+        $this->out(  $duplicateOfferings );
+
         exit();
 
 
@@ -772,6 +840,7 @@ class Scraper extends ScraperAbstractInterface
             $language = $langMap[$edXLanguage];
         }
         $stream = $this->dbHelper->getStreamBySlug('cs');
+
         foreach($c['course_page_info']['subjects'] as $sub)
         {
             if(isset($this->subjectsMap[ $sub['title'] ]))
@@ -779,6 +848,12 @@ class Scraper extends ScraperAbstractInterface
                 $stream = $this->dbHelper->getStreamBySlug( $this->subjectsMap[ $sub['title'] ] );
             }
             break;
+        }
+
+        if($c['number'] =='CS50')
+        {
+            // CS50x and CS50AP both have the same number. So use the display_course_number
+            $c['number'] = $c['course_page_info']['display_course_number'];
         }
 
         $shortName = strtolower('edx_'.$c['number'].'_'.$c['org']);
@@ -848,6 +923,63 @@ class Scraper extends ScraperAbstractInterface
         }
 
         return $course;
+    }
+
+    private function getOffering($c, Course $course)
+    {
+        $offering = new Offering();
+        $now = new \DateTime();
+        $run = $c['course_runs'];
+        $offering->setShortName( 'edx_' . $run['uuid'] );
+        $offering->setCourse( $course );
+        $offering->setUrl( $c['marketing_url'] );
+        $offering->setStatus( Offering::START_DATES_KNOWN );
+        $offering->setStartDate( new \DateTime( $c['start'] ) );
+        if(  !empty($c['end']) )
+        {
+            $offering->setEndDate(  new \DateTime(  $c['end'] ) );
+        }
+        else if( !empty($c['course_page_info']['end']) )
+        {
+            $offering->setEndDate(  new \DateTime(  $c['course_page_info']['end'] ) );
+        }
+
+
+        if($run['pacing_type'] == 'instructor_paced')
+        {
+            // Do nothing
+        }
+        elseif($run['pacing_type'] == 'self_paced')
+        {
+            if($now > $offering->getStartDate())
+            {
+                $offering->setStatus( Offering::COURSE_OPEN );
+            }
+            else
+            {
+                $offering->setStatus( Offering::START_DATES_KNOWN );
+            }
+        }
+
+        // the course is archived. available to register, but certificates not available.
+        if($c['availability'] =='Archived')
+        {
+            $offering->setStatus( Offering::COURSE_OPEN );
+        }
+
+        if( !empty($c['enrollment_end']) )
+        {
+            $enrollmentEndDate = new \DateTime($c['enrollment_end']);
+
+            if( ($now > $enrollmentEndDate) && $offering->getStatus() == Offering::COURSE_OPEN)
+            {
+                // This will make the course show not as self paced.
+                $offering->setStatus( Offering::START_DATES_KNOWN );
+                $this->out( "Offering is not self paced: " .$course->getName());
+            }
+        }
+
+        return $offering;
     }
 
 
@@ -1169,6 +1301,9 @@ class Scraper extends ScraperAbstractInterface
         return strtolower( implode( '_',$keyParts ));
     }
 
+
+
+
     private function getOfferingFromCourseRun($run,$course)
     {
         $offering = new Offering();
@@ -1236,6 +1371,7 @@ class Scraper extends ScraperAbstractInterface
     {
         $today = new \DateTime();
         $today = $today->format('Y_m_d');
+
         $filename = "edx_$today.json";
         $filePath = '/tmp/'.$filename;
         $edXCourses = array();
