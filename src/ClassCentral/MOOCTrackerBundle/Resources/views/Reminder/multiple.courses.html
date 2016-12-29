@@ -1154,6 +1154,9 @@ body.outlook p {
                                                     {% if initiative == 'Coursera'  %}
                                                         {% set go_to_class_url = coursera_url~go_to_class_url|url_encode ~ '&u1=mooc_tracker_reminder' %}
                                                     {% endif %}
+                                                    {% if initiative == 'edX'  %}
+                                                        {% set go_to_class_url = edx_url~go_to_class_url|url_encode %}
+                                                    {% endif %}
 
                                                     <table class="row">
                                                         <tr>
