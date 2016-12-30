@@ -114,7 +114,7 @@ class OnboardingController extends Controller
 
 
         // Additional upcoming or interested courses to gauge interest:
-        $courses = array(7130,7463,7630,7518);
+        $courses = array(7130,7463,7518,7887);
         $interestingCourses = $finder->byCourseIds($courses);
 
 
