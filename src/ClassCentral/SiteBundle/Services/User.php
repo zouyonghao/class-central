@@ -743,7 +743,7 @@ class User {
         }
 
         $tables = array(
-            'reviews', 'users_courses','users_fb', 'newsletters_subscriptions','profiles','mooc_tracker_courses','mooc_tracker_search_terms','reviews_feedback','user_preferences','follows'
+            'reviews', 'users_courses','users_fb','users_google', 'newsletters_subscriptions','profiles','mooc_tracker_courses','mooc_tracker_search_terms','reviews_feedback','user_preferences','follows'
         );
         foreach($tables as $table)
         {
