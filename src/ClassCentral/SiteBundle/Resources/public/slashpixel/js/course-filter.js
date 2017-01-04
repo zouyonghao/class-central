@@ -211,6 +211,7 @@ jQuery(function($) {
         var page = $(this).attr('data-page');
         var params = updateUrl( page );
         ga('send','event','Load More Courses');
+        ga('send', 'pageview');
         updateCourses(params,parseInt(page));
     }
 
