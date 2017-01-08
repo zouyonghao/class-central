@@ -53,22 +53,16 @@
         } %}
 
     {% endif %}
-
-{% elseif ad == 2 and false %} {# pause it #}
-    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-    'url': 'https://treehouse.7eer.net/c/259799/294890/3944',
-    'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/treehouse-1.png',
-    'desc': "Learn to code. Wake up happy. Get a dream job.",
-    'provider' : 'Treehouse'
-    } %}
 {% else  %}
-    {% set paidCourse = courseService.getRandomPaidCourse() %}
-    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-        'url': paidCourse.nextSession.url,
-        'imageUrl' : imageService.getCourseImageAd(courseService.getCourseImageFromId(paidCourse.id), paidCourse.id),
-        'desc': paidCourse.name,
-        'provider' : paidCourse.provider.name
-    } %}
+    {#
+        {% set paidCourse = courseService.getRandomPaidCourse() %}
+        {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+            'url': paidCourse.nextSession.url,
+            'imageUrl' : imageService.getCourseImageAd(courseService.getCourseImageFromId(paidCourse.id), paidCourse.id),
+            'desc': paidCourse.name,
+            'provider' : paidCourse.provider.name
+        } %}
+    #}
 
 
 {% endif %}
