@@ -80,6 +80,8 @@ class Scraper extends ScraperAbstractInterface
 
     private $skipNames = array('DELETE','OBSOLETE','STAGE COURSE', 'Test Course');
 
+    private $coursesWithSameName = array('Introduction to Differential Equations');
+
     /**
      * Using the CSV
      */
@@ -113,8 +115,8 @@ class Scraper extends ScraperAbstractInterface
 
             $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
 
-            // Do a fuzzy match on the course title
-            if (!$dbCourse)
+            // Do a fuzzy match on the course title. Don't match for courses with same names
+            if (!$dbCourse && !in_array($course->getName(),$this->coursesWithSameName))
             {
                 $result = $this->findCourseByName( $edxCourse['title'], $this->initiative);
                 if( count($result) > 1)
