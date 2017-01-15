@@ -9,6 +9,7 @@ CC.Class['Follow'] = (function(){
     function init() {
         $('.btn-follow-item').click(followClicked);
         $('[data-toggle="tooltip"]').tooltip();
+        btnFollowBind();
     }
 
     function followClicked(e) {
@@ -201,8 +202,63 @@ CC.Class['Follow'] = (function(){
         }
     }
 
-    function decrementCount(item) {
+    function btnFollowBind() {
+        $(document).on('followButton:unfollow', function(event, instance, done) {
+            // Fires on an UNFOLLOW ACTION
 
+            /**
+             1. Make your ajax call here. on ajax callback fire the `done` method
+             2. `instance` will contain any data you put into the `data-follow`
+             attribute of the element, which can be used for backend coordination
+             3. The timeout is just mock an async call
+             **/
+            btnFollowAction(instance['item'],instance['item-id'],true,done);
+        });
+
+        $(document).on('followButton:follow', function(event, instance, done) {
+            // Fires on an FOLLOW ACTION
+
+            btnFollowAction(instance['item'],instance['item-id'],false,done);
+        });
+    }
+
+    function btnFollowAction(item,itemId,following,done) {
+        $.ajax({
+            url: "/ajax/isLoggedIn",
+            cache: false,
+            success: function( result ) {
+                var loggedInResult = $.parseJSON(result);
+                if( loggedInResult.loggedIn ){
+                    ga('send','event','Follow',"Logged in", item);
+
+                    // Follow the item
+                    var url = '/ajax/follow/' + item +'/' + itemId;
+                    if(following) {
+                        var url = '/ajax/unfollow/' + item +'/' + itemId;
+                    }
+
+                    $.ajax({
+                        url: url,
+                        cache:false,
+                        success: function(r) {
+                            done();
+                        }
+                    });
+                } else {
+                    ga('send','event','Follow',"Logged Out", item);
+                    // Save the follow info in session
+                    $.ajax({
+                        url: '/ajax/pre_follow/' + item +'/' + itemId,
+                        cache: false,
+                        success: function(r){
+                            // do nothing
+                        }
+                    });
+                    // Show signup modal
+                    $('#signupModal-btn_follow').modal('show');
+                }
+            }
+        });
     }
 
     /**
