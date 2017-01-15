@@ -13,6 +13,10 @@
     {% set simpleButton = false %}
 {% endif %}
 
+{% if followButtonWithCount is not defined  %}
+    {% set followButtonWithCount = false %}
+{% endif %}
+
 {% if hideNotification is not defined %}
     {% set hideNotification = false %}
 {% endif %}
@@ -46,6 +50,22 @@
         {% endif %}
 
     </a>
+{% elseif followButtonWithCount %}
+    <button class="btn-follow {% if followed %}is-following{% endif %}" data-follow='{"item":"{{ item }}","item-id":"{{ item_id }}"}'>
+        <i data-indicator class="icon"></i>
+        <span data-action>{% if followed %}Following{% else %}Follow{% endif %}</span>
+        <span data-display-count></span>
+        <div class="tooltip">
+            <h5 class="head-5">{{ itemName }}</h5>
+            <!--
+              starting count is based on provided integer below
+              formatting is handled by the JS for the shorthand display
+            -->
+
+            <p class="text-4"><span data-count>{{ followers }}</span> <span data-learners>learners</span> following</p>
+
+        </div>
+    </button>
 {% else %}
     <a href="#"
        class="action-button action-button--transparent btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}

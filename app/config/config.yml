@@ -12,7 +12,7 @@ framework:
     validation:      { enable_annotations: true }
     templating:
       engines: ['twig']
-      assets_version: 84
+      assets_version: 85
     default_locale: "%locale%"
     trusted_proxies: ~
     session:
@@ -40,7 +40,7 @@ twig:
       imageService  : @image_service
       moocReport    : @mooc_report
       credService   : @credential
-      followSrvice  : @follow
+      followService  : @follow
       cc_ads        : @advertising
       swiftype_engine_key : %swiftype_engine_key%
       clicky_site_id: %clicky_site_id%
