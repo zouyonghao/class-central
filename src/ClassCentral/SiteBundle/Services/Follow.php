@@ -97,5 +97,49 @@ class Follow
         return $this->em->getRepository($itemInfo['repository'])->find( $item->getId() );
     }
 
+    /**
+     * Get the number of followers
+     * @param Item $item
+     */
+    public function getFollowCountsObjectFromItem(Item $item)
+    {
+        return $this->em->getRepository('ClassCentralSiteBundle:FollowCounts')->findOneBy(array(
+            'item' => $item->getType(),
+            'itemId' => $item->getId()
+        ));
+    }
+
+    public function getNumFollowers($item,$itemId)
+    {
+        $cache = $this->container->get('cache');
+        $numFollowers = $cache->get('follow_count_' . $item . '_' . $itemId, function ($item,$itemId){
+            $item = Item::getItem($item,$itemId);
+            $followCountObj = $this->getFollowCountsObjectFromItem($item);
+            if($item)
+            {
+                return $followCountObj->getFollowed();
+            }
+
+            return 0;
+        }, array($item,$itemId));
+
+        return $numFollowers;
+    }
+
+    public function calculateNumFollowers(Item $item)
+    {
+        $query = $this->em->createQueryBuilder();
+        $query
+            ->add('select','count(f.id) as nuw_follows')
+            ->add('from','ClassCentralSiteBundle:Follow f')
+            ->groupBy('f.item, f.itemId')
+            ->Where('f.item = :item and f.itemId = :item_id')
+            ->setParameter('item', $item->getType())
+            ->setParameter('item_id', $item->getId())
+        ;
+
+        $numFollowers = $query->getQuery()->getSingleScalarResult();
+        return $numFollowers;
+    }
 
 }

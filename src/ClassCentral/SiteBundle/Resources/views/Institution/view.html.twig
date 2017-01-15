@@ -41,7 +41,8 @@
         item_id : followItemId,
         itemName: followItemName,
         followed: user_session.isItemFollowed(followItem,followItemId),
-        followButtonWithCount: true
+        followButtonWithCount: true,
+        followers:followService.getNumFollowers(followItem,followItemId)
     } %}
 
     <section class="courses">

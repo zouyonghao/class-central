@@ -40,7 +40,7 @@ twig:
       imageService  : @image_service
       moocReport    : @mooc_report
       credService   : @credential
-      followSrvice  : @follow
+      followService  : @follow
       cc_ads        : @advertising
       swiftype_engine_key : %swiftype_engine_key%
       clicky_site_id: %clicky_site_id%
