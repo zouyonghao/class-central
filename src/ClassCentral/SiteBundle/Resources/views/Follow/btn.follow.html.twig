@@ -61,11 +61,8 @@
               starting count is based on provided integer below
               formatting is handled by the JS for the shorthand display
             -->
-            {% if followed %}
-                <p class="text-4"><span data-count>{{ followers }}</span> <span data-learners>learners</span> following</p>
-            {% else %}
-                <p class="text-4"><span data-count style="display: none">{{ followers }}</span>Click the Follow button to receive updates when new courses are added</p>
-            {% endif %}
+
+            <p class="text-4"><span data-count>{{ followers }}</span> <span data-learners>learners</span> following</p>
 
         </div>
     </button>
