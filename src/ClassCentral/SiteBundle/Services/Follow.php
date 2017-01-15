@@ -115,7 +115,7 @@ class Follow
         $numFollowers = $cache->get('follow_count_' . $item . '_' . $itemId, function ($item,$itemId){
             $item = Item::getItem($item,$itemId);
             $followCountObj = $this->getFollowCountsObjectFromItem($item);
-            if($item)
+            if($followCountObj)
             {
                 return $followCountObj->getFollowed();
             }
