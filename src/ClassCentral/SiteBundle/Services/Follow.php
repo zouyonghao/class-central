@@ -130,7 +130,7 @@ class Follow
     {
         $query = $this->em->createQueryBuilder();
         $query
-            ->add('select','count(f.id) as nuw_follows')
+            ->add('select','count(f.id) as num_follows')
             ->add('from','ClassCentralSiteBundle:Follow f')
             ->groupBy('f.item, f.itemId')
             ->Where('f.item = :item and f.itemId = :item_id')
@@ -138,8 +138,8 @@ class Follow
             ->setParameter('item_id', $item->getId())
         ;
 
-        $numFollowers = $query->getQuery()->getSingleScalarResult();
-        return $numFollowers;
+        $numFollowers = $query->getQuery()->getOneOrNullResult();
+        return is_null($numFollowers) ? 0 : $numFollowers['num_follows'];
     }
 
 }

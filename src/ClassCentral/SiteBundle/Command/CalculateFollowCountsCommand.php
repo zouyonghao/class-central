@@ -26,21 +26,63 @@ class CalculateFollowCountsCommand extends ContainerAwareCommand
         foreach ($institutions as $institution)
         {
             $item = Item::getItemFromObject($institution);
-            $numFollowers = $fs->calculateNumFollowers($item);
-
-            $followCountObj = $fs->getFollowCountsObjectFromItem($item);
-            if(!$followCountObj)
-            {
-                $followCountObj = new FollowCounts();
-                $followCountObj->setItem($item->getType());
-                $followCountObj->setItemId($item->getId());
-            }
-            $followCountObj->setFollowed($numFollowers);
-            $em->persist($followCountObj);
-            $em->flush();
-
-            // Save the count
+            $numFollowers = $this->saveAndUpdateCount($item);
             $output->writeln($institution->getName(). " - " . $numFollowers);
         }
+
+        $providers = $em->getRepository('ClassCentralSiteBundle:Initiative')->findAll();
+        foreach ($providers as $provider)
+        {
+            $item = Item::getItemFromObject($provider);
+            $numFollowers = $this->saveAndUpdateCount($item);
+            $output->writeln($provider->getName(). " - " . $numFollowers);
+        }
+
+        $subjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+        foreach ($subjects as $subject)
+        {
+            $item = Item::getItemFromObject($subject);
+            $numFollowers = $this->saveAndUpdateCount($item);
+            $output->writeln($subject->getName(). " - " . $numFollowers);
+        }
+
+        $tags = $em->getRepository('ClassCentralSiteBundle:Tag')->findAll();
+        foreach ($tags as $tag)
+        {
+            $item = Item::getItemFromObject($tag);
+            $numFollowers = $this->saveAndUpdateCount($item);
+            $output->writeln($tag->getName(). " - " . $numFollowers);
+        }
+    }
+
+    public function saveAndUpdateCount(Item $item)
+    {
+        $fs = $this->getContainer()->get('follow');
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
+        $yesterday = new \DateTime();
+        $yesterday->sub(new \DateInterval('P1D'));
+
+        $followCountObj = $fs->getFollowCountsObjectFromItem($item);
+        if($followCountObj && $followCountObj->getModified() >= $yesterday)
+        {
+            return $followCountObj->getFollowed();
+        }
+
+        $followCountObj = $fs->getFollowCountsObjectFromItem($item);
+        if(!$followCountObj)
+        {
+            $followCountObj = new FollowCounts();
+            $followCountObj->setItem($item->getType());
+            $followCountObj->setItemId($item->getId());
+        }
+
+        $numFollowers = $fs->calculateNumFollowers($item);
+        $followCountObj->setFollowed($numFollowers);
+
+        $em->persist($followCountObj);
+        $em->flush();
+
+        return $numFollowers;
     }
 }
