@@ -241,7 +241,11 @@ CC.Class['Follow'] = (function(){
                         url: url,
                         cache:false,
                         success: function(r) {
-                            done();
+                            if(following) {
+                                done('decrement');
+                            } else {
+                                done('increment');
+                            }
                         }
                     });
                 } else {
@@ -252,6 +256,7 @@ CC.Class['Follow'] = (function(){
                         cache: false,
                         success: function(r){
                             // do nothing
+                            done();
                         }
                     });
                     // Show signup modal

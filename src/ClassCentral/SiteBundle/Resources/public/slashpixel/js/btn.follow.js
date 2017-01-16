@@ -29,22 +29,48 @@
 
             if (self.state().isFollowing) {
                 $(document).trigger('followButton:unfollow', [self.state().data, function(num) {
-                    num = typeof(num !== 'undefined') ? parseInt(num, 10) : false;
-                    self.state({
-                        action: 'Follow',
-                        isFollowing: false,
-                        count: num ? num : self.state().count - 1,
+                    var count = false;
+
+                    if (num && num === 'decrement') {
+                        count = self.state().count - 1;
+                    } else if (num && parseInt(num, 10)) {
+                        count = parseInt(num, 10);
+                    }
+
+                    if (count !== false) {
+                        return self.state({
+                            action: 'Follow',
+                            isFollowing: false,
+                            count: count,
+                            loading: false
+                        });
+                    }
+
+                    return self.state({
                         loading: false
                     });
                 }]);
             }
             else {
                 $(document).trigger('followButton:follow', [self.state().data, function(num) {
-                    num = typeof(num !== 'undefined') ? parseInt(num, 10) : false;
-                    self.state({
-                        action: 'Following',
-                        isFollowing: true,
-                        count: num ? num : self.state().count + 1,
+                    var count = false;
+
+                    if (num && num === 'increment') {
+                        count = self.state().count + 1;
+                    } else if (num && parseInt(num, 10)) {
+                        count = parseInt(num, 10);
+                    }
+
+                    if (count !== false) {
+                        return self.state({
+                            action: 'Following',
+                            isFollowing: true,
+                            count: count,
+                            loading: false
+                        });
+                    }
+
+                    return self.state({
                         loading: false
                     });
                 }]);
@@ -87,11 +113,9 @@
         } else {
             nums.shortHand = (num / 1000000).toFixed(num % 1000000 !== 0) + 'M';
         }
-
-        if (num < 10000) {
+        if (num < 10000 && num > 999) {
             nums.shortHand = str.charAt(0) + ',' + str.substring(1);
         }
-
         if (num < 1000) {
             nums.shortHand = str;
         }
