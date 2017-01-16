@@ -230,6 +230,7 @@ CC.Class['Follow'] = (function(){
                 var loggedInResult = $.parseJSON(result);
                 if( loggedInResult.loggedIn ){
                     ga('send','event','Follow',"Logged in", item);
+                    ga('send','event','Follow Button With Count',"Logged in", item);
 
                     // Follow the item
                     var url = '/ajax/follow/' + item +'/' + itemId;
@@ -250,6 +251,8 @@ CC.Class['Follow'] = (function(){
                     });
                 } else {
                     ga('send','event','Follow',"Logged Out", item);
+                    ga('send','event','Follow Button With Count',"Logged Out", item);
+
                     // Save the follow info in session
                     $.ajax({
                         url: '/ajax/pre_follow/' + item +'/' + itemId,
