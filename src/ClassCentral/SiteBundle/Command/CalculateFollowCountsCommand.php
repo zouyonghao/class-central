@@ -22,67 +22,50 @@ class CalculateFollowCountsCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $fs = $this->getContainer()->get('follow');
 
-        $institutions = $em->getRepository('ClassCentralSiteBundle:Institution')->findAll();
-        foreach ($institutions as $institution)
-        {
-            $item = Item::getItemFromObject($institution);
-            $numFollowers = $this->saveAndUpdateCount($item);
-            $output->writeln($institution->getName(). " - " . $numFollowers);
-        }
 
-        $providers = $em->getRepository('ClassCentralSiteBundle:Initiative')->findAll();
-        foreach ($providers as $provider)
-        {
-            $item = Item::getItemFromObject($provider);
-            $numFollowers = $this->saveAndUpdateCount($item);
-            $output->writeln($provider->getName(). " - " . $numFollowers);
-        }
+        $output->writeln("Updating folow counts for institutions");
+        $this->saveAndUpdateCountByItemType(Item::ITEM_TYPE_INSTITUTION);
 
-        $subjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
-        foreach ($subjects as $subject)
-        {
-            $item = Item::getItemFromObject($subject);
-            $numFollowers = $this->saveAndUpdateCount($item);
-            $output->writeln($subject->getName(). " - " . $numFollowers);
-        }
+        $output->writeln("Updating folow counts for providers");
+        $this->saveAndUpdateCountByItemType(Item::ITEM_TYPE_PROVIDER);
 
-        $tags = $em->getRepository('ClassCentralSiteBundle:Tag')->findAll();
-        foreach ($tags as $tag)
-        {
-            $item = Item::getItemFromObject($tag);
-            $numFollowers = $this->saveAndUpdateCount($item);
-            $output->writeln($tag->getName(). " - " . $numFollowers);
-        }
+        $output->writeln("Updating folow counts for ollections");
+        $this->saveAndUpdateCountByItemType(Item::ITEM_TYPE_COLLECTION);
+
+        $output->writeln("Updating folow counts for credentials");
+        $this->saveAndUpdateCountByItemType(Item::ITEM_TYPE_CREDENTIAL);
+
+        $output->writeln("Updating folow counts for subjects");
+        $this->saveAndUpdateCountByItemType(Item::ITEM_TYPE_SUBJECT);
+
+        $output->writeln("Updating folow counts for tags");
+        $this->saveAndUpdateCountByItemType(Item::ITEM_TYPE_TAG);
+
+        $output->writeln("Updating folow counts for languages");
+        $this->saveAndUpdateCountByItemType(Item::ITEM_TYPE_LANGUAGE);
+
     }
 
-    public function saveAndUpdateCount(Item $item)
+
+    public function saveAndUpdateCountByItemType($itemType)
     {
         $fs = $this->getContainer()->get('follow');
         $em = $this->getContainer()->get('doctrine')->getManager();
-
-        $yesterday = new \DateTime();
-        $yesterday->sub(new \DateInterval('P1D'));
-
-        $followCountObj = $fs->getFollowCountsObjectFromItem($item);
-        if($followCountObj && $followCountObj->getModified() >= $yesterday)
+        $results = $fs->returnFollowCountByItemType($itemType);
+        foreach ($results as $result)
         {
-            return $followCountObj->getFollowed();
+            $item = Item::getItem($itemType,$result['id']);
+            $followCountObj = $fs->getFollowCountsObjectFromItem($item);
+            if(!$followCountObj)
+            {
+                $followCountObj = new FollowCounts();
+                $followCountObj->setItem($item->getType());
+                $followCountObj->setItemId($item->getId());
+            }
+            $followCountObj->setFollowed($result['num_follows']);
+            $em->persist($followCountObj);
         }
 
-        $followCountObj = $fs->getFollowCountsObjectFromItem($item);
-        if(!$followCountObj)
-        {
-            $followCountObj = new FollowCounts();
-            $followCountObj->setItem($item->getType());
-            $followCountObj->setItemId($item->getId());
-        }
-
-        $numFollowers = $fs->calculateNumFollowers($item);
-        $followCountObj->setFollowed($numFollowers);
-
-        $em->persist($followCountObj);
         $em->flush();
-
-        return $numFollowers;
     }
 }

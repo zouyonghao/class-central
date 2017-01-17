@@ -17,6 +17,10 @@ php app/console classcentral:reviews:score --env=$env
 echo "Calculating profile score"
 php app/console classcentral:user:profilescore --env=$env
 
+# Generate follow counts
+echo "Generate follow counts"
+php app/console classcentral:follows:calculatecount --env=$env
+
 # Run Coursera scraper
 echo "Updating edX courses"
 php app/console classcentral:scrape Coursera --simulate=N --type=add

@@ -126,20 +126,19 @@ class Follow
         return $numFollowers;
     }
 
-    public function calculateNumFollowers(Item $item)
+
+    public function returnFollowCountByItemType($itemType)
     {
         $query = $this->em->createQueryBuilder();
         $query
-            ->add('select','count(f.id) as num_follows')
+            ->add('select','f.itemId as id, count(f.id) as num_follows')
             ->add('from','ClassCentralSiteBundle:Follow f')
             ->groupBy('f.item, f.itemId')
-            ->Where('f.item = :item and f.itemId = :item_id')
-            ->setParameter('item', $item->getType())
-            ->setParameter('item_id', $item->getId())
+            ->Where('f.item = :item')
+            ->setParameter('item', $itemType)
         ;
 
-        $numFollowers = $query->getQuery()->getOneOrNullResult();
-        return is_null($numFollowers) ? 0 : $numFollowers['num_follows'];
+        return $query->getQuery()->getArrayResult();
     }
 
 }
