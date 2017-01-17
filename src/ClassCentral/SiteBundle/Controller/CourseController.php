@@ -1309,6 +1309,12 @@ EOD;
         $cache = $this->get('Cache');
 
         $collection = $cache->get('json_collection_'.$slug,array($courseService,'getCollection'),array($slug));
+
+        if($slug == 'ivy-league-moocs')
+        {
+            $collection['courses'] = $courseService->getCourseIdsFromInstitutions($collection['institutions']);
+        }
+
         $data = $cl->collection($collection['courses'],$request);
 
         $template = 'ClassCentralSiteBundle:Course:collection.html.twig';
@@ -1320,6 +1326,10 @@ EOD;
         {
             $template = 'ClassCentralSiteBundle:Collection:language_courses.html.twig';
         }
+        elseif($slug == 'ivy-league-moocs')
+        {
+            $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
+        }
 
         // Get the collection object
         $colObj = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Collection')
@@ -1327,23 +1337,24 @@ EOD;
 
         return $this->render($template,
             array(
-                 'page'=>'collection',
-                 'results' => $data['courses'],
-                 'listTypes' => UserCourse::$lists,
-                 'allSubjects' => $data['allSubjects'],
-                 'allLanguages' => $data['allLanguages'],
-                 'allSessions' => $data['allSessions'],
-                 'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
-                 'sortField' => $data['sortField'],
-                 'sortClass' => $data['sortClass'],
-                 'pageNo' => $data['pageNo'],
-                 'showHeader' => true,
-                 'pageTitle' => $collection['title'],
-                 'pageDescription' => $collection['description'],
-                  'followItem' => Item::ITEM_TYPE_COLLECTION,
-                  'followItemId' => $colObj->getId(),
-                  'followItemName' => $colObj->getTitle(),
-
+                'page'=>'collection',
+                'results' => $data['courses'],
+                'listTypes' => UserCourse::$lists,
+                'allSubjects' => $data['allSubjects'],
+                'allLanguages' => $data['allLanguages'],
+                'allSessions' => $data['allSessions'],
+                'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
+                'sortField' => $data['sortField'],
+                'sortClass' => $data['sortClass'],
+                'pageNo' => $data['pageNo'],
+                'showHeader' => true,
+                'pageTitle' => $collection['title'],
+                'pageDescription' => $collection['description'],
+                'followItem' => Item::ITEM_TYPE_COLLECTION,
+                'followItemId' => $colObj->getId(),
+                'followItemName' => $colObj->getTitle(),
+                'collection' => $collection,
+                'slug' => $slug
             ));
     }
 

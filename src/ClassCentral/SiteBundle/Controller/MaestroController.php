@@ -206,6 +206,12 @@ class MaestroController extends Controller {
 
         $collection = $cache->get('json_collection_'.$slug,array($courseService,'getCollection'),array($slug));
         $collection = $courseService->getCollection( $slug );
+
+        if($slug == 'ivy-league-moocs')
+        {
+            $collection['courses'] = $courseService->getCourseIdsFromInstitutions($collection['institutions']);
+        }
+
         $data = $cl->collection($collection['courses'],$request);
 
         return $this->returnJsonResponse(

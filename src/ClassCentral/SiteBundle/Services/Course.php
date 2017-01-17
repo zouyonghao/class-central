@@ -200,4 +200,24 @@ class Course
 
         return json_decode($response->getBody(true),true);
     }
+
+    /**
+     * Given an array of institutions, it returns the courses taught by this institution.
+     * @param array $institutions
+     */
+    public function getCourseIdsFromInstitutions($institutions = array())
+    {
+        $institutions = implode(',',$institutions);
+        $conn = $this->container->get('doctrine')->getManager()->getConnection();
+        $statement = $conn->prepare("SELECT course_id FROM courses_institutions WHERE institution_id in ($institutions);");
+        $statement->execute();
+        $results = $statement->fetchAll();
+        $courseIds = array();
+        foreach ($results as $result)
+        {
+            $courseIds[] = $result['course_id'];
+        }
+
+        return $courseIds;
+    }
 }

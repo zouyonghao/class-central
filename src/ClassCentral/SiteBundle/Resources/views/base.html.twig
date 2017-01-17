@@ -191,6 +191,10 @@
 {% endblock %}
 
 <div class="container cc-body-content">
+
+    {%  block contentoutsideofccpage %}
+    {% endblock %}
+
     <div class="cc-page">
         {# Content pages go here #}
         {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
