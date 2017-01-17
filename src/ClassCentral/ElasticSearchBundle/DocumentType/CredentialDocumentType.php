@@ -225,7 +225,7 @@ class CredentialDocumentType extends DocumentType {
         }
         if($provider->getName() == 'HBX')
         {
-            $bulletPriceAndDuration = '$1800 for 8-18 weeks (program lengths vary)';
+            $bulletPriceAndDuration = '$1950 for 8-18 weeks (program lengths vary)';
         }
         $bulletPoints[] = $bulletPriceAndDuration;
 
