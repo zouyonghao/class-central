@@ -1307,15 +1307,16 @@ EOD;
         $cl = $this->get('course_listing');
         $courseService = $this->get('course');
         $cache = $this->get('Cache');
-
+        $additionalParams = array();
         $collection = $cache->get('json_collection_'.$slug,array($courseService,'getCollection'),array($slug));
 
         if($slug == 'ivy-league-moocs')
         {
             $collection['courses'] = $courseService->getCourseIdsFromInstitutions($collection['institutions']);
+            $additionalParams['session'] = 'upcoming,selfpaced,recent,ongoing';
         }
 
-        $data = $cl->collection($collection['courses'],$request);
+        $data = $cl->collection($collection['courses'],$request,$additionalParams);
 
         $template = 'ClassCentralSiteBundle:Course:collection.html.twig';
         if($slug == 'top-free-online-courses')

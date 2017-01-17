@@ -199,9 +199,8 @@ class MaestroController extends Controller {
     public function collectionAction(Request $request,$slug)
     {
         $cl = $this->get('course_listing');
-
         $courseService = $this->container->get('course');
-
+        $additionalParams = array();
         $cache = $this->container->get('Cache');
 
         $collection = $cache->get('json_collection_'.$slug,array($courseService,'getCollection'),array($slug));
@@ -210,9 +209,10 @@ class MaestroController extends Controller {
         if($slug == 'ivy-league-moocs')
         {
             $collection['courses'] = $courseService->getCourseIdsFromInstitutions($collection['institutions']);
+            $additionalParams['session'] = 'upcoming,selfpaced,recent,ongoing';
         }
 
-        $data = $cl->collection($collection['courses'],$request);
+        $data = $cl->collection($collection['courses'],$request,$additionalParams);
 
         return $this->returnJsonResponse(
             $data,
