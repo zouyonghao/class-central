@@ -37,8 +37,7 @@
 
                 <h1 class="headerIntro_title">{{ pageTitle }}</h1>
                 <h2 class="headerIntro_subTitle">{{ pageDescription|raw }}</h2>
-
-                {#
+                
                 {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                     item : followItem,
                     item_id : followItemId,
@@ -47,7 +46,7 @@
                     followButtonWithCount: true,
                     followers:followService.getNumFollowers(followItem,followItemId)
                 } %}
-                #}
+                <span class="headerIntro_buttonSub headerIntro_buttonSub-larger"></span>
 
             </div>
 
