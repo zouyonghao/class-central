@@ -1325,7 +1325,7 @@ EOD;
         }
         elseif($slug == 'learn-a-language')
         {
-            $template = 'ClassCentralSiteBundle:Collection:language_courses.html.twig';
+            $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
         }
         elseif($slug == 'ivy-league-moocs')
         {
