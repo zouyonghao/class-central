@@ -1318,19 +1318,7 @@ EOD;
 
         $data = $cl->collection($collection['courses'],$request,$additionalParams);
 
-        $template = 'ClassCentralSiteBundle:Course:collection.html.twig';
-        if($slug == 'top-free-online-courses')
-        {
-            $template = 'ClassCentralSiteBundle:Collection:best_free_online_courses.html.twig';
-        }
-        elseif($slug == 'learn-a-language')
-        {
-            $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
-        }
-        elseif($slug == 'ivy-league-moocs')
-        {
-            $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
-        }
+        $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
 
         // Get the collection object
         $colObj = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Collection')
