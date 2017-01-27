@@ -11,6 +11,9 @@
 {% if showSubjectInTable is not defined %}
     {% set showSubjectInTable = false %}
 {% endif %}
+{% if hideTableAd is not defined %}
+    {% set hideTableAd = false %}
+{% endif %}
 {% if pageNo == 1 or showHeader %}
 <table class="table table-bordered" id='{{ tableId}}list'>
     <thead>
@@ -94,23 +97,25 @@
     </thead>
     <tbody class="table-body-{{ tableId }}" id="course-listing-tbody">
 {% endif %}
-        {{ cc_ads.renderTextRowAd('table',{
-            'tableId': tableId,
-            'midRowTableAd': false,
-            'showSubjectInTable': showSubjectInTable
-        })|raw }}
+
+        {% if not hideTableAd %}
+            {{ cc_ads.renderTextRowAd('table',{
+                'tableId': tableId,
+                'midRowTableAd': false,
+                'showSubjectInTable': showSubjectInTable
+            })|raw }}
+        {% endif %}
 
 
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
-        {% if loop.index is divisibleby(20)  %}
+        {% if loop.index is divisibleby(20) and not hideTableAd %}
             {{ cc_ads.renderTextRowAd('table',{
                 'tableId': tableId,
                 'midRowTableAd': true,
                 'showSubjectInTable':showSubjectInTable
             })|raw }}
-
         {% endif %}
 
         {% if followItem is defined and loop.index == 5 and showHeader and not user_session.isItemFollowed(followItem,followItemId) %}

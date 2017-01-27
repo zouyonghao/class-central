@@ -134,7 +134,7 @@
                 <div class="front-page-table">
                     <h2 class="section-heading"><span>Personalized Course Recommendations</span></h2>
                     {% if app.user.areRecommendationsAvailable  %}
-                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recommendedCourses.courses,'tableId':'suggestions','hideLoadMore':true,'showSubjectInTable':true} %}
+                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recommendedCourses.courses,'tableId':'suggestions','hideLoadMore':true,'showSubjectInTable':true,'hideTableAd':true} %}
                         <a href="{{ path('user_recommendations') }}" class="expand-table-btn">View All</a>
                     {% else %}
                         <div class='alert alert-info' role='alert'>
@@ -147,7 +147,7 @@
                 <div class="front-page-table">
                     <h2 class="section-heading"><span>My Courses</span></h2>
                     {% if ucCount > 0 %}
-                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':uc,'tableId':'interested','showSubjectInTable':true} %}
+                        {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':uc,'tableId':'interested','showSubjectInTable':true,'hideTableAd':true} %}
                         <a href="{{ path('user_library') }}" class="expand-table-btn">View All {{ ucCount }} courses</a>
                     {% else %}
                         No courses found!
@@ -164,7 +164,7 @@
 
         <section class="upcoming-courses front-page-table">
             <h2 class="section-heading"><span>Trending Now</span></h2>
-            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':trendingCourses,'tableId':'trendingHome', 'hideLoadMore': true,'allowSorting' : false,'showSubjectInTable':true} %}
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':trendingCourses,'tableId':'trendingHome', 'hideLoadMore': true,'allowSorting' : false,'showSubjectInTable':true,'hideTableAd':true} %}
             {#
             <!-- <a href="{{ path('ClassCentralSiteBundle_courses', {type:'recent'}) }}" class="expand-table-btn">View All {{ recentCourses.hits.total }} courses</a> -->
             #}
