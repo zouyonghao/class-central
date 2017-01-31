@@ -7,11 +7,6 @@ Class Central
 * [Doctrine](http://www.doctrine-project.org/)
 * [Twitter Bootstrap 2](http://twitter.github.com/bootstrap/)
 
-## Goodies
-### SlashPixel Theme
-
-The Class Central theme, SlashPixel built on Twitter Bootstrap 2 by [Abhishek Gupta](https://twitter.com/#!/uxabhishek) is availaible for free for anyone to use. It can be found [here](https://github.com/classcentral/slashpixel)
-
 ### Extras
 
 The [extras](https://github.com/dhawalhshah/class-central/tree/master/extras) folder in the repository contains the complete dump of the database as well as the schema. Everything you see on the site can be found in the dump.
