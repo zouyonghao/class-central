@@ -181,3 +181,11 @@ ClassCentralSiteBundle_initiative_coursesites:
           route: ClassCentralSiteBundle_initiative
           permanent: true # this is for 301
           type: open-education
+
+ClassCentralSiteBundle_institution_worldbank:
+    pattern:  /university/worldbank
+    defaults:
+          _controller: FrameworkBundle:Redirect:redirect
+          route: ClassCentralSiteBundle_institution
+          permanent: true # this is for 301
+          slug: worldbank
