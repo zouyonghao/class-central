@@ -117,6 +117,16 @@
     <!-- Google+ Direct connect -->
     <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
 
+
+    <!-- Page Hiding snippet for Google Optimize -->
+    {% if app.environment =='prod' %}
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+            h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+            (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+        })(window,document.documentElement,'async-hide','dataLayer',4000,
+            {'{{ ga_optimize_id }}':true});</script>
+    {% endif %}
     <!-- Including google analytics. The parameter ganalytics_id must be set in parameters.ini -->
     <script type="text/javascript">
 
@@ -131,6 +141,9 @@
             ga('create', '{{ ganalytics_id }}', {'userId':'{{ app.user.id }}'});
         {% else %}
             ga('create', '{{ ganalytics_id }}', 'auto');
+        {% endif %}
+        {% if app.environment =='prod' %}
+            ga('require', '{{ ga_optimize_id }}');
         {% endif %}
         ga('send', 'pageview');
 

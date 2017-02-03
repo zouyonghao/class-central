@@ -18,6 +18,7 @@ parameters:
 
     addthis_pubid: ~
     ganalytics_id: ~
+    ga_optimize_id: ~
     fb_admins: ~
     plusPageUrl: ~
     baseurl: ~
