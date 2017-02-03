@@ -117,6 +117,12 @@
     <!-- Google+ Direct connect -->
     <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
 
+    <script type="text/javascript">
+        user_logged_in = 0;
+        {% if app.user %}
+            user_logged_in = 1;
+        {% endif %}
+    </script>
 
     <!-- Page Hiding snippet for Google Optimize -->
     {% if app.environment =='prod' %}
@@ -421,6 +427,7 @@
 
 <!-- clicky tracking code-->
 <script type="text/javascript">
+
     {% if app.user %}
     var clicky_custom = clicky_custom || {};
     clicky_custom.visitor = {
