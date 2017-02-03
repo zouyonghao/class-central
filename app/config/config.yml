@@ -27,7 +27,7 @@ twig:
     globals:
       addthis_pubid : %addthis_pubid%
       ganalytics_id : %ganalytics_id%
-      ga_optimize_id : %ganalytics_id%
+      ga_optimize_id : %ga_optimize_id%
       fb_admins     : %fb_admins%
       fb_app_id     : %fb_app_id%
       plusPageUrl   : %plusPageurl%
