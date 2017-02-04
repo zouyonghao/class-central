@@ -45,7 +45,8 @@ class Tag {
     }
 
     /**
-     * Saves the course
+     * Updates all the tags for the courses.
+     * Removes existing tags if its not part $tags array
      * @param Course $c
      * @param array $tags
      */
@@ -103,6 +104,46 @@ class Tag {
         {
             $this->cache->deleteCache(self::ALL_TAGS_CACHE_KEY);
         }
+    }
+
+    /**
+     * Only adds new tags if not already added
+     * @param Course $c
+     * @param array $tags
+     */
+    public function addCourseTags(Course $c, array $tags)
+    {
+
+        $existingTags = array();
+        foreach($c->getTags() as $cTag)
+        {
+            $existingTags[] = $cTag->getName();
+        }
+
+        foreach ($tags as $tag)
+        {
+            if(in_array($tag,$existingTags))
+            {
+                continue;
+            }
+
+            // Check if the tag exists
+            $t = $this->em->getRepository('ClassCentralSiteBundle:Tag')->findOneBy( array('name'=> $tag) );
+            if(!$t)
+            {
+                $newTag = true;
+
+                $t = new \ClassCentral\SiteBundle\Entity\Tag();
+                $t->setName($tag);
+                $this->em->persist($t);
+            }
+
+            $c->addTag($t);
+        }
+
+        $this->em->persist($c);
+        $this->em->flush();
+
     }
 
     public function copyCourses(\ClassCentral\SiteBundle\Entity\Tag $tagOrig, \ClassCentral\SiteBundle\Entity\Tag $tagDup)

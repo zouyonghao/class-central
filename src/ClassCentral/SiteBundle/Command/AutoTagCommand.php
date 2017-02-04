@@ -41,12 +41,12 @@ class AutoTagCommand extends ContainerAwareCommand
             // Add Tags based on the courses country and institute
             foreach ($course->getInstitutions() as $ins)
             {
-                if($ins->getCountry() && !in_array($ins->getCountry(), self::$skipTags))
+                if( $ins->getCountry() && !in_array($ins->getCountry(), self::$skipTags) && !in_array($ins->getCountry(),$tags))
                 {
                     $tags[] = $ins->getCountry();
                 }
 
-                if($ins->getContinent()  && !in_array($ins->getContinent(), self::$skipTags))
+                if( $ins->getContinent()  && !in_array($ins->getContinent(), self::$skipTags)  && !in_array($ins->getCountry(),$tags) )
                 {
                     $tags[] = $ins->getContinent();
                 }
@@ -54,7 +54,7 @@ class AutoTagCommand extends ContainerAwareCommand
 
             if(!empty($tags))
             {
-                $tagService->saveCourseTags($course,$tags);
+                $tagService->addCourseTags($course,$tags);
             }
 
             $count++;
