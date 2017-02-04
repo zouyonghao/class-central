@@ -34,6 +34,16 @@ ClassCentral\SiteBundle\Entity\Institution:
     description:
       type: string
       nullable: true
+    country:
+      type: string
+      length: 50
+      fixed: false
+      nullable: false
+    continent:
+      type: string
+      length: 50
+      fixed: false
+      nullable: false
   manyToMany:         
     courses:
       targetEntity: Course

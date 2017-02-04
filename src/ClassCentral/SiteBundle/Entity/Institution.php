@@ -62,6 +62,17 @@ class Institution
      */
     private $credentials;
 
+    /**
+     * @var string
+     */
+    private $country;
+
+    /**
+     * @var string
+     */
+    private $continent;
+
+
     public function __construct()
     {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
@@ -281,5 +292,52 @@ class Institution
     public function getCredentials()
     {
         return $this->credentials;
+    }
+
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return Institution
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set continent
+     *
+     * @param string $continent
+     * @return Institution
+     */
+    public function setContinent($continent)
+    {
+        $this->continent = $continent;
+    
+        return $this;
+    }
+
+    /**
+     * Get continent
+     *
+     * @return string 
+     */
+    public function getContinent()
+    {
+        return $this->continent;
     }
 }
