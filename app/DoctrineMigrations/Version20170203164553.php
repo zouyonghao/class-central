@@ -14,8 +14,8 @@ class Version20170203164553 extends AbstractMigration
     {
         $this->addSql(
             "ALTER TABLE institutions
-             ADD COLUMN country VARCHAR(50) NOT NULL,
-             ADD COLUMN continent VARCHAR(50) NOT NULL
+             ADD COLUMN country VARCHAR(50) NULL,
+             ADD COLUMN continent VARCHAR(50) NULL
             "
         );
 

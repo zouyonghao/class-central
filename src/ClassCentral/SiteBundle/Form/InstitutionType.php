@@ -16,8 +16,8 @@ class InstitutionType extends AbstractType
             ->add('isUniversity', null, array('required' => false))
             ->add('description')
             ->add('imageUrl')
-            ->add('country')
-            ->add('continent')
+            ->add('country', null, array('required' => false))
+            ->add('continent', null, array('required' => false))
         ;
     }
 
