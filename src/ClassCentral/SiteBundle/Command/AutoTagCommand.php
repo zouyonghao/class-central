@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AutoTagCommand extends ContainerAwareCommand
 {
+    private static $skipTags = array('USA', 'North America');
 
     protected function configure()
     {
@@ -40,12 +41,12 @@ class AutoTagCommand extends ContainerAwareCommand
             // Add Tags based on the courses country and institute
             foreach ($course->getInstitutions() as $ins)
             {
-                if($ins->getCountry())
+                if($ins->getCountry() && !in_array($ins->getCountry(), self::$skipTags))
                 {
                     $tags[] = $ins->getCountry();
                 }
 
-                if($ins->getContinent())
+                if($ins->getContinent()  && !in_array($ins->getContinent(), self::$skipTags))
                 {
                     $tags[] = $ins->getContinent();
                 }
