@@ -321,7 +321,7 @@ class User {
                         'source'   => Mailgun::UTM_SOURCE_PRODUCT,
                     ),
                     'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
-                        UserPreference::USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS,
+                        UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs,
                         $this->container->getParameter('secret')
                     )
                 )
