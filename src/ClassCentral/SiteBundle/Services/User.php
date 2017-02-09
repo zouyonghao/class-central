@@ -9,6 +9,7 @@ use ClassCentral\SiteBundle\Entity\Profile;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
+use ClassCentral\SiteBundle\Utility\CryptUtility;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -311,12 +312,17 @@ class User {
             $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig',
                 array(
                     'name' => $name,
+                    'user' => $user,
                     'loginToken' => $this->getLoginToken($user),
                     'baseUrl' => $this->container->getParameter('baseurl'),
                     'utm' => array(
                         'medium'   => Mailgun::UTM_MEDIUM,
                         'campaign' => 'new_user_welcome',
                         'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+                    ),
+                    'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
+                        UserPreference::USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS,
+                        $this->container->getParameter('secret')
                     )
                 )
             )
