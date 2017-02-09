@@ -3,6 +3,7 @@
 namespace  ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Item;
+use ClassCentral\SiteBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
