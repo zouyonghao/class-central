@@ -441,7 +441,12 @@ class CourseController extends Controller
         $titlePrefix = '';
         if(!empty($course['initiative']['name']))
         {
-            $titlePrefix = ' from ' . $course['initiative']['name'];
+            $fromName = $course['initiative']['name'];
+            if($fromName == 'Independent' && !empty($course['institutions']))
+            {
+                $fromName = $course['institutions']['0']['name'];
+            }
+            $titlePrefix = ' from ' . $fromName;
         }
         $course['pageTitle'] = $course['name'] . $titlePrefix;
 
