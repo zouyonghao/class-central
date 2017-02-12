@@ -122,7 +122,7 @@ class Tag {
 
         foreach ($tags as $tag)
         {
-            if(in_array($tag,$existingTags))
+            if(in_array($tag,$existingTags) || in_array(strtolower($tag),$existingTags))
             {
                 continue;
             }
