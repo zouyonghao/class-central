@@ -41,6 +41,7 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
         $baseUrl = $this->getContainer()->getParameter('baseurl');
 
         $sitemap = fopen("web/sitemap.txt", "w");
+
         // List all the courses first
         $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
         foreach ($courses as $course)
@@ -163,6 +164,19 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                     array('slug'=>$language->getSlug())
                 );
             fwrite($sitemap,$langPageUrl."\n");
+        }
+
+        // Tags
+        $tags = $em->getRepository('ClassCentralSiteBundle:Tag')->findAll();
+        foreach ($tags as $tag)
+        {
+            if(empty($tag->getName())) continue;
+            $tagPageUrl =
+                $baseUrl . $router->generate(
+                    'tag_courses',
+                    array('tag'=>urlencode($tag->getName()))
+                );
+            fwrite($sitemap,$tagPageUrl."\n");
         }
 
         fclose($sitemap);
