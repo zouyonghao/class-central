@@ -117,8 +117,9 @@ class Tag {
         $existingTags = array();
         foreach($c->getTags() as $cTag)
         {
-            $existingTags[] = $cTag->getName();
+            $existingTags[] = trim($cTag->getName());
         }
+
 
         foreach ($tags as $tag)
         {
