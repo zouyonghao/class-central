@@ -113,7 +113,6 @@ class Tag {
      */
     public function addCourseTags(Course $c, array $tags)
     {
-        
         $existingTags = array();
         foreach($c->getTags() as $cTag)
         {
