@@ -38,11 +38,6 @@ class AutoTagCommand extends ContainerAwareCommand
         foreach ($courses as $course)
         {
 
-            if($course->getId() != 4864)
-            {
-                continue;
-            }
-
             $tags = array();
             // Add Tags based on the courses country and institute
             foreach ($course->getInstitutions() as $ins)

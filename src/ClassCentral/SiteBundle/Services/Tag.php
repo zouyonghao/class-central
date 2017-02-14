@@ -113,15 +113,13 @@ class Tag {
      */
     public function addCourseTags(Course $c, array $tags)
     {
-
-        var_dump($tags);
+        
         $existingTags = array();
         foreach($c->getTags() as $cTag)
         {
             $existingTags[] = strtolower(trim($cTag->getName()));
         }
 
-        var_dump($existingTags);
         foreach ($tags as $tag)
         {
             if(in_array($tag,$existingTags))
