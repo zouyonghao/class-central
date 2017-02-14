@@ -43,12 +43,12 @@ class AutoTagCommand extends ContainerAwareCommand
             {
                 if( $ins->getCountry() && !in_array($ins->getCountry(), self::$skipTags) && !in_array($ins->getCountry(),$tags))
                 {
-                    $tags[] = $ins->getCountry();
+                    $tags[] = trim($ins->getCountry());
                 }
 
                 if( $ins->getContinent()  && !in_array($ins->getContinent(), self::$skipTags)  && !in_array($ins->getCountry(),$tags) )
                 {
-                    $tags[] = $ins->getContinent();
+                    $tags[] = trim($ins->getContinent());
                 }
             }
 
