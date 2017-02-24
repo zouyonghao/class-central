@@ -20,6 +20,7 @@
            content="{{ course['shortDesc'] }}"/>
      <meta property="og:title" content="Reviews for {{ course['pageTitle'] }} | Class Central" />
      <meta property="og:url" content="{{ course['pageUrl'] }}" />
+     <link rel="canonical" href="{{ course['pageUrl'] }}">
 
      {% if courseImageUrl %}
          <meta property="og:image" content="{{ courseImageUrl }}">
