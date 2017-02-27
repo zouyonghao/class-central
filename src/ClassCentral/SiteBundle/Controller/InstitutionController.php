@@ -193,12 +193,12 @@ class InstitutionController extends Controller
 
     public function viewAction(Request $request, $slug)
     {
+        $routeName = $request->get('_route');
 
+        // only use lower case slug
         if($slug !== strtolower($slug))
         {
             // Do a 301 redirect
-            $request = $this->get('request');
-            $routeName = $request->get('_route');
             $url = $this->get('router')->generate($routeName, array('slug' => strtolower($slug) ));
             return $this->redirect( $url, 301);
         }
@@ -206,6 +206,22 @@ class InstitutionController extends Controller
         $cl = $this->get('course_listing');
         $data = $cl->byInstitution($slug,$request);
         $institution = $data['institution'];
+
+        // route says institution but it is a university
+        if($institution->getIsUniversity() && $routeName == 'ClassCentralSiteBundle_institution' )
+        {
+            // Do a 301 redirect
+            $url = $this->get('router')->generate('ClassCentralSiteBundle_university', array('slug' => $slug ));
+            return $this->redirect( $url, 301);
+        }
+
+        // route says university but it as institution
+        if(!$institution->getIsUniversity() && $routeName == 'ClassCentralSiteBundle_university' )
+        {
+            // Do a 301 redirect
+            $url = $this->get('router')->generate('ClassCentralSiteBundle_institution', array('slug' => $slug ));
+            return $this->redirect( $url, 301);
+        }
 
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
