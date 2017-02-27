@@ -9,7 +9,7 @@
         {% if profileUrl %}
             <div class="portrait-col">
                 <a href="{{ profileUrl }}" title="{{ user_service.getDisplayName(user) }}'s Class Central profile" class="fluid-portrait"
-                   onmousedown="ga('send','event','User Profile Click','{{ profileLocation }}','{{ user.id  }}')"
+                   onmousedown="ga('send','event','User Profile Click','{{ profileLocation }}','{{ user.id  }}')" rel="nofollow"
                         >
                         <span class="fluid-portrait-image">
                             <div class="fluid-portrait-crop">

@@ -10,6 +10,8 @@
          <meta property="og:image" content="/bundles/classcentralsite/slashpixel/images/profile-dummy-img.jpg">
      {% endif %}
 
+     <meta name=”robots” content=”noindex, follow”>
+
      <meta property="og:title" content="{{ user.displayName }}'s MOOC record on Class Central - online transcript, reviews, and interests "/>
      <meta property="og:site_name" content="Class Central"/>
      <meta property="og:description" content="View {{ user.displayName }}'s MOOC Record on Class Central. Class Central profile pages makes it easy for you to learn about {{ user.displayName }}'s interest in MOOCs. " />
@@ -34,37 +36,37 @@
         </div>
         <div class="profile-social">
             {% if profile.website %}
-                <a href="{{ profile.website }}" class="profile-social-icon profile-chain" target="_blank">
+                <a href="{{ profile.website }}" class="profile-social-icon profile-chain" target="_blank" rel="nofollow">
                     <svg class="icon icon-chain" viewBox="0 0 32 32"><use xlink:href="#icon-chain"></use></svg>
                 </a>
             {% endif %}
 
             {% if profile.twitter %}
-                <a href="https://twitter.com/{{ profile.twitter }}" class="profile-social-icon profile-twitter" target="_blank">
+                <a href="https://twitter.com/{{ profile.twitter }}" class="profile-social-icon profile-twitter" target="_blank" rel="nofollow">
                     <svg class="icon icon-twitter" viewBox="0 0 32 32"><use xlink:href="#icon-twitter"></use></svg>
                 </a>
             {% endif %}
 
             {% if profile.facebook %}
-                <a href="https://facebook.com/{{ profile.facebook }}" class="profile-social-icon profile-facebook" target="_blank">
+                <a href="https://facebook.com/{{ profile.facebook }}" class="profile-social-icon profile-facebook" target="_blank" rel="nofollow">
                     <svg class="icon icon-facebook" viewBox="0 0 32 32"><use xlink:href="#icon-facebook"></use></svg>
                 </a>
             {% endif %}
 
             {% if profile.linkedin %}
-                <a href="http://www.linkedin.com/in/{{ profile.linkedin }}/" class="profile-social-icon profile-linkedin" target="_blank">
+                <a href="http://www.linkedin.com/in/{{ profile.linkedin }}/" class="profile-social-icon profile-linkedin" target="_blank" rel="nofollow">
                     <svg class="icon icon-linkedin" viewBox="0 0 32 32"><use xlink:href="#icon-linkedin"></use></svg>
                 </a>
             {% endif %}
 
             {% if profile.coursera %}
-                <a href="https://www.coursera.org/user/i/{{ profile.coursera }}" class="profile-social-icon coursera-profile" target="_blank">
+                <a href="https://www.coursera.org/user/i/{{ profile.coursera }}" class="profile-social-icon coursera-profile" target="_blank" rel="nofollow">
                     <svg class="icon icon-coursera" viewBox="0 0 32 32"><use xlink:href="#icon-coursera"></use></svg>
                 </a>
             {% endif %}
 
             {% if profile.gplus %}
-                <a href="https://plus.google.com/{{ profile.gplus }}" class="profile-social-icon google-profile" target="_blank">
+                <a href="https://plus.google.com/{{ profile.gplus }}" class="profile-social-icon google-profile" target="_blank" rel="nofollow">
                     <svg class="icon icon-googleplus" viewBox="0 0 32 32"><use xlink:href="#icon-googleplus"></use></svg>
                 </a>
             {% endif %}
