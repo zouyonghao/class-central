@@ -32,7 +32,7 @@ class MOOCReport
 
         return $cache->get('wp_new_posts',function(){
             $client = new Client();
-            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts');
+            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts?per_page=20');
             $response = $request->send();
 
             if($response->getStatusCode() !== 200)
