@@ -11,6 +11,8 @@
         {% set route = 'ClassCentralSiteBundle_institution' %}
     {% endif %}
     <meta property="og:url" content="{{ baseurl }}{{ path(route,{'slug': slug}) }}" />
+    <link rel="canonical" href="{{ baseurl }}{{ path(route,{'slug': slug}) }}">
+
     {% if pageInfo.imageUrl %}
         <meta property="og:image" content="{{ rackspace_cdn_base_url }}{{ pageInfo.imageUrl }}">
     {% else %}
