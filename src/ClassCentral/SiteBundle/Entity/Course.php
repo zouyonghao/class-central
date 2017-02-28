@@ -561,6 +561,7 @@ class Course {
      * @return mixed
      */
     public function getSlug(){
+        setlocale(LC_ALL, 'en_US.UTF8'); // for iconv to work properly
         $initiative = '';
         if($this->getInitiative() != null ) {
             $initiative = $this->getInitiative()->getName();
