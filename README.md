@@ -23,9 +23,7 @@ You need to have a Apache/MySQL/Php environment setup. Easiest way to do that is
 
 1. Clone the repository into the www folder. A folder named class-central should be created. 
 2. Import the [extras/cc_db.sql](https://github.com/dhawalhshah/class-central/tree/master/extras/cc_db.sql) file into a MySQL database. 
-3. Inside [app/config](https://github.com/dhawalhshah/class-central/tree/master/app/config) rename parameters.template.ini to pararameters.ini
-4. Set the following config variables in parameters.ini: <code>database_name, database_user, database_password</code>
-5. Download vendors from the command line by executing the following command:
-  <code>php bin/vendors install</code>
-6. Visit <code>http://localhost/class-central/web/app_dev.php/</code> to view the dev version of class-central homepage. Replace app_dev.php with app.php to see the production version.
-
+3. Inside [app/config](https://github.com/dhawalhshah/class-central/tree/master/app/config) rename parameters.yml.dist to parameters.yml
+4. Set the following config variables in parameters.yml: `database_name, database_user, database_password`
+5. Using [Composer](https://getcomposer.org/) to download all dependency.
+6. Visit `http://localhost/class-central/web/app_dev.php/` to view the dev version of class-central homepage. Replace app_dev.php with app.php to see the production version.
