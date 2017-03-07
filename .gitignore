@@ -1,3 +1,5 @@
+.idea/*
+
 # Bootstrap
 app/bootstrap*
 
@@ -10,6 +12,11 @@ web/bundles/*
 
 # Configuration files
 app/config/parameters.yml
+!/app/logs/.gitkeep
+
 /*.sh
-.idea/*
+
 bin/*
+!/bin/.htaccess
+!/bin/provision.sh
+
