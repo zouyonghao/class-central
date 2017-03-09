@@ -181,6 +181,15 @@ forgotpassword_sendemail:
   defaults: {_controller: ClassCentralSiteBundle:User:forgotPasswordSendEmail}
   methods: [POST]
 
+loginViaEmail:
+  pattern: /login-via-email
+  defaults: {_controller: ClassCentralSiteBundle:Login:loginViaEmail}
+
+loginViaEmail_sendemail:
+  pattern: /login-via-email-sendemail
+  defaults: {_controller: ClassCentralSiteBundle:Login:loginViaEmailSendEmail}
+  methods: [POST]
+
 resetPassword:
   pattern: /resetPassword/{token}
   defaults: {_controller: ClassCentralSiteBundle:User:resetPassword }

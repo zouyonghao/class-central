@@ -12,6 +12,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserFb;
 use ClassCentral\SiteBundle\Entity\UserGoogle;
+use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Facebook\FacebookRedirectLoginHelper;
@@ -477,6 +478,65 @@ class LoginController extends Controller{
 
         return UniversalHelper::getAjaxResponse(false,$errorMsg);
 
+    }
+
+    /**
+     *  Users can request a link that will get them logged in via email
+     */
+    public function loginViaEmailAction(Request $request)
+    {
+        if($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirect($this->generateUrl('user_library'));
+        }
+
+        return $this->render('ClassCentralSiteBundle:Login:login.via.email.html.twig');
+    }
+
+    /*
+     * Sends an email that contains a link to login
+     */
+    public function loginViaEmailSendEmailAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tokenService = $this->get('verification_token');
+        $mailgun = $this->get('mailgun');
+        $templating = $this->get('templating');
+        $session = $this->get('session');
+        $logger = $this->get('logger');
+
+        $email = $request->request->get('email');
+        if($email)
+        {
+            $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail($email);
+            if($user)
+            {
+                $token = $tokenService->create("login_token=1&user_id=" . $user->getId(), VerificationToken::EXPIRY_1_DAY);
+                if ($this->container->getParameter('kernel.environment') != 'test')
+                {
+                    $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:login.via.email.html.twig', array('token' => $token->getToken()))->getContent();
+                    $mailgunResponse = $mailgun->sendSimpleText($user->getEmail(),"no-reply@class-central.com","Sign in to Class Central",$html);
+                    if(!isset($mailgunResponse['id']))
+                    {
+                        $logger->error('Error sending login via email mail', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
+                    }
+                    else
+                    {
+                        $logger->info('Login via Email mail sent sent', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
+                    }
+                }
+                $session->set('leSendEmail',true);
+            }
+            else
+            {
+                $session->set('leEmail',$email);
+                $session->set('leSendEmail',"not empty"); // I know this is stupid
+            }
+        }
+
+
+
+        return $this->redirect($this->generateUrl('loginViaEmail'));
     }
 
 }

@@ -1,0 +1,59 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+ {% block headmeta %}
+     <title>Login via Email | Class Central</title>
+     <meta name="description"
+           content="Login via Email"/>
+ {% endblock %}
+
+
+{% block contentheader %}
+    <div class="cc-form-bg-wrap">
+        <div class="cc-form-box">
+
+            {% if app.session.get('leSendEmail') is empty %}
+                <div class="cc-form-box-inner">
+                    <div class="form-box-header">
+                        <span class="icon-cc-logo-png"></span>
+                        <svg class="icon icon-cc-logo-circle" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo-circle"></use></svg>
+                    </div>
+                    <div class="form-box-body">
+                        <h3>Email me a link to sign in</h3>
+                        <p>Enter your email address below. We'll look for your account and send you a link that will log you into Class Central.</p>
+
+                        <form action="{{ path('loginViaEmail_sendemail') }}" method="post">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="email" required="required" class="cc-form-input"/>
+                            <button class="btn btn-primary btn-course-cc" type="submit">Request email with a sign in link</button>
+                        </form>
+                    </div>
+                </div>
+                <p id="cc-form-box-additional-link">
+                    Don't have an account? <a href="{{ path('signup') }}" title="Sign up for MOOC Tracker">Sign up >></a>
+                </p>
+
+            {% else %}
+                <div class="cc-form-box-inner">
+                    <div class="form-box-header">
+                        <span class="icon-cc-logo-png"></span>
+                        <svg class="icon icon-cc-logo-circle" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo-circle"></use></svg>
+                    </div>
+                    <div class="form-box-body">
+                        {% if app.session.get('leEmail') is empty %}
+                            <h3>You've got mail</h3>
+                            <p>We sent you a link to sign in. Please check your inbox.</p>
+                        {% else %}
+                            <h3>Account does not exist</h3>
+                            <p>Account with email {{ app.session.get('leEmail') }} does not exist</p>
+                            {% set remove = app.session.remove('leEmail')  %}
+                        {% endif %}
+                        {% set remove = app.session.remove('leSendEmail')  %}
+
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
