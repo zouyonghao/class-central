@@ -242,7 +242,7 @@
         {% endif %}
     {% endfor %}
 
-
+    {% if blog1 is not empty or blog2 is not empty %}
     <section class="blog-spotlight">
         <div class="container">
             <h2 class="section-heading"><span>Op-Eds</span></h2>
@@ -286,7 +286,7 @@
             </div>
         </a>
     </section>
-
+    {% endif %}
 
     <section class="footer-logos">
         <ul>

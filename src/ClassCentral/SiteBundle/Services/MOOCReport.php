@@ -31,16 +31,20 @@ class MOOCReport
         $cache = $this->container->get('cache');
 
         return $cache->get('wp_new_posts',function(){
-            $client = new Client();
-            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts?per_page=20');
-            $response = $request->send();
-
-            if($response->getStatusCode() !== 200)
+            try
             {
-                return array();
-            }
+                $client = new Client();
+                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts?per_page=20');
+                $response = $request->send();
 
-            return json_decode($response->getBody(true),true);
+                if($response->getStatusCode() !== 200)
+                {
+                    return array();
+                }
+
+                return json_decode($response->getBody(true),true);
+            } catch (\Exception $e) {}
+            return array();
         });
     }
 
@@ -50,34 +54,44 @@ class MOOCReport
         $cache = $this->container->get('cache');
 
         return $cache->get('wp_op_ed_posts',function(){
-            $client = new Client();
-            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts/?filter[category_name]=mooc-commentary');
-            $response = $request->send();
-
-            if($response->getStatusCode() !== 200)
+            try
             {
-                return array();
-            }
 
-            return json_decode($response->getBody(true),true);
+                $client = new Client();
+                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts/?filter[category_name]=mooc-commentary');
+                $response = $request->send();
+
+                if($response->getStatusCode() !== 200)
+                {
+                    return array();
+                }
+
+                return json_decode($response->getBody(true),true);
+            } catch (\Exception $e) {}
+            return array();
         });
     }
 
     public function getAuthor($authorId)
     {
         $cache = $this->container->get('cache');
-
         return $cache->get('wp_post_author_'.$authorId, function($authorId){
-            $client = new Client();
-            $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/users/'. $authorId);
-            $response = $request->send();
+            try {
+                $client = new Client();
+                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/users/'. $authorId);
+                $response = $request->send();
 
-            if($response->getStatusCode() !== 200)
+                if($response->getStatusCode() !== 200)
+                {
+                    return array('name' => '');
+                }
+
+                return json_decode($response->getBody(true),true);
+            } catch (\Exception $e)
             {
-                return array();
-            }
 
-            return json_decode($response->getBody(true),true);
+            }
+            return array('name' => '');
         }, array($authorId));
 
     }
