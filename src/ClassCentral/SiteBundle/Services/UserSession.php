@@ -53,7 +53,7 @@ class UserSession
         'fb_authorize_start', 'fb_authorize_redirect',
         'review_save', 'review_create',
         'login','github_btn','pre_signup_add_to_library',
-        'credential_review_save','credential_review'
+        'credential_review_save','credential_review', 'ajax_user_signup_modal'
     );
 
     private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);

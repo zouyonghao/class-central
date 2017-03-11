@@ -1099,4 +1099,83 @@ class UserController extends Controller
         );
     }
 
+    public function createSignupModalAjaxAction(Request $request, $src)
+    {
+        $modal = 1; // Signifies that the signup form is shown in a modal
+        $signupForm   = $this->createForm(new SignupType( $modal ), new User(),array(
+            'action' => $this->generateUrl('signup_create_user',array('src' => $src)),
+        ));
+
+        $mediaCard_1 = array(
+            'title' => 'Never stop Learning!',
+            'text'  => 'Track courses that match your interests and receive recommendations'
+        );
+
+        switch ($src) {
+            case 'create_credential_review':
+            case 'create_course_review':
+                $mediaCard_1 = array(
+                    'title' => 'Review Saved!',
+                    'text'  => 'Signup to update/edit it later.'
+                );
+                break;
+            case 'credential_create_free_account':
+                $mediaCard_1 = array(
+                    'title' => 'LEARNING. Always.',
+                    'text'  => 'Track courses that match your interests and receive recommendations'
+                );
+                break;
+            case 'btn_get_notified':
+                $course = $options['course'];
+                $mediaCard_1 = array(
+                    'title' => 'Follow Course',
+                    'text'  => 'Receive email updates for "'. $course['name']. '"'
+                );
+                break;
+            case 'mooc_tracker_add_to_my_courses':
+                $mediaCard_1 = array(
+                    'title' => 'My Courses',
+                    'text'  => 'Build a personal course catalog'
+                );
+                break;
+            case 'mooc_tracker_search_terms':
+                $mediaCard_1 = array(
+                    'title' => 'Track search terms',
+                    'text'  => 'Receive alerts when courses matching your search term are announced'
+                );
+                break;
+            case 'btn_follow':
+                $mediaCard_1 = array(
+                    'title' => 'Personalized Recommendations',
+                    'text'  => 'Follow subjects, courses, universities, providers and get regular updates'
+                );
+                break;
+
+        }
+
+        $sigupFormModels = $this->get('cache')->get('signupform_models', function(){
+            $signupFormUserIds = array(
+                1,62002,47,37090,14552,64384,64376,69879,18858,46185,
+                71702,28990,45161,38674,33586, 67004, 63157,43746, 54495,
+                10870,54429, 15672, 6158, 28538
+            );
+            return $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:User')->getUsers( $signupFormUserIds );
+        });
+
+        $signupModal =  $this->render(
+            'ClassCentralSiteBundle:User:signupModal.html.twig', array(
+                'signupForm' => $signupForm->createView(),
+                'sigupFormModels' => $sigupFormModels,
+                'src' => $src,
+                'options' => $options,
+                'mediaCard_1' => $mediaCard_1
+            )
+        )->getContent();
+
+        $response = array(
+            'modal' => $signupModal,
+        );
+
+        return new Response( json_encode($response) );
+    }
 }

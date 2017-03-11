@@ -56,7 +56,7 @@ jQuery(function($) {
                     }).done(function(result){
                         // Show the singup popups
                         CC.Class['Utilities'].hideWidgets();
-                        $('#signupModal-mooc_tracker_add_to_my_courses').modal('show');
+                        CC.Class["Signup"].showSignupModal("mooc_tracker_add_to_my_courses");
                     });
                 }
             });
@@ -797,7 +797,7 @@ jQuery(function($) {
     $('#navbar-create-free-account').click( function(e){
         e.preventDefault();
         CC.Class['Utilities'].hideWidgets();
-        $('#signupModal-navbar_create_free_account').modal('show');
+        CC.Class["Signup"].showSignupModal("navbar_create_free_account");
         try {
             ga('send','event','Create Free Account','Navbar');
         }catch (e){}
@@ -806,7 +806,7 @@ jQuery(function($) {
     $('#meetyournextcourse-create-free-account').click( function(e){
         e.preventDefault();
         CC.Class['Utilities'].hideWidgets();
-        $('#signupModal-navbar_create_free_account').modal('show');
+        CC.Class["Signup"].showSignupModal("navbar_create_free_account");
         try {
             ga('send','event','Create Free Account','Meet your next course');
         }catch (e){}
@@ -1194,7 +1194,9 @@ jQuery(function($) {
     }
 
     var signupForms = ['mooc_tracker_add_to_my_courses','btn_get_notified','go_to_class','credential_create_free_account','mooc_tracker_search_terms',
-        'home_create_free_account','convincer_create_free_account','navbar_create_free_account','create_course_review','create_credential_review','btn_follow','ask_for_signup'];
+        'home_create_free_account','convincer_create_free_account','navbar_create_free_account','create_course_review','create_credential_review','btn_follow','' +
+        '' +
+        ''];
     for(var i =0 ; i < signupForms.length; i++)
     {
         var signupFormId = "#signupModal-" + signupForms[i];

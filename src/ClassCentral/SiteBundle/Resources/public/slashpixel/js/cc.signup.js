@@ -371,7 +371,7 @@ CC.Class['Signup'] = (function(){
                         setTimeout(function() {
                             // Check the cookie again
                             if(Cookies.get( promptShownCookie) === undefined ) {
-                                $('#signupModal-ask_for_signup').modal('show');
+                                CC.Class["Signup"].showSignupModal("ask_for_signup");
                                 Cookies.set( promptShownCookie, 1, { expires :30} );
                                 CC.Class['Utilities'].hideWidgets();
                             }
@@ -383,13 +383,64 @@ CC.Class['Signup'] = (function(){
         }
     }
 
+    function showSignupModal(src) {
+        console.log(src);
+        $.ajax({
+            url: "/ajax/isLoggedIn",
+            cache: true
+        })
+            .done(function(result){
+                    var loggedInResult = $.parseJSON(result);
+                    if( !loggedInResult.loggedIn) {
+
+                        // Show the signup form
+                        var url = '/ajax/signup/' + src;
+                        $.ajax({
+                            url: url,
+                            cache: false,
+                            success: function( result ) {
+                                var response = $.parseJSON(result);
+                                $(response.modal).appendTo("body");
+
+                                // Setup the modal
+                                var signupFormId = "#signupModal-" + src;
+                                // mini slider functionality
+                                $( signupFormId + " .js-mini-slider" ).each(function( index, element ) {
+                                    $(element).flexslider({
+                                        selector: " .js-mini-slider-slides .js-mini-slider-slide",
+                                        slideshow: true,
+                                        slideshowSpeed: 4000,
+                                        directionNav: false,
+                                        manualControls: signupFormId +  " .js-mini-slider-controls .js-mini-slider-control"
+                                    });
+
+                                    var $slide = $(element).find(" .js-mini-slider-slide");
+
+                                    var numberOfSlides = $slide.length;
+
+                                    $slide.on("click", function(e) {
+                                        $(element).flexslider("next");
+                                    });
+                                });
+
+                                $('form[name="cc-signup-form"]').submit( signupFormSubmit);
+
+                                $(signupFormId).modal("show");
+                            }
+                        })
+                    }
+                }
+            );
+    }
+
     return {
         init: init,
         'profileOnboarding' : showOnboardingProfileStep,
         'followSubjectOnboarding' : showOnboardingFollowSubjectStep,
         'followInstitutionOnboarding' : showOnboardingFollowInstitutionsStep,
         'followCourseOnboarding':showOnboardingFollowCoursesStep,
-        'showSignupPrompt' : showSignupPrompt
+        'showSignupPrompt' : showSignupPrompt,
+        'showSignupModal' : showSignupModal
     }
 })();
 

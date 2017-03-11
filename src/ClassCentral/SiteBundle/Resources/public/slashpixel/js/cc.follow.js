@@ -176,12 +176,12 @@ CC.Class['Follow'] = (function(){
                             url: '/ajax/pre_follow/' + item +'/' + itemId,
                             cache: false,
                             success: function(r){
-                                // do nothing
+                                // Show signup modal
+                                CC.Class["Signup"].showSignupModal("btn_follow");
                             }
                         });
 
-                        // Show signup modal
-                        $('#signupModal-btn_follow').modal('show');
+
                     }
                 }
             });
@@ -263,7 +263,7 @@ CC.Class['Follow'] = (function(){
                         }
                     });
                     // Show signup modal
-                    $('#signupModal-btn_follow').modal('show');
+                    CC.Class["Signup"].showSignupModal("btn_follow");
                 }
             }
         });

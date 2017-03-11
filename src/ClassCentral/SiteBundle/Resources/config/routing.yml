@@ -312,6 +312,10 @@ pre_signup_add_to_library:
   defaults: {_controller: ClassCentralSiteBundle:User:preSignupAddToLibrary}
   schemes:  [https]
 
+ajax_user_signup_modal:
+  pattern: /ajax/signup/{src}
+  defaults: {_controller: ClassCentralSiteBundle:User:createSignupModalAjax}
+
 user_preferences:
   pattern: /user/preferences
   defaults: {_controller: ClassCentralSiteBundle:User:preferences}
