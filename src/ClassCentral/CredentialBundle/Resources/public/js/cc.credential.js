@@ -19,7 +19,8 @@ CC.Class['Credential'] = (function(){
 
         $('#cred-button-signup').click(function(e){
             e.preventDefault();
-            $('#signupModal-credential_create_free_account').modal('show');
+            CC.Class["Signup"].showSignupModal("credential_create_free_account");
+
         });
 
         // More reviews button

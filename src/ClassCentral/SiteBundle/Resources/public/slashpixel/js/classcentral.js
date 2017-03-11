@@ -67,8 +67,9 @@ jQuery(function($) {
         $.ajax({
             url: "/signup/pre_q/" + escape($('#general-search #st-search-input').val()),
         }).done(function(result){
-            // Show the singup popups
-            $('#signupModal-mooc_tracker_search_terms').modal('show');
+            // Show the singup modal
+            CC.Class["Signup"].showSignupModal("mooc_tracker_search_terms");
+
         });
     });
 
@@ -779,7 +780,8 @@ jQuery(function($) {
     $('#home-create-free-account').click( function(e){
         e.preventDefault();
         CC.Class['Utilities'].hideWidgets();
-        $('#signupModal-home_create_free_account').modal('show');
+        CC.Class["Signup"].showSignupModal("home_create_free_account");
+
         try {
             ga('send','event','Create Free Account','Home Tab');
         }catch (e){}
@@ -788,7 +790,7 @@ jQuery(function($) {
     $('#convincer-create-free-account').click( function(e){
         e.preventDefault();
         CC.Class['Utilities'].hideWidgets();
-        $('#signupModal-convincer_create_free_account').modal('show');
+        CC.Class["Signup"].showSignupModal("convincer_create_free_account");
         try {
             ga('send','event','Create Free Account','Convincer');
         }catch (e){}
