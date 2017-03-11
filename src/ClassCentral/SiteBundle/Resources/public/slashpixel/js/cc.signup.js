@@ -384,7 +384,6 @@ CC.Class['Signup'] = (function(){
     }
 
     function showSignupModal(src) {
-        console.log(src);
         $.ajax({
             url: "/ajax/isLoggedIn",
             cache: true
