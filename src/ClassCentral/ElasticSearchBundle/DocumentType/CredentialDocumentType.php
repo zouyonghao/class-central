@@ -255,7 +255,7 @@ class CredentialDocumentType extends DocumentType {
         }
         elseif ($provider->getName() == 'Udacity')
         {
-            $bulletPoints[] = 'Graduate in 12 months, get a 50% tuition refund';
+            // $bulletPoints[] = 'Graduate in 12 months, get a 50% tuition refund';
             $bulletPoints[] = '1:1 feedback - Rigorous, timely project and code reviews';
         }
         elseif ($provider->getName() == 'Treehouse')
