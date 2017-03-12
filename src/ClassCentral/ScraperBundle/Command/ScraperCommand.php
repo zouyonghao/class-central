@@ -67,7 +67,6 @@ class ScraperCommand extends ContainerAwareCommand
         $scraperFactory->setIsCredential( $credential );
         $scraperFactory->setOutputInterface($output);
         $scraperFactory->setContainer($this->getContainer());
-        $scraperFactory->setDomParser($this->getContainer()->get('dom_parser'));
 
         $scraper = $scraperFactory->getScraper();
         $offerings = $scraper->scrape();

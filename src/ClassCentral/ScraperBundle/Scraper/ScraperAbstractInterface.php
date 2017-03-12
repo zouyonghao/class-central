@@ -20,7 +20,6 @@ abstract class ScraperAbstractInterface
     protected $simulate = 'Y';
     protected $isCredential = false;
     protected $output;
-    protected $domParser;
     protected $created; // If true, new offerings can be added
     protected $updated; // If true,  offerings can only be updated
     protected $modify; // If true. database can be modified
@@ -56,11 +55,7 @@ abstract class ScraperAbstractInterface
     {
         return $this->initiative;
     }
-
-    public function setDomParser($domParser)
-    {
-        $this->domParser = $domParser;
-    }
+    
 
     public function setContainer($container)
     {

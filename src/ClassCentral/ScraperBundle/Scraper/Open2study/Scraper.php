@@ -253,28 +253,4 @@ class Scraper extends ScraperAbstractInterface
         return strtolower($this->initiative->getCode() . '_' . $courseId. '_'.str_replace('-','_', $startDate));
     }
 
-    /**
-     * Goes to the course page and gets a list of course urls
-     */
-    private function getListOfCoursePages()
-    {
-        $urls = array();
-        $this->domParser->load_file(self::COURSE_CATALOGUE);
-        foreach($this->domParser->find('span.field-content') as $course)
-        {
-            $urls[] = $course->find('a',0)->href;
-        }
-        $this->domParser->clear();
-        return $urls;
-    }
-
-    /**
-     * Visits the course page and then creates an offering
-     */
-    private function getOfferingFromUrl($url)
-    {
-        $this->domParser->load_file($url);
-
-        $this->domParser->clear();
-    }
 }

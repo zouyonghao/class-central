@@ -20,7 +20,6 @@ class ScraperFactory {
     private $simulate = 'Y';
     private $isCredential = false;
     private $output;
-    private $domParser;
     private $container;
 
     public function __construct(Initiative $initiative)
@@ -48,11 +47,6 @@ class ScraperFactory {
         $this->output = $output;
     }
 
-    public function setDomParser($domParser)
-    {
-        $this->domParser = $domParser;
-    }
-
     public function getScraper()
     {
         $code = ucwords(strtolower($this->initiative->getCode()));
@@ -75,7 +69,6 @@ class ScraperFactory {
         $obj->setIsCredential( $this->isCredential );
         $obj->setOutputInterface($this->output);
         $obj->setInitiative($this->initiative);
-        $obj->setDomParser($this->domParser);
         $obj->setContainer($this->container);
         $obj->init();
     }

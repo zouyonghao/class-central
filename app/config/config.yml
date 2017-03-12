@@ -166,8 +166,6 @@ services:
       calls:
           - [setContainer, ['@service_container'] ]
 
-  dom_parser:
-    class: SimplehtmldomClient
   doctrine_cache:
     class: Doctrine\Common\Cache\MemcachedCache
     calls:
