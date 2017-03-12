@@ -22,6 +22,8 @@
     <meta name="twitter:description" content="Class Central ratings are the most trusted measurement of quality for online courses. Now you can easily decide which {{ provider.name }} course to take next.">
     <meta name="twitter:domain" content="www.class-central.com">
 
+    <link rel="canonical" href="{{ baseurl }}{{ path('ClassCentralSiteBundle_initiative',{'type': provider.code|lower}) }}" />
+
     {# paginated content #}
     {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
         { 'pageNo': pageNo, 'totalCourses': results.hits.total }

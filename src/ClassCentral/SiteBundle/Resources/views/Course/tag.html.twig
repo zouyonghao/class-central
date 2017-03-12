@@ -10,6 +10,9 @@
     <meta property="og:description" content="{{ tag }} free online courses/MOOCs list aggregated by Class Central" />
     <meta property="og:type" content="website" />
 
+    <link rel="canonical" href="{{ baseurl }}{{ path('tag_courses',{'tag': tag}) }}" />
+
+
     {# paginated content #}
     {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
         { 'pageNo': pageNo, 'totalCourses': results.hits.total }

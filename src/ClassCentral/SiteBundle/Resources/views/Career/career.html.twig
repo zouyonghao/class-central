@@ -19,6 +19,8 @@
     <meta name="twitter:description" content="List of {{career}} online courses and MOOCs aggregated by Class Central">
     <meta name="twitter:domain" content="www.class-central.com">
 
+    <link rel="canonical" href="{{ baseurl }}{{ path('career_page',{'slug': slug}) }}" />
+
     {# paginated content #}
     {% include 'ClassCentralSiteBundle:Helpers:paginationRelTags.html.twig' with
     { 'pageNo': pageNo, 'totalCourses': results.hits.total }
