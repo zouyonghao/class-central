@@ -11,8 +11,7 @@
 {% else %}
     <head>
 {% endif %}
-    <script type="text/javascript" src="//use.typekit.net/gdf6zoz.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
     <meta name="google-signin-client_id" content="543074773853-5o4th7sqent0dc5f0slvn0cakr152fpv.apps.googleusercontent.com">
 
     <!-- Analytics.js -->
@@ -192,6 +191,17 @@
     <script src="https://d26b395fwzu5fz.cloudfront.net/3.3.0/keen-tracker.min.js" type="text/javascript"></script>
 </head>
 
+<script>
+    (function(d) {
+        var config = {
+                kitId: 'gdf6zoz',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+    })(document);
+</script>
+
 <body>
 <div class="siteWrap">
 
@@ -286,8 +296,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <span class="copyright">©Class Central 2011-{{ "now"|date("Y") }}</span>
-                    <iframe src="{{ path('github_btn') }}?user=dhawalhshah&repo=class-central&type=watch&count=true"
-                            allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
                 </div>
             </div>
         </div>
