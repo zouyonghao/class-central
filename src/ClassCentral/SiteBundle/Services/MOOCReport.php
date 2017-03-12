@@ -58,7 +58,7 @@ class MOOCReport
             {
 
                 $client = new Client();
-                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts/?filter[category_name]=mooc-commentary');
+                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts/?categories=26');
                 $response = $request->send();
 
                 if($response->getStatusCode() !== 200)
