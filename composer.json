@@ -32,7 +32,6 @@
         "maknz/slack": "dev-master",
         "keen-io/keen-io-bundle": "~1.1",
         "phpoffice/phpexcel": "~1.7.9",
-        "class-central/simple-html-dom": "^1.0.0",
         "class-central/sphinx-client": "^1.0.0"
     },
     "repositories" : [
