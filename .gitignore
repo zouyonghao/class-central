@@ -20,3 +20,9 @@ bin/*
 !/bin/.htaccess
 !/bin/provision.sh
 
+
+extras/cc_db.sql
+
+composer.phar
+
+*.sql
