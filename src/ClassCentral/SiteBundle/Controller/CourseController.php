@@ -486,7 +486,11 @@ class CourseController extends Controller
 
 
         $recommendations = $this->get('Cache')->get('course_recommendation_'. $courseId, array($this,'getCourseRecommendations'), array($courseId));
-        $interestedUsers = $em->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
+
+        $interestedUsers = $this->get('Cache')->get('course_interested_users_' . $courseId, function ($courseId){
+            return $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
+        }, array($courseId));
+
 
         // Only for admin users. Detect potential duplicates
         $potentialDuplicates = array();
@@ -499,7 +503,6 @@ class CourseController extends Controller
         }
 
         // See if the course is part of Coursera's Old Stack
-        $courseraOldStackCourse = $this->get('course')->getOldStackCourse($course['id']);
         $top50Courses = $this->get('course')->getCollection('top-free-online-courses');
         $top50Course = false;
         if(in_array($course['id'],$top50Courses['courses']))
@@ -529,7 +532,6 @@ class CourseController extends Controller
                  'courseRank' =>$courseRank,
                  'potentialDuplicates' => $potentialDuplicates,
                  'showAddToMTModal' => $showAddToMTModal,
-                 'courseraOldStackCourse' => $courseraOldStackCourse,
                  'top50course' => $top50Course
        ));
     }

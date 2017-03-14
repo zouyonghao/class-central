@@ -308,64 +308,6 @@
                         </div>
                     {% endif %}
 
-                    {% if courseraOldStackCourse is not empty and false%}
-                        <div class="alert alert-danger">
-                            <h3><b>PSA:</b> This Course will no longer be available June 30th 2016 onwards</h3><br/>
-                            <p>Coursera announced that they will be shutting off their old platform on June 30th. Over  <a  class="alert-link" href="/collection/coursera-old-stack-all">400 courses</a> that are part
-                                of the old stack will be no longer be available. You can find the <a  class="alert-link" href="/collection/coursera-old-stack-all"> complete list here</a>.
-                            </p>
-                            <br/>
-
-                            <p>
-                                Read this <a class="alert-link" href="https://www.class-central.com/report/coursera-old-platform-shutdown-download-courses/">guide to learn how to download this course</a> before the old platform shuts down. <br/><br/>
-
-                                The guide provides two ways to download the courses - Chrome Plugin and Python Script. Depending on which method you use, check the appropriate sections below for further details.
-                            </p>
-                            <br/>
-                            <p>
-                                To download this course you need to be enrolled in the course.
-                                {% if courseraOldStackCourse.coursera_status %}
-                                    You can enroll for the course here:
-                                    <a class="alert-link" href="{{ courseraOldStackCourse.coursera_syllabus_url }}">{{ courseraOldStackCourse.coursera_syllabus_url }}</a>
-                                {% else %}
-                                Unfortunately this course is closed for enrollment to new students. If you hadn't signed up before, you will not be able to download the course.
-                                <br/><br/>
-
-                                {% endif %}
-                            </p>
-
-                            <h3>Chrome Plugin</h3>
-
-                            {% if courseraOldStackCourse.coursera_status %}
-                                <p>You can download the course materials for this course by visiting the following url (you need to be logged in):<br/>
-                                    {% set lectureUrl = courseraOldStackCourse.coursera_material_url %}
-                                    <a href="{{ lectureUrl  }}" class="alert-link">{{ lectureUrl }}</a>
-                                </p>
-                            {% else %}
-                                    If you had signed up for this course you will be able to download and save the course materials using the chrome plugin. Click on Go To Class and Log in to your Coursera account to do so.</p>
-                            {% endif %}
-
-                            <h3>Python Script</h3>
-                            <p>
-                                {% set slugs = courseraOldStackCourse.coursera_slug|split(',')%}
-                                For the python script to work you will need a class name. Pick one from below:<br/>
-                                {% for slug in slugs  %}
-                                    <b>{{ slug }}</b><br/>
-                                {% endfor %}
-
-                                <br/>
-                                If more than one class name below, pick the last one. If the script fails, pick the one above that and try again. Not all of these class names are guranteed to work.
-
-
-                            </p>
-
-
-
-
-
-
-                        </div>
-                    {% endif %}
 
                     {{ course.desc|raw }}
 
