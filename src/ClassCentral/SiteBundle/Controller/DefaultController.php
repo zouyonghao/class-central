@@ -75,10 +75,6 @@ class DefaultController extends Controller {
                         array( $this->container )
         );
 
-        $signupForm   = $this->createForm(new SignupType(), new User(),array(
-            'action' => $this->generateUrl('signup_create_user',array('src' => 'create_free_account' ))
-        ));
-
         // Get a list of courses taken by the signed in user as well as course recommendations
         $uc = array();
         $ucCount = 0;
@@ -159,7 +155,6 @@ class DefaultController extends Controller {
                 'spotlights' => $spotlights,
                 'spotlightMap' => Spotlight::$spotlightMap,
                 'subjects' => $subjects,
-                'signupForm' => $signupForm->createView(),
                 'uc' => $uc,
                 'ucCount' => $ucCount,
                 'recommendedCourses' => $recommendedCourses,
