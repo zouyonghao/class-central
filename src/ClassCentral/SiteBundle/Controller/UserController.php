@@ -1101,6 +1101,8 @@ class UserController extends Controller
 
     public function createSignupModalAjaxAction(Request $request, $src)
     {
+        $options = array(); // Todo: How to pass options
+
         $modal = 1; // Signifies that the signup form is shown in a modal
         $signupForm   = $this->createForm(new SignupType( $modal ), new User(),array(
             'action' => $this->generateUrl('signup_create_user',array('src' => $src)),
