@@ -631,7 +631,7 @@ class ReviewController extends Controller {
                     ->join('r.reviewSummary','rs')
                     ->add('orderBy', 'r.rating DESC')
                     ->add('where', 'r.course = :course')
-                    ->andWhere('rs is NOT NULL')
+                    ->andWhere('rs.id is NOT NULL')
                     ->andWhere('r.status < :status')
                     ->setMaxResults(5)
                     ->setParameter('course', $course)
