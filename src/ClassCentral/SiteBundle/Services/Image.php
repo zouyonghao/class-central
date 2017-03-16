@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Image {
 
     private  $apiKey;
-    private  $embedlyDisplayBaseUrl = 'http://i.embed.ly/1/display';
+    private  $embedlyDisplayBaseUrl = 'https://i.embed.ly/1/display';
     private $container;
     private $kuber;
 
@@ -212,21 +212,13 @@ class Image {
             // Check if the file exists or has changed.
             if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_POST,Kuber::KUBER_TYPE_POST_THUMBNAIL_SMALL, $postId ,$uniqueKey ) )
             {
-                $stream_context = stream_context_create([
-                    'ssl' => [
-                        'verify_peer'       => false,
-                        'verify_peer_name'  => false,
-                        'allow_self_signed' => false,
-                        'verify_depth'      => 0
-                    ]
-                ]);
 
                 // Upload the hew file
                 $croppedImageUrl = $this->cropImage( $imageUrl, 305,446  );
 
                 // Upload the file
                 $filePath = '/tmp/modified_'.$uniqueKey;
-                file_put_contents($filePath,file_get_contents($croppedImageUrl,false,$stream_context));
+                file_put_contents($filePath,file_get_contents($croppedImageUrl));
 
                 $file = $this->kuber->upload(
                     $filePath,
