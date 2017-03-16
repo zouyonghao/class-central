@@ -322,8 +322,9 @@ class CourseListing {
     public function byTag($tag, Request $request)
     {
         $cache = $this->container->get('cache');
+        $tagKey = str_replace(' ', '_',$tag);
         $data = $cache->get(
-            'tag_' . $tag . $request->server->get('QUERY_STRING'), function ($tag, $request) {
+            'tag_' . $tagKey . $request->server->get('QUERY_STRING'), function ($tag, $request) {
 
             $finder = $this->container->get('course_finder');
 
