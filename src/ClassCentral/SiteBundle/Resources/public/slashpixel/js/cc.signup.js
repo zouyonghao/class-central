@@ -6,6 +6,7 @@ CC.Class['Signup'] = (function(){
 
     var utilities = CC.Class['Utilities'];
     var profile = CC.Class['Profile'];
+    var promptShownCookie = 'signup_prompt'; // is set when a user is shown signup form for the first time
 
     function init() {
         $( document).ready(function () {
@@ -357,7 +358,6 @@ CC.Class['Signup'] = (function(){
     }
 
     function showSignupPrompt(delay){
-        var promptShownCookie = 'signup_prompt';
         if ( !isMobile.phone && Cookies.get( promptShownCookie) === undefined ) {
             $.ajax({
                 url: "/ajax/isLoggedIn",
@@ -372,7 +372,6 @@ CC.Class['Signup'] = (function(){
                             // Check the cookie again
                             if(Cookies.get( promptShownCookie) === undefined ) {
                                 CC.Class["Signup"].showSignupModal("ask_for_signup");
-                                Cookies.set( promptShownCookie, 1, { expires :30} );
                                 CC.Class['Utilities'].hideWidgets();
                             }
 
@@ -384,6 +383,9 @@ CC.Class['Signup'] = (function(){
     }
 
     function showSignupModal(src) {
+
+        Cookies.set( promptShownCookie, 1, { expires :30} ); // Users are not shown the signup prompt again
+
         $.ajax({
             url: "/ajax/isLoggedIn",
             cache: true
