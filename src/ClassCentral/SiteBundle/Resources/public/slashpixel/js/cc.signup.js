@@ -9,7 +9,7 @@ CC.Class['Signup'] = (function(){
 
     function init() {
         $( document).ready(function () {
-            $('form[name="cc-signup-form"]').submit( signupFormSubmit);
+            $('form[name="classcentral_sitebundle_signuptype"]').submit( signupFormSubmit);
         });
     }
 
@@ -422,7 +422,7 @@ CC.Class['Signup'] = (function(){
                                     });
                                 });
 
-                                $('form[name="cc-signup-form"]').submit( signupFormSubmit);
+                                $('form[name="classcentral_sitebundle_signuptype"]').submit( signupFormSubmit);
 
                                 $(signupFormId).modal("show");
                             }
