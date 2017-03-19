@@ -1068,7 +1068,7 @@ class Scraper extends ScraperAbstractInterface
         {
             // Upload the file
             $filePath = '/tmp/course_'.$uniqueKey;
-            file_put_contents($filePath,file_get_contents($imageUrl));
+            file_put_contents($filePath,$this->file_get_contents_wrapper($imageUrl));
             $kuber->upload(
                 $filePath,
                 Kuber::KUBER_ENTITY_COURSE,
@@ -1171,7 +1171,7 @@ class Scraper extends ScraperAbstractInterface
 
         foreach(self::$EDX_XSERIES_GUID as $guid)
         {
-            $xseries = json_decode(file_get_contents(
+            $xseries = json_decode($this->file_get_contents_wrapper(
                 sprintf( 'https://www.edx.org/node/%s.json?deep-load-refs=1',$guid )),
                 true);
             $credential = $this->getCredential($xseries);
@@ -1380,24 +1380,41 @@ class Scraper extends ScraperAbstractInterface
         if(file_exists($filePath))
         {
 
-            $edXCourses = json_decode(file_get_contents($filePath),true);
+            $edXCourses = json_decode($this->file_get_contents_wrapper($filePath),true);
             $this->out("Read from cache");
         }
         else
         {
-            $allCourses =  json_decode( file_get_contents(self::EDX_DRUPAL_CATALOG),true);
+            $allCourses =  json_decode( $this->file_get_contents_wrapper(self::EDX_DRUPAL_CATALOG),true);
             foreach($allCourses['objects']['results'] as $edXCourse)
             {
                 $this->out($edXCourse['title']);
-                $edXCourse['course_page_info'] =  json_decode( file_get_contents(sprintf(self::EDX_DRUPAL_INDIVIDUAL,$edXCourse['key'])),true);
-                $edXCourse['course_runs'] = json_decode( file_get_contents(sprintf(self::EDX_DRUPAL_COURSE_RUNS,$edXCourse['key'])),true);
-                $edXCourse['course_modes'] = json_decode( file_get_contents(sprintf(self::EDX_DRUPAL_COURSE_MODES,$edXCourse['key'])),true);
+                $edXCourse['course_page_info'] =  json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_INDIVIDUAL,$edXCourse['key'])),true);
+                $edXCourse['course_runs'] = json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_COURSE_RUNS,$edXCourse['key'])),true);
+                $edXCourse['course_modes'] = json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_COURSE_MODES,$edXCourse['key'])),true);
 
                 $edXCourses[] = $edXCourse;
             }
             file_put_contents($filePath,json_encode($edXCourses));
         }
         return $edXCourses;
+    }
+
+    /**
+     * Wrapper to catch exceptions in file_get_contents
+     * @param $url
+     */
+    private function file_get_contents_wrapper($url)
+    {
+        try
+        {
+            return file_get_contents($url);
+        } catch (\Exception $e)
+        {
+            $this->out("file_get_contents_error: " . $e->getMessage());
+        }
+
+        return '';
     }
 
 

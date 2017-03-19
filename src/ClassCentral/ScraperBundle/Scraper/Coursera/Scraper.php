@@ -62,7 +62,8 @@ class Scraper extends ScraperAbstractInterface {
         "he" => "Hebrew",
         'pt-br' => 'Portuguese',
         'pt-BR' => 'Portuguese',
-        'pt' => 'Portuguese'
+        'pt' => 'Portuguese',
+        'pt-PT' => 'Portuguese',
     );
 
     private $courseFields = array(
@@ -113,7 +114,7 @@ class Scraper extends ScraperAbstractInterface {
          *************************************/
         //$url = 'https://www.coursera.org/api/courses.v1';
         $url = self::COURSE_CATALOG_URL_v2;
-        $allCourses = json_decode(file_get_contents( $url ),true);
+        $allCourses = json_decode($this->file_get_contents_wrapper( $url ),true);
         $fp = fopen("extras/course_prices.csv", "w");
         fputcsv($fp, array(
             'Course Name', 'Prices(in $)'
@@ -144,7 +145,7 @@ class Scraper extends ScraperAbstractInterface {
                 }
                 **/
 
-                $onDemandCourse =  json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
+                $onDemandCourse =  json_decode($this->file_get_contents_wrapper( sprintf(self::ONDEMAND_COURSE_URL, $element['slug']) ),true);
                 //$this->out( $onDemandCourse['elements'][0]['name']  );
 
                 if( !$onDemandCourse['elements'][0]['isReal'] )
@@ -297,7 +298,7 @@ class Scraper extends ScraperAbstractInterface {
 
                     // Update the sessions.
                     $courseId = $onDemandCourse['elements'][0]['id'];
-                    $sessionDetails =  json_decode(file_get_contents( sprintf(self::ONDEMAND_SESSION_IDS,$courseId) ),true);
+                    $sessionDetails =  json_decode( $this->file_get_contents_wrapper( sprintf(self::ONDEMAND_SESSION_IDS,$courseId) ),true);
                     if(empty($sessionDetails['elements']))
                     {
                         // Create an offering
@@ -690,13 +691,13 @@ class Scraper extends ScraperAbstractInterface {
     private function getCoursesArray()
     {
         $this->out("Getting the coursera json");
-        return json_decode(file_get_contents(self::COURSES_JSON), true);
+        return json_decode($this->file_get_contents_wrapper(self::COURSES_JSON), true);
     }
 
     private function getInstructorsArray($shortName)
     {
         return json_decode(
-            file_get_contents(sprintf(self::INSTRUCTOR_URL, $shortName)),
+            $this->file_get_contents_wrapper(sprintf(self::INSTRUCTOR_URL, $shortName)),
             true
         );
     }
@@ -851,7 +852,7 @@ class Scraper extends ScraperAbstractInterface {
         {
             // Upload the file
             $filePath = '/tmp/course_'.$uniqueKey;
-            file_put_contents($filePath,file_get_contents($imageUrl));
+            file_put_contents($filePath,$this->file_get_contents_wrapper($imageUrl));
             $kuber->upload(
                 $filePath,
                 Kuber::KUBER_ENTITY_COURSE,
@@ -879,7 +880,12 @@ class Scraper extends ScraperAbstractInterface {
         $course->setStream(  $this->dbHelper->getStreamBySlug('cs') ); // Default to Computer Science
         $course->setUrl( 'https://www.coursera.org/learn/'. $data['elements'][0]['slug']);
 
-        $lang = self::$languageMap[ $data['elements']['0']['primaryLanguageCodes'][0] ];
+        $lang = null;
+        if (isset(self::$languageMap[ $data['elements']['0']['primaryLanguageCodes'][0] ]))
+        {
+            $lang = self::$languageMap[ $data['elements']['0']['primaryLanguageCodes'][0] ];
+        }
+
         if(isset( $dbLanguageMap[$lang] ) ) {
             $course->setLanguage( $dbLanguageMap[$lang] );
         } else {
@@ -916,7 +922,7 @@ class Scraper extends ScraperAbstractInterface {
 
 
         // Get Course Details like Syllabus and length
-        $courseDetails =  json_decode(file_get_contents( sprintf(self::ONDEMAND_OPENCOURSE_API, $data['elements'][0]['slug']) ),true);
+        $courseDetails =  json_decode($this->file_get_contents_wrapper( sprintf(self::ONDEMAND_OPENCOURSE_API, $data['elements'][0]['slug']) ),true);
         if( !empty($courseDetails) )
         {
             $syllabus = '';
@@ -929,7 +935,7 @@ class Scraper extends ScraperAbstractInterface {
         }
 
         // Calculate the length of the course
-        $schedule = json_decode(file_get_contents( sprintf(self::ONDEMAND_COURSE_SCHEDULE, $data['elements'][0]['id']) ),true);
+        $schedule = json_decode($this->file_get_contents_wrapper( sprintf(self::ONDEMAND_COURSE_SCHEDULE, $data['elements'][0]['id']) ),true);
         if( !empty($schedule) )
         {
             $length = 0;
@@ -954,7 +960,7 @@ class Scraper extends ScraperAbstractInterface {
     private function getDetailsFromCourseraCatalog( $id )
     {
         $url =sprintf(self::COURSE_CATALOG_URL,$id);
-        $content = json_decode(file_get_contents( $url ), true);
+        $content = json_decode($this->file_get_contents_wrapper( $url ), true);
 
         return array_pop( $content['elements'] );
     }
@@ -962,7 +968,7 @@ class Scraper extends ScraperAbstractInterface {
     private function getDetailsFromSessionCatalog( $id )
     {
         $url =sprintf(self::SESSION_CATALOG_URL,$id);
-        $content = json_decode(file_get_contents( $url ), true);
+        $content = json_decode($this->file_get_contents_wrapper( $url ), true);
 
         return array_pop( $content['elements'] );
     }
@@ -1040,10 +1046,10 @@ class Scraper extends ScraperAbstractInterface {
 //        }
 
         // Scrape Ondemand specializations
-        $onDemandSpecializations = json_decode(file_get_contents( self::SPECIALIZATION_ONDEMAND_CATALOG_URL ),true);
+        $onDemandSpecializations = json_decode($this->file_get_contents_wrapper( self::SPECIALIZATION_ONDEMAND_CATALOG_URL ),true);
         foreach( $onDemandSpecializations['elements'] as $item )
         {
-            $details = json_decode(file_get_contents( sprintf(self::SPECIALIZATION_ONDEMAND_URL, $item['slug']) ),true);
+            $details = json_decode($this->file_get_contents_wrapper( sprintf(self::SPECIALIZATION_ONDEMAND_URL, $item['slug']) ),true);
             $credential = $this->getCredentialFromOnDemandSpecialization( $details );
             $this->saveOrUpdateCredential( $credential, $details['elements'][0]['logo'] );
         }
@@ -1214,4 +1220,20 @@ class Scraper extends ScraperAbstractInterface {
         }
     }
 
+    /**
+     * Wrapper to catch exceptions in file_get_contents
+     * @param $url
+     */
+    private function file_get_contents_wrapper($url)
+    {
+        try
+        {
+            return file_get_contents($url);
+        } catch (\Exception $e)
+        {
+            $this->out("file_get_contents_error: " . $e->getMessage());
+        }
+
+        return '';
+    }
 }
