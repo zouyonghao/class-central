@@ -1,4 +1,5 @@
 ClassCentralSiteBundle_instructor:
+ClassCentralSiteBundle_instructor:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/instructor.yml"
     prefix: /instructor
     
@@ -115,6 +116,6 @@ tags_show:
     pattern:  /tags/{id}/show
     defaults: { _controller: "ClassCentralSiteBundle:Tag:show" }
 
-tags_show:
+tags_copy_courses:
     pattern:  /tags/copy-courses
     defaults: { _controller: "ClassCentralSiteBundle:Tag:copyCourses" }
