@@ -1,7 +1,7 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
-    <title>{{tagDisplayName}} free online courses and MOOCs | Class Central</title>
+    <title>Free online {{tagDisplayName}} courses and MOOCs | Class Central</title>
     <meta name="description" content="Discover free online {{ tagDisplayName }} courses from top universities. Thousands of reviews written by Class Central users help you pick the best course."/>
 
     <meta property="og:title" content="{{tagDisplayName}} free online courses and MOOCs" />
@@ -46,8 +46,8 @@
     <div class="intro-wrap">
         <div class="description-wrap">
             <div class="description">
-                <h1 class='cc-page-header'  style="max-width: 700px; white-space: normal">{{ tagDisplayName }} free online courses</h1>
-                <p>Study <em>{{ tagDisplayName }}</em> via the best free online courses and MOOCs from top universities and colleges. </p>
+                <h1 class='cc-page-header'  style="max-width: 700px; white-space: normal">Free online {{ tagDisplayName|title }} courses</h1>
+                <p>Study free online <em>{{ tagDisplayName }}</em> courses and MOOCs from top universities and colleges. Read reviews to decide if a class is right for you. Learn the fundamentals of <em>{{  tagDisplayName }}</em> and increase your career prospects by earning certificates of completion.</p>
             </div>
         </div>
     </div>
