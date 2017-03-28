@@ -1,10 +1,10 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block headmeta %}
-    <title>{{institution.name}} • Free Online Courses and MOOCs | Class Central</title>
-    <meta name="description" content="Discover free online courses taught by {{ institution.name }}. Watch videos, do assignments, earn a certificate while learning from some of the best Professors."/>
+    <title>{{institution.name}} • {% if free %}Free {% endif %}Online Courses and MOOCs | Class Central</title>
+    <meta name="description" content="Discover {% if free %}free {% endif %} online courses taught by {{ institution.name }}. Watch videos, do assignments, earn a certificate while learning from some of the best Professors."/>
 
-    <meta property="og:title" content="{{institution.name}} • Free Online Courses and MOOCs | Class Central" />
+    <meta property="og:title" content="{{institution.name}} • {% if free %}Free {% endif %} Online Courses and MOOCs | Class Central" />
 
     {% set route = 'ClassCentralSiteBundle_university' %}
     {% if not institution.isUniversity %}
@@ -18,14 +18,14 @@
     {% else %}
         <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
     {% endif %}
-    <meta property="og:description" content="Discover free online courses taught by {{ institution.name }}. Watch videos, do assignments, earn a certificate while learning from some of the best Professors." />
+    <meta property="og:description" content="Discover {% if free %}free {% endif %}online courses taught by {{ institution.name }}. Watch videos, do assignments, earn a certificate while learning from some of the best Professors." />
     <meta property="og:type" content="website" />
 
     <!-- Twitter card integration -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@classcentral">
-    <meta name="twitter:title" content="{{institution.name}} • Free Online Courses and MOOCs">
-    <meta name="twitter:description" content="List of {{institution}} free online courses/MOOCs aggregated by Class Central">
+    <meta name="twitter:title" content="{{institution.name}} • {% if free %}Free {% endif %}Online Courses and MOOCs">
+    <meta name="twitter:description" content="List of {{institution}} {% if free %}free {% endif %} online courses/MOOCs aggregated by Class Central">
     <meta name="twitter:domain" content="www.class-central.com">
 
     {# paginated content #}

@@ -223,6 +223,12 @@ class InstitutionController extends Controller
             return $this->redirect( $url, 301);
         }
 
+        $free = true;
+        if($slug == 'keiser')
+        {
+            $free = false;
+        }
+
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
                     'institution' => $data['institution'],
@@ -242,7 +248,8 @@ class InstitutionController extends Controller
                     'showHeader' => true,
                     'followItem' => Item::ITEM_TYPE_INSTITUTION,
                     'followItemId' => $institution->getId(),
-                    'followItemName' => $institution->getName()
+                    'followItemName' => $institution->getName(),
+                    'free' => $free
                 ));                
     }
 
