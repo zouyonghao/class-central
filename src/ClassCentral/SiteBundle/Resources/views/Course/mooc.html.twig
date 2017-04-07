@@ -411,7 +411,11 @@
                         {% elseif course.price == -1 %}
                             Paid Course
                         {% else %}
-                            Free Online Course
+                            {% if course.initiative.name == 'Coursera' or course.initiative.name =='FutureLearn' %}
+                                Free Online Course (Audit)
+                            {% else %}
+                                Free Online Course
+                            {% endif %}
                         {% endif %}
                     </span>
                 </div>
