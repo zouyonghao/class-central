@@ -4758,6 +4758,142 @@ input.filter-search:focus {
    =Blog posts
    ========================================================================== */
 
+#cc-op {
+  .col {
+    float: left;
+    width: 50%;
+
+    @media (max-width:560px) {
+      width: 100%;
+      padding: 15px 20px !important;
+    }
+    &.left {
+      padding: 0px 3% 100px 1%
+    }
+    &.right {
+      padding: 0px 1% 100px 3%
+    }
+  }
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .link-block {
+    position: relative;
+    .btn-white {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      margin-top: -70px;
+      margin-left: -72px;
+    }
+    &.left {
+      .btn-white {
+        left: 45%;
+      }
+    }
+    &.right {
+      .btn-white {
+        left: 45%;
+      }
+    }
+    h3, p {
+      opacity: 1;
+      filter: blur(0px);
+      transition: opacity 1s cubic-bezier(.19,1,.22,1), filter 1s cubic-bezier(.19,1,.22,1);
+    }
+    h3 {
+      font-size: 28px;
+      line-height: 35px;
+    }
+    p {
+      font-size: 16px;
+    }
+    &:link,
+    &:visited {
+      text-decoration: none;
+      h3 {
+        color: #5074e9;
+      }
+      p {
+        color: #3a3d42;
+      }
+    }
+    &:hover,
+    &:active {
+      h3, p {
+        filter: blur(8px);
+        opacity: .5;
+      }
+      .btn-white {
+        visibility: visible;
+        opacity: 1;
+        .icon--right {
+          background-position: right 0px center
+        }
+      }
+    }
+  }
+}
+
+
+/* NOTE: THE BELOW IS ALSO USED IN "RELATED", SO ONLY INCLUDE ONCE */
+
+/* buttons */
+.btn-white {
+  background-color: #ffffff;
+  color: #5074E9;
+  font-family: "brandon-grotesque","Brandon Grotesque",Helvetica,Arial,sans-serif;
+
+  border: 1px solid #DEDEDE;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 38px;
+  height: 40px;
+  padding: 0 25px 0 25px;
+  outline: none;
+  border-radius: 5px;
+  font-size: 16px;
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: #375CD6;
+    background-color: #f9f9f9;
+  }
+
+  /* button icons */
+  .icon--right {
+    display: inline;
+    padding-right: 25px;
+    background-position: right 3px center;
+    transition: background-position 300ms cubic-bezier(.19, 1, .22, 1), border 300ms cubic-bezier(.19, 1, .22, 1),color 300ms cubic-bezier(.19, 1, .22, 1),opacity 300ms cubic-bezier(.19, 1, .22, 1),background-color 300ms cubic-bezier(.19, 1, .22, 1),width 300ms cubic-bezier(.19, 1, .22, 1);
+  }
+  &:hover .icon--right {
+    background-position: right 0px center
+  }
+
+  @media (max-width:480px) {
+    width: 100%;
+  }
+}
+
+/* icons */
+.icon-arrow-skyblue {
+  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215.79%22%20height%3D%229.04%22%20viewBox%3D%220%200%2015.79%209.04%22%3E%3Ctitle%3EArtboard%201%3C%2Ftitle%3E%3Cpolygon%20points%3D%2211.35%200%2010.65%200.71%2013.84%203.86%200%203.86%200%204.86%2013.95%204.86%2010.64%208.35%2011.36%209.04%2015.79%204.37%2011.35%200%22%20fill%3D%22%235074e9%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-size: 15px 9px;
+}
+
 .blog-spotlight {
   overflow: hidden;
 }
