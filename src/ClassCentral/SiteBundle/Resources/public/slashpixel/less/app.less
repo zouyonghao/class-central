@@ -4757,7 +4757,6 @@ input.filter-search:focus {
 /* ==========================================================================
    =Blog posts
    ========================================================================== */
-
 #cc-op {
   .col {
     float: left;
@@ -4781,22 +4780,28 @@ input.filter-search:focus {
   }
   .link-block {
     position: relative;
-    .btn-white {
+    .cta {
       visibility: hidden;
       opacity: 0;
       position: absolute;
       top: 50%;
       margin-top: -70px;
-      margin-left: -72px;
-    }
-    &.left {
-      .btn-white {
-        left: 45%;
+      text-align: center;
+      width: 96%;
+      @media (max-width:560px) {
+        margin-top: -20px;
+        width: 70%;
       }
     }
-    &.right {
-      .btn-white {
-        left: 45%;
+    &.left .cta {
+      left: 1%;
+    }
+    &.right .cta {
+      left: 3%;
+    }
+    .cta {
+      @media (max-width:560px) {
+        left: 15% !important;
       }
     }
     h3, p {
@@ -4827,7 +4832,7 @@ input.filter-search:focus {
         filter: blur(8px);
         opacity: .5;
       }
-      .btn-white {
+      .cta {
         visibility: visible;
         opacity: 1;
         .icon--right {
@@ -4893,6 +4898,7 @@ input.filter-search:focus {
   background-repeat: no-repeat;
   background-size: 15px 9px;
 }
+
 
 /* ==========================================================================
    =Universities
