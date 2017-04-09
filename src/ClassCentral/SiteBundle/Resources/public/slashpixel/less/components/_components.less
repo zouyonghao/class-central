@@ -38,6 +38,7 @@
     =modal-box
     =modal-base
     =btn-follow
+    =related-section
 */
 
 /* ==========================================================================
@@ -2860,4 +2861,116 @@ a:focus .card-back__interaction-text {
       z-index: 50;
     }
   }
+}
+
+/* ==========================================================================
+   =related section
+   ========================================================================== */
+
+#cc-related {
+  font-family: "myriad-pro", "Myriad Pro", Helvetica, Arial, sans-serif;
+  color: #3B3B3B;
+  border-top: #E6ECFE solid 1px;
+  border-bottom: #E6ECFE solid 1px;
+  position: relative;
+  margin: 25px auto;
+  padding: 30px 0 25px 0;
+  max-width: 1200px;
+
+  /* mini reset */
+  h5, li, ul, p {
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+  }
+  h5 {
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+  li, ul {
+    list-style: none;
+  }
+
+  /* layout */
+  .head-3 {
+    position: absolute;
+    top: -17px;
+    left: 0px;
+    background: white;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  ul:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  li {
+    width: 25%;
+    box-sizing: border-box;
+    padding: 30px 20px;
+    float: left;
+
+    @media (max-width: 1000px) {
+      width: 33.3333%;
+    }
+    @media (max-width: 750px) {
+      width: 50%;
+      padding: 20px 20px;
+    }
+    @media (max-width:480px) {
+      width: 100%;
+      padding: 15px 20px;
+    }
+  }
+}
+
+/* equalize plugin */
+[data-equalize] {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+  &.is-active {
+    opacity: 1;
+  }
+}
+
+/* typography */
+.head-3 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 21px;
+  font-family: "brandon-grotesque", "Brandon Grotesque", Helvetica, Arial, sans-serif;
+}
+.text--skyblue {
+  color: #5074E9;
+  &:link,
+  &:visited {
+    color: #5074E9;
+    text-decoration: none;
+  }
+  &:hover,
+  &:active {
+    color: #375CD6;
+    text-decoration: none;
+  }
+}
+.text--bold {
+  font-weight: 600;
+}
+
+/* icons */
+.icon-arrow-skyblue {
+  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215.79%22%20height%3D%229.04%22%20viewBox%3D%220%200%2015.79%209.04%22%3E%3Ctitle%3EArtboard%201%3C%2Ftitle%3E%3Cpolygon%20points%3D%2211.35%200%2010.65%200.71%2013.84%203.86%200%203.86%200%204.86%2013.95%204.86%2010.64%208.35%2011.36%209.04%2015.79%204.37%2011.35%200%22%20fill%3D%22%235074e9%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-size: 15px 9px;
+}
+.icon-subject-black {
+  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%3E%3Ctitle%3EArtboard%201%3C%2Ftitle%3E%3Cpath%20d%3D%22M27.37%2C4.7H24.16V.76H6.55a4%2C4%2C0%2C0%2C0-4.1%2C3.85V25.38a3.77%2C3.77%2C0%2C0%2C0%2C3.67%2C3.86H27.45Zm-.92.84.07%2C21.09H7.26a2.2%2C2.2%2C0%2C1%2C1%2C0-4.39h16.9V5.53ZM6.15%2C28.31a2.84%2C2.84%2C0%2C0%2C1-2.77-2.92V4.62A3.06%2C3.06%2C0%2C0%2C1%2C6.43%2C1.68h16.8V21.31h-16a3.12%2C3.12%2C0%2C0%2C0%2C0%2C6.24H26.51v.77Z%22%20fill%3D%22%233b3b3b%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+}
+
+.icon--left {
+  padding-left: 35px;
+  background-position: left center;
 }

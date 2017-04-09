@@ -193,10 +193,46 @@ class StreamController extends Controller
     
     public function viewAction(Request $request,$slug)
     {
+        $cache = $this->get('cache');
+
         $cl = $this->get('course_listing');
         $data = $cl->bySubject($slug,$request);
         $subject = $data['subject'];
 
+        // Popular Subjects shown as
+        $related  = $cache->get('related_popular_subjects',function (){
+            $popularSubjectsSlug = array('management-and-leadership','data-science','health','education','art-and-design','nutrition-and-wellness',
+                'cs','business','ai','statistics');
+            $related = array();
+            $related['items'] = array();
+            $em = $this->getDoctrine()->getManager();
+            $esCourses = $this->container->get('es_courses');
+            $count = $esCourses->getCounts();
+            $subjectsCount = $count['subjects'];
+            $followService = $this->container->get('follow');
+            $router =  $this->container->get('router');
+            foreach ($popularSubjectsSlug as $slug)
+            {
+                $relatedItem = array();
+                $subject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('slug'=>$slug));
+                $count = $subjectsCount[$subject->getId()];
+
+                $relatedItem['name'] = $subject->getName();
+                $relatedItem['numCourses'] = $count;
+                $relatedItem['numFollows'] = $followService->getNumFollowers(Item::ITEM_TYPE_SUBJECT,$subject->getId());
+                $relatedItem['url'] = $router->generate('ClassCentralSiteBundle_stream',
+                    array('slug' => $subject->getSlug() ));
+                $related['items'][] = $relatedItem;
+            }
+            $related['type'] = Item::ITEM_TYPE_SUBJECT;
+            $related['name'] = 'Subjects';
+            $related['view_all_url'] = $router->generate('subjects');
+            $related['header'] = 'Popular Subjects';
+
+            return $related;
+        },array());
+
+        $related['skipName'] = $subject->getName(); // Does not show this subject
 
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
                 'subject' => $data['subject'],
@@ -220,6 +256,7 @@ class StreamController extends Controller
                 'followItemName' => $subject->getName(),
                 'credentials' => $data['credentials'],
                 'numCredentials' => $data['numCredentials'],
+                'related' => $related
             ));
     }
 

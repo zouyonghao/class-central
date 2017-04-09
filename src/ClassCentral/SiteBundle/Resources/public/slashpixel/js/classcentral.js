@@ -1446,3 +1446,67 @@ jQuery(function($) {
      * */
 
 });
+
+(function($) {
+    var Equalize = function (el) {
+        var node = el.children().get(0).nodeName;
+        var _this = this;
+
+        _this.height = 0;
+        _this.el = el;
+        _this.timeout = 2000;
+        _this.items = el.find(node);
+
+        _this.init();
+
+        $(window).on('resize', function() {
+            _this.resetHeight();
+            _this.getTallestInItems();
+            _this.activate();
+        });
+    };
+
+    Equalize.prototype.getTallestInItems = function() {
+        var _this = this;
+        _this.items.each(function(item, index) {
+            var itemHeight = $(this).height();
+            if (itemHeight > _this.height) {
+                _this.height = itemHeight;
+            }
+        });
+    };
+
+    Equalize.prototype.resetHeight = function(forceActivate) {
+        this.height = 0;
+        this.items.height('');
+    };
+
+    Equalize.prototype.activate = function(forceActivate) {
+        if (this.height > 0 || forceActivate) {
+            this.items.height(this.height);
+            this.el.addClass('is-active');
+        }
+    };
+
+    Equalize.prototype.init = function() {
+        var _this = this;
+        var count = 0;
+
+        var timer = setInterval(function() {
+            if (count >= (_this.timeout / 10)) {
+                clearTimeout(timer);
+                _this.activate(true);
+            }
+
+            _this.getTallestInItems();
+            _this.activate();
+            count++;
+        }, 10);
+    };
+
+    $(document).ready(function() {
+        $('[data-equalize]').each(function() {
+            new Equalize($(this));
+        });
+    });
+})($);
