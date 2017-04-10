@@ -327,7 +327,7 @@ class User {
                 )
             )
                 ->getContent();
-            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<dhawal@class-central.com>","Welcome to Class Central, what else can you learn?",$html);
+            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<d@class-central.com>","Welcome to Class Central, what else can you learn?",$html);
 
             if($emailVerification)
             {

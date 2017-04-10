@@ -95,7 +95,7 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
         $mailgun = $this->getContainer()->get('mailgun');
 
         $response = $mailgun->sendMessage( array(
-            'from' => '"Dhawal Shah" <dhawal@class-central.com>',
+            'from' => '"Dhawal Shah" <d@class-central.com>',
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
