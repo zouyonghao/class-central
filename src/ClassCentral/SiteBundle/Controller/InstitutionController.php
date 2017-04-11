@@ -193,6 +193,7 @@ class InstitutionController extends Controller
 
     public function viewAction(Request $request, $slug)
     {
+        $cache = $this->get('cache');
         $routeName = $request->get('_route');
 
         // only use lower case slug
@@ -229,6 +230,53 @@ class InstitutionController extends Controller
             $free = false;
         }
 
+
+        $related = $cache->get('related_popular_ins',function () {
+
+            $popularIns = array(
+                'stanford','harvard','mit','berkeley','utoronto','yale','gatech','penn','umich','iitb','jhu', 'google','worldbank'
+            );
+            $related = array();
+            $related['items'] = array();
+            $em = $this->getDoctrine()->getManager();
+            $esCourses = $this->container->get('es_courses');
+            $universityCounts = $esCourses->getInstitutionCounts(true);
+            $institutionCounts = $esCourses->getInstitutionCounts(false);
+            $followService = $this->container->get('follow');
+            $router =  $this->container->get('router');
+            foreach ($popularIns as $insSlug)
+            {
+                $relatedItem = array();
+                $ins = $em->getRepository('ClassCentralSiteBundle:Institution')->findOneBy(array('slug' => $insSlug));
+                $isUniversity = $ins->getIsUniversity();
+                $relatedItem['name'] = $ins->getName();
+                $relatedItem['numFollows'] = $followService->getNumFollowers(Item::ITEM_TYPE_INSTITUTION,$ins->getId());
+                if($isUniversity)
+                {
+                    $relatedItem['url'] = $router->generate('ClassCentralSiteBundle_university',
+                        array('slug' => $insSlug ));
+                    $count = $universityCounts['institutions'][$insSlug];
+                }
+                else
+                {
+                    $relatedItem['url'] = $router->generate('ClassCentralSiteBundle_institution',
+                        array('slug' => $insSlug ));
+                    $count = $institutionCounts['institutions'][$insSlug];
+                }
+                $relatedItem['numCourses'] = $count;
+                $related['items'][] = $relatedItem;
+            }
+            $related['type'] = Item::ITEM_TYPE_INSTITUTION;
+            $related['name'] = 'Organizations';
+            $related['view_all_url'] = $router->generate('universities');
+            $related['header'] = 'Popular Organizations Creating MOOCs';
+
+            return $related;
+
+        },array());
+
+        $related['skipName'] = $institution->getName();
+
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
                     'institution' => $data['institution'],
@@ -249,7 +297,8 @@ class InstitutionController extends Controller
                     'followItem' => Item::ITEM_TYPE_INSTITUTION,
                     'followItemId' => $institution->getId(),
                     'followItemName' => $institution->getName(),
-                    'free' => $free
+                    'free' => $free,
+                    'related' => $related
                 ));                
     }
 
