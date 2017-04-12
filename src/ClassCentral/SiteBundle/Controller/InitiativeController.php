@@ -199,9 +199,45 @@ class InitiativeController extends Controller
      */
     public function providerAction(Request $request, $type)
     {
+        $cache = $this->get('cache');
+
         $cl = $this->get('course_listing');
         $data = $cl->byProvider($type,$request);
         $provider = $data['provider'];
+
+        $related = $cache->get('related_popular_providers',function () {
+            $followService = $this->container->get('follow');
+            $router =  $this->container->get('router');
+            $popularProviders = array('coursera','udacity','edx','futurelearn');
+            $related = array();
+            $related['items'] = array();
+            $em = $this->getDoctrine()->getManager();
+
+            // Get provider course counts:
+            $esCourses = $this->container->get('es_courses');
+            $counts = $esCourses->getCounts();
+
+            foreach ($popularProviders as $providerSlug)
+            {
+                $relatedItem = array();
+                $prov = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneBy(array('code' => $providerSlug));
+                $relatedItem['name'] = $prov->getName();
+                $relatedItem['numFollows'] = $followService->getNumFollowers(Item::ITEM_TYPE_PROVIDER,$prov->getId());
+                $relatedItem['url'] = $router->generate('ClassCentralSiteBundle_initiative',
+                    array('type' => $providerSlug ));
+                $count = $counts['providers'][$providerSlug];
+                $relatedItem['numCourses'] = $count;
+                $related['items'][] = $relatedItem;
+            }
+            $related['type'] = Item::ITEM_TYPE_PROVIDER;
+            $related['name'] = 'Providers';
+            $related['view_all_url'] = $router->generate('providers');
+            $related['header'] = 'Popular MOOC Providers';
+
+            return $related;
+        },array());
+
+        $related['skipName'] = $provider->getName();
 
 
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
@@ -224,6 +260,7 @@ class InitiativeController extends Controller
             'followItemName' => $provider->getName(),
             'credentials' => $data['credentials'],
             'numCredentials' => $data['numCredentials'],
+            'related' => $related
         ));
     }
 
