@@ -719,13 +719,20 @@
     </div>
     {# Show courses recommendationss #}
 
+    {% set coursesBoxTitle = 'Related Courses' %}
+    {% if recommendations|length == 0%}
+        {% set coursesBoxTitle = 'Highest Rated Courses' %}
+        {% set recommendations =  highlyRatedCourses %}
+    {% endif %}
+
+
     {% if recommendations|length > 0 %}
         <div class="col-md-6 course-col">
             <div class="recommended-courses course-col-inner">
                 <table>
                     <thead>
                     <tr>
-                        <th>Related courses</th>
+                        <th>{{ coursesBoxTitle }}</th>
                     </tr>
                     </thead>
                     <tbody>

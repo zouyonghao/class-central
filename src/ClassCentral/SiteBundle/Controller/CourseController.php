@@ -510,6 +510,14 @@ class CourseController extends Controller
             $top50Course = true;
         }
 
+        $highlyRatedCourseIds = array( 835,2161,442,1957,1057 );
+        $highlyRatedCourses = array();
+        foreach ($highlyRatedCourseIds as $cid)
+        {
+            $highlyRatedCourses[] = $this->get('Cache')->get( 'course_' . $cid, array($this,'getCourseDetails'), array($cid,$em) );
+        }
+
+
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
@@ -532,7 +540,8 @@ class CourseController extends Controller
                  'courseRank' =>$courseRank,
                  'potentialDuplicates' => $potentialDuplicates,
                  'showAddToMTModal' => $showAddToMTModal,
-                 'top50course' => $top50Course
+                 'top50course' => $top50Course,
+                 'highlyRatedCourses' => $highlyRatedCourses
        ));
     }
 
