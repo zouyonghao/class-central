@@ -21,7 +21,7 @@
             <li>
                 <h5><a href="{{ relatedItem.url }}" class="text--skyblue"
                        onmousedown="ga('send','event', 'Related Section Clicks', '{{related.type}}', '{{relatedItem.name}}')">{{ relatedItem.name }}</a></h5>
-                <p>{{ relatedItem.numCourses }} Courses / <span class="text--bold">{{ relatedItem.numFollows }} following</span></p>
+                <p>{{ relatedItem.numCourses }} Courses / <span class="text--bold"><span data-format-number="short">{{ relatedItem.numFollows }}</span> following</span></p>
             </li>
         {% endfor %}
         <li>

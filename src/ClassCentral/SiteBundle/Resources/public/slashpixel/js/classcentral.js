@@ -1510,3 +1510,41 @@ jQuery(function($) {
         });
     });
 })($);
+
+(function($) {
+    var FormatNumber = function (el) {
+        var _this = this;
+
+        _this.el = el;
+        _this.formatStyle = el.data('format-number');
+        _this.formattedNumber = _this.format(_this.el.html());
+        _this.el.html(_this.formattedNumber[_this.formatStyle + 'Hand']);
+    };
+
+    FormatNumber.prototype.format = function(num) {
+        var str = num + '';
+        var nums = {
+            longHand: num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        };
+
+        if (num < 1000000) {
+            nums.shortHand = (num / 1000).toFixed(num % 1000 !== 0) + 'k';
+        } else {
+            nums.shortHand = (num / 1000000).toFixed(num % 1000000 !== 0) + 'M';
+        }
+        if (num < 10000 && num > 999) {
+            nums.shortHand = str.charAt(0) + ',' + str.substring(1);
+        }
+        if (num < 1000) {
+            nums.shortHand = str;
+        }
+
+        return nums;
+    };
+
+    $(document).ready(function() {
+        $('[data-format-number]').each(function() {
+            new FormatNumber($(this));
+        });
+    });
+})($);
