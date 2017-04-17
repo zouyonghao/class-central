@@ -14,8 +14,15 @@
 
 <br/><br/>
 
+{% set relatedIcon = 'subject' %}
+{% if related.type == 'institution' %}
+    {% set relatedIcon = 'university' %}
+{% elseif related.type == 'provider' %}
+    {% set relatedIcon = 'provider' %}
+{% endif %}
+
 <section id="cc-related">
-    <h4 class="head-3"><span class="icon-subject-black icon--left icon--small">{{ related.header }}</span></h4>
+    <h4 class="head-3"><span class="icon-{{ relatedIcon }}-black icon--left icon--small">{{ related.header }}</span></h4>
     <ul data-equalize>
         {% for relatedItem in related.items if relatedItem.name != related.skipName %}
             <li>
