@@ -18,6 +18,12 @@ use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller {
+
+    private $autoLoginUrls = array(
+        'https://www.class-central.com/report/best-programming-courses-data-science/',
+        'https://www.class-central.com/report/mooc-based-masters-degree/',
+        'https://www.class-central.com/report/9-popular-online-courses-gone-forever/'
+    );
                
     public function indexAction(Request $request) {
 
@@ -34,7 +40,7 @@ class DefaultController extends Controller {
         if( !empty($redirect))
         {
             $url = urldecode($redirect);
-            if($url == 'https://www.class-central.com/report/best-programming-courses-data-science/')
+            if( in_array($url,$this->autoLoginUrls))
             {
                 return $this->redirect( $url );
             }
