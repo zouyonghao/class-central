@@ -121,7 +121,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
                 'to' => $email,
                 'subject' => $subject,
                 'html' => $html,
-                'o:campaign' => $campaignId,
+                'o:tag' => $campaignId,
                 'o:deliverytime' => $deliveryTime
             ));
 
