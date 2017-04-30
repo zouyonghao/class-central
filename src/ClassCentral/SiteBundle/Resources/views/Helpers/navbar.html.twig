@@ -30,7 +30,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('trending')}}" title="Trending free online courses - MOOCs" onClick="ga('send','event', '{{ navEventName }}', 'Courses', 'Trending')">Trending Now</a></li>
                         {% for offeringType, offeringDetails in offeringTypes %}
-                            {% if offeringCount[offeringType] > 0 %}
+                            {% if offeringCount[offeringType] is defined and offeringCount[offeringType] > 0 %}
                                 <li><a href="{{ path('ClassCentralSiteBundle_courses',{'type' : offeringType})}}" title="{{offeringDetails.nav}} - MOOCs" onClick="ga('send','event', '{{ navEventName }}', 'Courses', '{{offeringType}}')">{{offeringDetails.nav}} ({{ offeringCount[offeringType] }})</a></li>
                             {% endif %}
                         {% endfor %}

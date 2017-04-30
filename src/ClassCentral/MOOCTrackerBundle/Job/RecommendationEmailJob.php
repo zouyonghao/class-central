@@ -122,7 +122,7 @@ class RecommendationEmailJob extends SchedulerJobAbstract
                 'to' => $email,
                 'subject' => 'Course Recommendations for You • ' . $startDate->format('F Y'),
                 'html' => $html,
-                'o:campaign' => $campaignId,
+                'o:tag' => $campaignId,
                 'o:deliverytime' => $deliveryTime
             ));
 
