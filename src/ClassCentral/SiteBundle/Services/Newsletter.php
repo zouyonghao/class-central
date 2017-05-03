@@ -101,7 +101,7 @@ class Newsletter {
                 'to' => $listAddress,
                 'subject' =>$subject,
                 'html' => $html,
-                'o:campaign' => $newsLetter->getCode(),
+                'o:tag' => $newsLetter->getCode(),
                 'o:deliverytime' => $deliveryTime
             );
             if($date)
