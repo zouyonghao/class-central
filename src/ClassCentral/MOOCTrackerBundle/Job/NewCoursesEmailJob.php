@@ -110,7 +110,7 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
                 'to' => $email,
                 'subject' => $numCourses . ' brand new courses for you to join',
                 'html' => $html,
-                'o:campaign' => $campaignId,
+                'o:tag' => $campaignId,
                 'o:deliverytime' => $deliveryTime
             ));
 

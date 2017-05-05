@@ -166,7 +166,7 @@ class SearchTermJob extends SchedulerJobAbstract {
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
-            'o:campaign' => $campaignId
+            'o:tag' => $campaignId
         ));
 
         if( !($response && $response->http_response_code == 200))

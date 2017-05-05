@@ -99,7 +99,7 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
-            'o:campaign' => self::NEW_USER_FOLLOW_UP_CAMPAIGN_ID
+            'o:tag' => self::NEW_USER_FOLLOW_UP_CAMPAIGN_ID
         ));
 
         if( !($response && $response->http_response_code == 200))

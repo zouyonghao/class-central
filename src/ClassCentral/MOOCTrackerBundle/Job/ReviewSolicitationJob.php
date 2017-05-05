@@ -188,7 +188,7 @@ class ReviewSolicitationJob extends SchedulerJobAbstract {
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
-            'o:campaign' => self::REVIEW_SOLICITATION_CAMPAIGN_ID
+            'o:tag' => self::REVIEW_SOLICITATION_CAMPAIGN_ID
         ));
 
         if( !($response && $response->http_response_code == 200))
