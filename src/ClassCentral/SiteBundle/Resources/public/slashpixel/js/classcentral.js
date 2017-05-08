@@ -1319,7 +1319,17 @@ jQuery(function($) {
 
     // Clipboard.js is only included for admins
     if (typeof Clipboard === 'function') {
-        new Clipboard('.btn-course-name-copy');
+        var clipboard = new Clipboard('.btn-course-name-copy');
+        clipboard.on('success', function(e) {
+            var copyCookieName = 'bulk_course_copy';
+            if (Cookies.get( copyCookieName ) === undefined) {
+                Cookies.set( copyCookieName, e.text, { expires :365} );
+            } else {
+                var courses = Cookies.get( copyCookieName );
+                courses = courses + ";;;" + e.text;
+                Cookies.set( copyCookieName, courses, { expires :365} );
+            }
+        });
     }
 
 

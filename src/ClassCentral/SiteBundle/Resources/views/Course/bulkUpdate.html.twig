@@ -1,6 +1,7 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block content %}
+    <button onclick="Cookies.remove( 'bulk_course_copy');">Clear courses clipbloard</button>
     <div>
         {% if succeeded is not empty %}
             <h3>Successfully updated</h3>
@@ -34,4 +35,16 @@
 
         <input type="submit" value="Update Courses">
     </form>
+{% endblock %}
+
+{% block customJS %}
+    $( document ).ready(function() {
+        var courses = '';
+        if (Cookies.get( 'bulk_course_copy' ) !== undefined) {
+        courses = Cookies.get( 'bulk_course_copy' );
+        }
+        courses = courses.replace(/;;;/g,"\n");
+        $('textarea[name="courses"]').text(courses);
+    });
+
 {% endblock %}
