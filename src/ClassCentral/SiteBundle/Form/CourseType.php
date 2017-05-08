@@ -41,11 +41,17 @@ class CourseType extends AbstractType {
             ->add('shortName',null, array('required'=>false))
             ->add('status','choice',array('choices' => CourseStatus::getStatuses()))
             ->add('stream', 'entity', array(
+                'label' => 'Primary Subject',
                 'class' => 'ClassCentralSiteBundle:Stream',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('s')
                         ->orderBy('s.name', 'ASC');
                 },
+            ))
+            ->add('subjects',null,array(
+                'label' => 'Secondary Subjects',
+                'required' => false,
+                'empty_value'=>true,
             ))
 
             ->add('initiative', 'entity', array(
