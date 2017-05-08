@@ -47,6 +47,7 @@ class Course {
         $this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
         $this->credentials = new \Doctrine\Common\Collections\ArrayCollection();
         $this->careers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subjects = new \Doctrine\Common\Collections\ArrayCollection();
         $this->price = 0;
         $this->pricePeriod = self::PRICE_PERIOD_TOTAL;
         $this->setIsMooc(true);
@@ -236,6 +237,11 @@ class Course {
     private $careers;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $subjects;
+
+    /**
      * @var integer
      */
     private $price;
@@ -407,6 +413,26 @@ class Course {
     public function getInstitutions()
     {
         return $this->institutions;
+    }
+
+    /**
+     * Add secondary subject
+     *
+     * @param ClassCentral\SiteBundle\Entity\Stream $subjects
+     */
+    public function addSubject(\ClassCentral\SiteBundle\Entity\Stream $subject)
+    {
+        $this->subjects[] = $subject;
+    }
+
+    /**
+     * Get subjects
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getSubjects()
+    {
+        return $this->subjects;
     }
 
     /**
@@ -1211,6 +1237,31 @@ class Course {
     public function getFormatter()
     {
         return new DefaultCourseFormatter($this);
+    }
+
+    public function isCourseNew()
+    {
+        $newCourse = false;
+        $oneMonthAgo = new \DateTime();
+        $oneMonthAgo->sub(new \DateInterval("P30D"));
+        // Check if its a new course - offered for the first time or added recently
+        if($this->getCreated() >= $oneMonthAgo)
+        {
+            $newCourse = true;
+        }
+
+        $offering = $this->getNextOffering();
+        if(count($this->getOfferings()) == 1 and $offering->getCreated() > $oneMonthAgo  )
+        {
+            $newCourse = true;
+        }
+        if(count($this->getOfferings()) == 1 and $offering->getStatus() != Offering::COURSE_OPEN )
+        {
+            $newCourse = true;
+        }
+
+        return $newCourse;
+
     }
 
 }

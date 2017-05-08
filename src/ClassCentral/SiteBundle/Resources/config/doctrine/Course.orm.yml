@@ -134,8 +134,7 @@ ClassCentral\SiteBundle\Entity\Course:
     stream:
       targetEntity: Stream
       fetch: EAGER
-      cascade: {  }      
-      inversedBy: courses
+      cascade: {  }
       joinColumns:
         stream_id:
           referencedColumnName: id
@@ -220,4 +219,15 @@ ClassCentral\SiteBundle\Entity\Course:
         inverseJoinColumns:
           tag_id:
             referencedColumnName: id
+    subjects:
+       targetEntity: Stream
+       joinTable:
+          name: courses_subjects
+          joinColumns:
+            course_id:
+              referencedColumnName: id
+          inverseJoinColumns:
+             subject_id:
+               referencedColumnName: id
+
 lifecycleCallbacks: {  }

@@ -81,10 +81,7 @@ class Stream
     private $courseCount;
 
 
-
-
     public function __construct() {
-        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
     /**
@@ -109,14 +106,6 @@ class Stream
     
     public function __toString() {
         return $this->getName();
-    }
-    
-    public function getCourses(){
-        return $this->courses;
-    }
-    
-    public function addCourses($course){
-        $this->courses[] = $course;           
     }
 
     public function getSlug() {

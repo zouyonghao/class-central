@@ -49,11 +49,6 @@ ClassCentral\SiteBundle\Entity\Stream:
       column: display_order
       order: asc
   oneToMany:
-    courses:
-      targetEntity: Course
-      cascade: { }
-      mappedBy: stream      
-      orphanRemoval: false
     children:
       targetEntity: Stream
       mappedBy: parentStream
