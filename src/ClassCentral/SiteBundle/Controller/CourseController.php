@@ -799,12 +799,22 @@ EOD;
         $succeeded = array();
         $failed = array();
 
-        if(isset($postFields["subject"]) && isset($postFields["courses"]))
+        $primarySubject = null;
+        if(isset($postFields["primary-subject"]))
+        {
+            $primarySubject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('id' => $postFields['primary-subject']));
+        }
+        $secondarySubject = null;
+        if(isset($postFields["secondary-subject"]))
+        {
+            $secondarySubject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('id' => $postFields['secondary-subject']));
+        }
+
+        if(($primarySubject || $secondarySubject) && isset($postFields["courses"]))
         {
 
             // Form has been posted. Update the subject
-            $subject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('id' => $postFields['subject']));
-            if($subject && $postFields["courses"] )
+            if($postFields["courses"] )
             {
                 $courses = explode(PHP_EOL, $postFields["courses"]);
                 foreach($courses as $courseRow)
@@ -814,9 +824,22 @@ EOD;
                     $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
                     if($course)
                     {
-                        $course->setStream($subject);
+                        if($primarySubject)
+                        {
+                            $course->setStream($primarySubject);
+                            $succeeded[ $courseId ] = $courseParts[1];
+                        }
+
+                        if($secondarySubject && !$course->getSubjects()->contains($secondarySubject))
+                        {
+                            $course->addSubject($secondarySubject);
+                            $succeeded[ $courseId ] = $courseParts[1];
+                        }
+                        else
+                        {
+                            $failed[ $courseId ] = $courseParts[1];
+                        }
                         $em->persist( $course );
-                        $succeeded[ $courseId ] = $courseParts[1];
                         $this->get('cache')->deleteCache( 'course_'.$courseId );
                     }
                     else

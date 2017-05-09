@@ -1,6 +1,9 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
 {% block content %}
+    <p>This page is used to bulk update a courses primary subject or secondary subjects. A course can have multiple secondary subjects,
+    so this tool can only be used to add secondary subjects and not remove them.
+    </p>
     <button onclick="Cookies.remove( 'bulk_course_copy');">Clear courses clipbloard</button>
     <div>
         {% if succeeded is not empty %}
@@ -22,13 +25,24 @@
 
 
     <form method="post">
-        <label>Pick a subject</label>
-        <select name="subject">
+        <label>Pick a Primary subject</label>
+        <select name="primary-subject">
+            <option disabled selected value> -- select an option -- </option>
             {% for subject in subjects %}
                 <option value="{{ subject.id }}">{{ subject.name  }}</option>
             {% endfor %}
         </select>
         <br/><br/>
+
+        <label>Pick a Secondary subject</label>
+        <select name="secondary-subject">
+            <option disabled selected value> -- select an option -- </option>
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name  }}</option>
+            {% endfor %}
+        </select>
+        <br/><br/>
+
         <label>Paste courses with ids</label>
         <textarea name="courses" rows="25" cols="100"></textarea>
         <br/><br/>
