@@ -57,11 +57,11 @@ class Credentials {
         $params['body']['sort'] = array(
             'isSponsered'=>array(
                 "order" => "desc",
-                "unmapped_type" => true,
+                "unmapped_type" => "long",
             ),
             "numRatings" => array(
                 "order" => "desc",
-                "unmapped_type" => true,
+                "unmapped_type" => "long",
             )
         );
 
