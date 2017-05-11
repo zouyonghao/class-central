@@ -4,7 +4,8 @@
     <p>This page is used to bulk update a courses primary subject or secondary subjects. A course can have multiple secondary subjects,
     so this tool can only be used to add secondary subjects and not remove them.
     </p>
-    <button onclick="Cookies.remove( 'bulk_course_copy');">Clear courses clipbloard</button>
+    <button onclick="clearCoursesClipboard()">Clear courses clipboard</button>
+    <button onclick="refreshCoursesClipboard()">Refresh courses clipboard</button>
     <div>
         {% if succeeded is not empty %}
             <h3>Successfully updated</h3>
@@ -59,6 +60,21 @@
         }
         courses = courses.replace(/;;;/g,"\n");
         $('textarea[name="courses"]').text(courses);
+
     });
+
+    function clearCoursesClipboard() {
+        Cookies.remove('bulk_course_copy');
+        $('textarea[name="courses"]').text("");
+    }
+
+    function refreshCoursesClipboard() {
+        var courses = '';
+        if (Cookies.get( 'bulk_course_copy' ) !== undefined) {
+           courses = Cookies.get( 'bulk_course_copy' );
+        }
+        courses = courses.replace(/;;;/g,"\n");
+        $('textarea[name="courses"]').text(courses);
+    }
 
 {% endblock %}
