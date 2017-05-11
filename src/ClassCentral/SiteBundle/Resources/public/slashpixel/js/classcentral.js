@@ -120,9 +120,9 @@ jQuery(function($) {
                             courseAdded = true;
                         }
 
-                        if($.inArray(Number(listId), listCourseDone) >= 0)
+                        if(false && $.inArray(Number(listId), listCourseDone) >= 0)
                         {
-                            askUserForRating(name,courseId,listId);
+                            // To Do: Somehow prompt user to write a full review
                         }
                         else if($.inArray(Number(listId), listEnrolled) >= 0)
                         {
@@ -1103,66 +1103,6 @@ jQuery(function($) {
     }
 
     vidplay();
-
-    askUserForRating = function(name, courseId, listId){
-
-        ga('send','event','Rating Popup - Shown',name, listId);
-
-        var source   = $("#rating-popup").html();
-        var template = Handlebars.compile(source);
-        var html    = template({'rating' : 0});
-
-        swal({
-            title: "<span style='font-size: 20px'>How would you rate '<em>" + name + "</em>'?</small></span>",
-            text: html,
-            html: true,
-            showCancelButton: true,
-            showConfirmButton: false
-        });
-
-        var ratyDefaults = {
-            starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-gray.png',
-            starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-gray.png',
-            starOn      : '/bundles/classcentralsite/slashpixel/images/star-on-gray.png',
-            hints       : ['','','','',''],
-            size        : 21,
-            score       : function() {
-                return $(this).attr('data-score');
-            },
-            click       : function(score, evt) {
-                ga('send','event','Rating Popup - Course Rated',name, listId);
-
-                // Save the review
-                var review = {
-                    'rating': score,
-                    'progress': listId,
-                    'reviewText' :'',
-                    'showNotification' : false
-                };
-
-                $.ajax({
-                    type:"post",
-                    url:"/user/review/create/" + courseId,
-                    data:JSON.stringify(review)
-                })
-                    .done(
-                    function(result){
-                        result = JSON.parse(result);
-                        if(result['success']) {
-                            swal("Course has been rated", "Thank you for providing feedback", "success");
-                        } else {
-                            ga('send','event','Rating Popup - Course Rating Unsuccesful',name, listId);
-                            swal("Error", result.message, "error");
-                        }
-                    }
-                );
-
-            }
-        };
-
-        $('#rating').raty(ratyDefaults);
-
-    }
 
     // Fire Google Analytic events for signup
     var userSignedUp = getUrlParameter('ref');
