@@ -189,3 +189,83 @@ ClassCentralSiteBundle_institution_worldbank:
           route: ClassCentralSiteBundle_institution
           permanent: true # this is for 301
           slug: worldbank
+
+tag_software_development:
+    pattern: /tag/software development
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: software-development
+
+tag_android:
+    pattern: /tag/android
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: android-development
+
+tag_android_programming:
+    pattern: /tag/android programming
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: android-development
+
+tag_android_studio:
+    pattern: /tag/android studio
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: android-development
+
+tag_android_tv:
+    pattern: /tag/android tv
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: android-development
+
+tag_ios:
+    pattern: /tag/ios
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: ios-development
+
+tag_ios_development:
+    pattern: /tag/ios development
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: ios-development
+
+tag_ios_physics_engine:
+    pattern: /tag/ios physics engine
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: ios-development
+
+tag_game_development:
+    pattern: /tag/game development
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: game-development
+
+tag_game_programming:
+    pattern: /tag/game programming
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permanent: true # this is for 301
+      slug: game-development
