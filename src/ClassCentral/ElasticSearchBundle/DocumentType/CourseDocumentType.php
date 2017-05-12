@@ -214,6 +214,14 @@ class CourseDocumentType extends DocumentType {
         }
         $sDoc = new SubjectDocumentType($sub, $this->container);
         $subjects[] = $sDoc->getBody();
+
+        // Add secondary subjects
+        foreach ($c->getSubjects() as $secondarySubject)
+        {
+            $sDoc = new SubjectDocumentType($secondarySubject, $this->container);
+            $subjects[] = $sDoc->getBody();
+        }
+
         $body['subjects'] = $subjects;
 
         // Careers
