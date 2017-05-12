@@ -269,3 +269,11 @@ tag_game_programming:
       route: ClassCentralSiteBundle_stream
       permanent: true # this is for 301
       slug: game-development
+
+old_subject_digital-media-and-video-games:
+   pattern: /subject/digital-media-and-video-games
+   defaults:
+     _controller: FrameworkBundle:Redirect:redirect
+     route: ClassCentralSiteBundle_stream
+     permanent: true # this is for 301
+     slug: digital-media
