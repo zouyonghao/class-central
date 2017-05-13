@@ -277,3 +277,11 @@ old_subject_digital-media-and-video-games:
      route: ClassCentralSiteBundle_stream
      permanent: true # this is for 301
      slug: digital-media
+
+old_subject_theoretical-computer-science:
+   pattern: /subject/theoretical-computer-science
+   defaults:
+     _controller: FrameworkBundle:Redirect:redirect
+     route: ClassCentralSiteBundle_stream
+     permanent: true # this is for 301
+     slug: algorithms-and-data-structures
