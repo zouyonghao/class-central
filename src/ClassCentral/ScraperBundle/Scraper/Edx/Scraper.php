@@ -80,6 +80,8 @@ class Scraper extends ScraperAbstractInterface
 
     private $skipNames = array('DELETE','OBSOLETE','STAGE COURSE', 'Test Course');
 
+    private $sleepMultiplier = 1;
+
     private $coursesWithSameName = array('Introduction to Differential Equations');
 
     /**
@@ -105,7 +107,17 @@ class Scraper extends ScraperAbstractInterface
         $duplicateOfferings = 0;
         foreach($edxCourses as $edxCourse)
         {
-            $course = $this->getCourseEntityFromDrupalAPI($edxCourse);
+            $course =  null;
+            try
+            {
+                $course =  $this->getCourseEntityFromDrupalAPI($edxCourse);
+            }
+            catch (\Exception $e)
+            {
+                $this->out("Error creating Course Entity for course : ".$edxCourse['title'] );
+                continue; // Skip this course
+            }
+
 
             $cTags = array();
             foreach( $edxCourse['course_page_info']['schools']  as $school)
@@ -843,13 +855,16 @@ class Scraper extends ScraperAbstractInterface
         }
         $stream = $this->dbHelper->getStreamBySlug('cs');
 
-        foreach($c['course_page_info']['subjects'] as $sub)
+        if(!empty($c['course_page_info']['subjects']))
         {
-            if(isset($this->subjectsMap[ $sub['title'] ]))
+            foreach($c['course_page_info']['subjects'] as $sub)
             {
-                $stream = $this->dbHelper->getStreamBySlug( $this->subjectsMap[ $sub['title'] ] );
+                if(isset($this->subjectsMap[ $sub['title'] ]))
+                {
+                    $stream = $this->dbHelper->getStreamBySlug( $this->subjectsMap[ $sub['title'] ] );
+                }
+                break;
             }
-            break;
         }
 
         if($c['number'] =='CS50')
@@ -1408,10 +1423,24 @@ class Scraper extends ScraperAbstractInterface
     {
         try
         {
-            return file_get_contents($url);
+            $contents =file_get_contents($url);
+            // successfully completed the call. Return it back to one. Return sleepmultipler time back to 1.
+            $this->sleepMultiplier = 1;
+
+            return $contents;
         } catch (\Exception $e)
         {
             $this->out("file_get_contents_error: " . $e->getMessage());
+            $msg = $e->getMessage();
+            if(strpos($msg,'429') !== false)
+            {
+
+                $sleepTime = 10*$this->sleepMultiplier;
+                $this->out("Too many requests - Going to Sleep right now for $sleepTime seconds");
+                sleep($sleepTime);
+                $this->sleepMultiplier++; // If it happens again increase the time to sleep.
+                $this->file_get_contents_wrapper($url);
+            }
         }
 
         return '';
