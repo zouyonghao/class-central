@@ -22,6 +22,10 @@ bin/*
 
 
 extras/cc_db.sql
+extras/.gitkeep
+extras/add_course_info.json
+extras/collection.json
+extras/text_row_ads.json
 
 composer.phar
 
