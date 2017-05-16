@@ -285,3 +285,11 @@ old_subject_theoretical-computer-science:
      route: ClassCentralSiteBundle_stream
      permanent: true # this is for 301
      slug: algorithms-and-data-structures
+
+old_subject_business-analytics-and-intelligence:
+   pattern: /subject/business-analytics-and-intelligence
+   defaults:
+     _controller: FrameworkBundle:Redirect:redirect
+     route: ClassCentralSiteBundle_stream
+     permanent: true # this is for 301
+     slug: business-intelligence
