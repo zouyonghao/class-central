@@ -288,7 +288,10 @@ class StreamController extends Controller
         $count = $esCourses->getCounts();
         $subjectsCount = $count['subjects'];
 
-        $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+        $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findBy(
+                array(), array('displayOrder' => 'DESC')
+                // fixing stream order to DESC
+            );
         $parentSubjects = array();
         $childSubjects = array();
 
