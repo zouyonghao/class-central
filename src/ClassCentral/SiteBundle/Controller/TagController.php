@@ -11,9 +11,12 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use ClassCentral\SiteBundle\Entity\Item;
+
 
 class TagController extends Controller
 {
+    
     /**
      * Lists all the tags
      */
@@ -26,6 +29,7 @@ class TagController extends Controller
         return $this->render('ClassCentralSiteBundle:Tag:index.html.twig', array(
             'tags' => $tags,
         ));
+
     }
 
     public function deleteAction($id)
@@ -43,11 +47,24 @@ class TagController extends Controller
                 throw $this->createNotFoundException('Unable to find Tag entity.');
             }
 
+            // delete follows when deleting tags
+            $query = $em->getConnection()->prepare(
+                    'DELETE FROM follows WHERE item_id=:item_id and item=:item'
+                    );
+            $params = array(
+                    'item_id' => $id,
+                    'item'=> Item::ITEM_TYPE_TAG
+            );
+    
+            $query->execute($params);
+
+
             $em->remove($entity);
             $em->flush();
         }
 
         return $this->redirect($this->generateUrl('ClassCentralSiteBundle_admin'));
+
     }
 
     private function createDeleteForm($id)
