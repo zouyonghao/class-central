@@ -7,6 +7,7 @@
  */
 
 namespace ClassCentral\SiteBundle\Services;
+use Imgix\UrlBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
@@ -201,46 +202,39 @@ class Image {
         );
     }
 
-    public function getPostThumbnailSmall($imageUrl,$postId)
+    public function getPostThumbnailSmall($imageUrl)
     {
         $cache = $this->container->get('cache');
         $uniqueKey = 'post_thumbnail_small'. basename( $imageUrl );
 
-        return $cache->get($uniqueKey,function($uniqueKey,$imageUrl,$postId){
+        return $cache->get($uniqueKey,function($imageUrl){
 
+           return $this->getPostThumbnail($imageUrl,170,112);
 
-            // Check if the file exists or has changed.
-            if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_POST,Kuber::KUBER_TYPE_POST_THUMBNAIL_SMALL, $postId ,$uniqueKey ) )
-            {
-
-                // Upload the hew file
-                $croppedImageUrl = $this->cropImage( $imageUrl, 305,446  );
-
-                // Upload the file
-                $filePath = '/tmp/modified_'.$uniqueKey;
-                file_put_contents($filePath,file_get_contents($croppedImageUrl));
-
-                $file = $this->kuber->upload(
-                    $filePath,
-                    Kuber::KUBER_ENTITY_POST,
-                    Kuber::KUBER_TYPE_POST_THUMBNAIL_SMALL,
-                    $postId,
-                    null,
-                    $uniqueKey
-                );
-
-                return $this->kuber->getUrlFromFile( $file );
-            }
-
-            // File exists
-            return $this->kuber->getUrl(
-                Kuber::KUBER_ENTITY_POST,
-                Kuber::KUBER_TYPE_POST_THUMBNAIL_SMALL,
-                $postId
-            );
-
-        },array($uniqueKey,$imageUrl,$postId));
-
+        },array($imageUrl));
     }
 
+    public function getPostThumbnailBig($imageUrl)
+    {
+        $cache = $this->container->get('cache');
+        $uniqueKey = 'post_thumbnail_small'. basename( $imageUrl );
+
+        return $cache->get($uniqueKey,function($imageUrl){
+
+            return $this->getPostThumbnail($imageUrl,405,307);
+
+        },array($imageUrl));
+    }
+
+    public function getPostThumbnail($imageUrl, $height, $width)
+    {
+        $builder = new UrlBuilder($this->container->getParameter('imgix_domain'));
+        $builder->setSignKey($this->container->getParameter('imgix_token'));
+        $builder->setUseHttps(true);
+        $params = array(
+            "w" => $width, "h" => $height, "auto" => 'compress'
+        );
+
+        return $builder->createURL($imageUrl,$params);
+    }
 } 

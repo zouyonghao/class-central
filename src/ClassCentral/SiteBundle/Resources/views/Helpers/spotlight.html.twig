@@ -101,7 +101,7 @@
             {% for post in newestPosts if not featuredPostShown %}
                 {% if post.acf.pinned is not empty %}
                     <a href="{{ post.link }}" class="featured-media__imageLink"  onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">
-                        <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url,post.id) }}" alt="Image title" class="featured-media__img">
+                        <img src="{{ imageService.getPostThumbnailBig(post.acf.thumbnail.url) }}" alt="Image title" class="featured-media__img">
                     </a>
                     <div class="featured-media">
                     <h2 class="featured-media__title">
@@ -126,7 +126,7 @@
                     {% if post.id != featuredPostId %}
                         <div class="media-object media-object--bordered">
                             <a href="{{ post.link }}" class="media-object__image"    onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">
-                                <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url,post.id) }}" alt="{{ post.title.rendered|raw }}" class="media-object">
+                                <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url) }}" alt="{{ post.title.rendered|raw }}" class="media-object">
                             </a>
 
                             <div class="media-object__content">
