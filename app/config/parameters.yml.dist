@@ -109,3 +109,6 @@ parameters:
     google_auth_client_id: ~
     edx_api_client_id: ~
     edx_api_client_secret: ~
+
+    imgix_domain: ~
+    imgix_token: ~
