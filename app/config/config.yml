@@ -210,7 +210,7 @@ services:
         arguments: [ '%mashape_api_key%' ]
   image_service:
         class: ClassCentral\SiteBundle\Services\Image
-        arguments: [ '@service_container', '%embedly_api_key%' ]
+        arguments: [ '@service_container' ]
   credential:
         class: ClassCentral\CredentialBundle\Services\Credential
         arguments: ['@service_container']

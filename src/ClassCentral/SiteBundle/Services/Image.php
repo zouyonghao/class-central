@@ -17,14 +17,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Image {
 
-    private  $apiKey;
     private $container;
     private $kuber;
 
-    public function __construct( ContainerInterface $container, $apiKey )
+    public function __construct( ContainerInterface $container )
     {
         $this->container = $container;
-        $this->apiKey = $apiKey;
         $this->kuber = $container->get('kuber');
     }
 
