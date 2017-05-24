@@ -18,7 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Image {
 
     private  $apiKey;
-    private  $embedlyDisplayBaseUrl = 'https://i.embed.ly/1/display';
     private $container;
     private $kuber;
 
@@ -27,19 +26,6 @@ class Image {
         $this->container = $container;
         $this->apiKey = $apiKey;
         $this->kuber = $container->get('kuber');
-    }
-
-    /**
-     * Crops the image to a particular size
-     * @param $imageUrl
-     * @param $height
-     * @param $width
-     * @return string
-     */
-    public function cropImage($imageUrl, $height, $width)
-    {
-        return $this->embedlyDisplayBaseUrl.
-        sprintf('/crop?url=%s&key=%s&height=%d&width=%d&grow=true',urlencode($imageUrl),$this->apiKey,$height,$width);
     }
 
     /**
@@ -87,50 +73,7 @@ class Image {
     // Given an image its returns the image in spotlight sized
     public function getSpotlightImage($imageURl, $spotlightId)
     {
-        return $this->cropAndSaveSpotlightImage($imageURl,$spotlightId, 160,198);
-    }
-
-    // Given an image its returns the image in spotlight sized
-    public function getBlogSpotlightImage($imageURl, $spotlightId)
-    {
-        return $this->cropAndSaveSpotlightImage($imageURl,$spotlightId,480,800);
-    }
-
-    private function cropAndSaveSpotlightImage($imageURl, $spotlightId, $height, $width)
-    {
-        $uniqueKey = 'spl1'. basename($imageURl );
-        $cache = $this->container->get('cache');
-
-        return $cache->get($uniqueKey,function($uniqueKey,$imageURl,$spotlightId,$height,$width){
-            // Check if the file exists or has changed.
-            if( $this->kuber->hasFileChanged( Kuber::KUBER_ENTITY_SPOTLIGHT,Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE, $spotlightId ,$uniqueKey ) )
-            {
-                // Upload the hew file
-                $croppedImageUrl = $this->cropImage( $imageURl, $height, $width );
-
-                // Upload the file
-                $filePath = '/tmp/modified_'.$uniqueKey;
-                file_put_contents($filePath,file_get_contents($croppedImageUrl));
-
-                $file = $this->kuber->upload(
-                    $filePath,
-                    Kuber::KUBER_ENTITY_SPOTLIGHT,
-                    Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE,
-                    $spotlightId,
-                    null,
-                    $uniqueKey
-                );
-
-                return $this->kuber->getUrlFromFile( $file );
-            }
-
-            // File exists
-            return $this->kuber->getUrl(
-                Kuber::KUBER_ENTITY_SPOTLIGHT,
-                Kuber::KUBER_TYPE_SPOTLIGHT_IMAGE,
-                $spotlightId
-            );
-        },array($uniqueKey,$imageURl,$spotlightId,$height,$width));
+        return $this->cropImage($imageURl,160,198);
 
     }
 
@@ -209,7 +152,7 @@ class Image {
 
         return $cache->get($uniqueKey,function($imageUrl){
 
-           return $this->getPostThumbnail($imageUrl,170,112);
+           return $this->cropImage($imageUrl,170,112);
 
         },array($imageUrl));
     }
@@ -221,20 +164,43 @@ class Image {
 
         return $cache->get($uniqueKey,function($imageUrl){
 
-            return $this->getPostThumbnail($imageUrl,405,307);
+            return $this->cropImage($imageUrl,405,307);
 
         },array($imageUrl));
     }
 
-    public function getPostThumbnail($imageUrl, $height, $width)
+    /**
+     * Crops the image to a particular size
+     * @param $imageUrl
+     * @param $height
+     * @param $width
+     * @return string
+     */
+    public function cropImage($imageUrl, $height, $width)
     {
-        $builder = new UrlBuilder($this->container->getParameter('imgix_domain'));
-        $builder->setSignKey($this->container->getParameter('imgix_token'));
+        // If Imgix params are missing, return the same image. Useful for dev environment.
+        if(empty($this->getImgixKey()) || empty($this->getImgixToken()))
+        {
+            return $imageUrl;
+        }
+
+        $builder = new UrlBuilder($this->getImgixKey());
+        $builder->setSignKey($this->getImgixToken());
         $builder->setUseHttps(true);
         $params = array(
             "w" => $width, "h" => $height, "auto" => 'compress'
         );
 
         return $builder->createURL($imageUrl,$params);
+    }
+
+    private function getImgixKey()
+    {
+        return $this->container->getParameter('imgix_domain');
+    }
+
+    private function getImgixToken()
+    {
+        return $this->container->getParameter('imgix_token');
     }
 } 

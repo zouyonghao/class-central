@@ -75,9 +75,6 @@ parameters:
     # mashape api key
     mashape_api_key : ~
     
-    #embedly api key
-    embedly_api_key: ~	
-    
     #sumo site id
     sumo_site_id: ~
 

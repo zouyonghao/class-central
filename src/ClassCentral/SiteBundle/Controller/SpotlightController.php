@@ -120,20 +120,6 @@ class SpotlightController extends Controller
                 }
             }
 
-            if($entity->getType() == Spotlight::SPOTLIGHT_TYPE_BLOG)
-            {
-                // Blog image is of different size as compared to all other spotlight images
-                $entity->setImageUrl(
-                    $this->get('image_service')->getBlogSpotlightImage( $entity->getImageUrl(), $entity->getId() )
-                );
-
-            }
-            else
-            {
-                // Crop the spotlight image
-                $this->get('image_service')->getSpotlightImage( $entity->getImageUrl(), $entity->getId() );
-            }
-
             $em->persist($entity);
             $em->flush();
 
