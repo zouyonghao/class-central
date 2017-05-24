@@ -236,6 +236,7 @@ class Scraper extends \ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterfa
         $offering->setUrl( $course->getUrl() );
         $offering->setStatus( Offering::START_DATES_KNOWN );
         $dateString = false;
+        $adaptive = $o['adaptive'];
 
         try
         {
@@ -263,6 +264,14 @@ class Scraper extends \ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterfa
             }
             $offering->setStartDate($startDate);
             $offering->setEndDate($endDate);
+
+            // If adaptive is true and now is between startDate and endDate set the status to self paced
+            $today = new \DateTime();
+            if($adaptive && $today >= $startDate && $today <= $endDate)
+            {
+                $offering->setStatus(Offering::COURSE_OPEN);
+            }
+
         } catch (\Exception $e)
         {
             $dateString = true;
