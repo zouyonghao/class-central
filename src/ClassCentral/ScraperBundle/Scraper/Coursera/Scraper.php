@@ -235,9 +235,12 @@ class Scraper extends ScraperAbstractInterface {
                         {
                             $em->persist($dbCourse);
                             $em->flush();
-
-                            $this->uploadImageIfNecessary($onDemandCourse['elements'][0]['promoPhoto'],$dbCourse);
                         }
+                    }
+
+                    if( $this->doUpdate() && $this->doModify())
+                    {
+                        $this->uploadImageIfNecessary($onDemandCourse['elements'][0]['promoPhoto'],$dbCourse);
                     }
 
                     // Check how many of them are self paced
