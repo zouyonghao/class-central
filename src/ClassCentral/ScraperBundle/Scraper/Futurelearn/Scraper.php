@@ -56,7 +56,6 @@ class Scraper extends ScraperAbstractInterface {
         {
             $courseChanged = false;
 
-
             $course =  $this->getCourseEntity( $flCourse );
 
             $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
@@ -71,6 +70,8 @@ class Scraper extends ScraperAbstractInterface {
                     // NEW COURSE
                     if ($this->doModify())
                     {
+                        $course->addInstructor($this->dbHelper->createInstructorIfNotExists($flCourse['educator']));
+
                         $em->persist($course);
                         $em->flush();
 
@@ -124,12 +125,13 @@ class Scraper extends ScraperAbstractInterface {
                         $em->persist($dbCourse);
                         $em->flush();
 
-                        if( $flCourse['image_url'] )
-                        {
-                            $this->uploadImageIfNecessary( $flCourse['image_url'], $dbCourse);
-                        }
                     }
                     $courseChanged = true;
+                }
+
+                if( $this->doUpdate() && $flCourse['image_url'] )
+                {
+                    $this->uploadImageIfNecessary( $flCourse['image_url'], $dbCourse);
                 }
 
                 $course = $dbCourse;
