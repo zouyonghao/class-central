@@ -437,8 +437,8 @@
         ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
     })();
 
-    {# show the user a personalization prompts - not showing it anymore#}
-    {% if false and app.user and app.user.follows| length < 5 and app.request.attributes.get('_route') != 'user_profile' %}
+    {# show the user a personalization prompts #}
+    {% if app.user and app.user.follows| length < 5 and app.request.attributes.get('_route') != 'user_profile' and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' %}
         if(!isMobile.phone) {
             CC.Class['Follow'].showPersonalizationPrompt(20000);
         }

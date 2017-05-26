@@ -5,6 +5,8 @@ var CC = CC || {
 CC.Class['Follow'] = (function(){
 
     var utilities = CC.Class['Utilities'];
+    var promptShownCookie = 'follow_personalized_page_prompt';
+
 
     function init() {
         $('.btn-follow-item').click(followClicked);
@@ -276,8 +278,7 @@ CC.Class['Follow'] = (function(){
      */
     function showPersonalizationPrompt(delay) {
 
-        var promptShownCookie = 'follow_personalized_page_prompt';
-        if ( Cookies.get( promptShownCookie) === undefined ) {
+        if ( isPersonalizationPromptShown() ) {
             $.ajax({
                 url: "/ajax/isLoggedIn",
                 cache: true
@@ -291,7 +292,7 @@ CC.Class['Follow'] = (function(){
                             // Check the cookie again
                             if(Cookies.get( promptShownCookie) === undefined ) {
                                 CC.Class["Signup"].followSubjectOnboarding();
-                                Cookies.set( promptShownCookie, 1, { expires :30} );
+                                setPersonalizationPromptShown();
                             }
 
                         },delay);
@@ -301,9 +302,18 @@ CC.Class['Follow'] = (function(){
         }
     }
 
+    function setPersonalizationPromptShown() {
+        Cookies.set( promptShownCookie, 1, { expires :30} );
+    }
+
+    function isPersonalizationPromptShown() {
+        return Cookies.get(promptShownCookie) === undefined;
+    }
+
     return {
         init: init,
-        showPersonalizationPrompt:showPersonalizationPrompt
+        showPersonalizationPrompt:showPersonalizationPrompt,
+        setPersonalizationPromptShown: setPersonalizationPromptShown
     }
 })();
 
