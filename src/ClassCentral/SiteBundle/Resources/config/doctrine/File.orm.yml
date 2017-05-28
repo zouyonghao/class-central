@@ -43,4 +43,10 @@ ClassCentral\SiteBundle\Entity\File:
             fixed: false
             nullable: true
             column: unique_key
+        created:
+          type: datetime
+          nullable: true
+        modified:
+          type: datetime
+          nullable: true
     lifecycleCallbacks: {  }

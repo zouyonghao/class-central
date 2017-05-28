@@ -84,6 +84,16 @@ class Profile
      */
     private $jobTitle;
 
+    /**
+     * @var \DateTime
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    private $modified;
+
 
     const DEFAULT_PROFILE_PIC = '/bundles/classcentralsite/slashpixel/images/profile-pic-placeholder.png';
 
@@ -99,6 +109,11 @@ class Profile
         'Doctor of Philosophy',
         'Other'
     );
+
+    public function __construct()
+    {
+        $this->setCreated(new \DateTime());
+    }
 
     /**
      * Get id
@@ -431,5 +446,51 @@ class Profile
     public function getJobTitle()
     {
         return $this->jobTitle;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return User
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set modified
+     *
+     * @param \DateTime $modified
+     * @return User
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * Get modified
+     *
+     * @return \DateTime
+     */
+    public function getModified()
+    {
+        return $this->modified;
     }
 }
