@@ -10,6 +10,7 @@
 namespace ClassCentral\ScraperBundle\Command;
 
 
+use ClassCentral\SiteBundle\Entity\Initiative;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -68,15 +69,26 @@ class ScraperCommand extends ContainerAwareCommand
         $scraperFactory->setOutputInterface($output);
         $scraperFactory->setContainer($this->getContainer());
 
-        $scraper = $scraperFactory->getScraper();
-        $offerings = $scraper->scrape();
-        $offeringCount = count($offerings);
-        $output->writeln("<info>{$type} {$offeringCount} courses for {$initiative->getName()}</info>");
-        foreach($offerings as $offering)
-        {
-            $output->writeln($offering->getName());
-        }
 
+        $scraper = $scraperFactory->getScraper();
+        $startTime = microtime(true);
+        $this->sendMessageToSlack("Scraper Started. Simulate: $simulate; Type = $type" , $initiative);
+        $scraper->scrape();
+        $time_elapsed_secs = microtime(true) - $startTime;
+        $this->sendMessageToSlack("Scraper Ended. Took $time_elapsed_secs seconds", $initiative);
+        $output->writeln("Scraper Ended. Took $time_elapsed_secs seconds");
+    }
+
+    private function sendMessageToSlack($msg, Initiative $provider)
+    {
+        $logo = $this->getContainer()->getParameter('rackspace_cdn_base_url') . $provider->getImageUrl() ;
+
+        $this->getContainer()
+            ->get('slack_client')
+            ->to('#cc-activity-data')
+            ->from( $provider->getName() )
+            ->withIcon( $logo )
+            ->send( $msg );
     }
 
 }
