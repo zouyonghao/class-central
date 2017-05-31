@@ -324,7 +324,7 @@ class Scraper extends ScraperAbstractInterface
 
         $this->out(  $duplicateOfferings );
 
-        return $offerings;
+        return;
 
     }
 
