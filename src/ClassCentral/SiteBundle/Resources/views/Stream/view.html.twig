@@ -123,7 +123,6 @@
     } %}
 
 
-
     <section class="courses">
         <h2 class="section-heading">
             <span>Courses</span>
@@ -156,5 +155,13 @@
     {% include 'ClassCentralSiteBundle:Helpers:related.html.twig' with {
 
     } %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <br/>
+        {% for term,tagCount in tagCounts %}
+            {{ term }} -- {{ tagCount }} <br/>
+        {% endfor %}
+        <br/>
+    {% endif %}
 
 {% endblock %}

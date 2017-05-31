@@ -152,7 +152,7 @@ class CourseListing {
             return compact(
                 'subject', 'allSubjects', 'allLanguages', 'allSessions', 'courses',
                 'sortField', 'sortClass', 'pageNo', 'pageInfo','breadcrumbs','numCoursesWithCertificates',
-                'credentials','numCredentials'
+                'credentials','numCredentials', 'tags'
             );
         }, array($slug, $request));
 
@@ -575,8 +575,9 @@ class CourseListing {
         $allSubjects = $filter->getCourseSubjects( $facets['subjectIds'] );
         $allLanguages = $filter->getCourseLanguages( $facets['languageIds'] );
         $allSessions  = $filter->getCourseSessions( $facets['sessions'] );
+        $tags = $facets['tags'];
         $numCoursesWithCertificates = $facets['certificates'];
 
-        return compact('allSubjects','allLanguages','allSessions','numCoursesWithCertificates');
+        return compact('allSubjects','allLanguages','allSessions','numCoursesWithCertificates','tags');
     }
 } 

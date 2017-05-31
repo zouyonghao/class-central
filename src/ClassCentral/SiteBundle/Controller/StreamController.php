@@ -256,7 +256,8 @@ class StreamController extends Controller
                 'followItemName' => $subject->getName(),
                 'credentials' => $data['credentials'],
                 'numCredentials' => $data['numCredentials'],
-                'related' => $related
+                'related' => $related,
+                'tagCounts' => $data['tags']
             ));
     }
 

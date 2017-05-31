@@ -362,6 +362,12 @@ class Courses {
                     'size' => 10
                 )
             ),
+            "tags" => array(
+                "terms" => array(
+                    'field' => 'tags',
+                    'size' => 50
+                )
+            )
         );
 
         $filter = array(
@@ -447,13 +453,19 @@ class Courses {
             $providers[ $term['term'] ] = $term['count'];
         }
 
+        $tags = array();
+        foreach ($results['facets']['tags']['terms'] as $term)
+        {
+            $tags[ $term['term'] ] = $term['count'];
+        }
+
         $providersNav = array();
         foreach ($results['facets']['providerNav']['terms'] as $term)
         {
             $providersNav[ $term['term'] ] = $term['count'];
         }
 
-        return compact( 'subjects', 'languages', 'sessions', 'providers', 'providersNav');
+        return compact( 'subjects', 'languages', 'sessions', 'providers', 'providersNav','tags');
     }
 
 
