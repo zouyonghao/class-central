@@ -219,7 +219,7 @@ class Finder {
                         }
                         ratingScore += (int)ratingCount/2;
 
-                        // Calculate the boost for course popularity
+                        // Calculate the boost for course popularity            
                         followedScore = (int) followed/10;
 
                         // Calculate score based on newness
@@ -304,6 +304,12 @@ class Finder {
             $sessions[ $term['term'] ] = $term['count'];
         }
 
+        $tags = array();
+        foreach( $results['facets']['tags']['terms'] as $term )
+        {
+            $tags[ $term['term'] ] = $term['count'];
+        }
+
         $certificates = 0;
         foreach($results['facets']['certificate']['terms'] as $term)
         {
@@ -318,7 +324,8 @@ class Finder {
             'subjectIds' => $subjectIds,
             'languageIds' => $languageIds,
             'sessions'    => $sessions,
-            'certificates' => $certificates
+            'certificates' => $certificates,
+            'tags' => $tags
         );
     }
 
@@ -341,6 +348,12 @@ class Finder {
                 "terms" => array(
                     'field' => 'nextSession.states',
                     'size' => 10
+                )
+            ),
+            "tags" => array(
+                "terms" => array(
+                    'field' => 'tags',
+                    'size' => 50
                 )
             ),
             'certificate' => array(
