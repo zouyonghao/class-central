@@ -2,7 +2,6 @@
 
 namespace ClassCentral\SiteBundle\Services;
 
-use ClassCentral\SiteBundle\Entity\Course;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Tag {
@@ -50,7 +49,7 @@ class Tag {
      * @param Course $c
      * @param array $tags
      */
-    public function saveCourseTags(Course $c, array $tags)
+    public function saveCourseTags(\ClassCentral\SiteBundle\Entity\Course $c, array $tags)
     {
         $newTag = false;
         $tagsToBeRemoved = array();
