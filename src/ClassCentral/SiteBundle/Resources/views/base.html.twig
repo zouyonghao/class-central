@@ -312,6 +312,40 @@
 {% include 'ClassCentralSiteBundle:Helpers:search.template.html.twig' %}
 {# All the javascript goes in here #}
 
+   <script>
+       function signInWithGoogleButtonInit() {
+           var googleUser = {};
+           var startApp = function() {
+               gapi.load('auth2', function(){
+                   // Retrieve the singleton for the GoogleAuth library and set up the client.
+                   auth2 = gapi.auth2.init({
+                       client_id: '{{ google_auth_client_id }}',
+                       cookiepolicy: 'single_host_origin',
+                       // Request scopes in addition to 'profile' and 'email'
+                       //scope: 'additional_scope'
+                   });
+
+                   var signInButtons = document.getElementsByClassName("sign-in-with-google");
+                   for(var i = 0; i < signInButtons.length; i++)
+                   {
+                       attachSignin(signInButtons.item(i));
+                   }
+               });
+           };
+
+           function attachSignin(element) {
+               auth2.attachClickHandler(element, {},
+                   function(googleUser) {
+                       CC.Class['User'].googleAuth(googleUser.getAuthResponse().id_token);
+                   }, function(error) {
+                       //alert(JSON.stringify(error, undefined, 2));
+                   });
+           }
+
+           startApp();
+       }
+   </script>
+
 {% javascripts filter='yui_js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/modernizr.custom.min.js'
 '@ClassCentralSiteBundle/Resources/public/slashpixel/js/respond.js'
@@ -467,42 +501,6 @@
         });
     {% endif %}
 
-
-    {% if not app.user %}
-        var googleUser = {};
-        var startApp = function() {
-            gapi.load('auth2', function(){
-                // Retrieve the singleton for the GoogleAuth library and set up the client.
-                auth2 = gapi.auth2.init({
-                    client_id: '{{ google_auth_client_id }}',
-                    cookiepolicy: 'single_host_origin',
-                    // Request scopes in addition to 'profile' and 'email'
-                    //scope: 'additional_scope'
-                });
-
-                var signInButtons = document.getElementsByClassName("sign-in-with-google");
-                for(var i = 0; i < signInButtons.length; i++)
-                {
-                    attachSignin(signInButtons.item(i));
-                }
-            });
-        };
-
-        function attachSignin(element) {
-            auth2.attachClickHandler(element, {},
-                    function(googleUser) {
-                        CC.Class['User'].googleAuth(googleUser.getAuthResponse().id_token);
-                    }, function(error) {
-                        //alert(JSON.stringify(error, undefined, 2));
-                    });
-        }
-
-        $(function() {
-            startApp();
-        });
-
-    {% endif %}
-
     </script>
 <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100717250ns.gif" /></p></noscript>
 
@@ -519,6 +517,11 @@
     }(document, 'script', 'facebook-jssdk'));</script>
     
     <script src="https://apis.google.com/js/api:client.js"></script>
+    <script>
+        {% if not app.user %}
+            signInWithGoogleButtonInit();
+        {% endif %}
+    </script>
 
 
     {# Rating popup box #}

@@ -428,6 +428,10 @@ CC.Class['Signup'] = (function(){
 
                                 $('form[name="classcentral_sitebundle_signuptype"]').submit( signupFormSubmit);
 
+                                $(signupFormId).on("shown.bs.modal",function () {
+                                    signInWithGoogleButtonInit();
+                                });
+
                                 $(signupFormId).modal("show");
                             }
                         })
