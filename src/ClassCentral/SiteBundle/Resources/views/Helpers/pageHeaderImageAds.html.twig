@@ -5,9 +5,6 @@
 {# two out of 4 #}
 {% if ad == 0 or ad == 1 %}
 
-    {% set variation = random(0) %}
-
-    {% if variation == 0 %}
         {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
         'url': 'https://www.udacity.com/course/data-analyst-nanodegree--nd002?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-image-data-analyst',
         'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/Udacity_ClassCentralAd_130x100_0000_1.jpg',
@@ -15,54 +12,13 @@
         'provider' : 'Udacity'
         } %}
 
-    {% elseif variation == 1 %}
-        {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-        'url': 'https://www.udacity.com/drive?utm_source=class-central&utm_medium=ads&utm_campaign=2016-09-class-central-course-table-header-image-self-driving-car',
-        'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/Udacity_Class_Central_130x100_SDC.jpg',
-        'desc': "Become a Self-Driving Car Engineer. Spots are limited - Apply today!",
-        'provider' : 'Udacity'
-        } %}
-
-    {% elseif variation == 2 %}
-        {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-        'url': 'https://www.udacity.com/course/android-developer-nanodegree--nd801?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-image-android',
-        'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/Udacity_ClassCentralAd_130x100_0001_2.jpg',
-        'desc': "Master the skills to become an Android Developer in this self-paced course.",
-        'provider' : 'Udacity'
-        } %}
-    {% elseif variation == 3 %}
-        {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-        'url': 'https://www.udacity.com/course/android-developer-nanodegree--nd801?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-image-android',
-        'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/Udacity_ClassCentralAd_130x100_0001_2.jpg',
-        'desc': "Learn to become an Android Developer. Job offer guaranteed or get a full refund.",
-        'provider' : 'Udacity'
-        } %}
-    {% elseif variation == 4 %}
-        {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-        'url': 'https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-image-front-end',
-        'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/Udacity_ClassCentralAd_130x100_0004_5.jpg',
-        'desc': "Master the skills required to become a Web Developer in this self-paced course.",
-        'provider' : 'Udacity'
-        } %}
-    {% else %}
-        {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-        'url': 'https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001?utm_source=class-central&utm_medium=ads&utm_campaign=2016-05-class-central-course-table-header-image-front-end',
-        'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/Udacity_ClassCentralAd_130x100_0004_5.jpg',
-        'desc': " Learn to become a Web Developer. Graduate & get 50% of your tuition back!",
-        'provider' : 'Udacity'
-        } %}
-
-    {% endif %}
 {% else  %}
-    {#
-        {% set paidCourse = courseService.getRandomPaidCourse() %}
-        {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
-            'url': paidCourse.nextSession.url,
-            'imageUrl' : imageService.getCourseImageAd(courseService.getCourseImageFromId(paidCourse.id), paidCourse.id),
-            'desc': paidCourse.name,
-            'provider' : paidCourse.provider.name
-        } %}
-    #}
 
+     {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAd.html.twig' with {
+         'url': 'https://www.datacamp.com/?utm_source=class-central&utm_medium=home_ad&utm_campaign=class-central',
+         'imageUrl' : 'https://d3r3mog6nu8pt4.cloudfront.net/ads/2.png',
+         'desc': "Master the skills to become a Data Analyst in this self-paced course.",
+         'provider' : 'DataCamp'
+     } %}
 
 {% endif %}
