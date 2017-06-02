@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Email;
 use Mailgun\Mailgun as MG;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Interacts with mailgun
@@ -19,11 +20,13 @@ class Newsletter {
 
     private $mailDomain;
     private $mailgun;
+    private $container;
 
-    public function __construct($key, $domain)
+    public function __construct($key, $domain, ContainerInterface $container)
     {
         $this->mailDomain = $domain;
         $this->mailgun = new MG($key);
+        $this->container = $container;
     }
 
     public function subscribeUser(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, \ClassCentral\SiteBundle\Entity\User $user)
@@ -95,6 +98,15 @@ class Newsletter {
     public function sendNewsletter(\ClassCentral\SiteBundle\Entity\Newsletter $newsLetter, $html,  $subject, \DateTime $date = null,$deliveryTime)
     {
         $listAddress = $this->getListAddress($newsLetter->getCode());
+
+        $env = $this->container->getParameter('kernel.environment');
+
+        // Avoid sending a bulk mail from the dev environment
+        if($env !== 'prod')
+        {
+            $listAddress = $this->container->getParameter('test_email');
+        }
+
         try {
             $params = array(
                 'from' => "Class Central's MOOC Report <newsletter@". $this->mailDomain . '>',

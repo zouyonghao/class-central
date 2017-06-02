@@ -177,7 +177,7 @@ services:
       - [setCacheKeyPrefix, [%baseurl%] ]
   newsletter:
     class: ClassCentral\SiteBundle\Services\Newsletter
-    arguments: ['%mailgun_api_key%', '%mailgun_domain_name%']
+    arguments: ['%mailgun_api_key%', '%mailgun_domain_name%', '@service_container']
   user_session:
     class: ClassCentral\SiteBundle\Services\UserSession
     arguments: ['@security.context', '@doctrine', '@session', '@service_container']
