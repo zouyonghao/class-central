@@ -309,3 +309,11 @@ old_subject_health-care-and-research:
      route: ClassCentralSiteBundle_stream
      permanent: true # this is for 301
      slug: health-care
+
+old_subject_calculus-and-mathematical-analysis:
+   pattern: /subject/calculus-and-mathematical-analysis
+   defaults:
+     _controller: FrameworkBundle:Redirect:redirect
+     route: ClassCentralSiteBundle_stream
+     permanent: true # this is for 301
+     slug: calculus
