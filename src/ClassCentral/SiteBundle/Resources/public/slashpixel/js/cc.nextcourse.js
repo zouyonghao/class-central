@@ -1,11 +1,6 @@
-var CC = CC || {
-        Class : {}
-    }
+const Follow = require("./cc.follow.js").default;
 
-
-CC.Class['NextCourse'] = (function(){
-    var utilities = CC.Class['Utilities'];
-
+const NextCourse = (function(){
     function init() {
         $( document).ready(function () {
             $('#meet-your-next-course').click(showPickSubjectsStep);
@@ -25,7 +20,7 @@ CC.Class['NextCourse'] = (function(){
                 $("#next-course-pick-subjects-modal").modal("show");
 
                 // Init and attach event handlers to the follow buttons
-                CC.Class['Follow'].init();
+                Follow.init();
                 $("#next-course-pick-subjects-modal").find('.tagboard__tag').bind("followingChanged",  updatePickSubjectsFooter);
 
                 // Hookup next and skip buttons
@@ -77,7 +72,7 @@ CC.Class['NextCourse'] = (function(){
                 $("#next-course-pick-providers-modal").modal("show");
 
                 // Init and attach event handlers to the follow buttons
-                CC.Class['Follow'].init();
+                Follow.init();
                 $("#next-course-pick-providers-modal").find('.tagboard__tag').bind("followingChanged",  updatePickProvidersFooter);
 
                 // Hookup next button
@@ -157,6 +152,7 @@ CC.Class['NextCourse'] = (function(){
             async: false
         })
     }
+    init();
 
     return {
         init: init,
@@ -166,4 +162,4 @@ CC.Class['NextCourse'] = (function(){
     }
 })();
 
-CC.Class['NextCourse'].init();
+export default NextCourse;

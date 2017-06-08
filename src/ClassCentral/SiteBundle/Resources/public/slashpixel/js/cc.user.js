@@ -1,8 +1,4 @@
-var CC = CC || {
-    Class : {}
-}
-
-CC.Class['User'] = (function(){
+const User = (function(){
     /**
      * Checks whether the user is logged in.
      * @param redirect if true redirects the user to login
@@ -50,3 +46,5 @@ CC.Class['User'] = (function(){
     }
 
 })();
+
+export default User;

@@ -1,8 +1,8 @@
 const Utilities = require("./cc.utilities.js").default;
+const User = require("./cc.user.js").default;
 const Signup = require("./cc.signup.js").default;
 
-const Credential = (function(){
-
+const = Credential = (function(){
     var saveReviewClicked = false;
 
     function init() {
@@ -272,7 +272,6 @@ const Credential = (function(){
 
     }
     init();
-
     return {
         'init' : init
     };

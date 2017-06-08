@@ -1,12 +1,7 @@
-var CC = CC || {
-        Class : {}
-}
+const Utilities = require("./cc.utilities.js").default;
 
-CC.Class['Follow'] = (function(){
-
-    var utilities = CC.Class['Utilities'];
+const Follow = (function(){
     var promptShownCookie = 'follow_personalized_page_prompt';
-
 
     function init() {
         $('.btn-follow-item').click(followClicked);
@@ -113,7 +108,7 @@ CC.Class['Follow'] = (function(){
                                         $(itemClass).removeClass('active');
                                         $(self).data('following',false);
                                         if(!hideNotification) {
-                                            utilities.notify(
+                                            Utilities.notify(
                                                 "Unfollowed " + itemName,
                                                 "You will no longer receive course notifications and reminders about " + itemName,
                                                 "success"
@@ -144,7 +139,7 @@ CC.Class['Follow'] = (function(){
 
                                         } else {
                                             if(!hideNotification) {
-                                                utilities.notify(
+                                                Utilities.notify(
                                                     "Following " + itemName,
                                                     "You will receive regular course notifications and reminders about " + itemName,
                                                     "success"
@@ -159,7 +154,7 @@ CC.Class['Follow'] = (function(){
 
                                 } else {
                                     // Show a error notification
-                                    utilities.notify(
+                                    Utilities.notify(
                                         "Following Failed" + itemName,
                                         "There was some error with " + itemName + ". Please try again later.",
                                         "error"
@@ -179,7 +174,7 @@ CC.Class['Follow'] = (function(){
                             cache: false,
                             success: function(r){
                                 // Show signup modal
-                                CC.Class["Signup"].showSignupModal("btn_follow");
+                                window.CC.Class.Signup.showSignupModal("btn_follow");
                             }
                         });
 
@@ -265,7 +260,7 @@ CC.Class['Follow'] = (function(){
                         }
                     });
                     // Show signup modal
-                    CC.Class["Signup"].showSignupModal("btn_follow");
+                    window.CC.Class.Signup.showSignupModal("btn_follow");
                 }
             }
         });
@@ -291,7 +286,7 @@ CC.Class['Follow'] = (function(){
                         setTimeout(function(){
                             // Check the cookie again
                             if(Cookies.get( promptShownCookie) === undefined ) {
-                                CC.Class["Signup"].followSubjectOnboarding();
+                                window.CC.Class.Signup.followSubjectOnboarding();
                                 setPersonalizationPromptShown();
                             }
 
@@ -310,6 +305,8 @@ CC.Class['Follow'] = (function(){
         return Cookies.get(promptShownCookie) === undefined;
     }
 
+    init();
+
     return {
         init: init,
         showPersonalizationPrompt:showPersonalizationPrompt,
@@ -318,4 +315,4 @@ CC.Class['Follow'] = (function(){
 })();
 
 
-CC.Class['Follow'].init();
+export default Follow;

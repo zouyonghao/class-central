@@ -12,7 +12,6 @@ framework:
     validation:      { enable_annotations: true }
     templating:
       engines: ['twig']
-      assets_version: 96
     default_locale: "%locale%"
     trusted_proxies: ~
     session:
@@ -54,6 +53,8 @@ twig:
       edx_url: %edx_url%
       udemy_url: %udemy_url%
       google_auth_client_id: %google_auth_client_id%
+      assetService: @asset
+      webpack_dev_server: %webpack_dev_server%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -193,6 +194,9 @@ services:
   filter:
       class: ClassCentral\SiteBundle\Services\Filter
       arguments: ['@service_container']
+  asset:
+        class: ClassCentral\SiteBundle\Services\Asset
+        arguments: ['@service_container']
   review:
         class: ClassCentral\SiteBundle\Services\Review
         arguments: ['@service_container']
@@ -240,4 +244,3 @@ services:
   keen:
      class: ClassCentral\SiteBundle\Services\Keen
      arguments: [ '@service_container' ]
-

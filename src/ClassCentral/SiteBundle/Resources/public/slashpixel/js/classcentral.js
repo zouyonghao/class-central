@@ -1,10 +1,18 @@
+require('typeahead.js');
+
+const PNotify = require('pnotify');
+const Handlebars = require("handlebars");
+const Bloodhound = require('typeahead.js/dist/bloodhound.js');
+const Utilities = require("./cc.utilities.js").default;
+const Signup = require("./cc.signup.js").default;
+
 jQuery(function($) {
 
     $.ajaxSetup ({
         cache: false
     });
 
-    courseListCheckboxHandler = function(){
+    window.courseListCheckboxHandler = function(){
         var clicked = this;
         // Check if the user is logged in
         $.ajax({
@@ -55,8 +63,8 @@ jQuery(function($) {
                         url: "/signup/pre_cc/" + $(clicked).data('course-id') +  "/" + $(clicked).val(),
                     }).done(function(result){
                         // Show the singup popups
-                        CC.Class['Utilities'].hideWidgets();
-                        CC.Class["Signup"].showSignupModal("mooc_tracker_add_to_my_courses");
+                        Utilities.hideWidgets();
+                        Signup.showSignupModal("mooc_tracker_add_to_my_courses");
                     });
                 }
             });
@@ -68,7 +76,7 @@ jQuery(function($) {
             url: "/signup/pre_q/" + escape($('#general-search #st-search-input').val()),
         }).done(function(result){
             // Show the singup modal
-            CC.Class["Signup"].showSignupModal("mooc_tracker_search_terms");
+            Signup.showSignupModal("mooc_tracker_search_terms");
 
         });
     });
@@ -231,7 +239,7 @@ jQuery(function($) {
                         cache: true
                     }).done(function(result){
                         // Show the singup popups
-                        CC.Class['Utilities'].hideWidgets();
+                        Utilities.hideWidgets();
                         $('#signupModal-btn_get_notified').modal('show');
                     });
 
@@ -246,7 +254,8 @@ jQuery(function($) {
                 title: title,
                 text: text,
                 type: type,
-                animation: 'show'
+                animation: 'show',
+                delay:  2000
             });
         }
     }
@@ -259,7 +268,7 @@ jQuery(function($) {
                 text: text,
                 type: type,
                 animation: 'show',
-                delay: delay * 1000
+                delay:  2000
             });
         }
     }
@@ -400,7 +409,7 @@ jQuery(function($) {
 
     $('#review-text').autosize();
 
-    loadRaty = function() {
+    window.loadRaty = function() {
         var ratyDefaults = {
             starHalf    : '/bundles/classcentralsite/slashpixel/images/star-half-gray.png',
             starOff     : '/bundles/classcentralsite/slashpixel/images/star-off-gray.png',
@@ -631,14 +640,14 @@ jQuery(function($) {
     });
 
     // Default notification false
-    //$.pnotify.defaults.history = false;
 
     var showPinesNotification = function(type,title,text){
         new PNotify({
             title: title,
             text: text,
             type: type,
-            animation: 'show'
+            animation: 'show',
+            delay:  2000
         });
     }
 
@@ -651,7 +660,7 @@ jQuery(function($) {
                 text: $(element).text(),
                 type: $(element).data('type'),
                 animation: 'show',
-                delay: $(element).data('delay') * 1000
+                delay:  2000
             });
         }
 
@@ -699,11 +708,11 @@ jQuery(function($) {
 
     // front page tab nav
     $(".section-tab-content").css("height", "0");
-    defaultTab = $(".active-tab > a").data("target-section");
+    let defaultTab = $(".active-tab > a").data("target-section");
     $("." + defaultTab).css("height", "auto");
     $('nav.page-tabs').on('click', 'ul > li > a', function(event) {
         event.preventDefault();
-        $this = $(this);
+        const $this = $(this);
         targetTab = $this.data("target-section");
         if (targetTab !== undefined) {
             $(".section-tab-content").css("height", "0");
@@ -742,7 +751,7 @@ jQuery(function($) {
     // expand single reviews
     $('.expand-preview').on('click', function(e) {
         e.preventDefault();
-        $this = $(this);
+        const $this = $(this);
         $this.parent().hide();
         $this.closest(".review-content").find(".review-full").show();
         $this.hide();
@@ -779,8 +788,8 @@ jQuery(function($) {
 
     $('#home-create-free-account').click( function(e){
         e.preventDefault();
-        CC.Class['Utilities'].hideWidgets();
-        CC.Class["Signup"].showSignupModal("home_create_free_account");
+        Utilities.hideWidgets();
+        Signup.showSignupModal("home_create_free_account");
 
         try {
             ga('send','event','Create Free Account','Home Tab');
@@ -789,8 +798,8 @@ jQuery(function($) {
 
     $('#convincer-create-free-account').click( function(e){
         e.preventDefault();
-        CC.Class['Utilities'].hideWidgets();
-        CC.Class["Signup"].showSignupModal("convincer_create_free_account");
+        Utilities.hideWidgets();
+        Signup.showSignupModal("convincer_create_free_account");
         try {
             ga('send','event','Create Free Account','Convincer');
         }catch (e){}
@@ -798,8 +807,8 @@ jQuery(function($) {
 
     $('#navbar-create-free-account').click( function(e){
         e.preventDefault();
-        CC.Class['Utilities'].hideWidgets();
-        CC.Class["Signup"].showSignupModal("navbar_create_free_account");
+        Utilities.hideWidgets();
+        Signup.showSignupModal("navbar_create_free_account");
         try {
             ga('send','event','Create Free Account','Navbar');
         }catch (e){}
@@ -807,8 +816,8 @@ jQuery(function($) {
 
     $('#meetyournextcourse-create-free-account').click( function(e){
         e.preventDefault();
-        CC.Class['Utilities'].hideWidgets();
-        CC.Class["Signup"].showSignupModal("navbar_create_free_account");
+        Utilities.hideWidgets();
+        Signup.showSignupModal("navbar_create_free_account");
         try {
             ga('send','event','Create Free Account','Meet your next course');
         }catch (e){}
@@ -828,7 +837,7 @@ jQuery(function($) {
                     if( !loggedInResult.loggedIn) {
 
                         // Show the signup form
-                        CC.Class['Utilities'].hideWidgets();
+                        Utilities.hideWidgets();
                         $('#signupModal-go_to_class').modal('show');
                     }
                 }
@@ -862,7 +871,7 @@ jQuery(function($) {
     // Typeahead
 
     $('#navbar-search-form #st-search-input').on("keydown.cc", function (e) {
-        $this = $(this);
+        const $this = $(this);
         if (e.which == 13) {
 
             if ($('#navbar-search-form .tt-suggestion.tt-cursor a').attr('href') !== undefined && $('#navbar-search-form .tt-suggestion.tt-cursor .search-view-all').length === 0) {
@@ -881,11 +890,11 @@ jQuery(function($) {
         }
     });
 
-    var ccSearch = new Bloodhound({
+    var ccSearch = new window.Bloodhound({
         datumTokenizer: function (datum) {
-            return Bloodhound.tokenizers.whitespace(datum.value);
+            return window.Bloodhound.tokenizers.whitespace(datum.value);
         },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: window.Bloodhound.tokenizers.whitespace,
         limit: 11,
         remote: {
             url: '/autocomplete/%QUERY',
@@ -975,7 +984,7 @@ jQuery(function($) {
     });
 
     $('#navbar-search-form #st-search-input').on("keydown.cc", function (e) {
-        $this = $(this);
+        const $this = $(this);
         if (e.which == 38 || e.which == 40 ) {
             if ($('#navbar-search-form .tt-suggestion.tt-cursor .suggestions-footer').length) {
                 $this.val($this.typeahead('val'));

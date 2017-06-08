@@ -109,3 +109,5 @@ parameters:
 
     imgix_domain: ~
     imgix_token: ~
+
+    webpack_dev_server: false

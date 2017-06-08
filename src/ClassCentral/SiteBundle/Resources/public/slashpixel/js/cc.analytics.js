@@ -1,12 +1,6 @@
-var CC = CC || {
-        Class : {}
-}
-
-CC.Class['Analytics'] = (function(){
+const Analytics = (function(){
 
     var keenAdTrackingClient;
-    var utilities = CC.Class['Utilities'];
-
 
     function init() {
     }
@@ -49,3 +43,5 @@ CC.Class['Analytics'] = (function(){
         'logAds': logAds
     };
 })();
+
+export default Analytics;

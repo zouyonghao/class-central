@@ -11,7 +11,7 @@
 {% else %}
     <head>
 {% endif %}
-    
+
     <meta name="google-signin-client_id" content="543074773853-5o4th7sqent0dc5f0slvn0cakr152fpv.apps.googleusercontent.com">
 
     <!-- Analytics.js -->
@@ -96,24 +96,11 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    {% stylesheets filter='lessphp'
-    '@bootstrap_css'
-    %}
-    <link href="{{ asset(asset_url) }}" type="text/css" rel="stylesheet" />
-    {% endstylesheets %}
-    <!-- Le styles -->
-    {% stylesheets filter='yui_css'
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/classcentral.css'
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/autocomplete.css'
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/pnotify.custom.min.css'
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/css/jquery.Jcrop.min.css'
-    %}
-
-    <link rel="stylesheet" href="{{ asset(asset_url) }}" />
-    {% endstylesheets %}
+    <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc.css') }}" />
 
     <!-- Google+ Direct connect -->
     <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
+    <script src="{{ '/webpack/modernizr.js' }}"></script>
 
     <script type="text/javascript">
         user_logged_in = 0;
@@ -140,7 +127,7 @@
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 
-        {# Don't count the admin users in user stats #}
+        {# Dont count the admin users in user stats #}
         {% if app.user and not is_granted('ROLE_ADMIN')   %}
             ga('create', '{{ ganalytics_id }}', {'userId':'{{ app.user.id }}'});
         {% else %}
@@ -310,96 +297,47 @@
     </div>
 </footer>
 {% include 'ClassCentralSiteBundle:Helpers:search.template.html.twig' %}
-{# All the javascript goes in here #}
 
-   <script>
-       function signInWithGoogleButtonInit() {
-           var googleUser = {};
-           var startApp = function() {
-               gapi.load('auth2', function(){
-                   // Retrieve the singleton for the GoogleAuth library and set up the client.
-                   auth2 = gapi.auth2.init({
-                       client_id: '{{ google_auth_client_id }}',
-                       cookiepolicy: 'single_host_origin',
-                       // Request scopes in addition to 'profile' and 'email'
-                       //scope: 'additional_scope'
-                   });
-
-                   var signInButtons = document.getElementsByClassName("sign-in-with-google");
-                   for(var i = 0; i < signInButtons.length; i++)
-                   {
-                       attachSignin(signInButtons.item(i));
-                   }
+<script>
+   function signInWithGoogleButtonInit() {
+       var googleUser = {};
+       var startApp = function() {
+           gapi.load('auth2', function(){
+               // Retrieve the singleton for the GoogleAuth library and set up the client.
+               auth2 = gapi.auth2.init({
+                   client_id: '{{ google_auth_client_id }}',
+                   cookiepolicy: 'single_host_origin',
+                   // Request scopes in addition to 'profile' and 'email'
+                   //scope: 'additional_scope'
                });
-           };
 
-           function attachSignin(element) {
-               auth2.attachClickHandler(element, {},
-                   function(googleUser) {
-                       CC.Class['User'].googleAuth(googleUser.getAuthResponse().id_token);
-                   }, function(error) {
-                       //alert(JSON.stringify(error, undefined, 2));
-                   });
-           }
+               var signInButtons = document.getElementsByClassName("sign-in-with-google");
+               for(var i = 0; i < signInButtons.length; i++)
+               {
+                   attachSignin(signInButtons.item(i));
+               }
+           });
+       };
 
-           startApp();
+       function attachSignin(element) {
+           auth2.attachClickHandler(element, {},
+               function(googleUser) {
+                   CC.Class['User'].googleAuth(googleUser.getAuthResponse().id_token);
+               }, function(error) {
+                   //alert(JSON.stringify(error, undefined, 2));
+               });
        }
-   </script>
 
-{% javascripts filter='yui_js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/modernizr.custom.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/respond.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/isMobile.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-1.11.0.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/typeahead.bundle.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/handlebars-v1.3.0.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.raty.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.autosize.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.sticky.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/pnotify.custom.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/enquire.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/classcentral.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/course-filter.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-formhelpers-number.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.floatThead.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/purl.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/spin.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/countUp.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.scrollTo.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/headroom.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jQuery.headroom.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery-ui.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.iframe-transport.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.fileupload.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.Jcrop.min.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.utilities.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/js.cookie.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.user.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.profile.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/jquery.flexslider-min.js'
-'@ClassCentralCredentialBundle/Resources/public/js/cc.credential.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/btn.follow.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.follow.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.analytics.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.signup.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/cc.nextcourse.js'
-'@ClassCentralSiteBundle/Resources/public/slashpixel/js/hopscotch.min.js'
-%}
-
-{#
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modalmanager.js'
-    '@ClassCentralSiteBundle/Resources/public/slashpixel/js/bootstrap-modal.js'
-#}
+       startApp();
+   }
+</script>
 
 
-<script type="text/javascript" src="{{ asset(asset_url) }}"></script>
+<script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
 
 {% if is_granted('ROLE_ADMIN') %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.8/clipboard.min.js"></script>
 {% endif %}
-
-{% endjavascripts %}
 
 {# headroom #}
 <style type="text/css">
@@ -480,7 +418,7 @@
 
     {% if not app.user and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review'
     and app.request.attributes.get('_route') !='ClassCentralSiteBundle_homepage'
-    %}     
+    %}
         if(!isMobile.phone ) {
             CC.Class['Signup'].showSignupPrompt(20000);
         }
@@ -515,7 +453,7 @@
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=214375822097453&version=v2.0";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-    
+
     <script src="https://apis.google.com/js/api:client.js"></script>
     <script>
         {% if not app.user %}

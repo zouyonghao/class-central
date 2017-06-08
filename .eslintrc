@@ -1,0 +1,35 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "globals": {
+  },
+  "env": {
+    "browser": true,
+    "mocha": true
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    },
+    "import/extensions": ['.js', '.jsx', '.es6']
+  },
+  "rules": {
+    "jsx-a11y/no-static-element-interactions": 0,
+    "react/no-unused-prop-types": ["warn", { "skipShapeProps": true }],
+    "react/forbid-prop-types": 0,
+    "import/extensions": 0,
+    "import/no-unresolved": 0,
+    "quotes": ["error", "double"],
+  }
+}

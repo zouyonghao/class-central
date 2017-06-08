@@ -1,7 +1,10 @@
 @import "bootstrap_custom.less";
 @import "/components/_components.less";
 @import "/layouts/pages/_moocwatch.less";
-
+@import "../css/classcentral.css";
+@import "../css/autocomplete.css";
+@import "../css/pnotify.custom.min.css";
+@import "../css/jquery.Jcrop.min.css";
 
 /*
   TABLE OF CONTENTS
@@ -54,7 +57,6 @@ body {
   -webkit-animation-iteration-count: 1;
   -webkit-animation-timing-function: linear;
   overflow-x: hidden;
-
 }
 @-webkit-keyframes fontfix {
   from { opacity: 1; }
@@ -120,13 +122,13 @@ unwanted scrollbars
 .no-svg .navbar-default .caret {
   width: 10px;
   height: 10px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -108px 0;
 }
 
 .no-svg .navbar .cc-logo-navbar {
   display: block;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: 0 -50px;
   width: 220px;
   height: 22px;
@@ -138,7 +140,7 @@ unwanted scrollbars
   width: 18px;
   height: 18px;
   margin: 10px 7px 8px 10px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -689px 0;
 }
 
@@ -146,7 +148,7 @@ unwanted scrollbars
   display: block;
   width: 24px;
   height: 24px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
 }
 
 .no-svg .navbar-default .navbar-right > .social-icon .fb-icon-png {
@@ -166,7 +168,7 @@ unwanted scrollbars
   display: block;
   width: 17px;
   height: 17px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   float: left;
   margin: 0 8px 0 0;
 }
@@ -183,7 +185,7 @@ unwanted scrollbars
   display: block;
   width: 25px;
   height: 21px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -360px 0;
 }
 
@@ -196,13 +198,13 @@ unwanted scrollbars
   display: block;
   width: 26px;
   height: 26px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -745px 2px;
   background-repeat: no-repeat;
 }
 
 .no-svg .sorting-arrows span {
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -1px 0;
   width: 12px;
   height: 12px;
@@ -226,7 +228,7 @@ unwanted scrollbars
 .no-svg .filter-nav .arrow-up {
   width: 12px;
   height: 12px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -73px 0;
   top: 28px;
 }
@@ -244,24 +246,24 @@ unwanted scrollbars
 .no-svg .tick-icon-bg.ticked,
 .no-svg .active > .sort > .tick-icon-bg {
   background-color: @blue;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -674px -61px;
 }
 
 .no-svg .filter-search-icon {
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -438px 15px;
 }
 
 .no-svg .breadcrumbs .arrow-right {
   width: 10px;
   height: 10px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -109px -17px;
 }
 
 .no-svg .course-data-row .course-data-icon {
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
 }
 
 .no-svg .course-data-row.course-pace .course-data-icon {
@@ -294,7 +296,7 @@ unwanted scrollbars
   display: block;
   float: left;
   margin: 10px 20px 0 0;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -568px -1px ;
 }
 
@@ -312,7 +314,7 @@ unwanted scrollbars
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border: 6px solid #fff;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/sprites.png");
+  background-image: url("@{assetUrl}/sprites.png");
   background-position: -376px -45px ;
 }
 
@@ -416,7 +418,7 @@ unwanted scrollbars
 
 .cc-form-bg-wrap {
   overflow: hidden;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/cc-forms-bg.jpg");
+  background-image: url("@{assetUrl}/cc-forms-bg.jpg");
   background-repeat: no-repeat;
   background-position: center top;
   background-color: #115c93;
@@ -1288,7 +1290,7 @@ unwanted scrollbars
 
 .header-area {
   overflow: hidden;
-  background: url("/bundles/classcentralsite/slashpixel/images/header-bg3.jpg") center top no-repeat;
+  background: url("@{assetUrl}/header-bg3.jpg") center top no-repeat;
   background-size: cover;
 }
 
@@ -1669,7 +1671,7 @@ unwanted scrollbars
 
 .spotlight-logo-wrap .spot-logo {
   .hide-text;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/uni_sprites2.png");
+  background-image: url("@{assetUrl}/uni_sprites2.png");
   background-repeat: no-repeat;
 }
 
@@ -2358,15 +2360,15 @@ table.table thead .headerSortUp {
 
 /* sorting arrow png fallbacks for IE8 */
 .lt-ie9 table.table thead .sorting {
-  background: url('/bundles/classcentralsite/slashpixel/images/sort_both_red.png') no-repeat center right;
+  background: url('@{assetUrl}/sort_both_red.png') no-repeat center right;
 }
 
 .lt-ie9 table.table thead .headerSortDown {
-  background: url('/bundles/classcentralsite/slashpixel/images/sort_desc_red.png') no-repeat center right;
+  background: url('@{assetUrl}/sort_desc_red.png') no-repeat center right;
 }
 
 .lt-ie9 table.table thead .headerSortUp {
-  background: url('/bundles/classcentralsite/slashpixel/images/sort_asc_red.png') no-repeat center right;
+  background: url('@{assetUrl}/sort_asc_red.png') no-repeat center right;
 }
 
 /* course table add button styles  */
@@ -2720,7 +2722,7 @@ thead {
 
 .lt-ie9 .filter-search-icon {
   background-color: @white;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/search_icon_green.png");
+  background-image: url("@{assetUrl}/search_icon_green.png");
   background-position: center center;
   background-repeat: no-repeat;
 }
@@ -3947,7 +3949,7 @@ input.filter-search:focus {
   margin: 0;
   width: 15px;
   height: 14px;
-  background: url('/bundles/classcentralsite/slashpixel/images/small_rating_stars_gray.png') 0 0;
+  background: url('@{assetUrl}/small_rating_stars_gray.png') 0 0;
   background-repeat: no-repeat;
 }
 
@@ -4986,7 +4988,7 @@ input.filter-search:focus {
   display: block;
   height: 28px;
   .hide-text;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/uni_sprites2.png");
+  background-image: url("@{assetUrl}/uni_sprites2.png");
   background-repeat: no-repeat;
   margin-top: 26px;
   opacity: 0.5;
@@ -6009,7 +6011,7 @@ footer ul > li > a {
   width: 100%;
   height: auto;
   z-index: 25;
-  filter: url(/bundles/classcentralsite/slashpixel/images/filters.svg#grayscale); /* Firefox 3.5+ */
+  filter: url('@{assetUrl}/filters.svg#grayscale'); /* Firefox 3.5+ */
   filter: gray; /* IE6-9 */
   -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
 }
@@ -6348,7 +6350,7 @@ footer ul > li > a {
   position: relative;
   width: 130px;
   height: 124px;
-  background-image: url("/bundles/classcentralsite/slashpixel/images/rating-stamp-black.png")
+  background-image: url("@{assetUrl}/rating-stamp-black.png")
 }
 
 .rating-stamp__count {
@@ -8797,7 +8799,7 @@ footer ul > li > a {
   position: relative;
   padding-bottom: 49px;
   padding-top: 80px;
-  background: url("/bundles/classcentralsite/slashpixel/images/introbg.jpg") center top no-repeat;
+  background: url("@{assetUrl}introbg.jpg") center top no-repeat;
   background-size: cover;
 }
 
@@ -9273,7 +9275,7 @@ footer ul > li > a {
 }
 
 .blackBoardCard_wrap {
-  background-image: url("/bundles/classcentralsite/slashpixel/images/chalk-tile-bg.jpg");
+  background-image: url("@{assetUrl}/chalk-tile-bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -10115,7 +10117,7 @@ div.hopscotch-bubble .hopscotch-actions {
 }
 .loginBtn--facebook:before {
   border-right: #364e92 1px solid;
-  background: url('/bundles/classcentralsite/slashpixel/images//icon_facebook.png') 6px 6px no-repeat;
+  background: url('@{assetUrl}/icon_facebook.png') 6px 6px no-repeat;
 }
 .loginBtn--facebook:hover,
 .loginBtn--facebook:focus {
@@ -10131,7 +10133,7 @@ div.hopscotch-bubble .hopscotch-actions {
 }
 .loginBtn--google:before {
   border-right: #BB3F30 1px solid;
-  background: url('/bundles/classcentralsite/slashpixel/images/icon_google.png') 6px 6px no-repeat;
+  background: url('@{assetUrl}/icon_google.png') 6px 6px no-repeat;
 }
 .loginBtn--google:hover,
 .loginBtn--google:focus {

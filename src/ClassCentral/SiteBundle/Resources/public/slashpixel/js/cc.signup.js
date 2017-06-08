@@ -1,11 +1,7 @@
-var CC = CC || {
-        Class : {}
-    }
+const Utilities = require("./cc.utilities.js").default;
+const Profile = require("./cc.profile.js").default;
 
-CC.Class['Signup'] = (function(){
-
-    var utilities = CC.Class['Utilities'];
-    var profile = CC.Class['Profile'];
+const Signup = (function(){
     var promptShownCookie = 'signup_prompt'; // is set when a user is shown signup form for the first time
 
     function init() {
@@ -70,7 +66,7 @@ CC.Class['Signup'] = (function(){
                 updateProfileProgress();
                 $('#onboarding-profile-modal__save').click( function(){
                     ga('send','event','Onboarding Nav', 'Profile','Update');
-                    profile.validateAndSaveProfile();
+                    Profile.validateAndSaveProfile();
                 });
                 // update the progress of the profile fields when form fields are updated
                 $('#onboarding-profile-modal form :input').each( function(){
@@ -101,7 +97,7 @@ CC.Class['Signup'] = (function(){
     }
 
     function updateProfileProgress() {
-        updateOnbardingFooterProgressBar( profile.profileCompletenessPercentage() )
+        updateOnbardingFooterProgressBar( Profile.profileCompletenessPercentage() )
     }
 
     function updateOnbardingFooterProgressBar( percentage ) {
@@ -117,19 +113,19 @@ CC.Class['Signup'] = (function(){
 
         hideErrorMesssage( form );
         // Front end check
-        if( utilities.isEmpty (formValues.email) || !utilities.validateEmail(formValues.email) ){
+        if( Utilities.isEmpty (formValues.email) || !Utilities.validateEmail(formValues.email) ){
             // email is invalid
             showErrorMessage(form,"Invalid Email");
             return false;
         }
 
-        if( utilities.isEmpty (formValues.name) ) {
+        if( Utilities.isEmpty (formValues.name) ) {
             // name cannot be empty
             showErrorMessage(form,"Name is required");
             return false;
         }
 
-        if( utilities.isEmpty (formValues.password) ) {
+        if( Utilities.isEmpty (formValues.password) ) {
             // password cannot be empty
             showErrorMessage(form,"Password cannot be empty");
             return false;
@@ -160,7 +156,7 @@ CC.Class['Signup'] = (function(){
 
     function showOnboardingFollowSubjectStep()
     {
-        CC.Class['Follow'].setPersonalizationPromptShown();
+        window.CC.Class.Follow.setPersonalizationPromptShown();
 
         var url = '/user/onboarding/follow-subjects';
         // Set the cookie - so that the user is not shown the popup again in the same session
@@ -179,7 +175,7 @@ CC.Class['Signup'] = (function(){
                 $("#onboarding-follow-subjects-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowSubjectsModalFooter);
 
                 // Init and attach event handlers to the follow buttons
-                CC.Class['Follow'].init();
+                window.CC.Class.Follow.init();
 
 
                 // Hookup next and skip buttons
@@ -245,7 +241,7 @@ CC.Class['Signup'] = (function(){
                 $("#onboarding-follow-institutions-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowInstitutionsModalFooter);
 
                 // Init and attach event handlers to the follow buttons
-                CC.Class['Follow'].init();
+                window.CC.Class.Follow.init();
 
                 $('#onboarding-follow-institutions__next').click(function(){
                     ga('send','event','Onboarding Nav', 'Follow Institutions','Next');
@@ -321,7 +317,7 @@ CC.Class['Signup'] = (function(){
                 //$("#onboarding-follow-courses-modal").find('.tagboard__tag').bind("followingChanged",  updateFollowInstitutionsModalFooter);
 
                 // Init and attach event handlers to the follow buttons
-                CC.Class['Follow'].init();
+                window.CC.Class.Follow.init();
 
                 $('#onboarding-follow-courses__next').click(function(){
                     ga('send','event','Onboarding Nav', 'Follow Courses','Next');
@@ -360,6 +356,8 @@ CC.Class['Signup'] = (function(){
     }
 
     function showSignupPrompt(delay){
+      const self = this;
+
         if ( !isMobile.phone && Cookies.get( promptShownCookie) === undefined ) {
             $.ajax({
                 url: "/ajax/isLoggedIn",
@@ -373,8 +371,8 @@ CC.Class['Signup'] = (function(){
                         setTimeout(function() {
                             // Check the cookie again
                             if(Cookies.get( promptShownCookie) === undefined ) {
-                                CC.Class["Signup"].showSignupModal("ask_for_signup");
-                                CC.Class['Utilities'].hideWidgets();
+                                self.showSignupModal("ask_for_signup");
+                                Utilities.hideWidgets();
                             }
 
                         },delay);
@@ -440,6 +438,8 @@ CC.Class['Signup'] = (function(){
             );
     }
 
+    init();
+
     return {
         init: init,
         'profileOnboarding' : showOnboardingProfileStep,
@@ -451,4 +451,4 @@ CC.Class['Signup'] = (function(){
     }
 })();
 
-CC.Class['Signup'].init();
+export default Signup;

@@ -165,7 +165,7 @@ class Finder {
             )
         );
 
-        
+
 
         if( !empty($mustNot) )
         {
@@ -231,7 +231,8 @@ class Finder {
                         // Number of sessions
 
                         numSessionsScore = numSessions*20;
-                        return _score*(ratingScore + followedScore + startingSoonScore + newScore - numSessionsScore  +  1);
+
+                        return _score*((int)ratingScore + (int)followedScore + (int)startingSoonScore + (int)newScore - (int)numSessionsScore  +  1);
                     "
                  )
         ));
@@ -366,4 +367,4 @@ class Finder {
 
         return $facets;
     }
-} 
+}

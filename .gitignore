@@ -27,6 +27,11 @@ extras/add_course_info.json
 extras/collection.json
 extras/text_row_ads.json
 
+web/webpack/development
+node_modules
+
 composer.phar
 
 *.sql
+
+.DS_Store

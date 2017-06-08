@@ -1,14 +1,15 @@
-var CC = CC || {
-    Class : {}
-}
+require("blueimp-file-upload/js/vendor/jquery.ui.widget.js");
+require("blueimp-file-upload/js/jquery.iframe-transport.js");
+require("blueimp-file-upload/js/jquery.fileupload.js");
+const Spinner = require("./spin.min");
+const Utilities = require("./cc.utilities.js").default;
+const User = require("./cc.user.js").default;
 
-CC.Class['Profile'] = (function(){
+const Profile = (function(){
 
     var postUrl = '/user/profile/save';
     var button = null;
     var privateButton = null;
-    var utilities = CC.Class['Utilities'];
-    var user = CC.Class['User'];
     var cords = {
         x: 0,
         y: 0,
@@ -113,7 +114,7 @@ CC.Class['Profile'] = (function(){
         var emptyFields = 0;
         for(var i = 0; i < listOfFields.length; i++) {
             var field = listOfFields[i];
-            if(!utilities.isEmpty( formFields[field] )) {
+            if(!Utilities.isEmpty( formFields[field] )) {
                 emptyFields++;
             }
         }
@@ -139,7 +140,7 @@ CC.Class['Profile'] = (function(){
         $(profile_image_upload_btn_id)
             .bind('fileuploadstart', function(){
                 // Check if the user is logged in
-                user.isLoggedIn(true); // Redirects the user to login if not logged in
+                User.isLoggedIn(true); // Redirects the user to login if not logged in
 
                 showSpinner(); // Show loading
                 $('#crop-photo-modal .modal-title').text("Crop Photo");
@@ -149,7 +150,7 @@ CC.Class['Profile'] = (function(){
             .bind('fileuploaddone', postStep1)
             .bind('fileuploadfail', function (e, data) {
                 // File upload failed. Show an error message
-                utilities.notify(
+                Utilities.notify(
                     "Error",
                     "Error uploading file. Max file size is 1mb",
                     "error"
@@ -244,7 +245,7 @@ CC.Class['Profile'] = (function(){
         var result = JSON.parse(data.result);
 
         if(!result.success){
-            utilities.notify(
+            Utilities.notify(
                 "Profile photo upload error",
                 result.message,
                 "error"
@@ -257,7 +258,7 @@ CC.Class['Profile'] = (function(){
             $("<img src='" + imgUrl+"' id='" + cropProfilePicSettings.imgDiv + "'/>").load(function() {
                 // Hide the spinner
                 hideSpinner();
-                
+
                 // Show the image
                 $(this).appendTo(cropProfilePicSettings.modal + " .modal-body");
                 $('#'+cropProfilePicSettings.imgDiv).Jcrop({
@@ -282,8 +283,8 @@ CC.Class['Profile'] = (function(){
      */
     function cropButtonHandler(){
         // Check if the user is logged in
-        user.isLoggedIn(true); // Redirects the user to login if not logged in
-        
+        User.isLoggedIn(true); // Redirects the user to login if not logged in
+
         // Remove the photo
         clearImage();
 
@@ -305,7 +306,7 @@ CC.Class['Profile'] = (function(){
                 location.reload(true);
             } else {
                 // Show an error message
-                utilities.notifyWithDelay(
+                Utilities.notifyWithDelay(
                     'Error Cropping photo',
                     'Some error occurred, please try again later',
                     'error',
@@ -337,7 +338,7 @@ CC.Class['Profile'] = (function(){
         var validationError = false;
         // Name cannot be empty and should be
         // atleast 3 letters long
-        if(utilities.isEmpty(profile.name) || profile.name.length < 3 ) {
+        if(Utilities.isEmpty(profile.name) || profile.name.length < 3 ) {
             validationError = true;
             $('#full-name-error').show();
         } else {
@@ -368,7 +369,7 @@ CC.Class['Profile'] = (function(){
             // Ajax post to save the profile
             save(profile);
         } else {
-            utilities.notify(
+            Utilities.notify(
                 "Profile Validation Error",
                 "Please make sure to enter only valid values in the form",
                 "error"
@@ -398,7 +399,7 @@ CC.Class['Profile'] = (function(){
                         location.reload(true);
                     } else {
                         // Show an error message
-                        utilities.notifyWithDelay(
+                        Utilities.notifyWithDelay(
                             'Error saving profile',
                             'Some error occurred, please try again later',
                             'error',
@@ -531,7 +532,7 @@ CC.Class['Profile'] = (function(){
         // Ask for confirmation
         var check = confirm("Are you sure you want to delete your account? This cannot be undone");
         if(check == true) {
-            user.isLoggedIn(true); // Redirects if the user is not logged in
+            User.isLoggedIn(true); // Redirects if the user is not logged in
             $.ajax({
                 type: "post",
                 url: "/user/profile/delete",
@@ -548,6 +549,9 @@ CC.Class['Profile'] = (function(){
         }
     }
 
+    init('#save-profile','#profile-photo-upload','#btn-crop');
+    initPrivateForm( '#save-profile-private' );
+
     return {
         init: init,
         initPrivateForm: initPrivateForm,
@@ -556,5 +560,4 @@ CC.Class['Profile'] = (function(){
     };
 })();
 
-CC.Class['Profile'].init('#save-profile','#profile-photo-upload','#btn-crop');
-CC.Class['Profile'].initPrivateForm( '#save-profile-private' );
+export default Profile;

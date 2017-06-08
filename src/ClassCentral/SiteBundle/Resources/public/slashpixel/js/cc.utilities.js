@@ -1,8 +1,6 @@
-var CC = CC || {
-    Class : {}
-}
+const PNotify = require('pnotify');
 
-CC.Class['Utilities'] = (function(){
+const Utilities = (function(){
 
     /**
      *  Sends a popup notification to the user
@@ -15,7 +13,8 @@ CC.Class['Utilities'] = (function(){
             'title': title,
             'text' : text,
             'type' : type,
-            'animation' : 'show'
+            'animation' : 'show',
+            'delay':  2000
         });
     }
 
@@ -33,7 +32,7 @@ CC.Class['Utilities'] = (function(){
             text: text,
             type: type,
             animation: 'show',
-            delay: delay * 1000
+            delay:  2000
         });
     }
 
@@ -68,5 +67,6 @@ CC.Class['Utilities'] = (function(){
         hideWidgets: hideWidgets
     };
 
-
 })();
+
+export default Utilities;

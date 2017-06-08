@@ -226,7 +226,7 @@ jQuery(function($) {
     var qSessionsParam = $.url().param('session');
     if( qSessionsParam ) {
         var qSessions = qSessionsParam.split(',');
-        for(i = 0; i < qSessions.length; i++) {
+        for(var i = 0; i < qSessions.length; i++) {
             $('#session-'+qSessions[i]).find('.tick').addClass('ticked');
         }
     }
@@ -235,7 +235,7 @@ jQuery(function($) {
     var qLanguageParam = $.url().param('lang');
     if( qLanguageParam ) {
         var qLang = qLanguageParam.split(',');
-        for(i=0; i < qLang.length; i++) {
+        for(var i=0; i < qLang.length; i++) {
             $('#lang-'+qLang[i]).find('.tick').addClass('ticked');
         }
     }
@@ -244,7 +244,7 @@ jQuery(function($) {
     var qSubjectParam = $.url().param('subject');
     if( qSubjectParam ) {
         var qSubject = qSubjectParam.split(',');
-        for(i=0;i < qSubject.length; i++) {
+        for(var i=0;i < qSubject.length; i++) {
             // Check if it is a parent subject
             subNode = $('#subject-' + qSubject[i]);
             if($(subNode).data('type') == 'parent-sub') {
@@ -395,13 +395,13 @@ jQuery(function($) {
 
         var lowerCaseLangs = [];
         if( filterLang.length > 0 ) {
-            for(i=0; i < filterLang.length; i++) {
+            for(var i=0; i < filterLang.length; i++) {
                 lowerCaseLangs.push(filterLang[i].toLowerCase());
             }
             params['lang'] = lowerCaseLangs.join();
         }
 
-        $qParams = $.url().param();
+        const $qParams = $.url().param();
         for(var param in $qParams) {
             if($.inArray(param,['session','subject','lang','sort','page','list','certificate','credential']) == -1 ) {
                 params[param ] = $qParams[param];
@@ -411,4 +411,3 @@ jQuery(function($) {
         return params;
     }
 });
-
