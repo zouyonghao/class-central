@@ -33,7 +33,7 @@
         <div class="review-title title-with-image" >
             <div class="crop-circle crop-circle--bordered">
                 {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')" rel="nofollow"> {% endif %}
-                    <img src="{{  user_service.getProfilePic(review.user.id) }}" alt="profile picture">
+                    <img src="{{  user_service.getProfilePicThumbnail(review.user.id) }}" alt="profile picture">
                 {% if reviewerProfileUrl %}</a> {% endif %}
             </div>
 

@@ -143,6 +143,16 @@ class Image {
         );
     }
 
+    public function getProfilePicThumbnail($imageUrl)
+    {
+        $cache = $this->container->get('cache');
+        $uniqueKey = 'profile_pic_thumbnail_'. basename( $imageUrl );
+
+        return $cache->get($uniqueKey,function($imageUrl){
+            return $this->cropImage($imageUrl,50,50);
+        },array($imageUrl));
+    }
+
     public function getPostThumbnailSmall($imageUrl)
     {
         $cache = $this->container->get('cache');

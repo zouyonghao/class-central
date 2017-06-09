@@ -669,6 +669,23 @@ class User {
         return $url;
     }
 
+    public function getProfilePicThumbnail($userId)
+    {
+        $cache =$this->container->get('cache');
+
+        $url = $cache->get( 'user_profile_pic_thumbnail_'. $userId,function( $uid ){
+            $imageService = $this->container->get('image_service');
+            $profilePic = $this->getProfilePic($uid);
+            if($profilePic != Profile::DEFAULT_PROFILE_PIC)
+            {
+                $profilePic = $imageService->getProfilePicThumbnail($profilePic);
+            }
+            return $profilePic;
+        }, array($userId));
+
+        return $url;
+    }
+
     /**
      * Gets the profile url for a user
      * @param $userId
