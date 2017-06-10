@@ -317,3 +317,11 @@ old_subject_calculus-and-mathematical-analysis:
      route: ClassCentralSiteBundle_stream
      permanent: true # this is for 301
      slug: calculus
+
+old_subject_language-culture:
+   pattern: /subject/language-culture
+   defaults:
+     _controller: FrameworkBundle:Redirect:redirect
+     route: ClassCentralSiteBundle_stream
+     permanent: true # this is for 301
+     slug: foreign-language
