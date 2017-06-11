@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AnalyticsController extends Controller
 {
     const MAILGUN_EVENT_LIST = [
-        'dropped', 'hard_bounces','spam_complaints','unsubscribes','clicks','opens'
+        'dropped', 'bounced','complained','unsubscribed','clicked','opened'
     ];
 
     const KEEN_MAILGUN_COLLECTION = 'mailgun_events';
