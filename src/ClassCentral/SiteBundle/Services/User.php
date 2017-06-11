@@ -327,7 +327,7 @@ class User {
                 )
             )
                 ->getContent();
-            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<d@class-central.com>","Welcome to Class Central, what else can you learn?",$html);
+            $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<d@class-central.com>","Welcome to Class Central, what else can you learn?",$html,self::getUserMetaDataForAnalyticsJson($user));
 
             if($emailVerification)
             {
@@ -871,6 +871,21 @@ class User {
         }
 
         return $score;
+    }
+
+    public static function getUserMetaDataForAnalytics(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $userInfo = [
+            'user_id' => $user->getId(),
+            'hours_since_signup' => $user->getHoursSinceSignup()
+        ];
+
+        return $userInfo;
+    }
+
+    public static function getUserMetaDataForAnalyticsJson(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        return json_encode(self::getUserMetaDataForAnalytics($user));
     }
 
 } 

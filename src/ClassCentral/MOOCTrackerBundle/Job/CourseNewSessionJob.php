@@ -135,7 +135,8 @@ class CourseNewSessionJob extends SchedulerJobAbstract{
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
-            'o:tag' => $campaignId
+            'o:tag' => $campaignId,
+            'v:my-custom-data' => \ClassCentral\SiteBundle\Services\User::getUserMetaDataForAnalyticsJson($user)
         ));
 
         if( !($response && $response->http_response_code == 200))

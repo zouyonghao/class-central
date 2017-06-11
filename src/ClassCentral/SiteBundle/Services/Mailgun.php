@@ -67,7 +67,7 @@ class Mailgun {
         return json_decode($result,true);
     }
 
-    public function sendIntroEmail($to, $from, $subject, $html)
+    public function sendIntroEmail($to, $from, $subject, $html,$userMetaData)
     {
         $ch = curl_init();
 
@@ -81,8 +81,10 @@ class Mailgun {
                 'to' => $to,
                 'subject' => $subject,
                 'html' => $html,
-                'o:campaign' => 'welcome_email'
-         ));
+                'o:tag' => 'welcome_email',
+                'v:my-custom-data' => $userMetaData
+
+        ));
 
         $result = curl_exec($ch);
         curl_close($ch);

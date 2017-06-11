@@ -1009,4 +1009,14 @@ class User implements UserInterface, \Serializable
     {
         return (count($this->getFollows()) >= 10 ) && $this->isFollowingASubject();
     }
+
+    public function getHoursSinceSignup()
+    {
+        $now = new \DateTime();
+        $diff = $this->getCreated()->diff($now);
+        $hours = $diff->h;
+        $hours = $hours + ($diff->days*24);
+
+        return $hours;
+    }
 }

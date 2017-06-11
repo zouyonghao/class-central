@@ -99,7 +99,8 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
             'to' => $user->getEmail(),
             'subject' => $subject,
             'html' => $html,
-            'o:tag' => self::NEW_USER_FOLLOW_UP_CAMPAIGN_ID
+            'o:tag' => self::NEW_USER_FOLLOW_UP_CAMPAIGN_ID,
+            'v:my-custom-data' => \ClassCentral\SiteBundle\Services\User::getUserMetaDataForAnalyticsJson($user)
         ));
 
         if( !($response && $response->http_response_code == 200))

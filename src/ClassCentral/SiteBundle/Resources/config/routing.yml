@@ -530,3 +530,7 @@ next_course_follow:
 next_course_un_follow:
   pattern: /next-course/unfollow/{item}/{itemId}
   defaults: { _controller: ClassCentralSiteBundle:NextCourseWizard:UnFollow }
+
+mailgun_webhook_receiver:
+  pattern: /mailgun-webhook
+  defaults: {_controller: ClassCentralSiteBundle:Analytics:MailgunWebhookReceiver}

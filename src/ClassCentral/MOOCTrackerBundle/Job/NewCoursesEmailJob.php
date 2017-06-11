@@ -14,6 +14,7 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Entity\User as UserEntity;
+use ClassCentral\SiteBundle\Services\User;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 
 class NewCoursesEmailJob extends SchedulerJobAbstract
@@ -111,7 +112,8 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
                 'subject' => $numCourses . ' brand new courses for you to join',
                 'html' => $html,
                 'o:tag' => $campaignId,
-                'o:deliverytime' => $deliveryTime
+                'o:deliverytime' => $deliveryTime,
+                'v:my-custom-data' => User::getUserMetaDataForAnalyticsJson($user)
             ));
 
             if( !($response && $response->http_response_code == 200))

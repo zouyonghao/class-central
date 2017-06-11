@@ -19,7 +19,7 @@ class UniversalHelper {
      * @param bool $success
      * @param string $message
      */
-    public  static function getAjaxResponse($success = false, $message = '')
+    public static function getAjaxResponse($success = false, $message = '')
     {
         $response = array(
             'success' => $success,
@@ -27,6 +27,11 @@ class UniversalHelper {
         );
 
         return new Response(json_encode($response));
+    }
+
+    public static function getQuickResponse($message,$statusCode=400)
+    {
+        return new Response($message,$statusCode);
     }
 
     public static function  commaSeparateList( $items = array() )

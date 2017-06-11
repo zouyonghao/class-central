@@ -14,6 +14,7 @@ use ClassCentral\ElasticSearchBundle\Scheduler\SchedulerJobStatus;
 use ClassCentral\SiteBundle\Entity\User as UserEntity;
 use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Services\Mailgun;
+use ClassCentral\SiteBundle\Services\User;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 
 /**
@@ -123,7 +124,8 @@ class RecommendationEmailJob extends SchedulerJobAbstract
                 'subject' => 'Course Recommendations for You • ' . $startDate->format('F Y'),
                 'html' => $html,
                 'o:tag' => $campaignId,
-                'o:deliverytime' => $deliveryTime
+                'o:deliverytime' => $deliveryTime,
+                'v:my-custom-data' => User::getUserMetaDataForAnalyticsJson($user)
             ));
 
             if( !($response && $response->http_response_code == 200))
