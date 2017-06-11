@@ -221,13 +221,13 @@ class Scraper extends ScraperAbstractInterface
 
                         // Update tags
                         $tagService->saveCourseTags( $dbCourse, $cTags);
-
-                        if( $edxCourse['course_page_info']['image'] )
-                        {
-                            $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $dbCourse);
-                        }
                     }
 
+                }
+
+                if( $this->doUpdate() && $edxCourse['course_page_info']['image'] )
+                {
+                    $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $dbCourse);
                 }
 
                 $course = $dbCourse;
