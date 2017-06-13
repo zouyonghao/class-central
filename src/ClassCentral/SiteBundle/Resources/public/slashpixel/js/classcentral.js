@@ -1091,15 +1091,15 @@ jQuery(function($) {
     function vidplay() {
         var video;
         $(".js-video-play").on("click", function(e) {
-            $this = $(this);
-            videoElement = $this.closest(".html5-video-container").find("video");
-            video = videoElement.get(0);
-            $overlayItems = $this.closest(".js-course-video").find(".js-video-overlay-item");
+            const $this = $(this);
+            const videoElement = $this.closest(".html5-video-container").find("video");
+            const video = videoElement.get(0);
+            const $overlayItems = $this.closest(".js-course-video").find(".js-video-overlay-item");
             if (video.paused) {
                 video.play();
                 $this.fadeOut(300);
                 $overlayItems.fadeOut(300, function() {
-                    videoElement.prop("controls",true);
+                  videoElement.prop("controls",true);
                 });
             } else {
                 video.pause();
