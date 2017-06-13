@@ -1,11 +1,11 @@
-<div class="row border-wrap">
+<div data-equalize='{ "height": 200}' class="row border-wrap">
 
     {% set i = 0 %}
     {% set closeRow = 0 %}
     {% set closeBlock = 0 %}
     {% for parent in subjects.parent %}
         {# Actual subject information #}
-        <div class="single-category col-xs-6 col-md-4">
+        <div data-equalize-child class="single-category col-xs-6 col-md-4">
             <div class="category-header">
                 <div class="course-count">
                     <span class="count">{{ parent.courseCount }}</span>

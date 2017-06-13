@@ -59,14 +59,9 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ClassCentralSiteBundle, ClassCentralCredentialBundle ]
+    bundles:        [ ClassCentralSiteBundle ]
     # java: /usr/bin/java
     filters:
-        cssrewrite: ~
-        # closure:
-        #     jar: %kernel.root_dir%/java/compiler.jar
-        yui_css:
-             jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
         yui_js:
              jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
 
@@ -75,11 +70,6 @@ assetic:
           formatter: "compressed"
           preserve_comments: false
     assets:
-      bootstrap_css:
-          inputs:
-              - %kernel.root_dir%/../src/ClassCentral/SiteBundle/Resources/public/slashpixel/less/app.less
-          filters:
-              - lessphp
       widget_css:
           inputs:
               - %kernel.root_dir%/../src/ClassCentral/SiteBundle/Resources/public/slashpixel/widget/less/main.less

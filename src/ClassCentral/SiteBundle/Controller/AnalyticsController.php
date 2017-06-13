@@ -55,11 +55,16 @@ class AnalyticsController extends Controller
             return UniversalHelper::getQuickResponse($event . ' : timestamp has expired', 406);
         }
 
-        // Record the collectiom in Keen
+        // Record the collection in Keen
+        $data = $request->request->all();
+        if( isset($data['my-custom-data']) )
+        {
+            $data['my-custom-data'] = json_decode($data['my-custom-data'],true);
+        }
         $keenWebhookUrl = $this->getKeenWebhookURL(self::KEEN_MAILGUN_COLLECTION);
         $client = new Client();
         $guzzleRequest = $client->post($keenWebhookUrl,array('content-type' => 'application/json'));
-        $guzzleRequest->setBody(json_encode($request->request->all()));
+        $guzzleRequest->setBody(json_encode($data));
         $response = $guzzleRequest->send();
 
         $statusCode = $response->getStatusCode();
