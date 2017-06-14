@@ -2926,6 +2926,15 @@ a:focus .card-back__interaction-text {
   }
 }
 
+/* equalize plugin */
+[data-equalize] {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+  &.is-active {
+    opacity: 1;
+  }
+}
+
 /* typography */
 .head-3 {
   margin: 0;

@@ -1091,15 +1091,15 @@ jQuery(function($) {
     function vidplay() {
         var video;
         $(".js-video-play").on("click", function(e) {
-            const $this = $(this);
-            const videoElement = $this.closest(".html5-video-container").find("video");
-            const video = videoElement.get(0);
-            const $overlayItems = $this.closest(".js-course-video").find(".js-video-overlay-item");
+            $this = $(this);
+            videoElement = $this.closest(".html5-video-container").find("video");
+            video = videoElement.get(0);
+            $overlayItems = $this.closest(".js-course-video").find(".js-video-overlay-item");
             if (video.paused) {
                 video.play();
                 $this.fadeOut(300);
                 $overlayItems.fadeOut(300, function() {
-                  videoElement.prop("controls",true);
+                    videoElement.prop("controls",true);
                 });
             } else {
                 video.pause();
@@ -1407,95 +1407,44 @@ jQuery(function($) {
 });
 
 (function($) {
-    var Equalize = function (el, options) {
+    var Equalize = function (el) {
+        var node = el.children().get(0).nodeName;
         var _this = this;
 
+        _this.height = 0;
         _this.el = el;
         _this.timeout = 2000;
-        _this.items = el.find('[data-equalize-child]');
-        _this.defaultHeight = options.height || 0;
-        _this.rows;
+        _this.items = el.find(node);
 
         _this.init();
 
         $(window).on('resize', function() {
             _this.resetHeight();
-            _this.getRows();
-            _this.getTallestForEachRow();
-
-            Object.keys(_this.rows).map((key) => {
-              _this.activate(_this.rows[key]);
-            })
-            _this.el.addClass('is-active');
+            _this.getTallestInItems();
+            _this.activate();
         });
     };
 
-    Equalize.prototype.getRows = function() {
-      var _this = this;
-      _this.rows = null;
-      if (_this.items.eq(0).height() > 0 ) {
-        _this.items.each(function(index, item) {
-            _this.rows = _this.rows || {};
-            const offset = $(item).offset().top;
-            if (!_this.rows[offset]) {
-              _this.rows[offset] = {
-                height: 0,
-                items: [],
-              };
+    Equalize.prototype.getTallestInItems = function() {
+        var _this = this;
+        _this.items.each(function(item, index) {
+            var itemHeight = $(this).height();
+            if (itemHeight > _this.height) {
+                _this.height = itemHeight;
             }
-            return _this.rows[offset].items.push(item);
         });
-      }
     };
 
-    Equalize.prototype.getTallestForEachRow = function() {
-      var _this = this;
-      Object.keys(_this.rows).map((key) => {
-        $.each(_this.rows[key].items, function(index, item) {
-          const itemHeight = _this.getItemHeight(item, $(item).parent());
-          if (itemHeight > _this.rows[key].height) {
-            _this.rows[key].height = itemHeight;
-          }
-          if (_this.rows[key].height < _this.defaultHeight) {
-            _this.rows[key].height = _this.defaultHeight;
-          }
-        });
-      })
+    Equalize.prototype.resetHeight = function(forceActivate) {
+        this.height = 0;
+        this.items.height('');
     };
 
-    Equalize.prototype.getItemHeight = function(item, parentEl) {
-      var clone = $(item).clone().css({
-        position: 'absolute',
-        top: '0px',
-        left: '0px',
-        visibility: 'hidden',
-        height: 'auto',
-        maxHeight: 'none'
-      }).appendTo(parentEl);
-
-      const height = clone.outerHeight();
-      clone.remove();
-
-      return height;
-    }
-
-    Equalize.prototype.resetHeight = function() {
-      var _this = this;
-      Object.keys(_this.rows).map((key) => {
-        _this.rows[key].height = _this.defaultHeight;
-      });
-    };
-
-    Equalize.prototype.activate = function(row, forceActivate) {
-      var _this = this;
-      if (row.height > 0 || forceActivate) {
-        $.each(row.items, function(index, item) {
-          $(item).css({
-            height: row.height + 'px',
-            maxHeight: row.height + 'px'
-          })
-        });
-      }
+    Equalize.prototype.activate = function(forceActivate) {
+        if (this.height > 0 || forceActivate) {
+            this.items.height(this.height);
+            this.el.addClass('is-active');
+        }
     };
 
     Equalize.prototype.init = function() {
@@ -1505,25 +1454,18 @@ jQuery(function($) {
         var timer = setInterval(function() {
             if (count >= (_this.timeout / 10)) {
                 clearTimeout(timer);
-                _this.el.addClass('is-active');
+                _this.activate(true);
             }
-            _this.getRows();
 
-            if (_this.rows) {
-              clearTimeout(timer);
-              $(window).trigger('resize');
-            }
+            _this.getTallestInItems();
+            _this.activate();
             count++;
         }, 10);
     };
 
     $(document).ready(function() {
         $('[data-equalize]').each(function() {
-          let options = {};
-            try {
-              options = $(this).data('equalize');
-            } catch (e) {};
-            new Equalize($(this), options);
+            new Equalize($(this));
         });
     });
 })($);

@@ -2077,12 +2077,8 @@ unwanted scrollbars
 }
 
 .subjects .single-category {
-  padding-bottom: 35px;
+  padding-bottom: 40px;
   padding-top: 20px;
-  height: 200px;
-  max-height: 200px;
-  box-sizing: border-box;
-  overflow: hidden;
 }
 
 .border-wrap {
@@ -2151,6 +2147,8 @@ unwanted scrollbars
 
 @media (min-width: 500px) {
   .subjects .single-category {
+    min-height: 240px;
+    padding-bottom: 0;
   }
 }
 
@@ -2162,13 +2160,12 @@ unwanted scrollbars
 
 @media (min-width: @screen-lg-min) {
   .subjects .single-category {
+    min-height: 200px;
   }
 }
 
 @media (max-width: 500px) {
   .subjects .single-category {
-    height: auto !important;
-    max-height: none !important;
     width: 100%;
   }
 }

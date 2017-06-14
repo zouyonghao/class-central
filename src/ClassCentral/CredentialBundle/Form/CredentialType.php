@@ -52,9 +52,9 @@ class CredentialType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'ClassCentral\CredentialBundle\Entity\Credential'
-        ));
+        ]);
     }
 
     public function getName()

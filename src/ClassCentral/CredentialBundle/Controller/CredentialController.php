@@ -27,9 +27,9 @@ class CredentialController extends Controller
 
         $entities = $em->getRepository('ClassCentralCredentialBundle:Credential')->findAll();
 
-        return $this->render('ClassCentralCredentialBundle:Credential:index.html.twig', array(
+        return $this->render('ClassCentralCredentialBundle:Credential:index.html.twig', [
             'entities' => $entities,
-        ));
+        ]);
     }
     /**
      * Creates a new Credential entity.
@@ -47,13 +47,13 @@ class CredentialController extends Controller
             $em->flush();
             $this->get('credential')->index( $entity );
 
-            return $this->redirect($this->generateUrl('credential_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('credential_show', ['id' => $entity->getId()]));
         }
 
-        return $this->render('ClassCentralCredentialBundle:Credential:new.html.twig', array(
+        return $this->render('ClassCentralCredentialBundle:Credential:new.html.twig', [
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -65,10 +65,10 @@ class CredentialController extends Controller
         $entity = new Credential();
         $form   = $this->createForm(new CredentialType(), $entity);
 
-        return $this->render('ClassCentralCredentialBundle:Credential:new.html.twig', array(
+        return $this->render('ClassCentralCredentialBundle:Credential:new.html.twig', [
             'entity' => $entity,
             'form'   => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -87,9 +87,9 @@ class CredentialController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ClassCentralCredentialBundle:Credential:show.html.twig', array(
+        return $this->render('ClassCentralCredentialBundle:Credential:show.html.twig', [
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),        ]);
     }
 
     /**
@@ -109,11 +109,11 @@ class CredentialController extends Controller
         $editForm = $this->createForm(new CredentialType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ClassCentralCredentialBundle:Credential:edit.html.twig', array(
+        return $this->render('ClassCentralCredentialBundle:Credential:edit.html.twig', [
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -230,7 +230,7 @@ class CredentialController extends Controller
 
         $reviews = $cache->get('credential_reviews_'.$slug, function($slug){
             return $this->get('credential')->getCredentialReviews( $slug );
-        }, array($slug));
+        }, [$slug]);
         return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
                 'page' => 'credential',
                 'credential' => $credential,
