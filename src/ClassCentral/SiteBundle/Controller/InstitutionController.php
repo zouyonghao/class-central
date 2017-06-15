@@ -277,9 +277,17 @@ class InstitutionController extends Controller
 
         $related['skipName'] = $institution->getName();
 
+        $institution = $data['institution'];
+        $pageMetadata = [
+            'institution_id' => $institution->getId(),
+            'institution_name' => $institution->getName(),
+            'institution_slug' => strtolower($institution->getSlug())
+        ];
+
+
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
                 array(
-                    'institution' => $data['institution'],
+                    'institution' => $institution,
                     'page'=>'institution',
                     'slug' => $slug,
                     'results' => $data['courses'],
@@ -298,7 +306,8 @@ class InstitutionController extends Controller
                     'followItemId' => $institution->getId(),
                     'followItemName' => $institution->getName(),
                     'free' => $free,
-                    'related' => $related
+                    'related' => $related,
+                    'pageMetadata' => $pageMetadata
                 ));                
     }
 

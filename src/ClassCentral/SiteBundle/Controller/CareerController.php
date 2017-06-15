@@ -248,6 +248,14 @@ class CareerController extends Controller
         $data = $cl->byCareer($slug,$request);
         $career = $data['career'];
 
+        $pageMetadata = [
+            'career_id' => $career->getId(),
+            'career_name' => $career->getName(),
+            'career_slug' => strtolower($career->getSlug())
+        ];
+
+
+
         return $this->render('ClassCentralSiteBundle:Career:career.html.twig',
             array(
                 'career' => $career,
@@ -267,7 +275,8 @@ class CareerController extends Controller
                 'showHeader' => true,
                 'followItem' => Item::ITEM_TYPE_CAREER,
                 'followItemId' => $career->getId(),
-                'followItemName' => $career->getName()
+                'followItemName' => $career->getName(),
+                'pageMetadata' => $pageMetadata,
             ));
     }
 

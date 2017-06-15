@@ -238,7 +238,12 @@ class InitiativeController extends Controller
         },array());
 
         $related['skipName'] = $provider->getName();
-
+        $provider = $data['provider'];
+        $pageMetadata = [
+            'provider_id' => $provider->getId(),
+            'provider_name' => $provider->getName(),
+            'provider_slug' => strtolower($provider->getCode())
+        ];
 
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
             'results' => $data['courses'],
@@ -247,8 +252,8 @@ class InitiativeController extends Controller
             'allLanguages' => $data['allLanguages'],
             'allSessions' => $data['allSessions'],
             'numCoursesWithCertificates' => $data['numCoursesWithCertificates'],
-            'page' => 'initiative',
-            'provider' => $data['provider'],
+            'page' => 'provider',
+            'provider' => $provider,
             'pageInfo' => $data['pageInfo'],
             'sortField' => $data['sortField'],
             'sortClass' => $data['sortClass'],
@@ -260,7 +265,8 @@ class InitiativeController extends Controller
             'followItemName' => $provider->getName(),
             'credentials' => $data['credentials'],
             'numCredentials' => $data['numCredentials'],
-            'related' => $related
+            'related' => $related,
+            'pageMetadata' => $pageMetadata
         ));
     }
 
@@ -274,7 +280,8 @@ class InitiativeController extends Controller
         $data = $this->getProvidersList( $this->container );
         return $this->render('ClassCentralSiteBundle:Initiative:providers.html.twig',array(
             'providers' => $data['providers'],
-            'followItem' =>  Item::ITEM_TYPE_PROVIDER
+            'followItem' =>  Item::ITEM_TYPE_PROVIDER,
+            'page' => 'providers'
         ));
     }
 

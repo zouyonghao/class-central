@@ -517,6 +517,53 @@ class CourseController extends Controller
             $highlyRatedCourses[] = $this->get('Cache')->get( 'course_' . $cid, array($this,'getCourseDetails'), array($cid,$em) );
         }
 
+        // Send info related to page tracking
+        $courseLanguage = null;
+        if( !empty($course['lang']))
+        {
+            $courseLanguage = $course['lang']['name'];
+        }
+        $courseInstitutions = [];
+        foreach ($course['institutions'] as $institution)
+        {
+            $courseInstitutions[] = [
+                'id' => $institution['id'],
+                'slug' => $institution['slug'],
+                'name' => $institution['name'],
+                'is_university' => $institution['isUniversity']
+            ];
+        }
+
+        $subjects = [];
+        $subjects[] =  [
+            'name' => $course['stream']['name'],
+            'slug' => $course['stream']['slug'],
+            'id' => $course['stream']['id']
+        ];;
+        foreach ($course['secondarySubjects'] as $secondarySub)
+        {
+            $subjects[] = [
+                'name' => $secondarySub->getName(),
+                'slug' => $secondarySub->getSlug(),
+                'id' => $secondarySub->getId()
+            ];
+        }
+
+        $pageMetadata = [
+            'course_id' => $course['id'],
+            'course_name' => $course['name'],
+            'course_status' => $course['status'],
+            'course_provider_name' => $course['initiative']['name'],
+            'course_provider_slug' => $course['initiative']['code'],
+            'course_provider_id' => $course['initiative']['id'],
+            'course_primary_subject_name' => $course['stream']['name'],
+            'course_primary_subject_slug' => $course['stream']['slug'],
+            'course_primary_subject_id' => $course['stream']['id'],
+            'course_subjects' => $subjects,
+            'course_institutions' => $courseInstitutions,
+            'course_language' => $courseLanguage,
+
+        ];
 
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
@@ -541,7 +588,8 @@ class CourseController extends Controller
                  'potentialDuplicates' => $potentialDuplicates,
                  'showAddToMTModal' => $showAddToMTModal,
                  'top50course' => $top50Course,
-                 'highlyRatedCourses' => $highlyRatedCourses
+                 'highlyRatedCourses' => $highlyRatedCourses,
+                 'pageMetadata' => $pageMetadata
        ));
     }
 
@@ -915,6 +963,12 @@ EOD;
         $data = $cl->byTag($tag,$request);
         $tagEntity = $data['tagEntity'];
 
+
+        $pageMetadata = [
+            'tag_id' => $tagEntity->getId(),
+            'tag_name' => $tagEntity->getName()
+        ];
+
         return $this->render('ClassCentralSiteBundle:Course:tag.html.twig',
             array(
                 'page'=>'tag',
@@ -932,7 +986,8 @@ EOD;
                 'showHeader' => true,
                 'followItem' => Item::ITEM_TYPE_TAG,
                 'followItemId' => $tagEntity->getId(),
-                'followItemName' => ucfirst(strtolower( $tag))
+                'followItemName' => ucfirst(strtolower( $tag)),
+                'pageMetadata' => $pageMetadata
             ));
     }
 

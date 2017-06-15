@@ -1,7 +1,14 @@
 <div class="intro-wrap__ad">
     <div class="ad-box ad-box--horizontal">
-        <a href="{{ url }}" class="ad-box__link" rel="nofollow" target="_blank"  onmousedown='CC.Class["Analytics"].logAds("{{ provider }}","PageHeader Image Ad","{{ desc }}");ga("send","event", "PageHeader Ad", "{{ provider }}","{{ desc }}")' >
-
+        <a href="{{ url }}" class="ad-box__link" rel="nofollow" target="_blank"  onmousedown='
+          window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+            ad: {
+              provider: "{{ provider}}",
+              unit: "PageHeader Image Ad",
+              title: "{{ desc }}"
+            }
+          });ga("send","event", "PageHeader Ad", "{{ provider }}","{{ desc }}")'>
+        >
             <div class="ad-box__left-col">
                 <img src="{{ imageUrl }}" alt="" class="ad-box__img">
             </div>

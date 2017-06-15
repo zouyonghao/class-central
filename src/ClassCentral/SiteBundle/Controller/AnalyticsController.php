@@ -80,8 +80,8 @@ class AnalyticsController extends Controller
 
     private function getKeenWebhookURL($collectionName)
     {
-        $projectId = $this->container->getParameter('keen_user_stats_project_id');
-        $apiKey = $this->container->getParameter('keen_user_stats_write_key');
+        $projectId = $this->container->getParameter('keen_project_id');
+        $apiKey = $this->container->getParameter('keen_write_key');
 
         return "https://api.keen.io/3.0/projects/$projectId/events/$collectionName?api_key=$apiKey";
     }

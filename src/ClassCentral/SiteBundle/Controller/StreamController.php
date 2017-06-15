@@ -233,9 +233,16 @@ class StreamController extends Controller
         },array());
 
         $related['skipName'] = $subject->getName(); // Does not show this subject
+        $subject = $data['subject'];
+        $pageMetadata = [
+            'subject_id' => $subject->getId(),
+            'subject_slug'=> $subject->getSlug(),
+            'subject_name' => $subject->getName()
+        ];
+
 
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
-                'subject' => $data['subject'],
+                'subject' => $subject,
                 'page' => 'subject',
                 'slug' => $slug,
                 'offeringTypes' => Offering::$types,
@@ -257,7 +264,8 @@ class StreamController extends Controller
                 'credentials' => $data['credentials'],
                 'numCredentials' => $data['numCredentials'],
                 'related' => $related,
-                'tagCounts' => $data['tags']
+                'tagCounts' => $data['tags'],
+                'pageMetadata' => $pageMetadata
             ));
     }
 
