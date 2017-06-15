@@ -3,6 +3,8 @@
     {% set userInfo = user_service.getUserMetaDataForAnalyticsJsonNonStatic(app.user) %}
 {% endif %}
 
+
+
 <!-- cc anlatyics (via keen, ga, etc )-->
 <script type="text/javascript">
 // init CC Analytics
@@ -26,7 +28,7 @@
   // track pageview
   window.CC.Class.Analytics.track("{{ trackingService.event('PAGEVIEW') }}");
 
-{% if page == 'course' %}
+{% if page is defined and page == 'course' %}
     {# log the subjects #}
     {% for subject in pageMetadata.course_subjects %}
         window.CC.Class.Analytics.track("{{ trackingService.event('PAGEVIEW_SUBJECT') }}", {
