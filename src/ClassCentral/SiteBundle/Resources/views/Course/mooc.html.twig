@@ -575,6 +575,14 @@
 
 
                 </div>
+
+                {% if course.initiative.code == 'coursera' %}
+                <div class="margin-bottom-large text-center">
+                  <span class="margin-right-small">Sign up for free?</span>
+                  <a href="/report/coursera-signup-for-free" class="btn-white btn--small icon--left icon-lightbulb-skyblue">Learn how</a>
+                </div>
+
+                {% endif %}
                 {% set userListIds = user_session.getCourseListIds(course['id']) %}
 
                 {% set go_to_class_url = course.url %}
