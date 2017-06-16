@@ -539,8 +539,9 @@ class CourseController extends Controller
             'name' => $course['stream']['name'],
             'slug' => $course['stream']['slug'],
             'id' => $course['stream']['id']
-        ];;
-        foreach ($course['secondarySubjects'] as $secondarySub)
+        ];
+
+        foreach ($course['subjects'] as $secondarySub)
         {
             $subjects[] = [
                 'name' => $secondarySub->getName(),
