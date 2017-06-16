@@ -22,7 +22,7 @@
 
 {% block customJS %}
     $(document).ready(function(){
-     
+
         $.ajax({
             type: "get",
             url: "{{ path('maestro_udemy_courses',{'term':tag|url_encode}) }}"
@@ -58,6 +58,9 @@
         itemName: followItemName,
         followed: user_session.isItemFollowed(followItem,followItemId),
         followButtonWithCount: true,
+        followDesc: 'Want an email when new courses are available?',
+        followDescPosition: 'right',
+        followDescColor: 'black',
         followers:followService.getNumFollowers(followItem,followItemId)
     } %}
 

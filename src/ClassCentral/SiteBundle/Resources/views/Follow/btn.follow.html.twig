@@ -51,7 +51,17 @@
 
     </a>
 {% elseif followButtonWithCount %}
-    <button class="btn-follow {% if followed %}is-following{% endif %}" data-follow='{"item":"{{ item }}","item-id":"{{ item_id }}"}'>
+  <div
+    data-button-follow
+    class="
+      {% if followDesc %}descriptor-{{ followDescPosition ? followDescPosition : 'right' }}{% endif %}
+      text--{{ followDescColor ? followDescColor : 'black' }}
+      {% if followed %}is-following{% endif %}
+    "
+    data-follow='{"item":"{{ item }}","item-id":"{{ item_id }}"}'
+  >
+    {% if followDesc %}<span data-descriptor>{{ followDesc }}</span>{% endif %}
+    <button>
         <i data-indicator class="icon"></i>
         <span data-action>{% if followed %}Following{% else %}Follow{% endif %}</span>
         <span data-display-count></span>
@@ -61,11 +71,11 @@
               starting count is based on provided integer below
               formatting is handled by the JS for the shorthand display
             -->
-
             <p class="text-4"><span data-count>{{ followers }}</span> <span data-learners>learners</span> following</p>
 
         </div>
     </button>
+  </div>
 {% else %}
     <a href="#"
        class="action-button action-button--transparent btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}
