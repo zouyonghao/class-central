@@ -5,7 +5,8 @@
         self._state = {};
 
         self.state({
-            el: el,
+            button: el.find('button'),
+            container: el,
             action: el.find('[data-action]').html(),
             count: parseInt(el.find('[data-count]').html().replace(/\,/, ''), 10),
             loading: false,
@@ -22,7 +23,7 @@
     FollowButton.prototype.bindClick = function() {
         var self = this;
 
-        self.state().el.on('click', function() {
+        self.state().button.on('click', function() {
             self.state({
                 loading: true
             });
@@ -81,7 +82,7 @@
     FollowButton.prototype.bindHover = function() {
         var self = this;
 
-        self.state().el.on('mouseenter', function() {
+        self.state().button.on('mouseenter', function() {
             if (self.state().isFollowing) {
                 self.state({
                     action: 'Unfollow'
@@ -89,7 +90,7 @@
             }
         });
 
-        self.state().el.on('mouseleave', function() {
+        self.state().button.on('mouseleave', function() {
             if (self.state().isFollowing) {
                 self.state({
                     action: 'Following'
@@ -133,29 +134,29 @@
                 switch (key) {
                     case 'isFollowing':
                         if (value) {
-                            self.state().el.addClass('is-following');
+                            self.state().container.addClass('is-following');
                         } else {
-                            self.state().el.removeClass('is-following');
+                            self.state().container.removeClass('is-following');
                         }
                         break;
                     case 'action':
-                        self.state().el.find('[data-action]').html(value);
+                        self.state().container.find('[data-action]').html(value);
                         break;
                     case 'count':
                         var numbers = self.formatNumber(value);
-                        self.state().el.find('[data-count]').html(numbers.longHand);
-                        self.state().el.find('[data-display-count]').html(numbers.shortHand);
+                        self.state().container.find('[data-count]').html(numbers.longHand);
+                        self.state().container.find('[data-display-count]').html(numbers.shortHand);
                         if (value > 1000000 && state.isFollowing) {
-                            self.state().el.find('[data-learners]').hide();
+                            self.state().container.find('[data-learners]').hide();
                         } else {
-                            self.state().el.find('[data-learners]').show();
+                            self.state().container.find('[data-learners]').show();
                         }
                         break;
                     case 'loading':
                         if (value) {
-                            self.state().el.addClass('is-loading');
+                            self.state().container.addClass('is-loading');
                         } else {
-                            self.state().el.removeClass('is-loading');
+                            self.state().container.removeClass('is-loading');
                         }
                         break;
                 }
@@ -165,7 +166,7 @@
         }
     };
 
-    $('.btn-follow').each(function() {
+    $('[data-button-follow]').each(function() {
         new FollowButton($(this));
     });
 })(jQuery);

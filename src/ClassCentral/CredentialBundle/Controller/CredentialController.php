@@ -230,7 +230,13 @@ class CredentialController extends Controller
 
         $reviews = $cache->get('credential_reviews_'.$slug, function($slug){
             return $this->get('credential')->getCredentialReviews( $slug );
+
         }, [$slug]);
+        $pageMetadata = [
+            'credential_id' => $credential['id'],
+            'credential_name' => $credential['name'],
+            'credential_slug' => $credential['slug'],
+        ];
         return $this->render('ClassCentralCredentialBundle:Credential:credential.html.twig', array(
                 'page' => 'credential',
                 'credential' => $credential,
@@ -241,7 +247,8 @@ class CredentialController extends Controller
                 'tab' => $tab,
                 'followItem' => Item::ITEM_TYPE_CREDENTIAL,
                 'followItemId' => $credential['id'],
-                'followItemName' => $credential['name']
+                'followItemName' => $credential['name'],
+                'pageMetadata' => $pageMetadata,
         ));
     }
 

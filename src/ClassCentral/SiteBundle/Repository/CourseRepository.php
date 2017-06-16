@@ -119,6 +119,19 @@ class CourseRepository extends EntityRepository{
         $courseDetails['stream']['name'] = $stream->getName();
         $courseDetails['stream']['slug'] = $stream->getSlug();
         $courseDetails['stream']['showInNav'] = $stream->getShowInNav();
+        $courseDetails['stream']['id'] = $stream->getId();
+
+        $secondarySubjects = [];
+        foreach ($course->getSubjects() as $subject)
+        {
+            $secondarySubjects[] = [
+                'name' => $subject->getName(),
+                'slug' => $subject->getSlug(),
+                'id' => $subject->getId()
+            ];
+        }
+
+        $courseDetails['secondarySubjects'] = $secondarySubjects;
 
         // Initiative
         $initiative = $course->getInitiative();
@@ -129,12 +142,14 @@ class CourseRepository extends EntityRepository{
             $courseDetails['initiative']['url'] = $initiative->getUrl();
             $courseDetails['initiative']['tooltip'] = $initiative->getTooltip();
             $courseDetails['initiative']['code'] = strtolower($initiative->getCode());
+            $courseDetails['initiative']['id'] = $initiative->getId();
         }
         else
         {
             $courseDetails['initiative']['name'] = 'Independent';
             $courseDetails['initiative']['code'] = 'independent';
             $courseDetails['initiative']['tooltip'] = 'Independent';
+            $courseDetails['initiative']['id'] = -1;
         }
 
         // Language
@@ -158,6 +173,7 @@ class CourseRepository extends EntityRepository{
                 'url' => $institution->getUrl(),
                 'slug' => $institution->getSlug(),
                 'isUniversity' => $institution->getIsUniversity(),
+                'id' => $institution->getId()
             );
         }
 

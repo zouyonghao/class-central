@@ -4,14 +4,28 @@
             <div class="ad-content">
 
                 <a class="ad-title" href="{{ ad.url }}" target="_blank"
-                   onmousedown='CC.Class["Analytics"].logAds("{{ ad.providerName }}","Sidebar Text Ad","{{ ad.title }}");ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}")';
-                            rel="nofollow">
+                   onmousedown='
+                    window.CC.Class["Analytics"].track("{{ trackingService.event('AD_CLICK') }}", {
+                      ad: {
+                        provider: "{{ ad.providerName }}",
+                        unit: "Sidebar Text Ad",
+                        title: "{{ ad.title }}"
+                      }
+                    });ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}");'
+                rel="nofollow">
                 {{ ad.title }}
                 </a>
 
                 <a class="ad-link" href="{{ ad.url }}" target="_blank"
-                   onmousedown='CC.Class["Analytics"].logAds("{{ ad.providerName }}","Sidebar Text Ad","{{ ad.title }}");ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}")';
-                           rel="nofollow">
+                   onmousedown='
+                    window.CC.Class["Analytics"].track("{{ trackingService.event('AD_CLICK') }}", {
+                      ad: {
+                        provider: "{{ ad.providerName }}",
+                        unit: "Sidebar Text Ad",
+                        title: "{{ ad.title }}"
+                      }
+                    });ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}");'
+                rel="nofollow">
                     {{ ad.displayUrl }}
                 </a>
                 <p class="ad-text">{{ ad.description }}</p>

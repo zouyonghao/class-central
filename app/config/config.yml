@@ -54,6 +54,7 @@ twig:
       udemy_url: %udemy_url%
       google_auth_client_id: %google_auth_client_id%
       assetService: @asset
+      trackingService: @tracking
       webpack_dev_server: %webpack_dev_server%
 # Assetic Configuration
 assetic:
@@ -91,10 +92,10 @@ doctrine:
         auto_mapping: true
 
 keen_io:
-      project_id: %keen_user_stats_project_id%
-      master_key: %keen_user_stats_master_key%
-      write_key:  %keen_user_stats_write_key%
-      read_key:   %keen_user_stats_read_key%
+      project_id: %keen_project_id%
+      master_key: %keen_master_key%
+      write_key:  %keen_write_key%
+      read_key:   %keen_read_key%
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -186,6 +187,9 @@ services:
       arguments: ['@service_container']
   asset:
         class: ClassCentral\SiteBundle\Services\Asset
+        arguments: ['@service_container']
+  tracking:
+        class: ClassCentral\SiteBundle\Services\Tracking
         arguments: ['@service_container']
   review:
         class: ClassCentral\SiteBundle\Services\Review

@@ -28,6 +28,14 @@ module.exports = {
         loader: 'imports-loader?this=>window!exports-loader?window.loadRaty!exports-loader?window.courseListCheckboxHandler'
       },
       {
+        test: /Keen/,
+        loader: 'imports-loader?this=>window'
+      },
+      {
+        test: /packages\/analytics\/Analytics/,
+        loader: 'imports-loader?this=>window'
+      },
+      {
         test: __dirname + 'node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js',
         loader: 'imports-loader?define=>false&exports=>false!blueimp-file-upload/js/vendor/jquery.ui.widget.js'
       },
@@ -75,7 +83,8 @@ module.exports = {
                 }
               }],
               ['react'],
-              ['es2015']
+              ['es2015'],
+              ['stage-0']
             ]
           }
         }

@@ -1,4 +1,10 @@
-<a target="_blank" rel="nofollow" href="{{ url }}" onmousedown='CC.Class["Analytics"].logAds("Canvas Network","Banner Ads","{{ desc }}");ga("send","event", "Banner Ad Click", "{{ desc }}","{{ location }}");'>
+<a target="_blank" rel="nofollow" href="{{ url }}" onmousedown='
+  window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+    ad: {
+      provider: "Canvas Network",
+      unit: "Banner Ads",
+      title: "{{ desc }}"
+    }
+  });ga("send","event", "Banner Ad Click", "{{ desc }}","{{ location }}");'>
       <img src="{{ imageUrl }}" style="max-width: 728px; width: 100%" />
 </a>
-

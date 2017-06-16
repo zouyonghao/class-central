@@ -8,4 +8,4 @@ window.CC.Class.Profile = require("./cc.profile.js").default;
 window.CC.Class.Follow = require("./cc.follow.js").default;
 window.CC.Class.Signup = require("./cc.signup.js").default;
 window.CC.Class.NextCourse = require("./cc.nextcourse.js").default;
-window.CC.Class.Analytics = require("./cc.analytics.js").default;
+window.Analytics = require("packages/analytics/analytics").default;

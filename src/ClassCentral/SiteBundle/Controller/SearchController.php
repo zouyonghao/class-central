@@ -31,6 +31,10 @@ class SearchController extends Controller{
             $total = $courses['hits']['total'];
         }
 
+        $pageMetadata = [
+            'search_keywords' => $keywords
+        ];
+
         return $this->render('ClassCentralSiteBundle:Search:index.html.twig', array(
             'page' => 'search', 
             'total' => $total,
@@ -44,7 +48,8 @@ class SearchController extends Controller{
             'sortField' =>$sortField,
             'sortClass' => $sortClass,
             'pageNo' => $pageNo,
-            'showHeader' => true
+            'showHeader' => true,
+            'pageMetadata' => $pageMetadata
         ));        
     }
 

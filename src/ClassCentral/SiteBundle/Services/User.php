@@ -888,4 +888,9 @@ class User {
         return json_encode(self::getUserMetaDataForAnalytics($user));
     }
 
+    public function getUserMetaDataForAnalyticsJsonNonStatic(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        return self::getUserMetaDataForAnalyticsJson($user);
+    }
+
 } 

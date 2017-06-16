@@ -41,6 +41,9 @@
         itemName: followItemName,
         followed: user_session.isItemFollowed(followItem,followItemId),
         followButtonWithCount: true,
+        followDesc: 'Want an email when new courses are available?',
+        followDescPosition: 'right',
+        followDescColor: 'black',
         followers:followService.getNumFollowers(followItem,followItemId)
     } %}
 
