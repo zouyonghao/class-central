@@ -8,9 +8,10 @@ class Tracking {
     private $container;
 
     const PAGEVIEW = 'pageview';
-    const AD_CLICK = 'ad_click';
     const PAGEVIEW_INSTITUTION = 'pageview_institutition';
     const PAGEVIEW_SUBJECT = 'pageview_subject';
+    const AD_CLICK = 'ad_click';
+    const TIP_CLICK = 'tip_click';
 
 
     public function __construct(ContainerInterface $container) {
