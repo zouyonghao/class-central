@@ -544,9 +544,9 @@ class CourseController extends Controller
         foreach ($course['subjects'] as $secondarySub)
         {
             $subjects[] = [
-                'name' => $secondarySub->getName(),
-                'slug' => $secondarySub->getSlug(),
-                'id' => $secondarySub->getId()
+                'name' => $secondarySub['name'],
+                'slug' => $secondarySub['slug'],
+                'id' => $secondarySub['id']
             ];
         }
 
