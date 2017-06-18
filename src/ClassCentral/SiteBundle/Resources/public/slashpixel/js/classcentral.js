@@ -1200,7 +1200,7 @@ jQuery(function($) {
         var $this = $(this);
 
         var target = $this.attr("href");
-        $target = $(target);
+        var $target = $(target);
 
         var expandedText = "Collapse";
 
