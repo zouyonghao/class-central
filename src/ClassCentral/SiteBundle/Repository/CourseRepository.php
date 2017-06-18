@@ -131,7 +131,7 @@ class CourseRepository extends EntityRepository{
             ];
         }
 
-        $courseDetails['secondarySubjects'] = $secondarySubjects;
+        $courseDetails['subjects'] = $secondarySubjects;
 
         // Initiative
         $initiative = $course->getInitiative();

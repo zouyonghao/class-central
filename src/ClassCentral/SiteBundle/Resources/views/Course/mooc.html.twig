@@ -602,7 +602,9 @@
                 {% endif %}
                 <div class="course-data-button">
                     <a class="cta-button btn_go_to_class" href="{{ go_to_class_url }}" id="btnProviderCoursePage"
-                       onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')" target="_blank">Go to Class</a>
+                       onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');
+                                window.CC.Class.Analytics.track('{{ trackingService.event('GO_TO_CLASS_CLICK') }}');"
+                       target="_blank">Go to Class</a>
                 </div>
                 {# if the course added to users list, don't send notification #}
                 {% if userListIds is empty %}
