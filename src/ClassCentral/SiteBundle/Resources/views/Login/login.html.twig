@@ -79,4 +79,9 @@
         </div>
     </div>
 
+    {# Google Sign in #}
+{% endblock %}
+
+{% block beforeClosingBody %}
+  {% include 'ClassCentralSiteBundle:Layouts/Auth:google.html.twig' %}
 {% endblock %}

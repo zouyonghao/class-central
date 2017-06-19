@@ -383,7 +383,7 @@ const Signup = (function(){
     }
 
     function showSignupModal(src) {
-
+      const self = this;
         Cookies.set( promptShownCookie, 1, { expires :30} ); // Users are not shown the signup prompt again
 
         $.ajax({
@@ -393,49 +393,50 @@ const Signup = (function(){
             .done(function(result){
                     var loggedInResult = $.parseJSON(result);
                     if( !loggedInResult.loggedIn) {
-
-                        // Show the signup form
-                        var url = '/ajax/signup/' + src;
-                        $.ajax({
-                            url: url,
-                            cache: false,
-                            success: function( result ) {
-                                var response = $.parseJSON(result);
-                                $(response.modal).appendTo("body");
-
-                                // Setup the modal
-                                var signupFormId = "#signupModal-" + src;
-                                // mini slider functionality
-                                $( signupFormId + " .js-mini-slider" ).each(function( index, element ) {
-                                    $(element).flexslider({
-                                        selector: " .js-mini-slider-slides .js-mini-slider-slide",
-                                        slideshow: true,
-                                        slideshowSpeed: 4000,
-                                        directionNav: false,
-                                        manualControls: signupFormId +  " .js-mini-slider-controls .js-mini-slider-control"
-                                    });
-
-                                    var $slide = $(element).find(" .js-mini-slider-slide");
-
-                                    var numberOfSlides = $slide.length;
-
-                                    $slide.on("click", function(e) {
-                                        $(element).flexslider("next");
-                                    });
-                                });
-
-                                $('form[name="classcentral_sitebundle_signuptype"]').submit( signupFormSubmit);
-
-                                $(signupFormId).on("shown.bs.modal",function () {
-                                    signInWithGoogleButtonInit();
-                                });
-
-                                $(signupFormId).modal("show");
-                            }
-                        })
+                      self.requestSignupModal(src);
                     }
                 }
             );
+    }
+
+    function requestSignupModal(src, params) {
+      // Show the signup form
+      var url = '/ajax/signup/' + src;
+      $.ajax({
+          url: url,
+          type: "POST",
+          data: params || {},
+          dataType: "json",
+          cache: false,
+          success: function( result ) {
+              $(result.modal).appendTo("body");
+
+              // Setup the modal
+              var signupFormId = "#signupModal-" + src;
+              // mini slider functionality
+              $( signupFormId + " .js-mini-slider" ).each(function( index, element ) {
+                  $(element).flexslider({
+                      selector: " .js-mini-slider-slides .js-mini-slider-slide",
+                      slideshow: true,
+                      slideshowSpeed: 4000,
+                      directionNav: false,
+                      manualControls: signupFormId +  " .js-mini-slider-controls .js-mini-slider-control"
+                  });
+
+                  var $slide = $(element).find(" .js-mini-slider-slide");
+
+                  var numberOfSlides = $slide.length;
+
+                  $slide.on("click", function(e) {
+                      $(element).flexslider("next");
+                  });
+              });
+
+              $('form[name="classcentral_sitebundle_signuptype"]').submit( signupFormSubmit);
+
+              $(signupFormId).modal("show");
+          }
+      })
     }
 
     init();
@@ -447,7 +448,8 @@ const Signup = (function(){
         'followInstitutionOnboarding' : showOnboardingFollowInstitutionsStep,
         'followCourseOnboarding':showOnboardingFollowCoursesStep,
         'showSignupPrompt' : showSignupPrompt,
-        'showSignupModal' : showSignupModal
+        'showSignupModal' : showSignupModal,
+        'requestSignupModal' : requestSignupModal,
     }
 })();
 

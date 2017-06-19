@@ -3,9 +3,7 @@
     {% set userInfo = user_service.getUserMetaDataForAnalyticsJsonNonStatic(app.user) %}
 {% endif %}
 
-
-
-<!-- cc anlatyics (via keen, ga, etc )-->
+{# CC Anlatyics (via keen, ga, etc ) #}
 <script type="text/javascript">
 // init CC Analytics
   window.CC.Class.Analytics = new window.Analytics({
@@ -46,7 +44,7 @@
 
 </script>
 
-<!-- clicky tracking code-->
+{# Clicky tracking code #}
 <script type="text/javascript">
   {% if app.user %}
   var clicky_custom = clicky_custom || {};
@@ -68,13 +66,3 @@
   })();
 </script>
 <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100717250ns.gif" /></p></noscript>
-
-<!-- facebook -->
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=214375822097453&version=v2.0";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>

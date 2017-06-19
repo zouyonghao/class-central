@@ -1027,6 +1027,7 @@ class UserController extends Controller
 
     public function createSignupModalAction(Request $request, $src, $options = array())
     {
+
         $modal = 1; // Signifies that the signup form is shown in a modal
         $signupForm   = $this->createForm(new SignupType( $modal ), new User(),array(
             'action' => $this->generateUrl('signup_create_user',array('src' => $src)),
@@ -1101,8 +1102,7 @@ class UserController extends Controller
 
     public function createSignupModalAjaxAction(Request $request, $src)
     {
-        $options = array(); // Todo: How to pass options
-
+        $course = $request->request->get('course');
         $modal = 1; // Signifies that the signup form is shown in a modal
         $signupForm   = $this->createForm(new SignupType( $modal ), new User(),array(
             'action' => $this->generateUrl('signup_create_user',array('src' => $src)),
@@ -1128,7 +1128,6 @@ class UserController extends Controller
                 );
                 break;
             case 'btn_get_notified':
-                $course = $options['course'];
                 $mediaCard_1 = array(
                     'title' => 'Follow Course',
                     'text'  => 'Receive email updates for "'. $course['name']. '"'
@@ -1169,7 +1168,6 @@ class UserController extends Controller
                 'signupForm' => $signupForm->createView(),
                 'sigupFormModels' => $sigupFormModels,
                 'src' => $src,
-                'options' => $options,
                 'mediaCard_1' => $mediaCard_1
             )
         )->getContent();

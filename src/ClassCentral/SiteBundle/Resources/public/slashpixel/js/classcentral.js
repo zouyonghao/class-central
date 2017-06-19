@@ -240,7 +240,12 @@ jQuery(function($) {
                     }).done(function(result){
                         // Show the singup popups
                         Utilities.hideWidgets();
-                        $('#signupModal-btn_get_notified').modal('show');
+                        Signup.requestSignupModal('btn_get_notified', {
+                          course: {
+                            name: courseName,
+                            id: courseId,
+                          }
+                        });
                     });
 
                 }

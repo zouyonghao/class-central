@@ -13,7 +13,6 @@
 {% endif %}
 
     <meta name="google-signin-client_id" content="543074773853-5o4th7sqent0dc5f0slvn0cakr152fpv.apps.googleusercontent.com">
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -34,6 +33,12 @@
     <!-- Google+ Direct connect -->
     <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
     <script src="{{ '/webpack/modernizr.js' }}"></script>
+    <script type="text/javascript">
+        user_logged_in = 0;
+        {% if app.user %}
+            user_logged_in = 1;
+        {% endif %}
+    </script>
 
     {{ include ('ClassCentralSiteBundle:Layouts/Tracking:head.html.twig') }}
 
@@ -162,41 +167,6 @@
 </footer>
 {% include 'ClassCentralSiteBundle:Helpers:search.template.html.twig' %}
 
-<script>
-   function signInWithGoogleButtonInit() {
-       var googleUser = {};
-       var startApp = function() {
-           gapi.load('auth2', function(){
-               // Retrieve the singleton for the GoogleAuth library and set up the client.
-               auth2 = gapi.auth2.init({
-                   client_id: '{{ google_auth_client_id }}',
-                   cookiepolicy: 'single_host_origin',
-                   // Request scopes in addition to 'profile' and 'email'
-                   //scope: 'additional_scope'
-               });
-
-               var signInButtons = document.getElementsByClassName("sign-in-with-google");
-               for(var i = 0; i < signInButtons.length; i++)
-               {
-                   attachSignin(signInButtons.item(i));
-               }
-           });
-       };
-
-       function attachSignin(element) {
-           auth2.attachClickHandler(element, {},
-               function(googleUser) {
-                   CC.Class['User'].googleAuth(googleUser.getAuthResponse().id_token);
-               }, function(error) {
-                   //alert(JSON.stringify(error, undefined, 2));
-               });
-       }
-
-       startApp();
-   }
-</script>
-
-
 <script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
 
 {% if is_granted('ROLE_ADMIN') %}
@@ -251,15 +221,8 @@
 {% block beforeClosingBody %}
 {% endblock %}
 
+{# Tracking / Analytics #}
 {% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
-
-<script src="https://apis.google.com/js/api:client.js"></script>
-<script>
-    {% if not app.user %}
-        signInWithGoogleButtonInit();
-    {% endif %}
-</script>
-
 {# Rating popup box #}
 {% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
 
