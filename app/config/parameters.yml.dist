@@ -102,8 +102,6 @@ parameters:
     udemy_client_id: ~
     udemy_client_secret: ~
     google_auth_client_id: ~
-    edx_api_client_id: ~
-    edx_api_client_secret: ~
 
     imgix_domain: ~
     imgix_token: ~

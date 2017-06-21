@@ -28,7 +28,10 @@ class Course
     {
         $kuber = $this->container->get('kuber');
         $uniqueKey = basename($imageUrl);
-        $uniqueKey = reset(explode('?', $uniqueKey));
+        if(strpos($uniqueKey,'?'))
+        {
+            $uniqueKey = reset(explode('?', $uniqueKey));
+        }
         if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
         {
             // Upload the file

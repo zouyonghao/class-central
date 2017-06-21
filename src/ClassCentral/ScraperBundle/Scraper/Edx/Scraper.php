@@ -7,9 +7,7 @@ use ClassCentral\ScraperBundle\Scraper\ScraperAbstractInterface;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Offering;
-use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
-use GuzzleHttp\Client;
 
 class Scraper extends ScraperAbstractInterface
 {
@@ -22,7 +20,7 @@ class Scraper extends ScraperAbstractInterface
     const EDX_API_ALL_COURSES_BASE_v1 = 'https://api.edx.org';
     const EDX_API_ALL_COURSES_PATH_v1 = '/catalog/v1/catalogs/11/courses/';
 
-    const EDX_DRUPAL_CATALOG = 'https://www.edx.org/api/v1/catalog/search?page_size=2000&partner=edx&content_type[]=courserun';
+    const EDX_DRUPAL_CATALOG = 'https://www.edx.org/api/v1/catalog/search?page_size=50&partner=edx&content_type[]=courserun&page=';
     const EDX_DRUPAL_INDIVIDUAL = 'https://www.edx.org/api/catalog/v2/courses/%s';
     const EDX_DRUPAL_COURSE_RUNS =  'https://www.edx.org/api/v1/catalog/course_runs/%s'; // contains uuids required for sessions/offerings
     const EDX_DRUPAL_COURSE_MODES = 'https://courses.edx.org/api/enrollment/v1/course/%s'; // contains pricing ino
@@ -77,9 +75,6 @@ class Scraper extends ScraperAbstractInterface
         'Ethics' => 'social-sciences',
     );
 
-
-    private $skipNames = array('DELETE','OBSOLETE','STAGE COURSE', 'Test Course');
-
     private $sleepMultiplier = 1;
 
     private $coursesWithSameName = array('Introduction to Differential Equations');
@@ -97,6 +92,7 @@ class Scraper extends ScraperAbstractInterface
         }
 
         $tagService = $this->container->get('tag');
+        $courseService = $this->container->get('course');
         $em = $this->getManager();
 
         /**
@@ -177,7 +173,7 @@ class Scraper extends ScraperAbstractInterface
 
                         if( $edxCourse['course_page_info']['image'] )
                         {
-                            $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $course);
+                            $courseService->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $course);
                         }
 
                     }
@@ -227,10 +223,11 @@ class Scraper extends ScraperAbstractInterface
 
                 if( $this->doUpdate() && $edxCourse['course_page_info']['image'] )
                 {
-                    $this->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $dbCourse);
+                    $courseService->uploadImageIfNecessary( $edxCourse['course_page_info']['image'], $dbCourse);
                 }
 
                 $course = $dbCourse;
+
             }
 
             /***************************
@@ -326,73 +323,6 @@ class Scraper extends ScraperAbstractInterface
 
         return;
 
-    }
-
-    private function  getOfferingShortName( $c = array() )
-    {
-        $edxCourseId = $this->getEdxCourseId( $c['guid'] );
-        return 'edx_'. $edxCourseId;
-    }
-
-    /**
-     * Given an array built from edX csv returns a course entity
-     * @param array $c
-     */
-    private function getCourseEntity ($c = array())
-    {
-        $defaultStream = $this->dbHelper->getStreamBySlug('cs');
-        $langMap = $this->dbHelper->getLanguageMap();
-        $defaultLanguage = $langMap[ 'English' ];
-
-        $course = new Course();
-        $course->setShortName( 'edx_' . $c['key'] );
-        $course->setInitiative( $this->initiative );
-        $course->setName(  $c['title'] );
-        $course->setDescription( $c['short_description'] );
-        $course->setLongDescription( nl2br($c['full_description']) );
-        $course->setLanguage( $defaultLanguage);
-        $course->setStream($defaultStream); // Default to Computer Science
-        $course->setUrl($c['marketing_url']);
-        $course->setCertificate( false );
-        $course->setCertificatePrice( 0 );
-
-        if(!empty($c['video']['src']))
-        {
-            $course->setVideoIntro( $c['video']['src'] );
-        }
-        // Check if the video is in course runs
-        foreach($c['course_runs'] as $courseRun)
-        {
-            if(!empty($courseRun['video']['src']))
-            {
-                $course->setVideoIntro( $courseRun['video']['src'] );
-            }
-            if(!empty($courseRun['marketing_url']) )
-            {
-                $course->setUrl($courseRun['marketing_url']);
-            }
-
-            foreach($courseRun['seats'] as $seat)
-            {
-                if($seat['type'] == 'verified')
-                {
-                    $course->setCertificatePrice( $seat['price'] );
-                    $course->setCertificate( true );
-                }
-            }
-
-            if($courseRun['pacing_type'] == 'instructor_paced')
-            {
-                $length = null;
-                $start = new \DateTime( $courseRun['start'] );
-                $end = new \DateTime( $courseRun['end'] );
-                $length = ceil( $start->diff($end)->days/7 );
-                $course->setDurationMin($length);
-                $course->setDurationMax($length);
-            }
-        }
-
-        return $course;
     }
 
     /**
@@ -559,66 +489,6 @@ class Scraper extends ScraperAbstractInterface
         return $offering;
     }
 
-
-    private function getShortName( $details )
-    {
-        $school = $details['course-school'];
-        if(is_array($details['course-school']))
-        {
-            $school = array_pop( $details['course-school'] );
-        }
-        return 'edx_' . strtolower( $details['course-code'] . '_' . $school );
-    }
-
-    /**
-     * Generates the url to embed video for youtube videos
-     * @param $videoIntro
-     * @return null
-     */
-    private function  getVideoEmbedUrl($videoIntro)
-    {
-        if(empty($videoIntro))
-        {
-            return null;
-        }
-
-        $parsedUrl = parse_url($videoIntro);
-        if (!isset($parsedUrl['query']))
-        {
-            return null;
-        }
-        parse_str($parsedUrl['query'], $getParams);
-        if(isset($getParams['v']))
-        {
-            return 'https://www.youtube.com/watch?v=' .  $getParams['v'];
-        }
-
-        return null;
-    }
-
-
-    private function parseCourseCode($str)
-    {
-        $exploded = explode('/',$str);
-        return $exploded[3];
-    }
-
-    /**
-     * Parses the edX from url.
-     * i.e /course/wellesley/hist229x/was-alexander-great-life/850 => 850
-     * @param $url
-     */
-    private function getEdxCourseId($url)
-    {
-        return substr($url, strrpos($url,'/')+1);
-    }
-
-    private function getStartDate($html)
-    {
-        $dateStr = $html->find("div.course-detail-start",0)->plaintext;
-        return substr($dateStr,strrpos($dateStr,':')+1);
-    }
-
     /**
      * Used to print the field values which have been modified for both offering and courses
      * @param $changedFields
@@ -632,27 +502,6 @@ class Scraper extends ScraperAbstractInterface
             $new = is_a($changed['new'], 'DateTime') ? $changed['new']->format('jS M, Y') : $changed['new'];
 
             $this->out("$field changed from - '$old' to '$new'");
-        }
-    }
-
-    private function uploadImageIfNecessary( $imageUrl, Course $course)
-    {
-        $kuber = $this->container->get('kuber');
-        $uniqueKey = basename($imageUrl);
-        if( $kuber->hasFileChanged( Kuber::KUBER_ENTITY_COURSE,Kuber::KUBER_TYPE_COURSE_IMAGE, $course->getId(),$uniqueKey ) )
-        {
-            // Upload the file
-            $filePath = '/tmp/course_'.$uniqueKey;
-            file_put_contents($filePath,$this->file_get_contents_wrapper($imageUrl));
-            $kuber->upload(
-                $filePath,
-                Kuber::KUBER_ENTITY_COURSE,
-                Kuber::KUBER_TYPE_COURSE_IMAGE,
-                $course->getId(),
-                null,
-                $uniqueKey
-            );
-
         }
     }
 
@@ -681,68 +530,8 @@ class Scraper extends ScraperAbstractInterface
         return null;
     }
 
-
-    private function buildSelfPacedCourseList()
-    {
-        $apiUrl = 'https://www.edx.org/search/api/all';
-        $selfPacedCourses = array();
-        $allCourses = json_decode( file_get_contents($apiUrl), true );
-        foreach( $allCourses as $edXCourse)
-        {
-            $dbCourse = null;
-            if ( $edXCourse['pace'] & $edXCourse['availability'] == 'Current' ) // Self paced courses
-            {
-                $courseShortName = 'edx_' . strtolower( $edXCourse['code'] . '_' .$edXCourse['schools'][0] );
-
-                $dbCourseFromSlug = $this->dbHelper->getCourseByShortName($courseShortName);
-                if( $dbCourseFromSlug  )
-                {
-                    $dbCourse = $dbCourseFromSlug;
-                }
-                else
-                {
-                    $dbCourseFromName = $this->findCourseByName( $edXCourse['l'] , $this->initiative );
-                    if($dbCourseFromName)
-                    {
-                        $dbCourse = $dbCourseFromName;
-                    }
-                }
-
-                if( empty($dbCourse) )
-                {
-                    $this->out("OnDemand Course Missing : " .  $edXCourse['l']  );
-                }
-                else
-                {
-
-                    // Check how many of them are self paced
-                    $selfPaced = false;
-                    if ( $dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
-                    {
-                        $selfPaced = true;
-                    }
-
-                    if ( !$selfPaced )
-                    {
-                        $this->out("OnDemand Session Missing : " . $edXCourse['l'])  ;
-                    }
-                }
-
-            }
-        }
-    }
-
-    private function isCourseSelfPaced( $edXCourse )
-    {
-        if( strpos( $edXCourse['start'], 'Self-paced') !== false )
-        {
-            return true;
-        }
-    }
-
     public function scrapeCredentials()
     {
-
 
         foreach(self::$EDX_XSERIES_GUID as $guid)
         {
@@ -846,104 +635,6 @@ class Scraper extends ScraperAbstractInterface
         }
     }
 
-    private function getAccessToken()
-    {
-
-        $clientId = $this->getContainer()->getParameter('edx_api_client_id');
-        $clientSecret = $this->getContainer()->getParameter('edx_api_client_secret');
-        $client = new Client([
-            'base_uri' => self::EDX_API_ALL_COURSES_BASE_v1,
-            'timeout'  => 2.0,
-        ]);
-
-        $response = $client->post('/oauth2/v1/access_token',[
-            'form_params' => [
-                'grant_type' => 'client_credentials',
-                'client_id'=>$clientId,
-                'client_secret' => $clientSecret,
-                'token_type' => 'jwt'
-            ]
-        ]);
-
-        $r = json_decode($response->getBody(),true);
-        return $r['access_token'];
-    }
-
-    private function getOldShortName($key)
-    {
-        $keyParts = explode('+',$key);
-        $keyParts[] = 'edx';
-        $keyParts = array_reverse($keyParts);
-
-        return strtolower( implode( '_',$keyParts ));
-    }
-
-
-
-
-    private function getOfferingFromCourseRun($run,$course)
-    {
-        $offering = new Offering();
-        $now = new \DateTime();
-
-        $offering->setShortName( 'edx_' . $run['key'] );
-        $offering->setCourse( $course );
-        $offering->setUrl( $run['marketing_url'] );
-        $offering->setStatus( Offering::START_DATES_KNOWN );
-        $offering->setStartDate( new \DateTime( $run['start'] ) );
-        $offering->setEndDate(  new \DateTime(  $run['end'] ) );
-
-        if($run['pacing_type'] == 'instructor_paced')
-        {
-            // Do nothing
-        }
-        elseif($run['pacing_type'] == 'self_paced')
-        {
-            if($now > $offering->getStartDate())
-            {
-                $offering->setStatus( Offering::COURSE_OPEN );
-            }
-            else
-            {
-                $offering->setStatus( Offering::START_DATES_KNOWN );
-            }
-        }
-
-
-        return $offering;
-    }
-
-    public function getedXJson($client, $nextUrl)
-    {
-        $today = new \DateTime();
-        $today = $today->format('Y_m_d');
-        $filename =md5($nextUrl) . "_$today.json";
-        $filePath = '/tmp/'.$filename;
-        $edXCourses = null;
-        if(file_exists($filePath))
-        {
-            $edXCourses = file_get_contents($filePath);
-            $this->out("Read from cache");
-        }
-        else
-        {
-            try {
-                $response = $client->get($nextUrl, [
-                    'headers' => [
-                        'Authorization' => "JWT {$this->getAccessToken()}"
-                    ]
-                ]);
-                $edXCourses = $response->getBody();
-                file_put_contents($filePath,$edXCourses);
-            } catch(\Exception $e)
-            {
-                $this->out($e->getMessage()); exit();
-            }
-        }
-
-        return $edXCourses;
-    }
-
     public function getEdxDrupalJson()
     {
         $today = new \DateTime();
@@ -960,16 +651,23 @@ class Scraper extends ScraperAbstractInterface
         }
         else
         {
-            $allCourses =  json_decode( $this->file_get_contents_wrapper(self::EDX_DRUPAL_CATALOG),true);
-            foreach($allCourses['objects']['results'] as $edXCourse)
+            $currentPage=1;
+            do
             {
-                $this->out($edXCourse['title']);
-                $edXCourse['course_page_info'] =  json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_INDIVIDUAL,$edXCourse['key'])),true);
-                $edXCourse['course_runs'] = json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_COURSE_RUNS,$edXCourse['key'])),true);
-                $edXCourse['course_modes'] = json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_COURSE_MODES,$edXCourse['key'])),true);
+                $this->out("Page No. " . $currentPage);
+                $allCourses =  json_decode( $this->file_get_contents_wrapper(self::EDX_DRUPAL_CATALOG . $currentPage),true);
+                foreach($allCourses['objects']['results'] as $edXCourse)
+                {
+                    $this->out($edXCourse['title']);
+                    $edXCourse['course_page_info'] =  json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_INDIVIDUAL,$edXCourse['key'])),true);
+                    $edXCourse['course_runs'] = json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_COURSE_RUNS,$edXCourse['key'])),true);
+                    $edXCourse['course_modes'] = json_decode( $this->file_get_contents_wrapper(sprintf(self::EDX_DRUPAL_COURSE_MODES,$edXCourse['key'])),true);
 
-                $edXCourses[] = $edXCourse;
-            }
+                    $edXCourses[] = $edXCourse;
+                }
+                $currentPage++;
+            }  while( $allCourses['objects']['next'] );
+
             file_put_contents($filePath,json_encode($edXCourses));
         }
         return $edXCourses;
@@ -1000,6 +698,10 @@ class Scraper extends ScraperAbstractInterface
                 sleep($sleepTime);
                 $this->sleepMultiplier++; // If it happens again increase the time to sleep.
                 $this->file_get_contents_wrapper($url);
+            }
+            elseif("SSL: Connection reset by peer" == $e->getMessage())
+            {
+                return array();
             }
         }
 
