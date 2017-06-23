@@ -105,32 +105,27 @@
 
             {% set featuredPostShown = false %}
             {% set featuredPostId = 0 %}
-            {% for post in newestPosts if not featuredPostShown %}
-                {% if post.acf.pinned is not empty %}
-                    <a href="{{ post.link }}" class="featured-media__imageLink"  onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">
-                        <img src="{{ imageService.getPostThumbnailBig(post.acf.thumbnail.url) }}" alt="Image title" class="featured-media__img">
-                    </a>
-                    <div class="featured-media">
-                    <h2 class="featured-media__title">
-                      <a href="{{ post.link }}"  onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">{{ post.title.rendered|raw }}</a>
-                    </h2>
-                    <div class="featured-media__content">
-                     {{ post.acf.subtitle }}
-                    </div>
-                    <div class="featured-media__meta">
-                        {# {{ moocReport.author(post.author).name }} •#} {{ post.date|date("jS M, Y") }}
-                    </div>
-                    {% set featuredPostShown = true %}
-                        {% set featuredPostId = post.id %}
-                {% endif %}
-            {% endfor %}
+
+            <a href="https://www.class-central.com/report/moocwatch-15-moocs-lifelong-learners/" class="featured-media__imageLink"  onmousedown="ga('send','event','MOOC Report - Homepage','MOOCWatch #15: MOOCs Find Their Audience')">
+                <img src="https://d3r3mog6nu8pt4.cloudfront.net/blog/moocwatch-15-minus-title.jpg" alt="Image title" class="featured-media__img">
+            </a>
+            <div class="featured-media">
+                <h2 class="featured-media__title">
+                    <a href="https://www.class-central.com/report/moocwatch-15-moocs-lifelong-learners/"  onmousedown="ga('send','event','MOOC Report - Homepage','MOOCWatch #15: MOOCs Find Their Audience')">MOOCWatch #15: MOOCs Find Their Audience</a>
+                </h2>
+                <div class="featured-media__content">
+                    This month's digest of news from the MOOC space, including new CEOs, enrollment milestones, and more.
+                </div>
+                <div class="featured-media__meta">
+                    Dhawal Shah • June 2017
+                </div>
           </div>
         </div>
 
         <div class="spotlight-col-main">
             {% set postsShown = 0 %}
             {% for post in newestPosts if postsShown < 4%}
-                    {% if post.id != featuredPostId %}
+                    {% if post.id != featuredPostId and 'moocwatch' not in post.title.rendered|lower %}
                         <div class="media-object media-object--bordered">
                             <a href="{{ post.link }}" class="media-object__image"    onmousedown="ga('send','event','MOOC Report - Homepage','{{ post.title.rendered|raw }}')">
                                 <img src="{{ imageService.getPostThumbnailSmall(post.acf.thumbnail.url) }}" alt="{{ post.title.rendered|raw }}" class="media-object">
