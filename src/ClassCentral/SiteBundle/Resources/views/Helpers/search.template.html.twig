@@ -50,6 +50,12 @@
     </a>
 </script>
 
+<script id="article-template" type="text/x-handlebars-template">
+    <a class="type-{{payload.type}} suggestion-template template-article" href="{{payload.url}}" data-type="{{payload.type}}" data-name="{{payload.name}}" onmousedown="ga('send','event', 'Search Autocomplete' , '{{payload.type}}', '{{{payload.name}}}' )">
+        <span class="name">{{{payload.name}}}</span>
+    </a>
+</script>
+
 <script id="footer-template" type="text/x-handlebars-template">
     <a class="suggestions-footer search-view-all" href="">View All</a>
 </script>

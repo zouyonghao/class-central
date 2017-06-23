@@ -958,7 +958,9 @@ jQuery(function($) {
                         templateScript = $("#uni-template").html();
                     } else if (data.payload.type === "footer-template") {
                         templateScript = $("#footer-template").html();
-                    } else {
+                    } else if (data.payload.type === "mooc_report_article") {
+                        templateScript = $("#article-template").html();
+                    }  else {
                         templateScript = $("#base-template").html();
                     }
 
@@ -1053,6 +1055,8 @@ jQuery(function($) {
                         templateScript = $("#uni-template").html();
                     } else if (data.payload.type === "footer-template") {
                         templateScript = $("#footer-template").html();
+                    } else if (data.payload.type === "mooc_report_article") {
+                        templateScript = $("#article-template").html();
                     } else {
                         templateScript = $("#base-template").html();
                     }

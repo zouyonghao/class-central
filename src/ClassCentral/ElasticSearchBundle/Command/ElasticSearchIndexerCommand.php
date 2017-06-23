@@ -10,6 +10,7 @@ namespace ClassCentral\ElasticSearchBundle\Command;
 
 
 use ClassCentral\ElasticSearchBundle\Indexer;
+use ClassCentral\ElasticSearchBundle\MOOCReportArticleEntity;
 use ClassCentral\SiteBundle\Controller\InitiativeController;
 use ClassCentral\SiteBundle\Controller\InstitutionController;
 use ClassCentral\SiteBundle\Controller\LanguageController;
@@ -181,6 +182,30 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
             }
 
             $output->writeln("All subjects indexed");
+
+            /****
+             * Index MOOC Report Articles
+             */
+            $moocReport = $this->getContainer()->get('mooc_report');
+            $pageNo = 1;
+            $postCount = 0;
+            $posts = $moocReport->getPosts($pageNo);
+            while($posts)
+            {
+
+                foreach ($posts as $post)
+                {
+                    $moocReportArticle = MOOCReportArticleEntity::getMOOCReportArticleObj($post);
+                    $output->writeln("Indexing Article: ". $moocReportArticle->getTitle());
+                    $indexer->index( $moocReportArticle );
+                    $postCount++;
+                }
+
+                $pageNo++;
+                $posts = $moocReport->getPosts($pageNo);
+            }
+            $output->writeln("$postCount posts indexed");
+
         }
 
     }

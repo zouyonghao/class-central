@@ -14,6 +14,7 @@ use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\CredentialDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\ESJobLogDocumentType;
+use ClassCentral\ElasticSearchBundle\DocumentType\MOOCReportArticleDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\SessionDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\SubjectDocumentType;
 use ClassCentral\ElasticSearchBundle\DocumentType\SuggestDocumentType;
@@ -64,6 +65,20 @@ class Indexer {
             }
 
 
+        }
+
+        if($entity instanceof MOOCReportArticleEntity)
+        {
+            $aDoc = new MOOCReportArticleDocumentType($entity, $this->container);
+            $doc = $aDoc->getDocument($this->getIndexName('es_index_name'));
+            $this->esClient->index($doc);
+
+            if($entity->getStatus() == 'publish')
+            {
+                $asDoc = new SuggestDocumentType( $entity, $this->container);
+                $doc = $asDoc->getDocument( $this->getIndexName('es_index_name') );
+                $this->esClient->index($doc);
+            }
         }
 
         // Index the Credential

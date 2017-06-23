@@ -26,15 +26,15 @@ class MOOCReport
         $this->container = $container;
     }
 
-    public function getPosts()
+    public function getPosts($pageNo = 1)
     {
         $cache = $this->container->get('cache');
 
-        return $cache->get('wp_new_posts',function(){
+        return $cache->get('wp_new_posts_' . $pageNo,function($pageNo){
             try
             {
                 $client = new Client();
-                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts?per_page=20');
+                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts?per_page=20&page='.$pageNo);
                 $response = $request->send();
 
                 if($response->getStatusCode() !== 200)
@@ -45,7 +45,7 @@ class MOOCReport
                 return json_decode($response->getBody(true),true);
             } catch (\Exception $e) {}
             return array();
-        });
+        },array($pageNo));
     }
 
 

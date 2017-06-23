@@ -10,6 +10,7 @@ namespace ClassCentral\ElasticSearchBundle\DocumentType;
 
 
 use ClassCentral\CredentialBundle\Entity\Credential;
+use ClassCentral\ElasticSearchBundle\MOOCReportArticleEntity;
 use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
@@ -106,7 +107,7 @@ class SuggestDocumentType extends DocumentType{
             $payload['type'] = 'subject';
             $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
-            $body['name_suggest']['weight'] = 20;
+            $body['name_suggest']['weight'] = 700;
 
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCourseCount();
@@ -122,7 +123,7 @@ class SuggestDocumentType extends DocumentType{
 
             $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getCode()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
-            $body['name_suggest']['weight'] = round(18 + $entity->getCount()/100); // boosting the score for providers with more courses
+            $body['name_suggest']['weight'] = round(500 + $entity->getCount()/100); // boosting the score for providers with more courses
 
             $this->tokenize( $entity->getName() );
             $payload['name'] = $entity->getName();
@@ -138,7 +139,7 @@ class SuggestDocumentType extends DocumentType{
             $payload['type'] = 'language';
             $body['name_suggest']['input'] =  array($entity->getName(), $entity->getCode(),$entity->getSlug() )   ;
             $body['name_suggest']['output'] = $entity->getName();
-            $body['name_suggest']['weight'] = 30;
+            $body['name_suggest']['weight'] = 500;
 
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCourseCount();
@@ -154,7 +155,7 @@ class SuggestDocumentType extends DocumentType{
 
             $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
-            $body['name_suggest']['weight'] = round(18 + $entity->getCount()/100); // boosting the score for institutions with more courses
+            $body['name_suggest']['weight'] = round(400 + $entity->getCount()/100); // boosting the score for institutions with more courses
 
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCount();
@@ -182,16 +183,45 @@ class SuggestDocumentType extends DocumentType{
                 $provider = $this->entity->getInitiative();
                 // Certificate details
                 $certificateSlug = $this->entity->getFormatter()->getCertificateSlug();
+                if($provider->getName() == 'FutureLearn')
+                {
+                    $certificateSlug = '';
+                }
             }
 
             $body['name_suggest']['input'] =  array_merge(array($entity->getName(), $entity->getSlug(),$certificateSlug), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
-            $body['name_suggest']['weight'] = 40;
+            $body['name_suggest']['weight'] = 400;
 
             $payload['name'] = $entity->getName();
             $payload['count'] = 5;
             // Url
             $payload['url'] = $router->generate('credential_page', array('slug' => $entity->getSlug()));
+            $body['name_suggest']['payload'] = $payload;
+        }
+
+        if($this->entity instanceof MOOCReportArticleEntity)
+        {
+            $payload['type'] = 'mooc_report_article';
+
+            $weightBoost = 0;
+            $now = new \DateTime();
+            if($this->entity->getPinned())
+            {
+                $weightBoost += 200;
+            }
+            $ageOfPost = $now->diff($this->entity->getPublishedDate())->format("%a");
+            if($ageOfPost == 0) $ageOfPost = 1;
+            echo $ageOfPost;
+            $weightBoost += (1/$ageOfPost) * 200;
+
+            $body['name_suggest']['input'] = array_merge(array($entity->getTitle()), $this->tokenize( $entity->getTitle() )) ;
+            $body['name_suggest']['output'] = $entity->getTitle();
+            $body['name_suggest']['weight'] = 300 + (int)$weightBoost;
+
+            $payload['name'] = $entity->getTitle();
+
+            $payload['url'] = $entity->getLink();
             $body['name_suggest']['payload'] = $payload;
         }
 
@@ -239,9 +269,9 @@ class SuggestDocumentType extends DocumentType{
             {
                 if(in_array('ongoing',$states))
                 {
-                    return 23; // this means it has already started. Push it slightly down
+                    return 175; // this means it has already started. Push it slightly down
                 }
-                return 25;
+                return 350;
             }
 
             if ( in_array( 'upcoming', $states) )
@@ -251,16 +281,16 @@ class SuggestDocumentType extends DocumentType{
 
                 if( $date < $dt)
                 {
-                    return 15;
+                    return 300;
                 }
 
                 // Upcoming but later than a month
-                return 10;
+                return 200;
             }
 
             if( in_array('selfpaced', $states) )
             {
-                return 14;
+                return 250;
             }
 
         }
