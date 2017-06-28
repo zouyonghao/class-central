@@ -117,7 +117,8 @@
     <br/><br/><br/>
     <div class="row">
         <div class="col">
-            <p> <b><span class="provider-user-follow-count">Select which languages you want to see courses in</b> </p>
+            <h4>Select which languages you want to see courses in</h4>
+            <p>Following <b><span class="language-user-follow-count">{{ numLanguagesFollowed }}</span> languages</b> </p>
             {% for language in languages %}
                 <div class="header-follow-button ui-theme-light" style="{{ followButtonStyle }}" >
                     {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {

@@ -163,6 +163,7 @@ class FollowController extends Controller
         $numSubjectsFollowed = count( $follows[Item::ITEM_TYPE_SUBJECT]);
         $numInstitutionsFollowed = count( $follows[Item::ITEM_TYPE_INSTITUTION] );
         $numProvidersFollowed = count( $follows[Item::ITEM_TYPE_PROVIDER]);
+        $numLanguagesFollowed = count( $follows[Item::ITEM_TYPE_LANGUAGE]);
         $numFollows = count($this->getUser()->getFollows());
         $isFollowingASubject = $this->getUser()->isFollowingASubject();
 
@@ -181,6 +182,7 @@ class FollowController extends Controller
             'numSubjectsFollowed' => $numSubjectsFollowed,
             'numInstitutionFollowed' => $numInstitutionsFollowed,
             'numProvidersFollowed' => $numProvidersFollowed,
+            'numLanguagesFollowed' => $numLanguagesFollowed,
             'numFollows' => $numFollows,
             'isFollowingASubject' => $isFollowingASubject,
             'followLanguageItem' => Item::ITEM_TYPE_LANGUAGE,
