@@ -1,7 +1,7 @@
 <div class="intro-wrap__ad">
     <div class="ad-box ad-box--horizontal">
         <a href="{{ url }}" class="ad-box__link" rel="nofollow" target="_blank"  onmousedown='
-          window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+          CC.track("{{ ts.event('AD_CLICK') }}", {
             ad: {
               provider: "{{ provider}}",
               unit: "PageHeader Image Ad",

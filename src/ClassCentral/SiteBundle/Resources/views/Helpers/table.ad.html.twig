@@ -8,7 +8,7 @@
     <td class="course-name-column">
         <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
         <a class="course-name ad-name"  rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown='
-          window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+          CC.track("{{ ts.event('AD_CLICK') }}", {
             ad: {
               provider: "{{ providerName }}",
               unit: "Table Text Ad",
@@ -20,7 +20,7 @@
             {% if institutionName is not empty %}
                 <li>
                     <a class="uni-name" rel="nofollow" target="_blank" href="{{ courseUrl }}"  onmousedown='
-                    window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+                    CC.track("{{ ts.event('AD_CLICK') }}", {
                       ad: {
                         provider: "{{ providerName }}",
                         unit: "Table Text Ad",
@@ -32,7 +32,7 @@
             {% endif %}
             <span class="via">via</span>
             <a rel="nofollow" href="{{ courseUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick='
-              window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+              CC.track("{{ ts.event('AD_CLICK') }}", {
                 ad: {
                   provider: "{{ providerName }}",
                   unit: "Table Text Ad",
@@ -83,7 +83,7 @@
     <div class="flexAd">
         <div class="flexAd_tag">Sponsored</div>
         <a href="{{ courseUrl }}" rel="nofollow" target="_blank" class="flexAd_title" onmousedown='
-          window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+          CC.track("{{ ts.event('AD_CLICK') }}", {
             ad: {
               provider: "{{ providerName }}",
               unit: "Course Page Text Ad",
@@ -93,11 +93,11 @@
         >{{ courseName }}</a>
         <div class="flexAd_meta">
             {% if institutionName is not empty %} {{ institutionName }}{% endif %} via <a href="{{ courseUrl }}" rel="nofollow" target="_blank" onmousedown='
-              window.CC.Class["Analytics"].track("{{ trackingService.event('AD_CLICK') }}", {
+              CC.track("{{ ts.event('AD_CLICK') }}", {
                 ad: {
                   provider: "{{ providerName }}",
-                  unit: "Course Page Text Ad","
-                  title: {{ courseName }}")
+                  unit: "Course Page Text Ad",
+                  title: "{{ courseName }}"
                 }
               }
             });ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>{{ providerName }}</a>

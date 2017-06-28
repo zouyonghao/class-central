@@ -15,7 +15,7 @@
                      id="home-spotlight-{{ spotlight.position }}">
                     <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
                             onmousedown='{% if spotlight.type == 5 %}
-                              window.CC.Class.Analytics.track("{{ trackingService.event('AD_CLICK') }}", {
+                              CC.track("{{ ts.event('AD_CLICK') }}", {
                                 ad: {
                                   provider: "{{ spotlight.provider }}",
                                   unit: "Homepage Spotlight",

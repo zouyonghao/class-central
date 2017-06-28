@@ -54,7 +54,7 @@ twig:
       udemy_url: %udemy_url%
       google_auth_client_id: %google_auth_client_id%
       assetService: @asset
-      trackingService: @tracking
+      ts: @tracking
       webpack_dev_server: %webpack_dev_server%
 # Assetic Configuration
 assetic:

@@ -23,20 +23,22 @@
     }
   });
 
+  CC.track = window.CC.Class.Analytics.track.bind(window.CC.Class.Analytics);
+
   // track pageview
-  window.CC.Class.Analytics.track("{{ trackingService.event('PAGEVIEW') }}");
+  CC.track("{{ ts.event('PAGEVIEW') }}");
 
 {% if page is defined and page == 'course' %}
     {# log the subjects #}
     {% for subject in pageMetadata.course_subjects %}
-        window.CC.Class.Analytics.track("{{ trackingService.event('PAGEVIEW_SUBJECT') }}", {
+        CC.track("{{ ts.event('PAGEVIEW_SUBJECT') }}", {
             subject: {{ subject|json_encode()|raw }}
         });
     {% endfor %}
 
     {# log the institutions #}
     {% for ins in pageMetadata.course_institutions %}
-        window.CC.Class.Analytics.track("{{ trackingService.event('PAGEVIEW_INSTITUTION') }}", {
+        CC.track("{{ ts.event('PAGEVIEW_INSTITUTION') }}", {
             institution: {{ ins|json_encode()|raw }}
         });
     {% endfor %}

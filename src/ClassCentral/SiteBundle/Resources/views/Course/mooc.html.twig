@@ -580,7 +580,7 @@
                 <div class="margin-bottom-large text-center">
                   <span class="margin-right-small">Sign up for free?</span>
                   <a target="_blank" href="https://www.class-central.com/report/coursera-signup-for-free/"
-                      onmousedown='window.CC.Class.Analytics.track("{{ trackingService.event('TIP_CLICK') }}", {
+                      onmousedown='CC.track("{{ ts.event('TIP_CLICK') }}", {
                         tip_key: "coursera-signup-free-learn-how",
                         tip_link: "https://www.class-central.com/report/coursera-signup-for-free/"
                       });'
@@ -603,7 +603,7 @@
                 <div class="course-data-button">
                     <a class="cta-button btn_go_to_class" href="{{ go_to_class_url }}" id="btnProviderCoursePage"
                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');
-                                window.CC.Class.Analytics.track('{{ trackingService.event('GO_TO_CLASS_CLICK') }}');"
+                                CC.track('{{ ts.event('GO_TO_CLASS_CLICK') }}');"
                        target="_blank">Go to Class</a>
                 </div>
                 {# if the course added to users list, don't send notification #}

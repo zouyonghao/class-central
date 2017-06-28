@@ -5,7 +5,7 @@
 
                 <a class="ad-title" href="{{ ad.url }}" target="_blank"
                    onmousedown='
-                    window.CC.Class["Analytics"].track("{{ trackingService.event('AD_CLICK') }}", {
+                    CC.track("{{ ts.event('AD_CLICK') }}", {
                       ad: {
                         provider: "{{ ad.providerName }}",
                         unit: "Sidebar Text Ad",
@@ -18,7 +18,7 @@
 
                 <a class="ad-link" href="{{ ad.url }}" target="_blank"
                    onmousedown='
-                    window.CC.Class["Analytics"].track("{{ trackingService.event('AD_CLICK') }}", {
+                    CC.track("{{ ts.event('AD_CLICK') }}", {
                       ad: {
                         provider: "{{ ad.providerName }}",
                         unit: "Sidebar Text Ad",
