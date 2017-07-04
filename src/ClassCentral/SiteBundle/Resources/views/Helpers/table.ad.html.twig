@@ -87,7 +87,8 @@
             ad: {
               provider: "{{ providerName }}",
               unit: "Course Page Text Ad",
-              title: "{{ courseName }}"
+              title: "{{ courseName }}",
+              position: "{% if adPosition is defined %}{{ adPosition }}{% endif %}"
             }
           });ga("send", "event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'
         >{{ courseName }}</a>
@@ -97,7 +98,8 @@
                 ad: {
                   provider: "{{ providerName }}",
                   unit: "Course Page Text Ad",
-                  title: "{{ courseName }}"
+                  title: "{{ courseName }}",
+                  position: "{% if adPosition is defined %}{{ adPosition }}{% endif %}"
                 }
               }
             });ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>{{ providerName }}</a>

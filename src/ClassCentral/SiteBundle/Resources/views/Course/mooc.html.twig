@@ -1,5 +1,9 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
+{% set adVariation = random(1) %}
+
+
+
 {# logged out user finished writing a review and has been redirected here. Show the user a signup form#}
  {% set showPostReviewSignupForm = false %}
 {% for flashMessage in app.session.flashbag.get('show_post_review_signup_prompt') %}
@@ -164,19 +168,19 @@
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
 
-        {#
-            <div class="course-meta__ad">
+            {% if adVariation == 0 %}
+            <div class="course-meta__ad course-ad-top">
                 <div class="row">
                     <div class="col-sm-6">
-                        {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                        {{ cc_ads.renderTextRowAd('course-top',{ "adPosition": "above_title"})|raw }}
                     </div>
 
                     <div class="col-sm-6">
-                            {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                            {{ cc_ads.renderTextRowAd('course-top',{"adPosition": "above_title"})|raw }}
                     </div>
                 </div>
             </div>
-        #}
+            {% endif %}
 
 
         <div class="course-meta-main border-radius">
@@ -267,19 +271,20 @@
                 <div class="course-desc">
 
 
-                    {#
-                    <div class="course-meta__ad">
+                    {% if adVariation == 1 %}
+                    <div class="course-meta__ad course-ad-below">
                         <div class="row">
                             <div class="col-sm-6">
-                                {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                                {{ cc_ads.renderTextRowAd('course-top',{"adPosition": "below_title"})|raw }}
                             </div>
 
                             <div class="col-sm-6">
-                                {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
+                                {{ cc_ads.renderTextRowAd('course-top',{"adPosition": "below_title"})|raw }}
                             </div>
                         </div>
                     </div>
-                    #}
+                    {% endif %}
+
 
                     {% if courseRank is not empty %}
                         <strong>Class Central Course Rank </strong> <br/>
