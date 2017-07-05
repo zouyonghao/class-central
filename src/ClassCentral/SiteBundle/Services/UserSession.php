@@ -53,7 +53,7 @@ class UserSession
         'fb_authorize_start', 'fb_authorize_redirect',
         'review_save', 'review_create',
         'login','github_btn','pre_signup_add_to_library',
-        'credential_review_save','credential_review', 'ajax_user_signup_modal'
+        'credential_review_save','credential_review', 'ajax_user_signup_modal','maestro_udemy_courses'
     );
 
     private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);
@@ -118,6 +118,12 @@ class UserSession
         {
             return;
         }
+
+        // If its starts with maestro_
+        if(strpos($routeName, "maestro") === 0)
+        {
+            return;
+        }
         unset($routeParams['_route']);
         $routeParams = array_merge($routeParams, $request->query->all() );
         $routeData = array('name' => $routeName, 'params' => $routeParams);
@@ -128,13 +134,13 @@ class UserSession
             return;
         }
 
-        $logger = $this->container->get('logger');
+        // $logger = $this->container->get('logger');
 
         if(!empty($thisRoute))
         {
-            $logger->info( " LOGIN PREVIOUS" . $thisRoute['name']);
+            // $logger->info( " LOGIN PREVIOUS" . $thisRoute['name']);
         }
-        $logger->info(" LOGIN CURRENT" . $routeData['name']);
+        // $logger->info(" LOGIN CURRENT" . $routeData['name']);
 
         $session->set('last_route', $thisRoute);
         $session->set('this_route', $routeData);
