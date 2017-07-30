@@ -110,8 +110,8 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
             if($i == 20) break;
         }
 
-        $output->writeln();$output->writeln();
-        
+        $output->writeln("");$output->writeln("");
+
         $i= 0;
         foreach($coursesByCount as $courseId => $count)
         {
