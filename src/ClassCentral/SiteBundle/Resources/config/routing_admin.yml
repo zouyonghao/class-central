@@ -119,3 +119,7 @@ tags_show:
 tags_copy_courses:
     pattern:  /tags/copy-courses
     defaults: { _controller: "ClassCentralSiteBundle:Tag:copyCourses" }
+
+most_popular_courses:
+    pattern: /most-popular-courses
+    defaults: { _controller: "ClassCentralSiteBundle:Course:mostPopularCourses" }

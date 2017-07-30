@@ -12,6 +12,7 @@ use ClassCentral\SiteBundle\Services\Filter;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
+use ClassCentral\SiteBundle\Utility\CourseUtility;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -1734,6 +1735,104 @@ EOD;
         }
 
         return new Response( json_encode($response) );
+    }
+
+    /**
+     * Generrates a list of most popular MOOCs in a month
+     * @param Request $request
+     */
+    public function mostPopularCoursesAction(Request $request)
+    {
+        $month = $request->request->get('month');
+        $year =  $request->request->get('year');
+
+        $dt = new \DateTime;
+        if (!$month) {
+            $month = $dt->format('m');
+        }
+        if (!$year) {
+            $year = $dt->format('Y');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQueryBuilder();
+
+        $query->add('select', 'o')
+            ->add('from', 'ClassCentralSiteBundle:Offering o')
+            ->add('orderBy', 'o.startDate ASC')
+            ->andWhere('o.status != :status')
+            ->andWhere('MONTH(o.startDate) = :month')
+            ->andWhere('YEAR(o.startDate) = :year')
+            ->setParameter('status', Offering::COURSE_NA)
+            ->setParameter('month',$month)
+            ->setParameter('year',$year);
+
+        $coursesByCount = array();
+        $sessions = $query->getQuery()->getResult();
+        foreach ($sessions as $session)
+        {
+            $course = $session->getCourse();
+
+            if($course->getStatus() != CourseStatus::AVAILABLE
+                || $course->getPrice() != 0
+                || $session->getStatus() == Offering::START_DATES_UNKNOWN
+                || $session->getStatus() == Offering::COURSE_OPEN)
+            {
+                continue;
+            }
+
+            $courseId = $course->getId();
+            $timesAdded = $this->get('Cache')->get('course_interested_users_' . $courseId, function ($courseId){
+                return $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
+            }, array($courseId));
+            $timesOffered = 0;
+            foreach($course->getOfferings() as $o)
+            {
+                $states = CourseUtility::getStates( $o );
+                if( in_array( 'past', $states) || in_array( 'ongoing', $states) )
+                {
+                    $timesOffered++;
+                }
+            }
+            if ($timesOffered <2 )
+            {
+                $coursesByCount[$course->getId()] = $timesAdded;
+            }
+
+        }
+
+        arsort($coursesByCount);
+
+        $formatter = $this->container->get('course_formatter');
+        $repo = $em->getRepository('ClassCentralSiteBundle:Course');
+
+        // Blog Format
+        $i= 0;
+        $blogFormatHTML = '';
+        foreach($coursesByCount as $courseId => $count)
+        {
+            $c = $repo->find($courseId );
+            $blogFormatHTML .= $formatter->blogFormat( $c ) . "<br/>";
+            $i++;
+            if($i == 20) break;
+        }
+
+        // Email format
+        $i= 0;
+        $emailFormatHTML = '';
+        foreach($coursesByCount as $courseId => $count)
+        {
+            $c = $repo->find($courseId );
+            $emailFormatHTML .= $formatter->emailFormat( $c );
+            $i++;
+            if($i == 20) break;
+        }
+
+
+        return $this->render('ClassCentralSiteBundle:Course:mostPopularCourses.html.twig',array(
+            'emailFormat' => $emailFormatHTML,
+            'blogFormat' => $blogFormatHTML
+        ));
     }
 
 }
