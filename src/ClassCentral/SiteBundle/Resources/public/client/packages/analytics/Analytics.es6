@@ -1,12 +1,18 @@
-import _ from "lodash";
+import { camelCase, throttle } from "lodash";
 import { Client, addOns } from "packages/analytics/Keen";
 import globalProps from "packages/analytics/properties/globalProps";
+import { isInView } from "packages/utils/index";
 
 class Analytics {
 
   constructor(config) {
     this.config = config;
     this.Client = new Client(config);
+    this.ads = [];
+
+    if (config.trackAdImpressions) {
+      this.trackAdImpressions();
+    }
   }
 
   getTrackingProps(eventTrackingProps) {
@@ -20,7 +26,7 @@ class Analytics {
 
   track(eventName, eventTrackingProps) {
     const trackingProps = this.getTrackingProps(eventTrackingProps);
-    const methodName = _.camelCase(eventName);
+    const methodName = camelCase(eventName);
 
     if (this[methodName]) {
       this[methodName](trackingProps);
@@ -29,6 +35,36 @@ class Analytics {
     if (this.Client) {
       this.Client.addEvent(eventName, trackingProps);
     }
+  }
+
+  trackAdImpressions() {
+    document.addEventListener("DOMContentLoaded", () => {
+      this.getPageAds();
+    });
+
+    const fireImpression = throttle(() => {
+      this.ads.forEach((ad, index) => {
+        if (isInView(ad) && this.ads[index].hasAttribute("data-track")) {
+          try {
+            this.track(ad.dataset.track, JSON.parse(ad.dataset.trackProps));
+          } catch (e) {
+            this.track("AD_PROP_ERROR", ad.dataset.track);
+          }
+          this.ads[index].removeAttribute("data-track");
+        }
+      });
+    }, 200);
+
+    window.addEventListener("scroll", fireImpression);
+    window.addEventListener("resize", fireImpression);
+  }
+
+  getPageAds() {
+    const nodes = document.querySelectorAll("[data-track]");
+    this.ads = [].slice.call(nodes, 0);
+    window.dispatchEvent(new Event("scroll"));
+
+    return this.ads;
   }
 
   adClick(trackingProps) {

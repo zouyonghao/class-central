@@ -3150,6 +3150,7 @@ input.filter-search:focus {
     position: absolute;
     //max-height: 480px;
     overflow-y: auto;
+    display: none;
   }
 
   .table-column {
@@ -3158,8 +3159,11 @@ input.filter-search:focus {
     z-index: 1002;
     min-height: 700px;
     background: @beige;
-  }
 
+  }
+  .show-filter .filter-column {
+    display: block;
+  }
   .show-filter .table-column {
     left: 280px;
   }

@@ -1,8 +1,16 @@
 {% for ad in ads %}
     {%  if ad.visible %}
-        <div class="ad-wrap">
+          <div class="ad-wrap"
+            data-track="{{ ts.event('AD_IMPRESSION') }}"
+            data-track-props='{
+              "ad": {
+                "provider": "{{ ad.providerName }}",
+                "unit": "Sidebar Text Ad",
+                "title": "{{ ad.title }}"
+              }
+            }'
+          >
             <div class="ad-content">
-
                 <a class="ad-title" href="{{ ad.url }}" target="_blank"
                    onmousedown='
                     CC.track("{{ ts.event('AD_CLICK') }}", {

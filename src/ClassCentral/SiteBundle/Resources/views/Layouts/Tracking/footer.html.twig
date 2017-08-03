@@ -5,26 +5,6 @@
 
 {# CC Anlatyics (via keen, ga, etc ) #}
 <script type="text/javascript">
-// init CC Analytics
-  window.CC.Class.Analytics = new window.Analytics({
-    projectId: "{{ keen_project_id }}",
-    writeKey: "{{keen_write_key }}",
-    globalProps: {
-      {% if page is defined %}
-        page: "{{ page }}",
-      {% endif %}
-      {% if userInfo is defined %}
-        user: {{ userInfo|raw }},
-      {% endif %}
-      {% if pageMetadata is defined %}
-        metadata: {{ pageMetadata|json_encode()|raw }},
-      {% endif %}
-      session_id: "{{ app.session.getId() }}"
-    }
-  });
-
-  CC.track = window.CC.Class.Analytics.track.bind(window.CC.Class.Analytics);
-
   // track pageview
   CC.track("{{ ts.event('PAGEVIEW') }}");
 

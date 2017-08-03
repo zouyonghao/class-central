@@ -4,7 +4,8 @@ const ModernizrWebpackPlugin = require('modernizr-webpack-plugin');
 module.exports = {
   context: __dirname + '/src/ClassCentral/SiteBundle/Resources/public/client',
   entry: {
-    'cc': './Entry.jsx',
+    'cc': './CC.js',
+    'analytics': './Analytics.js',
   },
   resolve: {
     alias: {

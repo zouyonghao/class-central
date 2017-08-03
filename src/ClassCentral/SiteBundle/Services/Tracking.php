@@ -11,6 +11,7 @@ class Tracking {
     const PAGEVIEW_INSTITUTION = 'pageview_institutition';
     const PAGEVIEW_SUBJECT = 'pageview_subject';
     const AD_CLICK = 'ad_click';
+    const AD_IMPRESSION = 'ad_impression';
     const TIP_CLICK = 'tip_click';
     const GO_TO_CLASS_CLICK = 'go_to_class_click';
 
