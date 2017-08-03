@@ -49,7 +49,14 @@ class CourseFormatter {
         $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
         $bookmarkUrl = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'follow'=>true));
         $name = $course->getName();
-        $line1 = "<a href='$url'><b>$name</b></a>";
+
+        $newCourseTxt = '';
+        if($course->isCourseNew())
+        {
+            $newCourseTxt = '[New] ';
+        }
+
+        $line1 = "$newCourseTxt<a href='$url'><b>$name</b></a>";
 
         // LINE 2
         if($course->getInstitutions()->count() > 0)
@@ -93,7 +100,7 @@ class CourseFormatter {
                 $formattedRatings = ReviewUtility::getRatingStars( $ratings );
                 $numRatings =  $reviews['ratingCount'];
                 $post = ($numRatings == 1) ? 'rating' : 'ratings';
-                $ratingsLine = " | $formattedRatings (<a href='$url#reviews'>$numRatings $post</a>) ";
+                $ratingsLine = "$formattedRatings (<a href='$url#reviews'>$numRatings $post</a>) |";
             }
 
             $lineDesc = '';
@@ -107,7 +114,7 @@ class CourseFormatter {
             }
 
 
-            $line3 = "<b> <a href='$bookmarkUrl' target='_blank'>Bookmark</a> $ratingsLine |  $displayDate </b><br/>";
+            $line3 = "$ratingsLine $displayDate<br/>";
         }
 
         return $line1 . '<br/>' . $line2 . '<br/>' .$line3 . '<br/>';

@@ -163,6 +163,26 @@ class CourseReportCommand extends ContainerAwareCommand
                 $network->outLevel(ucfirst($level), $count);
                 $network->beforeOffering();
 
+                uasort($offerings,function($o1,$o2){
+                    $rs = $this->getContainer()->get('review');
+                    $o1reviews = $rs->getReviews($o1->getCourse()->getId());
+                    $o1numRatings = $o1reviews['ratingCount'];
+                    if($o1numRatings < 20 && $o1->getCourse()->isCourseNew())
+                    {
+                        $o1numRatings = 25;
+                    }
+
+                    $o2reviews = $rs->getReviews($o2->getCourse()->getId());
+                    $o2numRatings = $o2reviews['ratingCount'];
+                    if($o2numRatings < 20 && $o2->getCourse()->isCourseNew())
+                    {
+                        $o2numRatings = 25;
+                    }
+
+
+                    return $o1numRatings < $o2numRatings;
+                });
+
                 foreach($offerings as $offering)
                 {
                     $network->outOffering( $offering );
