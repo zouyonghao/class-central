@@ -270,6 +270,14 @@ tag_game_programming:
       permanent: true # this is for 301
       slug: game-development
 
+tag_machine_learning:
+    pattern: /tag/machine learning
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: ClassCentralSiteBundle_stream
+      permament: true # this is for 301
+      slug: machine-learning
+
 old_subject_digital-media-and-video-games:
    pattern: /subject/digital-media-and-video-games
    defaults:
