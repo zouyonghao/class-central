@@ -124,8 +124,7 @@ class Api
       $esCourses = $this->container->get('es_courses');
       $counts = $esCourses->getCounts();
       $router =  $this->container->get('router');
-
-      $justAnnouncedCoursesCount = isset($counts['sessions']['recentlyAdded'])? $counts['sessions']['recentlyAdded']:0;
+      $justAnnouncedCoursesCount = isset($counts['sessions']['recentlyadded'])? $counts['sessions']['recentlyadded']:0;
       $selfPacedCoursesCount = isset($counts['sessions']['selfpaced'])? $counts['sessions']['selfpaced']:0;
       $startsNowCoursesCount = isset($counts['sessions']['recent'])? $counts['sessions']['recent']:0;
 
@@ -136,7 +135,7 @@ class Api
               'numCourses' => 10
           ],
           'justAnnounced' => [
-              'url' => '/courses//recentlyAdded',
+              'url' => '/courses/recentlyAdded',
               'name' => 'Just Announced',
               'numCourses' => $justAnnouncedCoursesCount
           ],
