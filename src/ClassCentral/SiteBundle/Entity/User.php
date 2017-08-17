@@ -406,6 +406,17 @@ class User implements UserInterface, \Serializable
         }
     }
 
+    public function getFirstName()
+    {
+        if(!empty($this->name))
+        {
+            $names = explode(' ', $this->name);
+            return $names[0];
+        }
+
+        return 'User Menu';
+    }
+
     /**
      * Set created
      *

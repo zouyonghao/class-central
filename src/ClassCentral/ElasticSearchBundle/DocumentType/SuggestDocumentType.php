@@ -15,6 +15,7 @@ use ClassCentral\ElasticSearchBundle\Types\DocumentType;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use ClassCentral\SiteBundle\Entity\Institution;
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Language;
 use ClassCentral\SiteBundle\Entity\Stream;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
@@ -57,17 +58,16 @@ class SuggestDocumentType extends DocumentType{
      */
     public function getBody()
     {
-        $indexer = $this->container->get('es_indexer');
-        $em = $this->container->get('doctrine')->getManager();
         $rs = $this->container->get('review');
-        $cache = $this->container->get('cache');
         $router = $this->container->get('router');
+        $followService = $this->container->get('follow');
         $entity = $this->entity ;
 
         $body = array();
         $payload = array(); // contains data that would be useful for the frontend to format results
         if($this->entity instanceof Course)
         {
+
             $payload['type'] = 'course';
             $body['name_suggest']['input'] = array_merge(array($entity->getName()), $this->tokenize( $entity->getName() )) ;
             $body['name_suggest']['output'] = $entity->getName();
@@ -95,6 +95,15 @@ class SuggestDocumentType extends DocumentType{
                 $provider = $entity->getInitiative()->getName();
             }
             $payload['provider'] = $provider;
+
+            // Get Institution
+            $institutionName = '';
+            if(!$entity->getInstitutions()->isEmpty())
+            {
+                $ins = $entity->getInstitutions()->first();
+                $institutionName = $ins->getName();
+            }
+            $payload['institution'] = $institutionName;
             // Url
             $payload['url'] = $router->generate('ClassCentralSiteBundle_mooc', array('id' => $entity->getId(), 'slug' => $entity->getSlug()));
             $body['name_suggest']['payload'] = $payload;
@@ -111,6 +120,7 @@ class SuggestDocumentType extends DocumentType{
 
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCourseCount();
+            $payload['numFollows'] = $followService->getNumFollowers(Item::ITEM_TYPE_SUBJECT, $entity->getId());
             // Url
             $payload['url'] = $router->generate('ClassCentralSiteBundle_stream', array('slug' => $entity->getSlug()));
             $body['name_suggest']['payload'] = $payload;
@@ -128,6 +138,8 @@ class SuggestDocumentType extends DocumentType{
             $this->tokenize( $entity->getName() );
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCount();
+            $payload['numFollows'] = $followService->getNumFollowers(Item::ITEM_TYPE_PROVIDER, $entity->getId());
+
             // Url
             $payload['url'] = $router->generate('ClassCentralSiteBundle_initiative', array('type' => strtolower($entity->getCode()) ));
             $body['name_suggest']['payload'] = $payload;
@@ -159,6 +171,7 @@ class SuggestDocumentType extends DocumentType{
 
             $payload['name'] = $entity->getName();
             $payload['count'] = $entity->getCount();
+            $payload['numFollows'] = $followService->getNumFollowers(Item::ITEM_TYPE_INSTITUTION, $entity->getId());
             // Url
             $path = '';
             if($entity->getIsUniversity())
@@ -195,6 +208,7 @@ class SuggestDocumentType extends DocumentType{
 
             $payload['name'] = $entity->getName();
             $payload['count'] = 5;
+            $payload['numFollows'] = $followService->getNumFollowers(Item::ITEM_TYPE_CREDENTIAL, $entity->getId());
             // Url
             $payload['url'] = $router->generate('credential_page', array('slug' => $entity->getSlug()));
             $body['name_suggest']['payload'] = $payload;

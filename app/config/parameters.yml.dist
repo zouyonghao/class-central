@@ -74,19 +74,19 @@ parameters:
 
     # mashape api key
     mashape_api_key : ~
-    
+
     #sumo site id
     sumo_site_id: ~
 
     # Slack Webhook
     slack_webhook: ~
-    
-    # Elasticsearch	
+
+    # Elasticsearch
     es_host: 'http://localhost'
 
     # Inspectlet
     inspectlet_id: ~
-    
+
     # Keen
     keen_project_id : ~
     keen_write_key : ~
@@ -107,3 +107,4 @@ parameters:
     imgix_token: ~
 
     webpack_dev_server: false
+    react_server: ~

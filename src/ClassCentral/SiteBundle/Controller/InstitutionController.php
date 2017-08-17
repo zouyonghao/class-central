@@ -89,7 +89,7 @@ class InstitutionController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('institution_show', array('id' => $entity->getId())));
-            
+
         }
 
         return $this->render('ClassCentralSiteBundle:Institution:new.html.twig', array(
@@ -285,7 +285,7 @@ class InstitutionController extends Controller
         ];
 
 
-        return $this->render('ClassCentralSiteBundle:Institution:view.html.twig', 
+        return $this->render('ClassCentralSiteBundle:Institution:view.html.twig',
                 array(
                     'institution' => $institution,
                     'page'=>'institution',
@@ -308,7 +308,7 @@ class InstitutionController extends Controller
                     'free' => $free,
                     'related' => $related,
                     'pageMetadata' => $pageMetadata
-                ));                
+                ));
     }
 
     /**
@@ -319,7 +319,7 @@ class InstitutionController extends Controller
     {
         // Autologin if a token exists
         $this->get('user_service')->autoLogin($request);
-        
+
         return $this->getInstitutionsView(true);
     }
 
@@ -370,6 +370,7 @@ class InstitutionController extends Controller
                 $institution = array();
                 $institution['id'] = $entity->getId();
                 $institution['count'] = $count;
+                $institution['courseCount'] = $count;
                 $institution['slug'] = $slug;
                 $institution['name'] = $entity->getName();
                 $institutions[ $slug ] = $institution;

@@ -2,6 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+parameters:
+    cache_react: true
+
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
@@ -54,6 +57,8 @@ twig:
       udemy_url: %udemy_url%
       google_auth_client_id: %google_auth_client_id%
       assetService: @asset
+      apiService: @api
+      reactService: @react
       ts: @tracking
       webpack_dev_server: %webpack_dev_server%
 # Assetic Configuration
@@ -195,6 +200,12 @@ services:
   tracking:
         class: ClassCentral\SiteBundle\Services\Tracking
         arguments: ['@service_container']
+  api:
+        class: ClassCentral\SiteBundle\Services\Api
+        arguments: ['@service_container']
+  react:
+        class: ClassCentral\SiteBundle\Services\React
+        arguments: ['@service_container','%cache_react%']
   review:
         class: ClassCentral\SiteBundle\Services\Review
         arguments: ['@service_container']

@@ -45,6 +45,8 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
         $em = $this->getContainer()->get('doctrine')->getManager();
         $qb = $em->createQueryBuilder();
         $cache = $this->getContainer()->get('cache');
+        $esCourses = $this->getContainer()->get('es_courses');
+        $counts = $esCourses->getCounts();
 
         $indexCourses = true;
         if( $input->getOption('courses') == 'No' )
@@ -170,14 +172,18 @@ class ElasticSearchIndexerCommand extends ContainerAwareCommand{
             );
             foreach($subjects['parent'] as $subject)
             {
-                $indexer->index( $subjectRepository->find($subject['id']) );
+                $sub = $subjectRepository->find($subject['id']);
+                $sub->setCourseCount( $counts['subjects'][$sub->getId()]);
+                $indexer->index( $sub );
             }
 
             foreach($subjects['children'] as $childSubjects)
             {
                 foreach( $childSubjects as $subject)
                 {
-                    $indexer->index( $subjectRepository->find($subject['id']) );
+                    $sub = $subjectRepository->find($subject['id']);
+                    $sub->setCourseCount( $counts['subjects'][$sub->getId()]);
+                    $indexer->index( $sub );
                 }
             }
 

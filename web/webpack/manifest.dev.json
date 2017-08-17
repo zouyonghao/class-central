@@ -1,5 +1,6 @@
 {
   "cc.css": "cc.dev.css",
   "cc.js": "cc.dev.js",
-  "analytics.js": "analytics.dev.js"
+  "analytics.js": "analytics.dev.js",
+  "cc-header.css": "cc-header.dev.css"
 }

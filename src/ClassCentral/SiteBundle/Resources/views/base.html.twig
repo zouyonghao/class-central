@@ -29,10 +29,10 @@
     <![endif]-->
 
     <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc.css') }}" />
+    <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-header.css') }}" />
 
     <!-- Google+ Direct connect -->
     <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
-    <script src="{{ '/webpack/modernizr.js' }}"></script>
     <script type="text/javascript">
         user_logged_in = 0;
         {% if app.user %}
@@ -61,12 +61,10 @@
 <div class="siteWrap">
 
 {% include 'ClassCentralSiteBundle:Helpers:sprites.svg.twig' %}
+{% set navbarData = apiService.getNavbarData() %}
 
-{% if page is defined %}
-    {% render controller('ClassCentralSiteBundle:Navigation:index', {'page': page}) %}
-{% else %}
-    {% render controller('ClassCentralSiteBundle:Navigation:index', {'page':'admin'}) %}
-{% endif %}
+<div id="header">{{ reactService.component('header', '',navbarData)|raw }}</div>
+
 {%  block contentheader %}
 {% endblock %}
 
@@ -165,25 +163,17 @@
         {% endfor %}
     </div>
 </footer>
-{% include 'ClassCentralSiteBundle:Helpers:search.template.html.twig' %}
 
+<script>
+    window.__PRELOADED_STATE__ = {{ reactService.component('header', 'state', navbarData)|raw }};
+</script>
 <script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
 
 {% if is_granted('ROLE_ADMIN') %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.8/clipboard.min.js"></script>
 {% endif %}
 
-{# headroom #}
-<style type="text/css">
-    .headroom {position: fixed;top: 0;left: 0;right: 0;transition: all .2s ease-in-out;}
-    .headroom--unpinned {top: -100px;}
-    .headroom--pinned {top: 0;}
-</style>
-
 <script type="text/javascript">
-    $(".navbar-fixed-top").headroom();
-    $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
-
     {# show the user a personalization prompts #}
     {% if app.user and app.user.follows| length < 5 and app.request.attributes.get('_route') != 'user_profile' and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' %}
         if(!isMobile.phone) {
@@ -227,6 +217,5 @@
 {% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
 
 </div>
-
 </body>
 </html>

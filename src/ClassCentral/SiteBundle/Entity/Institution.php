@@ -10,6 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Institution
 {
+    public static $INS_SHORT_ALIAS = [
+        'stanford' => 'Stanford',
+        'mit' => 'MIT',
+        'harvard'=>'Harvard',
+        'gatech' => 'Gerogia Tech',
+        'tsu' => 'Tsinghua',
+        'iimb' => 'IIM Banglore',
+        'delft' => 'Delft',
+        'ubc' => 'UBC',
+        'umich' => 'Michigan'
+    ];
+
     /**
      * @var integer $id
      */
@@ -339,5 +351,18 @@ class Institution
     public function getContinent()
     {
         return $this->continent;
+    }
+
+    /**
+     * Returns a short name instead of the whole name
+     */
+    public function getShortAlias()
+    {
+        if(isset(self::$INS_SHORT_ALIAS[$this->getSlug()]))
+        {
+            return self::$INS_SHORT_ALIAS[$this->getSlug()];
+        }
+
+        return $this->getName();
     }
 }

@@ -3,7 +3,7 @@ const Follow = require("./cc.follow.js").default;
 const NextCourse = (function(){
     function init() {
         $( document).ready(function () {
-            $('#meet-your-next-course').click(showPickSubjectsStep);
+            $('[data-action="meet-your-next-course"]').click(showPickSubjectsStep);
         });
     }
 

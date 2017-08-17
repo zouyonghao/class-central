@@ -15,11 +15,11 @@
 
     {% endif %}
 
-{% endblock %}  
+{% endblock %}
 
 {% block customJS %}
     $(document).ready(function(){
-        $('.icon-link').click(function(){        
+        $('.icon-link').click(function(){
             var feedback = $(this).attr("value");
             $('#search-feedback').slideUp();
             try{
@@ -43,44 +43,32 @@
             }
         );
 
-     });    
+     });
 {% endblock %}
-    
+
 {% block content %}
 
-    <h1>MOOC search</h1>
-
-    <div class="search-wrapper" id="general-search">
-        {% include 'ClassCentralSiteBundle:Helpers:search_form.html.twig' %}
-    </div>
-
-
     {% if keywords is not null and keywords|length %}
-
-        {% if app.user %}
-            {# user is logged in #}
-            {% if user_session.isSearchTermAddedToMT(keywords) %}
-                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-added"
-                   title="Added to MOOC tracker" href="{{ path('mooctracker_remove_search_term',{'searchTerm' : keywords|url_encode }) }}">Remove "{{ keywords }}" from MOOC tracker</a>
-            {% else %}
-                <a class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
-                   href="{{ path('mooctracker_add_search_term',{'searchTerm' : keywords|url_encode }) }}"
-                   title="Receive email notifications when new courses matching {{ keywords }} are added or about to start" rel="nofollow">create alerts for "{{  keywords }}"</a>
-            {% endif %}
-        {% else %}
-            {# user has not signed up #}
-            <a id='btn_add_search_term_to_mooc_tracker' class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
-               href="#"
-               title="Receive email notifications when new courses matching '{{ keywords }}' are added or about to start" rel="nofollow">create alerts for "{{  keywords }}"</a>
-        {% endif %}
-
-
-
-        <div class="searchresultsheader">
-            <h2>Search Results</h2>
-            <div id='search-feedback'>Are these results helpful? <i class="glyphicon glyphicon-ok icon-black icon-link" value="YES"></i> <i class="glyphicon glyphicon-remove icon-black icon-link" value="NO"></i></div>
-
+        <div class="classcentral-style">
+          <h1 class="head-1 margin-bottom-xlarge" style="font-size: 32px;">Search results for "{{keywords}}"</h1>
+          {% if app.user %}
+              {# user is logged in #}
+              {% if user_session.isSearchTermAddedToMT(keywords) %}
+                  <a class="btn-white btn-course-cc btn-mooc-tracker-added"
+                     title="Added to MOOC tracker" href="{{ path('mooctracker_remove_search_term',{'searchTerm' : keywords|url_encode }) }}">Remove "{{ keywords }}" from MOOC tracker</a>
+              {% else %}
+                  <a class="btn-white btn-course-cc btn-mooc-tracker-add"
+                     href="{{ path('mooctracker_add_search_term',{'searchTerm' : keywords|url_encode }) }}"
+                     title="Receive email notifications when new courses matching {{ keywords }} are added or about to start" rel="nofollow">Create alerts for "{{  keywords }}"</a>
+              {% endif %}
+          {% else %}
+              {# user has not signed up #}
+              <a id='btn_add_search_term_to_mooc_tracker' class="btn btn-primary btn-course-cc btn-mooc-tracker-add"
+                 href="#"
+                 title="Receive email notifications when new courses matching '{{ keywords }}' are added or about to start" rel="nofollow">Create alerts for "{{  keywords }}"</a>
+          {% endif %}
         </div>
+
         {% if total != 0 %}
             <section class="courses">
                 <h2 class="section-heading">
@@ -110,4 +98,3 @@
     {% endif %}
 
 {% endblock %}
-

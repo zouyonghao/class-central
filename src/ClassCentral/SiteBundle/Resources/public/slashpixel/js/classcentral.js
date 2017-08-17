@@ -810,7 +810,7 @@ jQuery(function($) {
         }catch (e){}
     });
 
-    $('#navbar-create-free-account').click( function(e){
+    $(document).on('click', '#navbar-create-free-account', function(e){
         e.preventDefault();
         Utilities.hideWidgets();
         Signup.showSignupModal("navbar_create_free_account");

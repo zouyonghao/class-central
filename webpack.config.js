@@ -6,12 +6,13 @@ module.exports = {
   entry: {
     'cc': './CC.js',
     'analytics': './Analytics.js',
+    'cc-header': './Header.less',
   },
   resolve: {
     alias: {
       'handlebars' : 'handlebars/dist/handlebars.js'
     },
-    extensions: ['.js', '.jsx', '.es6', '.less'],
+    extensions: ['.js', '.jsx', '.es6', '.less', '.css'],
     modules: ['node_modules', 'client']
   },
   module: {
@@ -76,18 +77,6 @@ module.exports = {
         exclude: /(node_modules|server)/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: [
-              ["env", {
-                "targets": {
-                  "browsers": ["last 2 versions"]
-                }
-              }],
-              ['react'],
-              ['es2015'],
-              ['stage-0']
-            ]
-          }
         }
       }
     ]
