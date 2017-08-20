@@ -13,6 +13,7 @@ use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Services\UserSession;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
+use ClassCentral\SiteBundle\Utility\ReadableDate;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -1412,7 +1413,6 @@ EOD;
             $additionalParams['session'] = 'upcoming,selfpaced,recent,ongoing';
         }
 
-        $data = $cl->collection($collection['courses'],$request,$additionalParams);
 
         $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
 
@@ -1710,6 +1710,19 @@ EOD;
         $term = $request->query->get('term');
         $cache = $this->get('cache');
 
+        $todaysDate = new \DateTime();
+        $dealStartDate = new \DateTime("2017-08-21 00:00:00", new \DateTimeZone("America/Los_Angeles"));
+        $dealEndDate = new \DateTime("2017-08-31 23:59:59",new \DateTimeZone("America/Los_Angeles"));
+        $dealOn = false;
+        $timeLeft = '';
+        if($todaysDate > $dealStartDate && $todaysDate < $dealEndDate)
+        {
+            $dealOn = true;
+            $rd = new ReadableDate();
+            $timeLeft = $rd->get($dealEndDate->getTimestamp());
+        }
+
+
         $response = array(
             'success' => false,
             'tableRows' => array(),
@@ -1723,7 +1736,9 @@ EOD;
             {
 
                 $courseTableRows = $this->render('ClassCentralSiteBundle:Course:udemy.courses.html.twig',array(
-                    'udemyCourses' => $udemyCourses
+                    'udemyCourses' => $udemyCourses,
+                    'isDeal' => $dealOn,
+                    'timeLeft' => $timeLeft
                 ))->getContent();
 
                 $response = array(
