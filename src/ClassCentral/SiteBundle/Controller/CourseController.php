@@ -1413,6 +1413,7 @@ EOD;
             $additionalParams['session'] = 'upcoming,selfpaced,recent,ongoing';
         }
 
+        $data = $cl->collection($collection['courses'],$request,$additionalParams);
 
         $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
 
