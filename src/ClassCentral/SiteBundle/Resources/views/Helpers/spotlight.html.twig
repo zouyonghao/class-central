@@ -11,7 +11,7 @@
                 <div class="col-xs-6 col-sm-4 col-md-3 spotlight-item-wrap {{ spotlightMap[spotlight.type].visible }} {% if spotlight.position != 1 and spotlight.position !=2 %} hidden-xs {% endif %}" id="home-spotlight-{{ spotlight.position }}">
                   <a class="spotlight-item {{ spotlightMap[spotlight.type].class }}" href="{{ spotlight.url }}"
                     {% if spotlight.type == 5 %}
-                    data-track="{{ ts.event('AD_IMPRESSION') }}"
+                    data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
                     data-track-props='{
                       "ad": {
                         "provider": "{{ spotlight.provider }}",

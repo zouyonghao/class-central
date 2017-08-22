@@ -68,7 +68,7 @@
   window.CC.Class.Analytics = new window.Analytics({
     projectId: "{{ keen_project_id }}",
     writeKey: "{{keen_write_key }}",
-    trackAdImpressions: true,
+    trackImpressions: true,
     globalProps: {
       {% if page is defined %}
         page: "{{ page }}",
@@ -84,5 +84,5 @@
   });
 
   CC.track = window.CC.Class.Analytics.track.bind(window.CC.Class.Analytics);
-  CC.getPageAds = window.CC.Class.Analytics.getPageAds.bind(window.CC.Class.Analytics);
+  CC.getTrackImpressionNodes = window.CC.Class.Analytics.getTrackImpressionNodes.bind(window.CC.Class.Analytics);
 </script>

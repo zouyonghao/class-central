@@ -1,7 +1,7 @@
 {% for ad in ads %}
     {%  if ad.visible %}
           <div class="ad-wrap"
-            data-track="{{ ts.event('AD_IMPRESSION') }}"
+            data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
             data-track-props='{
               "ad": {
                 "provider": "{{ ad.providerName }}",

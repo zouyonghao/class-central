@@ -10,9 +10,10 @@ class Analytics {
     this.Client = new Client(config);
     this.ads = [];
 
-    if (config.trackAdImpressions) {
-      this.trackAdImpressions();
+    if (config.trackImpressions) {
+      this.trackImpressions();
     }
+    this.trackClicks();
   }
 
   getTrackingProps(eventTrackingProps) {
@@ -37,34 +38,65 @@ class Analytics {
     }
   }
 
-  trackAdImpressions() {
+  trackClicks() {
+    const fireClick = (target) => {
+      try {
+        window.ga("send", "event",
+          target.dataset.trackClick,
+          target.dataset.trackProps.type,
+          target.dataset.trackProps.title,
+        );
+        this.track(
+          target.dataset.trackClick,
+          JSON.parse(target.dataset.trackProps),
+        );
+      } catch (e) {
+        this.track("CLICK_PROP_ERROR", target.dataset.trackClick);
+      }
+    };
+
     document.addEventListener("DOMContentLoaded", () => {
-      this.getPageAds();
+      document.addEventListener("mousedown", function handler(event) {
+        for (let target = event.target; target && target !== this; target = target.parentNode) {
+          if (target.matches("[data-track-click]")) {
+            fireClick.call(target, target);
+            break;
+          }
+        }
+      }, false);
+    });
+  }
+
+  trackImpressions() {
+    document.addEventListener("DOMContentLoaded", () => {
+      this.getTrackImpressionNodes();
     });
 
     const fireImpression = throttle(() => {
-      this.ads.forEach((ad, index) => {
-        if (isInView(ad) && this.ads[index].hasAttribute("data-track")) {
-          try {
-            this.track(ad.dataset.track, JSON.parse(ad.dataset.trackProps));
-          } catch (e) {
-            this.track("AD_PROP_ERROR", ad.dataset.track);
+      if (this.impressionNodes && this.impressionNodes.length) {
+        this.impressionNodes.forEach((node, index) => {
+          if (isInView(node) && this.impressionNodes[index].hasAttribute("data-track-impression")) {
+            try {
+              this.track(node.dataset.trackImpression, JSON.parse(node.dataset.trackProps));
+            } catch (e) {
+              this.track("IMPRESSION_PROP_ERROR", node.dataset.trackImpression);
+            }
+            this.impressionNodes[index].removeAttribute("data-track-impression");
           }
-          this.ads[index].removeAttribute("data-track");
-        }
-      });
+        });
+      }
     }, 200);
 
     window.addEventListener("scroll", fireImpression);
     window.addEventListener("resize", fireImpression);
   }
 
-  getPageAds() {
-    const nodes = document.querySelectorAll("[data-track]");
-    this.ads = [].slice.call(nodes, 0);
+  getTrackImpressionNodes() {
+    const nodes = document.querySelectorAll("[data-track-impression]");
+    this.impressionNodes = [].slice.call(nodes, 0);
     window.dispatchEvent(new Event("scroll"));
 
-    return this.ads;
+    return this.impressionNodes;
   }
 
   adClick(trackingProps) {

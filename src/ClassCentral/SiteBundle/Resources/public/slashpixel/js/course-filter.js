@@ -49,7 +49,7 @@ jQuery(function($) {
             filterWrap.addClass("show-filter");
         }
         //}
-        CC.getPageAds();
+        CC.getTrackImpressionNodes();
     });
 
     function toggleActive(e, current) {
@@ -202,7 +202,7 @@ jQuery(function($) {
 
                     updateLoadMore( page + 1, response.numCourses);
                 }
-                CC.getPageAds();
+                CC.getTrackImpressionNodes();
             });
 
     }
