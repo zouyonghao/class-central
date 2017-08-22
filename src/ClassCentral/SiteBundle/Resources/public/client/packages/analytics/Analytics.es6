@@ -41,14 +41,16 @@ class Analytics {
   trackClicks() {
     const fireClick = (target) => {
       try {
+        const trackProps = JSON.parse(target.dataset.trackProps);
+
         window.ga("send", "event",
           target.dataset.trackClick,
-          target.dataset.trackProps.type,
-          target.dataset.trackProps.title,
+          trackProps.type,
+          trackProps.title,
         );
         this.track(
           target.dataset.trackClick,
-          JSON.parse(target.dataset.trackProps),
+          trackProps,
         );
       } catch (e) {
         this.track("CLICK_PROP_ERROR", target.dataset.trackClick);
