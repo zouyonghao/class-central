@@ -48,11 +48,14 @@
                     </div>
 
                     {% if error %}
-                        <div>{{ error.message }}</div>
+                        {% set errorInfo = user_service.generateLoginErrorMessage(last_username) %}
+                        <div>{{ errorInfo.message }}</div>
                         <script type="text/javascript">
                             CC.track("failed_logins", {
                                     failed_login_error: "{{ error.message }}",
-                                    failed_login_email: "{{ last_username }}"
+                                    failed_login_email: "{{ last_username }}",
+                                    failed_login_display_message: "{{ errorInfo.message }}",
+                                    failed_login_user_exists: {{ errorInfo.user_account_exists }}
                             });
                         </script>
                     {% endif %}

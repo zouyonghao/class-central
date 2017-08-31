@@ -893,4 +893,26 @@ class User {
         return self::getUserMetaDataForAnalyticsJson($user);
     }
 
+    public function generateLoginErrorMessage($email)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $user = $em->getRepository('ClassCentralSiteBundle:User')->findByEmail(strtolower($email));
+        if ($user)
+        {
+            // Correct email. Wrong password
+            return [
+                'message' => "That password is incorrect. Try again.",
+                'user_account_exists' => true,
+            ];
+        }
+        else
+        {
+            // Wrong email
+            return [
+                'message' => "Couldn't find your Class Central account.",
+                'user_account_exists' => false
+            ];
+        }
+    }
+
 } 
