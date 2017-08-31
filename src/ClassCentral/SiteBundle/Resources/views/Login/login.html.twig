@@ -8,7 +8,7 @@
      <meta property="og:url" content="https://www.class-central.com/login" />
      <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/ccprofilepic.png">
      <meta property="og:site_name" content="Class Central"/>
-     <meta property="og:description" content="Class Central login. LoginStay updated on courses that match your interests" />
+     <meta property="og:description" content="Class Central login. Stay updated on courses that match your interests" />
      <meta property="og:type" content="website" />
      <meta property="fb:admins" content="{{ fb_admins }}" />
 
@@ -49,6 +49,12 @@
 
                     {% if error %}
                         <div>{{ error.message }}</div>
+                        <script type="text/javascript">
+                            CC.track("failed_logins", {
+                                    failed_login_error: "{{ error.message }}",
+                                    failed_login_email: "{{ last_username }}"
+                            });
+                        </script>
                     {% endif %}
 
                     <form action="{{ path('login_check') }}" method="post">
