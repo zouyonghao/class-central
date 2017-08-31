@@ -541,6 +541,9 @@ class UserController extends Controller
                     }
                 }
                 $session->set('fpSendEmail',true);
+                $session->set('ccUserId',$user->getId());
+                $session->set('ccEmailAdd',$user->getEmail());
+                $session->set('ccLastLogin',$user->getLastLogin()->format(\DateTime::ISO8601));
             }
             else
             {
