@@ -271,7 +271,7 @@ class Courses {
 
         $params['index'] = $this->indexName;
         $params['type'] = 'course';
-        $params['body']['size'] = 1000;
+        $params['body']['size'] = 2000;
 
         if( isset($criteria['range']) || isset( $criteria['bool'] ) )
         {

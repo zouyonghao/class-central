@@ -48,8 +48,36 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
         }
 
         $em  = $this->getContainer()->get('doctrine')->getManager();
+        $coursesByCount = array();
 
+        // Get Courses added in the last 45 days
+        $query = $em->createQueryBuilder();
+        $created = new \DateTime();
+        $created->sub(new \DateInterval("P45D"));
 
+        $query->add('select', 'c')
+            ->add('from', 'ClassCentralSiteBundle:Course c')
+            ->andWhere('c.status = :status')
+            ->andWhere('c.created > :created')
+            ->setParameter('status', 0)
+            ->setParameter('created',$created->format('Y-m-d'));
+        $recentCourses = $query->getQuery()->getResult();
+
+        foreach ($recentCourses as $recentCourse)
+        {
+
+            if($recentCourse->getInitiative() && $recentCourse->getInitiative()->getName() == 'Coursera')
+            {
+                $courseId = $recentCourse->getId();
+                $timesAdded = $this->getContainer()->get('Cache')->get('course_interested_users_' . $courseId, function ($courseId){
+                    return $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
+                }, array($courseId));
+
+                $coursesByCount[$courseId] = $timesAdded;
+            }
+        }
+
+        // Get courses starting in the month given
         $query = $em->createQueryBuilder();
 
         $query->add('select', 'o')
@@ -63,7 +91,6 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
             ->setParameter('year',$year);
 
         $sessions = $query->getQuery()->getResult();
-        $coursesByCount = array();
         foreach ($sessions as $session)
         {
             $course = $session->getCourse();
@@ -89,11 +116,10 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
                     $timesOffered++;
                 }
             }
-            if ($timesOffered <2 )
+            if ($timesOffered <1 )
             {
                 $coursesByCount[$course->getId()] = $timesAdded;
             }
-
         }
 
         arsort($coursesByCount);
