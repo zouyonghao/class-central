@@ -902,7 +902,7 @@ class User {
             // Correct email. Wrong password
             return [
                 'message' => "That password is incorrect. Try again.",
-                'user_account_exists' => true,
+                'user_account_exists' => 1,
             ];
         }
         else
@@ -910,7 +910,7 @@ class User {
             // Wrong email
             return [
                 'message' => "Couldn't find your Class Central account.",
-                'user_account_exists' => false
+                'user_account_exists' => 0
             ];
         }
     }
