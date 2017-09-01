@@ -55,6 +55,7 @@ class LoginController extends Controller{
         return $this->render(
             'ClassCentralSiteBundle:Login:login.html.twig',
             array(
+                'page' => 'auth',
                 // last username entered by the user
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                 'error'         => $error,
@@ -490,7 +491,9 @@ class LoginController extends Controller{
             return $this->redirect($this->generateUrl('user_library'));
         }
 
-        return $this->render('ClassCentralSiteBundle:Login:login.via.email.html.twig');
+        return $this->render('ClassCentralSiteBundle:Login:login.via.email.html.twig', array(
+          'page' => 'auth',
+        ));
     }
 
     /*
@@ -504,6 +507,7 @@ class LoginController extends Controller{
         $templating = $this->get('templating');
         $session = $this->get('session');
         $logger = $this->get('logger');
+        $session->set('leUser',null);
 
         $email = $request->request->get('email');
         if($email)
@@ -525,12 +529,11 @@ class LoginController extends Controller{
                         $logger->info('Login via Email mail sent sent', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
                     }
                 }
-                $session->set('leSendEmail',true);
+                $session->set('leUser', $user);
             }
             else
             {
                 $session->set('leEmail',$email);
-                $session->set('leSendEmail',"not empty"); // I know this is stupid
             }
         }
 

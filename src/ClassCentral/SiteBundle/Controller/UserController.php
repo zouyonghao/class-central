@@ -508,7 +508,9 @@ class UserController extends Controller
             return $this->redirect($this->generateUrl('user_library'));
         }
 
-        return $this->render('ClassCentralSiteBundle:User:forgotPassword.html.twig');
+        return $this->render('ClassCentralSiteBundle:User:forgotPassword.html.twig', array(
+          'page' => 'auth',
+        ));
     }
 
     public function forgotPasswordSendEmailAction(Request $request)
@@ -521,11 +523,15 @@ class UserController extends Controller
         $logger = $this->get('logger');
 
         $email = $request->request->get('email');
+        $session->set('fpEmail',$email);
+        $session->set('fpUser',null);
+
         if($email)
         {
             $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail($email);
             if($user)
             {
+                // Acount exists
                 $token = $tokenService->create("forgot_password=1&user_id=" . $user->getId(), VerificationToken::EXPIRY_1_DAY);
                 if ($this->container->getParameter('kernel.environment') != 'test')
                 {
@@ -540,19 +546,9 @@ class UserController extends Controller
                         $logger->info('Reset password sent mail sent', array('user_id'=>$user->getId(),'mailgun_response' => $mailgunResponse));
                     }
                 }
-                $session->set('fpSendEmail',true);
-                $session->set('ccUserId',$user->getId());
-                $session->set('ccEmailAdd',$user->getEmail());
-                $session->set('ccLastLogin',$user->getLastLogin()->format(\DateTime::ISO8601));
-            }
-            else
-            {
-                $session->set('fpEmail',$email);
-                $session->set('fpSendEmail',"not empty"); // I know this is stupid
+                $session->set('fpUser',$user);
             }
         }
-
-
 
         return $this->redirect($this->generateUrl('forgotpassword'));
     }
@@ -576,7 +572,10 @@ class UserController extends Controller
             }
         }
 
-        return $this->render('ClassCentralSiteBundle:User:resetPassword.html.twig',array('tokenValid' => $tokenValid));
+        return $this->render('ClassCentralSiteBundle:User:resetPassword.html.twig', array(
+          'page' => 'auth',
+          'tokenValid' => $tokenValid
+        ));
     }
 
 

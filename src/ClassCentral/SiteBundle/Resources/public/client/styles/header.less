@@ -1,19 +1,4 @@
-@import "~classcentral-style/dist/reset.css";
-@import "~classcentral-style/dist/display.css";
-@import "~classcentral-style/dist/borders.css";
-@import "~classcentral-style/dist/buttons.css";
-@import "~classcentral-style/dist/grid.css";
-@import "~classcentral-style/dist/forms.css";
-@import "~classcentral-style/dist/position.css";
-@import "~classcentral-style/dist/icons.css";
-@import "~classcentral-style/dist/symbols.css";
-@import "~classcentral-style/dist/backgrounds.css";
-@import "~classcentral-style/dist/spacing.css";
-@import "~classcentral-style/dist/util.css";
-@import "~classcentral-style/dist/typography.css";
-@import "~classcentral-style/dist/unit.css";
-@import "~classcentral-style/dist/arrows.css";
-
+// header
 @import "~classcentral-style/dist/icon-subject.css";
 @import "~classcentral-style/dist/icon-university.css";
 @import "~classcentral-style/dist/icon-chevron-down.css";
@@ -36,6 +21,7 @@
 @import "~classcentral-style/dist/icon-x.css";
 @import "~classcentral-style/dist/icon-clock.css";
 @import "~classcentral-style/dist/icon-coupon.css";
+@import "~classcentral-style/dist/icon-checkmark.css";
 
 @import "~classcentral-style/dist/symbol-classcentral-blue.css";
 @import "~classcentral-style/dist/symbol-udemy-green.css";
@@ -76,12 +62,6 @@
   #search-results ol a:focus {
     background: #F2F2F2;
   }
-  select,
-  select:focus,
-  .input--small {
-    -webkit-appearance: none;
-    font-size: 16px !important;
-  }
 }
 
 @keyframes pulse {
@@ -116,6 +96,7 @@
     animation-delay: (750ms / 1.5);
   }
 }
+
 #header {
   font-family: "myriad-pro", "Myriad Pro", "Myriad", Helvetica, Arial, sans-serif;
   min-height: 91px;
@@ -153,16 +134,4 @@
       transform: rotateX(-5deg) translateY(-10px);
     }
   }
-}
-
-.animate-fade-hidden,
-.animate-fade-entering,
-.animate-fade-exiting {
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 500ms ease;
-}
-.animate-fade-entered {
-  transition: opacity 500ms ease;
-  opacity: 1;
 }

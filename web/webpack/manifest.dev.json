@@ -2,5 +2,5 @@
   "cc.css": "cc.dev.css",
   "cc.js": "cc.dev.js",
   "analytics.js": "analytics.dev.js",
-  "cc-header.css": "cc-header.dev.css"
+  "cc-style.css": "cc-style.dev.css"
 }

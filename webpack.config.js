@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     'cc': './CC.js',
     'analytics': './Analytics.js',
-    'cc-header': './Header.less',
+    'cc-style': './Style.less',
   },
   resolve: {
     alias: {
