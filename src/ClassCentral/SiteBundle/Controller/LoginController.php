@@ -510,6 +510,8 @@ class LoginController extends Controller{
         $session->set('leUser',null);
 
         $email = $request->request->get('email');
+        $session->set('leEmail',$email);
+
         if($email)
         {
             $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail($email);
@@ -530,10 +532,6 @@ class LoginController extends Controller{
                     }
                 }
                 $session->set('leUser', $user);
-            }
-            else
-            {
-                $session->set('leEmail',$email);
             }
         }
 

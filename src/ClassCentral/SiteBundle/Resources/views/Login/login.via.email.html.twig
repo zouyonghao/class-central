@@ -9,6 +9,7 @@
  {% set pageLoad = app.session.get('leEmail') is empty %}
  {% set leEmailSent = app.session.get('leUser') is not empty %}
  {% set leUser =  app.session.get('leUser') %}
+ {% set leEmail =  app.session.get('leEmail') %}
 
 {% block contentheader %}
   <section class="classcentral-style auth" id="auth-email-sign">
@@ -32,9 +33,9 @@
             </div>
 
             <script type="text/javascript">
-                CC.track("email_signin", {
+                CC.track("login_via_email", {
                   user_info: {
-                    cc_user_found: false ,
+                    cc_user_found: false,
                     email: "{{ app.session.get('leEmail') }}",
                   }
                 });
@@ -50,6 +51,16 @@
         </div>
       </form>
     {% else %}
+        <script type="text/javascript">
+            CC.track("login_via_email", {
+                user_info: {
+                    cc_user_found: true,
+                    user_id: "{{ leUser.id }}",
+                    email: "{{ leEmail }}",
+                    last_login: "{{ leUser.lastLogin|date('Y-m-d\TH:i:s.Z\Z') }}"
+                }
+            });
+        </script>
       <!-- signin email sent -->
       <div class="bg-white form shadow radius width-centered width-3-4 border-box">
         <div class="padding-large border-bottom border--thin border--gray-light text-center">
