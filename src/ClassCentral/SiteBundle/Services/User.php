@@ -896,13 +896,14 @@ class User {
     public function generateLoginErrorMessage($email)
     {
         $em = $this->container->get('doctrine')->getManager();
-        $user = $em->getRepository('ClassCentralSiteBundle:User')->findByEmail(strtolower($email));
+        $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail(strtolower($email));
         if ($user)
         {
             // Correct email. Wrong password
             return [
                 'message' => "That password is incorrect. Try again.",
                 'user_account_exists' => 1,
+                'user_account_signup_type' => $user->getSignupType()
             ];
         }
         else
@@ -910,7 +911,9 @@ class User {
             // Wrong email
             return [
                 'message' => "Couldn't find your Class Central account.",
-                'user_account_exists' => 0
+                'user_account_exists' => 0,
+                'user_account_signup_type' => -1
+
             ];
         }
     }

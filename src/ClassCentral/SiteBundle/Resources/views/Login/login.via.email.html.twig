@@ -52,12 +52,17 @@
       </form>
     {% else %}
         <script type="text/javascript">
+            {% set ccSignupType = 1 %}
+            {% if leUser.signupType is not empty %}
+                {% set ccSignupType = leUser.signupType %}
+            {% endif %}
             CC.track("login_via_email", {
                 user_info: {
                     cc_user_found: true,
                     user_id: "{{ leUser.id }}",
                     email: "{{ leEmail }}",
-                    last_login: "{{ leUser.lastLogin|date('Y-m-d\TH:i:s.Z\Z') }}"
+                    last_login: "{{ leUser.lastLogin|date('Y-m-d\TH:i:s.Z\Z') }}",
+                    signupType: {{ ccSignupType }}
                 }
             });
         </script>

@@ -85,7 +85,8 @@
                         failed_login_error: "{{ error.message }}",
                         failed_login_email: "{{ last_username }}",
                         failed_login_display_message: "{{ errorInfo.message }}",
-                        failed_login_user_exists: {{ errorInfo.user_account_exists }}
+                        failed_login_user_exists: {{ errorInfo.user_account_exists }},
+                        failed_login_signup_type: {{ errorInfo.user_account_signup_type }}
                 });
             </script>
         {% endif %}
