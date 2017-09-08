@@ -48,6 +48,8 @@ class Analytics {
           trackProps.type,
           trackProps.title,
         );
+        console.log(target.dataset.trackClick);
+        console.log(trackProps);
         this.track(
           target.dataset.trackClick,
           trackProps,

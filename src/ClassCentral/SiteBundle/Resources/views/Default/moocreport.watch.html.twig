@@ -1,0 +1,26 @@
+<li class="row margin-vert-xxlarge">
+    <div class="col small-width-100 medium-width-1-3 padding-top-medium">
+      <a
+        data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+        data-track-props='{ "type": "MOOC Report", "title": "{{ watch.title }}", "sub_section": "MOOC Watch" }'
+        href="{{ watch.url }}"
+      >
+        <img src="{{ watch.image}}" class="width-100" alt="{{ watch.title }}">
+      </a>
+    </div>
+    <div class="col small-width-100 medium-width-2-3 padding-left-medium">
+      <h3 class="head-5 margin-bottom-xxsmall" style="color: {{ watch.color }}">MOOCWatch &bull; No. {{ watch.edition }}</h3>
+      <h2 class="margin-bottom-xsmall">
+        <a
+          data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+          data-track-props='{ "type": "MOOC Report", "title": "{{ watch.title }}", "sub_section": "MOOC Watch" }'
+          class="head-2 text--charcoal hover-text--underline" href="{{ watch.url }}"
+        >
+          {{ watch.title }}
+        </a>
+      </h2>
+      <p class="text--charcoal text-2 margin-bottom-medium">{{ watch.description }}</p>
+      <p class="text--charcoal"><span class="text--bold">By {{ watch.author }}</span> <span class="text--italic">{{ watch.publishedDate }}</p>
+    </div>
+  </a>
+</li>

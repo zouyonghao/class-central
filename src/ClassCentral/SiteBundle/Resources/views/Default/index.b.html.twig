@@ -1,53 +1,8 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
- {% block headmeta %}
-     <title itemprop='name'>Class Central • #1 Search Engine for Free Online Courses & MOOCs</title>
-     <link rel="canonical" href="{{ baseurl }}" itemprop="url">
-     <meta name="description"
-           content="Love to learn? Discover thousands of FREE online courses and MOOCs from top universities and companies on Class Central."/>
-
-     {% include 'ClassCentralSiteBundle:Helpers:fb_opengraph.html.twig' %}
-
-     <meta name="twitter:card" content="summary_large_image">
-     <meta name="twitter:site" content="@classcentral">
-     <meta name="twitter:title" content="Class Central • #1 Search Engine for Free Online Courses & MOOCs">
-     <meta name="twitter:description" content="Love to learn? Discover thousands of FREE online courses and MOOCs from top universities and companies on Class Central">
-     <meta name="twitter:image" content="https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc_20k_reviews.png">
-
-    <script type="application/ld+json">
-     {
-         "@context": "http://schema.org",
-         "@type": "WebSite",
-         "name": "Class Central",
-         "url": "https://www.class-central.com",
-         "potentialAction": {
-             "@type": "SearchAction",
-             "target": "https://www.class-central.com/search?q={search_term_string}",
-             "query-input": "required name=search_term_string"
-         }
-     }
-    </script>
-
-     <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "Organization",
-      "name": "Class Central",
-      "url": "https://www.class-central.com",
-      "logo": "https://www.class-central.com/bundles/classcentralsite/slashpixel/images/cc.logo.png",
-      "sameAs": [
-             "http://www.facebook.com/classcentral",
-             "http://twitter.com/classcentral",
-             "http://www.linkedin.com/company/class-central",
-             "http://plus.google.com/+ClassCentral",
-             "https://github.com/classcentral",
-             "angel.co/class-central"
-      ]
-    }
- </script>
-
-
- {% endblock %}
+{% block headmeta %}
+  {% include 'ClassCentralSiteBundle:Default:meta.html.twig' %}
+{% endblock %}
 
 {% block contentheader %}
     <section class="headerArea headerArea-slim">

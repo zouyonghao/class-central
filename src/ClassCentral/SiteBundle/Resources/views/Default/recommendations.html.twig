@@ -1,0 +1,31 @@
+{% if not app.user %}
+  <a
+    data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+    data-track-props='{ "type": "Banner", "title": "Recommendations" }'
+    class="btn-blue {% if mobile %}{% else %}btn--large{% endif %}"
+    href="#"
+    data-action="meet-your-next-course"
+  >
+    Get course recommendations
+  </a>
+{% else %}
+    {% if app.user.areRecommendationsAvailable  %}
+      <a
+        data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+        data-track-props='{ "type": "Banner", "title": "Recommendations" }'
+        class="btn-blue btn--large"
+        href="{{ path('user_recommendations') }}"
+      >
+        View personalized recommendations
+      </a>
+    {% else %}
+      <a
+        data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+        data-track-props='{ "type": "Banner", "title": "Recommendations" }'
+        class="btn-blue btn--large"
+        href="{{ path('user_follows') }}"
+      >
+        Unlock Personalized Recommendations
+      </a>
+    {% endif %}
+{% endif %}

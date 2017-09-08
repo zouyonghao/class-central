@@ -9,8 +9,9 @@ export const formatNumber = (num) => {
   } else {
     nums.shortHand = `${(num / 1000000).toFixed(num % 1000000 !== 0)}M`;
   }
+
   if (num < 10000 && num > 999) {
-    nums.shortHand = `${str.charAt(0)},${str.substring(1)}`;
+    nums.longHand = `${str.charAt(0)},${str.substring(1)}`;
   }
   if (num < 1000) {
     nums.shortHand = str;

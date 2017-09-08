@@ -34,7 +34,7 @@ class MOOCReport
             try
             {
                 $client = new Client();
-                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts?per_page=20&page='.$pageNo);
+                $request = $client->createRequest('GET', self::$baseUrl . '/wp-json/wp/v2/posts?per_page=20&page='.$pageNo .'&_embed');
                 $response = $request->send();
 
                 if($response->getStatusCode() !== 200)

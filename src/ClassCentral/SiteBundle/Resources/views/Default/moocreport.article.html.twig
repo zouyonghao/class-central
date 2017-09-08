@@ -1,0 +1,15 @@
+<li class="{% if article.width is defined %}{{ article.width }}{% endif %} col margin-vert-medium border-box padding-horz-large {% if article.border is defined %}border-right border--gray-light border--thin{% endif %}">
+  {% if not article.simple %}<h4 class="head-5 text--charcoal margin-bottom-xxsmall">{{ article.type }}</h4>{% endif %}
+  <h3 class="margin-bottom-xsmall">
+    <a
+      data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+      data-track-props='{ "type": "MOOC Report", "title": "{{ article.title }}", "sub_section": "{{ article.section }}" }'
+      class="text--blue text-1 hover-text--underline"
+      href="{{ article.url }}"
+    >
+      {{ article.title|raw }}
+    </a>
+  </h3>
+  {% if not article.simple %}<p class="text--charcoal text-2 margin-bottom-small">{{ article.description }}</p>{% endif %}
+  <p class="text--charcoal"><span class="text--bold">By {{ article.author }}</span> <span class="text--italic">{{ article.publishedDate }}</p>
+</li>

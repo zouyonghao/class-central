@@ -24,7 +24,7 @@ class DefaultController extends Controller {
         'https://www.class-central.com/report/mooc-based-masters-degree/',
         'https://www.class-central.com/report/9-popular-online-courses-gone-forever/'
     );
-               
+
     public function indexAction(Request $request) {
 
         // Autologin if a token exists
@@ -153,25 +153,72 @@ class DefaultController extends Controller {
         {
 
         }
+        $spotlightInfo = $this->getHomepageSpotlightInfo();
+        $spotlightCourses = $this->getHomepageSpotlightCourses($spotlightInfo);
 
-        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
-                'page' => 'home',
-                'listTypes' => UserCourse::$lists,
-                'trendingCourses'   => $data['courses'],
-                'spotlights' => $spotlights,
-                'spotlightMap' => Spotlight::$spotlightMap,
-                'subjects' => $subjects,
-                'uc' => $uc,
-                'ucCount' => $ucCount,
-                'recommendedCourses' => $recommendedCourses,
-                'meetYourNextCourse' => $meetYourNextCourse,
-                // 'spotlightPaidCourse' => $this->get('course')->getRandomPaidCourseExcludeByProvider('Treehouse'),
-                //'spotlightCourseSecondRow' =>$this->get('course')->getRandomPaidCourseByProvider('Treehouse'),
-                'newestPosts' => $newestPosts,
-                'opEds' => $opEds
-               ));
+        return $this->render('ClassCentralSiteBundle:Default:index.a.html.twig', array(
+            'page' => 'home',
+            'spotlightInfo' => $spotlightInfo,
+            'spotlightCourses' => $spotlightCourses,
+            'latestPosts' => $newestPosts,
+            'listTypes' => UserCourse::$lists,
+            'uc' => $uc,
+            'ucCount' => $ucCount,
+            'recommendedCourses' => $recommendedCourses,
+            'meetYourNextCourse' => $meetYourNextCourse,
+        ));
     }
 
+    private function getHomepageSpotlightInfo()
+    {
+        $router = $this->container->get('router');
+        return [
+            'all' => [
+                'title' => 'All',
+                'courseIds' => [2161,4319,637,835,3314,442],
+                'url' => $router->generate('subjects')
+            ],
+            'cs' => [
+                'title' => 'Computer Science',
+                'courseIds' => [3655,6679,408,3396,339,2661],
+                'url' => $router->generate('ClassCentralSiteBundle_stream',['slug'=>'cs'])
+            ],
+            'business' => [
+                'title' => 'Business',
+                'courseIds' => [8289,2750,769,5462,2218,2140],
+                'url' => $router->generate('ClassCentralSiteBundle_stream',['slug'=>'business'])
+            ],
+            'health' => [
+                'title' => 'Health',
+                'courseIds' => [5057,981,1887,3714,5037,816],
+                'url' => $router->generate('ClassCentralSiteBundle_stream',['slug'=>'health'])
+            ],
+            'humanities' => [
+                'title' => 'Humanities',
+                'courseIds' => [356,2860,3014,5426,911,610],
+                'url' => $router->generate('ClassCentralSiteBundle_stream',['slug'=>'humanities'])
+            ]
+        ];
+    }
+
+    private function getHomepageSpotlightCourses($spotlightInfo)
+    {
+        $finder= $this->container->get('course_finder');
+
+        $allCourseIds = [];
+        foreach ($spotlightInfo as $section => $details)
+        {
+            $allCourseIds = array_merge($allCourseIds,$details['courseIds']);
+        }
+        $allCourses = $finder->byCourseIds($allCourseIds);
+        $courseMap = [];
+        foreach ($allCourses['hits']['hits'] as $course)
+        {
+            $course = $course['_source'];
+            $courseMap[$course['id']] = $course;
+        }
+        return $courseMap;
+    }
 
     public function coursesAction(Request $request, $type = 'upcoming')
     {
@@ -186,7 +233,7 @@ class DefaultController extends Controller {
         $cl = $this->get('course_listing');
         $data = $cl->byTime($type,$request);
 
-        return $this->render('ClassCentralSiteBundle:Default:courses.html.twig', 
+        return $this->render('ClassCentralSiteBundle:Default:courses.html.twig',
                 array(
                     'offeringType' => $type,
                     'page'=>'courses',
@@ -219,9 +266,9 @@ class DefaultController extends Controller {
             'page' => 'privacy',
         ));
     }
-    
+
     /**
-     * 
+     *
      * Cache cant be cleared from the command line. So creating an action
      */
     public function clearCacheAction(){
@@ -269,7 +316,7 @@ class DefaultController extends Controller {
             array('colour' => 'yellowScheme' , 'numText' => 'Two' ),
             array('colour' => 'aquaScheme' , 'numText' => 'Three' )
         );
-        
+
         $deals = array();
         while(count($deals) < 3 )
         {
@@ -283,5 +330,5 @@ class DefaultController extends Controller {
 
         return $this->render('ClassCentralSiteBundle:Default:deals.html.twig',array('deals' => $deals));
     }
-    
+
 }
