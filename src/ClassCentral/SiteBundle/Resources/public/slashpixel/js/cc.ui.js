@@ -85,7 +85,6 @@ class Ui {
     }
 
     const setActiveSlide = ($slideshow, index) => {
-      console.log(index);
       const $active = $slideshow.find(".active");
       const $items = $slideshow.find("[data-slideshow-item]");
       const $navItems = $slideshow.find("nav button");
