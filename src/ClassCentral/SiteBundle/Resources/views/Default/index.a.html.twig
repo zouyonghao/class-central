@@ -103,7 +103,7 @@
   <section class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">
     <header class="padding-horz-medium">
       <nav class="width-100 text-left">
-        <h1 id="pc-header" class="head-1 padding-right-xlarge margin-bottom-medium">Popular <span class="small-hide">Online</span> Courses</h1>
+        <h1 id="pc-header" class="head-1 padding-right-xlarge margin-bottom-medium">Popular Online Courses</h1>
         <ul id="pc-nav-large" class="text-1">
           {% for courseType in spotlightInfo %}
           <li class="inline-block">
@@ -169,7 +169,7 @@
   {% include 'ClassCentralSiteBundle:Helpers:cc.signup.html.twig' %}
 
   <!-- mooc report -->
-  <section id="mooc-report" class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">
+  <div id="mooc-report" class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">
     <header class="padding-horz-medium margin-bottom-medium">
       <nav class="width-100 text-left">
         <h1 class="head-1 inline-block">MOOC Report</h1>
@@ -198,7 +198,7 @@
     <div class="row width-centered" style="max-width: 1400px;">
       <section class="col small-width-100 large-width-3-5 border-box">
         <header class="text-center border-bottom border--gray-light border--thin margin-horz-large">
-          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">MOOCWatch</h2>
+          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">MOOCWatch</h1>
         </header>
         <div class="border-right border--thin border--gray-light border-box padding-xxlarge">
           <p class="text--charcoal text-2 margin-bottom-large">MOOCWatch is our semi-regular publication where we dive deep into the world of MOOCs, giving the latest trends, news, and our perspective on what’s happening in the industry.</p>
@@ -235,7 +235,7 @@
       </section>
       <aside class="col small-width-100 large-width-2-5 border-box">
         <header class="text-center border-bottom border--gray-light border--thin margin-horz-large">
-          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Latest Articles</h2>
+          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Latest Articles</h1>
         </header>
         <ul class="border-box padding-large">
             {% set postsShown = 0 %}
@@ -263,7 +263,7 @@
       </aside>
       <section class="col width-100 border-box">
         <header class="text-center border-bottom border--gray-light border--thin margin-horz-large margin-bottom-large">
-          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Popular Articles</h2>
+          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Popular Articles</h1>
         </header>
         <ul class="row border-box padding-horz-large">
           {% include 'ClassCentralSiteBundle:Default:moocreport.article.html.twig' with { article: {
@@ -318,7 +318,7 @@
       </section>
       <section id="as-seen-in" class="col width-100 border-box margin-top-xlarge">
         <header class="text-center border-bottom border--gray-light border--thin margin-horz-large margin-bottom-large">
-          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px"><span class="small-hide">MOOC Report Articles also</span> Published in</h2>
+          <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px"><span class="small-hide">MOOC Report Articles also</span> Published in</h1>
         </header>
         <ul class="row border-box padding-horz-xlarge">
           <li class="small-width-1-2 medium-width-1-5 col margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
@@ -370,7 +370,7 @@
           </li>
         </ul>
       </section>
-  </section>
+    </div>
 
 </div>
 {% endblock %}
