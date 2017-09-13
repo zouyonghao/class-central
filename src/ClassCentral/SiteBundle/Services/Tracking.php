@@ -17,6 +17,7 @@ class Tracking {
     const HOMEPAGE_CLICK = 'homepage_click';
     const INTERLUDE_CLICK = 'interlude_click';
     const FOOTER_CLICK = 'footer_click';
+    const AUTH_CLICK = 'auth_click';
 
 
     public function __construct(ContainerInterface $container) {

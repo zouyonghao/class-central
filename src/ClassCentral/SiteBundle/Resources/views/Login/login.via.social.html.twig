@@ -1,0 +1,61 @@
+<section class="classcentral-style auth" id="auth-login">
+  <div
+    class="bg-white form shadow radius width-centered width-3-4 border-box relative"
+  >
+    <div class="padding-horz-large padding-top-medium padding-bottom-large border-bottom border--thin border--gray-light text-center">
+      <div class="margin-bottom-xsmall">
+        <a href="{{ path('login') }}" class="text-3 text--blue">
+          <i class="icon-arrow-left-blue icon--small"></i>Back to Sign in
+        </a>
+      </div>
+      <div class="radius bg-gray padding-small width-100 unit-horz">
+        <span class="unit-block text-center padding-right-medium">
+          <i class="icon-alert-blue icon--medium"></i>
+        </span>
+        <span class="unit-block unit-fill text-2 text-left">
+          You signed up for Class Central with your
+          {% if errorInfo.user_account_signup_type == 2 %}Facebook{% endif %}
+          {% if errorInfo.user_account_signup_type == 3 %}Google{% endif %}
+          Account
+        </span>
+      </div>
+    </div>
+    <div class="padding-vert-large padding-horz-xxlarge text-center">
+      {% if errorInfo.user_account_signup_type == 3 %}
+      <a
+        href="#"
+        data-track-click="{{ ts.event('AUTH_CLICK') }}"
+        data-track-props='{ "type": "Login Button", "title": "Google", "guided": 1 }'
+        onmousedown="ga('send','event','Sign In with Google', 'Login Form');"
+        class="sign-in-with-google btn-white width-100"
+      >
+        <span class="icon--left icon--xsmall icon-google">Continue signing in with Google</span>
+      </a>
+      {% endif %}
+      {% if errorInfo.user_account_signup_type == 2 %}
+      <a
+        href="{{ path('fb_authorize_start') }}"
+        data-track-click="{{ ts.event('AUTH_CLICK') }}"
+        data-track-props='{ "type": "Login Button", "title": "Facebook", "guided": 1 }'
+        onmousedown="ga('send','event','Sign In with Facebook', 'Login Form');"
+        class="btn-white width-100"
+      >
+        <span class="icon--left icon--xsmall icon-facebook-box">Continue signing in with Facebook</span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="margin-top-large text-center">
+    New to Class Central?
+    <a
+      data-track-click="auth_click"
+      data-track-props='{ "type": "User", "title": "Register" }'
+      id="navbar-create-free-account"
+      href="{{ path('signup') }}"
+      title="Sign up for Class Central"
+      class="text--blue inline-block padding-left-small"
+    >
+      Create a free account
+    </a>
+  </div>
+</section>

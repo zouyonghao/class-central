@@ -6,7 +6,7 @@
   "dependencies": {
     "blueimp-file-upload": "9.18.0",
     "classcentral-react": "git+https://github.com/classcentral/classcentral-react.git#v0.3.6",
-    "classcentral-style": "git+https://github.com/classcentral/classcentral-style.git#v0.2.7",
+    "classcentral-style": "git+https://github.com/classcentral/classcentral-style.git#v0.2.8",
     "countup.js": "1.8.5",
     "flexslider": "2.6.3",
     "fsevents": "1.1.2",
