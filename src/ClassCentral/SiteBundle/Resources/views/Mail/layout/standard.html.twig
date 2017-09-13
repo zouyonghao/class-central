@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="background-color: #E4EFFF;">
+  <center>
+    <table border="0" cellspacing="0" height="100%" width="100%" style="background-color: #E4EFFF;">
+      <tr>
+        <td align="center" valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" width="640" style="padding: 20px 0px 0px 0px;" id="templateContainer">
+            <tr>
+              <td align="center" valign="top" style="padding: 0px 20px 0px 20px;">
+                <table style="text-align: center; font-family: 'Myriad Pro', 'Myriad', 'Helvetica', sans-serif; font-size: 14px; box-shadow: 0 0 10px 0 #c3d7f3; border-radius: 10px; border: 1px solid #c3d7f3; padding: 25px 50px; background-color: #ffffff;" border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
+                  <tr>
+                    <td valign="top" align="center" style="text-align: center;" class="bodyHeader">
+                      <div style="border-bottom: 1px solid #E2E3E4; padding: 10px 0px 20px 0px;">
+                        <img src="{{ baseUrl }}/bundles/classcentralsite/images/email/cc-email-logo.png" alt="Class Central, Never Stop Learning" />
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign="top">
+                      <table id="templateContent">
+                        {% block content %}
+                        {% endblock %}
+                        {% include 'ClassCentralSiteBundle:Mail:layout/footer.html.twig' %}
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" style="padding: 0px 20px 0px 20px;">
+                <table border="0" cellpadding="10" cellspacing="0" width="100%" id="templateFooter">
+                  <tr>
+                    <td valign="top" class="footerContent">
+                      <table border="0" cellpadding="30" cellspacing="0" width="100%">
+                        <tr>
+                          <td valign="top" width="350">
+                            <div style="text-align: center; font-family: 'Myriad Pro', 'Myriad', 'Helvetica', sans-serif; font-size: 12px; padding: 0px 0px 0px 0px;">
+                            <p style="text-align: center; color: #454545;">
+                              <a href="http://www.class-central.com" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Class Central</span></a> &bull;
+                              <a href="https://www.twitter.com/classcentral" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Twitter</span></a> &bull;
+                              <a href="https://www.facebook.com/classcentral" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Facebook</span></a>
+                            </p>
+                            <p style="font-weight: 100; padding: 3px 0px 0px 0px; text-align: center; color: #454545;">
+                              <span class="font-weight: bold;">Class Central, Inc.</span> 922 San Leandro Ave Unit-C Mountain View, CA 94043
+                            </p>
+                            <p style="text-align: center;">
+                              <a href="http://www.class-central.com" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">www.class-central.com</span></a>
+                            </p>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+</center>
+</body>
+</html>

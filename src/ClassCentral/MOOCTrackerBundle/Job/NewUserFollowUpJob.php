@@ -16,6 +16,7 @@ use ClassCentral\SiteBundle\Entity\UserPreference;
 use ClassCentral\SiteBundle\Services\Mailgun;
 use ClassCentral\SiteBundle\Utility\CryptUtility;
 use ClassCentral\SiteBundle\Utility\ReviewUtility;
+use Symfony\Component\HttpFoundation\Request;
 
 class NewUserFollowUpJob extends SchedulerJobAbstract {
 
@@ -35,7 +36,6 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
     public function perform($args)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $reviewService = $this->getContainer()->get('review');
         $userId = $this->getJob()->getUserId();
         $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array( 'id' => $userId) );
 
@@ -46,29 +46,22 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
                 "User with id $userId not found"
             );
         }
-        $courses = array();
-        $reviews = array();
-        foreach( array(2161,4319,461,2750,442) as $courseId )
-        {
-            $courses[] = $em->getRepository('ClassCentralSiteBundle:Course')->find( $courseId);
-            $review = $reviewService->getReviewsArray($courseId );
-            $rating = $reviewService->getBayesianAverageRating($courseId);
-            $reviews[ $courseId ] = array_merge( $review, array(
-                'starRating'=> ReviewUtility::getRatingStars($rating)
-            ));
-        }
 
-        $emailContent = $this->getFollowUpEmail( $user, $courses, $reviews );
+        $emailContent = $this->getFollowUpEmail( $user );
 
         return $this->sendEmail('Dhawal from Class Central',$emailContent, $user);
 
     }
 
-    private function getFollowUpEmail(User $user, $courses, $reviews)
+    public function getFollowUpEmail(User $user)
     {
+        $reviews = array();
+        $data = $this->getContainer()->get('course_listing')->collection([2161,4319,461,2750,442],new Request(),[]);
+        $courses = $data['courses']['hits']['hits'];
+
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse(
-            'ClassCentralMOOCTrackerBundle:User:newuser.followup.inlined.html',array(
+            'ClassCentralMOOCTrackerBundle:User:newuser.followup.html.twig',array(
                 'user'   => $user,
                 'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user,false),
                 'baseUrl' => $this->getContainer()->getParameter('baseurl'),

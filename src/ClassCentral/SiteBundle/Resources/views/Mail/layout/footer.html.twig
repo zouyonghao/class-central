@@ -1,0 +1,22 @@
+<tr>
+  <td valign="top" class="bodyContentBottom">
+    <table cellpadding="0" cellspacing="0" style="background: #ffffff; text-align: left; border: 1px solid #E2E3E4; padding: 20px 20px 20px 20px; font-size: 16px;">
+      <tr>
+        <td align="left" width="12%">
+          <img src="{{ baseUrl }}/bundles/classcentralsite/images/email/login-icon.png" />
+        </td>
+        <td align="left">
+          <span style="color: #000000;">Please do not forward this email</span><span style="color: #454545;">, as it contains links that automatically log you into Class Central for ease of use.</span>
+        </td>
+      </tr>
+    </table>
+    <br><br>
+  </td>
+</tr>
+<tr>
+  <td valign="top" class="bodyContentBottom">
+    <div style="background: #ffffff; border-top: 1px solid #E2E3E4; padding: 20px 30px 10px 30px; font-size: 12px;">
+      We hope you found this message to be useful. If you'd rather not receive future e-mails of this sort from Class Central at <span style="font-weight: bold;">{{ user.email }}</span>, please <a href="{{baseUrl}}{{ path('oneclick_unsubscribe', {'token' : unsubscribeToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign} ) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">unsubscribe here</span></a>.
+    </div>
+  </td>
+</tr>

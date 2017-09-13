@@ -1,0 +1,82 @@
+{% extends 'ClassCentralSiteBundle::Mail/layout/standard.html.twig' %}
+
+{%  block content %}
+<tr>
+  <td valign="top" class="bodyContentTop">
+    <div style="background: #ffffff; padding: 20px 0px 0px 0px">
+      <p style="color: #454545; text-align: left; font-size: 16px;">
+        Hello {{ user.displayName }},
+        <br><br>
+        Thanks again for signing up for <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Class Central</span></a>! Every day thousands of learners use Class Central to find free online courses from the best MOOC providers and universities in the world. Have you signed up for one yet?
+        <br><br>
+        If you are looking for suggestions, look at our list of
+        <a href="https://www.class-central.com/collection/top-free-online-courses?utm_medium={{ utm.medium }}&utm_source={{ utm.source }}&utm_campaign={{ utm.campaign }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Top 50 FREE online courses</span></a> of all time.
+        <br><br>
+        There are also some highly rated courses that you can start any time.
+      </p>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td valign="top" class="bodyContentBullets">
+    <table style="border-radius: 10px; padding: 25px; background-color: #F3F6F9;" border="0" cellpadding="10" cellspacing="0" width="100%">
+      {% for course in courses %}
+       {% set course = course._source %}
+      <tr>
+        <td valign="top" align="right">
+          <a style="color: #454545; text-decoration: none;" href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id,  'slug': course.slug ,autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">
+            <table cellspacing="0" cellpadding="0" style="margin: 0; padding: 0;">
+              <tr>
+              {% set rating = ((course.rating * 2)|round) / 2 %}
+              {% for i in range(1, rating|round(0, 'floor')) %}
+                <td>
+                  <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-filled.png" />
+                </td>
+              {% endfor %}
+              {% if rating matches '/\.5/' %}
+                <td>
+                  <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-half.png" />
+                </td>
+              {% endif %}
+              {% if 5 - rating|round > 0 %}
+                {% for i in range(1, 5 - rating|round) %}
+                  <td>
+                    <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-empty.png" />
+                  </td>
+                {% endfor %}
+              {% endif %}
+            </tr>
+          </table>
+          <span style="color: #454545; text-decoration: none; font-size: 12px;">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</span>
+          </a>
+        </td>
+        <td valign="top" style="text-align: left; font-size: 16px;">
+          <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken}) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">{{ course.name }}</span></a>
+          <p style="margin: 0px; padding: 0px; color: #454545; text-align: left; font-size: 14px;">
+            {% if course.institutions %}{{ course.institutions[0]["name"] }}{% endif %} via <span style="font-weight: bold;">{{ course.provider["name"]}}</span>
+          </p>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </td>
+</tr>
+<tr>
+  <td valign="top" class="bodyContentBottom">
+    <div style="background: #ffffff; padding: 20px 0px 0px 0px">
+      <p style="color: #454545; text-align: left; font-size: 16px;">
+        Questions or feedback for Class Central? Please send me a message by replying to this email.
+        <br><br>
+        Never stop learning!
+        <br><br>
+        Regards,<br>
+        Dhawal Shah<br>
+        Founder &amp; CEO, <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Class Central</span></a><br>
+        <a href="http://www.class-central.com/@dhawal" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">www.class-central.com/@dhawal</span></a>
+        <br><br>
+      </p>
+    </div>
+  </td>
+</tr>
+
+{% endblock %}

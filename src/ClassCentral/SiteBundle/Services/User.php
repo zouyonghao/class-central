@@ -308,25 +308,7 @@ class User {
         // Send a welcome email but not in the test environment
         if ($this->container->getParameter('kernel.environment') != 'test')
         {
-            $name = ($user->getName()) ? ucwords($user->getName()) : "";
-            $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig',
-                array(
-                    'name' => $name,
-                    'user' => $user,
-                    'loginToken' => $this->getLoginToken($user),
-                    'baseUrl' => $this->container->getParameter('baseurl'),
-                    'utm' => array(
-                        'medium'   => Mailgun::UTM_MEDIUM,
-                        'campaign' => 'new_user_welcome',
-                        'source'   => Mailgun::UTM_SOURCE_PRODUCT,
-                    ),
-                    'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
-                        UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs,
-                        $this->container->getParameter('secret')
-                    )
-                )
-            )
-                ->getContent();
+            $html = $this->getWelcomeEmailHtml($user);
             $mailgunResponse = $mailgun->sendIntroEmail($user->getEmail(),"'Dhawal Shah'<d@class-central.com>","Welcome to Class Central, what else can you learn?",$html,self::getUserMetaDataForAnalyticsJson($user));
 
             if($emailVerification)
@@ -351,6 +333,32 @@ class User {
         }
 
         return $user;
+    }
+
+    public function getWelcomeEmailHtml(\ClassCentral\SiteBundle\Entity\User $user)
+    {
+        $templating = $this->container->get('templating');
+        $name = ($user->getName()) ? ucwords($user->getName()) : "";
+        $html = $templating->renderResponse('ClassCentralSiteBundle:Mail:welcome.html.twig',
+            array(
+                'name' => $name,
+                'user' => $user,
+                'loginToken' => $this->getLoginToken($user),
+                'baseUrl' => $this->container->getParameter('baseurl'),
+                'utm' => array(
+                    'medium'   => Mailgun::UTM_MEDIUM,
+                    'campaign' => 'new_user_welcome',
+                    'source'   => Mailgun::UTM_SOURCE_PRODUCT,
+                ),
+                'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
+                    UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs,
+                    $this->container->getParameter('secret')
+                )
+            )
+        )
+            ->getContent();
+
+        return $html;
     }
 
     /**

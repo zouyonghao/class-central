@@ -123,3 +123,11 @@ tags_copy_courses:
 most_popular_courses:
     pattern: /most-popular-courses
     defaults: { _controller: "ClassCentralSiteBundle:Course:mostPopularCourses" }
+
+mail_preview:
+    pattern: /mail/preview/{type}
+    defaults: { _controller: "ClassCentralSiteBundle:Mail:preview" }
+
+mail_preview_list:
+    pattern: /mail/preview
+    defaults: { _controller: "ClassCentralSiteBundle:Mail:preview" }
