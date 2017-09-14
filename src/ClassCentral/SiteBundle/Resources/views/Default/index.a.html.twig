@@ -166,7 +166,9 @@
   </section>
 
   <!-- signup -->
-  {% include 'ClassCentralSiteBundle:Helpers:cc.signup.html.twig' %}
+  {% if not app.user %}
+    {% include 'ClassCentralSiteBundle:Helpers:cc.signup.html.twig' %}
+  {% endif %}
 
   <!-- mooc report -->
   <div id="mooc-report" class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">

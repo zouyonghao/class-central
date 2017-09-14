@@ -1,6 +1,6 @@
 <div class="classcentral-style">
   {% if page is defined and page != "auth" %}
-    {% if page is not defined or page != "home" %}
+    {% if page != "home" and not app.user %}
       {% include 'ClassCentralSiteBundle:Helpers:cc.signup.html.twig' %}
     {% else %}
       {% include 'ClassCentralSiteBundle:Helpers:cc.social.html.twig' %}
