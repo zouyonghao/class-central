@@ -79,6 +79,21 @@ class Advertising
         return $html;
     }
 
+    public function getPageHeaderImageAds()
+    {
+        $cache = $this->container->get('cache');
+        $ads = $cache->get('imageheader_ads',function (){
+            $filePath = $this->container->get('kernel')->getRootDir(). '/../extras/imageheader_ads.json';
+            $ads = file_get_contents($filePath);
+            if($ads)
+            {
+                return json_decode($ads, true);
+            }
+
+            return [];
+        });
+       return $ads;
+    }
 
 
 }
