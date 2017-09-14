@@ -37,3 +37,4 @@ composer.phar
 .DS_Store
 /tmp
 /src/ClassCentral/SiteBundle/Command/TestCommand.php
+extras/*.json
