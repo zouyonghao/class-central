@@ -8,6 +8,7 @@ class Ui {
       this.formatCounts();
       this.slideShow();
       this.select();
+      this.formErrors();
     });
   }
 
@@ -20,6 +21,13 @@ class Ui {
         }
       }
     }, false);
+  }
+
+  formErrors() {
+    $('.form .error').on("change", function() {
+      $(this).removeClass('error');
+      $('.input-error').remove();
+    });
   }
 
   showTargetOnClick() {

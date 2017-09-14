@@ -258,7 +258,7 @@ class User {
         $profile->setFieldOfStudy( $cr->getReviewerFieldOfStudy() );
         $profile->setHighestDegree( $cr->getReviewerHighestDegree() );
         $profile->setJobTitle( $cr->getReviewerJobTitle() );
-        
+
         $em->persist($profile);
         $em->flush();
 
@@ -918,7 +918,7 @@ class User {
         {
             // Wrong email
             return [
-                'message' => "Couldn't find your Class Central account.",
+                'message' => "Class Central account does not exist.",
                 'user_account_exists' => 0,
                 'user_account_signup_type' => -1
 
@@ -926,4 +926,4 @@ class User {
         }
     }
 
-} 
+}

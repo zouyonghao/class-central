@@ -84,10 +84,12 @@
         </div>
         <div class="padding-large">
           {% if error %}
-              <div class="radius bg-red-light text--red text-left text-3 padding-small padding-right-xlarge margin-bottom-medium relative">
-                {{ errorInfo.message }}
-                <button type="button" data-remove-parent class="block icon--xsmall icon-x absolute top right margin-xsmall"></button>
-              </div>
+              {% if errorInfo.user_account_exists %}
+                <div class="radius bg-red-light text--red text-left text-3 padding-small padding-right-xlarge margin-bottom-medium relative">
+                  {{ errorInfo.message }}
+                  <button type="button" data-remove-parent class="block icon--xsmall icon-x absolute top right margin-xsmall"></button>
+                </div>
+              {% endif %}
               {% if errorInfo.user_account_exists %}
                 <fieldset class="margin-bottom-medium">
                   <h3 class="text-3 block margin-bottom-xsmall">Trouble signing in?</h3>
@@ -106,20 +108,35 @@
           {% endif %}
           <fieldset>
             <label for="username" class="text-3 block margin-bottom-xsmall">Your email</label>
-            <input type="email" id="username" name="_username" value="{{ last_username }}" class="input--medium radius width-100" required>
+            <input
+              id="username"
+              type="email"
+              name="_username"
+              tabindex="1"
+              value="{{ last_username }}"
+              class="input--medium radius width-100{% if error and not errorInfo.user_account_exists %} error{% endif %}"
+              required
+            >
+            {% if error and not errorInfo.user_account_exists %}
+              <div class="input-error radius bg-red-light margin-top-small text--red text-left text-3 padding-small padding-right-xlarge margin-bottom-medium relative">
+                {{ errorInfo.message }}
+                <button type="button" data-remove-parent class="block icon--xsmall icon-x absolute top right margin-xsmall"></button>
+              </div>
+            {% endif %}
           </fieldset>
           <fieldset class="margin-top-medium">
             <div class="row margin-bottom-xsmall">
               <label for="password" class="col width-1-2 text-3 block">Your password</label>
               <a href="{{ path('forgotpassword') }}" title="Forgot password" class="col width-1-2 text--blue text-3 text-right">Forgot password?</a>
             </div>
-            <input type="password" id="password" name="_password" class="input--medium radius width-100" required>
+            <input tabindex="2" type="password" id="password" name="_password" class="input--medium radius width-100" required>
           </fieldset>
           {% if redirectUrl is not empty %}
               <input type="hidden" name="_target_path" value="{{ redirectUrl }}" />
           {% endif %}
           <fieldset class="text-center">
             <button
+              tabindex="3"
               data-track-click="{{ ts.event('AUTH_CLICK') }}"
               data-track-props='{ "type": "Login Button", "title": "CC Form", "guided": 0 }'
               type="submit"
