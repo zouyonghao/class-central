@@ -18,7 +18,18 @@
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Providers"}'
+                    data-track-props='{"type": "Browse", "title": "Random"}'
+                    title="Are you feeling lucky?"
+                    class="text-2 text--blue"
+                    href="/random"
+                  >
+                    Random
+                  </a>
+                </li>
+                <li class="margin-vert-xxsmall">
+                  <a
+                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                    data-track-props='{"type": "Browse", "title": "Providers"}'
                     class="text-2 text--blue"
                     href="{{ path('providers') }}"
                   >
@@ -28,7 +39,7 @@
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Universities"}'
+                    data-track-props='{"type": "Browse", "title": "Universities"}'
                     class="text-2 text--blue"
                     href="{{ path('universities') }}"
                   >
@@ -38,7 +49,7 @@
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Institutions"}'
+                    data-track-props='{"type": "Browse", "title": "Institutions"}'
                     class="text-2 text--blue"
                     href="{{ path('institutions') }}"
                   >
@@ -48,7 +59,7 @@
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Subjects"}'
+                    data-track-props='{"type": "Browse", "title": "Subjects"}'
                     class="text-2 text--blue"
                     href="{{ path('subjects') }}"
                   >
@@ -99,6 +110,14 @@
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                    data-track-props='{"type": "More", "title": "Follow Button"}'
+                    class="text-2 text--blue"
+                    href="https://www.class-central.com/report/follow-button-for-education/"
+                  >Follow Button</a>
+                </li>
+                <li class="margin-vert-xxsmall">
+                  <a
+                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
                     data-track-props='{"type": "More", "title": "MOOC Report"}'
                     class="text-2 text--blue"
                     href="/report"
@@ -113,6 +132,31 @@
                     title="Frequently asked questions about MOOCs"
                   >FAQ</a>
                 </li>
+                <li class="margin-vert-xxsmall">
+                  <a
+                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                    data-track-props='{"type": "More", "title": "Privacy Policy"}'
+                    class="text-2 text--blue"
+                    href="{{ path('ClassCentralSiteBundle_privacy') }}"
+                  >Privacy Policy</a>
+                </li>
+                <li class="margin-vert-xxsmall">
+                  <a
+                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                    data-track-props='{"type": "More", "title": "MOOCWatch"}'
+                    class="text-2 text--blue"
+                    href="{{ path('moocwatch') }}"
+                  >MOOCWatch</a>
+                </li>
+                <li class="margin-vert-xxsmall">
+                  <a
+                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                    data-track-props='{"type": "More", "title": "What is MOOC Tracker?"}'
+                    class="text-2 text--blue"
+                    href="https://www.class-central.com/report/mooc-tracker/"
+                  >What is MOOC Tracker?</a>
+                </li>
+             </ul>
               </ul>
             </div>
             <div class="col small-width-100 medium-width-1-3 text-left border-box padding-right-medium">
