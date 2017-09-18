@@ -234,7 +234,7 @@ class InstitutionController extends Controller
         $related = $cache->get('related_popular_ins',function () {
 
             $popularIns = array(
-                'stanford','harvard','mit','berkeley','utoronto','yale','gatech','penn','umich','iitb','jhu', 'google','worldbank'
+                'stanford','harvard','mit','berkeley','utoronto','yale','gatech','penn','umich','iitb','jhu', 'google','microsoft'
             );
             $related = array();
             $related['items'] = array();
