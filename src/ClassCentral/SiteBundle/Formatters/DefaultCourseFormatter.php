@@ -71,10 +71,15 @@ class DefaultCourseFormatter extends CourseFormatterAbstract
     public function getCertificate()
     {
         $str = '';
+        $provider = (!empty($this->course->getInitiative())) ? $this->course->getInitiative()->getName() : null;
 
         if($this->course->getCertificate())
         {
             if($this->course->getCertificatePrice() == Course::PAID_CERTIFICATE)
+            {
+                $str = 'Paid Certificate Available';
+            }
+            elseif ($this->course->getCertificatePrice() > 0 && $provider == 'FutureLearn')
             {
                 $str = 'Paid Certificate Available';
             }
