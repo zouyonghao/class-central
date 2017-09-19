@@ -14,7 +14,7 @@ class Institution
         'stanford' => 'Stanford',
         'mit' => 'MIT',
         'harvard'=>'Harvard',
-        'gatech' => 'Gerogia Tech',
+        'gatech' => 'Georgia Tech',
         'tsu' => 'Tsinghua',
         'iimb' => 'IIM Banglore',
         'delft' => 'Delft',
