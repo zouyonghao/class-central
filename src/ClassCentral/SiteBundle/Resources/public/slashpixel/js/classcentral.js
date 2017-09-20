@@ -1277,6 +1277,7 @@ jQuery(function($) {
 
     // Clipboard.js is only included for admins
     if (typeof Clipboard === 'function') {
+      if ($('.btn-course-name-copy').length) {
         var clipboard = new Clipboard('.btn-course-name-copy');
         clipboard.on('success', function(e) {
             var copyCookieName = 'bulk_course_copy';
@@ -1288,6 +1289,7 @@ jQuery(function($) {
                 Cookies.set( copyCookieName, courses, { expires :365} );
             }
         });
+      }
     }
 
 
