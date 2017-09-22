@@ -1,0 +1,23 @@
+{% if isAdmin %}
+<section class="padding-large radius margin-bottom-large" style="background-color: #E6F4FF;">
+    <h1 class="head-3">Staff Fields</h1>
+    <fieldset class="margin-vert-xlarge">
+      <label class="text-2">Review Status</label>
+      <select class="btn-white block width-1-2" id="reviewStatus">
+          {% for id,status in reviewStatuses %}
+              <option value="{{ id }}" >{{ status }}</option>
+          {% endfor %}
+      </select>
+    </fieldset>
+
+    <fieldset class="margin-vert-xlarge">
+        <label class="text-2">External Reviewer Name</label>
+        <input type="text" class="width-100 block radius" id="ext-reviewer-name" value="{{ review.reviewerName }}" />
+    </fieldset>
+
+    <fieldset class="margin-vert-xlarge">
+        <label class="text-2">External Review Link</label>
+        <input type="text" class="width-100 block radius" id="ext-review-link" value="{{ review.externalLink }}">
+    </fieldset>
+  </section>
+{% endif %}

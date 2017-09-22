@@ -56,7 +56,11 @@ class CoursePaginated {
         {
             $params['body']['query']['bool']['must'][] = $query;
         }
-        $params['body']['facets'] = $facets;
+        if(!empty($facets))
+        {
+            $params['body']['facets'] = $facets;
+        }
+
         if( !empty($filters) )
         {
             $params['body']['filter'] = $filters;

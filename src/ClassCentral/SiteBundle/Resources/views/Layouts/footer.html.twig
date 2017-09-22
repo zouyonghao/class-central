@@ -1,15 +1,15 @@
 <div class="classcentral-style">
-  {% if page is defined and page != "auth" %}
-    {% if page != "home" and not app.user %}
+  {% if footer is defined and footer != "minimal" and footer != "basic" %}
+    {% if page is defined and page != "home" and not app.user %}
       {% include 'ClassCentralSiteBundle:Helpers:cc.signup.html.twig' %}
     {% else %}
       {% include 'ClassCentralSiteBundle:Helpers:cc.social.html.twig' %}
     {% endif %}
   {% endif %}
 
-  <footer class="width-centered {% if page is defined and page == "auth" %}auth-footer{% else %}bg-white{% endif %}" style="max-width: 1200px;">
+  <footer class="width-centered {% if footer is defined %}{{ footer }}-footer{% else %}bg-white{% endif %}" style="max-width: 1200px;">
     {% block footer %}
-      {% if page is not defined or page != "auth" %}
+      {% if footer is not defined or footer == "full" %}
         <div class="row text-center padding-xxlarge">
           <div id="footer-links" class="col small-width-100 medium-width-3-5 row border-box padding-bottom-xxlarge">
             <div class="col small-width-100 medium-width-1-3 text-left border-box padding-right-medium">
@@ -91,6 +91,14 @@
             <div class="col small-width-100 medium-width-1-3 text-left border-box padding-right-medium">
               <h4 class="head-3 margin-bottom-medium">More</h4>
               <ul>
+                <li class="margin-vert-xxsmall">
+                  <a
+                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                    data-track-props='{"type": "More", "title": "Write a Review"}'
+                    class="text-2 text--blue"
+                    href="{{ path('review_write')}}"
+                  >Write a Review</a>
+                </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
@@ -230,12 +238,61 @@
             <span class="text-3 text--gray">&copy; Copyright 2011-{{ "now"|date("Y") }}</span>
           </div>
         </div>
-      {% else %}
+      {% endif %}
+      {% if footer is defined and footer == "minimal" %}
         <div class="text-center margin-vert-xxlarge padding-xlarge">
           <span class="text-3 text--charcoal">&copy; Class Central 2011-{{ "now"|date("Y") }}</span>
           <ul class="medium-inline-block small-block margin-left-medium">
-            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small"><a class="text-3 text--charcoal" href="{{ path('ClassCentralSiteBundle_faq') }}" title="Frequently asked questions about MOOCs" onmousedown="ga('send','event', 'Footer', 'FAQ')">FAQ</a></li>
-            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small"><a class="text-3 text--charcoal" href="{{ path('ClassCentralSiteBundle_privacy') }}" onmousedown="ga('send','event', 'Footer', 'Privacy Policy')"> Privacy Policy</a></li>
+            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+              <a
+                class="text-3 text--charcoal"
+                href="{{ path('ClassCentralSiteBundle_faq') }}"
+                title="Frequently asked questions about MOOCs"
+                data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                data-track-props='{"type": "More", "title": "FAQ"}'
+              >
+                FAQ
+              </a>
+            </li>
+            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+              <a
+                class="text-3 text--charcoal"
+                href="{{ path('ClassCentralSiteBundle_privacy') }}"
+                data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                data-track-props='{"type": "More", "title": "Privacy"}'
+              >
+                Privacy Policy
+              </a>
+            </li>
+          </ul>
+        </div>
+      {% endif %}
+      {% if footer is defined and footer == "basic" %}
+        <div class="text-center padding-large">
+          <span class="symbol-classcentral-gray symbol--small inline-block margin-right-medium"></span>
+          <span class="text-3 text--gray">&copy; Copyright 2011-{{ "now"|date("Y") }}</span>
+          <ul class="medium-inline-block small-block margin-left-medium">
+            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+              <a
+                class="text-3 text--gray"
+                href="{{ path('ClassCentralSiteBundle_faq') }}"
+                title="Frequently asked questions about MOOCs"
+                data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                data-track-props='{"type": "More", "title": "FAQ"}'
+              >
+                FAQ
+              </a>
+            </li>
+            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+              <a
+                class="text-3 text--gray"
+                href="{{ path('ClassCentralSiteBundle_privacy') }}"
+                data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                data-track-props='{"type": "More", "title": "Privacy"}'
+              >
+                Privacy Policy
+              </a>
+            </li>
           </ul>
         </div>
       {% endif %}

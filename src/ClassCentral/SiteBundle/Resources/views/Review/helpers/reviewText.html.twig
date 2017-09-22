@@ -1,0 +1,10 @@
+<fieldset class="margin-vert-xlarge">
+  <label class="text-1">{{ number }}. Your review <span class="text-2 text--italic">(Must be at least 20 words)</span></label>
+  <div id="review-text-error" style="display:none;" class="radius bg-red-light text--red text-left text-3 padding-small padding-right-xxlarge margin-vert-small relative">
+    Your review must be at least 20 words long.
+    <button type="button" data-remove-parent class="block icon--xsmall icon-x absolute top right margin-xsmall"></button>
+  </div>
+  <div class="margin-vert-medium">
+    <textarea name="review-text" class="expandable width-100 radius" rows="10">{{ review.review }}</textarea>
+  </div>
+</fieldset>

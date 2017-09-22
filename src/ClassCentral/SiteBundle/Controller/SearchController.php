@@ -76,4 +76,40 @@ class SearchController extends Controller{
         $results = $esClient->suggest( $params );
         return new Response( json_encode($results) );
     }
+
+    public function autocompleteCourseAction(Request $request, $query)
+    {
+        $finder = $this->container->get('course_finder');
+        $courses = [];
+        if(strlen($query) >= 3)
+        {
+            $results = $finder->courseAutoComplete($query);
+            $totalCourses = 0;
+            foreach ($results['hits']['hits'] as $course)
+            {
+                if($totalCourses >=8)
+                {
+                    break;
+                }
+                $course = $course['_source'];
+                $ins = null;
+                if(!empty($course['institutions']))
+                {
+                    $ins =  $course['institutions'][0]['name'];
+                }
+
+                $courses [] = [
+                    'id' => $course['id'],
+                    'name' => $course['name'],
+                    'provider' => $course['provider']['name'],
+                    'institution' => $ins
+                ];
+
+                $totalCourses++;
+            }
+        }
+
+
+        return new Response( json_encode($courses) );
+    }
 }

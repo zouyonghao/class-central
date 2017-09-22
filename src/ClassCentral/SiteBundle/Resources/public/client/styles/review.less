@@ -1,0 +1,64 @@
+@import "~classcentral-style/dist/icon-pencil.css";
+@import "~classcentral-style/dist/icon-plus.css";
+@import "~classcentral-style/dist/icon-ban.css";
+@import "~classcentral-style/dist/icon-chevron-up.css";
+
+#search {
+  min-height: 50px;
+}
+[data-rating-value] {
+  transition: transform 300ms ease;
+  &.selected {
+    transform: scale(1.5);
+  }
+}
+[data-rating]:hover {
+  pointer: cursor;
+}
+#review-container {
+  .input-group {
+    position: relative;
+  }
+  
+  .bfh-number-btn {
+    &.inc {
+      right: 30px;
+    }
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+  }
+  .small-width-100.large-width-2-3 {
+    @media (max-width: 1200px) {
+      padding-right: 0px !important;
+    }
+  }
+  @media (max-width: 641px) {
+    .small-text-center {
+      text-align: center !important;
+    }
+    .small-padding-medium {
+        padding: 20px !important;
+    }
+  }
+  @media (max-width: 1100px) {
+    .head-1 {
+      line-height: 35px !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .head-1 {
+      line-height: 28px !important;
+    }
+    .head-3 {
+      font-size: 18px !important;
+    }
+  }
+}
+
+.classcentral-style .btn-group div .btn-white {
+  @media (max-width: 641px) {
+    border: 1px solid #DEDEDE !important;
+  }
+}

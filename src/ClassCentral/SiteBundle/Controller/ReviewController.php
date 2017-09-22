@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Controller;
 
 
+use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
 use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\Profile;
@@ -91,10 +92,13 @@ class ReviewController extends Controller {
         }
 
         // Get the course
-        $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
-        if (!$course) {
+        $courseObj = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+        if (!$courseObj) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
+
+        $courseDocumentType = new CourseDocumentType($courseObj,$this->container);
+        $course = $courseDocumentType->getBody();
 
         // IF the review is already created redirect to an edit review
         if($loggedIn)
@@ -102,7 +106,7 @@ class ReviewController extends Controller {
             $user = $this->get('security.context')->getToken()->getUser();
             $review = $em->getRepository('ClassCentralSiteBundle:Review')->findOneBy(array(
                 'user' => $user,
-                'course' => $course
+                'course' => $courseObj
             ));
 
             if(!$isAdmin && $review)
@@ -114,30 +118,23 @@ class ReviewController extends Controller {
 
         // Breadcrumbs
         $breadcrumbs = array();
-        $initiative = $course->getInitiative();
-        if(!empty($initiative))
-        {
-            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
-                $initiative->getName(),
-                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => strtolower($initiative->getCode()) ))
-            );
-        }
-        else
-        {
-            $breadcrumbs[] = Breadcrumb::getBreadCrumb(
-                'Others',
-                $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => 'others'))
-            );
-        }
+        $provider = $course['provider'];
 
         $breadcrumbs[] = Breadcrumb::getBreadCrumb(
-            $course->getName(), $this->generateUrl('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()))
+            $provider['name'],
+            $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => strtolower($provider['code'])) )
+        );
+
+
+        $breadcrumbs[] = Breadcrumb::getBreadCrumb(
+            $course['name'], $this->generateUrl('ClassCentralSiteBundle_mooc', array('id' => $course['id'], 'slug' => $course['slug']))
         );
 
         $breadcrumbs[] = Breadcrumb::getBreadCrumb('Review');
 
         return $this->render('ClassCentralSiteBundle:Review:review.html.twig', array(
             'page' => 'write_review',
+            'footer' => 'basic',
             'course' => $course,
             'breadcrumbs' => $breadcrumbs,
             'reviewId' => null
@@ -189,6 +186,7 @@ class ReviewController extends Controller {
         $formData = $this->getReviewFormData($course);
         $formData['page'] = $page;
         $formData['review'] = $review;
+        $formData['footer'] = 'basic';
 
         if($loggedIn)
         {
@@ -228,11 +226,13 @@ class ReviewController extends Controller {
             return null;
         }
 
-        $course = $review->getCourse();
+        $courseObj = $review->getCourse();
+        $courseDocumentType = new CourseDocumentType($courseObj,$this->container);
+        $course = $courseDocumentType->getBody();
 
         // Breadcrumbs
         $breadcrumbs = array();
-        $initiative = $course->getInitiative();
+        $initiative = $courseObj->getInitiative();
         if(!empty($initiative))
         {
             $breadcrumbs[] = Breadcrumb::getBreadCrumb(
@@ -249,13 +249,14 @@ class ReviewController extends Controller {
         }
 
         $breadcrumbs[] = Breadcrumb::getBreadCrumb(
-            $course->getName(), $this->generateUrl('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()))
+            $courseObj->getName(), $this->generateUrl('ClassCentralSiteBundle_mooc', array('id' => $courseObj->getId(), 'slug' => $courseObj->getSlug()))
         );
 
         $breadcrumbs[] = Breadcrumb::getBreadCrumb('Review');
 
         return $this->render('ClassCentralSiteBundle:Review:review.html.twig', array(
             'page' => 'edit_course',
+            'footer' => 'basic',
             'course' => $course,
             'reviewId' => $reviewId,
             'breadcrumbs' => $breadcrumbs
@@ -704,7 +705,7 @@ class ReviewController extends Controller {
             'reviews' => $reviews
         ));
     }
-    
+
     /**
     * /r/{$courseId}
     * A short url that redirects to the reviews on course page
@@ -717,10 +718,121 @@ class ReviewController extends Controller {
         {
             throw new \Exception("Course Not Found");
         }
-        
+
         return $this->redirect( $this->generateUrl('ClassCentralSiteBundle_mooc',
-                    array('id' => $course->getId(), 'slug' => $course->getSlug() )) . '#reviews', 301 );                                
+                    array('id' => $course->getId(), 'slug' => $course->getSlug() )) . '#reviews', 301 );
     }
+
+
+    public function writeAReviewAction(Request $request)
+    {
+        // Courses with most follows that have been added recently
+        $newAndPopular = $this->getNewAndPopularCourses();
+        $newAndPopular = $newAndPopular['hits']['hits'];
+
+        // Courses with less than 5 reviews sorted by follows
+        $popularCourseswithFewReviews = $this->getPopularCoursesWithFewReviews();
+        $popularCourseswithFewReviews = $popularCourseswithFewReviews['hits']['hits'];
+
+        // Courses sorted by follows
+        $popularCourses = $this->getPopularCourses();
+        $popularCourses = $popularCourses['hits']['hits'];
+
+
+        // TODO
+        // replace dummy data with real data
+        return $this->render('ClassCentralSiteBundle:Review:write.a.review.html.twig', array(
+            'page' => 'write_a_review',
+            'footer' => 'basic',
+            'navbarStyle' => 'simple',
+            'courseInfo' => [
+                [
+                    'title' => 'Most Wanted',
+                    'courses' => $popularCourseswithFewReviews
+                ],
+                [
+                    'title' => 'New',
+                    'courses' => $newAndPopular
+                ],
+                [
+                    'title' => 'Trending',
+                    'courses' => $popularCourses
+                ]
+
+            ],
+        ));
+    }
+
+    private function getNewAndPopularCourses()
+    {
+        $cp = $this->container->get('es_cp');
+        $sortOrder = array();
+        $sortOrder [] = array(
+            'followed' => array(
+                'order' => 'desc'
+            )
+        );
+        $query = array(
+
+            'term' => [
+                'nextSession.states' => 'recentlyadded'
+                ]
+
+        );
+
+        return $cp->find( $query, [],[], $sortOrder );
+    }
+
+    private function getPopularCoursesWithFewReviews()
+    {
+        $cp = $this->container->get('es_cp');
+        $sortOrder = array();
+        $sortOrder [] = array(
+            'followed' => array(
+                'order' => 'desc'
+            )
+        );
+        $query = array(
+            'bool' => [
+                'must' => [
+                    [
+                        'terms' => [
+                            'nextSession.states' => ['upcoming', 'selfpaced', 'ongoing']
+                        ],
+                    ],
+                    [
+                        "range" => [
+                            'reviewsCount' => [
+                                "lt" => 5
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        );
+
+        return $cp->find($query, [], [], $sortOrder);
+    }
+
+    private function getPopularCourses()
+    {
+        $cp = $this->container->get('es_cp');
+        $sortOrder = [];
+        $sortOrder[] = [
+            'followed' => [
+                'order' => 'desc'
+            ]
+        ];
+        $query = [
+            'terms' => [
+                'nextSession.states' => ['upcoming', 'selfpaced', 'ongoing']
+            ]
+        ];
+
+        return $cp->find( $query, [],[], $sortOrder );
+    }
+
+
 
     private function generateReviewWidgetCacheKey($courseId, $courseCode, $providerCourseUrl)
     {

@@ -293,7 +293,28 @@ class Api
               'articles' => $this->articles(),
           ],
           'user' => $this->getUserInfo(),
-          'query' => $request->query->get('q')
+          'query' => $request->query->get('q'),
+          'searchPlaceholder' => "What do you want to learn?",
+          'searchPath' => '/autocomplete',
+          'context' => 'header',
+          'tracking' => [
+            'clickGroup' => 'nav_click',
+          ]
+      ];
+  }
+
+  public function getReviewbarData()
+  {
+      $request = $this->container->get('request');
+
+      return [
+        'query' => $request->query->get('q'),
+        'context'=> 'review',
+        'searchPlaceholder' => 'What was the name of your course?',
+        'searchPath' => '/course/autocomplete',
+        'tracking' => [
+          'clickGroup' => 'review_search_click',
+        ]
       ];
   }
 }

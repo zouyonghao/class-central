@@ -4,9 +4,82 @@
     <meta name="robots" content="noindex" />
 {% endblock %}
 {% block content %}
-    <div class="new-review full-new-review col-md-6">
-        {# Render the review form #}
-        {% render controller('ClassCentralSiteBundle:Review:reviewForm', {'courseId': course.id, 'page': page, 'reviewId': reviewId}) %}
-    </div>
 
+    <section id="review-container" class="classcentral-style">
+      <span id="courseId" data-value="{{ course.id }}" class="hidden"></span>
+      <span id="reviewid" data-value="{{ reviewId }}" class="hidden"></span>
+      <span id="courseUrl" data-value="{{ path('ClassCentralSiteBundle_mooc',{id:course.id,slug:course.slug }) }}" class="hidden"></span>
+
+      <div class="row margin-bottom-xxlarge small-padding-medium">
+        <div class="small-width-100 large-width-2-3 col border-box padding-right-xxlarge">
+          <header class="padding-vert-medium border-bottom border--thin border--gray-light margin-bottom-large">
+            <h1 class="margin-bottom-xsmall">
+              <span class="block icon--left icon-pencil head-3 text--italic">Writing review for</span>
+              <strong class="block head-1">{{ course.name }}</strong>
+            </h1>
+            <h3 class="head-5 inline text--charcoal">{% if course.institutions %}{{ course.institutions[0]["name"] }}{% endif %}</h3>
+            <h4 class="head-5 inline  text--gray text--italic">
+              <span class="icon--left icon-{{ course.provider["name"]|lower }}-gray icon--small">{{ course.provider["name"]}}</span>
+            </h4>
+          </header>
+
+          <form id="review-form" method="post" class="form" action="#review-form" style="max-width: 650px;">
+            <div class="bg-gray radius padding-medium unit-horz">
+              <span class="unit-block text-center padding-right-medium">
+                <i class="icon-alert-blue icon--medium"></i>
+              </span>
+              <p class="unit-block unit-fill text-2 text-left">
+                Your review helps other learners like you discover great courses. Only review the course if you have taken or started taking this course.
+              </p>
+            </div>
+            {% render controller('ClassCentralSiteBundle:Review:reviewForm', {'courseId': course.id, 'page': page, 'reviewId': reviewId}) %}
+
+            <div class="text-right small-text-center">
+              <a
+                id="cancel-review"
+                onmousedown="ga('send','event', 'Create Review Page', 'Cancel', '{{course.name}}')"
+                href="{{ path('ClassCentralSiteBundle_mooc',{id: course.id, slug: course.slug}) }}"
+                class="text-3 text--blue inline-block margin-right-medium"
+              >Cancel</a>
+              {% if app.user %}
+                <button id="submit-review" type="submit" class="btn-blue btn--large">
+                  {% if page == "edit_course" %}Update{% else %}Submit{% endif %} Review
+                </button>
+              {% else %}
+                <button id="submit-signup-review" type="submit" class="btn-blue btn--large">Submit Review</button>
+              {% endif %}
+            </div>
+          </form>
+        </div>
+        <aside class="width-1-3 col border-box padding-left-xlarge">
+          {% if pops is defined %}
+          <div>
+            <h4 class="text-3 text--upper text--bold">Popular Reviews</h4>
+            <p class="margin-vert-small text-5 text--charcoal text-left">
+              <div class="inline-block">
+                {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: 4 } %}
+              </div>
+              <span class="inline-block margin-left-small text-4">Based on 234 Reviews</span>
+              <div class="unit-horz">
+                <span class="unit-block head-2 line--small text--bold padding-right-small text--charcoal text--white" data-format-number>2345</span>
+                <span class="unit-block unit-fill text-4 text--charcoal">students interested</span>
+              </div>
+            </p>
+            <div class="margin-vert-xlarge">
+              <h4 class="text-3 text--upper text--bold">Overall Rating</h4>
+              <ul>
+                <li class="margin-vert-large border-all border--thin border--gray-light padding-large">
+                  {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: 4.5 } %}
+                  <span class="inline-block margin-left-small text-4">7/23/2017</span>
+                  <div class="text-3">
+                    <p class="margin-vert-medium">By <strong class="text--bold">Erik Trautman</strong> completed this course and found the course difficulty to be hard.</p>
+                    <p>They were not kidding when they said the course was “demanding”. I spent at least 2 hours daily working on the course and each course week...</p>
+                    <a href="" class="block text--blue">read more</a>
+                <li>
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+        </aside>
+    </section>
 {% endblock %}

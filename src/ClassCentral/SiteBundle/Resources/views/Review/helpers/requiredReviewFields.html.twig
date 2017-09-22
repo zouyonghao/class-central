@@ -1,0 +1,39 @@
+<fieldset class="margin-vert-xlarge">
+  <label class="text-1">1. How would you rate this course?</label>
+  <div id="rating-error" style="display:none;" class="radius bg-red-light text--red text-left text-3 padding-small padding-right-xxlarge margin-vert-small relative">
+    Rating is required.
+    <button type="button" data-remove-parent class="block icon--xsmall icon-x absolute top right margin-xsmall"></button>
+  </div>
+  <div data-rating style="min-height: 57px;">
+    {% set rating = ((review.rating * 2)|round) / 2 %}
+
+    {% if rating > 0 %}
+      {% for i in range(1, rating|round(0, 'floor')) %}
+          <a href="#" data-rating-value="{{i}}" class="inline-block"><i class="icon-star icon--center icon--large" style="width: 37px;"></i></a>
+      {% endfor %}
+    {% endif %}
+
+    {% if 5 - rating|round > 0 %}
+      {% for i in range(rating + 1, 5) %}
+          <a href="#" data-rating-value="{{i}}" class="inline-block"><i class="icon-star-outline icon--center icon--large" style="width: 37px;"></i></a>
+          {% endfor %}
+    {% endif %}
+    <input type="hidden" name="rating" value="{{ review.rating }}" />
+  </div>
+</fieldset>
+
+<fieldset class="margin-vert-xlarge">
+  <label class="text-1">2. How much of the course did you finish?</label>
+  <div id="progress-error" style="display:none;" class="radius bg-red-light text--red text-left text-3 padding-small padding-right-xxlarge margin-vert-small relative">
+    Course progress is required.
+    <button type="button" data-remove-parent class="block icon--xsmall icon-x absolute top right margin-xsmall"></button>
+  </div>
+  <div class="margin-vert-medium block radio medium btn-group">
+    {% for id,state in progress %}
+      <div>
+        <input data-radio type="radio" class="hidden" name="progress" id="{{ state.slug }}" value="{{ id }}" {% if review.listId == id %}checked{%  endif  %}>
+        <label class="btn--medium btn-white {% if review.listId == id %}selected{%  endif  %}" for="{{ state.slug }}">{{ state.desc }}</label>
+      </div>
+    {% endfor %}
+  </div>
+</fieldset>

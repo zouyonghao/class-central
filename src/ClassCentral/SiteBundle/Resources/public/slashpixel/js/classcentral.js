@@ -412,7 +412,7 @@ jQuery(function($) {
         return (!str || 0 === str.length);
     }
 
-    $('#review-text').autosize();
+    $('#review-text, [name="review-text"]').autosize();
 
     window.loadRaty = function() {
         var ratyDefaults = {
@@ -505,8 +505,7 @@ jQuery(function($) {
             );
 
         } else {
-            $('#submit-review').attr('disabled',false);
-
+          $('#submit-review').attr('disabled',false);
         }
 
     });
@@ -551,6 +550,7 @@ jQuery(function($) {
             );
         } else {
             createReviewClicked = false;
+            $('#submit-signup-review').attr('disabled', false);
         }
 
     });
@@ -559,7 +559,7 @@ jQuery(function($) {
 
     var getReviewFormFields = function() {
         // Get all the fields
-        var rating = $('#rating').raty('score');
+        var rating = $('[data-rating]').find('input').val();
         var reviewText = $('textarea[name=review-text]').val();
         var effort = $('input:text[name=effort]').val();
         var progress = $('input:radio[name=progress]:checked').val();
@@ -593,7 +593,7 @@ jQuery(function($) {
         var validationError = false;
 
         // Rating cannot be empty
-        if(review.rating === undefined) {
+        if(!review.rating) {
             $('#rating-error').show();
             validationError = true;
         } else {
@@ -843,7 +843,7 @@ jQuery(function($) {
 
                         // Show the signup form
                         Utilities.hideWidgets();
-                        $('#signupModal-go_to_class').modal('show');
+                        CC.Class["Signup"].showSignupModal('go_to_class');
                     }
                 }
              );
@@ -1276,8 +1276,7 @@ jQuery(function($) {
     $('[data-toggle="tooltip"]').tooltip();
 
     // Clipboard.js is only included for admins
-    if (typeof Clipboard === 'function') {
-      if ($('.btn-course-name-copy').length) {
+    if (typeof Clipboard === 'function' && $('.btn-course-name-copy').length) {
         var clipboard = new Clipboard('.btn-course-name-copy');
         clipboard.on('success', function(e) {
             var copyCookieName = 'bulk_course_copy';
@@ -1289,7 +1288,6 @@ jQuery(function($) {
                 Cookies.set( copyCookieName, courses, { expires :365} );
             }
         });
-      }
     }
 
 
@@ -1535,6 +1533,44 @@ jQuery(function($) {
               options = $(this).data('equalize');
             } catch (e) {};
             new Equalize($(this), options);
+        });
+    });
+})($);
+
+(function($) {
+    var FormatNumber = function (el) {
+        var _this = this;
+
+        _this.el = el;
+        _this.formatStyle = el.data('format-number');
+        _this.formattedNumber = _this.format(_this.el.html());
+        _this.el.html(_this.formattedNumber[_this.formatStyle + 'Hand']);
+    };
+
+    FormatNumber.prototype.format = function(num) {
+        var str = num + '';
+        var nums = {
+            longHand: num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        };
+
+        if (num < 1000000) {
+            nums.shortHand = (num / 1000).toFixed(num % 1000 !== 0) + 'k';
+        } else {
+            nums.shortHand = (num / 1000000).toFixed(num % 1000000 !== 0) + 'M';
+        }
+        if (num < 10000 && num > 999) {
+            nums.shortHand = str.charAt(0) + ',' + str.substring(1);
+        }
+        if (num < 1000) {
+            nums.shortHand = str;
+        }
+
+        return nums;
+    };
+
+    $(document).ready(function() {
+        $('[data-format-number]').each(function() {
+            new FormatNumber($(this));
         });
     });
 })($);

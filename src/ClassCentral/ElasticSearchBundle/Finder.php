@@ -284,6 +284,37 @@ class Finder {
         return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
     }
 
+    public function courseAutoComplete( $keyword, $filters= array(), $sort = array(), $page = 1 )
+    {
+        if(empty($keyword)) return false;
+
+        $query = array(
+            "function_score" => array(
+                "query" => array(
+                    "multi_match" => array(
+                        "query" => $keyword,
+                        "type" => "best_fields",
+                        "fields" => array(
+                            'name',
+                        ),
+                        "tie_breaker" => 0.1,
+                        "minimum_should_match" => "2<75%"
+                    )
+                ),
+                "script_score" => array(
+                    "script" =>  "
+                        rating = doc['ratingSort'].value;
+                        followed =  doc['followed'].value;
+                      
+                        return _score*( rating* 25 + followed/15);
+                    "
+                )
+            )
+        );
+
+        return $this->cp->find( $query, $filters, $this->getFacets(), $sort,$page );
+    }
+
 
     public function getFacetCounts($results)
     {

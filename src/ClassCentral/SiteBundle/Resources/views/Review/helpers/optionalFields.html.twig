@@ -1,0 +1,30 @@
+<fieldset class="margin-vert-xlarge">
+  <label class="text-1">3. How difficult was this course?</label>
+  <div class="margin-vert-medium block radio medium btn-group">
+    {% for id,state in difficulty %}
+      <div>
+        <input data-radio type="radio" class="hidden" name="difficulty" id="{{ state.slug }}" value="{{ id }}" {% if review.difficultyId == id %}checked{%  endif  %}>
+        <label class="btn--medium btn-white {% if review.difficultyId == id %}selected{%  endif  %}" for="{{ state.slug }}">{{ state.desc }}</label>
+      </div>
+    {% endfor %}
+  </div>
+</fieldset>
+
+<fieldset class="margin-vert-xlarge">
+  <label class="text-1">4. Which level is this course appropriate for?</label>
+  <div class="margin-vert-medium block radio medium btn-group">
+    {% for id,state in levels %}
+      <div>
+        <input data-radio type="radio" class="hidden" name="level" id="{{ state.slug }}" value="{{ id }}" {% if review.levelId == id %}checked{%  endif  %}>
+        <label class="btn--medium btn-white {% if review.levelId == id %}selected{%  endif  %}" for="{{ state.slug }}">{{ state.desc }}</label>
+      </div>
+    {% endfor %}
+  </div>
+</fieldset>
+
+<fieldset class="margin-vert-xlarge">
+  <label class="text-1">5. How many hours did you spend per week?</label>
+  <div class="margin-vert-medium block radio medium btn-group">
+    <input type="text" name="effort" class="form-control bfh-number width-100 radius" data-min="0" data-max="40" value="{{ review.hours }}">
+  </div>
+</fieldset>

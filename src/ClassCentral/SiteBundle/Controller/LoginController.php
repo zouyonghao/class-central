@@ -56,6 +56,7 @@ class LoginController extends Controller{
             'ClassCentralSiteBundle:Login:login.html.twig',
             array(
                 'page' => 'auth',
+                'footer' => 'minimal',
                 // last username entered by the user
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                 'error'         => $error,
@@ -493,6 +494,7 @@ class LoginController extends Controller{
 
         return $this->render('ClassCentralSiteBundle:Login:login.via.email.html.twig', array(
           'page' => 'auth',
+          'footer' => 'minimal',
         ));
     }
 

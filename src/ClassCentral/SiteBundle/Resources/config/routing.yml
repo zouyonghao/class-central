@@ -30,7 +30,7 @@ providers:
 
 ClassCentralSiteBundle_university:
     pattern:  /university/{slug}
-    defaults: { _controller: ClassCentralSiteBundle:Institution:view }    
+    defaults: { _controller: ClassCentralSiteBundle:Institution:view }
 
 universities:
     pattern:  /universities
@@ -64,8 +64,8 @@ careers:
 
 ClassCentralSiteBundle_stream:
     pattern:  /subject/{slug}
-    defaults: { _controller: ClassCentralSiteBundle:Stream:view }  
-        
+    defaults: { _controller: ClassCentralSiteBundle:Stream:view }
+
 ClassCentralSiteBundle_search:
   pattern: /search
   defaults: { _controller: ClassCentralSiteBundle:Search:index}
@@ -73,6 +73,11 @@ ClassCentralSiteBundle_search:
 autocomplete:
   pattern: /autocomplete/{query}
   defaults: { _controller: ClassCentralSiteBundle:Search:autocomplete }
+
+course_autocomplete_public:
+  pattern: /course/autocomplete/{query}
+  defaults: { _controller: ClassCentralSiteBundle:Search:autocompleteCourse }
+
 ClassCentralSiteBundle_mooc_share:
   pattern: /mooc/{id}/share
   defaults: { _controller: ClassCentralSiteBundle:Course:share}
@@ -321,6 +326,10 @@ user_preferences:
   defaults: {_controller: ClassCentralSiteBundle:User:preferences}
 
 # review routes
+review_write:
+  pattern: /write-a-review/
+  defaults: {_controller: ClassCentralSiteBundle:Review:writeAReview}
+
 review_new:
   pattern: /review/new/{courseId}
   defaults: {_controller: ClassCentralSiteBundle:Review:new}

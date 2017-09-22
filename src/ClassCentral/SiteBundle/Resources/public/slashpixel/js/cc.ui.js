@@ -8,7 +8,12 @@ class Ui {
       this.formatCounts();
       this.slideShow();
       this.select();
+      this.radio();
+      this.rating();
       this.formErrors();
+
+      $(".bfh-number-btn.inc").addClass('btn-small btn-white icon-chevron-up icon--center');
+      $(".bfh-number-btn.dec").addClass('btn-small btn-white icon-chevron-down icon--center');
     });
   }
 
@@ -17,7 +22,7 @@ class Ui {
       for (let target = event.target; target && target !== this; target = target.parentNode) {
         if (target.matches("[data-remove-parent]")) {
           const el = target.parentElement;
-          el.parentElement.removeChild(el);
+          $(el).hide();
         }
       }
     }, false);
@@ -76,6 +81,55 @@ class Ui {
         $(`[data-select-label]`).text(val);
         $(`[data-show="${val}"]`).get(0).click();
       })
+    })
+  }
+
+  radio() {
+    $('[data-radio]').each(function() {
+      $(this).on("change", function() {
+        $(`[name=${$(this).attr('name')}]`).next('label').removeClass('selected');
+        $(this).next('label').addClass('selected');
+      })
+    })
+  }
+
+  rating() {
+    const showRating = (el) => {
+      const container = el.closest('[data-rating]');
+      const star = el.find('i');
+      const rating = parseInt(el.data('rating-value'), 10);
+
+      $("[data-rating-value]").find('i').removeClass("icon-star").addClass("icon-star-outline");
+
+      for (let i = 1; i <= rating; i++) {
+        $(`[data-rating-value="${i}"]`).find('i').removeClass("icon-star-outline").addClass("icon-star");
+      }
+      return container;
+    }
+
+    $("[data-rating]").on("mouseenter", "[data-rating-value]", function() {
+      showRating($(this));
+    });
+    $("[data-rating]").on("mouseleave", function() {
+      const container = $(this).closest("[data-rating]");
+      const index = parseInt(container.find("input").val(), 10) || -1;
+
+      if (index > 0) {
+        const el = container.find("[data-rating-value]").eq(index-1);
+        showRating(el);
+      } else {
+        container.find(".icon-star").removeClass('icon-star').addClass('icon-star-outline');
+      }
+    });
+
+    $("[data-rating]").on("click", "[data-rating-value]", function() {
+      event.preventDefault();
+      $(this).addClass("selected");
+      setTimeout(() => {
+        $(this).removeClass("selected");
+      }, 300);
+      const container = $(this).closest("[data-rating]");
+      container.find('input').val(container.find('.icon-star').length);
     })
   }
 

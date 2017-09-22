@@ -487,26 +487,31 @@ class Review {
         // Send a message in Slack
         if($newReview)
         {
-            $message = ReviewUtility::getRatingStars($review->getRating()) .
-                "\nReview {$review->getId()} created for Course *" . $review->getCourse()->getName(). "*".
-                "\n *{$review->getUser()->getDisplayName()}*" . ReviewUtility::getReviewTitle( $review );
-            ;
 
-            if($review->getReview())
+            $slackChannel = $this->container->getParameter('slack_review_channel');
+            if(!empty($slackChannel))
             {
-                $message .= "\n\n" . $review->getReview();
+                $message = ReviewUtility::getRatingStars($review->getRating()) .
+                    "\nReview {$review->getId()} created for Course *" . $review->getCourse()->getName(). "*".
+                    "\n *{$review->getUser()->getDisplayName()}*" . ReviewUtility::getReviewTitle( $review );
+                ;
+
+                if($review->getReview())
+                {
+                    $message .= "\n\n" . $review->getReview();
+                }
+
+                $message .=  "\n" .  $this->container->getParameter('baseurl'). $this->container->get('router')->generate('review_edit', array('reviewId' => $review->getId() ));
+
+                $message = str_replace('<strong>','_', $message);
+                $message = str_replace('</strong>','_', $message);
+                $this->container
+                    ->get('slack_client')
+                    ->to($slackChannel)
+                    ->from( $review->getUser()->getDisplayName() )
+                    ->withIcon( $this->container->get('user_service')->getProfilePic( $review->getUser()->getId() ) )
+                    ->send($message);
             }
-
-            $message .=  "\n" .  $this->container->getParameter('baseurl'). $this->container->get('router')->generate('review_edit', array('reviewId' => $review->getId() ));
-
-            $message = str_replace('<strong>','_', $message);
-            $message = str_replace('</strong>','_', $message);
-            $this->container
-                ->get('slack_client')
-                ->to('#cc-activity-user')
-                ->from( $review->getUser()->getDisplayName() )
-                ->withIcon( $this->container->get('user_service')->getProfilePic( $review->getUser()->getId() ) )
-                ->send($message);
         }
         return $review;
     }

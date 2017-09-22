@@ -1,0 +1,41 @@
+.course-card {
+  .course-card-title {
+    font-size: 21px;
+  }
+  @media (max-width: 480px) {
+    .icon--left.icon--small {
+        padding-left: 0px;
+        background: none;
+    }
+    .course-card-interested {
+      display: none;
+    }
+    .course-card-rating {
+      width: 100%;
+      .text-right {
+        text-align: center !important;
+      }
+    }
+  }
+  @media (max-width: 740px) {
+    .course-card-title {
+      margin-bottom: 0 !important;
+    }
+  }
+  @media (min-width: 741px) {
+    .course-card-title {
+      min-height: 50px
+    }
+    min-height: 295px;
+    .course-card-container {
+      min-height: 235px;
+    }
+
+    &.review-card {
+      min-height: 150px;
+      .course-card-container {
+        min-height: 150px;
+      }
+    }
+  }
+}

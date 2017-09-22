@@ -1,0 +1,14 @@
+<span class="review-rating">
+  {% set rating = ((4 * 2)|round) / 2 %}
+  {% for i in range(1, rating|round(0, 'floor')) %}
+      <i class="icon-star icon--xxsmall"></i>
+  {% endfor %}
+  {% if rating matches '/\.5/' %}
+    <i class="icon-star-half icon--xxsmall"></i>
+  {% endif %}
+  {% if 5 - rating|round > 0 %}
+    {% for i in range(1, 5 - rating|round) %}
+        <i class="icon-star-gray-light icon--xxsmall"></i>
+        {% endfor %}
+  {% endif %}
+</span>

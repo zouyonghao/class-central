@@ -19,7 +19,6 @@ class React
     public function component($name, $request_type = false, $data = [])
     {
         $cache = $this->container->get('cache');
-        return $this->getComponent($name, $request_type, $data);
 
         if($this->cacheReact && !$data['user']['loggedIn'])
         {
@@ -38,7 +37,7 @@ class React
             $reactServerUrl = $this->container->getParameter('react_server');
             $httpRequestObject = $this->container->get('request');
             $client = new Client();
-            $request = $client->post($reactServerUrl.'/' . $name, array(
+            $request = $client->post($reactServerUrl.'/' . $this->getComponentPath($name), array(
                 'content-type' => 'application/json',
                 'User-Agent' => $httpRequestObject->headers->get('User-Agent')
             ));
@@ -55,10 +54,24 @@ class React
         {
 
           if ($request_type == 'state') {
-            return json_encode($this->container->get('api')->getNavbarData());
+            if ($name === "search") {
+              return json_encode($this->container->get('api')->getReviewbarData());
+            } else {
+              return json_encode($this->container->get('api')->getNavbarData());
+            }
           } else {
             return "";
           }
         }
+    }
+
+    public function getComponentPath($name) {
+      $path = $name;
+
+      if ($name === "reviewSearch") {
+        $path = "search";
+      }
+
+      return $path;
     }
 }

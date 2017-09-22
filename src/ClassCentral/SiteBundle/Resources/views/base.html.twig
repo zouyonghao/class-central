@@ -67,7 +67,7 @@
 
 {% set navbarData = apiService.getNavbarData() %}
 
-<div id="header">{{ reactService.component('header', '',navbarData)|raw }}</div>
+<div id="header" {% if navbarStyle is defined and navbarStyle == "simple" %}class="simple"{% endif %}>{{ reactService.component('header', '', navbarData)|raw }}</div>
 
 {%  block contentheader %}
 {% endblock %}
@@ -103,9 +103,13 @@
 
 {# Footer #}
 {% include 'ClassCentralSiteBundle:Layouts:footer.html.twig' %}
-
 <script>
-    window.__PRELOADED_STATE__ = {{ reactService.component('header', 'state', navbarData)|raw }};
+    window.__PRELOADED_STATE__ = {};
+    window.__PRELOADED_STATE__.header = {{ reactService.component('header', 'state', navbarData)|raw }};
+
+    {% if page is defined and page == "write_a_review" %}
+      window.__PRELOADED_STATE__.search = {{ reactService.component('search', 'state', apiService.getReviewbarData())|raw }};
+    {% endif %}
 </script>
 <script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
 
@@ -117,7 +121,7 @@
     {# show the user a personalization prompts #}
     {% if app.user and app.user.follows| length < 5 and app.request.attributes.get('_route') != 'user_profile' and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' %}
         if(!isMobile.phone) {
-            CC.Class['Follow'].showPersonalizationPrompt(20000);
+            //CC.Class['Follow'].showPersonalizationPrompt(20000);
         }
     {% endif %}
 

@@ -7,6 +7,7 @@ module.exports = {
     'cc': './CC.js',
     'analytics': './Analytics.js',
     'cc-style': './Style.less',
+    'cc-search': './Search.js',
   },
   resolve: {
     alias: {

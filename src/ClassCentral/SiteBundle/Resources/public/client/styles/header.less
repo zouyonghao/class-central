@@ -40,6 +40,17 @@
 @import "~classcentral-style/dist/png-delft-gray.css";
 @import "~classcentral-style/dist/png-ubc-gray.css";
 
+#header {
+  &.simple {
+    .menu-item-mooc,
+    .menu-item-browse,
+    .icon-search-charcoal,
+    form input {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
 #cc-header {
   z-index: 10;
   position: relative;
@@ -105,7 +116,8 @@
     height: 60px;
   }
 }
-#cc-header {
+#cc-header,
+#cc-search {
   .animate-hidden,
   .animate-entering,
   .animate-exiting {
