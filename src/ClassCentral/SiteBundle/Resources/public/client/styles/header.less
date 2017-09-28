@@ -124,11 +124,12 @@
     // z-index: -10;
     pointer-events: none;
     opacity: 0;
-    transform: rotateX(-5deg) translateY(-20px);
+    // transform: rotateX(-5deg) translateY(-20px);
   }
   .animate-entered {
-    transition: opacity 200ms ease, transform 200ms ease;
-    transform: rotateX(0) translateY(0px);
+    // transition: opacity 200ms ease, transform 200ms ease;
+    transition: opacity 200ms ease;
+    // transform: rotateX(0) translateY(0px);
     opacity: 1;
     &.z-mid {
       z-index: 1000 !important;
@@ -136,14 +137,25 @@
   }
   .animate-hidden,
   .animate-exiting {
-    -webkit-transform-style: preserve-3d;
-
-    transition: opacity 200ms ease, transform 200ms ease;
+    // transition: opacity 200ms ease, transform 200ms ease;
+    transition: opacity 200ms ease;
   }
   .animate-soft {
     &.animate-entering,
     &.animate-exiting {
-      transform: rotateX(-5deg) translateY(-10px);
+      // transform: rotateX(-5deg) translateY(-10px);
     }
   }
+}
+
+.animate-fade-hidden,
+.animate-fade-entering,
+.animate-fade-exiting {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+.animate-fade-entered {
+  transition: opacity 500ms ease;
+  opacity: 1;
 }
