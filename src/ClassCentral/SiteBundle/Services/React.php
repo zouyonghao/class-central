@@ -19,6 +19,7 @@ class React
     public function component($name, $request_type = false, $data = [])
     {
         $cache = $this->container->get('cache');
+        return $this->getComponent($name, $request_type, $data);
 
         if($this->cacheReact && !$data['user']['loggedIn'])
         {
