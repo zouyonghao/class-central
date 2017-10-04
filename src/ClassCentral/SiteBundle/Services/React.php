@@ -55,11 +55,7 @@ class React
         {
 
           if ($request_type == 'state') {
-            if ($name === "search") {
-              return json_encode($this->container->get('api')->getReviewbarData());
-            } else {
-              return json_encode($this->container->get('api')->getNavbarData());
-            }
+            return json_encode($data);
           } else {
             return "";
           }

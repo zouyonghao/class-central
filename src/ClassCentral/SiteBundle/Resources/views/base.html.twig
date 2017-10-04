@@ -65,7 +65,10 @@
 
 {% include 'ClassCentralSiteBundle:Helpers:sprites.svg.twig' %}
 
-{% set navbarData = apiService.getNavbarData() %}
+{% if contextBar is not defined  %}
+    {% set contextBar = null %}
+{% endif %}
+{% set navbarData = apiService.getNavbarData(contextBar) %}
 
 <div id="header" {% if navbarStyle is defined and navbarStyle == "simple" %}class="simple"{% endif %}>{{ reactService.component('header', '', navbarData)|raw }}</div>
 

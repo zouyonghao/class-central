@@ -41,6 +41,8 @@
 @import "~classcentral-style/dist/png-ubc-gray.css";
 
 #header {
+  position: relative;
+  z-index: 10000;
   &.simple {
     .menu-item-mooc,
     .menu-item-browse,
@@ -53,7 +55,6 @@
 }
 #cc-header {
   z-index: 10;
-  position: relative;
 }
 
 .classcentral-style {
@@ -153,9 +154,11 @@
 .animate-fade-exiting {
   pointer-events: none;
   opacity: 0;
+  visibility: hidden;
   transition: opacity 500ms ease;
 }
 .animate-fade-entered {
   transition: opacity 500ms ease;
   opacity: 1;
+  visibility: visible;
 }

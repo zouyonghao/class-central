@@ -265,10 +265,8 @@ class Api
       return $user;
   }
 
-
-  public function getNavbarData()
+  public function getNavbarData($contextBar = null)
   {
-
       $router = $this->container->get('router');
       $request = $this->container->get('request');
 
@@ -297,8 +295,10 @@ class Api
           'searchPlaceholder' => "What do you want to learn?",
           'searchPath' => '/autocomplete',
           'context' => 'header',
+          'contextBar' => $contextBar,
           'tracking' => [
             'clickGroup' => 'nav_click',
+            'contextBarClickGroup' => 'contextbar_click',
           ]
       ];
   }

@@ -568,6 +568,36 @@ class CourseController extends Controller
 
         ];
 
+
+        $goToClassUrl = $course['url'];
+        if(isset($course['nextOffering']['url']))
+        {
+            $goToClassUrl = $course['nextOffering']['url'];
+        }
+        if($course['initiative']['name'] == 'edX')
+        {
+            $goToClassUrl = $this->getParameter('edx_url') . urlencode( $goToClassUrl );
+        }
+        if($course['initiative']['name'] == 'Coursera')
+        {
+            $goToClassUrl = $this->getParameter('coursera_url') . urlencode( $goToClassUrl );
+        }
+
+        $contextBar = [
+            'type' => 'course',
+            'data' => [
+                'twitterUrl' => $this->getTwitterShareUrl($course),
+                'facebookUrl' => 'https://www.facebook.com/sharer/sharer.php?u='. urlencode($course['pageUrl']),
+                'courseInfo' => [
+                    'id' => $course['id'],
+                    'title' => $course['name'],
+                    'rating' => $rating ,
+                    'numRatings' => $reviews['ratingCount'],
+                    'url' => $goToClassUrl
+                ],
+            ]
+        ];
+
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
@@ -592,8 +622,31 @@ class CourseController extends Controller
                  'showAddToMTModal' => $showAddToMTModal,
                  'top50course' => $top50Course,
                  'highlyRatedCourses' => $highlyRatedCourses,
-                 'pageMetadata' => $pageMetadata
+                 'pageMetadata' => $pageMetadata,
+                 'contextBar' => $contextBar,
+                 'goToClassUrl' => $goToClassUrl
        ));
+    }
+
+    private function getTwitterShareUrl($course)
+    {
+
+        $url = $course['pageUrl'];
+        $text = $course['name'];
+
+        // Add institution
+        if(!empty($course['institutions']))
+        {
+            $text = $text . ' from '. $course['institutions'][0]['name'] ;
+        }
+
+        return 'https://twitter.com/intent/tweet?' . http_build_query([
+                'url' => $url,
+                'text' => $text,
+                'via' => 'classcentral',
+                'related' => 'classcentral: #1 Search Engine for Online Courses'
+
+        ]);
     }
 
     /**

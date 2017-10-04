@@ -48,8 +48,16 @@ class Analytics {
           trackProps.type,
           trackProps.title,
         );
+
         // console.log(target.dataset.trackClick);
         // console.log(trackProps);
+
+        if (trackProps.trigger) {
+          if (this.triggerImpression()[trackProps.trigger]) {
+            this.triggerImpression()[trackProps.trigger](target);
+          }
+        }
+
         this.track(
           target.dataset.trackClick,
           trackProps,
@@ -114,6 +122,17 @@ class Analytics {
       trackingProps.ad.unit,
       trackingProps.ad.title,
     );
+  }
+
+  triggerImpression() {
+    return {
+      goToClassClick: () => {
+        this.track(
+          "go_to_class_click",
+          { location: "contextbar" },
+        );
+      },
+    };
   }
 }
 

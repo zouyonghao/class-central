@@ -595,18 +595,8 @@
                 {% endif %}
                 {% set userListIds = user_session.getCourseListIds(course['id']) %}
 
-                {% set go_to_class_url = course.url %}
-                {% if offeringUrl is not null %}
-                    {% set go_to_class_url = offeringUrl  %}
-                {% endif %}
-                {% if course.initiative.name == 'Coursera' %}
-                     {% set go_to_class_url = coursera_url~offeringUrl|url_encode  %}
-                {% endif %}
-                {% if course.initiative.name == 'edX' %}
-                    {% set go_to_class_url = edx_url~offeringUrl|url_encode  %}
-                {% endif %}
                 <div class="course-data-button">
-                    <a class="cta-button btn_go_to_class" href="{{ go_to_class_url }}" id="btnProviderCoursePage"
+                    <a class="cta-button btn_go_to_class" href="{{ goToClassUrl }}" id="btnProviderCoursePage"
                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');
                                 CC.track('{{ ts.event('GO_TO_CLASS_CLICK') }}');"
                        target="_blank">Go to Class</a>
@@ -852,7 +842,7 @@
                         <div class="action-bar_button">
                             {% set courseInitiative = course['initiative']['name'] %}
                             {% set courseName = course['name'] %}
-                            <a href="{{ go_to_class_url }}" class="action-button action-button--solid btn_go_to_class" target="_blank"
+                            <a href="{{ goToClassUrl }}" class="action-button action-button--solid btn_go_to_class" target="_blank"
                                onmousedown="ga('send','event', 'Go to Class - Dock' ,'{{ courseInitiative }}','{{ courseName }}')"
                                onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')"
                                     >
