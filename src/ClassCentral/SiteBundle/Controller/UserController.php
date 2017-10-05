@@ -510,6 +510,7 @@ class UserController extends Controller
 
         return $this->render('ClassCentralSiteBundle:User:forgotPassword.html.twig', array(
           'page' => 'auth',
+          'footer' => 'minimal',
         ));
     }
 
@@ -574,6 +575,7 @@ class UserController extends Controller
 
         return $this->render('ClassCentralSiteBundle:User:resetPassword.html.twig', array(
           'page' => 'auth',
+          'footer' => 'minimal',
           'tokenValid' => $tokenValid
         ));
     }

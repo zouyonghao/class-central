@@ -294,7 +294,7 @@ class Api
           'query' => $request->query->get('q'),
           'searchPlaceholder' => "What do you want to learn?",
           'searchPath' => '/autocomplete',
-          'context' => 'header',
+          'layout' => 'header',
           'contextBar' => $contextBar,
           'tracking' => [
             'clickGroup' => 'nav_click',
@@ -309,11 +309,26 @@ class Api
 
       return [
         'query' => $request->query->get('q'),
-        'context'=> 'review',
+        'layout'=> 'review',
         'searchPlaceholder' => 'What was the name of your course?',
         'searchPath' => '/course/autocomplete',
         'tracking' => [
           'clickGroup' => 'review_search_click',
+        ]
+      ];
+  }
+
+  public function getSearchbarData()
+  {
+      $request = $this->container->get('request');
+
+      return [
+        'query' => null,
+        'layout'=> 'search',
+        'searchPlaceholder' => '',
+        'searchPath' => '/autocomplete',
+        'tracking' => [
+          'clickGroup' => 'search_click',
         ]
       ];
   }

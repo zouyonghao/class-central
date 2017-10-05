@@ -28,7 +28,7 @@
         });
 
         var keywords = '{{keywords}}';
-        totalCourses = {{ results.hits.total }};
+        totalCourses = {% if results|length %}{{ results.hits.total }}{% else %}0{% endif %};
         $.ajax({
             type: "get",
             url: "{{ path('maestro_udemy_courses',{'term':keywords|url_encode}) }}"
@@ -46,55 +46,66 @@
      });
 {% endblock %}
 
-{% block content %}
+{% block contentheader %}
+  {% if keywords is null or keywords|length == 0 %}
+    <div id="search-container" class="classcentral-style">
+      <!-- popular courses -->
+      <header>
+        <div class="text-center width-3-4 margin-top-xxlarge padding-vert-xxlarge width-centered" style="max-width: 1000px">
+          <h1 class="head-1 margin-bottom-medium">What do you want to learn?</h1>
+          <form method="get" action="/search" class="form width-6-7 width-centered border-box padding-vert-medium">
+            <fieldset class="relative">
+              <input type="text" autocomplete="off" name="q" class="width-100 input--medium icon-search-charcoal icon--right">
+            </fieldset>
+            <div class="text-center margin-top-large">
+              <button type="submit" class="btn-blue margin-horz-xsmall margin-bottom-small small-btn--fill small-margin-horz-reset">Search Class Central</button>
+              <a href="/random" class="btn-white margin-horz-xsmall small-btn--fill small-margin-horz-reset"><span class="icon--left icon-random-blue">Random Course</span></a>
+            </div>
+          </form>
+        </div>
+      </header>
+    </div>
 
-    {% if keywords is not null and keywords|length %}
+  {% elseif total == 0 %}
+    <div id="search-container" class="classcentral-style">
+      <header class="text-center padding-horz-xlarge">
+        <h1 class="head-1 padding-top-xxlarge margin-top-xxlarge margin-bottom-medium" style="font-size: 32px;">No results were found for your search "{{keywords}}"</h1>
+        <p class="text-1 small-text-3">Double check the spelling of your search, or try a different keyword.</p>
+      </header>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if keywords is not null and keywords|length and total != 0 %}
         <div class="classcentral-style">
           <h1 class="head-1 margin-bottom-xlarge" style="font-size: 32px;">Search results for "{{keywords}}"</h1>
-          {% if app.user %}
-              {# user is logged in #}
-              {% if user_session.isSearchTermAddedToMT(keywords) %}
-                  <a class="btn-white btn-course-cc btn-mooc-tracker-added"
-                     title="Added to MOOC tracker" href="{{ path('mooctracker_remove_search_term',{'searchTerm' : keywords|url_encode }) }}">Remove "{{ keywords }}" from MOOC tracker</a>
-              {% else %}
-                  <a class="btn-white btn-course-cc btn-mooc-tracker-add"
-                     href="{{ path('mooctracker_add_search_term',{'searchTerm' : keywords|url_encode }) }}"
-                     title="Receive email notifications when new courses matching {{ keywords }} are added or about to start" rel="nofollow">Create alerts for "{{  keywords }}"</a>
-              {% endif %}
-          {% else %}
-              {# user has not signed up #}
-              <a id='btn_add_search_term_to_mooc_tracker' class="btn btn-white btn-course-cc btn-mooc-tracker-add"
-                 href="#"
-                 title="Receive email notifications when new courses matching '{{ keywords }}' are added or about to start" rel="nofollow">Create alerts for "{{  keywords }}"</a>
-          {% endif %}
+          {% include 'ClassCentralSiteBundle:Search:create.alert.html.twig' %}
         </div>
-
-        {% if total != 0 %}
-            <section class="courses">
-                <h2 class="section-heading">
-                    <span>Courses</span>
-                </h2>
-                <div id="filter-wrap">
-                    <div class="mobile-filter-btn-wrap">
-                        <a href="#" class="mobile-filter-btn">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </a>
+        <section class="courses">
+            <h2 class="section-heading">
+                <span>Courses</span>
+            </h2>
+            <div id="filter-wrap">
+                <div class="mobile-filter-btn-wrap">
+                    <a href="#" class="mobile-filter-btn">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-lg-3 filter-column">
+                        {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
                     </div>
-                    <div class="row">
-                        <div class="col-sm-4 col-lg-3 filter-column">
-                            {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
-                        </div>
-                        <div class="col-sm-8 col-lg-9 table-column">
-                            <div class="tables-wrap">
-                                {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
-                            </div>
+                    <div class="col-sm-8 col-lg-9 table-column">
+                        <div class="tables-wrap">
+                            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
                         </div>
                     </div>
                 </div>
-            </section>
-        {% endif %}
+            </div>
+        </section>
     {% endif %}
 
 {% endblock %}

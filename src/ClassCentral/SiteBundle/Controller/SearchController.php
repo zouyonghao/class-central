@@ -2,6 +2,8 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
+use ClassCentral\ElasticSearchBundle\DocumentType\CourseDocumentType;
+use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Offering;
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller{
-       
+
     public function indexAction(Request $request)
     {
         $cl = $this->get('course_listing');
@@ -19,6 +21,7 @@ class SearchController extends Controller{
         $allLanguages = array();
         $allSubjects = array();
         $allSessions = array();
+        $courseInfo = array();
         $numCoursesWithCertificates = 0;
         $sortField = $sortClass = $pageNo = '';
 
@@ -35,9 +38,32 @@ class SearchController extends Controller{
             'search_keywords' => $keywords
         ];
 
+        if (empty($keywords)) {
+            // Courses with most follows that have been added recently
+            $newAndPopular = $this->getNewAndPopularCourses();
+            $newAndPopular = $newAndPopular['hits']['hits'];
+
+            // Courses sorted by follows
+            $popularCourses = $this->getPopularCourses();
+            $popularCourses = $popularCourses['hits']['hits'];
+
+            $courseInfo = [
+                [
+                    'title' => 'New',
+                    'courses' => $newAndPopular,
+                ],
+                [
+                    'title' => 'Trending',
+                    'courses' => $popularCourses,
+                ]
+            ];
+        }
+
         return $this->render('ClassCentralSiteBundle:Search:index.html.twig', array(
-            'page' => 'search', 
+            'page' =>  empty($keywords) ? 'empty_search' : 'search',
             'total' => $total,
+            'footer' => empty($keywords) || $total == 0 ? 'basic' : 'full',
+            'navbarStyle' => empty($keywords) ? 'simple' : null,
             'keywords' => $keywords,
             'results' => $courses,
             'listTypes' => UserCourse::$lists,
@@ -49,8 +75,9 @@ class SearchController extends Controller{
             'sortClass' => $sortClass,
             'pageNo' => $pageNo,
             'showHeader' => true,
-            'pageMetadata' => $pageMetadata
-        ));        
+            'pageMetadata' => $pageMetadata,
+            'courseInfo' => $courseInfo,
+        ));
     }
 
     /**
@@ -111,5 +138,43 @@ class SearchController extends Controller{
 
 
         return new Response( json_encode($courses) );
+    }
+
+    private function getNewAndPopularCourses()
+    {
+        $cp = $this->container->get('es_cp');
+        $sortOrder = array();
+        $sortOrder [] = array(
+            'followed' => array(
+                'order' => 'desc'
+            )
+        );
+        $query = array(
+
+            'term' => [
+                'nextSession.states' => 'recentlyadded'
+                ]
+
+        );
+
+        return $cp->find( $query, [],[], $sortOrder );
+    }
+
+    private function getPopularCourses()
+    {
+        $cp = $this->container->get('es_cp');
+        $sortOrder = [];
+        $sortOrder[] = [
+            'followed' => [
+                'order' => 'desc'
+            ]
+        ];
+        $query = [
+            'terms' => [
+                'nextSession.states' => ['upcoming', 'selfpaced', 'ongoing']
+            ]
+        ];
+
+        return $cp->find( $query, [],[], $sortOrder );
     }
 }

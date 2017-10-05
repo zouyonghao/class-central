@@ -17,6 +17,7 @@
 @import "~classcentral-style/dist/symbol-classcentral-gray.css";
 @import "~classcentral-style/dist/icon-chevron-right.css";
 @import "~classcentral-style/dist/icon-share.css";
+@import "~classcentral-style/dist/icon-random.css";
 @import "styles/header";
 @import "styles/auth";
 @import "styles/home";
@@ -54,5 +55,41 @@
   .icon-x {
     width: 25px;
     height: 25px;
+  }
+}
+
+@media (max-width: 720px) {
+  .small-text-3 {
+    font-size: 14px !important;
+  }
+}
+@media (max-width: 480px) {
+  .small-btn--fill {
+    width: 100% !important;
+  }
+  .small-margin-horz-reset {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+html.sticky-footer {
+  height: 100%;
+
+  body {
+    height: 100%;
+  }
+  .contain-page {
+    min-height: 100%;
+    margin-bottom: -81px;
+
+    &:after {
+      content: " ";
+      display: block;
+      height: 81px;
+    }
+  }
+  footer {
+    height: 81px;
   }
 }

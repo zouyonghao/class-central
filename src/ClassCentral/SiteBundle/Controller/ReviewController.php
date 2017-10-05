@@ -738,9 +738,6 @@ class ReviewController extends Controller {
         $popularCourses = $this->getPopularCourses();
         $popularCourses = $popularCourses['hits']['hits'];
 
-
-        // TODO
-        // replace dummy data with real data
         return $this->render('ClassCentralSiteBundle:Review:write.a.review.html.twig', array(
             'page' => 'write_a_review',
             'footer' => 'basic',

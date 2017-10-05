@@ -5,7 +5,7 @@
     {% set showProfileEditModal = true %}
 {% endfor %}
 
-<html lang="en" {% if page is defined and page == "auth" %}class="bg-cc-gradient"{% endif %}>
+<html lang="en" {% if page is defined and page == "auth" %}class="bg-cc-gradient"{% endif %} class="sticky-footer">
 {% if app.request.get('_route') == 'ClassCentralSiteBundle_homepage' %}
     <head itemscope itemtype="http://schema.org/WebSite">
 {% else %}
@@ -61,7 +61,7 @@
 
 <body>
 
-<div {% if page is not defined or page != "auth" %}class="siteWrap"{% endif %}>
+<div {% if page is not defined or page != "auth" %}class="siteWrap contain-page"{% endif %}>
 
 {% include 'ClassCentralSiteBundle:Helpers:sprites.svg.twig' %}
 
@@ -104,16 +104,8 @@
   {% endif %}
 {% endif %}
 
-{# Footer #}
-{% include 'ClassCentralSiteBundle:Layouts:footer.html.twig' %}
-<script>
-    window.__PRELOADED_STATE__ = {};
-    window.__PRELOADED_STATE__.header = {{ reactService.component('header', 'state', navbarData)|raw }};
+{% include 'ClassCentralSiteBundle:Layouts:React/preloaded.state.html.twig' %}
 
-    {% if page is defined and page == "write_a_review" %}
-      window.__PRELOADED_STATE__.search = {{ reactService.component('search', 'state', apiService.getReviewbarData())|raw }};
-    {% endif %}
-</script>
 <script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
 
 {% if is_granted('ROLE_ADMIN') %}
@@ -164,5 +156,8 @@
 {% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
 
 </div>
+
+{# Footer #}
+{% include 'ClassCentralSiteBundle:Layouts:footer.html.twig' %}
 </body>
 </html>

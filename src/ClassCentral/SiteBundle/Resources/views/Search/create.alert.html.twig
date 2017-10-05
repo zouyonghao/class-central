@@ -1,0 +1,16 @@
+{% if app.user %}
+    {# user is logged in #}
+    {% if user_session.isSearchTermAddedToMT(keywords) %}
+        <a class="btn-white btn-course-cc btn-mooc-tracker-added"
+           title="Added to MOOC tracker" href="{{ path('mooctracker_remove_search_term',{'searchTerm' : keywords|url_encode }) }}">Remove "{{ keywords }}" from MOOC tracker</a>
+    {% else %}
+        <a class="btn-white btn-course-cc btn-mooc-tracker-add"
+           href="{{ path('mooctracker_add_search_term',{'searchTerm' : keywords|url_encode }) }}"
+           title="Receive email notifications when new courses matching {{ keywords }} are added or about to start" rel="nofollow">Create alerts for "{{  keywords }}"</a>
+    {% endif %}
+{% else %}
+    {# user has not signed up #}
+    <a id='btn_add_search_term_to_mooc_tracker' class="btn btn-white btn-course-cc btn-mooc-tracker-add"
+       href="#"
+       title="Receive email notifications when new courses matching '{{ keywords }}' are added or about to start" rel="nofollow">Create alerts for "{{  keywords }}"</a>
+{% endif %}
