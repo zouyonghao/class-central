@@ -1,0 +1,17 @@
+<a
+  data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+  data-track-props='{ "type": "New", "title": "{{ title }}" }'
+  href="{{ url }}"
+  class="new-item-card hover-grow bg-white shadow border--thin border--gray-light border-box block"
+>
+  <div class="new-item-container row padding-medium border-bottom border--thin border--gray-light relative">
+    <div class="unit-horz">
+      <div class="unit-block">
+        <span class="bg-yellow head-5 text--bold padding-vert-xxsmall padding-horz-xsmall text--white text--upper">New!</span>
+      </div>
+      <div class="unit-block unit-fill padding-left-small text-middle">
+        <span class="block text--blue medium-text-2 text-1">{{ title }}</span>
+      </div>
+    </div>
+  </div>
+</a>

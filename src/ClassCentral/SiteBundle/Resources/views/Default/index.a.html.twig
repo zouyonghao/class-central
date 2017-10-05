@@ -25,7 +25,7 @@
         <ul>
           <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-orange-green" }' class="absolute top left active">
             <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png" alt="Find the Best Online Courses from Top Universities"/>
+              <img class="width-100" src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-short.png" alt="Find the Best Online Courses from Top Universities"/>
             </h2>
             <div class="absolute width-100 text-center inline-block">
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
@@ -33,7 +33,7 @@
           </li>
           <li id="ss-2" data-slideshow-item='{ "index": 1,  "bg": "cc-gradient-purple-blue" }' class="absolute top left next">
             <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools.png" alt="Discover Free Online Courses from Ivy League Schools"/>
+              <img class="width-100" src="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-short.png" alt="Discover Free Online Courses from Ivy League Schools"/>
             </h2>
             <div class="absolute width-100 text-center inline-block">
               <a
@@ -48,7 +48,7 @@
           </li>
           <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-yellow-orange" }' class="absolute top left">
             <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-the-top-50-moocs-of-all-time.png" alt="The Top 50 MOOCs of All-Time"/>
+              <img class="width-100" src="/bundles/classcentralsite/images/banner-the-top-50-moocs-of-all-time-short.png" alt="The Top 50 MOOCs of All-Time"/>
             </h2>
             <div class="absolute width-100 text-center inline-block">
               <a
@@ -63,6 +63,17 @@
           </li>
         </ul>
       </div>
+    </section>
+    <section id="new-items" class="width-centered" style="max-width: 1400px;">
+      <ul class="z-high row width-4-5 width-centered relative">
+        {% set newItems = 2 %}
+        <li class="col small-100 {{ (newItems == 1) ? "medium-width-2-3 width-centered" : "medium-width-1-2" }} padding-right-medium margin-top-small">
+          {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "10 Most Popular MOOCs for October 2017", url: "https://www.class-central.com/report/ten-most-popular-october-2017/" }  %}
+        </li>
+        <li class="small-only-hide col small-100 {{ (newItems == 1) ? "medium-width-2-3 width-centered" : "medium-width-1-2" }} padding-right-medium margin-top-small">
+          {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "At MIT and Georgia Tech, MOOCs Are Showing Up On Campus — Class Central", url: "https://www.class-central.com/report/mit-georgia-tech-moocs-show-up-on-campus/" }  %}
+        </li>
+      </ul>
     </section>
   </div>
 {% endblock %}
