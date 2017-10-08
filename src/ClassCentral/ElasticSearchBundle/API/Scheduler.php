@@ -85,7 +85,7 @@ class Scheduler {
         return $this->esClient->get( $params );
     }
 
-    public function findJobsByDateAndType( $date, $type, $size = 10000)
+    public function findJobsByDateAndType( $date, $type, $size = 10000,$splitId = 0)
     {
         $params = array();
         $params['index'] = $this->indexName;
@@ -106,6 +106,11 @@ class Scheduler {
                         array(
                             "term" => array(
                                 "jobType" => $type
+                            )
+                        ),
+                        array(
+                            "term" => array(
+                                "splitId" => $splitId
                             )
                         )
                     )

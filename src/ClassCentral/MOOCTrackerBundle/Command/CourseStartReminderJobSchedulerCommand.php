@@ -25,7 +25,9 @@ class CourseStartReminderJobSchedulerCommand extends ContainerAwareCommand {
             ->setName('mooctracker:reminders:coursestart')
             ->setDescription("Generate jobs for course start")
             ->addArgument('type', InputArgument::REQUIRED, "email_reminder_course_start_2weeks/email_reminder_course_start_1day")
-            ->addArgument("date", InputArgument::REQUIRED, "Date for which the jobs should be generated eg. Y-m-d");
+            ->addArgument("date", InputArgument::REQUIRED, "Date for which the jobs should be generated eg. Y-m-d")
+            ->addArgument('split',InputArgument::OPTIONAL,"If the jobs need to be split, the number of splits")
+        ;
 
     }
 
@@ -41,6 +43,7 @@ class CourseStartReminderJobSchedulerCommand extends ContainerAwareCommand {
         // Parse the input arguments
         $type = $input->getArgument('type');
         $date = $input->getArgument('date'); // The date at which the job is to be run
+        $split = ($input->getArgument('split')) ? (int)$input->getArgument('split') : 0;
         if($type != CourseStartReminderJob::JOB_TYPE_1_DAY_BEFORE && $type != CourseStartReminderJob::JOB_TYPE_2_WEEKS_BEFORE)
         {
             // Invalid job type
@@ -94,7 +97,8 @@ class CourseStartReminderJobSchedulerCommand extends ContainerAwareCommand {
                 $type,
                 'ClassCentral\MOOCTrackerBundle\Job\CourseStartReminderJob',
                 $courses,
-                $uid
+                $uid,
+                $split
             );
 
             if($id){

@@ -26,6 +26,7 @@ class NewCoursesJobSchedulerCommand extends ContainerAwareCommand
             ->addArgument('date', InputArgument::REQUIRED, "Date for which the recommendation email has to be sent i.e the job is run.")
             ->addArgument('campaignId',InputArgument::REQUIRED, "Mailgun Campaign id")
             ->addArgument('deliverytime',InputArgument::REQUIRED, "datetime at which email is to be sent(uses local machine timezone) i.e 2015-12-27 21:45:00")
+            ->addArgument('split',InputArgument::OPTIONAL,"If the jobs need to be split, the number of splits")
         ;
     }
 
@@ -36,6 +37,7 @@ class NewCoursesJobSchedulerCommand extends ContainerAwareCommand
 
         $campaignId = $input->getArgument('campaignId');
         $deliveryTime = new \DateTime($input->getArgument('deliverytime'));
+        $split = ($input->getArgument('split')) ? (int)$input->getArgument('split') : 0;
 
         $date = $input->getArgument('date'); // The date at which the job is to be run
         $dateParts = explode('-', $date);
@@ -75,7 +77,8 @@ class NewCoursesJobSchedulerCommand extends ContainerAwareCommand
                     'campaignId' => $campaignId,
                     'deliveryTime' =>$deliveryTime,
                 ),
-                $user['id']
+                $user['id'],
+                $split
             );
 
             if($id){

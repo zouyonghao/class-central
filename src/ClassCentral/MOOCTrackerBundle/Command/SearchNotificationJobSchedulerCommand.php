@@ -24,7 +24,8 @@ class SearchNotificationJobSchedulerCommand extends ContainerAwareCommand {
             ->setName('mooctracker:notification:search')
             ->setDescription('Generate jobs for search alerts')
             ->addArgument('type', InputArgument::REQUIRED, "mt_search_new_courses/mt_search_recent_courses")
-            ->addArgument("date", InputArgument::REQUIRED, "Date for which the jobs should be generated eg. Y-m-d");
+            ->addArgument("date", InputArgument::REQUIRED, "Date for which the jobs should be generated eg. Y-m-d")
+            ->addArgument('split',InputArgument::OPTIONAL,"If the jobs need to be split, the number of splits")
         ;
     }
 
@@ -40,6 +41,7 @@ class SearchNotificationJobSchedulerCommand extends ContainerAwareCommand {
         // Parse the input arguments
         $type = $input->getArgument('type');
         $date = $input->getArgument('date'); // The date at which the job is to be run
+        $split = ($input->getArgument('split')) ? (int)$input->getArgument('split') : 0;
         if($type != SearchTermJob::JOB_TYPE_NEW_COURSES && $type != SearchTermJob::JOB_TYPE_RECENT_COURSES)
         {
             // Invalid job type
@@ -77,7 +79,8 @@ class SearchNotificationJobSchedulerCommand extends ContainerAwareCommand {
               $type,
               'ClassCentral\MOOCTrackerBundle\Job\SearchTermJob',
                array('userId' => $user->getId() ),
-               $user->getId()
+               $user->getId(),
+                $split
             );
 
 

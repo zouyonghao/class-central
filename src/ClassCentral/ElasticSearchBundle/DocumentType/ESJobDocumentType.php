@@ -46,6 +46,7 @@ class ESJobDocumentType extends DocumentType{
         // The filed type would be string
         $b['args'] = json_encode($job->getArgs());
         $b['userId'] = $job->getUserId();
+        $b['splitId'] = $job->getSplitId();
 
         return $b;
     }

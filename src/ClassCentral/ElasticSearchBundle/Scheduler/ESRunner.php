@@ -70,7 +70,7 @@ class ESRunner {
      * @param $date
      * @param $type
      */
-    public function runByDate( \DateTime $date, $type)
+    public function runByDate( \DateTime $date, $type, $splitId = 0)
     {
         $logger = $this->getLogger();
         $esScheduler = $this->container->get('es_scheduler');
@@ -83,10 +83,12 @@ class ESRunner {
         $logger->info("RUNNER: runByDate called with parameters date $dt & type $type");
 
         // Retrieve all jobs for this date and type
-        $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type, 100 );
+        $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type, 100,$splitId );
 
         $totalJobs = $results['hits']['total'];
         $logger->info("RUNNER: $totalJobs jobs found");
+        echo "RUNNER: $totalJobs jobs found \n";
+
         $statuses = array(); // Array of status of all jobs
         $count = 0;
         $start = microtime(true);
@@ -101,6 +103,7 @@ class ESRunner {
                     // Job already ran
                     continue;
                 }
+
                 $status = $this->run( $job );
                 $statuses[ $job->getId() ] = $status;
                 // Create a log item
@@ -116,10 +119,10 @@ class ESRunner {
             $em->flush();
             $em->clear();
             $time_elapsed_secs = microtime(true) - $start;
-            echo "Took $time_elapsed_secs seconds \n";
+            echo "Total jobs run: $count. Took $time_elapsed_secs seconds \n";
             $start = microtime(true);
 
-            $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type, 100 );
+            $results = $esScheduler->findJobsByDateAndType( $date->format('Y-m-d'), $type, 100,$splitId  );
             $totalJobs = $results['hits']['total'];
         }
 

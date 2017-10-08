@@ -53,6 +53,12 @@ class ESJob {
      */
     private $args;
 
+    /**
+     * Jobs can be split into groups to run in parallel based on splitId
+     * @var
+     */
+    private $splitId;
+
 
     public function __construct( $id )
     {
@@ -172,6 +178,22 @@ class ESJob {
         return $this->jobType;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSplitId()
+    {
+        return $this->splitId;
+    }
+
+    /**
+     * @param mixed $splitId
+     */
+    public function setSplitId($splitId)
+    {
+        $this->splitId = $splitId;
+    }
+
     public static function getObjFromArray( $result )
     {
         $job = $result['_source'];
@@ -182,6 +204,7 @@ class ESJob {
         $j->setJobType( $job['jobType'] );
         $j->setRunDate( new \DateTime($job['runDate'])   );
         $j->setUserId( $job['userId']);
+        $j->setSplitId($job['splitId']);
         return $j;
     }
 
@@ -195,6 +218,7 @@ class ESJob {
         $j['jobType'] = $job->getJobType();
         $j['runDate'] = $job->getRunDate()->format('Y-m-d');
         $j['userId']  = $job->getUserId();
+        $j['splitId'] = $job->getSplitId();
         return $j;
     }
 

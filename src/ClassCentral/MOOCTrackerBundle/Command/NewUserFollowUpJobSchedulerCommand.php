@@ -30,6 +30,7 @@ class NewUserFollowUpJobSchedulerCommand extends ContainerAwareCommand {
             ->setName('mooctracker:user:followup')
             ->setDescription("Ask the user to write reviews for courses they have completed")
             ->addArgument('date', InputArgument::REQUIRED, "Date for which the user the emails are to be sent")
+            ->addArgument('split',InputArgument::OPTIONAL,"If the jobs need to be split, the number of splits");
         ;
     }
 
@@ -42,6 +43,7 @@ class NewUserFollowUpJobSchedulerCommand extends ContainerAwareCommand {
         $scheduler = $this->getContainer()->get('scheduler');
 
         $date = $input->getArgument('date'); // The date at which the job is to be run
+        $split = ($input->getArgument('split')) ? (int)$input->getArgument('split') : 0;
         $dateParts = explode('-', $date);
         if( !checkdate( $dateParts[1], $dateParts[2], $dateParts[0] ) )
         {
@@ -60,7 +62,8 @@ class NewUserFollowUpJobSchedulerCommand extends ContainerAwareCommand {
                 NewUserFollowUpJob::NEW_USER_FOLLOW_UP_JOB_TYPE,
                 'ClassCentral\MOOCTrackerBundle\Job\NewUserFollowUpJob',
                 array('date' => $date ),
-                $user->getId()
+                $user->getId(),
+                $split
             );
 
             if($id){

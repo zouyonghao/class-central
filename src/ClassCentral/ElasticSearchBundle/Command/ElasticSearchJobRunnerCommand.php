@@ -22,7 +22,8 @@ class ElasticSearchJobRunnerCommand extends ContainerAwareCommand {
             ->setName('classcentral:elasticsearch:runjobs')
             ->setDescription('Given a type and date, runs all jobs for that date')
             ->addArgument('type', InputArgument::REQUIRED, "type of jobs")
-            ->addArgument("date", InputArgument::REQUIRED, "Date for which the jobs should be run eg. Y-m-d");
+            ->addArgument("date", InputArgument::REQUIRED, "Date for which the jobs should be run eg. Y-m-d")
+            ->addArgument('split_id',InputArgument::OPTIONAL,"The split id for this instance. i.e if split is 4, it can be 0,1,2,3");
         ;
     }
 
@@ -42,9 +43,12 @@ class ElasticSearchJobRunnerCommand extends ContainerAwareCommand {
             return;
         }
 
-        $output->writeln( "<comment>Running jobs for $type - $date</comment>" );
+        $splitId = ($input->getArgument('split_id')) ? (int)$input->getArgument('split_id') : 0;
 
-        $result = $runner->runByDate(new \DateTime($date), $type);
+        $output->writeln( "<comment>Running jobs for $type - $date - $splitId</comment>" );
+        echo $splitId;
+
+        $result = $runner->runByDate(new \DateTime($date), $type, $splitId);
 
         $output->writeln("<info>Ran {$result['total']} jobs</info>");
     }

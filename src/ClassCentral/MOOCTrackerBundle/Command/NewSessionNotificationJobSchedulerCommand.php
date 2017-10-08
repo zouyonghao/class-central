@@ -24,7 +24,8 @@ class NewSessionNotificationJobSchedulerCommand extends ContainerAwareCommand {
         $this
             ->setName('mooctracker:notification:newsessions')
             ->setDescription('Genrate jobs to send alerts for new courses')
-            ->addArgument("date", InputArgument::REQUIRED, "Date on which the job should said eg. Y-m-d");
+            ->addArgument("date", InputArgument::REQUIRED, "Date on which the job should said eg. Y-m-d")
+            ->addArgument('split',InputArgument::OPTIONAL,"If the jobs need to be split, the number of splits");
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -38,6 +39,7 @@ class NewSessionNotificationJobSchedulerCommand extends ContainerAwareCommand {
 
         $date = $input->getArgument('date');
         $dateParts = explode('-', $date);
+        $split = ($input->getArgument('split')) ? (int)$input->getArgument('split') : 0;
         if( !checkdate( $dateParts[1], $dateParts[2], $dateParts[0] ) )
         {
             $output->writeLn("<error>Invalid date or format. Correct format is Y-m-d</error>");
@@ -64,7 +66,8 @@ class NewSessionNotificationJobSchedulerCommand extends ContainerAwareCommand {
                 CourseNewSessionJob::JOB_TYPE_NEW_SESSION,
                 'ClassCentral\MOOCTrackerBundle\Job\CourseNewSessionJob',
                 $courses,
-                $uid
+                $uid,
+                $split
             );
 
             if($id){

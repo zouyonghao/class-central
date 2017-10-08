@@ -26,7 +26,7 @@ class ESScheduler {
      * @param $class
      * @param $arguments
      */
-    public function schedule( \DateTime $date, $type, $class, $arguments = array(), $userId = -1)
+    public function schedule( \DateTime $date, $type, $class, $arguments = array(), $userId = -1, $split = 0)
     {
         $logger = $this->container->get('monolog.logger.scheduler');
         $indexer = $this->container->get('es_indexer');
@@ -34,12 +34,18 @@ class ESScheduler {
 
 
         $id = md5(uniqid('', true));
+        $splitId = 0;
+        if($split >=2 )
+        {
+            $splitId = crc32($id)%$split;
+        }
         $job = new ESJob( $id );
         $job->setRunDate($date);
         $job->setClass($class);
         $job->setArgs($arguments);
         $job->setJobType( $type );
         $job->setUserId( $userId );
+        $job->setSplitId( $splitId );
 
         // Check if the job already exists
         if ($esScheduler->jobExists( $job ) )

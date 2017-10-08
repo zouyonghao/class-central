@@ -24,6 +24,7 @@ class ReviewSolicitationJobSchedulerCommand extends ContainerAwareCommand {
            ->setName('mooctracker:completedcourses:askforreviews')
            ->setDescription("Ask the user to write reviews for courses they have completed")
            ->addArgument('date', InputArgument::REQUIRED, "Date for which to send the review solicitation emails")
+           ->addArgument('split',InputArgument::OPTIONAL,"If the jobs need to be split, the number of splits");
        ;
     }
 
@@ -42,6 +43,7 @@ class ReviewSolicitationJobSchedulerCommand extends ContainerAwareCommand {
         $scheduler = $this->getContainer()->get('scheduler');
 
         $date = $input->getArgument('date'); // The date at which the job is to be run
+        $split = ($input->getArgument('split')) ? (int)$input->getArgument('split') : 0;
         $dateParts = explode('-', $date);
         if( !checkdate( $dateParts[1], $dateParts[2], $dateParts[0] ) )
         {
@@ -59,7 +61,8 @@ class ReviewSolicitationJobSchedulerCommand extends ContainerAwareCommand {
                 ReviewSolicitationJob::REVIEW_SOLICITATION_JOB_TYPE,
                 'ClassCentral\MOOCTrackerBundle\Job\ReviewSolicitationJob',
                 array('date' => $date ),
-                $user->getId()
+                $user->getId(),
+                $split
             );
 
 
