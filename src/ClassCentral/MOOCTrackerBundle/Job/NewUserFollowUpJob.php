@@ -106,7 +106,7 @@ class NewUserFollowUpJob extends SchedulerJobAbstract {
             );
         }
 
-        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
+        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Follow up email sent for new user with " . $user->getId());
     }
 
     public function tearDown()

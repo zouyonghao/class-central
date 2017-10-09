@@ -132,7 +132,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
                 return SchedulerJobStatus::getStatusObject(
                     SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
                     ($response && $response->http_response_body)  ?
-                        $response->http_response_body->message : "Mailgun error"
+                        $response->http_response_body->message : "{$campaignId} :Mailgun error"
                 );
             }
         } catch (\Exception $e)
@@ -145,6 +145,6 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
             );
         }
 
-        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
+        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Announcement email : {$campaignId} Email sent to ". $user->getId());
     }
 }

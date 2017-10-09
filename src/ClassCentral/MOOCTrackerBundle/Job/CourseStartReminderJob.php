@@ -106,7 +106,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             // Don't send an email
             return SchedulerJobStatus::getStatusObject(
                 SchedulerJobStatus::SCHEDULERJOB_STATUS_FAILED,
-                "No courses found for user $userId"
+                "$campaignId : No courses found for user $userId"
             );
         }
         elseif( $numCourses == 1)
@@ -286,7 +286,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
             );
         }
 
-        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "Email sent");
+        return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "$campaignId: Email sent for ". $user->getId());
     }
 
     public function tearDown()
