@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+{% set showProfileEditModal = false %}
+{% for flashMessage in app.session.flashbag.get('show_post_signup_profile_modal') %}
+    {% set showProfileEditModal = true %}
+{% endfor %}
+
+<html lang="en" class="bg-cc-gradient">
+
+{% include 'ClassCentralSiteBundle:Layouts:_head.html.twig' %}
+
+<body>
+
+  <div class="contain-page">
+    {% if contextBar is not defined  %}
+        {% set contextBar = null %}
+    {% endif %}
+    {% set navbarData = apiService.getNavbarData(contextBar) %}
+
+    <div id="header">{{ reactService.component('header', '', navbarData)|raw }}</div>
+
+    {%  block content %}
+    {% endblock %}
+  </div>
+
+  {# Footer #}
+  {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "minimal" } %}
+  {# Footer scripts #}
+  {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
+  {# Tracking / Analytics #}
+  {% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
+  {# Google Auth #}
+  {% include 'ClassCentralSiteBundle:Layouts/Auth:google.html.twig' %}
+</body>
+</html>

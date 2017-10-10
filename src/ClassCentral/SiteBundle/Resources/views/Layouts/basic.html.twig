@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" class="sticky-footer">
+
+{% set showProfileEditModal = false %}
+{% for flashMessage in app.session.flashbag.get('show_post_signup_profile_modal') %}
+    {% set showProfileEditModal = true %}
+{% endfor %}
+
+{% include 'ClassCentralSiteBundle:Layouts:_head.html.twig' %}
+
+<body>
+  <div class="contain-page">
+    {% set navbarData = apiService.getNavbarData() %}
+    <div id="header" class="simple">{{ reactService.component('header', '', navbarData)|raw }}</div>
+
+    {%  block content %}
+    {% endblock %}
+  </div>
+
+  {# Footer #}
+  {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "basic" } %}
+  {# Footer scripts #}
+  {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
+  {# Tracking / Analytics #}
+  {% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
+</body>
+</html>

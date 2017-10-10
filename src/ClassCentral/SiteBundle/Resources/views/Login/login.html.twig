@@ -1,4 +1,4 @@
-{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+{% extends 'ClassCentralSiteBundle:Layouts:auth.html.twig' %}
 
  {% block headmeta %}
      <title>Class Central Sign in</title>
@@ -25,7 +25,7 @@
    {% set errorInfo = user_service.generateLoginErrorMessage(last_username) %}
  {% endif %}
 
-{% block contentheader %}
+{% block content %}
   {% if error and errorInfo.user_account_signup_type and errorInfo.user_account_signup_type > 1 %}
     {% include 'ClassCentralSiteBundle:Login:login.via.social.html.twig' %}
   {% else %}
@@ -162,8 +162,4 @@
       </div>
     </section>
   {% endif %}
-{% endblock %}
-
-{% block beforeClosingBody %}
-  {% include 'ClassCentralSiteBundle:Layouts/Auth:google.html.twig' %}
 {% endblock %}

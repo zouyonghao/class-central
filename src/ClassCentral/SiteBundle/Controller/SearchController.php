@@ -59,8 +59,17 @@ class SearchController extends Controller{
             ];
         }
 
-        return $this->render('ClassCentralSiteBundle:Search:index.html.twig', array(
-            'page' =>  empty($keywords) ? 'empty_search' : 'search',
+        $page = "search";
+
+        if (empty($keywords)) {
+          $page = "no_results";
+        }
+        if ($total == 0) {
+          $page = "empty_search";
+        }
+
+        $params = array(
+            'page' =>  $page,
             'total' => $total,
             'footer' => empty($keywords) || $total == 0 ? 'basic' : 'full',
             'navbarStyle' => empty($keywords) ? 'simple' : null,
@@ -77,7 +86,14 @@ class SearchController extends Controller{
             'showHeader' => true,
             'pageMetadata' => $pageMetadata,
             'courseInfo' => $courseInfo,
-        ));
+        );
+
+        if ($page == "empty_search" or $page == "no_results") {
+          $params["cc_style"] = true;
+          return $this->render('ClassCentralSiteBundle:Search:index.basic.html.twig', $params);
+        } else {
+          return $this->render('ClassCentralSiteBundle:Search:index.html.twig', $params);
+        }
     }
 
     /**

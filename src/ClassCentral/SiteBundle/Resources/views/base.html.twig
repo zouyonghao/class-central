@@ -6,58 +6,8 @@
 {% endfor %}
 
 <html lang="en" {% if page is defined and page == "auth" %}class="bg-cc-gradient"{% endif %} class="sticky-footer">
-{% if app.request.get('_route') == 'ClassCentralSiteBundle_homepage' %}
-    <head itemscope itemtype="http://schema.org/WebSite">
-{% else %}
-    <head>
-{% endif %}
 
-    <meta name="google-signin-client_id" content="543074773853-5o4th7sqent0dc5f0slvn0cakr152fpv.apps.googleusercontent.com">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    {%  block headmeta %}
-    {% endblock %}
-
-    <link rel="shortcut icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
-    <link rel="icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
-    <link rel="search" type="application/opensearchdescription+xml" href="{{ asset('bundles/classcentralsite/xml/opensearch.xml') }}" title="Class Central MOOC search" />
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    {% if cc_style is not defined or cc_style != true or app.user %}
-      <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc.css') }}" />
-    {% endif %}
-    <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-style.css') }}" />
-
-    <!-- Google+ Direct connect -->
-    <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
-    <script type="text/javascript">
-        user_logged_in = 0;
-        {% if app.user %}
-            user_logged_in = 1;
-        {% endif %}
-    </script>
-
-    {{ include ('ClassCentralSiteBundle:Layouts/Tracking:head.html.twig') }}
-
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
-</head>
-
-<script>
-    (function(d) {
-        var config = {
-                kitId: 'gdf6zoz',
-                scriptTimeout: 3000,
-                async: true
-            },
-            h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
-    })(document);
-</script>
+{% include 'ClassCentralSiteBundle:Layouts:_head.html.twig' %}
 
 <body>
 
@@ -104,60 +54,21 @@
   {% endif %}
 {% endif %}
 
-{% include 'ClassCentralSiteBundle:Layouts:React/preloaded.state.html.twig' %}
 
-<script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
-
-{% if is_granted('ROLE_ADMIN') %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.8/clipboard.min.js"></script>
-{% endif %}
-
-<script type="text/javascript">
-    {# show the user a personalization prompts #}
-    {% if app.user and app.user.follows| length < 5 and app.request.attributes.get('_route') != 'user_profile' and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' %}
-        if(!isMobile.phone) {
-            //CC.Class['Follow'].showPersonalizationPrompt(20000);
-        }
-    {% endif %}
-
-    {% if not app.user and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review'
-    and app.request.attributes.get('_route') !='ClassCentralSiteBundle_homepage' and app.request.attributes.get('_route') !='login' and app.request.attributes.get('_route') !='forgotpassword' and app.request.attributes.get('_route') !='loginViaEmail'
-    %}
-        if(!isMobile.phone ) {
-            CC.Class['Signup'].showSignupPrompt(20000);
-        }
-    {% endif %}
-
-    {% if showProfileEditModal %}
-        $( document).ready(function () {
-            CC.Class["Signup"].followSubjectOnboarding();
-        });
-    {% endif %}
-
-    {# show the update follows modal if it contains query parameter update_follows #}
-    {% if app.user and app.request.get('update_follows') is not empty  %}
-        $( document).ready(function () {
-              if (Cookies.get( 'follow_personalized_page_prompt' ) === undefined) {
-                  CC.Class["Signup"].followSubjectOnboarding();
-              }
-        });
-    {% endif %}
-
-    {% block customJS %}
-    {% endblock %}
-</script>
 
 {% block beforeClosingBody %}
 {% endblock %}
 
-{# Tracking / Analytics #}
-{% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
 {# Rating popup box #}
 {% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
 
 </div>
 
 {# Footer #}
-{% include 'ClassCentralSiteBundle:Layouts:footer.html.twig' %}
+{% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' %}
+{# Footer scripts #}
+{% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
+{# Tracking / Analytics #}
+{% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
 </body>
 </html>

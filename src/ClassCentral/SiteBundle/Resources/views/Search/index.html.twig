@@ -46,36 +46,6 @@
      });
 {% endblock %}
 
-{% block contentheader %}
-  {% if keywords is null or keywords|length == 0 %}
-    <div id="search-container" class="classcentral-style">
-      <!-- popular courses -->
-      <header>
-        <div class="text-center width-3-4 margin-top-xxlarge padding-vert-xxlarge width-centered" style="max-width: 1000px">
-          <h1 class="head-1 margin-bottom-medium">What do you want to learn?</h1>
-          <form method="get" action="/search" class="form width-6-7 width-centered border-box padding-vert-medium">
-            <fieldset class="relative">
-              <input type="text" autocomplete="off" name="q" class="width-100 input--medium icon-search-charcoal icon--right">
-            </fieldset>
-            <div class="text-center margin-top-large">
-              <button type="submit" class="btn-blue margin-horz-xsmall margin-bottom-small small-btn--fill small-margin-horz-reset">Search Class Central</button>
-              <a href="/random" class="btn-white margin-horz-xsmall small-btn--fill small-margin-horz-reset"><span class="icon--left icon-random-blue">Random Course</span></a>
-            </div>
-          </form>
-        </div>
-      </header>
-    </div>
-
-  {% elseif total == 0 %}
-    <div id="search-container" class="classcentral-style">
-      <header class="text-center padding-horz-xlarge">
-        <h1 class="head-1 padding-top-xxlarge margin-top-xxlarge margin-bottom-medium" style="font-size: 32px;">No results were found for your search "{{keywords}}"</h1>
-        <p class="text-1 small-text-3">Double check the spelling of your search, or try a different keyword.</p>
-      </header>
-    </div>
-  {% endif %}
-{% endblock %}
-
 {% block content %}
     {% if keywords is not null and keywords|length and total != 0 %}
         <div class="classcentral-style">

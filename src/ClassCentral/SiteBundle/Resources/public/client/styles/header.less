@@ -122,15 +122,15 @@
   .animate-hidden,
   .animate-entering,
   .animate-exiting {
-    // z-index: -10;
     pointer-events: none;
     opacity: 0;
-    // transform: rotateX(-5deg) translateY(-20px);
+    overflow: hidden;
+    height: 0px;
+    left: 0px !important;
+    right: 0px !important;
   }
   .animate-entered {
-    // transition: opacity 200ms ease, transform 200ms ease;
     transition: opacity 200ms ease;
-    // transform: rotateX(0) translateY(0px);
     opacity: 1;
     &.z-mid {
       z-index: 1000 !important;
@@ -138,14 +138,7 @@
   }
   .animate-hidden,
   .animate-exiting {
-    // transition: opacity 200ms ease, transform 200ms ease;
     transition: opacity 200ms ease;
-  }
-  .animate-soft {
-    &.animate-entering,
-    &.animate-exiting {
-      // transform: rotateX(-5deg) translateY(-10px);
-    }
   }
 }
 

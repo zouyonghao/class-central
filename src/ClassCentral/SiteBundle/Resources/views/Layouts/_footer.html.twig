@@ -1,15 +1,22 @@
+{% if style is not defined  %}
+    {% set style = "full" %}
+{% endif %}
+{% if page is not defined  %}
+    {% set page = null %}
+{% endif %}
+
 <div class="classcentral-style">
-  {% if footer is defined and footer != "minimal" and footer != "basic" %}
-    {% if page is defined and page != "home" and not app.user %}
+  {% if style != "minimal" and style != "basic" %}
+    {% if page != "home" and not app.user %}
       {% include 'ClassCentralSiteBundle:Helpers:cc.signup.html.twig' %}
     {% else %}
       {% include 'ClassCentralSiteBundle:Helpers:cc.social.html.twig' %}
     {% endif %}
   {% endif %}
 
-  <footer class="width-centered {% if footer is defined %}{{ footer }}-footer{% else %}bg-white{% endif %}" style="max-width: 1200px;">
+  <footer class="width-centered {% if style != "full" %}{{ style }}-footer{% else %}bg-white{% endif %}" style="max-width: 1200px;">
     {% block footer %}
-      {% if footer is not defined or footer == "full" %}
+      {% if style == "full" %}
         <div class="row text-center padding-xxlarge">
           <div id="footer-links" class="col small-width-100 medium-width-3-5 row border-box padding-bottom-xxlarge">
             <div class="col small-width-100 medium-width-1-3 text-left border-box padding-right-medium">
@@ -233,17 +240,17 @@
             </form>
             <p class="text--gray text-3">No spam. Unsubscribe at any time.</p>
           </div>
-          <div id="footer-copyright" class="col width-100 margin-vert-xxlarge text-left">
+          <div id="footer-copyright" class="col width-100 margin-vert-large text-left">
             <span class="symbol-classcentral-gray symbol--small inline-block"></span>
             <span class="text-3 text--gray">&copy; Copyright 2011-{{ "now"|date("Y") }}</span>
           </div>
         </div>
       {% endif %}
-      {% if footer is defined and footer == "minimal" %}
-        <div class="text-center margin-vert-xxlarge padding-xlarge">
-          <span class="text-3 text--charcoal">&copy; Class Central 2011-{{ "now"|date("Y") }}</span>
-          <ul class="medium-inline-block small-block margin-left-medium">
-            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+      {% if style == "minimal" %}
+        <div class="text-center medium-margin-vert-xxlarge padding-xlarge">
+          <span class="text-3 text--charcoal">&copy; <span class="small-only-hide">Class Central</span> 2011-{{ "now"|date("Y") }}</span>
+          <ul class="inline-block margin-left-medium">
+            <li class="inline-block medium-padding-horz-medium small-padding-horz-xsmall">
               <a
                 class="text-3 text--charcoal"
                 href="{{ path('ClassCentralSiteBundle_faq') }}"
@@ -254,7 +261,7 @@
                 FAQ
               </a>
             </li>
-            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+            <li class="inline-block medium-padding-horz-medium small-padding-horz-xsmall">
               <a
                 class="text-3 text--charcoal"
                 href="{{ path('ClassCentralSiteBundle_privacy') }}"
@@ -267,12 +274,14 @@
           </ul>
         </div>
       {% endif %}
-      {% if footer is defined and footer == "basic" %}
+      {% if style == "basic" %}
         <div class="text-center padding-large">
-          <span class="symbol-classcentral-gray symbol--small inline-block margin-right-medium"></span>
-          <span class="text-3 text--gray">&copy; Copyright 2011-{{ "now"|date("Y") }}</span>
-          <ul class="medium-inline-block small-block margin-left-medium">
-            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+          <span class="small-only-hide">
+            <span class="symbol-classcentral-gray symbol--small inline-block margin-right-medium"></span>
+          </span>
+          <span class="text-3 text--gray">&copy; <span class="small-only-hide">Copyright</span> 2011-{{ "now"|date("Y") }}</span>
+          <ul class="inline-block margin-left-medium">
+            <li class="inline-block medium-padding-horz-medium small-padding-horz-xsmall">
               <a
                 class="text-3 text--gray"
                 href="{{ path('ClassCentralSiteBundle_faq') }}"
@@ -283,7 +292,7 @@
                 FAQ
               </a>
             </li>
-            <li class="small-block medium-inline-block medium-padding-horz-medium small-margin-vert-small">
+            <li class="inline-block medium-padding-horz-medium small-padding-horz-xsmall">
               <a
                 class="text-3 text--gray"
                 href="{{ path('ClassCentralSiteBundle_privacy') }}"

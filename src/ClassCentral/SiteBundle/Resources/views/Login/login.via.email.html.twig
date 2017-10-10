@@ -1,4 +1,4 @@
-{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+{% extends 'ClassCentralSiteBundle:Layouts:auth.html.twig' %}
 
  {% block headmeta %}
      <title>Login via Email | Class Central</title>
@@ -11,7 +11,7 @@
  {% set leUser =  app.session.get('leUser') %}
  {% set leEmail =  app.session.get('leEmail') %}
 
-{% block contentheader %}
+{% block content %}
   <section class="classcentral-style auth" id="auth-email-sign">
 
     {% if not leEmailSent %}
@@ -46,7 +46,7 @@
             <input type="text" id="email" name="email" class="input--medium radius width-100">
           </fieldset>
           <fieldset class="text-center">
-            <button type="submit" class="btn-blue padding-horz-xxlarge margin-top-large">Request email with sign in link</button>
+            <button type="submit" class="btn-blue padding-horz-xxlarge margin-top-large">Email me a one-time sign in link</button>
           </fieldset>
         </div>
       </form>
