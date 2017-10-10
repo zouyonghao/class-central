@@ -105,11 +105,6 @@
   {% endif %}
 {% endif %}
 
-
-
-{% block beforeClosingBody %}
-{% endblock %}
-
 {# Rating popup box #}
 {% include 'ClassCentralSiteBundle:Helpers:rating.popup.html.twig' %}
 
@@ -125,5 +120,8 @@
 </script>
 {# Tracking / Analytics #}
 {% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
+
+{% block beforeClosingBody %}
+{% endblock %}
 </body>
 </html>
