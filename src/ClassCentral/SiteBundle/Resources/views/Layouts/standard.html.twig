@@ -7,7 +7,58 @@
 
 <html lang="en" class="sticky-footer">
 
-{% include 'ClassCentralSiteBundle:Layouts:_head.html.twig' %}
+{% if app.request.get('_route') == 'ClassCentralSiteBundle_homepage' %}
+    <head itemscope itemtype="http://schema.org/WebSite">
+{% else %}
+    <head>
+{% endif %}
+
+    <meta name="google-signin-client_id" content="543074773853-5o4th7sqent0dc5f0slvn0cakr152fpv.apps.googleusercontent.com">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block headmeta %}
+    {% endblock %}
+
+    <link rel="shortcut icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
+    <link rel="icon"  type="image/x-icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}">
+    <link rel="search" type="application/opensearchdescription+xml" href="{{ asset('bundles/classcentralsite/xml/opensearch.xml') }}" title="Class Central MOOC search" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    {% if ccStyleOnly is not defined or ccStyleOnly != true or app.user %}
+      <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc.css') }}" />
+    {% endif %}
+    <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-style.css') }}" />
+
+    <!-- Google+ Direct connect -->
+    <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
+    <script type="text/javascript">
+        user_logged_in = 0;
+        {% if app.user %}
+            user_logged_in = 1;
+        {% endif %}
+    </script>
+
+    {{ include ('ClassCentralSiteBundle:Layouts/Tracking:head.html.twig') }}
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
+</head>
+
+<script>
+    (function(d) {
+        var config = {
+                kitId: 'gdf6zoz',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+    })(document);
+</script>
 
 <body>
 
