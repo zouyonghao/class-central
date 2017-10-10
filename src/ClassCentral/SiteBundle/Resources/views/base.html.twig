@@ -119,6 +119,10 @@
 {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' %}
 {# Footer scripts #}
 {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
+<script type="text/javascript">
+    {% block customJS %}
+    {% endblock %}
+</script>
 {# Tracking / Analytics #}
 {% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
 </body>
