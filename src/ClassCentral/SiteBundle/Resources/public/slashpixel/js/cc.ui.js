@@ -40,13 +40,13 @@ class Ui {
       for (let target = event.target; target && target !== this; target = target.parentNode) {
         if (target.matches("[data-show]")) {
           event.preventDefault();
-          document.querySelectorAll("[data-show-target]").forEach((item) => {
+          Array.from(document.querySelectorAll("[data-show-target]")).forEach((item) => {
             item.classList.add('hidden');
           });
-          document.querySelectorAll(`[data-show-target="${target.dataset.show}"]`).forEach((item) => {
+          Array.from(document.querySelectorAll(`[data-show-target="${target.dataset.show}"]`)).forEach((item) => {
             item.classList.remove('hidden');
           });
-          document.querySelectorAll("[data-show]").forEach((item) => {
+          Array.from(document.querySelectorAll("[data-show]")).forEach((item) => {
             item.dataset.inactiveState.split(" ").forEach((cls) => {
               item.classList.add(cls);
             });
@@ -54,7 +54,7 @@ class Ui {
               item.classList.remove(cls);
             });
           });
-          document.querySelectorAll(`[data-show="${target.dataset.show}"]`).forEach((item) => {
+          Array.from(document.querySelectorAll(`[data-show="${target.dataset.show}"]`)).forEach((item) => {
             item.dataset.inactiveState.split(" ").forEach((cls) => {
               item.classList.remove(cls);
             });
@@ -68,7 +68,7 @@ class Ui {
   }
 
   formatCounts() {
-    document.querySelectorAll("[data-format-number]").forEach((item) => {
+    Array.from(document.querySelectorAll("[data-format-number]")).forEach((item) => {
       item.innerHTML = formatNumber(parseInt(item.innerHTML, 10)).shortHand;
       item.classList.remove("text--white");
     });
@@ -168,10 +168,10 @@ class Ui {
       $upcoming.addClass('next');
     }
 
-    document.querySelectorAll("[data-slideshow]").forEach((item) => {
+    Array.from(document.querySelectorAll("[data-slideshow]")).forEach((item) => {
       let slideshowInterval = startInterval(item);
 
-      item.querySelectorAll("[data-slideshow-target]").forEach((navItem) => {
+      Array.from(item.querySelectorAll("[data-slideshow-target]")).forEach((navItem) => {
         navItem.addEventListener("mousedown", function handler(event) {
           clearInterval(slideshowInterval);
           setActiveSlide($(item), event.target.dataset.slideshowTarget);
