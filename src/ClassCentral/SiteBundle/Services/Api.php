@@ -203,9 +203,9 @@ class Api
   {
       $articles = [
           [
-              'title' => 'MOOCs Find Their Audience: Professional Learners and Universities',
-              'url' => '/report/moocs-find-audience-professional-learners-universities/',
-              'description' => 'The real audience for MOOCs is not the traditional university student but a “lifelong career learner.”'
+              'title' => 'At MIT and Georgia Tech, MOOCs Are Showing Up On Campus',
+              'url' => '/report/mit-georgia-tech-moocs-show-up-on-campus',
+              'description' => 'For the first time, on-campus students can earn credit from a MOOC.”'
           ],
           [
               'title' => 'Massive List of MOOC Providers Around The World',
@@ -213,9 +213,9 @@ class Api
               'description' => 'Where to Find MOOCs: The Definitive Guide to MOOC Providers'
           ],
           [
-              'title' => 'Decoding edX’s Newest Credential: Professional Certificate Programs',
-              'url' => '/report/edx-professional-certificate/',
-              'description' => 'We take a look at what edX could be looking to achieve in launching "another" certificate program'
+              'title' => 'Master ES6, React and the Next Hot JavaScript Framework',
+              'url' => '/report/javascript-online-courses/',
+              'description' => '45 online courses to stay relevant in the ever evolving JavaScript Universe'
           ]
       ];
     return $articles;
