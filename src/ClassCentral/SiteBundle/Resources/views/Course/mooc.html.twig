@@ -1,8 +1,5 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
-{% set adVariation = random(1) %}
-
-
 
 {# logged out user finished writing a review and has been redirected here. Show the user a signup form#}
  {% set showPostReviewSignupForm = false %}
@@ -167,22 +164,6 @@
     <div class="course-block row">
 
     <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
-
-            {% if adVariation == 0 %}
-            <div class="course-meta__ad course-ad-top">
-                <div class="row">
-                    <div class="col-sm-6">
-                        {{ cc_ads.renderTextRowAd('course-top',{ "adPosition": "above_title"})|raw }}
-                    </div>
-
-                    <div class="col-sm-6">
-                            {{ cc_ads.renderTextRowAd('course-top',{"adPosition": "above_title"})|raw }}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-
-
         <div class="course-meta-main border-radius">
 
             <div class="course-video js-course-video">
@@ -271,7 +252,7 @@
                 <div class="course-desc">
 
 
-                    {% if adVariation == 1 %}
+
                     <div class="course-meta__ad course-ad-below">
                         <div class="row">
                             <div class="col-sm-6">
@@ -283,8 +264,6 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
-
 
                     {% if courseRank is not empty %}
                         <strong>Class Central Course Rank </strong> <br/>
