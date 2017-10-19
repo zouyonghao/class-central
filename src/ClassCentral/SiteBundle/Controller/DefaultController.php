@@ -175,7 +175,7 @@ class DefaultController extends Controller {
         return [
             'all' => [
                 'title' => 'All',
-                'courseIds' => [2161,4319,637,835,3314,442],
+                'courseIds' => [2161,4319,981,835,3314,442],
                 'url' => $router->generate('subjects')
             ],
             'cs' => [
