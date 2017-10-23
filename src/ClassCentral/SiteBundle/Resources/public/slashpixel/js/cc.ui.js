@@ -122,7 +122,7 @@ class Ui {
       }
     });
 
-    $("[data-rating]").on("click", "[data-rating-value]", function() {
+    $("[data-rating]").on("click", "[data-rating-value]", function(event) {
       event.preventDefault();
       $(this).addClass("selected");
       setTimeout(() => {
