@@ -231,7 +231,7 @@ class Api
       $loggedIn = false;
       $name = '';
       $firstName = '';
-      if($this->container->get('security.context')->getToken()->getUser() instanceof \ClassCentral\SiteBundle\Entity\User)
+      if(!empty($this->container->get('security.context')->getToken()) && $this->container->get('security.context')->getToken()->getUser() instanceof \ClassCentral\SiteBundle\Entity\User)
       {
           $user = $this->container->get('security.context')->getToken()->getUser();
           $userId = $user->getId();
