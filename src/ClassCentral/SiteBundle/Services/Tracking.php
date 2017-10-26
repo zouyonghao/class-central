@@ -19,6 +19,7 @@ class Tracking {
     const FOOTER_CLICK = 'footer_click';
     const AUTH_CLICK = 'auth_click';
     const REVIEW_CLICK = 'review_click';
+    const HTTP_ERROR = 'http_error';
 
 
     public function __construct(ContainerInterface $container) {

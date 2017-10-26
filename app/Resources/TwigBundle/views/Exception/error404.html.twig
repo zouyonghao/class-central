@@ -1,0 +1,32 @@
+{% set disableSignup = true %}
+{% extends 'ClassCentralSiteBundle::Layouts/basic.html.twig' %}
+
+{% block headmeta %}
+    <title>404. Not Found.</title>
+    <meta name="robots" content="noindex" />
+{% endblock %}
+{% block content %}
+
+<div class="classcentral-style">
+  <section class="margin-top-large text-center width-centered" style="max-width: 850px;">
+
+    <img class="inline-block width-4-5" src="/bundles/classcentralsite/images/404-desk.png" alt="Not Found">
+    <h1 class="head-1 text--bold" style="font-size: 48px;">404. Not Found.</h1>
+    <p class="text-1 margin-vert-small" style="font-size: 21px;">Sorry, we can’t seem to find the page you are looking for.</p>
+    <form method="get" action="/search" class="form width-6-7 width-centered border-box padding-vert-medium">
+      <fieldset class="relative">
+        <input placeholder="What do you want to learn?" type="text" autocomplete="off" name="q" class="width-100 input--medium icon-search-charcoal icon--right">
+      </fieldset>
+      <div class="text-center margin-top-large">
+        <button type="submit" class="btn-blue padding-horz-large margin-bottom-small small-btn--fill">Search Class Central</button>
+      </div>
+    </form>
+  </section>
+</div>
+
+<script>
+  CC.track("{{ ts.event('HTTP_ERROR') }}", {
+    type: "404"
+  });
+</script>
+{% endblock %}
