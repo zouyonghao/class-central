@@ -1765,8 +1765,8 @@ EOD;
         $cache = $this->get('cache');
 
         $todaysDate = new \DateTime();
-        $dealStartDate = new \DateTime("2017-09-13 00:00:01", new \DateTimeZone("America/Los_Angeles"));
-        $dealEndDate = new \DateTime("2017-09-20 23:59:59",new \DateTimeZone("America/Los_Angeles"));
+        $dealStartDate = new \DateTime("2017-10-27 00:00:01", new \DateTimeZone("America/Los_Angeles"));
+        $dealEndDate = new \DateTime("2017-10-31 23:59:59",new \DateTimeZone("America/Los_Angeles"));
         $dealOn = false;
         $timeLeft = '';
         if($todaysDate > $dealStartDate && $todaysDate < $dealEndDate)

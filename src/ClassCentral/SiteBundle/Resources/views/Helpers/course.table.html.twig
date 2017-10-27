@@ -110,7 +110,7 @@
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
-        {% if loop.index is divisibleby(20) and not hideTableAd %}
+        {% if loop.index is divisibleby(15) and not hideTableAd %}
             {{ cc_ads.renderTextRowAd('table',{
                 'tableId': tableId,
                 'midRowTableAd': true,
