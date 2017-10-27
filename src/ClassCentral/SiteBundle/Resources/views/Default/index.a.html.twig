@@ -67,10 +67,10 @@
     <section id="new-items" class="width-centered" style="max-width: 1400px;">
       <ul class="z-high row width-4-5 width-centered relative">
         {% set newItems = 2 %}
-        <li class="small-only-hide col small-100 {{ (newItems == 1) ? "medium-width-2-3 width-centered" : "medium-width-1-2" }} padding-right-medium margin-top-small">
-            {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "How One African University Has Extended Its Reach Across the Continent and Beyond", url: "https://www.class-central.com/report/university-of-cape-town-moocs/" }  %}
-        </li>
         <li class="col small-100 {{ (newItems == 1) ? "medium-width-2-3 width-centered" : "medium-width-1-2" }} padding-right-medium margin-top-small">
+            {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "Ten Most Popular MOOCs Starting in November 2017", url: "https://www.class-central.com/report/ten-most-popular-november-2017/" }  %}
+        </li>
+        <li class="small-only-hide col small-100 {{ (newItems == 1) ? "medium-width-2-3 width-centered" : "medium-width-1-2" }} padding-right-medium margin-top-small">
           {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "MOOCWatch #16: MOOC Providers Target Degrees", url: "https://www.class-central.com/report/moocwatch-16-mooc-providers-target-degrees/" }  %}
         </li>
       </ul>
