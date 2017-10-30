@@ -106,7 +106,7 @@
       </nav>
 
       <div data-tab-family="for-you" data-tab-target="recommendations" class="hidden">
-        {% if false  %}
+        {% if app.user.areRecommendationsAvailable %}
           {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recommendedCourses.courses,'tableId': 'suggestions','hideLoadMore':true,'showSubjectInTable':true,'hideTableAd':true} %}
           <div class="text-center margin-top-medium">
             <a href="{{ path('user_recommendations') }}" class="btn-white">View All</a>
