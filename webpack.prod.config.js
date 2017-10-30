@@ -51,7 +51,7 @@ config.plugins = _.union(config.plugins, [
       'NODE_ENV': JSON.stringify('production')
     }
   }),
-  new ExtractTextPlugin('[name].[chunkhash].css'),
+  new ExtractTextPlugin('[name].[contenthash].css'),
   new webpack.optimize.UglifyJsPlugin({
     sourceMap: true,
     output: {
