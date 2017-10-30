@@ -6,11 +6,21 @@
 
     {% for listId, listDetails in listTypes %}
     {% set listType=listDetails['slug'] %}
-        {% if coursesByLists[listType] is defined and coursesByLists[listType] is not empty %}
-            <div id ="{{ listType }}-table-wrapper">
-                <h2 class="tabletitle" id="{{listType}}">{{listDetails.desc}} (<span id="{{ listType }}-count">{{ coursesByLists[listType]['hits']['total'] }}</span>)</h2>
-                {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {'results':coursesByLists[listType],'allowSorting' : false,'tableId':listType, 'hideLoadMore':true} %}
-            </div>
+        {% if coursesByLists[listType] is defined and coursesByLists[listType] is not empty and coursesByLists[listType].hits.total > 0 %}
+            {% set hideTableAds = false %}
+            {% if coursesByLists[listType].hits.total < 5 %}
+                {% set hideTableAds = true %}
+            {% endif %}
+          <div id ="{{ listType }}-table-wrapper">
+            <h2 class="tabletitle text-center head-5 padding-small margin-top-medium" style="background-color: #F4F9FF;" id="{{listType}}">{{listDetails.desc}} (<span id="{{ listType }}-count">{{ coursesByLists[listType]['hits']['total'] }}</span>)</h2>
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {
+              'results': coursesByLists[listType],
+              'allowSorting' : false,
+              'tableId': listType,
+              'hideLoadMore': true,
+              'hideTableAd':  hideTableAds
+            }%}
+          </div>
         {% endif %}
     {% endfor %}
 

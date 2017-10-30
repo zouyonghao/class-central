@@ -240,7 +240,7 @@ class MaestroController extends Controller {
         $creds = null;
         if(!empty($numCredentials) && $numCredentials > 0)
         {
-            $creds = $this->render('ClassCentralCredentialBundle:Credential:credentialcards.html.twig',array(
+            $creds = $this->render('ClassCentralCredentialBundle:Credential:credential.v2.cards.html.twig',array(
                'credentials' => $credentials
             ))->getContent();
         }
@@ -273,4 +273,4 @@ class MaestroController extends Controller {
             'numCredentials' => $data['numCredentials'],
         )));
     }
-} 
+}

@@ -64,11 +64,9 @@ class PageHeaderFactory {
     private static function getFromStream(Stream $entity)
     {
         $info = new PageHeaderInfo("Stream");
-        $info->setName($entity->getName() . ' | Free Online Courses');
+        $info->setName($entity->getName());
         $info->setDescription(
-            "Study free online <em>{$entity->getName()}</em> courses & MOOCs from top universities and colleges. Read reviews to decide if a class is right for you. 
-                Learn the fundamentals of <em>{$entity->getName()}</em> and increase your career prospects by earning certificates of completion.
-            "
+            "Study free online <em>{$entity->getName()}</em> courses & MOOCs from top universities and colleges. Read reviews to decide if a class is right for you."
         );
         if($entity->getImageUrl())
         {
@@ -85,7 +83,7 @@ class PageHeaderFactory {
             $free = '';
         }
         $info = new PageHeaderInfo("Institution");
-        $info->setName($entity->getName().  " | $free Online Courses");
+        $info->setName($entity->getName());
         $info->setUrl($entity->getUrl());
         $info->setDescription($entity->getDescription());
         if($entity->getImageUrl())
@@ -111,4 +109,4 @@ class PageHeaderFactory {
         return $info;
     }
 
-} 
+}

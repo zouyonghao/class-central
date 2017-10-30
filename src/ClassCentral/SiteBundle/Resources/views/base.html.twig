@@ -91,9 +91,11 @@
 
       <div class="cc-page">
           {# Content pages go here #}
-          {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
+          <div class="classcentral-style">
+            {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
               {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
-          {% endif %}
+            {% endif %}
+          </div>
           {%  block content %}
           {% endblock %}
       </div>

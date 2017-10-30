@@ -1,44 +1,33 @@
 {% for ad in ads %}
-    {%  if ad.visible %}
-          <div class="ad-wrap"
-            data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
-            data-track-props='{
-              "ad": {
-                "provider": "{{ ad.providerName }}",
-                "unit": "Sidebar Text Ad",
-                "title": "{{ ad.title }}"
-              }
-            }'
-          >
-            <div class="ad-content">
-                <a class="ad-title" href="{{ ad.url }}" target="_blank"
-                   onmousedown='
-                    CC.track("{{ ts.event('AD_CLICK') }}", {
-                      ad: {
-                        provider: "{{ ad.providerName }}",
-                        unit: "Sidebar Text Ad",
-                        title: "{{ ad.title }}"
-                      }
-                    });ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}");'
-                rel="nofollow">
-                {{ ad.title }}
-                </a>
-
-                <a class="ad-link" href="{{ ad.url }}" target="_blank"
-                   onmousedown='
-                    CC.track("{{ ts.event('AD_CLICK') }}", {
-                      ad: {
-                        provider: "{{ ad.providerName }}",
-                        unit: "Sidebar Text Ad",
-                        title: "{{ ad.title }}"
-                      }
-                    });ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}");'
-                rel="nofollow">
-                    {{ ad.displayUrl }}
-                </a>
-                <p class="ad-text">{{ ad.description }}</p>
-            </div>
-            <span class="ad-note">Advertisement</span>
-        </div>
-    {% endif %}
+  {%  if ad.visible %}
+    <a
+      href="{{ ad.url }}"
+      target="_blank"
+      rel="nofollow"
+      class="xsmall-only-hidden small-only-hidden width-100 relative unit-horz margin-bottom-large padding-small"
+      data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
+      data-track-props='{
+        "ad": {
+          "provider": "{{ ad.providerName }}",
+          "unit": "Sidebar Text Ad",
+          "title": "{{ ad.title }}"
+        }
+      }'
+      onmousedown='
+       CC.track("{{ ts.event('AD_CLICK') }}", {
+         ad: {
+           provider: "{{ ad.providerName }}",
+           unit: "Sidebar Text Ad",
+           title: "{{ ad.title }}"
+         }
+       });ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}");'
+    >
+      <p class="text-3 text--charcoal margin-bottom-xxsmall">
+        <span class="text--bold block">{{ ad.title }}</span>
+        <span class="text--italic">{{ ad.displayUrl }}</span>
+      </p>
+      <p class="text-3 text--charcoal block">{{ ad.description }}</p>
+      <span class="text-3 text--bold absolute top right padding-top-small" style="color: #FF8E6C;">AD</span>
+    </a>
+  {% endif %}
 {% endfor %}

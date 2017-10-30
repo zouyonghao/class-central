@@ -9,92 +9,98 @@
     {%  set sorting = allowSorting %}
 {% endif %}
 {% if showSubjectInTable is not defined %}
-    {% set showSubjectInTable = false %}
+  {% set showSubjectInTable = false %}
+  {% set addCol = "large-up-width-2-16 xlarge-up-width-1-16" %}
+  {% set titleCol = "large-up-width-8-16 xlarge-up-width-9-16" %}
+  {% set dateCol = "large-up-width-3-16" %}
+  {% set ratingCol = "width-2-16 medium-up-width-3-16" %}
+{% else %}
+  {% set addCol = "large-up-width-2-16 xlarge-up-width-1-16" %}
+  {% set titleCol = "large-up-width-5-16 xlarge-up-width-8-16" %}
+  {% set subjectCol = "large-up-width-3-16" %}
+  {% set dateCol = "large-up-width-3-16 xlarge-up-width-2-16" %}
+  {% set ratingCol = "width-2-16 medium-up-width-3-16 xlarge-up-width-2-16" %}
 {% endif %}
 {% if hideTableAd is not defined %}
     {% set hideTableAd = false %}
 {% endif %}
 {% if pageNo == 1 or showHeader %}
-<table class="table table-bordered" id='{{ tableId}}list'>
-    <thead>
+<table class="table table--block" id='{{ tableId }}list'>
+  <thead class="xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
     <tr>
-        {#<th class="introcolumn" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'intro')">Intro Video</th>#}
-        <th class="add-column"></th>
-        {% set nameSortClass = '' %}
-        {% if sortField is defined and sortField =='name'  %}
-            {% set nameSortClass = sortClass %}
+      <th class="text-middle width-3-16 {{ addCol }}"></th>
+      {% set nameSortClass = '' %}
+      {% if sortField is defined and sortField =='name'  %}
+          {% set nameSortClass = sortClass %}
+      {% endif %}
+      <th class="text-left cursor-pointer {{ titleCol }} {% if sorting %} sorting {% endif %}{{ nameSortClass }} course-name-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Course Name')" data-sort="name">
+        {% if sorting and sortField is defined %}
+          {% if sortField == 'name' and sortClass == 'headerSortUp' %}
+            <span class="head-5 icon--right icon-sort-asc">Course Name</span>
+          {% elseif sortField == 'name' and sortClass == 'headerSortDown' %}
+            <span class="head-5 icon--right icon-sort-des">Course Name</span>
+          {% else %}
+            <span class="head-5 icon--right icon-sort">Course Name</span>
+          {% endif %}
+        {% else %}
+        <span class="head-5">Course Name</span>
         {% endif %}
-        <th class="{% if sorting %} sorting {% endif %}{{ nameSortClass }} course-name-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Course Name')" data-sort="name">
-            <div class="arrow-wrap">
-                Course Name
-                <p class="sorting-arrows">
-                    <span>
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                    </span>
-                    <span>
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                </p>
-            </div>
-        </th>
-        {#<th class="sorting instructors" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Instructor')">Instructor(s)</th>#}
-        {# hide the stream column on stream pages #}
-        {% if page is defined and page != 'stream' and page=='home' %}
-            <th class="{% if sorting %} sorting {% endif %} subject subject-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Subject')" data-sort="subjectSlug">
-                <div class="arrow-wrap">
-                    Subject
-                    <p class="sorting-arrows">
-                    <span>
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                    </span>
-                    <span>
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                    </p>
-                </div>
-            </th>
-        {% endif %}
-
+      </th>
+      {% if showSubjectInTable %}
         {% set dateSortClass = '' %}
-        {% if sortField is defined and sortField =='date'  %}
-            {% set dateSortClass = sortClass %}
+        {% if sortField is defined and sortField == 'subject'  %}
+          {% set dateSortClass = sortClass %}
         {% endif %}
-        <th class="{% if sorting %} sorting {% endif %} {{ dateSortClass  }} start-date" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Start Date')" data-sort="date">
-            <div class="arrow-wrap">
-                Start Date
-                <p class="sorting-arrows">
-                    <span>
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                    </span>
-                    <span>
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                </p>
-            </div>
+        <th class="text-left cursor-pointer {{ subjectCol }} {% if sorting %} sorting {% endif %} subject subject-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Subject')" data-sort="subjectSlug">
+          {% if sorting and sortField is defined %}
+            {% if sortField == 'subject' and sortClass == 'headerSortUp' %}
+              <span class="head-5 icon--right icon-sort-asc">Subject</span>
+            {% elseif sortField == 'subject' and sortClass == 'headerSortDown' %}
+              <span class="head-5 icon--right icon-sort-des">Subject</span>
+            {% else %}
+              <span class="head-5 icon--right icon-sort">Subject</span>
+            {% endif %}
+          {% else %}
+          <span class="head-5">Subject</span>
+          {% endif %}
         </th>
-        {# <th class="sorting offering-length" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Length')">Length</th> #}
-        {# hide the initiative column on all pages #}
-        {% if page is defined and page != 'initiative' and false %}<th class="sorting" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Initiative')" data-sort="course-provider">Provider</th> {% endif %}
-
-        {% set ratingSortClass = '' %}
-        {% if sortField is defined and sortField =='rating'  %}
-            {% set ratingSortClass = sortClass %}
+      {% endif %}
+      {% set dateSortClass = '' %}
+      {% if sortField is defined and sortField =='date'  %}
+        {% set dateSortClass = sortClass %}
+      {% endif %}
+      <th class="text-right cursor-pointer {{ dateCol }} {% if sorting %} sorting {% endif %} {{ dateSortClass  }} start-date" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Start Date')" data-sort="date">
+        {% if  sorting and sortField is defined %}
+          {% if sortField == 'date' and sortClass == 'headerSortUp' %}
+            <span class="head-5 icon--right icon-sort-asc">Start Date</span>
+          {% elseif sortField == 'date' and sortClass == 'headerSortDown' %}
+            <span class="head-5 icon--right icon-sort-des">Start Date</span>
+          {% else %}
+            <span class="head-5 icon--right icon-sort">Start Date</span>
+          {% endif %}
+        {% else %}
+        <span class="head-5">Start Date</span>
         {% endif %}
-        <th class="{% if sorting %} sorting {% endif %} {{ ratingSortClass }} course-rating-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Rating')" data-sort="rating">
-            <div class="arrow-wrap">
-                Rating
-                <p class="sorting-arrows">
-                    <span>
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 -3 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                    </span>
-                    <span>
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 3 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                </p>
-            </div>
-        </th>
+      </th>
+      {% set ratingSortClass = '' %}
+      {% if sortField is defined and sortField =='rating'  %}
+        {% set ratingSortClass = sortClass %}
+      {% endif %}
+      <th class="text-right cursor-pointer {{ ratingCol }} {% if sorting %} sorting {% endif %} {{ ratingSortClass }} course-rating-column" onmousedown="ga('send','event', 'Table Header Click - sort', '{{ tableId }}', 'Rating')" data-sort="rating">
+        {% if sorting and sortField is defined %}
+          {% if sortField == 'rating' and sortClass == 'headerSortUp' %}
+            <span class="head-5 icon--right icon-sort-asc">Rating</span>
+          {% elseif sortField == 'rating' and sortClass == 'headerSortDown' %}
+            <span class="head-5 icon--right icon-sort-des">Rating</span>
+          {% else %}
+            <span class="head-5 icon--right icon-sort">Rating</span>
+          {% endif %}
+        {% else %}
+        <span class="head-5">Rating</span>
+        {% endif %}
+      </th>
     </tr>
-    </thead>
+  </thead>
     <tbody class="table-body-{{ tableId }}" id="course-listing-tbody">
 {% endif %}
 
@@ -119,27 +125,29 @@
         {% endif %}
 
         {% if followItem is defined and loop.index == 5 and showHeader and not user_session.isItemFollowed(followItem,followItemId) %}
-            <tr>
-                <td colspan="4" class="featured-cell">
-                    <div class="featured-cell__container">
-                        <div class="featured-cell__text"><i>Want an email when new courses are available?</i></div>
-                        <div class="featured-cell__button ui-theme-light">
-                            {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                                item : followItem,
-                                item_id : followItemId,
-                                itemName: followItemName,
-                                followed: user_session.isItemFollowed(followItem,followItemId)
-                            } %}
-                        </div>
-                    </div>
-                </td>
+            <tr style="background-color: #F4F9FF;">
+              <td colspan="4" class="featured-cell width-100">
+                <div class="head-4">
+                  <span class="small-hide">Get an email when new courses are available</span>
+                  {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+                      item : followItem,
+                      item_id : followItemId,
+                      itemName: followItemName,
+                      followed: user_session.isItemFollowed(followItem,followItemId),
+                      followButtonWithCount: true,
+                      hideCount: true,
+                      size: "small",
+                      followers:followService.getNumFollowers(followItem,followItemId)
+                  } %}
+                </div>
+              </td>
             </tr>
         {% endif %}
 
         <tr itemscope itemtype="http://schema.org/Event">
 
             {# add to profile column #}
-            <td class="add-column">
+            <td class="add-column text-center width-3-16 {{ addCol }}">
                 {# filter information #}
 
                 {# set the subject to the child subject if it exists #}
@@ -158,85 +166,110 @@
                 {% endfor %}
                 <div class="sessionSlug" style="display:none;">{{ states|join(',') }}</div>
 
-                <div class="dropdown">
+                <div class="dropdown" data-dropdown>
                     {% set userListIds = user_session.getCourseListIds(course.id) %}
                     {# span id is same as the name of the input checkbox#}
-                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
-                        <span id="check-{{ tableId }}-{{ course.id }}" class="round-add-btn {% if userListIds is empty %}round-add-btn--plus{% else %}round-add-btn--minus{% endif %}">
-                            <span class="round-add-btn__x-bar"></span>
-                            <span class="round-add-btn__y-bar"></span>
-                        </span>
+                    <a
+                      class="
+                      icon--center inline-block
+                      {% if userListIds is empty %}icon--medium icon-list-add-blue{% else %}icon--small icon-pencil-charcoal{% endif %}
+                      add-button dropdown-toggle"
+                      href="#"
+                      style="height: 25px;"
+                      data-dropdown-anchor
+                      id="check-{{ tableId }}-{{ course.id }}"
+                      data-toggle="dropdown">
+                        <span id="check-{{ tableId }}-{{ course.id }}"></span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-list-header">My Courses</li>
+                    <ul data-dropdown-menu class="text-left dropdown-menu radius bg-white padding-bottom-small" style="width: 200px;">
+                        <li class="dropdown-list-header bg-gray padding-xsmall padding-left-medium margin-bottom-small">My Courses</li>
                         {% for listId, list in listTypes %}
-                            <li>
-                                <input type="checkbox" name="check-{{ tableId }}-{{ course.id }}" class = "course-list-checkbox" id="check-{{ listId }}-{{ course.id }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
-                                       {% if listId in userListIds %}checked="checked"{% endif %} data-course-name="{{ course.name }}"
-                                       data-source="{{ tableId }}"
-                                        >
-                                <label for="check-{{ listId }}-{{ course.id }}">{{ list.desc }}</label>
+                            <li class="padding-horz-small">
+                              <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                                <input
+                                  type="checkbox"
+                                  name="check-{{ tableId }}-{{ course.id }}"
+                                  class="course-list-checkbox"
+                                  id="check-{{ listId }}-{{ course.id }}"
+                                  value="{{ listId }}"
+                                  data-course-id = "{{ course.id }}"
+                                  {% if listId in userListIds %}checked="checked"{% endif %}
+                                  data-course-name="{{ course.name }}"
+                                  data-source="{{ tableId }}"
+                                >
+                                <label for="check-{{ listId }}-{{ course.id }}" class="filter-dropdown-toggle sub-category">
+                                  <span>
+                                    <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                                      <span class="icon icon-checkmark-white"></span>
+                                    </span>
+                                    <span class="checkbox--label checkbox--label-solid inline-block">{{ list.desc }}</span>
+                                  </span>
+                                </label>
+                              </fieldset>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
             </td>
 
-            <td class="course-name-column">
+            <td class="course-name-column width-11-16 relative {{ titleCol }}">
+              {% if is_granted('ROLE_ADMIN') and app.request.get('copy-course') is not empty %}
+                <button class="btn--small btn-white btn-course-name-copy margin-bottom-xsmall" data-clipboard-text="{{ course.id }}|||{{ course.name }}">
+                  Copy
+                </button>
+              {% endif %}
+              {# showing institutions and universities #}
 
-                <div class="course-name-column-rating">
-                    <div class="course-rating" data-score="{{ course.rating }}"></div>
-                </div>
+                  <ul class="table-uni-list text-3 block">
+                      {% if course.institutions |length > 0 and showInstitution is not defined  %}
+                          {% for institution in course['institutions'] %}
+                              {% set route = 'ClassCentralSiteBundle_university' %}
+                              {% if not institution['isUniversity'] %}
+                                  {% set route = 'ClassCentralSiteBundle_institution' %}
+                              {% endif %}
+                              <li class="inline">
+                                  <a
+                                    class="uni-name text--charcoal hover-text--underline"
+                                    href="{{ path(route,{'slug' : institution['slug']|lower })}}"
+                                    title="List of {{institution['name']}} MOOCs"
+                                    onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')"
+                                  >
+                                    {{institution['name']}}
+                                  </a>
+                              </li>
+                          {% endfor %}
+                      {% endif %}
 
-                {% if is_granted('ROLE_ADMIN') and app.request.get('copy-course') is not empty %}
-                    <button class="btn-course-name-copy" data-clipboard-text="{{ course.id }}|||{{ course.name }}">
-                        Copy
-                    </button>
-                {% endif %}
-                <a class="course-name" itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}"
+                  </ul>
+                <a class="text--charcoal text-2 medium-up-text-1 block course-name" itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}"
                    onmousedown='recordInboundLink(
                            "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
                            "{{course.provider.name}}","{{course.name}}","{{ tableId }}");return false'
 
-                   title="{{ course.name }}"><span itemprop="name" class="course-name-text">{{ course.name }}</span>
+                   title="{{ course.name }}"><span itemprop="name" class="course-name-text text--bold">{{ course.name }}</span>
 
                     {% if course.price > 0 or course.price == -1 %}
-                    <span class="course-name-icon">
-                       <svg viewBox="0 0 32 32"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-paid-icon"></use></svg>
-                   </span>
+                    <i class="icon icon-dollar icon--xsmall"></i>
                     {% endif %}
                 </a>
 
 
-                {# showing institutions and universities #}
 
-                    <ul class="table-uni-list">
-                        {% if course.institutions |length > 0 and showInstitution is not defined  %}
-                            {% for institution in course['institutions'] %}
-                                {% set route = 'ClassCentralSiteBundle_university' %}
-                                {% if not institution['isUniversity'] %}
-                                    {% set route = 'ClassCentralSiteBundle_institution' %}
-                                {% endif %}
-                                <li>
-                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs" onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
-
-                                </li>
-                            {% endfor %}
-                        {% endif %}
-                        {% if course['provider'] and page != 'initiative' %}
-                            <span class="via">via</span>
-                            <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"> {{ course.provider.name }}</a>
-                        {% endif %}
-                    </ul>
-
-
-                <div class="course-name-column-start-date">Start Date:  {{ course.nextSession.displayDate  }}</div>
-
+                    {% if course['provider'] and page != 'initiative' %}
+                      <a
+                        href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"
+                        class="block initiativelinks text--charcoal text--italic hover-text--underline"
+                        title="List of {{ course['provider']['tooltip'] }} MOOCs"
+                        onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
+                      >via {{ course.provider.name }}
+                      </a>
+                    {% endif %}
                 {% if course.credential is not empty %}
-                <div class="course-name-column-cred">
+                <div class="course-name-column-cred text-3 margin-top-xsmall truncate xsmall-only-hide small-only-hide">
                     <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Table', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">
-                        <span class="course-name-column-cred__button" >Earn A Credential</span>
-                        <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
+                        <span class="btn-white btn--small text--charcoal icon--left icon-credential" >Earn A Credential</span>
+                        <span class="text--charcoal margin-left-xxsmall">Part of the</span>
+                         <span class="text--blue">{{ course.credential.name }} {% if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
                     </a>
                 </div>
                 {% endif %}
@@ -247,34 +280,29 @@
 
 
             {% if page is defined and page != 'stream' and page=='home' %}
-                <td class="subject-column"> <a class="subject" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}')" data-category="{{course['subjects'][0]['name']}}">{{ course['subjects'][0]['name'] }} </a>
-                </td>
+              <td class="subject-column {{ subjectCol }} xsmall-only-hidden small-only-hidden medium-only-hidden">
+                <a class="text-2 text--charcoal subject hover-text--underline" href="{{ path('ClassCentralSiteBundle_stream', {'slug': course['subjects'][0]['slug']} ) }}" title="List of {{ course['subjects'][0]['name'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Stream', '{{course['subjects'][0]['name']}}', '{{course['name']}}')" data-category="{{course['subjects'][0]['name']}}">
+                  {{ course['subjects'][0]['name'] }}
+                </a>
+              </td>
             {% endif %}
 
 
-            <td class="start-date" {% if course.nextSession.status == 1 %} itemprop="startDate" content="{{ course.nextSession.microdataDate }}" {% endif %} data-timestamp="{{ course.nextSession.startTimeStamp }}">{{ course.nextSession.displayDate  }}</td>
+            <td class="start-date text-right text-2 text--charcoal xsmall-only-hidden small-only-hidden medium-only-hidden {{ dateCol }}" {% if course.nextSession.status == 1 %} itemprop="startDate" content="{{ course.nextSession.microdataDate }}" {% endif %} data-timestamp="{{ course.nextSession.startTimeStamp }}">{{ course.nextSession.displayDate  }}</td>
 
-
-            {# hide the initiative column on every page #}
-            {% if page is defined and page != 'initiative' and false %}
-                <td>
-                    {% if course['provider'] %}
-                        <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"  class="initiativelinks" title="List of {{ course['provider']['tooltip'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"> {{ course.provider.name }}</a>
-                    {% endif %}
-                </td>
-            {% endif %}
-
-            <td data-timestamp="{{ course.rating }}" class="course-rating-column">
-                <div class="rating-and-count-wrap">
-
-                    <div class="course-table-rating">
-                        {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(course.rating),ratingColour: 'brand'} %}
-                    </div>
-
-
-                     <a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews" class="number-of-ratings-bubble">{{ course.reviewsCount }}</a>
-                </div>
-
+            <td data-timestamp="{{ course.rating }}" class="course-rating-column text-center large-up-text-right {{ ratingCol }}">
+              {% if course.reviewsCount > 0 %}
+                {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: course.rating } %}
+                 <a
+                  class="xsmall-only-hidden small-only-hidden block margin-top-xxsmall text-4 text--gray"
+                  href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews"
+                  class="">
+                  {{ course.reviewsCount }} Reviews
+                </a>
+              {% else %}
+                <span class="xsmall-only-hidden small-only-hidden text-4 text--gray text--italic">No reviews yet.</span>
+                <span class="medium-up-hidden"><i class="icon-star-gray-light icon--xsmall"></i></span>
+              {% endif %}
             </td>
 
         </tr>

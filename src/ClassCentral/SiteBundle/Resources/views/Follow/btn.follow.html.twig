@@ -54,24 +54,26 @@
   <div
     data-button-follow
     class="
-      {% if followDesc %}descriptor-{{ followDescPosition ? followDescPosition : 'right' }}{% endif %}
-      text--{{ followDescColor ? followDescColor : 'black' }}
+      {% if followDesc is defined %}descriptor-{{ followDescPosition ? followDescPosition : 'right' }}{% endif %}
+      {% if size is defined %}btn--{{ size }}{% endif %}
+      {% if hideCount is not defined %}no-count{% endif %}
+      text--{{ followDescColor is defined ? followDescColor : 'black' }}
       {% if followed %}is-following{% endif %}
     "
     data-follow='{"item":"{{ item }}","item-id":"{{ item_id }}"}'
   >
-    {% if followDesc %}<span data-descriptor>{{ followDesc }}</span>{% endif %}
+    {% if followDesc is defined %}<span class="small-only-hidden xsmall-only-hidden text-2" data-descriptor>{{ followDesc }}</span>{% endif %}
     <button>
         <i data-indicator class="icon"></i>
         <span data-action>{% if followed %}Following{% else %}Follow{% endif %}</span>
-        <span data-display-count></span>
+        {% if hideCount is not defined %}<span data-display-count></span>{% endif %}
         <div class="tooltip">
             <h5 class="head-5">{{ itemName }}</h5>
             <!--
               starting count is based on provided integer below
               formatting is handled by the JS for the shorthand display
             -->
-            <p class="text-4"><span data-count>{{ followers }}</span> <span data-learners>learners</span> following</p>
+            <p class="text-4"><span data-count>{{ followers }}</span> {% if size is not defined or size != "small" %}<span data-learners>learners</span>{% endif %} following</p>
 
         </div>
     </button>

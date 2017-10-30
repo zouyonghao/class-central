@@ -78,30 +78,67 @@
   </div>
 
   {% if app.user %}
-    <div style="max-width: 1200px; padding: 0 40px; margin: auto;">
-      <div class="front-page-table">
-          <h2 class="section-heading"><span>Personalized Course Recommendations</span></h2>
-          {% if app.user.areRecommendationsAvailable  %}
-              {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recommendedCourses.courses,'tableId':'suggestions','hideLoadMore':true,'showSubjectInTable':true,'hideTableAd':true} %}
-              <a href="{{ path('user_recommendations') }}" class="expand-table-btn">View All</a>
-          {% else %}
-              <div class='alert alert-info' role='alert'>
-                  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"> </span>
-                  <a href='{{ path('user_follows') }}'><strong>Never Miss a Course!</strong> Unlock your <strong>personalized course recommendations</strong> by updating your follows</a>. Get regular updates of new and upcoming courses.
-              </div>
-          {% endif %}
+  <div class="classcentral-style">
+    <section class="width-centered padding-horz-large margin-top-xlarge" style="max-width: 1250px;">
+      <nav class="border-bottom border--thin border--gray-dark row relative">
+        <div id="for-you-header" class="text-left small-only-hidden xsmall-only-hidden absolute left">
+          <h2 class="head-2 medium-up-head-1 padding-bottom-small inline-block">For You</h2>
+          <p class="small-only-hidden xsmall-only-hidden medium-only-hidden large-only-hidden text-1 inline-block padding-left-small">
+            You are logged in as <a href="{{ navbarData["user"]["navMenu"]["My Profile"] }}" class="text--blue">{{ navbarData["user"]["firstName"] }}</a>
+          </p>
+        </div>
+        <div class="text-center medium-up-text-right width-100 push">
+          <div style="top: 1px;" class="relative">
+            <a
+              data-tab="recommendations"
+              data-tab-family="for-you"
+              href="#"
+              class="text-2 text--charcoal inline-block {% if app.request.get('recommendations') == true %}bg-white{% else %}bg-gray{% endif %}  border--thin border-top border-left border--gray-dark border-right padding-vert-xsmall padding-horz-medium large-up-padding-horz-xxlarge margin-right-xsmall"
+            >Recommendations</a>
+            <a
+              data-tab="courses"
+              data-tab-family="for-you"
+              href="#"
+              class="text-2 text--charcoal inline-block {% if app.request.get('courses') == true %}bg-gray{% else %}bg-white{% endif %}  border--thin border-top border-left border-right border--gray-dark padding-vert-xsmall padding-horz-medium large-up-padding-horz-xxlarge margin-right-xsmall"
+            >Your Courses</a>
+          </div>
+        </div>
+      </nav>
+
+      <div data-tab-family="for-you" data-tab-target="recommendations" class="hidden">
+        {% if false  %}
+          {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recommendedCourses.courses,'tableId': 'suggestions','hideLoadMore':true,'showSubjectInTable':true,'hideTableAd':true} %}
+          <div class="text-center margin-top-medium">
+            <a href="{{ path('user_recommendations') }}" class="btn-white">View All</a>
+          </div>
+        {% else %}
+          <div class="text-center margin-xxlarge padding-large">
+            <p class="head-2 margin-bottom-xsmall">Get regular updates of new and upcoming courses!</p>
+            <p class="text-1 padding-bottom-large">
+              <span class="block">You can unlock your <strong class="text--bold">personalized course recommendations</strong> by <br>following Subjects, Universities, Providers, and Languages.</span>
+              <a class="btn-white btn--large margin-top-small" href='{{ path('user_follows') }}'>Find areas of interest to follow now</a>              
+            </p>
+          </div>
+        {% endif %}
       </div>
 
-      <div class="front-page-table">
-          <h2 class="section-heading"><span>My Courses</span></h2>
-          {% if ucCount > 0 %}
-              {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {'results':uc,'tableId':'interested','showSubjectInTable':true,'hideTableAd':true} %}
-              <a href="{{ path('user_library') }}" class="expand-table-btn">View All {{ ucCount }} courses</a>
-          {% else %}
-              No courses found!
-          {% endif %}
+      <div data-tab-family="for-you" data-tab-target="courses">
+        {% if ucCount > 0 %}
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {'results': uc,'tableId':'interested','showSubjectInTable':true,'hideTableAd':true} %}
+            <div class="text-center margin-top-medium">
+              <a href="{{ path('user_library') }}" class="btn-white">View All {{ ucCount }} courses</a>
+            </div>
+        {% else %}
+          <div class="text-center margin-xxlarge padding-large">
+            <p class="head-2 margin-bottom-xsmall">No saved courses found.</p>
+            <p class="text-1 padding-bottom-large">Get started by browsing Popular Courses below or by <a href="/subjects" class="text--blue">Browsing Subjects</a>.</p>
+            <i class="icon--center icon--large icon-arrow-down inline-block" style="height: 40px;"></i>
+          </div>
+        {% endif %}
       </div>
-    </div>
+
+    </section>
+  </div>
   {% endif %}
 
   <div class="classcentral-style">
@@ -110,7 +147,7 @@
     <section class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">
       <header class="padding-horz-medium">
         <nav class="width-100 text-left">
-          <h1 id="pc-header" class="head-1 padding-right-xlarge margin-bottom-medium">Popular Online Courses</h1>
+          <h1 id="pc-header" class="head-2 medium-up-head-1 padding-right-xlarge margin-bottom-medium">Popular Online Courses</h1>
           <ul id="pc-nav-large" class="text-1">
             {% for courseType in spotlightInfo %}
             <li class="inline-block">
@@ -181,7 +218,7 @@
     <div id="mooc-report" class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">
       <header class="padding-horz-medium margin-bottom-medium">
         <nav class="width-100 text-left">
-          <h1 class="head-1 inline-block">MOOC Report</h1>
+          <h1 class="head-2 medium-up-head-1 inline-block">MOOC Report</h1>
           <p class="text-1 inline-block">
             <span id="mr-subtitle">Online Education News and Analysis</span>
             <a

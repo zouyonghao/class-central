@@ -16,6 +16,7 @@ class Tracking {
     const GO_TO_CLASS_CLICK = 'go_to_class_click';
     const HOMEPAGE_CLICK = 'homepage_click';
     const INTERLUDE_CLICK = 'interlude_click';
+    const LISTING_CLICK = 'listing_click';
     const FOOTER_CLICK = 'footer_click';
     const AUTH_CLICK = 'auth_click';
     const REVIEW_CLICK = 'review_click';

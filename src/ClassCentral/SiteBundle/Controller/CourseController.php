@@ -1124,14 +1124,14 @@ EOD;
         $filter =$this->get('filter');
         $allSubjects = $filter->getCourseSubjects( $response['subjectIds'] );
         $allLanguages = $filter->getCourseLanguages( $response['languageIds'] );
-        $allSessions  = $filter->getCourseSessions( $response['sessions'] );
+        //$allSessions  = $filter->getCourseSessions( $response['sessions'] );
 
         return $this->render('ClassCentralSiteBundle:Course:mtcourses.html.twig',array(
             'results' => $response['results'],
             'listTypes' => UserCourse::$lists,
             'allSubjects' => $allSubjects,
             'allLanguages' => $allLanguages,
-            'allSessions' => $allSessions ,
+            //'allSessions' => $allSessions ,
             'page' => 'moocTrackerCourses',
         ));
     }

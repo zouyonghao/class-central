@@ -33,8 +33,8 @@ jQuery(function($) {
                             $('span[id=' + name + ']').html('-');
                         } else {
                             // Course Table
-                            $('span[id=' + name + ']').removeClass("round-add-btn--plus");
-                            $('span[id=' + name + ']').addClass("round-add-btn--minus");
+                            $('#' + name).removeClass("icon--medium icon-list-add-blue");
+                            $('#' + name).addClass("icon--small icon-pencil-charcoal");
                             // $('span[id=' + name + ']').html('<svg class="icon-minus" viewBox="0 0 32 32"><use xlink:href="#icon-minus"></use></svg>');
                         }
 
@@ -48,8 +48,8 @@ jQuery(function($) {
                         if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
                             $('span[id=' + name + ']').html('+');
                         } else {
-                            $('span[id=' + name + ']').removeClass("round-add-btn--minus");
-                            $('span[id=' + name + ']').addClass("round-add-btn--plus");
+                            $('#' + name).removeClass("icon--small icon-pencil-charcoal");
+                            $('#' + name).addClass("icon--medium icon-list-add-blue");
                         }
 
                     }

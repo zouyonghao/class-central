@@ -1,47 +1,40 @@
-{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
 
  {% block headmeta %}
      <title>Meet your Next Course | Class Central</title>
  {% endblock %}
 
 {%  block content %}
-
+  <div class="classcentral-style">
     <span class="hidden" id="meet-your-next-course-page"></span>
-    <div class="intro-wrap">
-        <div class="description-wrap">
-            <div class="description">
-                <h1 class='cc-page-header'>Meet your Next Course</h1>
-                <p>These recommendations have been generated based on your interests. <a href="{{ path('ClassCentralSiteBundle_homepage',{'meet-your-next-course':true}) }}">Start over</a> to generate more recommendations. <a id="meetyournextcourse-create-free-account" href="">Sign up</a> to never miss a course to get updates about new and upcoming courses based on your interests.</p>
-            </div>
+    <header class="width-centered padding-horz-large margin-top-large" style="max-width: 1250px;">
+      <div class="row">
+        <div class="col width-3-5 padding-right-large">
+          <h1 class="margin-vert-medium">
+            <strong class="head-2 medium-up-head-1 text--bold">Meet your Next Course</strong>
+          </h1>
+
+          <p class="text--charcoal text-1 margin-vert-medium">
+            These recommendations have been generated based on your interests.
+            <a class="text--blue" href="{{ path('ClassCentralSiteBundle_homepage',{'meet-your-next-course':true}) }}">Start over</a> to generate more recommendations.
+            {% if not app.user %}<a class="text--blue" id="meetyournextcourse-create-free-account" href="#">Sign up</a> to never miss a course to get updates about new and upcoming courses based on your interests.</p>{% endif %}
+          </p>
         </div>
-    </div>
+      </div>
+    </header>
 
     {% if results is not empty %}
-        <section class="courses">
-            <h2 class="section-heading">
-                <span>Courses</span>
-            </h2>
-            <div id="filter-wrap">
-                <div class="mobile-filter-btn-wrap">
-                    <a href="#" class="mobile-filter-btn">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-4 col-lg-3 filter-column">
-                        {%  include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {} %}
-
-                    </div>
-                    <div class="col-sm-8 col-lg-9 table-column">
-                        <div class="tables-wrap">
-                            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'meetyournextcourse',allowSorting: false} %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="width-centered padding-horz-large" style="max-width: 1250px;">
+      {% include 'ClassCentralSiteBundle:Helpers:course.table.nav.html.twig' %}
+        <div class="row">
+          <div class="col width-100 large-up-width-1-4 large-up-padding-right-xlarge filters-wrap">
+            {%  include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {} %}
+          </div>
+          <div class="col width-100 large-up-width-3-4 tables-wrap">
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'meetyournextcourse',allowSorting: false} %}
+          </div>
+        </div>
+      </section>
     {% endif %}
+  </div>
 {% endblock %}

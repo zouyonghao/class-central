@@ -3,6 +3,19 @@
  */
 jQuery(function($) {
 
+    $("[data-show=filters]").on("click", function(event) {
+      event.preventDefault();
+      const filterContainer = $(".cat-filter-wrap");
+      if ($(this).hasClass("active-filters")) {
+        $(this).removeClass("active-filters icon-x-charcoal margin-bottom-medium").text("Show filters");
+        filterContainer.addClass("icon-chevron-down xsmall-only-hidden small-only-hidden");
+      } else {
+        $(this).addClass("active-filters icon-x-charcoal margin-bottom-medium").text("Hide filters");
+        filterContainer.removeClass("icon-chevron-down xsmall-only-hidden small-only-hidden");
+      }
+      $(this).blur();
+    });
+
     $(".list-button").addClass("active");
 
     $(".tiles-button").click(function() {
@@ -25,6 +38,16 @@ jQuery(function($) {
         list.show();
     });
 
+    $("[data-tab]").on("click", function(event) {
+      event.preventDefault();
+      const tab = $(this).data("tab");
+      $("[data-tab]").data("active", false).removeClass("bg-white").addClass("bg-gray");
+      $(this).data("active", true).addClass("bg-white").removeClass("bg-gray");
+
+      if (tab.match(/credentials|courses/)) {
+        filterCourses();
+      }
+    });
 
     $(".mobile-filter-btn").click(function(event) {
         event.preventDefault();
@@ -56,10 +79,18 @@ jQuery(function($) {
         e.preventDefault();
         var parent = current.parent();
         parent.toggleClass("active");
+
+        if (parent.hasClass('active')) {
+          parent.find(".icon-chevron-right").removeClass("icon-chevron-right").addClass("icon-chevron-down");
+        } else {
+          parent.find(".icon-chevron-down").removeClass("icon-chevron-down").addClass("icon-chevron-right");
+        }
+
     }
 
-    $(".tick-wrap .tick").click(function() {
+    $(".tick-wrap .tick").on('click', function(event) {
         $(this).toggleClass("ticked");
+
         // Deselect all children
         var parentLi = $(this).parent().parent();
         if(parentLi.find('.filter-dropdown')[0])
@@ -70,6 +101,7 @@ jQuery(function($) {
         var node = $(this).parent().children('a');
         var type = node.data('type');
         var value = node.data(type);
+
         if(type != 'credential') {
             // something else was clicked. untoggle credential
             var qCredentialFilter = $.url().param('credential');
@@ -84,32 +116,6 @@ jQuery(function($) {
 
     $(".main-category").click(function(e) {
         toggleActive(e, $(this));
-    });
-
-
-    $(".sub-category").click(function(e) {
-        e.preventDefault();
-        var span = $(this).parent().find('span')[0];
-        var parentLi = $(span).parent().parent();
-        if(parentLi.find('.filter-dropdown')[0]) {
-            // Has sub categories. Expand collapse the sub categories
-            toggleActive(e, $(this));
-        } else{
-            // No sub-categories. Check the box and filter the courses
-            $(span).toggleClass('ticked');
-            var type = $(this).data('type');
-            var value = $(this).data(type);
-            if(type != 'credential') {
-                // something else was clicked. untoggle credential
-                var qCredentialFilter = $.url().param('credential');
-                if(qCredentialFilter) {
-                    $('#credential-toggle').find('.tick').removeClass('ticked');
-                }
-
-            }
-            filterCourses();
-            gaqPush(type, value);
-        }
     });
 
     $(".sort").click(function(e) {
@@ -127,17 +133,20 @@ jQuery(function($) {
     });
 
     // SORTING
-    var tableSort = function tableSort() {
+    var tableSort = function tableSort(event) {
+        event.preventDefault();
+
         var sortDescClass = 'headerSortUp';
         var sortAscClass = 'headerSortDown';
-        var table = $(this).parent().parent().parent().attr('id');
+        var table = $(this).closest('table').attr('id');
         var sortBy = $(this).data('sort');
+
         if(!$(this).hasClass(sortDescClass)) {
-            $(this).removeClass(sortAscClass);
-            $(this).addClass(sortDescClass);
+            $(this).removeClass(sortAscClass)
+            $(this).addClass(sortDescClass)
         } else {
-            $(this).removeClass(sortDescClass);
-            $(this).addClass(sortAscClass);
+            $(this).removeClass(sortDescClass)
+            $(this).addClass(sortAscClass)
         }
 
         $('th.sorting').each( function(){
@@ -152,7 +161,6 @@ jQuery(function($) {
     $('th.sorting').click( tableSort );
 
     function filterCourses() {
-
         if(!$('.cat-filter-wrap').length) {
             return;
         }
@@ -226,8 +234,10 @@ jQuery(function($) {
     var qSessionsParam = $.url().param('session');
     if( qSessionsParam ) {
         var qSessions = qSessionsParam.split(',');
+
         for(var i = 0; i < qSessions.length; i++) {
             $('#session-'+qSessions[i]).find('.tick').addClass('ticked');
+            $('#session-'+qSessions[i]).find('input').prop('checked', true);
         }
     }
 
@@ -236,7 +246,8 @@ jQuery(function($) {
     if( qLanguageParam ) {
         var qLang = qLanguageParam.split(',');
         for(var i=0; i < qLang.length; i++) {
-            $('#lang-'+qLang[i]).find('.tick').addClass('ticked');
+            $('#lang-'+qLang[i]).find('.tick').addClass('ticked')
+            $('#lang-'+qLang[i]).find('input').prop('checked', true);
         }
     }
 
@@ -246,9 +257,10 @@ jQuery(function($) {
         var qSubject = qSubjectParam.split(',');
         for(var i=0;i < qSubject.length; i++) {
             // Check if it is a parent subject
-            subNode = $('#subject-' + qSubject[i]);
+            var subNode = $('#subject-' + qSubject[i]);
             if($(subNode).data('type') == 'parent-sub') {
                 $(subNode).find('.tick').addClass('ticked');
+                $(subNode).find('input').prop('checked', true);
             } else {
                 $(subNode).addClass('active');
                 // Expand the parent
@@ -263,11 +275,13 @@ jQuery(function($) {
     var qCertificateFilter = $.url().param('certificate');
     if(qCertificateFilter) {
         $('#certificate-toggle').find('.tick').addClass('ticked');
+        $('#certificate-toggle').find('input').prop('checked', true);
     }
 
     var qCredentialFilter = $.url().param('credential');
     if(qCredentialFilter) {
         $('#credential-toggle').find('.tick').addClass('ticked');
+        $('#credential-toggle').find('input').prop('checked', true);
     }
 
 
@@ -310,6 +324,7 @@ jQuery(function($) {
 
     function getParams() {
         var filterCats = [];
+
         var tickedSubjects = []; // for the pushstate url
         // Sub subjects
         $(".filter-subjects .active > .sort").each(function() {
@@ -318,7 +333,7 @@ jQuery(function($) {
         });
 
         // Parent subjects
-        $(".filter-subjects .ticked + .sub-category").each(function() {
+        $(".filter-subjects .ticked").each(function() {
             var parentCat = $.trim($(this).data("subject"));
             filterCats.push(parentCat);
             tickedSubjects.push(parentCat);
@@ -331,30 +346,30 @@ jQuery(function($) {
 
         // Credentials
         var credential = false;
-        $(".filter-credentials .ticked + .sub-category").each(function() {
-            credential = true;
-        });
+        if ($("[data-tab=credentials]").data("active")) {
+          credential = true;
+        }
 
         // Languages
         var filterLang = [];
-        $(".filter-languages .ticked + .sub-category").each(function() {
+        $(".filter-languages .ticked").each(function() {
             filterLang.push($.trim($(this).data("lang")));
         });
 
         // Course Lists
         var courseLists = [];
-        $(".filter-courses .ticked + .sub-category").each(function () {
+        $(".filter-courses .ticked").each(function () {
             courseLists.push($.trim($(this).data("course-list")));
         });
 
         // Session list
         var sessions = [];
-        $(".filter-sessions .ticked + .sub-category").each(function () {
+        $(".filter-sessions .ticked").each(function () {
             sessions.push($.trim($(this).data("session")));
         });
 
         var certificate = false;
-        $(".filter-certificate .ticked + .sub-category").each(function () {
+        $(".filter-certificate .ticked").each(function () {
             certificate = true;
         });
 

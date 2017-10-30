@@ -1,232 +1,218 @@
-<div class="cat-filter-wrap">
-
-    {% if numCredentials is defined and numCredentials > 0 %}
-
-        <div class="category-filter category-filter--dark-ribbon">
-
-            <div class="ribbon-wrap">
-                <div class="ribbon">
-                    <span class="number-of-courses"><span id="number-of-credentials">{{ numCredentials }}</span> Credentials available</span>
-                </div>
-            </div>
-
-            <ul class="filter-nav">
-
-
-                <li class="filter-credentials active">
-                    <ul class="main-filter-dropdown">
-                        <li id="credential-toggle">
-                            <div class="tick-wrap">
-                               <span class="tick tick-icon-bg">
-                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                        <use xlink:href="#icon-cc-tick"></use>
-                                    </svg>
-                                </span>
-                                <a href="#" class="filter-dropdown-toggle sub-category" data-type="credential">View Credentials</a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-
-            </ul><!-- /.filter-nav -->
-
-        </div>
-
+<div class="bg-gray padding-small margin-top-medium border-all border--dark-gray radius margin-bottom-medium medium-up-margin-bottom-large">
+  <h3 class="head-3 margin-bottom-small">
+    {% if results is defined and results.hits is defined %}
+      <span class="number-of-courses">Showing
+        <strong class="text--bold">
+          <span class="text--bold" id="number-of-courses">{{ results.hits.total }}</span> courses
+        </strong>
+      </span>
     {% endif %}
-
+  </h3>
+  <button
+    class="btn-white medium-up-hidden width-100 text-left icon-chevron-down icon--right icon--xsmall"
+    data-show="filters"
+  >Show filters</button>
+  <div class="cat-filter-wrap xsmall-only-hidden small-only-hidden" data-show-target="filters">
     <div class="category-filter">
-        {# hide search box on search pages #}
-        {% if page is defined and page != 'search' and false %}
-            <div class="filter-search-wrap">
-                <input class="filter-search" placeholder="Search for a course"/>
-                <div class="filter-search-icon">
-                    <svg viewBox="0 0 33 32" class="icon-search">
-                        <use xlink:href="#icon-cc-logo2"></use>
-                    </svg>
-                </div>
-            </div>
-        {% endif %}
-
-        {% if results is defined and results.hits is defined %}
-        <div class="ribbon-wrap">
-            <div class="ribbon">
-                <span class="number-of-courses"><span id="number-of-courses">{{ results.hits.total }} </span> courses available</span>
-            </div>
-        </div>
-        {% endif %}
-
-
-        <ul class="filter-nav">
-
-            {# show a certificate filter #}
-            {% if numCoursesWithCertificates is defined and numCoursesWithCertificates > 0 %}
-            <li class="filter-certificate active">
-                <ul class="main-filter-dropdown">
-                    <li id="certificate-toggle">
-                        <div class="tick-wrap">
-                               <span class="tick tick-icon-bg">
-                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                        <use xlink:href="#icon-cc-tick"></use>
-                                    </svg>
-                                </span>
-                            <a href="#" class="filter-dropdown-toggle sub-category" data-type="certificate">With Certificate ({{ numCoursesWithCertificates }})</a>
-                        </div>
-                    </li>
-                </ul>
+      <ul class="filter-nav">
+        {# show a certificate filter #}
+        {% if numCoursesWithCertificates is defined and numCoursesWithCertificates > 0 %}
+          <li class="bg-white filter-certificate active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
+          <ul class="main-filter-dropdown text-2">
+            <li id="certificate-toggle">
+              <div class="tick-wrap">
+                <fieldset class="checkbox checkbox--medium checkbox--standard padding-small relative">
+                  <input class="tick" type="checkbox" name="certificate" id="certificate">
+                  <label data-type="certificate" for="certificate" class="filter-dropdown-toggle sub-category">
+                    <span>
+                      <span class="checkbox--icon margin-small checkbox--icon-solid">
+                        <span class="icon icon-checkmark-white"></span>
+                      </span>
+                      <span class="checkbox--label checkbox--label-solid inline-block">With Certificate
+                        <span class="text-4">({{ numCoursesWithCertificates }})</span>
+                      </span>
+                    </span>
+                  </label>
+                </fieldset>
+              </div>
             </li>
-            {% endif %}
+          </ul>
+        </li>
+        {% endif %}
 
-            {# user course lists #}
-            {% if userLists is defined and userLists|length > 0 %}
-                <li class="filter-courses active">
-                    <a href="#" class="filter-dropdown-toggle main-category">
-                        My Courses
-                    <span class="arrow-up">
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                    </span>
-                    <span class="arrow-down">
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                    </a>
-                    <ul class="main-filter-dropdown">
-                        {% for list in listTypes if list.slug in userLists %}
-                            <li>
-                                <div class="tick-wrap">
-                                <span class="tick tick-icon-bg">
-                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                        <use xlink:href="#icon-cc-tick"></use>
-                                    </svg>
-                                </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="{{ list.slug }}" data-type="course-list">{{ list.desc  }}</a>
-                                </div>
-                            </li>
-                        {% endfor %}
-
-                        {% if searchTerms|length > 0 %}
-                            <li>
-                                <div class="tick-wrap">
-                               <span class="tick tick-icon-bg">
-                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                        <use xlink:href="#icon-cc-tick"></use>
-                                    </svg>
-                                </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm" data-type="course-list">Search Terms</a>
-                                </div>
-                            </li>
-                        {% endif %}
-                    </ul>
-
+        {# user course lists #}
+        {% if userLists is defined and userLists|length > 0 %}
+          <li class="bg-white filter-courses active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
+            <a
+              href="#"
+              class="filter-dropdown-toggle main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+            >
+              <span class="icon--right icon-chevron-down icon--xsmall width-100 block">My Courses</span>
+            </a>
+            <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+              {% for list in listTypes if list.slug in userLists %}
+                <li>
+                  <div class="tick-wrap">
+                    <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                      <input data-course-list="{{ list.slug }}" data-type="course-list" class="tick" type="checkbox" name="{{ list.slug }}" id="{{ list.slug }}">
+                      <label data-course-list="{{ list.slug }}" data-type="course-list" for="{{ list.slug }}" class="filter-dropdown-toggle sub-category">
+                        <span>
+                          <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                            <span class="icon icon-checkmark-white"></span>
+                          </span>
+                          <span class="checkbox--label checkbox--label-solid inline-block">{{ list.desc }}
+                            <span class="text-4">
+                              {% if coursesByLists[list.slug] is defined and coursesByLists[list.slug] is not empty and coursesByLists[list.slug].hits.total > 0 %}
+                                ({{ coursesByLists[list.slug]['hits']['total'] }})
+                              {% else %}
+                                (0)
+                              {% endif %}
+                            </span>
+                          </span>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
                 </li>
-            {% endif %}
-
-
-
-            {# sessions #}
-            {% if offSessions is defined and offSessions|length > 0 %}
-                <li class="filter-sessions active">
-                    <a href="#" class="filter-dropdown-toggle main-category">
-                        By start date
-                    <span class="arrow-up">
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
+              {% endfor %}
+              {% if searchTerms|length > 0 %}
+                <li>
+                  <div class="tick-wrap">
+                    <span class="tick tick-icon-bg">
+                      <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                          <use xlink:href="#icon-cc-tick"></use>
+                      </svg>
                     </span>
-                    <span class="arrow-down">
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                    </a>
-
-                    <ul class="main-filter-dropdown">
-                        {% for slug,session in offSessions %}
-                            <li id="session-{{ slug }}">
-                                <div class="tick-wrap">
-                               <span class="tick tick-icon-bg">
-                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                        <use xlink:href="#icon-cc-tick"></use>
-                                    </svg>
-                                </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-session="{{ slug }}" data-type="session"> {{ session.nav  }} ({{ session.count }})</a>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    <a href="#" class="filter-dropdown-toggle sub-category" data-course-list="searchTerm" data-type="course-list">Search Terms</a>
+                  </div>
                 </li>
-            {% endif %}
+              {% endif %}
+            </ul>
+          </li>
+        {% endif %}
 
+        {# sessions #}
+        {% if offSessions is defined and offSessions|length > 0 %}
+          <li class="bg-white filter-sessions active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
+            <a
+              href="#"
+              class="filter-dropdown-toggle main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+            >
+              <span class="icon--right icon-chevron-down icon--xsmall width-100 block">By start date</span>
+            </a>
 
-            {# subjects #}
-            {% if offSubjects is defined and offSubjects|length > 0  %}
-                <li class="filter-subjects active">
-                    <a href="#" class="filter-dropdown-toggle main-category">
-                        By subject
-                    <span class="arrow-up">
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                    </span>
-                    <span class="arrow-down">
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                    </a>
-                    <ul class="main-filter-dropdown">
-                        {% for pSub in offSubjects %}
-                            <li id="subject-{{ pSub.slug }}" data-type="parent-sub">
-                                <div class="tick-wrap">
-                                 <span class="tick tick-icon-bg">
-                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                        <use xlink:href="#icon-cc-tick"></use>
-                                    </svg>
-                                </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-subject="{{ pSub['slug'] }}" data-type="subject"> {% if pSub.children|length > 0 %}<span class="plus-sign">+ </span><span class="minus-sign">- </span> {% endif %}{{ pSub.name  }} ({{ pSub.count }})</a>
-                                </div>
-                                {% if pSub.children|length > 0 %}
-                                    <ul class="filter-dropdown">
-                                        {% for cSub in pSub.children %}
-                                            <li id="subject-{{ cSub.slug }}" data-type="child-sub">
-                                                <a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}">
-                                                <span class="tick tick-icon-bg">
-                                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                                        <use xlink:href="#icon-cc-tick"></use>
-                                                    </svg>
-                                                </span>
-                                                    {{ cSub.name }}
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
+            <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+              {% for slug,session in offSessions %}
+                <li id="session-{{ slug }}">
+                  <div class="tick-wrap">
+                    <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                      <input data-session="{{ slug }}" data-type="session" class="tick" type="checkbox" name="{{ slug }}" id="{{ slug }}">
+                      <label data-session="{{ slug }}" data-type="session" for="{{ slug }}" class="filter-dropdown-toggle sub-category">
+                        <span>
+                          <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                            <span class="icon icon-checkmark-white"></span>
+                          </span>
+                          <span class="checkbox--label checkbox--label-solid inline-block">{{ session.nav  }}
+                            <span class="text-4">({{ session.count }})</span>
+                          </span>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
                 </li>
-            {% endif %}
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
 
-            {# languages #}
-            {% if offLanguages is defined and offLanguages|length > 0 %}
-                <li class="filter-languages">
-                    <a href="#" class="filter-dropdown-toggle main-category">
-                        By languages
-                    <span class="arrow-up">
-                        <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                    </span>
-                    <span class="arrow-down">
-                        <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                    </a>
-                    <ul class="main-filter-dropdown">
-                        {% for language in offLanguages %}
-                            <li id="lang-{{ language.name|lower }}">
-                                <div class="tick-wrap">
-                               <span class="tick tick-icon-bg">
-                                    <svg class="icon-cc-tick" viewBox="0 0 37 32">
-                                        <use xlink:href="#icon-cc-tick"></use>
-                                    </svg>
-                                </span>
-                                    <a href="#" class="filter-dropdown-toggle sub-category" data-lang="{{ language.name }}" data-type="lang"> {{ language.name  }} ({{ language.count }})</a>
-                                </div>
-                            </li>
-                        {% endfor %}
+        {# subjects #}
+        {% if offSubjects is defined and offSubjects|length > 0  %}
+          <li class="bg-white filter-subjects active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
+            <a
+              href="#"
+              class="filter-dropdown-toggle main-category text-1 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+            >
+              <span class="icon--right icon-chevron-down icon--xsmall width-100 block">By subject</span>
+            </a>
+
+            <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+              {% for pSub in offSubjects %}
+                <li id="subject-{{ pSub.slug }}" data-type="parent-sub">
+                  <div class="tick-wrap">
+                    <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                      <input data-subject="{{ pSub['slug'] }}" data-type="subject" class="tick" type="checkbox" name="{{ pSub['slug'] }}" id="{{ pSub['slug'] }}">
+                      <label data-subject="{{ pSub['slug'] }}" data-type="subject" for="{{ pSub['slug'] }}" class="filter-dropdown-toggle sub-category">
+                        <span>
+                          <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                            <span class="icon icon-checkmark-white"></span>
+                          </span>
+                          <span class="checkbox--label checkbox--label-solid inline-block">{{ pSub.name }}
+                            <span class="text-4">({{ pSub.count }})</span>
+                          </span>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
+
+                  {% if pSub.children|length > 0 %}
+                    <ul class="filter-dropdown">
+                      {% for cSub in pSub.children %}
+                        <li id="subject-{{ cSub.slug }}" data-type="child-sub">
+                          <a href="#" class="sort" data-parent="{{ pSub.slug }}" data-subject="{{ cSub.slug }}">
+                            <span class="tick tick-icon-bg">
+                              <svg class="icon-cc-tick" viewBox="0 0 37 32">
+                                <use xlink:href="#icon-cc-tick"></use>
+                              </svg>
+                            </span>
+                            {{ cSub.name }}
+                          </a>
+                        </li>
+                      {% endfor %}
                     </ul>
+                  {% endif %}
                 </li>
-            {% endif %}
-        </ul>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
+
+        {# languages #}
+        {% if offLanguages is defined and offLanguages|length > 0 %}
+            <li class="bg-white filter-languages margin-bottom-xsmall radius border-all border--thin border--gray-dark">
+              <a
+                href="#"
+                class="filter-dropdown-toggle main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+              >
+                <span class="icon--right icon-chevron-right icon--xsmall width-100 block">By language</span>
+              </a>
+
+              <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+                  {% for language in offLanguages %}
+                      <li id="lang-{{ language.name|lower }}">
+                        <div class="tick-wrap">
+                          <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                            <input data-lang="{{ language.name }}" data-type="lang" class="tick" type="checkbox" name="{{ language.name }}" id="{{ language.name }}">
+                            <label data-lang="{{ language.name }}" data-type="lang" for="{{ language.name }}" class="filter-dropdown-toggle sub-category">
+                              <span>
+                                <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                                  <span class="icon icon-checkmark-white"></span>
+                                </span>
+                                <span class="checkbox--label checkbox--label-solid inline-block">
+                                  {{ language.name  }}
+                                  <span class="text-4">({{ language.count }})</span>
+                                </span>
+                              </span>
+                            </label>
+                          </fieldset>
+                        </div>
+                      </li>
+                  {% endfor %}
+              </ul>
+            </li>
+        {% endif %}
+      </ul>
     </div>
+  </div>
 </div>
 
 {% set pageName = 'na' %}
@@ -234,6 +220,4 @@
     {% set pageName = page %}
 {% endif %}
 
-<div class="js-sticky-in-parent-row" style="overflow: hidden;">
-    {% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}
-</div>
+{% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}

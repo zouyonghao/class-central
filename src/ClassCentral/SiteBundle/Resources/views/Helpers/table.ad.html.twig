@@ -1,11 +1,27 @@
 {% if format == 'table' %}
+  {% if showSubjectInTable %}
+    {% set addCol = "large-up-width-2-16 xlarge-up-width-1-16" %}
+    {% set titleCol = "large-up-width-5-16 xlarge-up-width-8-16" %}
+    {% set subjectCol = "large-up-width-3-16" %}
+    {% set dateCol = "large-up-width-3-16 xlarge-up-width-2-16" %}
+    {% set ratingCol = "width-2-16 medium-up-width-3-16 xlarge-up-width-2-16" %}
+  {% else %}
+    {% set addCol = "large-up-width-2-16 xlarge-up-width-1-16" %}
+    {% set titleCol = "large-up-width-8-16 xlarge-up-width-9-16" %}
+    {% set dateCol = "large-up-width-3-16" %}
+    {% set ratingCol = "width-2-16 medium-up-width-3-16" %}
+  {% endif %}
+
 <tr>
-    <td class="add-column">
-        <span class="ad-strip__icon">Ad</span>
+    <td class="text-middle width-3-16 {{ addCol }}">
+      <span
+        style="color: #FF8E6C;"
+        class="width-100 inline-block text-3 text-center padding-vert-xsmall text--bold"
+      >
+        AD
+      </span>
     </td>
-
-
-    <td class="course-name-column"
+    <td class="course-name-column width-11-16 relative {{ titleCol }}"
       data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
       data-track-props='{
         "ad": {
@@ -14,8 +30,23 @@
           "title": "{{ courseName }}"
         }
       }'>
-        <span class="label label-warning hidden-md hidden-lg hidden-sm">Ad</span>
-        <a class="course-name ad-name"  rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown='
+      <ul class="table-uni-list text-3 block">
+          {% if institutionName is not empty %}
+              <li class="inline">
+                  <a class="uni-name text--charcoal" rel="nofollow" target="_blank" href="{{ courseUrl }}"  onmousedown='
+                    CC.track("{{ ts.event('AD_CLICK') }}", {
+                      ad: {
+                        provider: "{{ providerName }}",
+                        unit: "Table Text Ad",
+                        title: "{{ courseName }}"
+                      }
+                    });'
+                    >{{ institutionName }}
+                  </a>
+              </li>
+          {% endif %}
+      </ul>
+        <a class="text--charcoal text-2 medium-up-text-1 block course-name ad-name" rel="nofollow"  target="_blank" href="{{ courseUrl }}" onmousedown='
           CC.track("{{ ts.event('AD_CLICK') }}", {
             ad: {
               provider: "{{ providerName }}",
@@ -23,49 +54,29 @@
               title: "{{ courseName }}"
             }
           });ga("send", "event", "Table Ad", "{{ providerName }} - {{ tableId }}", "{{ courseName }}");'
-          title="{{ courseName }}"><span itemprop="name">{{ courseName }}</span>
+          title="{{ courseName }}"><span itemprop="name" class="text--bold">{{ courseName }}</span>
         </a>
-        <ul class="table-uni-list">
-            {% if institutionName is not empty %}
-                <li>
-                    <a class="uni-name" rel="nofollow" target="_blank" href="{{ courseUrl }}"  onmousedown='
-                      CC.track("{{ ts.event('AD_CLICK') }}", {
-                        ad: {
-                          provider: "{{ providerName }}",
-                          unit: "Table Text Ad",
-                          title: "{{ courseName }}"
-                        }
-                      });'
-                      >{{ institutionName }}
-                    </a>
-                </li>
-            {% endif %}
-            <span class="via">via</span>
-            <a rel="nofollow" href="{{ courseUrl }}" target="_blank" class="initiativelinks" title="{{ courseName }}" onclick='
-              CC.track("{{ ts.event('AD_CLICK') }}", {
-                ad: {
-                  provider: "{{ providerName }}",
-                  unit: "Table Text Ad",
-                  title: "{{ courseName }}"
-                }
-              });'>{{ providerName }}
-            </a>
-        </ul>
+        via
+        <a rel="nofollow" href="{{ courseUrl }}" target="_blank" class="initiativelinks text--italic text--charcoal" title="{{ courseName }}" onclick='
+          CC.track("{{ ts.event('AD_CLICK') }}", {
+            ad: {
+              provider: "{{ providerName }}",
+              unit: "Table Text Ad",
+              title: "{{ courseName }}"
+            }
+          });'>{{ providerName }}
+        </a>
     </td>
 
     {% if showSubjectInTable %}
-        <td class="subject-column"> <a class="subject" href="/subject/{{ subjectSlug }}" title="List of {{ subjectName }} MOOCs" onclick='ga("send","event", "Inbound Clicks - Stream", "{{ subjectName }}", "{{ courseName }}")' data-category="{{ subjectName }}">{{ subjectName }}</a>
+        <td class="subject-column xsmall-only-hidden small-only-hidden medium-only-hidden {{ subjectCol }}"> <a class="subject" href="/subject/{{ subjectSlug }}" title="List of {{ subjectName }} MOOCs" onclick='ga("send","event", "Inbound Clicks - Stream", "{{ subjectName }}", "{{ courseName }}")' data-category="{{ subjectName }}">{{ subjectName }}</a>
         </td>
     {% endif %}
 
-    <td class="start-date">{{ courseDate }}</td>
+    <td class="start-date text-right text-2 xsmall-only-hidden small-only-hidden medium-only-hidden {{ dateCol }}"></td>
 
-    <td data-timestamp="5" class="course-rating-column">
-        <div class="rating-and-count-wrap">
-            <div class="course-table-rating">
-                   {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: 5,ratingColour: 'brand'} %}
-            </div>
-        </div>
+    <td data-timestamp="5" class="course-rating-column text-center large-up-text-right {{ ratingCol }}">
+      {# include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: 5 } #}
     </td>
 
 </tr>

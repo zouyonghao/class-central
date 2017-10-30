@@ -1,14 +1,34 @@
-<span class="review-rating">
-  {% set rating = ((4 * 2)|round) / 2 %}
-  {% for i in range(1, rating|round(0, 'floor')) %}
+<span class="review-rating xsmall-only-hidden small-only-hidden">
+  {% set modulo = (rating|round(0, 'floor') - rating)|abs %}
+
+  {% if rating >= 1 %}
+    {% for i in range(1, rating|round(0, 'floor')) %}
       <i class="icon-star icon--xxsmall"></i>
-  {% endfor %}
-  {% if rating matches '/\.5/' %}
-    <i class="icon-star-half icon--xxsmall"></i>
+    {% endfor %}
+    {% if modulo >= 0.75 %}
+      <i class="icon-star icon--xxsmall"></i>
+    {% elseif modulo >= 0.25 %}
+      <i class="icon-star-half icon--xxsmall"></i>
+    {% endif %}
   {% endif %}
-  {% if 5 - rating|round > 0 %}
-    {% for i in range(1, 5 - rating|round) %}
-        <i class="icon-star-gray-light icon--xxsmall"></i>
-        {% endfor %}
+
+  {% if modulo < 0.25 %}
+    {% set range = 5 - rating|round(0, 'floor') %}
+  {% else %}
+    {% set range = 5 - rating|round(0, 'ceil') %}
+  {% endif %}
+
+  {% if rating < 4.25 %}
+    {% for i in range(1, range) %}
+      <i class="icon-star-gray-light icon--xxsmall"></i>
+    {% endfor %}
+  {% endif %}
+</span>
+<span class="review-rating medium-up-hidden text--charcoal">
+  {% if rating >= 1 %}
+    {{ rating|number_format(1, '.') }}
+    <i class="icon-star icon--xxsmall relative" style="top: -2px;"></i>
+  {% else %}
+    <i class="icon-star-gray-light icon--xxsmall"></i>
   {% endif %}
 </span>

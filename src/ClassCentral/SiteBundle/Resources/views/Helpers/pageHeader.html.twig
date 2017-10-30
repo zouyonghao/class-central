@@ -1,45 +1,44 @@
-<div class="intro-wrap">
-    {% if info.imageUrl %}
-        <div class="image-wrap">
-            <div class="illustrative-image">
-                <img src="{{ rackspace_cdn_base_url }}{{ info.imageUrl }}">
-            </div>
-            {% if info.url %}
-                {#
-                    <div class="learn-more-wrap">
-                        <a href="{{ info.url }}" class="learn-more-link" target="_blank">Learn More</a>
-                    </div>
-                #}
-            {% endif %}
+<header class="width-centered padding-horz-large" style="max-width: 1250px;">
+  <div class="row">
+    <div class="col width-100 large-up-width-3-5 padding-right-large">
+      <div class="unit-horz margin-bottom-small">
+        {% if info.imageUrl %}
+          <div class="unit-block padding-right-medium">
+            <img src="{{ rackspace_cdn_base_url }}{{ info.imageUrl }}" style="width: 85px;">
+          </div>
+        {% endif %}
+        <div class="unit-block unit-fill">
+          <h2 class="head-4 medium-up-head-3 block">Free Online Courses
+            {% if info.type == "Institution" or info.type == "Initiative" %}from{% else %}in{% endif %}
+            {% if info.type == "Language" %} the{% endif %}
+          </h2>
+          <h1><strong class="head-2 medium-up-head-1 text--bold">{{info.name}}</strong></h1>
         </div>
-    {% endif %}
-    <div class="description-wrap">
-        <div class="description">
-            <h1 class='cc-page-header' style="max-width: 700px; white-space: normal" >{{info.name}}</h1>
-            {% if info.description %}
-                <p>{{ info.description|raw  }}</p>
-            {% endif %}
+      </div>
+
+      {% if info.description %}
+        <p class="text--charcoal text-1">{{ info.description|raw }}</p>
+      {% endif %}
+
+      {% if info.type != "Language" %}
+        <div class="text-center margin-top-medium medium-up-text-left">
+          {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+              item : followItem,
+              item_id : followItemId,
+              itemName: followItemName,
+              followed: user_session.isItemFollowed(followItem,followItemId),
+              followButtonWithCount: true,
+              followDesc: 'Follow to get an email when new courses are available',
+              followDescPosition: 'right',
+              followDescColor: 'black',
+              followers:followService.getNumFollowers(followItem,followItemId)
+          } %}
         </div>
-        {#
-        <div class="social-media-wrap">
-            <a class="twitter-icon" href="https://twitter.com/share?url={{ info.pageUrl|url_encode }}&text={{ info.tweet|url_encode }}&via=classcentral&hashtags=mooc"
-               onmousedown="ga('send','event', '{{ info.type }} Share', 'Twitter', '{{ info.name }}')" target="_blank"></a>
-            <a class="google-icon" href="https://plus.google.com/share?url={{ info.pageUrl|url_encode }}"
-               onclick="_javascript:window.open(this.href,
-                    '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
-               onmousedown="ga('send','event', '{{ info.type }} Share', 'Google+', '{{ info.name }}')"     ></a>
-            <a class="facebook-icon" href="https://www.facebook.com/sharer/sharer.php?u={{info.pageUrl|url_encode }}"
-               onmousedown="ga('send','event', '{{ info.type }} Share', 'Facebook', '{{ info.name }}')" target="_blank"></a>
-            <a class="in-icon" href="https://www.linkedin.com/cws/share?url={{ info.pageUrl|url_encode }}" target="_blank"
-               onmousedown="ga('send','event', '{{ info.type }} Share', 'LinkedIn', '{{ info.name }}')"     ></a>
-            <a class="mail-icon" href="mailto:?subject={{ info.subject|url_encode }}&body={{ info.pageUrl|url_encode }}"
-               onmousedown="ga('send','event', '{{ info.type }} Share', 'Mail', '{{ info.name }}')"></a>
-        </div>
-        #}
+      {% endif %}
     </div>
 
-    {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAds.html.twig' %}
-
-
-
-</div>
+    <div class="col width-100 large-up-width-2-5 medium-up-margin-vert-medium large-up-margin-top-large">
+      {%  include 'ClassCentralSiteBundle:Helpers:pageHeaderImageAds.html.twig' %}
+    </div>
+  </div>
+</header>

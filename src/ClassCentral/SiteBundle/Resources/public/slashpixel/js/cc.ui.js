@@ -11,6 +11,8 @@ class Ui {
       this.radio();
       this.rating();
       this.formErrors();
+      this.tabs();
+      this.dropdowns();
 
       $(".bfh-number-btn.inc").addClass('btn-small btn-white icon-chevron-up icon--center');
       $(".bfh-number-btn.dec").addClass('btn-small btn-white icon-chevron-down icon--center');
@@ -85,12 +87,33 @@ class Ui {
   }
 
   radio() {
-    $('[data-radio]').each(function() {
+    $("[data-radio]").each(function() {
       $(this).on("change", function() {
         $(`[name=${$(this).attr('name')}]`).next('label').removeClass('selected');
         $(this).next('label').addClass('selected');
       })
     })
+  }
+
+  dropdowns() {
+    $(document).on("mouseenter", "[data-dropdown]", function(event) {
+      $("[data-dropdown-menu]").hide();
+      $(this).addClass("active")
+      $(this).find("[data-dropdown-menu]").show();
+    });
+    $(document).on("mouseleave", "[data-dropdown]", function(event) {
+      $(this).removeClass("active");
+      $(this).find("[data-dropdown-menu]").hide();
+    });
+  }
+
+  tabs() {
+    $("[data-tab]").on("click", function(event) {
+      const tab = $(this).data("tab");
+      const family = $(this).data("tab-family");
+      $("[data-tab-target]").filter(`[data-tab-family=${family}]`).addClass("hidden");
+      $(`[data-tab-target=${tab}]`).removeClass('hidden');
+    });
   }
 
   rating() {

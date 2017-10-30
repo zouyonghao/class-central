@@ -1,5 +1,6 @@
 @import "~classcentral-style/dist/reset.css";
 @import "~classcentral-style/dist/display.css";
+@import "~classcentral-style/dist/tables.css";
 @import "~classcentral-style/dist/borders.css";
 @import "~classcentral-style/dist/buttons.css";
 @import "~classcentral-style/dist/grid.css";
@@ -7,6 +8,7 @@
 @import "~classcentral-style/dist/position.css";
 @import "~classcentral-style/dist/icons.css";
 @import "~classcentral-style/dist/symbols.css";
+@import "~classcentral-style/dist/checkbox.css";
 @import "~classcentral-style/dist/backgrounds.css";
 @import "~classcentral-style/dist/spacing.css";
 @import "~classcentral-style/dist/util.css";
@@ -18,11 +20,16 @@
 @import "~classcentral-style/dist/icon-chevron-right.css";
 @import "~classcentral-style/dist/icon-share.css";
 @import "~classcentral-style/dist/icon-random.css";
+@import "~classcentral-style/dist/icon-arrow-right.css";
+@import "~classcentral-style/dist/icon-arrow-down.css";
+@import "~classcentral-style/dist/icon-dollar.css";
 @import "styles/header";
 @import "styles/auth";
 @import "styles/home";
 @import "styles/cards";
 @import "styles/review";
+@import "styles/listing";
+@import "styles/follow-button";
 
 .classcentral-style .bg-cc-gradient,
 .bg-cc-gradient {
@@ -58,33 +65,6 @@
   }
 }
 
-@media (max-width: 720px) {
-  .small-text-3 {
-    font-size: 14px !important;
-  }
-}
-@media (max-width: 480px) {
-  .small-btn--fill {
-    width: 100% !important;
-  }
-  .small-width-6-7 {
-    width: 85.71428571% !important;
-  }
-  .small-padding-horz-xsmall {
-    padding-left: 5px !important;
-    padding-right: 5px !important;
-  }
-  .small-margin-horz-reset {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-}
-@media (min-width: 721px) {
-  .medium-padding-top-xxlarge {
-    padding-top: 50px !important;
-  }
-}
-
 html.sticky-footer {
   height: 100%;
 
@@ -104,4 +84,26 @@ html.sticky-footer {
   footer {
     height: 81px;
   }
+}
+
+.checkbox--icon {
+  box-sizing: content-box !important;
+  -moz-box-sizing: content-box !important;
+  -webkit-box-sizing: content-box !important;
+}
+
+.main-filter-dropdown {
+  display: none;
+}
+.active .main-filter-dropdown {
+  display: block;
+}
+.dropdown.active:before {
+  content: " ";
+  display: block;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
 }

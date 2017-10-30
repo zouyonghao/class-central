@@ -633,7 +633,7 @@
         {# include instructor review #}
         {% include 'ClassCentralSiteBundle:Course:helpers/interview.html.twig' %}
 
-        <div class="js-sticky-in-parent-row" style="overflow: hidden;">
+        <div class="js-sticky-in-parent-row classcentral-style" style="overflow: hidden; margin-top: 20px;">
             {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
         </div>
 
@@ -648,7 +648,12 @@
 
             {% if potentialDuplicates['courses']['hits']['total'] > 0 %}
                 <p><b>POTENTIAL DUPLICATES</b></p>
-                {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':potentialDuplicates['courses'],'tableId':'searchtable', 'showHeader':0, 'hideLoadMore':true} %}
+                <section class="classcentral-style">
+                  <div class="width-100 tables-wrap">
+                    {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':potentialDuplicates['courses'],'tableId':'searchtable', 'showHeader':0, 'hideLoadMore':true} %}
+                  </div>
+                </section>
+              </div>
             {% endif %}
 
         {% endif %}
@@ -718,10 +723,11 @@
     {% if recommendations|length > 0 %}
         <div class="col-md-6 course-col">
             <div class="recommended-courses course-col-inner">
-                <table>
+                <table class="classcentral-style">
                     <thead>
                     <tr>
-                        <th>{{ coursesBoxTitle }}</th>
+                        <th class="text-left">
+                          <span class="head-2 text--bold block margin-vert-medium">{{ coursesBoxTitle }}</span></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -733,30 +739,28 @@
                                 {% else %}
                                     {% set initiative='Others' %}
                                 {% endif %}
-                                <a class="course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
-                                   onmousedown='recordInboundLink(
-                                           "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
-                                           "{{initiative}}","{{course.name}}","recommended");return false' ><span>{{ course.name }}</span></a>
 
-                                    <ul class="table-uni-list">
+                                    <ul class="table-uni-list text-3 block">
                                         {% if course.institutions|length %}
                                             {% for institution in course.institutions %}
                                                 {% set route = 'ClassCentralSiteBundle_university' %}
                                                 {% if not institution['isUniversity'] %}
                                                     {% set route = 'ClassCentralSiteBundle_institution' %}
                                                 {% endif %}
-                                                <li>
-                                                    <a class="uni-name" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
+                                                <li class="inline">
+                                                    <a class="uni-name text--charcoal hover-text--underline" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
                                                 </li>
                                             {% endfor %}
                                         {% endif %}
-                                        {% if course['initiative'] %}
-                                            <span class="via">via</span>
-                                            <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"  class="initiativelinks" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.initiative.name }}', '{{course.name}}')"> {{ course.initiative.name }}</a>
-                                        {% endif %}
                                     </ul>
-
-
+                                    <a class="text--charcoal text-1 text--bold block course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
+                                       onmousedown='recordInboundLink(
+                                               "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
+                                               "{{initiative}}","{{course.name}}","recommended");return false' >{{ course.name }}</a>
+                                    {% if course['initiative'] %}
+                                        <span class="via">via</span>
+                                        <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"  class="initiativelinks text--charcoal text--italic hover-text--underline" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.initiative.name }}', '{{course.name}}')"> {{ course.initiative.name }}</a>
+                                    {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

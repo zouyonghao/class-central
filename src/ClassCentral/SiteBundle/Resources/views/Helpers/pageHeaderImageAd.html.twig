@@ -1,35 +1,32 @@
-<div class="intro-wrap__ad">
-    <div class="ad-box ad-box--horizontal">
-        <a href="{{ url }}" class="ad-box__link" rel="nofollow" target="_blank"
-          data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
-          data-track-props='{
-            "ad": {
-              "provider": "{{ provider}}",
-              "unit": "PageHeader Image Ad",
-              "title": "{{ desc }}"
-            }
-          }'
-          onmousedown='
-            CC.track("{{ ts.event('AD_CLICK') }}", {
-              ad: {
-                provider: "{{ provider}}",
-                unit: "PageHeader Image Ad",
-                title: "{{ desc }}"
-              }
-            });ga("send","event", "PageHeader Ad", "{{ provider }}","{{ desc }}")'
-        >
-            <div class="ad-box__left-col">
-                <img src="{{ imageUrl }}" alt="" class="ad-box__img">
-            </div>
-
-            <div class="ad-box__right-col">
-                <div class="ad-box__text">
-                    {{ desc }}
-                </div>
-                <div class="ad-box__note">
-                    Ad
-                </div>
-            </div>
-        </a>
-    </div>
-</div>
+<a href="{{ url }}"
+  rel="nofollow"
+  target="_blank"
+  style="max-width: 400px;"
+  class="width-100 width-centered relative block padding-small"
+  data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
+  data-track-props='{
+    "ad": {
+      "provider": "{{ provider}}",
+      "unit": "PageHeader Image Ad",
+      "title": "{{ desc }}"
+    }
+  }'
+  onmousedown='
+    CC.track("{{ ts.event('AD_CLICK') }}", {
+      ad: {
+        provider: "{{ provider}}",
+        unit: "PageHeader Image Ad",
+        title: "{{ desc }}"
+      }
+    });ga("send","event", "PageHeader Ad", "{{ provider }}","{{ desc }}")'
+>
+  <span class="unit-horz">
+    <span class="unit-block padding-right-medium">
+      <img src="{{ imageUrl }}" alt="">
+    </span>
+    <span class="unit-block text-3 unit-fill text--charcoal">
+      <span class="text-3 text--bold margin-bottom-xsmall block" style="color: #FF8E6C;">AD</span>
+      {{ desc }}
+    </span>
+  </span>
+</a>

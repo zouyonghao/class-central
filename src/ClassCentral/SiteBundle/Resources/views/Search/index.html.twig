@@ -1,4 +1,4 @@
-{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
 
 {% block headmeta %}
     {% if keywords is not null and keywords|length %}
@@ -48,34 +48,25 @@
 
 {% block content %}
     {% if keywords is not null and keywords|length and total != 0 %}
-        <div class="classcentral-style">
-          <h1 class="head-1 margin-bottom-xlarge" style="font-size: 32px;">Search results for "{{keywords}}"</h1>
-          {% include 'ClassCentralSiteBundle:Search:create.alert.html.twig' %}
-        </div>
-        <section class="courses">
-            <h2 class="section-heading">
-                <span>Courses</span>
-            </h2>
-            <div id="filter-wrap">
-                <div class="mobile-filter-btn-wrap">
-                    <a href="#" class="mobile-filter-btn">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4 col-lg-3 filter-column">
-                        {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
-                    </div>
-                    <div class="col-sm-8 col-lg-9 table-column">
-                        <div class="tables-wrap">
-                            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    {% endif %}
 
+  <div class="classcentral-style">
+    <header class="width-centered padding-horz-large margin-vert-large" style="max-width: 1250px;">
+      <h1 class="head-2 medium-up-head-1 margin-bottom-xlarge">Search results for "{{keywords}}"</h1>
+      {% include 'ClassCentralSiteBundle:Search:create.alert.html.twig' %}
+    </header>
+
+    <section class="width-centered padding-horz-large" style="max-width: 1250px;">
+      {% include 'ClassCentralSiteBundle:Helpers:course.table.nav.html.twig' %}
+      <div class="row">
+        <div class="col width-100 large-up-width-1-4 large-up-padding-right-xlarge filters-wrap">
+          {% include 'ClassCentralSiteBundle:Helpers:filters.html.twig' with {'offSubjects':allSubjects,'offLanguages':allLanguages, 'offSessions': allSessions } %}
+        </div>
+        <div class="col width-100 large-up-width-3-4 tables-wrap">
+          {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'searchtable'} %}
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {% endif %}
 {% endblock %}
