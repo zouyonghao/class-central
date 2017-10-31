@@ -19,11 +19,24 @@ class React
     public function component($name, $request_type = false, $data = [])
     {
         $cache = $this->container->get('cache');
-        return $this->getComponent($name, $request_type, $data);
+        $detect = new \Mobile_Detect();
 
-        if($this->cacheReact && !$data['user']['loggedIn'])
+        $cached = true;
+        if($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            return $cache->get('react_component_' . $name . '_' . $request_type, [$this, 'getComponent'], [$name, $request_type, $data]);
+            $cached = false;
+        }
+
+        $query = $this->container->get('request')->get('q');
+        if(!empty($query))
+        {
+            $cached = false;
+        }
+
+        $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
+        if($this->cacheReact && $cached)
+        {
+            return $cache->get("react_component_{$deviceType}_" . $name . '_' . $request_type, [$this, 'getComponent'], [$name, $request_type, $data]);
         }
         else
         {

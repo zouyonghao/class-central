@@ -34,7 +34,8 @@
         "keen-io/keen-io-bundle": "~1.1",
         "phpoffice/phpexcel": "~1.7.9",
         "google/apiclient": "^2.0",
-        "imgix/imgix-php": "dev-master"
+        "imgix/imgix-php": "dev-master",
+        "mobiledetect/mobiledetectlib": "^2.8"
     },
     "repositories" : [
         {
