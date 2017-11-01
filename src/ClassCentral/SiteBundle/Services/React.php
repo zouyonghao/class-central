@@ -22,7 +22,7 @@ class React
         $detect = new \Mobile_Detect();
 
         $cached = true;
-        if($this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        if(!empty($this->container->get('security.context')->getToken()) && $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
         {
             $cached = false;
         }
