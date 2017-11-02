@@ -218,7 +218,63 @@ class CourseFormatter {
     {
         $router = $this->container->get('router');
         $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'newsletter_july_2017','utm_medium' =>'email','utm_campaign'=>'cc_newsletter'));
-
         return sprintf("<li><a href='%s'>%s</a></li> ", $url, $course->getName());
+    }
+
+    public function blogFormatLite(Course $course)
+    {
+        $router = $this->container->get('router');
+        $rs = $this->container->get('review');
+        $institution = '';
+        if ($course->getInstitutions()->count() > 0) {
+            $ins = $course->getInstitutions()->first();
+            $institution = $ins->getName();
+        }
+
+        $ratings = $rs->getRatings( $course->getId() );
+        $reviews = $rs->getReviews($course->getId());
+        $ratingsLine = '';
+        if ($ratings > 0)
+        {
+            $numRatings = $reviews['ratingCount'];
+            $formattedRatings = ReviewUtility::getRatingStars($ratings);
+            $ratingsLine = " $formattedRatings($numRatings)";
+        }
+
+
+        $newCourse = false;
+        $oneMonthAgo = new \DateTime();
+        $oneMonthAgo->sub(new \DateInterval("P30D"));
+        // Check if its a new course - offered for the first time or added recently
+        if($course->getCreated() >= $oneMonthAgo)
+        {
+            $newCourse = true;
+        }
+
+        $offering = $course->getNextOffering();
+        if(count($course->getOfferings()) == 1 and $offering->getCreated() > $oneMonthAgo  )
+        {
+            $newCourse = true;
+        }
+        if(count($course->getOfferings()) == 1 and $offering->getStatus() != Offering::COURSE_OPEN )
+        {
+            $newCourse = true;
+        }
+
+        $newCourseTxt = '';
+        if($newCourse)
+        {
+            $newCourseTxt = '[New] ';
+        }
+
+        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'fcc_medium','utm_medium' =>'web','utm_campaign'=>'prog_cs_courses_november'));
+        if($institution)
+        {
+            return sprintf("<li><a href='%s'>%s%s</a> from <em>%s</em> %s</li> ", $url, $newCourseTxt,$course->getName(),$institution, $ratingsLine);
+        }
+        else
+        {
+            return sprintf("<li><a href='%s'>%s</a></li> ", $url, $course->getName());
+        }
     }
 } 

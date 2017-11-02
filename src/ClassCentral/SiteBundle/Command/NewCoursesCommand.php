@@ -3,6 +3,7 @@
 namespace ClassCentral\SiteBundle\Command;
 
 
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Offering;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,6 +54,26 @@ class NewCoursesCommand extends ContainerAwareCommand {
 
 
         $groups = array();
+
+
+        // sort courses based on follows
+        uasort($courses,function ($c1,$c2){
+            $follow = $this->getContainer()->get('follow');
+            $c1Counts = 0;
+            foreach ($c1->getInstitutions() as $ins)
+            {
+                $c1Counts += $follow->getNumFollowers(Item::ITEM_TYPE_INSTITUTION,$ins->getId());
+            }
+            $c2Counts = 0;
+            foreach ($c2->getInstitutions() as $ins)
+            {
+                $c2Counts += $follow->getNumFollowers(Item::ITEM_TYPE_INSTITUTION,$ins->getId());
+            }
+
+            return $c1Counts < $c2Counts;
+        });
+
+
         foreach($courses as $course)
         {
             if($course->getStatus() >= 100)
@@ -66,31 +87,60 @@ class NewCoursesCommand extends ContainerAwareCommand {
                 continue;
             }
 
-            $subject = $course->getStream();
-            if($subject->getParentStream())
+            if( $course->getPrice() != 0)
             {
-                $subject = $subject->getParentStream();
+                continue;
             }
 
-            $groups[$subject->getName()][] = $course;
+            $isUniversity = false;
+            if($course->getInstitutions())
+            {
+                foreach ($course->getInstitutions() as $ins)
+                {
+                    if($ins->getIsUniversity())
+                    {
+                        $isUniversity = true;
+                        break;
+                    }
+                }
+            }
 
+            if($isUniversity)
+            {
+                $subject = $course->getStream();
+                if($subject->getParentStream())
+                {
+                    $subject = $subject->getParentStream();
+                }
+
+                $groups[$subject->getName()][] = $course;
+            }
         }
 
 
         $count = 0;
+        $universities = [];
         foreach($groups as $insName => $insCourses)
         {
-            $output->writeln("</tbody></table><h2><b>" . strtoupper($insName)."</h2></b><br/><table width='85%' align='center'><tbody>");
+            $output->writeln("<h2>" . strtoupper($insName)."</h2>");
             foreach($insCourses as $course)
             {
 
                 $count++;
-                echo $formatter->tableRowFormat($course);
+                if (empty($universities[$course->getInstitutions()->first()->getName()]))
+                {
+                    $universities[$course->getInstitutions()->first()->getName()] = 0;
+                }
+                $universities[$course->getInstitutions()->first()->getName()]++;
+                echo $formatter->emailFormat($course);
             }
 
             $output->writeln( "<br/>");
         }
-
+        $numUniversities = count($universities);
         $output->writeLn( " $count courses added " );
+        $output->writeLn( " $numUniversities universities added " );
+        arsort($universities);
+        var_dump($universities);
 }
 }

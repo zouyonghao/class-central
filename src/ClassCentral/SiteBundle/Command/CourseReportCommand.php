@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Command;
 
 use ClassCentral\SiteBundle\Command\Network\RedditNetwork;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
+use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Utility\CourseUtility;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -90,7 +91,7 @@ class CourseReportCommand extends ContainerAwareCommand
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
 
-                continue;
+               // continue;
                 // Check if the course is less than month old
                 // Check if the course is a new course
                 $course = $offering->getCourse();
@@ -105,7 +106,7 @@ class CourseReportCommand extends ContainerAwareCommand
                 if(!$newCourse)
                 {
                     $selfPacedSkipped++;
-                    continue;
+                    //continue;
                 }
             }
 
@@ -179,8 +180,29 @@ class CourseReportCommand extends ContainerAwareCommand
                         $o2numRatings = 25;
                     }
 
+                    if($o1numRatings == $o2numRatings)
+                    {
+                        $c1 = $o1->getCourse();
+                        $c2 = $o2->getCourse();
+                        $follow = $this->getContainer()->get('follow');
+                        $c1Counts = 0;
+                        foreach ($c1->getInstitutions() as $ins)
+                        {
+                            $c1Counts += $follow->getNumFollowers(Item::ITEM_TYPE_INSTITUTION,$ins->getId());
+                        }
+                        $c2Counts = 0;
+                        foreach ($c2->getInstitutions() as $ins)
+                        {
+                            $c2Counts += $follow->getNumFollowers(Item::ITEM_TYPE_INSTITUTION,$ins->getId());
+                        }
 
-                    return $o1numRatings < $o2numRatings;
+                        return $c1Counts < $c2Counts;
+                    }
+                    else
+                    {
+                        return $o1numRatings < $o2numRatings;
+                    }
+
                 });
 
                 foreach($offerings as $offering)
