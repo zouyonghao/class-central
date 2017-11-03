@@ -9,10 +9,5 @@
       window.__PRELOADED_STATE__.search = {{ reactService.component('search', 'state', apiService.getReviewbarData())|raw }};
     </script>
     <script defer src="{{ assetService.getBundledAssetFileName('cc-search.js') }}"></script>
-  {% elseif page == "empty_search" %}
-    <script>
-      window.__PRELOADED_STATE__.search = {{ reactService.component('search', 'state', apiService.getSearchbarData())|raw }};
-    </script>
-    <script defer src="{{ assetService.getBundledAssetFileName('cc-search.js') }}"></script>
   {% endif %}
 {% endif %}

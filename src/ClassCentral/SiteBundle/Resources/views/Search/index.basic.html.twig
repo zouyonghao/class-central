@@ -17,29 +17,33 @@
 {% endblock %}
 
 {% block content %}
-  {% if keywords is null or keywords|length == 0 %}
-    <div id="search-container" class="classcentral-style">
+  <div id="search-container" class="classcentral-style">
+    <div class="text-center border-box padding-horz-xlarge small-width-6-7 large-width-2-3 width-centered" style="max-width: 1000px">
       <header>
-        <div class="text-center small-width-6-7 medium-width-2-3 margin-vert-xxlarge medium-padding-top-xxlarge width-centered" style="max-width: 1000px">
-          <h1 class="head-1 margin-bottom-medium">What do you want to learn?</h1>
-          <form method="get" action="/search" class="form width-6-7 width-centered border-box padding-vert-medium">
-            <fieldset class="relative">
-              <input type="text" autocomplete="off" name="q" class="width-100 input--medium icon-search-charcoal icon--right">
-            </fieldset>
-            <div class="text-center margin-top-large">
-              <button type="submit" class="btn-blue margin-horz-xsmall margin-bottom-small small-btn--fill small-margin-horz-reset">Search Class Central</button>
-              <a href="/random" class="btn-white margin-horz-xsmall small-btn--fill small-margin-horz-reset"><span class="icon--left icon-random-blue">Random Course</span></a>
-            </div>
-          </form>
+        <div class="margin-top-large">
+          {% if keywords is null or keywords|length == 0 %}
+            <h1 class="head-2 medium-up-head-1 padding-top-xxlarge margin-bottom-medium">What do you want to learn?</h1>
+          {% elseif total == 0 %}
+            <h1 class="head-2 medium-up-head-1 padding-top-xxlarge margin-bottom-medium">No results were found for your search "{{keywords}}"</h1>
+            <p class="text-3 medium-up-text-1">Double check the spelling of your search, or try a different keyword.</p>
+          {% endif %}
         </div>
       </header>
+      <div class="margin-bottom-large">
+        <form method="get" action="/search" class="form padding-vert-medium">
+          <fieldset class="relative">
+            <input type="text" value="{{keywords}}" autocomplete="off" name="q" class="width-100 input--medium icon-search-charcoal icon--right">
+          </fieldset>
+          <div class="text-center margin-top-large">
+            <button
+              type="submit"
+              class="btn-blue xsmall-only-width-100 small-up-margin-horz-xsmall margin-bottom-small">
+              Search Class Central
+            </button>
+            <a href="/random" class="btn-white xsmall-only-width-100 small-up-margin-horz-xsmall small-margin-horz-reset"><span class="icon--left icon-random-blue">Random Course</span></a>
+          </div>
+        </form>
+      </div>
     </div>
-  {% elseif total == 0 %}
-    <div id="search-container" class="classcentral-style">
-      <header class="text-center padding-horz-xlarge">
-        <h1 class="head-1 padding-top-xxlarge margin-top-xxlarge margin-bottom-medium" style="font-size: 32px;">No results were found for your search "{{keywords}}"</h1>
-        <p class="text-1 small-text-3">Double check the spelling of your search, or try a different keyword.</p>
-      </header>
-    </div>
-  {% endif %}
+  </div>
 {% endblock %}
