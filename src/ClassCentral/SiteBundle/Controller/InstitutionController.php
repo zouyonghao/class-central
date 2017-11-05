@@ -367,14 +367,17 @@ class InstitutionController extends Controller
                 {
                     continue;
                 }
-                $institution = array();
-                $institution['id'] = $entity->getId();
-                $institution['count'] = $count;
-                $institution['courseCount'] = $count;
-                $institution['slug'] = $slug;
-                $institution['name'] = $entity->getName();
-                $institutions[ $slug ] = $institution;
 
+                if($entity->getIsUniversity() == $isUniversity)
+                {
+                    $institution = array();
+                    $institution['id'] = $entity->getId();
+                    $institution['count'] = $count;
+                    $institution['courseCount'] = $count;
+                    $institution['slug'] = $slug;
+                    $institution['name'] = $entity->getName();
+                    $institutions[ $slug ] = $institution;
+                }
             }
 
             return compact('institutions');
