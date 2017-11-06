@@ -110,7 +110,7 @@ class Tag {
      * @param Course $c
      * @param array $tags
      */
-    public function addCourseTags(Course $c, array $tags)
+    public function addCourseTags($c, array $tags)
     {
         $existingTags = array();
         foreach($c->getTags() as $cTag)

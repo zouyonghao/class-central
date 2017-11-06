@@ -278,6 +278,15 @@ tag_machine_learning:
       permament: true # this is for 301
       slug: machine-learning
 
+tag_new-moocs-2017:
+    pattern: /tag/new-moocs-2017
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: collection
+      permanent: true # this is for 301
+      slug: new-moocs-2017
+
+
 old_subject_digital-media-and-video-games:
    pattern: /subject/digital-media-and-video-games
    defaults:
@@ -341,3 +350,4 @@ old_subject_civil-environmental-engineering:
      route: ClassCentralSiteBundle_stream
      permanent: true # this is for 301
      slug: civil-engineering
+

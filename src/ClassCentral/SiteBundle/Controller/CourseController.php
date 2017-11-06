@@ -1466,7 +1466,15 @@ EOD;
             $additionalParams['session'] = 'upcoming,selfpaced,recent,ongoing';
         }
 
-        $data = $cl->collection($collection['courses'],$request,$additionalParams);
+        if($slug == 'new-moocs-2017')
+        {
+            $data = $cl->byTag('new-moocs-2017',$request);
+        }
+        else
+        {
+            $data = $cl->collection($collection['courses'],$request,$additionalParams);
+        }
+
 
         $template = 'ClassCentralSiteBundle:Collection:collection.html.twig';
 
