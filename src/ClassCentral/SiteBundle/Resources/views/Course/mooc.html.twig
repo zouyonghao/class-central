@@ -574,6 +574,14 @@
                 {% endif %}
                 {% set userListIds = user_session.getCourseListIds(course['id']) %}
 
+                <div class="classcentral-style">
+                  <p class="margin-bottom-medium">
+                    <span class="text-3">
+                      <strong class="text--bold icon-alert-charcoal icon--left text-3">Disclosure</strong>: To support our site, Class Central may be compensated by some course providers.
+                    </span>
+                  </p>
+                </div>
+
                 <div class="course-data-button">
                     <a class="cta-button btn_go_to_class" href="{{ goToClassUrl }}" id="btnProviderCoursePage"
                        onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');
