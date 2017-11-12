@@ -9,21 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stream
 {
+
     /**
      * @var integer $id
      */
     private $id;
 
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
     /**
      * @var string $name
      */
@@ -79,6 +70,18 @@ class Stream
      * @var integer
      */
     private $courseCount;
+
+    private $isParentStream;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
 
     public function __construct() {
@@ -332,5 +335,21 @@ class Stream
             'courseCount' => $this->getCourseCount(),
 
         );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsParentStream()
+    {
+        return $this->isParentStream;
+    }
+
+    /**
+     * @param mixed $isParentStream
+     */
+    public function setIsParentStream($isParentStream)
+    {
+        $this->isParentStream = $isParentStream;
     }
 }

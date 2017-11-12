@@ -7,7 +7,7 @@
             <img src="{{ rackspace_cdn_base_url }}{{ info.imageUrl }}" style="width: 85px;">
           </div>
         {% endif %}
-        {% if info.type == "Stream" %}
+        {% if info.type == "Stream" and subject.isParentStream %}
           <div class="unit-block padding-right-medium">
             <img src="/bundles/classcentralsite/images/icon-{{ subject.slug }}.png" style="width: 85px;">
           </div>

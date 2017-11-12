@@ -130,12 +130,18 @@ class CourseListing {
             );
 
             // Add parent stream to the breadcrumb if it exists
+            $subject->setIsParentStream(false);
             if($subject->getParentStream())
             {
                 $breadcrumbs[] = Breadcrumb::getBreadCrumb(
                     $subject->getParentStream()->getName(),
                     $this->container->get('router')->generate('ClassCentralSiteBundle_stream', array( 'slug' => $subject->getParentStream()->getSlug()))
                 );
+
+            }
+            else
+            {
+                $subject->setIsParentStream(true); // save it is a parent stream to display icons
             }
 
             $breadcrumbs[] = Breadcrumb::getBreadCrumb($subject->getName());
