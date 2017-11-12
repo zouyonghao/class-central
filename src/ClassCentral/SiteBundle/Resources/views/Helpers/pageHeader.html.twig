@@ -7,6 +7,11 @@
             <img src="{{ rackspace_cdn_base_url }}{{ info.imageUrl }}" style="width: 85px;">
           </div>
         {% endif %}
+        {% if info.type == "Stream" %}
+          <div class="unit-block padding-right-medium">
+            <img src="/bundles/classcentralsite/images/icon-{{ subject.slug }}.png" style="width: 85px;">
+          </div>
+        {% endif %}
         <div class="unit-block unit-fill">
           <h2 class="head-4 medium-up-head-3 block">Free Online Courses
             {% if info.type == "Institution" or info.type == "Initiative" %}from{% else %}in{% endif %}

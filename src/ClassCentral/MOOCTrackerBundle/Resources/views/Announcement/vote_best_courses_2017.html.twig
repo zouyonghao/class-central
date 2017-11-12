@@ -1,0 +1,32 @@
+{% extends 'ClassCentralSiteBundle::Mail/layout/borderless.html.twig' %}
+
+{%  block content %}
+<tr>
+  <td valign="top" class="bodyContentMiddle">
+    <img src="{{ baseUrl }}/bundles/classcentralsite/images/email/best-new-course-2017-email.png" alt="The Best New Courses of 2017" />
+  </td>
+</tr>
+<tr>
+  <td valign="top" class="bodyContentMiddle">
+    <div style="background: #ffffff; padding: 20px 50px 0px 50px;">
+      <p style="color: #454545; text-align: left; font-size: 16px;">
+
+        Hello {{user.displayName}},
+        <br><br>
+        It’s that time of year again! Every year Class Central publishes a list of the best new online courses of the year, based on reviews from our users.
+        <br><br>
+        If you’ve taken a course that was new this year, now is the time to leave your review. Check out our complete listing of new courses by subject, and contribute your review today.
+      </p>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td valign="middle" align="center" class="bodyContentCTA">
+    <div style="background: #ffffff; padding: 0px 0px 20px 0px; text-align: center;">
+      <a href="{{ path('vote_best_online_courses_2017',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" class="btn-blue" style="background: #0E4DF1; border-radius: 10px; padding: 15px 20px 15px 20px; color: #ffffff; text-decoration: none; display: inline-block;">
+        <span style="color: #ffffff; text-decoration: none;">Find your course now</span>
+      </a>
+    </div>
+  </td>
+</tr>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{% block headmeta %}
+  <title>Vote for Class Central's Best Online Courses of 2017</title>
+  <meta name="description" content="Help select the best Massive Open Online Courses (MOOCs) of 2017" />
+  <meta property="og:title" content="Vote for Class Central's Best Online Courses of 2017" />
+  <meta property="og:url" content="{{ path('vote_best_online_courses_2017') }}" />
+  <link rel="canonical" href="https://www.class-central.com{{ path('vote_best_online_courses_2017') }}">
+
+
+  <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/images/banner-new-online-courses-2017.png">
+
+  <meta property="og:site_name" content="Class Central"/>
+  <meta property="og:description" content="Help select the highest rated Massive Open Online Courses (MOOCs) of 2017" />
+
+{% endblock %}
+
+{% block content %}
+  <!-- banner -->
+  <div class="classcentral-style">
+    <section class="cc-gradient-gold">
+      <div id="banner-mobile" class="relative medium-up-hide">
+        <h2>
+          <img class="block width-100" src="/bundles/classcentralsite/images/banner-new-online-courses-2017-mobile.png" alt="Class Central's Best New Online Courses for 2017 — Cast your vote!"/>
+        </h2>
+      </div>
+      <div class="xsmall-only-hide small-only-hide relative width-100 width-centered" style="max-width: 1400px;">
+        <h1 style="padding-bottom: 31.25%;">
+          <img class="width-100 absolute top left" src="/bundles/classcentralsite/images/banner-new-online-courses-2017.png" alt="Class Central's Best New Online Courses for 2017 — Cast your vote!"/>
+        </h1>
+      </div>
+    </section>
+
+    <section class="row width-centered padding-large" style="max-width: 1250px;">
+      <div class="col width-100 medium-up-width-1-4 xxlarge-up-width-5-16 large-up-padding-right-xlarge">
+        <h4 class="head-3 margin-bottom-medium">
+          Leave a review
+          <span class="review-rating block large-up-inline-block">
+            <i class="icon-star icon--xxsmall"></i><i class="icon-star icon--xxsmall"></i><i class="icon-star icon--xxsmall"></i><i class="icon-star icon--xxsmall"></i><i class="icon-star icon--xxsmall"></i>
+          </span>
+        </h4>
+        <p class="text-2 margin-bottom-large">
+          Help select the best Massive Open Online Courses (MOOCs) of 2017. Browse the list of subjects or <a href="{{ path('review_write') }}">search</a> to find courses to review.
+        </p>
+
+        <h4 class="head-3 margin-bottom-small icon--left icon-question-blue">How it works</h4>
+        <p class="text-2 margin-bottom-large">
+          Eligible courses are those that were offered for the first time in 2017. Course ranking is determined based on the bayesian average of the course ratings(1 to 5 stars).
+        </p>
+
+        <h4 class="head-3 margin-bottom-small">Previous Years</h4>
+        <ul>
+          <li class="margin-vert-xxsmall">
+            <a href="/report/best-free-online-courses-2015/" class="text-2 text--blue icon--left icon-star-blue" target="_blank">2016 Best Online Courses</a>
+          </li>
+          <li class="margin-vert-xxsmall">
+            <a href="/report/best-free-online-courses-2016/" class="text-2 text--blue icon--left icon-star-blue" target="_blank">2015 Best Online Courses</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col width-100 medium-up-width-3-4 xxlarge-up-width-11-16">
+        <div class="row margin-bottom-small margin-top-medium medium-up-margin-top-reset">
+          <h4 class="col width-2-5 head-3 medium-up-padding-left-small">
+            Browse subjects
+          </h4>
+          <p class="col width-3-5 head-3 text-right medium-up-padding-right-small">
+            or <a href="{{ path('review_write') }}" class="head-4 text--blue icon--left icon-search-blue">
+              <span class="xsmall-only-hide small-only-hide">
+                Search for your Course
+              </span>
+              <span class="medium-up-hide">
+                Find Course
+              </span>
+            </a>
+          </p>
+        </div>
+        <ul class="row">
+          {% for subject in subjects %}
+              <li class="col width-100 medium-up-width-1-2 xlarge-up-width-1-3 padding-vert-small medium-up-padding-horz-small">
+                {% include 'ClassCentralSiteBundle:Helpers:card.subject.html.twig' with subject %}
+              </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  </div>
+{% endblock %}

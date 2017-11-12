@@ -330,5 +330,4 @@ class DefaultController extends Controller {
 
         return $this->render('ClassCentralSiteBundle:Default:deals.html.twig',array('deals' => $deals));
     }
-
 }

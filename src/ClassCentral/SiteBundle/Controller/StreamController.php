@@ -89,7 +89,7 @@ class StreamController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('stream_show', array('id' => $entity->getId())));
-            
+
         }
 
         return $this->render('ClassCentralSiteBundle:Stream:new.html.twig', array(
@@ -190,7 +190,7 @@ class StreamController extends Controller
             ->getForm()
         ;
     }
-    
+
     public function viewAction(Request $request,$slug)
     {
         $cache = $this->get('cache');
@@ -234,6 +234,7 @@ class StreamController extends Controller
 
         $related['skipName'] = $subject->getName(); // Does not show this subject
         $subject = $data['subject'];
+        $pageInfo['subject_slug'] = $subject->getSlug();
         $pageMetadata = [
             'subject_id' => $subject->getId(),
             'subject_slug'=> $subject->getSlug(),

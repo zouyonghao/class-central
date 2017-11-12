@@ -80,7 +80,7 @@ class AnnouncementEmailJob extends SchedulerJobAbstract {
      * @param $campaignId
      * @return mixed
      */
-    private function getAnnouncementHTML(User $user, $template,$campaignId)
+    public function getAnnouncementHTML(User $user, $template,$campaignId)
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse(

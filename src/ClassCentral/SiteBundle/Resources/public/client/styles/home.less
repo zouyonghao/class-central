@@ -56,6 +56,11 @@
     opacity: 1 !important;
   }
 }
+[data-slideshow="3"] {
+  nav [data-slideshow-target="3"] {
+    opacity: 1 !important;
+  }
+}
 
 [data-slideshow] {
   position: relative;
@@ -316,7 +321,8 @@
 }
 #ss-1,
 #ss-2,
-#ss-3 {
+#ss-3,
+#ss-4 {
   .absolute {
     left: 0;
     max-width: none;
@@ -332,6 +338,9 @@
     .absolute { bottom: 15%; }
   }
   #ss-3 {
+    .absolute { bottom: 15%; }
+  }
+  #ss-4 {
     .absolute {
       max-width: 1200px;
       bottom: 25%;

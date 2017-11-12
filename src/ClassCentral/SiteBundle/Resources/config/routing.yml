@@ -10,6 +10,7 @@ ClassCentralSiteBundle_faq:
     pattern:  /faq
     defaults: { _controller: ClassCentralSiteBundle:Default:faq }
 
+
 ClassCentralSiteBundle_privacy:
     pattern:  /privacy-policy
     defaults: { _controller: ClassCentralSiteBundle:Default:privacyPolicy }
@@ -543,3 +544,9 @@ next_course_un_follow:
 mailgun_webhook_receiver:
   pattern: /mailgun-webhook
   defaults: {_controller: ClassCentralSiteBundle:Analytics:MailgunWebhookReceiver}
+
+
+# Landing Pages
+vote_best_online_courses_2017:
+    pattern:  /vote-best-moocs-2017
+    defaults: { _controller: ClassCentralSiteBundle:LandingPage:voteBestOnlineCourses2017 }

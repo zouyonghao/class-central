@@ -360,7 +360,7 @@ class User {
 
         return $html;
     }
-
+    
     /**
      * Adds a course to the users interested list.
      * A course can be added only once.

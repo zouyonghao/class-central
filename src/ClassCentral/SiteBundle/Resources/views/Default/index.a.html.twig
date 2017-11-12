@@ -15,15 +15,31 @@
         {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: true } %}
       </div>
     </section>
-    <section data-slideshow class="cc-gradient-orange-green small-only-hide">
+    <section data-slideshow class="cc-gradient-gold small-only-hide">
       <div class="relative width-100 width-centered" style="max-width: 1400px;">
         <nav id="ss-nav" class="absolute">
           <button data-slideshow-target="0" class="bg-blue inline-block">1</button>
           <button data-slideshow-target="1" class="bg-blue transparent inline-block">2</button>
           <button data-slideshow-target="2" class="bg-blue transparent inline-block">3</button>
+          <button data-slideshow-target="3" class="bg-blue transparent inline-block">4</button>
         </nav>
         <ul>
-          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-orange-green" }' class="absolute top left active">
+          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-gold" }' class="absolute top left active">
+            <h2>
+              <img class="width-100" src="/bundles/classcentralsite/images/banner-new-online-courses-2017-homepage.png" alt="Class Central's Best New Online Courses for 2017 — Cast your vote!"/>
+            </h2>
+            <div class="absolute width-100 text-center inline-block">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Banner", "title": "Best New Courses 2017" }'
+                href="{{ path('vote_best_online_courses_2017') }}"
+                class="btn-blue btn--large"
+              >
+                Cast your vote now!
+              </a>
+            </div>
+          </li>
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-orange-green" }' class="absolute top left next">
             <h2>
               <img class="width-100" src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-short.png" alt="Find the Best Online Courses from Top Universities"/>
             </h2>
@@ -31,7 +47,7 @@
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
             </div>
           </li>
-          <li id="ss-2" data-slideshow-item='{ "index": 1,  "bg": "cc-gradient-purple-blue" }' class="absolute top left next">
+          <li id="ss-3" data-slideshow-item='{ "index": 2,  "bg": "cc-gradient-purple-blue" }' class="absolute top left next">
             <h2>
               <img class="width-100" src="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-short.png" alt="Discover Free Online Courses from Ivy League Schools"/>
             </h2>
@@ -46,7 +62,7 @@
               </a>
             </div>
           </li>
-          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-yellow-orange" }' class="absolute top left">
+          <li id="ss-4" data-slideshow-item='{ "index": 3, "bg": "cc-gradient-yellow-orange" }' class="absolute top left">
             <h2>
               <img class="width-100" src="/bundles/classcentralsite/images/banner-the-top-50-moocs-of-all-time-short.png" alt="The Top 50 MOOCs of All-Time"/>
             </h2>
@@ -116,7 +132,7 @@
             <p class="head-2 margin-bottom-xsmall">Get regular updates of new and upcoming courses!</p>
             <p class="text-1 padding-bottom-large">
               <span class="block">You can unlock your <strong class="text--bold">personalized course recommendations</strong> by <br>following Subjects, Universities, Providers, and Languages.</span>
-              <a class="btn-white btn--large margin-top-small" href='{{ path('user_follows') }}'>Find areas of interest to follow now</a>              
+              <a class="btn-white btn--large margin-top-small" href='{{ path('user_follows') }}'>Find areas of interest to follow now</a>
             </p>
           </div>
         {% endif %}

@@ -1,0 +1,12 @@
+<a
+  data-track-click="{{ ts.event('SUBJECT_CLICK') }}"
+  data-track-props='{ "type": "Vote Best Online Courses of 2017", "title": "{{ subject.name }}" }'
+  href="{{ path('collection',{slug:'new-moocs-2017','subject':subject.slug}) }}"
+  class="subject-card text-center hover-grow shadow border--thin border--gray-light border-box block"
+>
+  <div class="padding-vert-large padding-horz-small">
+    <h5 class="head-3 text--bold text--charcoal margin-bottom-xsmall">{{ subject.name }}</h5>
+    <img src="/bundles/classcentralsite/images/icon-{{ subject.slug }}.png" width="50%" />
+    <p class="text-2 text--charcoal margin-top-xsmall">{{ subject.numCourses }} courses</p>
+  </div>
+</a>

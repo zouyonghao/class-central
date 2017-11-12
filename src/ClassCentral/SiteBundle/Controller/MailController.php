@@ -10,6 +10,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
+use ClassCentral\MOOCTrackerBundle\Job\AnnouncementEmailJob;
 use ClassCentral\MOOCTrackerBundle\Job\NewUserFollowUpJob;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,13 +27,23 @@ class MailController extends Controller
     public function previewAction(Request $request, $type = null)
     {
         $availableTypes = [
-            'welcome-email' => 'Welcome Email',
-            'new-user-followup' => 'New User Follow Up'
+          'welcome-email' => 'Welcome Email',
+          'new-user-followup' => 'New User Follow Up',
+          'vote-best-courses-2017' => "Vote Best Courses 2017",
         ];
+
         $html = '<b>Template not found</b>';
         $user = $this->getUser();
 
         switch ($type) {
+            case 'vote-best-courses-2017':
+              $announcementEmailJob = new AnnouncementEmailJob();
+              $announcementEmailJob->setContainer( $this->container );
+              $announcementEmailESJob = new ESJob(0);
+              $announcementEmailESJob->setJobType(AnnouncementEmailJob::ANNOUNCEMENT_EMAIL_JOB_TYPE);
+              $announcementEmailJob->setJob($announcementEmailESJob);
+              $html = $announcementEmailJob->getAnnouncementHTML($user,'vote_best_courses_2017.html.twig','vote_best_courses_2017');
+              break;
             case 'welcome-email':
                 $userService = $this->get('user_service');
                 $html = $userService->getWelcomeEmailHtml($user);
