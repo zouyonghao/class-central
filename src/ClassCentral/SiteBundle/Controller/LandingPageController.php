@@ -61,8 +61,8 @@ class LandingPageController extends Controller
                 'numCourses' => '104'
             ],
             [
-                'name' => 'health',
-                'slug' => 'Health',
+                'name' => 'Health',
+                'slug' => 'health',
                 'numCourses' => '123'
             ],
             [
