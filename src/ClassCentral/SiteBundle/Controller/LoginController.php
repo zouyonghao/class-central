@@ -141,6 +141,7 @@ class LoginController extends Controller{
 
             $fbRequest = new FacebookRequest($session,'GET','/me');
             $fbUser = $fbRequest->execute()->getGraphObject(GraphUser::className());
+            var_dump($fbUser);
 
             $email = $fbUser->getEmail();
             if(!$email)
