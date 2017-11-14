@@ -22,7 +22,9 @@ class DefaultController extends Controller {
     private $autoLoginUrls = array(
         'https://www.class-central.com/report/best-programming-courses-data-science/',
         'https://www.class-central.com/report/mooc-based-masters-degree/',
-        'https://www.class-central.com/report/9-popular-online-courses-gone-forever/'
+        'https://www.class-central.com/report/9-popular-online-courses-gone-forever/',
+        'https://www.class-central.com/report/best-free-online-courses-2015',
+        'https://www.class-central.com/report/best-free-online-courses-2016'
     );
 
     public function indexAction(Request $request) {
@@ -50,6 +52,7 @@ class DefaultController extends Controller {
         $esCourses = $this->get('es_courses');
         $em = $this->getDoctrine()->getManager();
 
+        /*
         $spotlights = $cache->get('spotlight_cache',function(){
            $s = $this
                 ->getDoctrine()->getManager()
@@ -80,6 +83,7 @@ class DefaultController extends Controller {
                         array( new StreamController(), 'getSubjectsList'),
                         array( $this->container )
         );
+        */
 
         // Get a list of courses taken by the signed in user as well as course recommendations
         $uc = array();
