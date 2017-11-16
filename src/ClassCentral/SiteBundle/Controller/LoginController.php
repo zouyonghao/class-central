@@ -15,15 +15,11 @@ use ClassCentral\SiteBundle\Entity\UserGoogle;
 use ClassCentral\SiteBundle\Entity\VerificationToken;
 use ClassCentral\SiteBundle\Services\Kuber;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\FacebookRequestException;
-use Facebook\FacebookSession;
-use Facebook\GraphUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Session;
+use \Facebook\Facebook;
 
 class LoginController extends Controller{
 
@@ -88,30 +84,19 @@ class LoginController extends Controller{
      */
     public function redirectToAuthorizationAction(Request $request)
     {
-        $src = $request->query->get('src');
-        $this->get('session')->set('fb_auth_src', $src);
-        $helper = $this->getFBLoginHelper();
+      $src = $request->query->get('src');
+      $this->get('session')->set('fb_auth_src', $src);
+      $helper = $this->getFBInstance()->getRedirectLoginHelper();
 
-        return $this->redirect( $helper->getLoginUrl(array(
-            'public_profile',
-            'email',
-        )) );
-    }
+      $redirectUrl = $this->generateUrl(
+        'fb_authorize_redirect',
+        array(),
+        true
+      );
+      $permissions = ['email', 'public_profile'];
+      $loginUrl = $helper->getLoginUrl($redirectUrl, $permissions);
 
-    private function getFBLoginHelper( $src = null)
-    {
-        FacebookSession::setDefaultApplication(
-            $this->container->getParameter('fb_app_id'),
-            $this->container->getParameter('fb_secret')
-        );
-
-        $redirectUrl = $this->generateUrl(
-            'fb_authorize_redirect',
-            array(),
-            true
-        );
-
-        return new FacebookRedirectLoginHelper( $redirectUrl);
+      return $this->redirect($loginUrl);
     }
 
     public function fbReceiveAuthorizationCodeAction(Request $request)
@@ -125,23 +110,18 @@ class LoginController extends Controller{
 
         $logger->info("FBAUTH: FB auth redirect");
 
-        $helper = $this->getFBLoginHelper();
-
         try
         {
-            $session = $helper->getSessionFromRedirect();
-            if( !$session )
+            $accessToken = $this->getFBInstance()->getRedirectLoginHelper()->getAccessToken();
+            if( !$accessToken )
             {
                  // Redirect to the signup page
                 $logger->info("FBAUTH: FB auth denied by the user");
                 return $this->redirect($this->generateUrl('signup'));
             }
 
-
-
-            $fbRequest = new FacebookRequest($session,'GET','/me');
-            $fbUser = $fbRequest->execute()->getGraphObject(GraphUser::className());
-            var_dump($fbUser);
+            $response = $this->getFBInstance()->get('/me?fields=id,name,email', $accessToken);
+            $fbUser = $response->getGraphUser();
 
             $email = $fbUser->getEmail();
             if(!$email)
@@ -261,7 +241,7 @@ class LoginController extends Controller{
             }
 
         }
-        catch (FacebookRequestException $e)
+        catch (Facebook\Exceptions\FacebookSDKException $e)
         {
             $logger->info("FBAUTH: FB Auth error - " . $e->getMessage());
             return null;
@@ -543,4 +523,12 @@ class LoginController extends Controller{
         return $this->redirect($this->generateUrl('loginViaEmail'));
     }
 
+    private function getFBInstance()
+    {
+      return new Facebook([
+        'app_id' =>  $this->container->getParameter('fb_app_id'),
+        'app_secret' => $this->container->getParameter('fb_secret'),
+        'default_graph_version' => 'v2.2',
+      ]);
+    }
 }

@@ -26,16 +26,16 @@
         "ircmaxell/password-compat": "~1.0",
         "mailgun/mailgun-php": "~1.4",
         "elasticsearch/elasticsearch": "~1.0",
-	    "leafo/lessphp": "dev-master",
+	      "leafo/lessphp": "dev-master",
         "oyejorge/less.php": "dev-master",
         "aws/aws-sdk-php": "2.6.15",
-        "facebook/php-sdk-v4": "4.0.*",
         "maknz/slack": "dev-master",
         "keen-io/keen-io-bundle": "~1.1",
         "phpoffice/phpexcel": "~1.7.9",
         "google/apiclient": "^2.0",
         "imgix/imgix-php": "dev-master",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "facebook/graph-sdk": "^5.6"
     },
     "repositories" : [
         {
