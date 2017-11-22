@@ -35,11 +35,26 @@
                 href="{{ path('vote_best_online_courses_2017') }}"
                 class="btn-blue btn--large"
               >
-                Cast your vote now!
+                You decide!
               </a>
             </div>
           </li>
-          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-orange-green" }' class="absolute top left next">
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-green-blue" }' class="absolute top left">
+            <h2>
+              <img class="width-100" src="/bundles/classcentralsite/images/banner-getting-to-know-miriadax.png" alt="Getting to know Miríadax — Class Central's deep dive into Latin America's largest MOOC provider"/>
+            </h2>
+            <div class="absolute width-100 text-center inline-block">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Banner", "title": "Miríadax" }'
+                href="/report/getting-know-miriadax/"
+                class="btn-blue btn--large"
+              >
+                Read Article
+              </a>
+            </div>
+          </li>
+          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-orange-green" }' class="absolute top left next">
             <h2>
               <img class="width-100" src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-short.png" alt="Find the Best Online Courses from Top Universities"/>
             </h2>
@@ -47,7 +62,7 @@
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
             </div>
           </li>
-          <li id="ss-3" data-slideshow-item='{ "index": 2,  "bg": "cc-gradient-purple-blue" }' class="absolute top left next">
+          <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "cc-gradient-purple-blue" }' class="absolute top left next">
             <h2>
               <img class="width-100" src="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-short.png" alt="Discover Free Online Courses from Ivy League Schools"/>
             </h2>
@@ -59,21 +74,6 @@
                 class="btn-blue btn--large"
               >
                 Browse Ivy League Courses
-              </a>
-            </div>
-          </li>
-          <li id="ss-4" data-slideshow-item='{ "index": 3, "bg": "cc-gradient-yellow-orange" }' class="absolute top left">
-            <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-the-top-50-moocs-of-all-time-short.png" alt="The Top 50 MOOCs of All-Time"/>
-            </h2>
-            <div class="absolute width-100 text-center inline-block">
-              <a
-                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-                data-track-props='{ "type": "Banner", "title": "Top 50 MOOCs" }'
-                href="{{ path('collection',{slug:'top-free-online-courses'}) }}"
-                class="btn-blue btn--large"
-              >
-                Browse the Top 50
               </a>
             </div>
           </li>
