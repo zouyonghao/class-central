@@ -262,6 +262,14 @@ class CourseDocumentType extends DocumentType {
             ->getManager()->getRepository('ClassCentralSiteBundle:Course');
         $body['followed'] = intval($courseRepo->getListedCount($c));
 
+        if($ns && $body['reviewsCount'] >= 8)
+        {
+            $states = CourseUtility::getStates($ns);
+            if(!in_array('past',$states))
+            {
+                $body['nextSession']['state'] += $body['reviewsCount'];
+            }
+        }
 
         // Check if the course being offered is new
         // Definition of new - created 30 days ago
