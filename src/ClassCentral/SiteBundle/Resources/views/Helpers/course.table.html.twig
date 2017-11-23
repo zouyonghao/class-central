@@ -256,13 +256,16 @@
 
 
                     {% if course['provider'] and page != 'initiative' %}
-                      <a
-                        href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"
-                        class="block initiativelinks text--charcoal text--italic hover-text--underline"
-                        title="List of {{ course['provider']['tooltip'] }} MOOCs"
-                        onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
-                      >via {{ course.provider.name }}
-                      </a>
+                      <span class="block">
+                      via
+                        <a
+                          href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"
+                          class="initiativelinks text--charcoal text--italic hover-text--underline"
+                          title="List of {{ course['provider']['tooltip'] }} MOOCs"
+                          onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
+                        >{{ course.provider.name }}
+                        </a>
+                      </span>
                     {% endif %}
                 {% if course.credential is not empty %}
                 <div class="course-name-column-cred text-3 margin-top-xsmall truncate xsmall-only-hide small-only-hide">
