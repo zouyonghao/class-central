@@ -213,9 +213,9 @@ class Api
               'description' => 'Where to Find MOOCs: The Definitive Guide to MOOC Providers'
           ],
           [
-              'title' => 'Master ES6, React and the Next Hot JavaScript Framework',
-              'url' => '/report/javascript-online-courses/',
-              'description' => '45 online courses to stay relevant in the ever evolving JavaScript Universe'
+              'title' => 'Coursera Experiments With A Single Subscription Price for the Entire Catalog',
+              'url' => '/report/coursera-specialization-subscription/',
+              'description' => 'For $49/month learners can get full access to Coursera\'s entire catalog'
           ]
       ];
     return $articles;
