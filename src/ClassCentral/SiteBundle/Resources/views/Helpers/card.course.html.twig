@@ -9,10 +9,9 @@
     <h4 class="width-2-5 col head-5 text--gray text--italic text-right">
       <span class="icon--left icon-{{ course.provider["name"]|lower }}-gray icon--small">{{ course.provider["name"]}}</span>
     </h4>
-    <h2 class="course-card-title width-1-1 col text-1 text--blue margin-top-small margin-bottom-medium">
+    <h2 class="course-card-title width-1-1 col text-1 text--blue margin-top-small">
       {{ course.name|length > 60 ? course.name|slice(0, 60) ~ '...' : course.name }}
     </h2>
-    <p class="text-2 text--charcoal small-hide">{{ course.oneLiner }}</p>
   </div>
   <div class="row padding-horz-large padding-vert-medium">
     <div class="width-1-2 col course-card-interested">
@@ -21,24 +20,15 @@
         <span class="unit-block unit-fill text-4 text--charcoal">students <br>interested</span>
       </div>
     </div>
-    <div class="width-1-2 col course-card-rating">
-      <div class="review-rating text-5 text--charcoal">
-        <div class="block text-right">
-          {% set rating = ((course.rating * 2)|round) / 2 %}
-          {% for i in range(1, rating|round(0, 'floor')) %}
-              <i class="icon-star icon--xxsmall"></i>
-          {% endfor %}
-          {% if rating matches '/\.5/' %}
-            <i class="icon-star-half icon--xxsmall"></i>
-          {% endif %}
-          {% if 5 - rating|round > 0 %}
-            {% for i in range(1, 5 - rating|round) %}
-                <i class="icon-star-gray-light icon--xxsmall"></i>
-                {% endfor %}
-          {% endif %}
-        </div>
-        <span class="block text-right margin-top-xxsmall text-4">{{ course.reviewsCount }} Reviews</span>
-      </div>
+    <div class="width-1-2 col course-card-rating text-right">
+      {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: course.rating } %}
+       <span class="block margin-top-xxsmall text-4 text--gray">
+         {% if course.reviewsCount > 0 %}
+         {{ course.reviewsCount }} Reviews
+        {% else %}
+          <span class="text-4 text--gray text--italic">No reviews yet.</span>
+        {% endif %}
+      </span>
     </div>
   </div>
 </a>

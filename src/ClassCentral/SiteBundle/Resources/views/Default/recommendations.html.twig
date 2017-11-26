@@ -2,30 +2,30 @@
   <a
     data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
     data-track-props='{ "type": "Banner", "title": "Recommendations" }'
-    class="btn-blue {% if mobile %}{% else %}btn--large{% endif %}"
+    class="btn-blue btn--large large-only-btn--medium"
     href="#"
     data-action="meet-your-next-course"
   >
-    Get course recommendations
+    Get <span class="xsmall-only-hidden text--bold">course</span> recommendations
   </a>
 {% else %}
     {% if app.user.areRecommendationsAvailable  %}
       <a
         data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
         data-track-props='{ "type": "Banner", "title": "Recommendations" }'
-        class="btn-blue btn--large"
+        class="btn-blue btn--large large-only-btn--medium"
         href="{{ path('user_recommendations') }}"
       >
-        View personalized recommendations
+        View <span class="xsmall-only-hidden text--bold">personalized</span> recommendations
       </a>
     {% else %}
       <a
         data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
         data-track-props='{ "type": "Banner", "title": "Recommendations" }'
-        class="btn-blue btn--large"
+        class="btn-blue btn--large large-only-btn--medium"
         href="{{ path('user_follows') }}"
       >
-        Unlock Personalized Recommendations
+        Unlock <span class="xsmall-only-hidden text--bold">personalized</span> Recommendations
       </a>
     {% endif %}
 {% endif %}

@@ -13,6 +13,7 @@ class Ui {
       this.formErrors();
       this.tabs();
       this.dropdowns();
+      this.mediaImages();
 
       $(".bfh-number-btn.inc").addClass('btn-small btn-white icon-chevron-up icon--center');
       $(".bfh-number-btn.dec").addClass('btn-small btn-white icon-chevron-down icon--center');
@@ -35,6 +36,23 @@ class Ui {
       $(this).removeClass('error');
       $('.input-error').remove();
     });
+  }
+
+  mediaImages() {
+    const switchEls = $('[data-media-switch]');
+    if (switchEls.length > 0) {
+      $(window).on("resize", () => {
+        $('[data-media-switch]').each(function(el, index) {
+          const breakpoint = parseInt($(this).data('media-switch'), 10);
+          if (window.innerWidth > breakpoint) {
+            $(this).attr('src', $(this).data("large"));
+          } else {
+            $(this).attr('src', $(this).data("small"));
+          }
+        });
+      });
+      $(window).trigger("resize");
+    }
   }
 
   showTargetOnClick() {

@@ -7,15 +7,7 @@
 {% block content %}
   <!-- banner -->
   <div class="classcentral-style">
-    <section id="ss-mobile" class="relative medium-up-hide">
-      <h2>
-        <img class="width-100" src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png" alt="Find the Best Online Courses from Top Universities"/>
-      </h2>
-      <div class="absolute width-100 text-center inline-block">
-        {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: true } %}
-      </div>
-    </section>
-    <section data-slideshow class="cc-gradient-gold small-only-hide">
+    <section data-slideshow class="cc-gradient-gold">
       <div class="relative width-100 width-centered" style="max-width: 1400px;">
         <nav id="ss-nav" class="absolute">
           <button data-slideshow-target="0" class="bg-blue inline-block">1</button>
@@ -24,69 +16,97 @@
           <button data-slideshow-target="3" class="bg-blue transparent inline-block">4</button>
         </nav>
         <ul>
-          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-gold" }' class="absolute top left active">
+          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-gold" }' class="absolute top left active width-100">
             <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-new-online-courses-2017-homepage.png" alt="Class Central's Best New Online Courses for 2017 — Cast your vote!"/>
+              <img
+                class="width-100"
+                src="/bundles/classcentralsite/images/banner-new-online-courses-2017-homepage{% if isMobile %}-mobile{% endif %}.png"
+                alt="Class Central's Best New Online Courses for 2017 — You decide!"
+                data-media-switch="802"
+                data-large="/bundles/classcentralsite/images/banner-new-online-courses-2017-homepage.png"
+                data-small="/bundles/classcentralsite/images/banner-new-online-courses-2017-homepage-mobile.png"
+              />
             </h2>
             <div class="absolute width-100 text-center inline-block">
               <a
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "Banner", "title": "Best New Courses 2017" }'
                 href="{{ path('vote_best_online_courses_2017') }}"
-                class="btn-blue btn--large"
+                class="btn-blue btn--large large-only-btn--medium"
               >
                 You decide!
               </a>
             </div>
           </li>
-          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-green-blue" }' class="absolute top left">
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-green-blue" }' class="absolute top left next width-100">
             <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-getting-to-know-miriadax.png" alt="Getting to know Miríadax — Class Central's deep dive into Latin America's largest MOOC provider"/>
+              <img
+                class="width-100"
+                src="/bundles/classcentralsite/images/banner-getting-to-know-miriadax{% if isMobile %}-mobile{% endif %}.png"
+                alt="Getting to know Miríadax — Class Central's deep dive into Latin America's largest MOOC provider"
+                data-media-switch="802"
+                data-large="/bundles/classcentralsite/images/banner-getting-to-know-miriadax.png"
+                data-small="/bundles/classcentralsite/images/banner-getting-to-know-miriadax-mobile.png"
+              />
             </h2>
             <div class="absolute width-100 text-center inline-block">
               <a
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "Banner", "title": "Miríadax" }'
                 href="/report/getting-know-miriadax/"
-                class="btn-blue btn--large"
+                class="btn-blue btn--large large-only-btn--medium"
               >
                 Read Article
               </a>
             </div>
           </li>
-          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-orange-green" }' class="absolute top left next">
+          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-orange-green" }' class="absolute top left width-100">
             <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-short.png" alt="Find the Best Online Courses from Top Universities"/>
+              <img
+                class="width-100"
+                src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities{% if isMobile %}-mobile{% endif %}.png"
+                alt="Find the Best Online Courses from Top Universities"
+                data-media-switch="802"
+                data-large="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png"
+                data-small="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png"
+              />
             </h2>
             <div class="absolute width-100 text-center inline-block">
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
             </div>
           </li>
-          <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "cc-gradient-purple-blue" }' class="absolute top left next">
+          <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
             <h2>
-              <img class="width-100" src="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-short.png" alt="Discover Free Online Courses from Ivy League Schools"/>
+              <img
+                class="width-100"
+                src="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools{% if isMobile %}-mobile{% endif %}.png"
+                alt="Discover Free Online Courses from Ivy League Schools"
+                data-media-switch="802"
+                data-large="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools.png"
+                data-small="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-mobile.png"
+              />
             </h2>
             <div class="absolute width-100 text-center inline-block">
               <a
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "Banner", "title": "Ivy League MOOCs" }'
                 href="{{ path('collection',{slug:'ivy-league-moocs'}) }}"
-                class="btn-blue btn--large"
+                class="btn-blue btn--large large-only-btn--medium"
               >
-                Browse Ivy League Courses
+                Browse <span class="xsmall-only-hidden text--bold">Ivy League</span> Courses
               </a>
             </div>
           </li>
         </ul>
       </div>
     </section>
-    <section id="new-items" class="width-centered" style="max-width: 1400px;">
-      <ul class="z-high row width-4-5 width-centered relative">
+    <section id="new-items" class="width-centered margin-top-medium" style="max-width: 1400px;">
+      <ul class="z-high row width-14-16 large-up-width-4-5 width-centered relative">
         {% set newItems = 2 %}
-        <li class="col small-100 {{ (newItems == 1) ? "medium-width-2-3 width-centered" : "medium-width-1-2" }} padding-right-medium margin-top-small">
+        <li class="col width-100 {{ (newItems == 1) ? "large-up-width-2-3 width-centered" : "large-up-width-1-2" }} large-up-padding-right-medium margin-top-small">
             {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "Coursera Experiments With A Single Subscription Price for the Entire Catalog", url: "https://www.class-central.com/report/coursera-specialization-subscription/" }  %}
         </li>
-        <li class="small-only-hide col small-100 {{ (newItems == 1) ? "medium-width-2-3 width-centered" : "medium-width-1-2" }} padding-right-medium margin-top-small">
+        <li class="xsmall-only-hidden small-only-hidden medium-only-hidden col width-100 {{ (newItems == 1) ? "large-up-width-2-3 width-centered" : "large-up-width-1-2" }} large-up-padding-right-medium margin-top-small">
           {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "The MOOC Semester: Putting the ‘M’ Back in MOOCs", url: "https://www.class-central.com/report/mooc-semester-putting-m-back-moocs/" }  %}
         </li>
       </ul>
@@ -125,7 +145,7 @@
         {% if app.user.areRecommendationsAvailable %}
           {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':recommendedCourses.courses,'tableId': 'suggestions','hideLoadMore':true,'showSubjectInTable':true,'hideTableAd':true} %}
           <div class="text-center margin-top-medium">
-            <a href="{{ path('user_recommendations') }}" class="btn-white">View All</a>
+            <a href="{{ path('user_recommendations') }}" class="btn-blue-outline btn--large">View All</a>
           </div>
         {% else %}
           <div class="text-center margin-xxlarge padding-large">
@@ -142,7 +162,7 @@
         {% if ucCount > 0 %}
             {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with {'results': uc,'tableId':'interested','showSubjectInTable':true,'hideTableAd':true} %}
             <div class="text-center margin-top-medium">
-              <a href="{{ path('user_library') }}" class="btn-white">View All {{ ucCount }} courses</a>
+              <a href="{{ path('user_library') }}" class="btn-blue-outline btn--large">View All {{ ucCount }} courses</a>
             </div>
         {% else %}
           <div class="text-center margin-xxlarge padding-large">
@@ -160,11 +180,14 @@
   <div class="classcentral-style">
 
     <!-- popular courses -->
-    <section class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">
+    <section class="width-centered margin-top-xlarge medium-up-padding-horz-large" style="max-width: 1400px">
       <header class="padding-horz-medium">
         <nav class="width-100 text-left">
-          <h1 id="pc-header" class="head-2 medium-up-head-1 padding-right-xlarge margin-bottom-medium">Popular Online Courses</h1>
-          <ul id="pc-nav-large" class="text-1">
+          <h1 class="head-3 small-up-head-2 large-up-head-1 padding-right-xlarge margin-bottom-medium">
+            Popular Online Courses
+          </h1>
+          <div class="row">
+          <ul class="col width-3-4 text-1 xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
             {% for courseType in spotlightInfo %}
             <li class="inline-block">
               <a
@@ -178,9 +201,9 @@
             </li>
             {% endfor %}
           </ul>
-          <div id="pc-nav-small" class="relative">
+          <div class="col width-1-2 relative xlarge-up-hidden">
             <span data-select-label class="btn-white icon-chevron-down-charcoal icon--xsmall icon--right text--charcoal">All</span>
-            <select data-select class="absolute top left btn-white btn--small width-100 text--charcoal" style="opacity: 0;">
+            <select data-select class="absolute top left btn-white btn--small text--charcoal" style="opacity: 0;">
               {% for courseType in spotlightInfo %}
                 <option value="{{ courseType["title"] }}">
                   {{ courseType["title"] }}
@@ -189,11 +212,11 @@
             </select>
           </div>
 
-          <div id="pc-view-all" class="push">
+          <div class="col width-1-2 xlarge-up-width-1-4 text-right">
             <a
               data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
               data-track-props='{ "type": "Popular Courses", "title": "View All Subjects" }'
-              class="text--blue head-4 icon-arrow-right-blue icon--right"
+              class="text--blue text-3 medium-up-head-4 icon-arrow-right-blue icon--right margin-top-xsmall large-up-margin-reset"
               href="/subjects"
             >
               View all <span class="small-hide">subjects</span>
@@ -206,8 +229,8 @@
         <ul class="popular-course-list row">
           {% for courseId in courseType["courseIds"] %}
             {% if spotlightCourses[courseId] is defined %}
-              <li data-show-target="{{courseType["title"]}}" class="large-width-1-3 small-width-100 medium-width-1-2 col padding-medium {% if courseType["title"] != "All" %}hidden{% endif %}">
-                {% include 'ClassCentralSiteBundle:Helpers:course.card.html.twig' with { course: spotlightCourses[courseId], courseType: courseType["title"] } %}
+              <li data-show-target="{{courseType["title"]}}" class="width-100 large-up-width-1-2 xlarge-up-width-1-3 col padding-medium {% if courseType["title"] != "All" %}hidden{% endif %}">
+                {% include 'ClassCentralSiteBundle:Helpers:card.course.html.twig' with { course: spotlightCourses[courseId], courseType: courseType["title"] } %}
               </li>
             {% endif %}
           {% endfor %}
@@ -216,7 +239,7 @@
           <a
             data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
             data-track-props='{ "type": "Popular Courses", "title": "View All", "sub_section": "{{ courseType["title"] }}" }'
-            class="head-3 text--bold text--blue padding-small margin-bottom-large"
+            class="btn-blue-outline btn--large margin-bottom-large"
             href="{{ courseType["url"] }}"
           >
             Show more
@@ -232,11 +255,10 @@
 
     <!-- mooc report -->
     <div id="mooc-report" class="width-centered margin-top-xlarge padding-horz-large" style="max-width: 1400px">
-      <header class="padding-horz-medium margin-bottom-medium">
+      <header class="medium-up-padding-horz-medium margin-bottom-medium">
         <nav class="width-100 text-left">
-          <h1 class="head-2 medium-up-head-1 inline-block">MOOC Report</h1>
-          <p class="text-1 inline-block">
-            <span id="mr-subtitle">Online Education News and Analysis</span>
+          <h1 class="head-3 small-up-head-2 large-up-head-1 medium-up-padding-right-xlarge margin-bottom-xsmall">
+            MOOC Report
             <a
               data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
               data-track-props='{ "type": "MOOC Report", "title": "RSS Subscribe" }'
@@ -245,29 +267,33 @@
             >
               RSS Feed
             </a>
+          </h1>
+          <div class="row">
+          <p class="text-3 medium-up-text-1 col width-3-5 text-left">
+            <span class="xsmall-only-hidden small-only-hidden">Online Education</span> News and Analysis
           </p>
-          <div id="mr-view-all" class="push">
+          <div class="col width-2-5 text-right">
             <a
               data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
               data-track-props='{ "type": "MOOC Report", "title": "View All" }'
-              class="text--blue head-4 icon-arrow-right-blue icon--right"
+              class="text--blue text-3 medium-up-head-4 icon-arrow-right-blue icon--right"
               href="/report">
-              See more <span class="small-hide">articles</span>
+              See more <span class="xsmall-only-hidden small-only-hidden">articles</span>
             </a>
           </div>
         </nav>
       </header>
       <div class="row width-centered" style="max-width: 1400px;">
-        <section class="col small-width-100 large-width-3-5 border-box">
-          <header class="text-center border-bottom border--gray-light border--thin margin-horz-large">
+        <section class="col width-100 large-up-width-3-5 border-box">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large">
             <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">MOOCWatch</h1>
           </header>
-          <div class="border-right border--thin border--gray-light border-box padding-xxlarge">
-            <p class="text--charcoal text-2 margin-bottom-large">MOOCWatch is our semi-regular publication where we dive deep into the world of MOOCs, giving the latest trends, news, and our perspective on what’s happening in the industry.</p>
-            <form action="//class-central.us8.list-manage.com/subscribe/post?u=a04149ada492173efe6609e68&amp;id=c5a9919ea5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"  class="form bg-gray padding-medium radius">
-              <label class="head-5 inline-block margin-right-medium small-margin-bottom-small">Get MOOCWatch in your inbox</label>
-              <input id="mce-EMAIL" type="email" name="EMAIL" placeholder="Your email" class="inline-block small-width-100 medium-width-2-5" />
-              <button type="submit" class="btn-blue small-width-100 margin-left-medium">Subscribe</button>
+          <div class="border-right border--thin border--gray-light border-box medium-up-padding-xxlarge">
+            <p class="text--charcoal text-2 margin-bottom-large margin-top-medium">MOOCWatch is our semi-regular publication where we dive deep into the world of MOOCs, giving the latest trends, news, and our perspective on what’s happening in the industry.</p>
+            <form action="//class-central.us8.list-manage.com/subscribe/post?u=a04149ada492173efe6609e68&amp;id=c5a9919ea5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"  class="form bg-gray width-centered width-100 xlarge-up-width-3-4 padding-medium radius text-center">
+              <label class="head-5 block">Get MOOCWatch in your inbox</label>
+              <input id="mce-EMAIL" type="email" name="EMAIL" placeholder="Your email" class="inline-block margin-top-small width-100 large-up-width-2-5" />
+              <button type="submit" class="btn-blue xsmall-only-width-100 small-only-width-100 margin-top-small medium-up-margin-left-medium">Subscribe</button>
               <div style="position: absolute; left: -5000px;"><input type="text" name="b_a04149ada492173efe6609e68_c5a9919ea5" tabindex="-1" value=""></div>
             </form>
 
@@ -295,11 +321,11 @@
             </ul>
           </div>
         </section>
-        <aside class="col small-width-100 large-width-2-5 border-box">
-          <header class="text-center border-bottom border--gray-light border--thin margin-horz-large">
+        <aside class="col width-100 large-up-width-2-5 border-box">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large">
             <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Latest Articles</h1>
           </header>
-          <ul class="border-box padding-large">
+          <ul class="border-box medium-up-padding-large">
               {% set postsShown = 0 %}
               {% for post in latestPosts if postsShown < 5 %}
                 {% set postCategory = 'News' %}
@@ -324,10 +350,10 @@
           </ul>
         </aside>
         <section class="col width-100 border-box">
-          <header class="text-center border-bottom border--gray-light border--thin margin-horz-large margin-bottom-large">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large margin-bottom-large">
             <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Popular Articles</h1>
           </header>
-          <ul class="row border-box padding-horz-large">
+          <ul class="row border-box medium-up-padding-horz-large">
             {% include 'ClassCentralSiteBundle:Default:moocreport.article.html.twig' with { article: {
               type: "World",
               title: "Massive List of MOOC Providers Around The World",
@@ -336,7 +362,7 @@
               description: "Where to find MOOCs: The definitive guide to MOOC providers.",
               author: "Dhawal Shah",
               publishedDate: "",
-              width: "small-width-100 large-width-1-4",
+              width: "width-100 large-up-width-1-4",
               border: true,
               url: 'https://www.class-central.com/report/mooc-providers-list/'
             }} %}
@@ -348,7 +374,7 @@
               description: "The best MOOCs for launching yourself into the data science industry.",
               author: "David Venturi",
               publishedDate: "",
-              width: "small-width-100 large-width-1-4",
+              width: "width-100 large-up-width-1-4",
               border: true,
               url: 'https://www.class-central.com/report/best-data-science-curriculum/'
             }} %}
@@ -360,7 +386,7 @@
               description: "There’s a new elite forming in higher education: universities that have millions of enrollments.",
               author: "Anuar Lequerica",
               publishedDate: "",
-              width: "small-width-100 large-width-1-4",
+              width: "width-100 large-up-width-1-4",
               border: true,
               url: 'https://www.class-central.com/report/harvard-digital-ivy-league/'
             }} %}
@@ -372,62 +398,62 @@
               description: "We've gained the ability to take MOOCs at any time, but lost something in the process.",
               author: "Dhawal Shah",
               publishedDate: "",
-              width: "small-width-100 large-width-1-4",
+              width: "width-100 large-up-width-1-4",
               border: false,
               url: 'https://www.class-central.com/report/moocs-no-longer-massive/'
             }} %}
           </ul>
         </section>
         <section id="as-seen-in" class="col width-100 border-box margin-top-xlarge">
-          <header class="text-center border-bottom border--gray-light border--thin margin-horz-large margin-bottom-large">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large margin-bottom-large">
             <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px"><span class="small-hide">MOOC Report Articles also</span> Published in</h1>
           </header>
-          <ul class="row border-box padding-horz-xlarge">
-            <li class="small-width-1-2 medium-width-1-5 col margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
+          <ul class="row border-box medium-up-padding-horz-xlarge">
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
               <a
                 target="_blank"
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "MOOC Report", "title": "TechCrunch", "sub_section": "Published In" }'
                 href="https://techcrunch.com/2015/08/21/how-coursera-cracked-the-chinese-market/">
-                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-techcrunch.png" class="width-100" alt="TechCrunch" />
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-techcrunch.png" class="width-100" style="max-width: 250px" alt="TechCrunch" />
               </a>
             </li>
-            <li class="small-width-1-2 medium-width-1-5 col margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
               <a
                 target="_blank"
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "MOOC Report", "title": "VentureBeat", "sub_section": "Published In" }'
                 href="https://venturebeat.com/2016/09/05/moocs-no-longer-massive-still-attract-millions/">
-                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-venturebeat.png" class="width-100" alt="VentureBeat" />
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-venturebeat.png" class="width-100" style="max-width: 250px" alt="VentureBeat" />
               </a>
             </li>
-            <li class="small-width-1-2 medium-width-1-5 col margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
               <a
                 target="_blank"
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "MOOC Report", "title": "EdSurge", "sub_section": "Published In" }'
                 href="https://www.edsurge.com/writers/dhawal-shah">
-                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-edsurge.png" class="width-100" alt="EdSurge" />
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-edsurge.png" class="width-100" style="max-width: 250px" alt="EdSurge" />
               </a>
             </li>
-            <li class="small-width-1-2 medium-width-1-5 col margin-vert-large border-box padding-horz-large">
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large">
               <a
                 target="_blank"
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "MOOC Report", "title": "Quartz", "sub_section": "Published In" }'
                 href="https://qz.com/941768/here-are-250-ivy-league-courses-you-can-take-online-right-now-for-free/"
               >
-                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-quartz.png" class="width-100" alt="Quartz" />
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-quartz.png" class="width-100" style="max-width: 250px" alt="Quartz" />
               </a>
             </li>
-            <li class="small-width-1-2 medium-width-1-5 col margin-vert-large border-box padding-horz-large">
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-xsmall large-up-padding-horz-medium xlarge-up-padding-horz-large">
               <a
                 target="_blank"
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
                 data-track-props='{ "type": "MOOC Report", "title": "OpenCulture", "sub_section": "Published In" }'
                 href="http://www.openculture.com/2015/03/the-keys-to-happiness.html"
               >
-                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-open-culture.png" class="width-100" alt="OpenCulture" />
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-open-culture.png" class="width-100" style="max-width: 250px" alt="OpenCulture" />
               </a>
             </li>
           </ul>

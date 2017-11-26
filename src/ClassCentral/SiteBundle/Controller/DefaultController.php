@@ -159,9 +159,11 @@ class DefaultController extends Controller {
         }
         $spotlightInfo = $this->getHomepageSpotlightInfo();
         $spotlightCourses = $this->getHomepageSpotlightCourses($spotlightInfo);
+        $detect = new \Mobile_Detect();
 
-        return $this->render('ClassCentralSiteBundle:Default:index.a.html.twig', array(
+        return $this->render('ClassCentralSiteBundle:Default:index.html.twig', array(
             'page' => 'home',
+            'isMobile' => $detect->isMobile(),
             'spotlightInfo' => $spotlightInfo,
             'spotlightCourses' => $spotlightCourses,
             'latestPosts' => $newestPosts,

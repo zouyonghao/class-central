@@ -18,10 +18,10 @@
     </header>
 
     <section class="width-centered margin-vert-large padding-horz-large" style="max-width: 1400px">
-      <header class="padding-horz-medium padding-top-large">
+      <header class="medium-up-padding-horz-medium padding-top-large margin-bottom-small">
         <nav class="width-100 text-left">
-          <h1 id="pc-header" class="head-2 padding-right-xlarge margin-bottom-medium">Find your course to review</h1>
-          <ul id="pc-nav-large" class="text-1">
+          <h1 class="head-2 padding-right-xlarge margin-bottom-medium">Find your course to review</h1>
+          <ul class="small-only-hidden xsmall-only-hidden text-1">
             {% for courseType in courseInfo %}
             <li class="inline-block">
               <a
@@ -35,7 +35,7 @@
             </li>
             {% endfor %}
           </ul>
-          <div id="pc-nav-small" class="relative">
+          <div class="medium-up-hidden relative">
             <span data-select-label class="btn-white icon-chevron-down-charcoal icon--xsmall icon--right text--charcoal">Most Wanted</span>
             <select data-select class="absolute top left btn-white btn--small width-100 text--charcoal" style="opacity: 0;">
               {% for courseType in courseInfo %}
@@ -52,7 +52,7 @@
       <ul class="popular-course-list row">
         {% for course in courseType["courses"] %}
             {% set course = course._source %}
-            <li data-show-target="{{courseType["title"]}}" class="large-width-1-3 small-width-100 medium-width-1-2 col padding-medium {% if courseType["title"] != "Most Wanted" %}hidden{% endif %}">
+            <li data-show-target="{{courseType["title"]}}" class="xlarge-up-width-1-3 width-100 medium-up-width-1-2 col medium-up-padding-horz-small padding-vert-small {% if courseType["title"] != "Most Wanted" %}hidden{% endif %}">
               {% include 'ClassCentralSiteBundle:Helpers:course.write-review.card.html.twig' with { course: course, courseType: courseType["title"] } %}
             </li>
         {% endfor %}
