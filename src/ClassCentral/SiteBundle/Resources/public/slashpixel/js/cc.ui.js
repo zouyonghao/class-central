@@ -195,7 +195,7 @@ class Ui {
       const bgColor = $next.data("slideshow-item").bg;
       let $upcoming;
 
-      $slideshow.removeClass("cc-gradient-green-blue cc-gradient-yellow-orange cc-gradient-purple-blue cc-gradient-orange-green")
+      $slideshow.removeClass("bg-cc-gradient cc-gradient-gold cc-gradient-green-blue cc-gradient-yellow-orange cc-gradient-purple-blue cc-gradient-orange-green")
       $navItems.addClass("transparent").eq(index).removeClass("transparent");
       $slideshow.addClass(bgColor);
       $active.removeClass('active');

@@ -46,6 +46,11 @@
     opacity: 1 !important;
   }
 }
+[data-slideshow="4"] {
+  nav [data-slideshow-target="4"] {
+    opacity: 1 !important;
+  }
+}
 
 [data-slideshow] {
   position: relative;
@@ -62,7 +67,7 @@
       color: transparent;
       @media (max-width: 801px) {
         border-radius: 0px;
-        width: 25%;
+        width: 20%;
         height: 10px;
         border-right: 1px solid #1639A8;
         display: block;
@@ -161,31 +166,23 @@
 #ss-1,
 #ss-2,
 #ss-3,
-#ss-4 {
+#ss-4,
+#ss-5 {
   .absolute {
     left: 0;
     max-width: none;
-    bottom: 13%;
+    bottom: 12%;
   }
 }
 
 @media (min-width: 802px) {
-  #ss-1 {
-    .absolute { bottom: 10%; }
-  }
-  #ss-2 {
+  #ss-3 {
     .absolute {
       max-width: 1200px;
       bottom: 16%;
       left: 10%;
       text-align: left !important;
     }
-  }
-  #ss-3 {
-    .absolute { bottom: 12%; }
-  }
-  #ss-4 {
-    .absolute { bottom: 12%; }
   }
 }
 
