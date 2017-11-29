@@ -65,7 +65,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ClassCentralSiteBundle ]
+    bundles:        [ ClassCentralSiteBundle, ClassCentralCredentialBundle ]
     # java: /usr/bin/java
     filters:
         yui_js:
