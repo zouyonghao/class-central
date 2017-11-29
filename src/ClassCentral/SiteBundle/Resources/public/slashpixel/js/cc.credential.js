@@ -11,8 +11,7 @@ const Credential = (function(){
         $('#cr-save-review').click(saveReview);
 
         // Attach handlers to filters
-        $(".filter-credential-type").click(filterCredentialNameClicked);
-        $(".tick-wrap-credential .tick").click(filterCredentialTickClicked);
+        $(".tick-wrap-credential input[type=checkbox]").click(filterCredentialTickClicked);
 
         $('#cred-button-signup').click(function(e){
             e.preventDefault();
@@ -40,6 +39,7 @@ const Credential = (function(){
             }
         );
 
+        // filterCredentials();
     }
 
     function learnMoreTabClickHandler(event){
@@ -209,19 +209,16 @@ const Credential = (function(){
     // ======================================================
     function filterCredentialNameClicked(e) {
         e.preventDefault();
-        var span = $(this).parent().find('span')[0];
-        $(span).toggleClass('ticked');
+        $(this).toggleClass('ticked');
         var type = $(this).data('type');
         var value = $(this).data(type);
         filterCredentials();
-
     }
 
     function filterCredentialTickClicked(e) {
         $(this).toggleClass("ticked");
-        var node = $(this).parent().children('a');
-        var type = node.data('type');
-        var value = node.data(type);
+        var type = $(this).data('type');
+        var value = $(this).data(type);
         filterCredentials();
     }
 
@@ -231,12 +228,13 @@ const Credential = (function(){
         var params = {};
         var url = $.url().attr('path');
 
-        $(".filter-credentials .ticked + .filter-credential-type").each(function() {
+        $(".filter-credentials input.ticked").each(function() {
             var type = $(this).data('type');
             var value = $.trim($(this).data(type));
             if( type == 'certificate')
             {
                 filterCerts.push(value);
+                console.log(filterCerts);
             }
 
             if( type == 'subject')
