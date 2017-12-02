@@ -267,7 +267,7 @@ class CourseFormatter {
             $newCourseTxt = '[New] ';
         }
 
-        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'fcc_medium','utm_medium' =>'web','utm_campaign'=>'prog_cs_courses_november'));
+        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'fcc_medium','utm_medium' =>'web','utm_campaign'=>'prog_cs_courses_december'));
         if($institution)
         {
             return sprintf("<li><a href='%s'>%s%s</a> from <em>%s</em> %s</li> ", $url, $newCourseTxt,$course->getName(),$institution, $ratingsLine);
