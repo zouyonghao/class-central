@@ -264,7 +264,8 @@
               href="{{ path('year_in_review_2016') }}"
               class="block"
             >
-              <img class="radius width-100 hover-grow shadow" src="/bundles/classcentralsite/images/year-in-review/banner-2016-year-in-review-mobile.png" alt="2016 Year in Review" />
+              {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2016-year-in-review-mobile.png', 546,420) %}
+              <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail  }}" alt="2016 Year in Review" />
             </a>
             <p class="text-center absolute width-100 left" style="bottom: -15px;">
               <a href="{{ path('year_in_review_2016') }}" class="btn-blue">Read More</a>
@@ -277,7 +278,8 @@
               href="{{ path('year_in_review_2015') }}"
               class="block"
             >
-              <img class="radius width-100 hover-grow shadow" src="/bundles/classcentralsite/images/year-in-review/banner-2015-year-in-review-mobile.png" alt="2015 Year in Review" />
+                {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com//bundles/classcentralsite/images/year-in-review/banner-2015-year-in-review-mobile.png', 546,420) %}
+              <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail }}" alt="2015 Year in Review" />
             </a>
             <p class="text-center absolute width-100 left" style="bottom: -15px;">
               <a href="{{ path('year_in_review_2015') }}" class="btn-blue">Read More</a>
@@ -290,7 +292,8 @@
               href="{{ path('year_in_review_2014') }}"
               class="block"
             >
-              <img class="radius width-100 hover-grow shadow" src="/bundles/classcentralsite/images/year-in-review/banner-2014-year-in-review-mobile.png" alt="2014 Year in Review" />
+                {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com//bundles/classcentralsite/images/year-in-review/banner-2014-year-in-review-mobile.png', 546,420) %}
+              <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail }}" alt="2014 Year in Review" />
             </a>
             <p class="text-center absolute width-100 left" style="bottom: -15px;">
               <a href="{{ path('year_in_review_2014') }}" class="btn-blue">Read More</a>
