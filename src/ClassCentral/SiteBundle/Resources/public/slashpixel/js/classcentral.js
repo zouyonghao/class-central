@@ -810,6 +810,14 @@ jQuery(function($) {
         }catch (e){}
     });
 
+    $(document).on('click', '.modal-close-button, .modal', function(e){
+      if ($("#news-banner").length) {
+        setTimeout(function() {
+          $("#news-banner").find(".news-banner-container").addClass("z-top");
+        }, 300);
+      }
+    });
+
     $(document).on('click', '#navbar-create-free-account', function(e){
         e.preventDefault();
         Utilities.hideWidgets();

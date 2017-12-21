@@ -31,6 +31,7 @@
 @import "styles/review";
 @import "styles/listing";
 @import "styles/follow-button";
+@import "styles/landing";
 
 .classcentral-style .bg-cc-gradient,
 .bg-cc-gradient {
@@ -48,11 +49,44 @@
   line-height: 1.45;
   -webkit-backface-visibility: hidden;
   -moz-osx-font-smoothing: grayscale;
+  .cc-gradient-yellow {
+    background: #FDB640;
+    background: -moz-linear-gradient(-90deg, #ffe588 0%, #ffe588 45%, #FDB640 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, #ffe588), color-stop(45%, #ffe588), color-stop(100%, #FDB640));
+    background: -webkit-linear-gradient(-90deg, #ffe588 0%, #ffe588 45%, #FDB640 100%);
+    background: -o-linear-gradient(-90deg, #ffe588 0%, #ffe588 45%, #FDB640 100%);
+    background: -ms-linear-gradient(-90deg, #ffe588 0%, #ffe588 45%, #FDB640 100%);
+    background: linear-gradient(-90deg, #ffe588 0%, #ffe588 -45%, #FDB640 100%);
+  }
   .cc-gradient-gold {
     background: #fffddc;
     background: -moz-linear-gradient(left, #fffddc 0%, #fffddc 50%, #fce4b4 51%, #fce4b4 100%);
     background: -webkit-linear-gradient(left, #fffddc 0%,#fffddc 50%,#fce4b4 51%,#fce4b4 100%);
     background: linear-gradient(to right, #fffddc 0%,#fffddc 50%,#fce4b4 51%,#fce4b4 100%);
+  }
+  .cc-gradient-2012,
+  .cc-gradient-2013,
+  .cc-gradient-2014 {
+    background: #D1D7EC;
+    background: -moz-linear-gradient(left, #CDEAFE 0%, #CDEAFE 50%, #C6EDED 51%, #C6EDED 100%);
+    background: -webkit-linear-gradient(left, #CDEAFE 0%, #CDEAFE 50%, #C6EDED 51%, #C6EDED 100%);
+    background: linear-gradient(to right, #CDEAFE 0%, #CDEAFE 50%, #C6EDED 51%, #C6EDED 100%);
+  }
+  .cc-gradient-2015 {
+    background: #D1D7EC;
+    background: -moz-linear-gradient(left, #D1D7EC 0%, #D1D7EC 50%, #E7FEEB 51%, #E7FEEB 100%);
+    background: -webkit-linear-gradient(left, #D1D7EC 0%, #D1D7EC 50%, #E7FEEB 51%, #E7FEEB 100%);
+    background: linear-gradient(to right, #D1D7EC 0%, #D1D7EC 50%, #E7FEEB 51%, #E7FEEB 100%);
+  }
+  .cc-gradient-2016 {
+    background: #C4E0E0;
+    background: -moz-linear-gradient(left, #C4E0E0 0%, #C4E0E0 50%, #D9C4E2 51%, #D9C4E2 100%);
+    background: -webkit-linear-gradient(left, #C4E0E0 0%, #C4E0E0 50%,#D9C4E2 51%,#D9C4E2 100%);
+    background: linear-gradient(to right, #C4E0E0 0%, #C4E0E0 50%, #D9C4E2 51%, #D9C4E2 100%);
+  }
+  .cc-gradient-2017 {
+    &:before { background-color: #FEEED9; }
+    &:after { background-color: #E5FFF5; }
   }
 }
 .minimal-footer {

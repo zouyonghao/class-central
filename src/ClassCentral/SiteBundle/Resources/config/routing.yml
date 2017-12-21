@@ -550,3 +550,27 @@ mailgun_webhook_receiver:
 vote_best_online_courses_2017:
     pattern:  /vote-best-moocs-2017
     defaults: { _controller: ClassCentralSiteBundle:LandingPage:voteBestOnlineCourses2017 }
+
+year_in_review_2012:
+    pattern:  /moocs-year-in-review-2012
+    defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2012 }    
+
+year_in_review_2013:
+    pattern:  /moocs-year-in-review-2013
+    defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2013 }
+
+year_in_review_2014:
+    pattern:  /moocs-year-in-review-2014
+    defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2014 }
+
+year_in_review_2015:
+    pattern:  /moocs-year-in-review-2015
+    defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2015 }
+
+year_in_review_2016:
+    pattern:  /moocs-year-in-review-2016
+    defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2016 }
+
+# year_in_review_2017:
+#     pattern:  /year-in-review-2017
+#     defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2017 }

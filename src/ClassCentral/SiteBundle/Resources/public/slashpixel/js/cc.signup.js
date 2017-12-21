@@ -409,6 +409,10 @@ const Signup = (function(){
           dataType: "json",
           cache: false,
           success: function( result ) {
+              if ($("#news-banner").length) {
+                $("#news-banner").find(".news-banner-container").removeClass("z-top");
+              }
+              
               $(result.modal).appendTo("body");
 
               // Setup the modal

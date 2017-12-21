@@ -17,6 +17,10 @@ class Ui {
 
       $(".bfh-number-btn.inc").addClass('btn-small btn-white icon-chevron-up icon--center');
       $(".bfh-number-btn.dec").addClass('btn-small btn-white icon-chevron-down icon--center');
+
+      $("#news-banner a").click(function() {
+        Cookies.set("news_banner", 1);
+      });
     });
   }
 
@@ -26,6 +30,9 @@ class Ui {
         if (target.matches("[data-remove-parent]")) {
           const el = target.parentElement;
           $(el).hide();
+          if ($(target).data('cookie')) {
+            Cookies.set($(target).data('cookie'), 1);
+          }
         }
       }
     }, false);

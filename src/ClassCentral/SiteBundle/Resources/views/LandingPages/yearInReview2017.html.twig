@@ -1,0 +1,151 @@
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{% block headmeta %}
+  <title>2017: Year in Review</title>
+  <meta name="description" content="" />
+  <meta property="og:title" content="2017: Year in Review" />
+  <meta property="og:url" content="{{ url(app.request.attributes.get('_route')) }}" />
+  <link rel="canonical" href="{{ url(app.request.attributes.get('_route')) }}">
+
+  <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/images/year-in-review/social-2017-year-in-review.png">">
+
+  <meta property="og:site_name" content="Class Central"/>
+  <meta property="og:description" content="Help select the highest rated Massive Open Online Courses (MOOCs) of 2017" />
+
+{% endblock %}
+
+{% block content %}
+  <!-- banner -->
+  <div class="classcentral-style" id="landing-page">
+    <section class="cc-gradient-2017">
+      <div id="banner-mobile" class="relative medium-up-hidden">
+        <h2>
+          <img class="block width-100" src="/bundles/classcentralsite/images/year-in-review/{{ data.bannerImage }}-mobile.png" alt="Class Central's 2017 Year in Review"/>
+        </h2>
+      </div>
+      <div class="xsmall-only-hidden small-only-hidden relative width-100 width-centered" style="max-width: 1400px;">
+        <h1 style="padding-bottom: 31.25%;">
+          <img class="width-100 absolute top left" src="/bundles/classcentralsite/images/year-in-review/{{ data.bannerImage }}.png" alt="Class Central's 2017 Year in Review"/>
+        </h1>
+      </div>
+      <div class="relative width-100 height-100 width-centered" style="max-width: 1400px;">
+        <div class="select dropdown absolute bottom right margin-small medium-up-margin-large" data-dropdown>
+          <a class="xsmall-only-hidden small-only-hidden btn-white btn--medium text--charcoal icon--xsmall icon--right icon-chevron-down" data-dropdown-anchor data-toggle="dropdown">Previous years</a>
+          <a class="medium-up-hidden text--blue text-3 icon--right icon-chevron-down-blue" data-dropdown-anchor data-toggle="dropdown">Previous years</a>
+          <ul
+            data-dropdown-menu
+            class="text-left dropdown-menu radius bg-white padding-vert-medium"
+            style="display: none;"
+          >
+            {% for yearAvailable in data.yearsAvailable %}
+            <li>
+              <a class="padding-vert-xxsmall text--blue" href="/year-in-review-{{ yearAvailable }}">{{ yearAvailable }}<span class="xsmall-only-hidden small-only-hidden">: Year in Review</span></a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="row width-centered padding-vert-medium medium-up-padding-vert-large padding-horz-large" style="max-width: 1250px;">
+      <header class="text-center margin-vert-large">
+        <h1 class="head-2 medium-up-head-1 text--bold margin-bottom-xxsmall medium-up-margin-bottom-xsmall">{{ data.leadingArticle.title }}</h1>
+        <h2 class="head-4 medium-up-head-3 large-up-head-2 margin-bottom-small">{{ data.leadingArticle.subtitle }}</h2>
+        <p class="text-3 medium-up-text-2">
+          <strong class="text--bold">By {{ data.leadingArticle.author }}</strong>
+          <span class="text--italic">{{ data.leadingArticle.publishedDate }}</span>
+        </p>
+      </header>
+
+      <article class="text-center width-100 medium-up-width-2-3 large-up-width-1-2 width-centered">
+        <p class="margin-vert-large text-2 medium-up-text-1 text-left">
+          {{ data.leadingArticle.snippet }}
+        </p>
+        <a href="{{ data.leadingArticle.url }}" class="btn-blue medium-up-btn--large">Read article</a>
+      </article>
+    </section>
+
+    <section class="row width-centered padding-horz-medium medium-up-padding-horz-large padding-vert-large" style="max-width: 1250px;">
+      <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large margin-bottom-medium">
+        <h1 class="head-3 medium-up-head-2 padding-horz-medium bg-white relative inline-block" style="top: 15px">MOOCs by the Numbers 2017</h1>
+      </header>
+      <div class="text-center width-centered medium-up-padding-horz-large" style="max-width: 1000px;">
+        <img
+          src="/bundles/classcentralsite/images/year-in-review/{{ data.statsImage }}.png"
+          alt="2017 By the Numbers"
+          class="width-100"
+        />
+      </div>
+
+        <div class="text-center border-bottom border--gray-light border--thin">
+          <h2 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Supplementary Reading</h1>
+        </div>
+        <ul class="row width-centered padding-horz-large margin-top-large" style="max-width: {% if data.supplementaryReading|length <= 3 %}900px{% else %}100%{% endif %};">
+          {% for article in data.supplementaryReading %}
+            <li class="width-100 large-up-width-1-{{ data.supplementaryReading|length }} col margin-vert-medium border-box medium-up-padding-horz-large">
+              <h4 class="head-5 text--charcoal text--italic margin-bottom-xxsmall">{{ article.publishedDate }}</h4>
+              <h3 class="margin-bottom-xsmall">
+                <a
+                  data-track-click="{{ ts.event('LANDING_PAGE_CLICK') }}"
+                  data-track-props='{ "type": "Supplementary Reading", "title": "{{ article.title }}" }'
+                  class="text--blue text-1 hover-text--underline"
+                  href="{{ article.url }}"
+                >
+                  {{ article.title|raw }}
+                </a>
+              </h3>
+              <p class="text--charcoal text-2 margin-bottom-small">{{ article.description }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+    </section>
+
+    <section class="row width-centered padding-horz-large" style="max-width: {% if data.providers|length <= 3 %}850px{% else %}1250px{% endif %};">
+      <header class="text-center border-bottom border--gray-light border--thin margin-bottom-large">
+        <h1 class="head-2 padding-horz-medium bg-white relative inline-block" style="top: 15px">Year in Review</h1>
+      </header>
+      <ul class="row">
+        {% for provider in data.providers %}
+          <li class="width-100 medium-up-width-1-2 large-up-width-1-{{ data.providers|length }} col margin-vert-medium border-box medium-up-padding-horz-large text-center">
+            <h3 class="margin-bottom-xsmall text-center">
+              <img
+                src="/bundles/classcentralsite/images/year-in-review/{{ provider.iconImage }}.png"
+                alt="{{ provider.name }} Logo"
+                width="100"
+              />
+              <a
+                data-track-click="{{ ts.event('LANDING_PAGE_CLICK') }}"
+                data-track-props='{ "type": "Year in Review", "title": "{{ provider.name }}s 2017 Year in Review" }'
+                class="text--blue text-1 hover-text--underline block"
+                href="{{ provider.url }}"
+              >
+                {{ provider.name }}'s 2017:<br> Year in Review
+              </a>
+            </h3>
+            <p class="text--charcoal text-2 margin-bottom-small">{{ provider.description }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="row width-centered padding-large" style="max-width: 1150px;">
+      <ul class="row">
+        {% for cc in data.classCentral %}
+          <li class="width-100 large-up-width-1-{{ data.classCentral|length }} col padding-horz-large relative margin-bottom-xlarge">
+            <a
+              data-track-click="{{ ts.event('LANDING_PAGE_CLICK') }}"
+              data-track-props='{ "type": "Year in Review", "title": {{ cc.title }}, "section": "Class Central" }'
+              href="{{ cc.url }}"
+              class="block"
+            >
+              <img class="radius width-100 hover-grow shadow" src="/bundles/classcentralsite/images/year-in-review/{{ cc.image }}" alt="{{ cc.title }}" />
+            </a>
+            <p class="text-center absolute width-100 left" style="bottom: -15px;">
+              <a href="{{ cc.url }}" class="btn-blue">{{ cc.cta }}</a>
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+{% endblock %}
