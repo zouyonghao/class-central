@@ -1,7 +1,7 @@
-{% if not app.request.cookies.has('news_banner') %}
+{% if not app.request.cookies.has('news_banner') and app.request.query.get("news_banner") != 1 %}
   <section id="news-banner" class="classcentral-style">
     <div class="news-banner-container relative z-top">
-      <a href="{{ path('vote_best_online_courses_2017') }}" class="block cc-gradient-yellow padding-small text-center">
+      <a href="{{ path('vote_best_online_courses_2017') }}?news_banner=1" class="block cc-gradient-yellow padding-small text-center">
         <h3 class="inline-block medium-up-margin-right-medium text-3 large-up-text-2 text--white">
           <span class="small-only-hidden xsmall-only-hidden head-5 text--bold text--upper">
             The Latest

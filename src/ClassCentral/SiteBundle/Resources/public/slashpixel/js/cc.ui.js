@@ -21,6 +21,10 @@ class Ui {
       $("#news-banner a").click(function() {
         Cookies.set("news_banner", 1);
       });
+
+      if (window.location.search.match(/news_banner=1/)) {
+        Cookies.set("news_banner", 1);
+      }
     });
   }
 
