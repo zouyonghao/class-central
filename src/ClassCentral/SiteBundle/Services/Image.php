@@ -19,11 +19,16 @@ class Image {
 
     private $container;
     private $kuber;
+    private $urlboxApiKey;
+    private $urlboxApiSecret;
 
     public function __construct( ContainerInterface $container )
     {
         $this->container = $container;
         $this->kuber = $container->get('kuber');
+
+        $this->urlboxApiKey = $this->container->getParameter('urlbox_api_key');
+        $this->urlboxApiSecret = $this->container->getParameter('urlbox_api_secret');
     }
 
     /**
@@ -210,5 +215,16 @@ class Image {
     private function getImgixToken()
     {
         return $this->container->getParameter('imgix_token');
+    }
+
+    /**
+     * Generate image screenshot
+     * @param $url
+     */
+    public function getScreenshotUrl($url)
+    {
+        $queryString = "url=" . urlencode($url);
+        $token = hash_hmac('sha1',$queryString,$this->urlboxApiSecret);
+        return "https://api.urlbox.io/v1/{$this->urlboxApiKey}/{$token}/png?{$queryString}";
     }
 } 

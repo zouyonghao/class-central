@@ -1,0 +1,191 @@
+{
+  "title": "EdX Professional Certificates",
+  "subtitle": "Pricing Chart",
+  "headers": [
+    {
+      "title": "Title",
+      "className": "text--bold text-left"
+    },
+    {
+      "title": "Price",
+      "className": "text-right"
+    }
+  ],
+  "rows": [
+    {
+      "title": "Agile Development Using Ruby on Rails",
+      "subtitle": "Berkeley",
+      "price": "$198"
+    },
+    {
+      "title": "Inclusive Leadership",
+      "subtitle": "Catalyst",
+      "price": "$135"
+    },
+    {
+      "title": "Corporate Finance",
+      "subtitle": "Columbia University",
+      "price": "$297"
+    },
+    {
+      "title": "Data Science for Executives",
+      "subtitle": "Columbia University",
+      "price": "$312.30"
+    },
+    {
+      "title": "Retail and Omnichannel Management",
+      "subtitle": "Dartmouth College",
+      "price": "$198"
+    },
+    {
+      "title": "Data Analysis & Visualization with Excel",
+      "subtitle": "Delft University of Technology (TU Delft)",
+      "price": "$198"
+    },
+    {
+      "title": "Management of Engineering Projects; Dealing with Complexity",
+      "subtitle": "Delft University of Technology (TU Delft)",
+      "price": "$298"
+    },
+    {
+      "title": "Management and Financing of Engineering Projects",
+      "subtitle": "Delft University of Technology (TU Delft)",
+      "price": "$298"
+    },
+    {
+      "title": "Java and Android Foundation",
+      "subtitle": "Hong Kong University of Science and Technology",
+      "price": "$297"
+    },
+    {
+      "title": "Gestin Pblica para el Desarrollo",
+      "subtitle": "Inter-American Development Bank",
+      "price": "$75"
+    },
+    {
+      "title": "Sparse Representations in Signal and Image Processing",
+      "subtitle": "IsraelX",
+      "price": "$198"
+    },
+    {
+      "title": "Microsoft Professional Program in Data Science",
+      "subtitle": "Microsoft",
+      "price": "$990"
+    },
+    {
+      "title": "Microsoft Professional Program in Front-End Web Development",
+      "subtitle": "Microsoft",
+      "price": "$1,287"
+    },
+    {
+      "title": "Microsoft Professional Program in Big Data",
+      "subtitle": "Microsoft",
+      "price": "$990"
+    },
+    {
+      "title": "Microsoft Professional Program in DevOps",
+      "subtitle": "Microsoft",
+      "price": "$792"
+    },
+    {
+      "title": "Microsoft Professional Program in Cloud Admin",
+      "subtitle": "Microsoft",
+      "price": "$1,188"
+    },
+    {
+      "title": "Introduction to Computer Science",
+      "subtitle": "Microsoft",
+      "price": "$297"
+    },
+    {
+      "title": "Introduction to Professional Software Development",
+      "subtitle": "Microsoft",
+      "price": "$396"
+    },
+    {
+      "title": "Introduction to Code Solutions",
+      "subtitle": "Microsoft",
+      "price": "$297"
+    },
+    {
+      "title": "Introduction to Code Objects and Algorithms",
+      "subtitle": "Microsoft",
+      "price": "$297"
+    },
+    {
+      "title": "Introduction to Capital Markets",
+      "subtitle": "New Tork Institute of Finance",
+      "price": "$499.50"
+    },
+    {
+      "title": "Brokerage Operations",
+      "subtitle": "New Tork Institute of Finance",
+      "price": "$1,299"
+    },
+    {
+      "title": "Mortgage Backed Securities (MBS)",
+      "subtitle": "New Tork Institute of Finance",
+      "price": "$1,399"
+    },
+    {
+      "title": "Project Finance and Public Private Partnerships",
+      "subtitle": "New Tork Institute of Finance",
+      "price": "$1,399"
+    },
+    {
+      "title": "Risk Management",
+      "subtitle": "New Tork Institute of Finance",
+      "price": "$1,895"
+    },
+    {
+      "title": "Mergers & Acquisitions (M&A)",
+      "subtitle": "New Tork Institute of Finance",
+      "price": "$1,550"
+    },
+    {
+      "title": "Soft Skills",
+      "subtitle": "Rochester Institute of Technology",
+      "price": "$294"
+    },
+    {
+      "title": "Six Sigma and Lean: Quantitative Tools for Quality and Productivity",
+      "subtitle": "Technische Universitt Mnchen",
+      "price": "$264"
+    },
+    {
+      "title": "Public Library Management",
+      "subtitle": "The University of Michigan",
+      "price": "$352.80"
+    },
+    {
+      "title": "Digital Marketing",
+      "subtitle": "The Wharton School of the University of Pennsylvania",
+      "price": "$2,340"
+    },
+    {
+      "title": "Front-End Web Developer",
+      "subtitle": "The World Wide Web Consortium (W3C)",
+      "price": "$499.50"
+    },
+    {
+      "title": "Virtual Reality (VR) App Development",
+      "subtitle": "UC San Diego",
+      "price": "$247"
+    },
+    {
+      "title": "Introduction to Java Programming",
+      "subtitle": "Universidad Carlos III de Madrid",
+      "price": "$267.30"
+    },
+    {
+      "title": "Computer Science Essentials for Software Development",
+      "subtitle": "University of Pennsylvania",
+      "price": "$536.40"
+    },
+    {
+      "title": "Essentials of Cybersecurity",
+      "subtitle": "University of Washington",
+      "price": "$316"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "title": "Udacity Nanodegrees",
+  "subtitle": "Pricing Chart",
+  "headers": [
+    {
+      "title": "Title",
+      "className": "text--bold text-left"
+    },
+    {
+      "title": "Duration",
+      "className": "text-center"
+    },
+    {
+      "title": "Price",
+      "className": "text-right"
+    }
+  ],
+  "footer" : "udacity",
+  "rows": [
+     {
+       "title": "Intro to Self-Driving Cars",
+       "duration": "4 months",
+       "price": "$800"
+     },
+     {
+       "title": "Learn ARKit",
+       "duration": "1 month",
+       "price": "$200"
+     },
+     {
+       "title": "Data Foundations",
+       "duration": "3 months",
+       "price": "$499"
+     },
+     {
+       "title": "Data Analyst",
+       "duration": "6 Months",
+       "price": " $1198"
+     },
+     {
+       "title": "React",
+       "duration": "4 months",
+       "price": "$499"
+     },
+     {
+       "title": "Intro to Programming",
+       "duration": "5 months",
+       "price": "$399 or $99/mo"
+     },
+     {
+       "title": "VR Developer",
+       "duration": "6 months",
+       "price": "$1200"
+     },
+     {
+       "title": "Robotics",
+       "duration": "6 Months",
+       "price": "$1200"
+     },
+     {
+       "title": "Digital Marketing",
+       "duration": "3 months",
+       "price": "$999"
+     },
+     {
+       "title": "Deep Learning Foundation",
+       "duration": "4 months",
+       "price": "$599"
+     },
+     {
+       "title": "Artificial Intelligence",
+       "duration": "6 months",
+       "price": "$1600"
+     },
+     {
+       "title": "Self Driving Car Engineer",
+       "duration": "9 months",
+       "price": "$2400"
+     },
+     {
+       "title": "Business Analyst",
+       "duration": "160 hours",
+       "price": "$199/month"
+     },
+     {
+       "title": "Android Basics",
+       "duration": "6 months",
+       "price": "$199/month <sup class='text-5'>1</sup>"
+     },
+     {
+       "title": "Machine Learning Engineer",
+       "duration": "6 months",
+       "price": "$199/month or $299/month <sup class='text-5'>1&nbsp;&nbsp;2</sup>"
+     },
+     {
+       "title": "Front-End Web Developer",
+       "duration": "6 months",
+       "price": "$199/month <sup class='text-5'>1</sup>"
+     },
+     {
+       "title": "Full Stack Web Developer",
+       "duration": "6 months",
+       "price": "$199/month or $299/month <sup class='text-5'>1&nbsp;&nbsp;2</sup>"
+     },
+     {
+       "title": "Android Developer",
+       "duration": "8 months",
+       "price": "$1199 or $199/month <sup class='text-5'>3</sup>"
+     },
+     {
+       "title": "Become an iOS Developer",
+       "duration": "6 months",
+       "price": "$199/mont or $299/month <sup class='text-5'>1&nbsp;&nbsp;2</sup>"
+     }
+  ]
+}

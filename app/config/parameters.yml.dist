@@ -109,3 +109,5 @@ parameters:
 
     webpack_dev_server: false
     react_server: ~
+    urlbox_api_key: ~
+    urlbox_api_secret: ~
