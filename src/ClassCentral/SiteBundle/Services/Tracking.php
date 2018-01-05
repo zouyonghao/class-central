@@ -23,6 +23,7 @@ class Tracking {
     const SUBJECT_CLICK = 'subject_click';
     const HTTP_ERROR = 'http_error';
     const LANDING_PAGE_CLICK = 'landing_page_click';
+    const FILTER_CLICK = 'filter_click';
 
 
     public function __construct(ContainerInterface $container) {

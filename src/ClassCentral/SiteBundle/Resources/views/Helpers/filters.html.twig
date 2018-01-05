@@ -27,8 +27,8 @@
                     data-type="certificate"
                     for="certificate"
                     class="filter-dropdown-toggle sub-category"
-                    data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                    data-track-props='{ "type": "Filter", "title": "With Certificate" }'
+                    data-track-click="{{ ts.event('FILTER_CLICK') }}"
+                    data-track-props='{ "title": "With Certificate" }'
                   >
                     <span>
                       <span class="checkbox--icon margin-small checkbox--icon-solid">
@@ -65,8 +65,8 @@
                         data-course-list="{{ list.slug }}"
                         data-type="course-list" for="{{ list.slug }}"
                         class="filter-dropdown-toggle sub-category"
-                        data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                        data-track-props='{ "type": "Filter", "title": "{{ list.desc }}", "section": "My Courses" }'
+                        data-track-click="{{ ts.event('FILTER_CLICK') }}"
+                        data-track-props='{ "title": "{{ list.desc }}", "section": "My Courses" }'
                       >
                         <span>
                           <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
@@ -124,8 +124,8 @@
                         data-type="session"
                         for="{{ slug }}"
                         class="filter-dropdown-toggle sub-category"
-                        data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                        data-track-props='{ "type": "Filter", "title": "{{ session.nav }}", "section": "Session" }'
+                        data-track-click="{{ ts.event('FILTER_CLICK') }}"
+                        data-track-props='{ "title": "{{ session.nav }}", "section": "Session" }'
                       >
                         <span>
                           <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
@@ -165,8 +165,8 @@
                         data-type="subject"
                         for="{{ pSub['slug'] }}"
                         class="filter-dropdown-toggle sub-category"
-                        data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                        data-track-props='{ "type": "Filter", "title": "{{ pSub.name }}", "section": "Subject" }'
+                        data-track-click="{{ ts.event('FILTER_CLICK') }}"
+                        data-track-props='{ "title": "{{ pSub.name }}", "section": "Subject" }'
                       >
                         <span>
                           <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
@@ -223,8 +223,8 @@
                               data-type="lang"
                               for="{{ language.name }}"
                               class="filter-dropdown-toggle sub-category"
-                              data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                              data-track-props='{ "type": "Filter", "title": "{{ language.name }}", "section": "Language" }'
+                              data-track-click="{{ ts.event('FILTER_CLICK') }}"
+                              data-track-props='{ "title": "{{ language.name }}", "section": "Language" }'
                             >
                               <span>
                                 <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">

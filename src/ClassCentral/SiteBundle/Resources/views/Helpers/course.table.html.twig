@@ -290,7 +290,7 @@
                                     title="List of {{institution['name']}} MOOCs"
                                     onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')"
                                     data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                                    data-track-props='{ "type": "Institution", "metadata": {
+                                    data-track-props='{ "type": "Institution", "clickMetadata": {
                                       "institution": "{{ institution['name'] }}",
                                       "institutionId": "{{ institution['id'] }}",
                                       "tableId": "{{ tableId }}",
@@ -312,7 +312,7 @@
                            "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
                            "{{course.provider.name}}","{{course.name}}","{{ tableId }}");return false'
                    data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                   data-track-props='{ "type": "Course", "metadata": {
+                   data-track-props='{ "type": "Course", "clickMetadata": {
                      "institution": "{{ institutionName }}",
                      "institutionId": "{{ institutionId }}",
                      "tableId": "{{ tableId }}",
@@ -339,7 +339,7 @@
                           title="List of {{ course['provider']['tooltip'] }} MOOCs"
                           onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
                           data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                          data-track-props='{ "type": "Provider", "metadata": {
+                          data-track-props='{ "type": "Provider", "clickMetadata": {
                             "institution": "{{ institutionName }}",
                             "institutionId": "{{ institutionId }}",
                             "tableId": "{{ tableId }}",
@@ -358,7 +358,7 @@
                       href="{{ path('credential_page', {slug: course.credential.slug}) }}"
                       onmousedown="ga('send','event', 'Inbound Click - Credential from Course Table', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')"
                       data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                      data-track-props='{ "type": "Earn a Credential", "metadata": {
+                      data-track-props='{ "type": "Earn a Credential", "clickMetadata": {
                         "title": "{{ course.credential.name }}",
                         "institution": "{{ institutionName }}",
                         "institutionId": "{{ institutionId }}",
