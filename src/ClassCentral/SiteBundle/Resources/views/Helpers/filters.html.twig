@@ -23,7 +23,13 @@
               <div class="tick-wrap">
                 <fieldset class="checkbox checkbox--medium checkbox--standard padding-small relative">
                   <input class="tick" type="checkbox" name="certificate" id="certificate">
-                  <label data-type="certificate" for="certificate" class="filter-dropdown-toggle sub-category">
+                  <label
+                    data-type="certificate"
+                    for="certificate"
+                    class="filter-dropdown-toggle sub-category"
+                    data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                    data-track-props='{ "type": "Filter", "title": "With Certificate" }'
+                  >
                     <span>
                       <span class="checkbox--icon margin-small checkbox--icon-solid">
                         <span class="icon icon-checkmark-white"></span>
@@ -55,7 +61,13 @@
                   <div class="tick-wrap">
                     <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
                       <input data-course-list="{{ list.slug }}" data-type="course-list" class="tick" type="checkbox" name="{{ list.slug }}" id="{{ list.slug }}">
-                      <label data-course-list="{{ list.slug }}" data-type="course-list" for="{{ list.slug }}" class="filter-dropdown-toggle sub-category">
+                      <label
+                        data-course-list="{{ list.slug }}"
+                        data-type="course-list" for="{{ list.slug }}"
+                        class="filter-dropdown-toggle sub-category"
+                        data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                        data-track-props='{ "type": "Filter", "title": "{{ list.desc }}", "section": "My Courses" }'
+                      >
                         <span>
                           <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
                             <span class="icon icon-checkmark-white"></span>
@@ -107,7 +119,14 @@
                   <div class="tick-wrap">
                     <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
                       <input data-session="{{ slug }}" data-type="session" class="tick" type="checkbox" name="{{ slug }}" id="{{ slug }}">
-                      <label data-session="{{ slug }}" data-type="session" for="{{ slug }}" class="filter-dropdown-toggle sub-category">
+                      <label
+                        data-session="{{ slug }}"
+                        data-type="session"
+                        for="{{ slug }}"
+                        class="filter-dropdown-toggle sub-category"
+                        data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                        data-track-props='{ "type": "Filter", "title": "{{ session.nav }}", "section": "Session" }'
+                      >
                         <span>
                           <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
                             <span class="icon icon-checkmark-white"></span>
@@ -141,7 +160,14 @@
                   <div class="tick-wrap">
                     <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
                       <input data-subject="{{ pSub['slug'] }}" data-type="subject" class="tick" type="checkbox" name="{{ pSub['slug'] }}" id="{{ pSub['slug'] }}">
-                      <label data-subject="{{ pSub['slug'] }}" data-type="subject" for="{{ pSub['slug'] }}" class="filter-dropdown-toggle sub-category">
+                      <label
+                        data-subject="{{ pSub['slug'] }}"
+                        data-type="subject"
+                        for="{{ pSub['slug'] }}"
+                        class="filter-dropdown-toggle sub-category"
+                        data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                        data-track-props='{ "type": "Filter", "title": "{{ pSub.name }}", "section": "Subject" }'
+                      >
                         <span>
                           <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
                             <span class="icon icon-checkmark-white"></span>
@@ -192,13 +218,20 @@
                         <div class="tick-wrap">
                           <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
                             <input data-lang="{{ language.name }}" data-type="lang" class="tick" type="checkbox" name="{{ language.name }}" id="{{ language.name }}">
-                            <label data-lang="{{ language.name }}" data-type="lang" for="{{ language.name }}" class="filter-dropdown-toggle sub-category">
+                            <label
+                              data-lang="{{ language.name }}"
+                              data-type="lang"
+                              for="{{ language.name }}"
+                              class="filter-dropdown-toggle sub-category"
+                              data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                              data-track-props='{ "type": "Filter", "title": "{{ language.name }}", "section": "Language" }'
+                            >
                               <span>
                                 <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
                                   <span class="icon icon-checkmark-white"></span>
                                 </span>
                                 <span class="checkbox--label checkbox--label-solid inline-block">
-                                  {{ language.name  }}
+                                  {{ language.name }}
                                   <span class="text-4">({{ language.count }})</span>
                                 </span>
                               </span>

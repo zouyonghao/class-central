@@ -4,12 +4,16 @@
       <a
         data-tab="credentials"
         href="#"
+        data-track-click="{{ ts.event('LISTING_CLICK') }}"
+        data-track-props='{ "type": "Credentials Tab" }'
         class="head-4 medium-up-head-3 text--charcoal inline-block {% if app.request.get('credential') == true %}bg-white{% else %}bg-gray{% endif %} border--thin border-top border-left border-right border--gray-dark padding-vert-xsmall padding-horz-small large-up-padding-horz-xxlarge margin-right-xsmall"
       >{{ numCredentials }} Credentials</a>
     {% endif %}
     <a
       data-tab="courses"
       href="#"
+      data-track-click="{{ ts.event('LISTING_CLICK') }}"
+      data-track-props='{ "type": "Online Courses Tab" }'
       class="head-4 medium-up-head-3 text--bold text--charcoal inline-block {% if app.request.get('credential') == true %}bg-gray{% else %}bg-white{% endif %} border--thin border-top border-left border-right border--gray-dark padding-vert-xsmall padding-horz-small large-up-padding-horz-xxlarge margin-right-medium"
     >Online Courses</a>
   </div>

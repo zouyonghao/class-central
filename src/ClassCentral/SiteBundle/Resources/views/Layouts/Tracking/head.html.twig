@@ -79,7 +79,8 @@
       {% if pageMetadata is defined %}
         metadata: {{ pageMetadata|json_encode()|raw }},
       {% endif %}
-      session_id: "{{ app.session.getId() }}"
+      session_id: "{{ app.session.getId() }}",
+      deviceType: "{{ ts.device() }}"
     }
   });
 
