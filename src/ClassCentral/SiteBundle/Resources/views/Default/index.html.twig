@@ -148,11 +148,11 @@
             <a href="{{ path('user_recommendations') }}" class="btn-blue-outline btn--large">View All</a>
           </div>
         {% else %}
-          <div class="text-center margin-xxlarge padding-large">
+          <div class="text-center medium-up-margin-xlarge padding-large">
             <p class="head-2 margin-bottom-xsmall">Get regular updates of new and upcoming courses!</p>
             <p class="text-1 padding-bottom-large">
               <span class="block">You can unlock your <strong class="text--bold">personalized course recommendations</strong> by <br>following Subjects, Universities, Providers, and Languages.</span>
-              <a class="btn-white btn--large margin-top-small" href='{{ path('user_follows') }}'>Find areas of interest to follow now</a>
+              <a class="btn-white width-100 large-up-width-1-2 btn--large margin-top-small" href='{{ path('user_follows') }}'>Find areas of interest to follow</a>
             </p>
           </div>
         {% endif %}
@@ -165,7 +165,7 @@
               <a href="{{ path('user_library') }}" class="btn-blue-outline btn--large">View All {{ ucCount }} courses</a>
             </div>
         {% else %}
-          <div class="text-center margin-xxlarge padding-large">
+          <div class="text-center medium-up-margin-xlarge padding-large">
             <p class="head-2 margin-bottom-xsmall">No saved courses found.</p>
             <p class="text-1 padding-bottom-large">Get started by browsing Popular Courses below or by <a href="/subjects" class="text--blue">Browsing Subjects</a>.</p>
             <i class="icon--center icon--large icon-arrow-down inline-block" style="height: 40px;"></i>

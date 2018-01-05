@@ -220,4 +220,6 @@
     {% set pageName = page %}
 {% endif %}
 
-{% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}
+<div class="sidebar-ads">
+  {% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}
+</div>

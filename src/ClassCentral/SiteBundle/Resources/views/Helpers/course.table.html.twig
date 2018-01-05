@@ -104,12 +104,14 @@
     <tbody class="table-body-{{ tableId }}" id="course-listing-tbody">
 {% endif %}
 
-        {% if not hideTableAd %}
-            {{ cc_ads.renderTextRowAd('table',{
-                'tableId': tableId,
-                'midRowTableAd': false,
-                'showSubjectInTable': showSubjectInTable
-            })|raw }}
+        {% if not app.request.cookies.get('ads_hidden') %}
+          {% if not hideTableAd %}
+              {{ cc_ads.renderTextRowAd('table',{
+                  'tableId': tableId,
+                  'midRowTableAd': false,
+                  'showSubjectInTable': showSubjectInTable
+              })|raw }}
+          {% endif %}
         {% endif %}
 
 
@@ -117,11 +119,13 @@
         {% set course = result._source %}
 
         {% if loop.index is divisibleby(15) and not hideTableAd %}
+          {% if not app.request.cookies.get('ads_hidden') %}
             {{ cc_ads.renderTextRowAd('table',{
                 'tableId': tableId,
                 'midRowTableAd': true,
                 'showSubjectInTable':showSubjectInTable
             })|raw }}
+          {% endif %}
         {% endif %}
 
         {% if followItem is defined and loop.index == 5 and showHeader and not user_session.isItemFollowed(followItem,followItemId) %}
@@ -181,9 +185,11 @@
                       data-toggle="dropdown">
                         <span id="check-{{ tableId }}-{{ course.id }}"></span>
                     </a>
-                    <ul data-dropdown-menu class="text-left dropdown-menu radius bg-white padding-bottom-small" style="width: 200px;">
+                    <div data-dropdown-menu class="dropdown-menu radius bg-white padding-bottom-small" style="width: 200px;">
+                      <ul class="text-left">
                         <li class="dropdown-list-header bg-gray padding-xsmall padding-left-medium margin-bottom-small">My Courses</li>
-                        {% for listId, list in listTypes %}
+                          <ul>
+                            {% for listId, list in listTypes %}
                             <li class="padding-horz-small">
                               <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
                                 <input
@@ -207,8 +213,18 @@
                                 </label>
                               </fieldset>
                             </li>
-                        {% endfor %}
-                    </ul>
+                            {% endfor %}
+                          </ul>
+                      </ul>
+                      {% if ts.device() != "desktop" %}
+                        <a
+                          data-dropdown-close
+                          href="#"
+                          class="icon--center icon-x-charcoal icon--xsmall absolute top right padding-top-xsmall margin-right-xxsmall">
+                          Close
+                        </a>
+                      {% endif %}
+                    </div>
                 </div>
             </td>
 

@@ -31,4 +31,9 @@ class Tracking {
     public function event($key) {
       return constant('self::' . $key);
     }
+    public function device()
+    {
+      $detect = new \Mobile_Detect();
+      return ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'desktop');
+    }
 }

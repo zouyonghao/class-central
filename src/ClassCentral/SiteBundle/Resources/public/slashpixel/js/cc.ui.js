@@ -15,6 +15,10 @@ class Ui {
       this.dropdowns();
       this.mediaImages();
 
+      if ($(".sidebar-ads").length) {
+        this.stickyAds();
+      }
+
       $(".bfh-number-btn.inc").addClass('btn-small btn-white icon-chevron-up icon--center');
       $(".bfh-number-btn.dec").addClass('btn-small btn-white icon-chevron-down icon--center');
 
@@ -47,6 +51,47 @@ class Ui {
       $(this).removeClass('error');
       $('.input-error').remove();
     });
+  }
+
+  stickyAds() {
+    const sidebarAds = $(".sidebar-ads");
+    const sidebarAdsClone = sidebarAds.clone();
+    sidebarAds.after(sidebarAdsClone.addClass("sidebar-ads-clone fixed top hidden").removeClass("sidebar-ads"));
+
+    $(window).on("scroll", () => {
+      this.checkAdsPosition(sidebarAds, sidebarAdsClone);
+    });
+    $(window).on("resize", () => {
+      this.checkAdsPosition(sidebarAds, sidebarAdsClone);
+    });
+
+    $(window).trigger("scroll");
+  }
+
+  checkAdsPosition(sidebarAds, sidebarAdsClone) {
+    const topPos = ($(".tables-wrap").offset().top + $(".tables-wrap").height() - $('.sidebar-ads').height() - 50);
+    const pastBottom = $(window).scrollTop() >= topPos;
+    const width = sidebarAds.width();
+    const mediaLargeUp = window.innerWidth > 768;
+
+    if (pastBottom && mediaLargeUp) {
+      sidebarAdsClone
+        .removeClass("fixed top")
+        .addClass("absolute")
+        .css("top", `${topPos}px`)
+        .width(width);
+    }
+    else if ($(window).scrollTop() >= $(".sidebar-ads").position().top && mediaLargeUp) {
+      sidebarAds.addClass("invisible");
+      sidebarAdsClone
+        .removeClass("hidden absolute")
+        .addClass("fixed top")
+        .css("top", "")
+        .width(width);
+    } else {
+      sidebarAds.removeClass("invisible");
+      sidebarAdsClone.addClass("hidden");
+    }
   }
 
   mediaImages() {
@@ -125,6 +170,10 @@ class Ui {
   }
 
   dropdowns() {
+    $(document).on("click", "[data-dropdown-close]", function(event) {
+      event.preventDefault();
+      $(this).closest("[data-dropdown-menu]").hide();
+    });
     $(document).on("mouseenter", "[data-dropdown]", function(event) {
       $("[data-dropdown-menu]").hide();
       $(this).addClass("active")

@@ -990,7 +990,7 @@
     {
         $.scrollTo('.section-heading',{ duration: 500    });
     }
-    $('.read-reviews-btn').click( function(e){
+    $(document).on('click', '.read-reviews-btn', function(e){
         e.preventDefault();
         $.scrollTo('#reviews',{ duration: 1000    });
         var url = window.location.href.toString().split(window.location.host)[1];

@@ -1,7 +1,7 @@
 {# determine if the show more courses block is to be displaed #}
 {% set moreCourses = totalCourses - (nextPage-1) * 50 %}
 <div class="text-center">
-  <button id="show-more-courses" class="btn-blue-outline width-1-2 btn--large margin-top-medium text-center" data-page="{{ nextPage }}"
+  <button id="show-more-courses" class="btn-blue-outline width-100 medium-up-width-1-2 btn--large margin-top-medium text-center" data-page="{{ nextPage }}"
        style="{% if moreCourses <= 0  %}display: none;{% endif %}"
   >
     {% if moreCourses <= 0 %}

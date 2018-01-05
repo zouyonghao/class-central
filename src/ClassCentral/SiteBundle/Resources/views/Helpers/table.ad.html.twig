@@ -102,6 +102,7 @@
     </div>
     #}
 
+  {% if not app.request.cookies.get('ads_hidden') %}
     <div class="flexAd"
       data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
       data-track-props='{
@@ -140,7 +141,7 @@
           </a>
         </div>
     </div>
-
+  {% endif %}
 
 
 {% elseif format =="dock" %}
