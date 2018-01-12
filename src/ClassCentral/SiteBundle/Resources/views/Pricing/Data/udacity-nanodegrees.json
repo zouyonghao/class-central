@@ -17,6 +17,11 @@
   ],
   "footer" : "udacity",
   "rows": [
+    {
+      "title": "Mobile Web Specialist",
+      "duration": "6 months",
+      "price": "$1200"
+    },
      {
        "title": "Intro to Self-Driving Cars",
        "duration": "4 months",
@@ -25,7 +30,7 @@
      {
        "title": "Learn ARKit",
        "duration": "1 month",
-       "price": "$200"
+       "price": "$199"
      },
      {
        "title": "Data Foundations",
@@ -42,6 +47,16 @@
        "duration": "4 months",
        "price": "$499"
      },
+    {
+      "title": "Design Sprint Foundations",
+      "duration": "1 month",
+      "price": "$299"
+    },
+    {
+      "title": "Google Adwords Nanodegree",
+      "duration": "3 month",
+      "price": "$699 or $399 self study"
+    },
      {
        "title": "Intro to Programming",
        "duration": "5 months",
@@ -54,8 +69,8 @@
      },
      {
        "title": "Robotics",
-       "duration": "6 Months",
-       "price": "$1200"
+       "duration": "8 Months",
+       "price": "$2400"
      },
      {
        "title": "Digital Marketing",
@@ -80,37 +95,37 @@
      {
        "title": "Business Analyst",
        "duration": "160 hours",
-       "price": "$199/month"
+       "price": "$200/month"
      },
      {
        "title": "Android Basics",
-       "duration": "6 months",
-       "price": "$199/month <sup class='text-5'>1</sup>"
+       "duration": "4 months",
+       "price": "$199/month"
      },
      {
        "title": "Machine Learning Engineer",
        "duration": "6 months",
-       "price": "$199/month or $299/month <sup class='text-5'>1&nbsp;&nbsp;2</sup>"
+       "price": "$999"
      },
      {
        "title": "Front-End Web Developer",
        "duration": "6 months",
-       "price": "$199/month <sup class='text-5'>1</sup>"
+       "price": "$199/month"
      },
      {
        "title": "Full Stack Web Developer",
        "duration": "6 months",
-       "price": "$199/month or $299/month <sup class='text-5'>1&nbsp;&nbsp;2</sup>"
+       "price": "$199/month"
      },
      {
        "title": "Android Developer",
        "duration": "8 months",
-       "price": "$1199 or $199/month <sup class='text-5'>3</sup>"
+       "price": "$1199 or $199/month"
      },
      {
        "title": "Become an iOS Developer",
        "duration": "6 months",
-       "price": "$199/mont or $299/month <sup class='text-5'>1&nbsp;&nbsp;2</sup>"
+       "price": "$199/month"
      }
   ]
 }
