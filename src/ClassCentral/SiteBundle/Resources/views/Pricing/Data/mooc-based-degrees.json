@@ -1,0 +1,86 @@
+{
+  "title": "MOOC-based Degrees",
+  "subtitle": "Pricing Chart",
+  "headers": [
+    {
+      "title": "Degree",
+      "className": "text--bold text-left"
+    },
+    {
+      "title": "Price",
+      "className": "text-right"
+    }
+  ],
+  "rows": [
+    {
+      "title": "Masters of Science in Computer Science (OMSCS)",
+      "subtitle": "Georgia Institute of Technology via Udacity",
+      "price": "~$7000"
+    },
+    {
+      "title": "Masters of Science in Analytics (OMS Analytics)",
+      "subtitle": "Georgia Institute of Technology via edX",
+      "price": "< $10,000"
+    },
+    {
+      "title": "Master of Business Administration (iMBA)",
+      "subtitle": "University of Illinois via Coursera",
+      "price": "~$22,000"
+    },
+    {
+      "title": "Master of Computer Science in Data Science",
+      "subtitle": "University of Illinois via Coursera",
+      "price": "$19,200 plus fees"
+    },
+    {
+      "title": "Master of Science in Accounting (iMSA)",
+      "subtitle": "University of Illinois via Coursera",
+      "price": "~$30,000"
+    },
+    {
+      "title": "Master's in Innovation and Entrepreneurship",
+      "subtitle": "HEC Paris via Coursera",
+      "price": "20,000 EUR"
+    },
+    {
+      "title": "Master of Cyber Security",
+      "subtitle": "Deakin University via FutureLearn",
+      "price": "AUD 52.560"
+    },
+    {
+      "title": "Master of Development and Humanitarian Action",
+      "subtitle": "Deakin University via FutureLearn",
+      "price": "AUD 40,704"
+    },
+    {
+      "title": "Graduate Certificate of Diabetes Education",
+      "subtitle": "Deakin University via FutureLearn",
+      "price": "AUD 11.120"
+    },
+    {
+      "title": "Graduate Certificate of Information Technology",
+      "subtitle": "Deakin University via FutureLearn",
+      "price": "AUD 13,140"
+    },
+    {
+      "title": "MSc Nursing",
+      "subtitle": "Coventry University via FutureLearn",
+      "price": "£11,846"
+    },
+    {
+      "title": "Master of Professional Practice (Information Technology)",
+      "subtitle": "Deakin University via FutureLearn",
+      "price": "AUD 18,090"
+    },
+    {
+      "title": "Master of Professional Practice (Leadership)",
+      "subtitle": "Deakin University via FutureLearn",
+      "price": "AUD 18,450"
+    },
+    {
+      "title": "Graduate Certificate of Property",
+      "subtitle": "Deakin University via FutureLearn",
+      "price": "AUD 15,500"
+    }
+  ]
+}
