@@ -213,9 +213,9 @@ class Api
               'description' => 'Where to Find MOOCs: The Definitive Guide to MOOC Providers'
           ],
           [
-              'title' => 'Coursera Experiments With A Single Subscription Price for the Entire Catalog',
-              'url' => '/report/coursera-specialization-subscription/',
-              'description' => 'For $49/month learners can get full access to Coursera\'s entire catalog'
+              'title' => 'Meet the Independent MOOC Whose Performance Rivals the Big Platforms',
+              'url' => '/report/utas-dementia-mooc/',
+              'description' => 'Top 50 MOOC with 120,000 students and a 40% completion rate'
           ]
       ];
     return $articles;
