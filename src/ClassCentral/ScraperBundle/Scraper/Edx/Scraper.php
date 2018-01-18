@@ -288,7 +288,7 @@ class Scraper extends ScraperAbstractInterface
 
                     if($field == 'StartDate' || $field =='EndDate')
                     {
-                        $valueOffering = $valueOffering->format('Y-m-d');
+                        $valueOffering = ($valueOffering) ? $valueOffering->format('Y-m-d'): null;
                         $valueDbOffering = ($valueDbOffering) ? $valueDbOffering->format('Y-m-d'): null;
                     }
                     if ($valueOffering != $valueDbOffering )
