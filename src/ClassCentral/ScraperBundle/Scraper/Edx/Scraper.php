@@ -20,10 +20,19 @@ class Scraper extends ScraperAbstractInterface
     const EDX_API_ALL_COURSES_BASE_v1 = 'https://api.edx.org';
     const EDX_API_ALL_COURSES_PATH_v1 = '/catalog/v1/catalogs/11/courses/';
 
+    // constants currently used to build JSON
     const EDX_DRUPAL_CATALOG = 'https://www.edx.org/api/v1/catalog/search?page_size=50&partner=edx&content_type[]=courserun&page=';
     const EDX_DRUPAL_INDIVIDUAL = 'https://www.edx.org/api/catalog/v2/courses/%s';
     const EDX_DRUPAL_COURSE_RUNS =  'https://www.edx.org/api/v1/catalog/course_runs/%s'; // contains uuids required for sessions/offerings
     const EDX_DRUPAL_COURSE_MODES = 'https://courses.edx.org/api/enrollment/v1/course/%s'; // contains pricing ino
+
+    // constants for min max section
+    const FOREIGN_HRS = 'horas';
+    const FOREIGN_HRS_2 = 'heures';
+    const HOURS = 'hours per';
+    const MOD = 'modules';
+    const SELF_PACED = 'Self-paced';
+    const WORKLOAD_TYPE = 'W';
 
     public STATIC $EDX_XSERIES_GUID = array(15096, 7046, 14906,14706,7191, 13721,13296, 14951, 13251,15861, 15381
         ,15701, 7056
@@ -35,7 +44,8 @@ class Scraper extends ScraperAbstractInterface
 
     private $courseFields = array(
         'Url', 'Description', 'Name','LongDescription','VideoIntro','Certificate',
-        'CertificatePrice','ShortName','Syllabus','IsMooc'
+        'CertificatePrice','ShortName','Syllabus','IsMooc', 'DurationMin', 'DurationMax',
+        'WorkLoadMin', 'WorkloadMax', 'WorkloadType'
     );
 
     private $offeringFields = array(
@@ -379,6 +389,73 @@ class Scraper extends ScraperAbstractInterface
         $course->setUrl($c['marketing_url']);
         $course->setCertificate( false );
         $course->setCertificatePrice( 0 );
+
+        /*
+         *  Min Max duration and length section
+         */
+
+        $length = ( $c['course_page_info']['length'] );
+        // store duration variable from JSON
+        $effort = $c['course_page_info']['effort'];
+        // store effort/workload variable from JSON
+
+        if(!empty($length) || !strpos($length, self::MOD)
+            || !strpos($length, self::SELF_PACED))
+        // makes sure duration has values, ignores self paced and module duration
+        {
+            preg_match_all('!\d+!', $length, $matches_length);
+            // strip out all integers from string and create an array of values
+            if(sizeof($matches_length[0])==1)
+            // nested array is returned, check if second array is only 1
+            {
+                $durationMin = (int)$matches_length[0][0];
+                $durationMax = $durationMin;
+                // store min and max duration and make sure they are integer
+                $course->setDurationMin($durationMin);
+                $course->setDurationMax($durationMax);
+                // set values for min, max entity fields
+                // ignoring duration type, not used in app
+            }
+            elseif(sizeof($matches_length[0])==2)
+            // nested array is returned, if multiple values then max will be different from min
+            {
+                $durationMin = (int)$matches_length[0][0];
+                $durationMax = (int)$matches_length[0][1];
+                $course->setDurationMin($durationMin);
+                $course->setDurationMax($durationMax);
+            }
+
+            if(!empty($effort))
+            // makes sure effort/workload is not empty
+            {
+                if (strpos($effort, self::HOURS) || (strpos($effort, self::FOREIGN_HRS))
+                    || (strpos($effort, self::FOREIGN_HRS_2)))
+                // only processes courses with effort per hour in english and two foreign languages
+                {
+                    $course->setWorkloadType(self::WORKLOAD_TYPE);
+                    // set entity value, all courses at this point should be gauged by workload per week
+                    preg_match_all('!\d+!', $effort, $matches_length_eff);
+                    // strip out all integers from string and create an array of values
+
+                    if(sizeof($matches_length_eff[0])==1)
+                        // nested array is returned, check if second array is only 1
+                    {
+                        $effortMin = (int)$matches_length_eff[0][0];
+                        $effortMax = $effortMin;
+                        $course->setWorkloadMin($effortMin);
+                        $course->setWorkloadMax($effortMax);
+                    }
+                    elseif(sizeof($matches_length_eff[0])==2)
+                    {
+                        $effortMin = (int)$matches_length_eff[0][0];
+                        $effortMax = (int)$matches_length_eff[0][1];
+                        $course->setWorkloadMin($effortMin);
+                        $course->setWorkloadMax($effortMax);
+                    }
+                }
+            } // end effort conditional
+
+        }; // end length conditional
 
         foreach($c['course_page_info']['subjects'] as $sub)
         {
