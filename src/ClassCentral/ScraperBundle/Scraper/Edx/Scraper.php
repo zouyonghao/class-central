@@ -64,7 +64,7 @@ class Scraper extends ScraperAbstractInterface
         'Chemistry' => 'chemistry',
         'Health & Safety' => 'health',
         'Philosophy & Ethics' => 'philosophy',
-        'Language' => 'language-culture',
+        'Language' => 'foreign-language',
         'Music' => 'music',
         'Electronics' => 'electrical-engineering',
         'Design' => 'art-and-design',
@@ -111,6 +111,7 @@ class Scraper extends ScraperAbstractInterface
             catch (\Exception $e)
             {
                 $this->out("Error creating Course Entity for course : ".$edxCourse['title'] );
+                $this->out($e->getMessage());
                 continue; // Skip this course
             }
 
@@ -288,7 +289,7 @@ class Scraper extends ScraperAbstractInterface
                     if($field == 'StartDate' || $field =='EndDate')
                     {
                         $valueOffering = $valueOffering->format('Y-m-d');
-                        $valueDbOffering = $valueDbOffering->format('Y-m-d');
+                        $valueDbOffering = ($valueDbOffering) ? $valueDbOffering->format('Y-m-d'): null;
                     }
                     if ($valueOffering != $valueDbOffering )
                     {
