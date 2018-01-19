@@ -330,28 +330,36 @@
 
 
 
-                    {% if course['provider'] and page != 'initiative' %}
+                    {% if (course['provider'] and page != 'initiative') or  course.durationDisplay or course.workloadDisplay %}
+
                       <span class="block">
-                      via
-                        <a
-                          href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"
-                          class="initiativelinks text--charcoal text--italic hover-text--underline"
-                          title="List of {{ course['provider']['tooltip'] }} MOOCs"
-                          onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
-                          data-track-click="{{ ts.event('LISTING_CLICK') }}"
-                          data-track-props='{ "type": "Provider", "clickMetadata": {
-                            "institution": "{{ institutionName }}",
-                            "institutionId": "{{ institutionId }}",
-                            "tableId": "{{ tableId }}",
-                            "course": "{{ courseTitle }}",
-                            "provider": "{{ providerName }}",
-                            "providerId": "{{ providerId }}",
-                            "courseId": "{{ course.id }}"
-                          }}'
-                        >{{ course.provider.name }}
-                        </a>
+                          {% if (course['provider'] and page != 'provider') %}
+                          via
+                            <a
+                              href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"
+                              class="initiativelinks text--charcoal text--italic hover-text--underline"
+                              title="List of {{ course['provider']['tooltip'] }} MOOCs"
+                              onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
+                              data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                              data-track-props='{ "type": "Provider", "clickMetadata": {
+                                "institution": "{{ institutionName }}",
+                                "institutionId": "{{ institutionId }}",
+                                "tableId": "{{ tableId }}",
+                                "course": "{{ courseTitle }}",
+                                "provider": "{{ providerName }}",
+                                "providerId": "{{ providerId }}",
+                                "courseId": "{{ course.id }}"
+                              }}'
+                            >{{ course.provider.name }}
+                            </a>
+                          {% endif %}
+                        <span class="icon--left text-3 {% if (course['provider'] and page != 'provider') %} margin-left-xxsmall {% endif %} icon-clock-charcoal">{{ course.workloadDisplay }}
+                          {% if course.durationDisplay and course.workloadDisplay %},{% endif %}
+                          {{ course.durationDisplay }}
+                        </span>
                       </span>
-                    {% endif %}
+                      {% endif %}
+
                 {% if course.credential is not empty %}
                 <div class="course-name-column-cred text-3 margin-top-xsmall truncate xsmall-only-hide small-only-hide">
                     <a
