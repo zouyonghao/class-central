@@ -9,6 +9,7 @@
 namespace ClassCentral\SiteBundle\Services;
 
 
+use ClassCentral\SiteBundle\Entity\Item;
 use Guzzle\Http\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use ClassCentral\SiteBundle\Entity\Course as CourseEntity;
@@ -222,5 +223,88 @@ class Course
         }
 
         return $courseIds;
+    }
+
+    public function getCoursesFromIds($courseIds)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $courses = [];
+        foreach ($courseIds as $id)
+        {
+            $course = $em->getRepository('ClassCentralSiteBundle:Course')->find( $id);
+            if($course)
+            {
+                $courses[] = $course;
+            }
+        }
+
+        return $courses;
+    }
+
+    public function returnUniversitiesFromCourses($courses = [])
+    {
+        $universities = [];
+        foreach ($courses as $course)
+        {
+            if($course->getInstitutions())
+            {
+                foreach ($course->getInstitutions() as $ins)
+                {
+                    if($ins->getIsUniversity())
+                    {
+                        $uniName = $ins->getName();
+                        if(!isset($universities[$uniName]))
+                        {
+                            $universities[$uniName] = 0;
+
+                        }
+                        $universities[$uniName]++;
+                    }
+                }
+            }
+        }
+
+        arsort($universities);
+
+        return $universities;
+
+    }
+
+    public function sortByRatingAndFollows($courses = [])
+    {
+        uasort($courses,function($c1,$c2) {
+            $rs = $this->container->get('review');
+            $c1reviews = $rs->getReviews($c1->getId());
+            $c1numRatings = $c1reviews['ratingCount'];
+
+            if ($c1numRatings < 20 && $c1->isCourseNew()) {
+                //$c1numRatings = 25;
+            }
+
+            $c2reviews = $rs->getReviews($c2->getId());
+            $c2numRatings = $c2reviews['ratingCount'];
+            if ($c2numRatings < 20 && $c2->isCourseNew()) {
+                //$c2numRatings = 25;
+            }
+
+            if ($c1numRatings == $c2numRatings) {
+                $follow = $this->container->get('follow');
+                $c1Counts = 0;
+                foreach ($c1->getInstitutions() as $ins) {
+                    $c1Counts += $follow->getNumFollowers(Item::ITEM_TYPE_INSTITUTION, $ins->getId());
+                }
+                $c2Counts = 0;
+                foreach ($c2->getInstitutions() as $ins) {
+                    $c2Counts += $follow->getNumFollowers(Item::ITEM_TYPE_INSTITUTION, $ins->getId());
+                }
+
+                return $c1Counts < $c2Counts;
+            } else {
+                return $c1numRatings < $c2numRatings;
+            }
+        });
+
+        return $courses;
+
     }
 }
