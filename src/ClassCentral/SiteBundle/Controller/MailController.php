@@ -30,6 +30,7 @@ class MailController extends Controller
           'welcome-email' => 'Welcome Email',
           'new-user-followup' => 'New User Follow Up',
           'vote-best-courses-2017' => "Vote Best Courses 2017",
+          'coursera-free-courses-2018' => "Coursera Courses Completely Free",
         ];
 
         $html = '<b>Template not found</b>';
@@ -37,13 +38,21 @@ class MailController extends Controller
 
         switch ($type) {
             case 'vote-best-courses-2017':
-              $announcementEmailJob = new AnnouncementEmailJob();
-              $announcementEmailJob->setContainer( $this->container );
-              $announcementEmailESJob = new ESJob(0);
-              $announcementEmailESJob->setJobType(AnnouncementEmailJob::ANNOUNCEMENT_EMAIL_JOB_TYPE);
-              $announcementEmailJob->setJob($announcementEmailESJob);
-              $html = $announcementEmailJob->getAnnouncementHTML($user,'vote_best_courses_2017.html.twig','vote_best_courses_2017');
-              break;
+                  $announcementEmailJob = new AnnouncementEmailJob();
+                  $announcementEmailJob->setContainer( $this->container );
+                  $announcementEmailESJob = new ESJob(0);
+                  $announcementEmailESJob->setJobType(AnnouncementEmailJob::ANNOUNCEMENT_EMAIL_JOB_TYPE);
+                  $announcementEmailJob->setJob($announcementEmailESJob);
+                  $html = $announcementEmailJob->getAnnouncementHTML($user,'vote_best_courses_2017.html.twig','vote_best_courses_2017');
+                  break;
+            case 'coursera-free-courses-2018':
+                $announcementEmailJob = new AnnouncementEmailJob();
+                $announcementEmailJob->setContainer( $this->container );
+                $announcementEmailESJob = new ESJob(0);
+                $announcementEmailESJob->setJobType(AnnouncementEmailJob::ANNOUNCEMENT_EMAIL_JOB_TYPE);
+                $announcementEmailJob->setJob($announcementEmailESJob);
+                $html = $announcementEmailJob->getAnnouncementHTML($user,'coursera_free_courses_2018.html.twig','coursera_free_courses_2018');
+                break;
             case 'welcome-email':
                 $userService = $this->get('user_service');
                 $html = $userService->getWelcomeEmailHtml($user);
