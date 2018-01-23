@@ -264,6 +264,105 @@ class LandingPageController extends Controller
       ));
     }
 
+    public function yearInReview2017Action(Request $request)
+    {
+      $this->get('user_service')->autoLogin($request);
+      return $this->render('ClassCentralSiteBundle:LandingPages:yearInReview2017.html.twig', array(
+          'page' => 'year-in-review-2017',
+          'data' => array(
+            'year' => '2017',
+            'yearsAvailable' => $this->getYearInReviewsAvailable(),
+            'bannerImage' => 'banner-2017-year-in-review',
+            'leadingArticle' => array(
+                'title' => 'A Product at Every Price',
+                'subtitle' => 'A Review of MOOC Stats and Trends in 2017',
+                'snippet' => 'For the first time we are seeing a slowdown in the number of new learners, a direct result of a shift in priorities towards users who are willing to pay. The big MOOC providers now have a product at every price point - from free to millions of dollars.',
+                'author' => 'Dhawal Shah',
+                'url' => '/report/moocs-stats-and-trends-2017/',
+                'publishedDate' => 'January 22nd, 2017',
+            ),
+            'supplementaryReading' => array(
+                array(
+                    'publishedDate' => 'January 18th, 2018',
+                    'title' => 'By The Numbers: MOOCs in 2017',
+                    'description' => 'How has the MOOC space grown this year? Get the facts, figures, and pie charts',
+                    'url' => '/report/mooc-stats-2017/'
+                ),
+                array(
+                    'publishedDate' => 'January 20th, 2018',
+                    'title' => '6 Biggest MOOC Trends of 2017',
+                    'description' => 'MOOCs on campus, a product at every price point, content paywalls, and more.',
+                    'url' => '/report/biggest-mooc-trends-2017/'
+                ),
+                array(
+                    'publishedDate' => 'January 17th, 2018',
+                    'title' => 'MOOC Trends in 2017: Content Paywalls',
+                    'description' => 'MOOC providers have started charging for content',
+                    'url' => '/report/mooc-trends-content-paywalls/'
+                ),
+                array(
+                    'publishedDate' => 'January 17th, 2018',
+                    'title' => 'MOOC Trends in 2017: Online Degrees and Corporate Learning',
+                    'description' => 'A move towards more lucrative markets',
+                    'url' => '/report/mooc-trends-online-degrees-corporate-learning/'
+                ),
+                array(
+                    'publishedDate' => 'January 8th, 2018',
+                    'title' => 'MOOC Trends in 2017: Increased Flexibility and Convenience',
+                    'description' => 'MOOCs have evolved to better fit learners’ schedules',
+                    'url' => '/report/mooc-trends-increased-flexibility-and-convenience/'
+                ),
+                array(
+                    'publishedDate' => 'January 7th, 2018',
+                    'title' => '5 Years of MOOC Trends',
+                    'description' => 'Pat Bowden recounts her experiences of taking 89 MOOCs, and analyzes the trends she has noticed in that time.',
+                    'url' => '/report/five-years-mooc-trends/'
+                ),
+                array(
+                    'publishedDate' => 'January 7th, 2018',
+                    'title' => 'Six Tiers of MOOC Monetization',
+                    'description' => 'The big MOOC providers now have developed products and services that range in price from free to millions of dollars.',
+                    'url' => '/report/six-tiers-mooc-monetization/'
+                ),
+            ),
+            'providers' => array(
+                array(
+                    'name' => 'Coursera',
+                    'iconImage' => 'icon-provider-coursera',
+                    'description' => 'New CEO, Series-D funding, Coursera for Business takes off, return of star Co-Founder, and more.',
+                    'url' => '/report/coursera-2017-year-review/',
+                ),
+                array(
+                    'name' => 'edX',
+                    'iconImage' => 'icon-provider-edx',
+                    'description' => 'New Online Masters degree, yet another credential, new President/COO, and more.',
+                    'url' => '/report/edx-2017-review/',
+                ),
+                array(
+                    'name' => 'Udacity',
+                    'iconImage' => 'icon-provider-udacity',
+                    'description' => '53,000+ currently enrolled in Nanodegrees, 18,000 graduates, 22 Nanodegrees.',
+                    'url' => '/report/udacity-2017-review/',
+                ),
+                array(
+                    'name' => 'FutureLearn',
+                    'iconImage' => 'icon-provider-futurelearn',
+                    'description' => '7.1 million learners, pricing changes, scheduling tweaks, online degrees, and more.',
+                    'url' => '/report/futurelearn-2017-year-review/',
+                ),
+            ),
+            'classCentral' => array(
+                array(
+                    'title' => 'Class Central\'s Zeitgeist 2017',
+                    'image' => 'cc-2017-zeitgeist.png',
+                    'cta' => 'Read Article',
+                    'url' => '/report/zeitgeist-moocs-2017/',
+                ),
+            )
+          )
+      ));
+    }
+
     private function getSubjectList()
     {
         return [
@@ -336,6 +435,6 @@ class LandingPageController extends Controller
     }
 
     private function getYearInReviewsAvailable() {
-        return array(2016,2015,2014, 2013, 2012);
+        return array(2017,2016,2015,2014, 2013, 2012);
     }
 }

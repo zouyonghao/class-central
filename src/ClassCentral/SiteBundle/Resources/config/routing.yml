@@ -571,9 +571,9 @@ year_in_review_2016:
     pattern:  /moocs-year-in-review-2016
     defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2016 }
 
-# year_in_review_2017:
-#     pattern:  /year-in-review-2017
-#     defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2017 }
+year_in_review_2017:
+    pattern:  /moocs-year-in-review-2017
+    defaults: { _controller: ClassCentralSiteBundle:LandingPage:yearInReview2017 }
 
 course_pricing:
     pattern:  /pricing-charts/{table}

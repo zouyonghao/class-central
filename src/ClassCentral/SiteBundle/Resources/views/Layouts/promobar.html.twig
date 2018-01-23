@@ -1,7 +1,7 @@
 {% if not app.request.cookies.has('news_banner') and app.request.query.get("news_banner") != 1 %}
   <section id="news-banner" class="classcentral-style">
     <div class="news-banner-container relative z-top">
-      <a href="{{ path('vote_best_online_courses_2017') }}?news_banner=1" class="block cc-gradient-yellow padding-small text-center">
+      <a href="{{ path('year_in_review_2017') }}?news_banner=1" class="block cc-gradient-yellow padding-small text-center">
         <h3 class="inline-block medium-up-margin-right-medium text-3 large-up-text-2 text--white">
           <span class="small-only-hidden xsmall-only-hidden head-5 text--bold text--upper">
             The Latest
@@ -10,13 +10,13 @@
               class="head-3 relative padding-horz-small inline-block">/</span>
           </span>
 
-          Which were the best new courses of 2017?</h3>
+          A Review of MOOC Stats and Trends in 2017</h3>
         <span class="block medium-up-inline-block margin-top-medium margin-bottom-xsmall medium-up-margin-reset">
           <span
             style="top: -2px;"
             class="radius relative border-all border--thin border--white text--white padding-vert-xsmall text--bold text-3 padding-horz-medium"
           >
-            You decide
+            Read
           </span>
         </span>
       </a>

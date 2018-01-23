@@ -71,7 +71,7 @@
 {% endif %}
 {% set navbarData = apiService.getNavbarData(contextBar) %}
 
-{% include 'ClassCentralSiteBundle:Layouts:news.banner.html.twig' %}
+{% include 'ClassCentralSiteBundle:Layouts:promobar.html.twig' %}
 <div id="header" {% if navbarStyle is defined and navbarStyle == "simple" %}class="simple"{% endif %}>{{ reactService.component('header', '', navbarData)|raw }}</div>
 
 {%  block contentheader %}

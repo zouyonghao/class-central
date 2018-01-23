@@ -7,7 +7,7 @@
 {% block content %}
   <!-- banner -->
   <div class="classcentral-style">
-    <section data-slideshow class="bg-cc-gradient">
+    <section data-slideshow class="cc-gradient-orange-green">
       <div class="relative width-100 width-centered" style="max-width: 1400px;">
         <nav id="ss-nav" class="absolute">
           <button data-slideshow-target="0" class="bg-blue inline-block">1</button>
@@ -16,29 +16,44 @@
           <button data-slideshow-target="3" class="bg-blue transparent inline-block">4</button>
         </nav>
         <ul>
-          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "bg-cc-gradient" }' class="absolute top left active width-100">
+          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-orange-green" }' class="active absolute top left width-100">
             <h2>
               <img
                 class="width-100"
-                src="/bundles/classcentralsite/images/banner-2017-learner-survey{% if isMobile %}-mobile{% endif %}.png"
-                alt="Class Central's 2017 Learner Survey"
+                src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities{% if isMobile %}-mobile{% endif %}.png"
+                alt="Find the Best Online Courses from Top Universities"
                 data-media-switch="802"
-                data-large="/bundles/classcentralsite/images/banner-2017-learner-survey.png"
-                data-small="/bundles/classcentralsite/images/banner-2017-learner-survey-mobile.png"
+                data-large="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png"
+                data-small="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png"
+              />
+            </h2>
+            <div class="absolute width-100 text-center inline-block">
+              {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
+            </div>
+          </li>
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-2017" }' class="absolute top left next width-100">
+            <h2>
+              <img
+                class="width-100"
+                src="/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage{% if isMobile %}-mobile{% endif %}.png"
+                alt="Class Central's 2017 Year in Review"
+                data-media-switch="802"
+                data-large="/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage.png"
+                data-small="/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage-mobile.png"
               />
             </h2>
             <div class="absolute width-100 text-center inline-block">
               <a
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-                data-track-props='{ "type": "Banner", "title": "2017 Learner Survey" }'
-                href="/report/class-central-learner-survey-2017"
+                data-track-props='{ "type": "Banner", "title": "2017 Year in Review" }'
+                href="{{ path('year_in_review_2017') }}"
                 class="btn-blue btn--large large-only-btn--medium"
               >
-                View Results
+                Learn More
               </a>
             </div>
           </li>
-          <li id="ss-2" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-green-blue" }' class="absolute next top left width-100">
+          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-green-blue" }' class="absolute top left width-100">
             <h2>
               <img
                 class="width-100"
@@ -60,22 +75,7 @@
               </a>
             </div>
           </li>
-          <li id="ss-3" data-slideshow-item='{ "index": 3, "bg": "cc-gradient-orange-green" }' class="absolute top left width-100">
-            <h2>
-              <img
-                class="width-100"
-                src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities{% if isMobile %}-mobile{% endif %}.png"
-                alt="Find the Best Online Courses from Top Universities"
-                data-media-switch="802"
-                data-large="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png"
-                data-small="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png"
-              />
-            </h2>
-            <div class="absolute width-100 text-center inline-block">
-              {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
-            </div>
-          </li>
-          <li id="ss-4" data-slideshow-item='{ "index": 4,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
+          <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
             <h2>
               <img
                 class="width-100"
@@ -261,14 +261,14 @@
             <a
               data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
               data-track-props='{ "type": "Year in Review", "title": "2017", "section": "Class Central" }'
-              href="https://www.class-central.com/report/tag/mooc-roundup-2017/"
+              href="{{ path('year_in_review_2017') }}"
               class="block"
             >
                 {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-mobile.png', 546,420) %}
               <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail }}" alt="2017 Year in Review" />
             </a>
             <p class="text-center absolute width-100 left" style="bottom: -15px;">
-              <a href="https://www.class-central.com/report/tag/mooc-roundup-2017/" class="btn-blue">Read More</a>
+              <a href=href="{{ path('year_in_review_2017') }}" class="btn-blue">Read More</a>
             </p>
           </li>
           <li class="width-100 large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
