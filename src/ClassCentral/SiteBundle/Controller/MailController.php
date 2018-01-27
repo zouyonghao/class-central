@@ -26,6 +26,7 @@ class MailController extends Controller
      */
     public function previewAction(Request $request, $type = null)
     {
+        $templating = $this->get('templating');
         $availableTypes = [
           'welcome-email' => 'Welcome Email',
           'new-user-followup' => 'New User Follow Up',
@@ -64,6 +65,11 @@ class MailController extends Controller
                 $newUserESJob->setJobType(NewUserFollowUpJob::NEW_USER_FOLLOW_UP_JOB_TYPE);
                 $newUserJob->setJob($newUserESJob);
                 $html = $newUserJob->getFollowUpEmail($user);
+                break;
+            case 'newsletter':
+                $month = ($request->query->get('month')) ? $request->query->get('month') : 'january2018';
+                $html = $templating->renderResponse(sprintf('ClassCentralSiteBundle:Mail:%s/%s.html.twig','mooc-report',$month));
+                $html = $html->getContent();
                 break;
             default:
                 $html = "<b> Here all the available emails for previews </b>";
