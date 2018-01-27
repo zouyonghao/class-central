@@ -37,14 +37,16 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->generateInstructorsCSV();
+
         //$this->generateUserTrackingCSV();
 
         //$this->generateCoursesCSV();
-        $this->generateCoursesCSVDetailed();
+        //$this->generateCoursesCSVDetailed();
 
         //$this->generateUserCoursesCSV();4
 
-        $this->generateReviews();
+        //$this->generateReviews();
 
         //$this->generateSessionsCSV();
 
@@ -654,4 +656,159 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
             ));
         }
     }
+
+    private function generateInstructorsCSV()
+    {
+        $router = $this->getContainer()->get('router');
+        $courses = $this->getContainer()->get('doctrine')->getManager()
+            ->getRepository('ClassCentralSiteBundle:Course')
+            ->findAll();
+
+
+        $fp = fopen("extras/courses_instructors.csv", "w");
+
+        // Add a title line to the CSV
+        $title = array(
+            'Course Id',
+            'Course Name',
+            'Provider',
+            'Universities/Institutions',
+            'Category',
+            'Url',
+            'Class Central Page Url',
+            'Next Session Date',
+            'Language',
+            'Instructor id',
+            'Instructor Name',
+        );
+        fputcsv($fp,$title);
+        $dt = new \DateTime('2017-11-30');
+        foreach($courses as $course)
+        {
+            if($course->getStatus() != CourseStatus::AVAILABLE )
+            {
+                continue;
+            }
+            if($course->getCreated() < $dt)
+            {
+                continue;
+            }
+
+            if(!$course->getIsMooc())
+            {
+                continue;
+            }
+            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
+            $ins = array();
+            foreach($course->getInstitutions() as $institution)
+            {
+                $ins[] = $institution->getName();
+            }
+
+            $nextSession = $course->getNextOffering();
+            $date = "";
+            $url = $course->getUrl();
+            if($nextSession)
+            {
+                $url = $nextSession->getUrl();
+                $date = $nextSession->getDisplayDate();
+            }
+
+            $courseUrl = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug()));
+
+
+            $subject = $course->getStream();
+            if($subject->getParentStream())
+            {
+                $parent = $subject->getParentStream()->getName();
+                $subject = $subject->getName();
+            }
+            else
+            {
+                $parent = $subject->getName();
+                $subject = "";
+            }
+
+            $language = 'English';
+            if($course->getLanguage())
+            {
+                $language = $course->getLanguage()->getName();
+            }
+
+            $credential = '';
+            if ( !$course->getCredentials()->isEmpty() )
+            {
+                $cred = $course->getCredentials()->first();
+                $credential = $cred->getName();
+            }
+
+            $created = null;
+            if ($course->getCreated())
+            {
+                $created = $course->getCreated()->format('Y-m-d');
+            }
+
+            $description = $course->getLongDescription();
+            if(!$description)
+            {
+                $description = $course->getDescription();
+            }
+
+            $status = '';
+            if( $course->getNextOffering() )
+            {
+                $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $course->getNextOffering() ));
+                if(!empty($states))
+                {
+                    $status = array_pop($states);
+                }
+            }
+
+            if($course->getInstructors())
+            {
+                foreach ($course->getInstructors() as $instructor)
+                {
+                    $line = array(
+                        $course->getId(),
+                        $course->getName(),
+                        $provider,
+                        implode($ins,"|||"),
+                        $course->getStream()->getName(),
+                        $url,
+                        $courseUrl,
+                        $date,
+                        $language,
+                        $instructor->getId(),
+                        $instructor->getName()
+                    );
+
+                    fputcsv($fp,$line);
+                }
+            }
+            else
+            {
+                $line = array(
+                    $course->getId(),
+                    $course->getName(),
+                    $provider,
+                    implode($ins,"|||"),
+                    $course->getStream()->getName(),
+                    $url,
+                    $courseUrl,
+                    $date,
+                    $language,
+                    "",
+                    "",
+                );
+                fputcsv($fp,$line);
+            }
+
+
+
+
+        }
+        fclose($fp);
+
+    }
+
 } 
