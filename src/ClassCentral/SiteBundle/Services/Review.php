@@ -215,7 +215,7 @@ class Review {
         $reviews['count'] = $ratingCount;
         $reviews['ratingCount'] = $ratingCount;
         $reviews['reviewCount'] = $reviewCount;
-        $reviews['ratingsBreakdown'] = $ratingsBreakdown;
+        $reviews['ratingsBreakdown'] = array_reverse($ratingsBreakdown, true);
         $reviews['reviews'] = $r;
 
         return $reviews;
@@ -772,4 +772,4 @@ class Review {
 
         return $r;
     }
-} 
+}

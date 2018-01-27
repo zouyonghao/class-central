@@ -783,16 +783,44 @@
         </div>
     {% endif %}
 
-    <div class="col-sm-12 course-col">
-        <div class="course-all-reviews" id="course-all-reviews">
+    <div class="col-sm-12 course-col classcentral-style">
+        <div class="course-all-reviews border-top border--gray-xlight border--thin padding-top-medium" id="course-all-reviews">
             <header class="reviews-header" id="reviews">
                 <h2>
-                    <span class="review-count">{{ reviews.ratingCount }} </span>{% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %} for {% if course.initiative.name != 'Independent' %}{{ course.initiative.name  }}'s {% endif %}{{ course.name }} <br/>
-                    <span class="average-rating course-rating" data-score="{{ rating }}"></span>
+                  <span class="head-1">
+                    {% if reviews.ratingCount == 1 %}Review{% else %}Reviews{% endif %}
+                  </span>
+                  <span class="text-1">
+                    for {% if course.initiative.name != 'Independent' %}{{ course.initiative.name  }}'s {% endif %}{{ course.name }}
+                  </span>
+                  <div class="margin-vert-medium">
+                    {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: rating } %}
+                    <span style="top: 3px" class="relative inline-block text-3 text--charcoal margin-left-xsmall">Based on {{ reviews.ratingCount }} reviews</span>
+                  </div>
+                 </a>
                 </h2>
 
+                <ul style="width: 275px;" class="margin-vert-medium">
+                  {% for star,starCount in reviews.ratingsBreakdown %}
+                  <li class="row">
+                    <span class="col width-3-16 text--gray text-3">
+                      {{ star }}
+                      {{ (starCount > 1) ? "stars" : "star" }}
+                     </span>
+                    <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
+                      <span class="bg-yellow absolute height-100 left top" style="width: {{ ((starCount / reviews.ratingCount) * 100)|round }}%"></span>
+                    </span>
+                    <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ((starCount / reviews.ratingCount) * 100)|round }}%</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+
+
                 {% if not user_session.isCourseReviewed(course.id) %}
-                    <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
+                <div class="text-1">
+                  <p class="margin-bottom-medium">Did you take this course? Share your experience with other students.</p>
+                  <a class="btn-white review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
+                <div>
                 {% endif %}
 
             </header>

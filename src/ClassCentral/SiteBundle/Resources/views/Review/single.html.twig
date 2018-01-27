@@ -1,16 +1,23 @@
 
-<div class="single-review"  id="review-{{ review.id }}" >
-    {% if review.fb.total > 0 %}
-        <div class="review-feedback">{{review.fb.positive }} out of {{ review.fb.total  }} people found the following review useful</div>
-    {% endif %}
-    {# <span class="author" itemprop="author">{{ review.user.name }}</span> #}
-
-    {% if course is defined %}
-        <meta content="{{ course.name}}">
-    {% else %}
-        {# This is for My Reviews page#}
-        <span class="author"><a href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}"> {{ review.course.name }}</a></span>
-    {% endif %}
+<div class="border-all border--gray-xlight radius padding-large single-review margin-vert-large"  id="review-{{ review.id }}" >
+  {% if course is defined %}
+      <meta content="{{ course.name}}">
+  {% else %}
+      {# This is for My Reviews page#}
+      <h2>
+        <a class="text-1 text--blue" href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}">
+          {{ review.course.name }}
+        </a>
+      </h2>
+  {% endif %}
+  {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: review.rating } %}
+  <a
+    class="relative text--charcoal inline-block padding-left-xxsmall"
+    style="top: 3px;"
+    href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}#review-{{ review.id }}">
+    {{ review.displayDate }}
+  </a>
+  <meta content="{{ review.rating }}">
 
     {#
         {% if review.externalReviewLink is not empty %}
@@ -28,43 +35,34 @@
 
 
     <div>
-    {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle, review.user.isPrivate) %}
-        <a class="review-date" href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}#review-{{ review.id }}"> {{ review.displayDate }}</a>
-        <div class="review-title title-with-image" >
-            <div class="crop-circle crop-circle--bordered">
-                {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')" rel="nofollow"> {% endif %}
-                    <img src="{{  user_service.getProfilePicThumbnail(review.user.id) }}" alt="profile picture">
-                {% if reviewerProfileUrl %}</a> {% endif %}
-            </div>
+      {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle, review.user.isPrivate) %}
+      <div class="review-title title-with-image margin-top-xsmall text-2">
+        {% if reviewerProfileUrl %}
+          by
+          <a
+            href="{{ reviewerProfileUrl }}"
+            class="text--charcoal"
+            onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')"
+            rel="nofollow"
+          >
+        {% endif %}
+            <span class="author text--bold">{{ reviewer }}</span>
+        {% if reviewerProfileUrl %}
+          </a>
+        {% endif %}
+        <span class="text--italic">{{ review.reviewTitle|raw }}</span>
+      </div>
 
-            {% if reviewerProfileUrl %} <a href="{{ reviewerProfileUrl }}" onmousedown="ga('send','event','User Profile Click - Reviews','{{ review.course.name }}','{{ review.user.id  }}')" rel="nofollow"> {% endif %}
-                <span class="author">{{ reviewer  }}</span>
-            {% if reviewerProfileUrl %}</a> {% endif %}
-            {{ review.reviewTitle|raw }}
-        </div>
-
-        <div class="small-star-rating small-rating-{{ review.rating }}">
-            <span class="star-rating-1"></span>
-            <span class="star-rating-2"></span>
-            <span class="star-rating-3"></span>
-            <span class="star-rating-4"></span>
-            <span class="star-rating-5"></span>
-            <meta  content="{{ review.rating }}">
-        </div>
-
-        <div class="review-content wide-border-left">
-            <span class="wide-border-left__border"></span>
-            {% if review.reviewText and review.reviewText|length >400 %}
-                <div class="review-preview">
-                    {{ review.reviewText|striptags|slice(0,320) }}
-                    <a class="expand-preview" href="#">
-                        Read More
-                    <span class="icon-down-arrow">
-                        <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                    </span>
-                    </a>
+        <div class="review-content text-2 margin-vert-small">
+        {% if review.reviewText and review.reviewText|length >1000 %}
+            <div class="review-preview">
+                <div class="margin-right-xsmall inline">
+                  {{ review.reviewText|striptags|slice(0,1000) }}
                 </div>
-
+                <a class="expand-preview text-2 icon--right icon-chevron-down-blue text--blue" href="#">
+                  Read more
+                </a>
+            </div>
         {% endif %}
         <div class="review-full">
             {{ review.reviewText|striptags('<br>')|raw }}
@@ -72,24 +70,64 @@
         </div>
         {% if review.externalReviewLink is not empty %}
             <div id="ext-review-link">
-                <a href="{{ review.externalReviewLink }}" target="_blank"> <span class="glyphicon glyphicon-new-window"></span> Full Review
+                <a href="{{ review.externalReviewLink }}" target="_blank" class="margin-bottom-medium text-2 text--blue icon--left icon-expand-blue">
+                  Full Review
                 </a>
             </div>
         {% endif %}
-
-
     </div>
-    {% if app.user and user_session.isUserReview(review.id) %}
-        {# show the edit button #}
-        <div class="question"><a href="{{ path('review_edit',{reviewId:review.id}) }}">edit review</a></div>
-    {% else %}
-        {# show the feedback #}
-        <div class="question" id="review-feedback-{{ review.id }}">Was this review helpful to you?
-            <span class="yes-no"><a href="#" class="review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}" onmousedown="ga('send','event','Review Feedback','Yes');">YES</a> | <a href="#" class="review-feedback" data-reviewid="{{ review.id }}" onmousedown="ga('send','event','Review Feedback','No');">NO</a></span></div>
-    {% endif %}
+
+    <div class="row">
+      <div class="col width-1-2">
+        {% if review.fb.total > 0 %}
+            <div class="unit-horz">
+              <span class="review-feedback unit-block head-2 text--bold padding-right-xsmall">
+                {{review.fb.positive }}
+              </span>
+              <span class="unit-block unit-fill text-4">
+                {{ (review.fb.positive > 1) ? "people" : "person" }} found<br> this review helpful
+              </span>
+            </div>
+        {% endif %}
+      </div>
+      <div class="col width-1-2 text-right">
+        {% if app.user and user_session.isUserReview(review.id) %}
+            {% if not is_granted('ROLE_ADMIN') %}
+              {# show the edit button #}
+              <div class="question">
+                <a href="{{ path('review_edit',{reviewId:review.id}) }}" class="btn-white btn--small icon--left icon-pencil-charcoal text--charcoal">Edit Review</a>
+              </div>
+            {% endif %}
+        {% else %}
+            {# show the feedback #}
+            <div class="text-3 question" id="review-feedback-{{ review.id }}">Was this review helpful to you?
+                <span class="yes-no padding-left-xsmall">
+                  <a
+                    href="#"
+                    class="btn-white btn-circle border--blue btn--medium review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}"
+                    onmousedown="ga('send','event','Review Feedback','Yes');"
+                    >
+                    <span class="icon--center icon-thumbsup-blue">Yes</span>
+                  </a>
+                </span>
+                </div>
+        {% endif %}
+      </div>
+    </div>
     {# edit button for all admins#}
     {% if is_granted('ROLE_ADMIN') %}
-        <div class="question"><a href="{{ path('review_edit',{reviewId:review.id}) }}">edit review (admin only)</a></div>
-        <a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">Approve</a>|<a class="review-status-update" href="{{ path('reviews_status_update', {statusId: 100, reviewId: review.id}) }}">Don't Show</a>
+      <div class="row margin-top-small">
+        <div class="col width-1-2 text-left">
+          <a class="btn-white btn--small text--charcoal icon-checkmark icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">
+            Approve
+          </a>
+          <a class="btn-white btn--small text--charcoal icon-ban icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 100, reviewId: review.id}) }}">
+            Don't Show
+          </a>
+        </div>
+        <div class="question col width-1-2 text-right">
+          <a href="{{ path('review_edit',{reviewId:review.id}) }}" class="btn-white btn--small icon--left icon-pencil-charcoal text--charcoal icon--xsmall">Edit Review (Staff Only)</a>
+        </div>
+      </div>
     {% endif %}
 </div>

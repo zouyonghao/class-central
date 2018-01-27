@@ -639,7 +639,7 @@ jQuery(function($) {
 
         $.ajax("/ajax/review/feedback/"+ reviewId+"/"+feedback)
             .done(function(result){
-                $('#review-feedback-'+reviewId).text("Thank you for your feedback.");
+              $('#review-feedback-'+reviewId).html('Thank you for your feedback. <span class="yes-no padding-left-xsmall"><span class="btn-white btn-circle border--blue btn--medium icon--center icon-checkmark-blue">Thanks</span></span>');
             });
 
     });

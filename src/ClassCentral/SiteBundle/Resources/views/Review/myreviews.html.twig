@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block content %}
-    <div class="course-bottom-wrap">
+    <div class="course-bottom-wrap classcentral-style">
         <div class="course-all-reviews">
             {% if reviews|length >  0 %}
                 <header class="reviews-header">
-                    <h2><span class="review-count"> Reviews by {{ reviews[0].user.name }} </span></h2>
+                    <h2><span class="head-1 review-count"> Reviews by {{ reviews[0].user.name }} </span></h2>
                 </header>
                 <div class="single-reviews-wrap">
                     {% for review in reviews %}
-                        {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review} %}
+                        {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{ 'review' : review } %}
                     {% endfor %}
                 </div>
             {% else %}
-                <header class="reviews-header">
-                    <h2><span class="review-count">You haven't reviewed anything</span></h2>
+                <header class="reviews-header text--center">
+                    <h2><span class="review-count text-1">You haven't reviewed anything</span></h2>
                 </header>
             {% endif %}
         </div>
