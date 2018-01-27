@@ -1,0 +1,26 @@
+{% set disableSignup = true %}
+{% extends 'ClassCentralSiteBundle::Layouts/basic.html.twig' %}
+
+{% block headmeta %}
+    <title>500 Error.</title>
+    <meta name="robots" content="noindex" />
+{% endblock %}
+{% block content %}
+
+<div class="classcentral-style">
+  <section class="margin-top-large text-center width-4-5 large-up-padding-top-large width-centered" style="max-width: 850px;">
+
+    <img class="inline-block width-100 large-up-width-4-5" src="/bundles/classcentralsite/images/500-books.png" alt="500 Error">
+    <h1 class="head-2 large-up-head-1 text--bold">500 Error.</h1>
+    <p class="text-2 large-up-text-1 margin-top-small">We've been notified of this issue and are looking into a fix.
+      <span class="block large-up-inline">Please try again later.</span>
+    </p>
+  </section>
+</div>
+
+<script>
+  CC.track("{{ ts.event('HTTP_ERROR') }}", {
+    type: "500"
+  });
+</script>
+{% endblock %}
