@@ -307,4 +307,24 @@ class Course
         return $courses;
 
     }
+
+    public function categorizeCoursesBySubjects($courses = [])
+    {
+        $coursesByCategory = [];
+        foreach ($courses as $course)
+        {
+            $category = $course->getStream();
+            if($category->getParentStream())
+            {
+                $category = $category->getParentStream();
+            }
+            $category = $category->getName();
+            if(!isset($coursesByCategory[$category]))
+            {
+                $coursesByCategory[$category] = [];
+            }
+            $coursesByCategory[$category][] = $course;
+        }
+        return $coursesByCategory;
+    }
 }
