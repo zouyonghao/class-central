@@ -648,6 +648,13 @@
 
     </div>
 
+    {% if course.initiative.code == 'coursera' %}
+      <div class="col-sm-8 col-lg-9 classcentral-style">
+        <div class="padding-medium margin-top-large" style="background-color: #F4F9FF;">
+          {% include 'ClassCentralSiteBundle:Helpers:coursera.degrees.html.twig' with { type: "course" } %}
+        </div>
+      </div>
+    {% endif %}
 
     <div class="col-sm-8 col-lg-9 course-bottom-wrap">
     <div class="row">

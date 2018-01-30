@@ -49,7 +49,7 @@
           {% if app.request.get('credential') == true %}
             {% include 'ClassCentralCredentialBundle:Credential:credential.v2.cards.html.twig' %}
           {% else %}
-            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':results,'tableId':'institutiontable', 'showInstitution' : false} %}
+            {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with { 'results': results, 'tableId':'institutiontable', 'showInstitution' : false, 'info': pageInfo } %}
           {% endif %}
         </div>
       </div>

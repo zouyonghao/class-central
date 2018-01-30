@@ -24,6 +24,7 @@ class Tracking {
     const HTTP_ERROR = 'http_error';
     const LANDING_PAGE_CLICK = 'landing_page_click';
     const FILTER_CLICK = 'filter_click';
+    const COURSERA_DEGREE_CLICK = 'coursera_degree_click';
 
 
     public function __construct(ContainerInterface $container) {
