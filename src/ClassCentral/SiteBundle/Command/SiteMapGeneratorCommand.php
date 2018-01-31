@@ -40,9 +40,8 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
         $router = $this->getContainer()->get('router');
         $baseUrl = $this->getContainer()->getParameter('baseurl');
 
-        $sitemap = fopen("web/sitemap.txt", "w");
-
         // List all the courses first
+        $coursesSitemap = fopen("web/courses_sitemap.txt", "w");
         $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
         foreach ($courses as $course)
         {
@@ -53,12 +52,15 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                       'ClassCentralSiteBundle_mooc',
                        array('id' => $course->getId(),'slug'=>$course->getSlug())
                     );
-                fwrite($sitemap,$coursePageUrl."\n");
+                fwrite($coursesSitemap,$coursePageUrl."\n");
             }
         }
+        fclose($coursesSitemap);
+
 
         // CREDENTIALS
-        fwrite($sitemap,$baseUrl. $router->generate('credentials')."\n");
+        $credentialsSitemap = fopen("web/credentials_sitemap.txt", "w");
+        fwrite($credentialsSitemap,$baseUrl. $router->generate('credentials')."\n");
         $credentials = $em->getRepository('ClassCentralCredentialBundle:Credential')->findAll();
         foreach($credentials as $credential)
         {
@@ -68,12 +70,14 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                         'credential_page',
                         array('slug'=>$credential->getSlug())
                     );
-                fwrite($sitemap,$credentialPageUrl."\n");
+                fwrite($credentialsSitemap,$credentialPageUrl."\n");
             }
         }
+        fclose($credentialsSitemap);
 
         // Subjects
-        fwrite($sitemap,$baseUrl. $router->generate('subjects')."\n");
+        $subjectsSitemap = fopen("web/subjects_sitemap.txt", "w");
+        fwrite($subjectsSitemap,$baseUrl. $router->generate('subjects')."\n");
         $streamController = new StreamController();
         $subjects = $streamController->getSubjectsList($this->getContainer());
         foreach($subjects['parent'] as $subject)
@@ -83,7 +87,7 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                     'ClassCentralSiteBundle_stream',
                     array('slug'=>$subject['slug'])
                 );
-            fwrite($sitemap,$subjectPageUrl."\n");
+            fwrite($subjectsSitemap,$subjectPageUrl."\n");
         }
         foreach($subjects['children'] as $childSubjects)
         {
@@ -94,13 +98,15 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                         'ClassCentralSiteBundle_stream',
                         array('slug'=>$subject['slug'])
                     );
-                fwrite($sitemap,$subjectPageUrl."\n");
+                fwrite($subjectsSitemap,$subjectPageUrl."\n");
             }
         }
+        fclose($subjectsSitemap);
 
 
         // Providers
-        fwrite($sitemap,$baseUrl. $router->generate('providers')."\n");
+        $providersSitemap = fopen("web/providers_sitemap.txt", "w");
+        fwrite($providersSitemap,$baseUrl. $router->generate('providers')."\n");
         $providerController = new InitiativeController();
         $providers = $providerController->getProvidersList($this->getContainer());
         foreach($providers['providers'] as $provider)
@@ -112,12 +118,15 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                         'ClassCentralSiteBundle_initiative',
                         array('type'=>$provider['code'])
                     );
-                fwrite($sitemap,$providerPageUrl."\n");
+                fwrite($providersSitemap,$providerPageUrl."\n");
             }
         }
+        fclose($providersSitemap);
+
 
         // Universities/Institutions
-        fwrite($sitemap,$baseUrl. $router->generate('institutions')."\n");
+        $institutionsSitemap = fopen("web/institutions_sitemap.txt", "w");
+        fwrite($institutionsSitemap,$baseUrl. $router->generate('institutions')."\n");
         $insController = new InstitutionController();
         $institutions = $insController->getInstitutions( $this->getContainer(), false);
         $institutions = $institutions['institutions'];
@@ -130,12 +139,12 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                         'ClassCentralSiteBundle_institution',
                         array('slug'=>$institution['slug'])
                     );
-                fwrite($sitemap,$insPageUrl."\n");
+                fwrite($institutionsSitemap,$insPageUrl."\n");
             }
 
         }
         // Get Universities
-        fwrite($sitemap,$baseUrl. $router->generate('universities')."\n");
+        fwrite($institutionsSitemap,$baseUrl. $router->generate('universities')."\n");
         $universities = $insController->getInstitutions( $this->getContainer(), true);
         $universities = $universities['institutions'];
         foreach($universities as $university)
@@ -147,13 +156,16 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                         'ClassCentralSiteBundle_university',
                         array('slug'=>$university['slug'])
                     );
-                fwrite($sitemap,$uniPageUrl."\n");
+                fwrite($institutionsSitemap,$uniPageUrl."\n");
             }
 
         }
+        fclose($institutionsSitemap);
+
 
         // Languages
-        fwrite($sitemap,$baseUrl. $router->generate('languages')."\n");
+        $languagesSitemap = fopen("web/languages_sitemap.txt", "w");
+        fwrite($languagesSitemap,$baseUrl. $router->generate('languages')."\n");
         $langController = new LanguageController();
         $languages = $langController->getLanguagesList($this->getContainer());
         foreach($languages as $language)
@@ -163,10 +175,11 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                     'lang',
                     array('slug'=>$language->getSlug())
                 );
-            fwrite($sitemap,$langPageUrl."\n");
+            fwrite($languagesSitemap,$langPageUrl."\n");
         }
 
         // Tags
+        $tagsSitemap = fopen("web/tags_sitemap.txt", "w");
         $tags = $em->getRepository('ClassCentralSiteBundle:Tag')->findAll();
         foreach ($tags as $tag)
         {
@@ -176,9 +189,28 @@ class SiteMapGeneratorCommand extends ContainerAwareCommand
                     'tag_courses',
                     array('tag'=>urlencode($tag->getName()))
                 );
-            fwrite($sitemap,$tagPageUrl."\n");
+            fwrite($tagsSitemap,$tagPageUrl."\n");
         }
 
-        fclose($sitemap);
+        fclose($tagsSitemap);
+
+        // Index MOOC report articles
+        $moocReport = $this->getContainer()->get('mooc_report');
+        $pageNo = 1;
+        $posts = $moocReport->getPosts($pageNo);
+        $moocReportSiteMap= fopen("web/mooc_report_sitemap.txt", "w");
+        while($posts)
+        {
+
+            foreach ($posts as $post)
+            {
+                fwrite($moocReportSiteMap,$post['link']."\n");
+            }
+
+            $pageNo++;
+            $posts = $moocReport->getPosts($pageNo);
+        }
+        fclose($moocReportSiteMap);
+
     }
 }
