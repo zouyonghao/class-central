@@ -23,34 +23,34 @@
       {% for course in courses %}
        {% set course = course._source %}
       <tr>
-        <td valign="top" align="right">
+        <td valign="top" align="right" class="table-column small-text-left">
           <a style="color: #454545; text-decoration: none;" href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id,  'slug': course.slug ,autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}">
             <table cellspacing="0" cellpadding="0" style="margin: 0; padding: 0;">
               <tr>
-              {% set rating = ((course.rating * 2)|round) / 2 %}
-              {% for i in range(1, rating|round(0, 'floor')) %}
-                <td>
-                  <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-filled.png" />
-                </td>
-              {% endfor %}
-              {% if rating matches '/\.5/' %}
-                <td>
-                  <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-half.png" />
-                </td>
-              {% endif %}
-              {% if 5 - rating|round > 0 %}
-                {% for i in range(1, 5 - rating|round) %}
+                {% set rating = ((course.rating * 2)|round) / 2 %}
+                {% for i in range(1, rating|round(0, 'floor')) %}
                   <td>
-                    <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-empty.png" />
+                    <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-filled.png" />
                   </td>
                 {% endfor %}
-              {% endif %}
-            </tr>
-          </table>
-          <span style="color: #454545; text-decoration: none; font-size: 12px;">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</span>
+                {% if rating matches '/\.5/' %}
+                  <td>
+                    <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-half.png" />
+                  </td>
+                {% endif %}
+                {% if 5 - rating|round > 0 %}
+                  {% for i in range(1, 5 - rating|round) %}
+                    <td>
+                      <img width="18" style="width: 18px;" src="{{ baseUrl }}/bundles/classcentralsite/images/email/star-empty.png" />
+                    </td>
+                  {% endfor %}
+                {% endif %}
+              </tr>
+            </table>
+            <span style="color: #454545; text-decoration: none; font-size: 12px;">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</span>
           </a>
         </td>
-        <td valign="top" style="text-align: left; font-size: 16px;">
+        <td valign="top" style="text-align: left; font-size: 16px;" class="table-column">
           <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken}) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">{{ course.name }}</span></a>
           <p style="margin: 0px; padding: 0px; color: #454545; text-align: left; font-size: 14px;">
             {% if course.institutions %}{{ course.institutions[0]["name"] }}{% endif %} via <span style="font-weight: bold;">{{ course.provider["name"]}}</span>

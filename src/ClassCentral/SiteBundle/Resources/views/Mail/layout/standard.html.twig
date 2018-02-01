@@ -1,44 +1,77 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width">
-    <style>
-      .text--blue:hover {
-        text-decoration: underline;
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;">
+  <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+  <style>
+    .text--blue:hover {
+      text-decoration: underline !important;
+    }
+    .btn-blue:hover {
+      background-color: #1639a8 !important;
+    }
+    @media only screen and (max-width: 700px) {
+      .bodyContentMiddle img {
+        height: auto !important;
+        max-width: 100% !important;
+        width: auto !important;
       }
-      .btn-blue:hover {
-        background-color: #1639a8;
+    }
+    @media only screen and (max-width: 600px) {
+      .small-text-center {
+        text-align: center !important;
       }
-    </style>
+      .small-text-left {
+        text-align: left !important;
+      }
+      .table-column {
+        display:block !important;
+        width:100% !important;
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+      }
+    }
+  </style>
 </head>
-<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="background-color: #E4EFFF;">
-  <center>
-    <table border="0" cellspacing="0" height="100%" width="100%" style="background-color: #E4EFFF;">
-      <tr>
-        <td align="center" valign="top">
-          <table border="0" cellpadding="0" cellspacing="0" width="640" style="padding: 20px 0px 0px 0px;" id="templateContainer">
-            <tr>
-              <td align="center" valign="top" style="padding: 0px 20px 0px 20px;">
-                <table style="text-align: center; font-family: 'Myriad Pro', 'Myriad', 'Helvetica', sans-serif; font-size: 14px; box-shadow: 0 0 10px 0 #c3d7f3; border-radius: 10px; border: 1px solid #c3d7f3; padding: 25px 50px; background-color: #ffffff;" border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
-                  {% include 'ClassCentralSiteBundle:Mail:layout/_header.html.twig' %}
-                  <tr>
-                    <td valign="top">
-                      <table id="templateContent">
-                        {% block content %}
-                        {% endblock %}
-                        {% include 'ClassCentralSiteBundle:Mail:layout/auto-signin.html.twig' %}
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            {% include 'ClassCentralSiteBundle:Mail:layout/_footer.html.twig' %}
-          </table>
-        </td>
-      </tr>
-    </table>
-</center>
+<body style="padding:0; margin:0" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="background-color: #E4EFFF;">
+  <div style="background-color: #E4EFFF; width: 100%;">
+    <div style="max-width: 700px; width: 100%; Margin: 0 auto;">
+      <center>
+        <table border="0" cellspacing="0" height="100%" width="100%" style="background-color: #E4EFFF;">
+          <tr>
+            <td align="center" valign="top">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 20px 0px 0px 0px;" id="templateContainer">
+                <tr>
+                  <td align="center" valign="top" style="padding: 0px 20px 0px 20px;">
+                    <table style="text-align: center; font-family: 'Myriad Pro', 'Myriad', 'Helvetica', sans-serif; font-size: 14px; box-shadow: 0 0 10px 0 #c3d7f3; border-radius: 10px; border: 1px solid #c3d7f3; padding: 25px 30px 25px 30px; background-color: #ffffff;" border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
+                      <tr>
+                        <td valign="top" align="center" style="text-align: center;" class="bodyHeader">
+                          <div style="border-bottom: 1px solid #E2E3E4; padding: 10px 0px 20px 0px;">
+                            <img src="https://d3r3mog6nu8pt4.cloudfront.net/cc-email-logo.png" alt="Class Central, Never Stop Learning" />
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top">
+                          <table id="templateContent" style="padding: 0px 20px 0px 20px;">
+                            {% block content %}
+                            {% endblock %}
+                            {% include 'ClassCentralSiteBundle:Mail:layout/auto-signin.html.twig' %}
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                {% include 'ClassCentralSiteBundle:Mail:layout/_footer.html.twig' %}
+              </table>
+            </td>
+          </tr>
+        </table>
+      </center>
+    </div>
+  </div>
 </body>
 </html>
