@@ -19,8 +19,8 @@
       {% if style == "full" %}
         <div class="row text-center padding-large large-up-padding-xxlarge">
           <div id="footer-links" class="col width-100 large-up-width-3-5 row border-box padding-bottom-xxlarge">
-            <div class="col width-100 medium-up-width-1-3 text-center large-up-text-left border-box large-up-padding-right-medium">
-              <h4 class="head-3 margin-bottom-medium">Browse</h4>
+            <div class="col width-100 medium-up-width-1-2 text-center large-up-text-left border-box large-up-padding-right-medium">
+              <h4 class="head-3 margin-bottom-medium">Browse online courses and MOOCs By</h4>
               <ul class="margin-bottom-large">
                 <li class="margin-vert-xxsmall">
                   <a
@@ -95,140 +95,104 @@
                 </li>
               </ul>
             </div>
-            <div class="col width-100 medium-up-width-1-3 text-center large-up-text-left border-box large-up-padding-right-medium">
-              <h4 class="head-3 margin-bottom-medium">More</h4>
+            <div class="col width-100 medium-up-width-1-2 text-center large-up-text-left border-box large-up-padding-right-medium">
+              <h4 class="head-3 margin-bottom-medium">Quick Links</h4>
               <ul class="margin-bottom-large">
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Write a Review"}'
+                    data-track-props='{"type": "Quick Links", "title": "Top 50 MOOCs of All Time"}'
                     class="text-2 text--blue"
-                    href="{{ path('review_write')}}"
-                  >Write a Review</a>
+                    href="/report/top-moocs/"
+                    title="Top 50 MOOCs of All Time"
+                  >Top 50 MOOCs of All Time</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "MOOCs for Credit"}'
+                    data-track-props='{"type": "Quick Links", "title": "Improve Your Writing Skills"}'
                     class="text-2 text--blue"
-                    href="https://www.class-central.com/report/moocs-for-credit/"
-                  >MOOCs for Credit</a>
+                    href="/report/writing-free-online-courses/"
+                    title="25 Free Online Courses to Improve Your Writing Skills"
+                  >Improve Your Writing Skills</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Earn a Credential"}'
+                    data-track-props='{"type": "Quick Links", "title": "edX"}'
                     class="text-2 text--blue"
-                    href="{{ path('credentials') }}"
-                  >Earn A Credential</a>
+                    href="/provider/edx"
+                    title="edX"
+                  >edX</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Follow Button"}'
+                    data-track-props='{"type": "Quick Links", "title": "Coursera"}'
                     class="text-2 text--blue"
-                    href="https://www.class-central.com/report/follow-button-for-education/"
-                  >Follow Button</a>
+                    href="/provider/coursera"
+                    title="Coursera"
+                  >Coursera</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "MOOC Report"}'
+                    data-track-props='{"type": "Quick Links", "title": "Udacity"}'
                     class="text-2 text--blue"
-                    href="/report"
-                  >MOOC Report</a>
+                    href="/provider/udacity"
+                    title="Udacity"
+                  >Udacity</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "FAQ"}'
+                    data-track-props='{"type": "Quick Links", "title": "FutureLearn"}'
                     class="text-2 text--blue"
-                    href="{{ path('ClassCentralSiteBundle_faq') }}"
-                    title="Frequently asked questions about MOOCs"
-                  >FAQ</a>
+                    href="/provider/futurelearn"
+                    title="FutureLearn"
+                  >FutureLearn</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "Privacy Policy"}'
+                    data-track-props='{"type": "Quick Links", "title": "Stanford"}'
                     class="text-2 text--blue"
-                    href="{{ path('ClassCentralSiteBundle_privacy') }}"
-                  >Privacy Policy</a>
+                    href="/university/stanford"
+                    title="Stanford"
+                  >Stanford</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "MOOCWatch"}'
+                    data-track-props='{"type": "Quick Links", "title": "Harvard"}'
                     class="text-2 text--blue"
-                    href="{{ path('moocwatch') }}"
-                  >MOOCWatch</a>
+                    href="/university/harvard"
+                    title="Harvard"
+                  >Harvard</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "More", "title": "What is MOOC Tracker?"}'
+                    data-track-props='{"type": "Quick Links", "title": "MIT"}'
                     class="text-2 text--blue"
-                    href="https://www.class-central.com/report/mooc-tracker/"
-                  >What is MOOC Tracker?</a>
-                </li>
-             </ul>
-              </ul>
-            </div>
-            <div class="col width-100 medium-up-width-1-3 text-center large-up-text-left border-box large-up-padding-right-medium">
-              <h4 class="head-3 margin-bottom-medium">Connect</h4>
-              <ul>
-                <li class="margin-vert-xxsmall">
-                  <a
-                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "Connect", "title": "Email"}'
-                    class="text-2 text--blue"
-                    href="mailto:contact@class-central.com"
-                    title="Class Central contact"
-                  >
-                    Email
-                  </a>
+                    href="/university/mit"
+                    title="MIT"
+                  >MIT</a>
                 </li>
                 <li class="margin-vert-xxsmall">
                   <a
                     data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "Connect", "title": "Facebook"}'
+                    data-track-props='{"type": "Quick Links", "title": "Google"}'
                     class="text-2 text--blue"
-                    target="_blank"
-                    href="https://www.facebook.com/classcentral"
-                  >Facebook</a>
-                </li>
-                <li class="margin-vert-xxsmall">
-                  <a
-                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "Connect", "title": "Twitter"}'
-                    class="text-2 text--blue"
-                    target="_blank"
-                    href="https://twitter.com/classcentral"
-                  >Twitter</a>
-                </li>
-                <li class="margin-vert-xxsmall">
-                  <a
-                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "Connect", "title": "Google+"}'
-                    class="text-2 text--blue"
-                    target="_blank"
-                    href="https://plus.google.com/+ClassCentral"
-                  >Google+</a>
-                </li>
-                <li class="margin-vert-xxsmall">
-                  <a
-                    data-track-click="{{ ts.event('FOOTER_CLICK') }}"
-                    data-track-props='{"type": "Connect", "title": "YouTube"}'
-                    class="text-2 text--blue"
-                    target="_blank"
-                    href="http://www.youtube.com/channel/UC0VOktSaVdm_YIUa4X5mBTQ"
-                  >YouTube</a>
+                    href="/institution/google"
+                    title="Google"
+                  >Google</a>
                 </li>
               </ul>
             </div>
           </div>
           <div class="col xsmall-only-width-centered small-only-width-centered medium-only-width-centered width-100 medium-up-width-3-4 large-up-width-2-5 text-center large-up-text-left">
-            <h2 class="head-3 medium-up-head-2 margin-bottom-small">Class Central Newsletter</h2>
+            <h3 class="head-3 margin-bottom-small">Class Central Newsletter</h2>
             <p class="text--charcoal text-2">Never miss a course.</p>
             <form action="{{ path('newsletter_subscribe_to',{code: 'mooc-report'}) }}" method="post" class="form margin-top-medium margin-bottom-small">
               <div class="row">
@@ -239,10 +203,51 @@
               </div>
             </form>
             <p class="text--gray text-3">No spam. Unsubscribe at any time.</p>
+
+            <h3 class="head-3 margin-bottom-small margin-top-large">About Class Central</h2>
+            <p class="text--charcoal text-2">Class Central is a search engine and reviews site for free online courses popularly known as MOOCs or Massive Open Online Courses.</p>
+            <ul class="margin-top-medium">
+              <li class="margin-right-xsmall inline-block">
+                <a
+                  data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                  data-track-props='{"type": "More", "title": "MOOC Report"}'
+                  class="text-2 text--blue"
+                  href="/report"
+                >MOOC Report</a>
+              </li>
+              <li class="margin-right-xsmall inline-block">
+                <a
+                  class="text-2 text--blue"
+                  href="{{ path('ClassCentralSiteBundle_faq') }}"
+                  title="Frequently asked questions about MOOCs"
+                  data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                  data-track-props='{"type": "More", "title": "FAQ"}'
+                >
+                  FAQ
+                </a>
+              </li>
+              <li class="margin-right-xsmall inline-block">
+                <a
+                  data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                  data-track-props='{"type": "Connect", "title": "Email"}'
+                  class="text-2 text--blue"
+                  href="mailto:contact@class-central.com"
+                  title="Class Central Contact"
+                >
+                  Contact Us
+                </a>
+              </li>
+            </ul>
           </div>
           <div id="footer-copyright" class="col width-100 margin-vert-large text-left">
             <span class="symbol-classcentral-gray symbol--small inline-block"></span>
             <span class="text-3 text--gray">&copy; Copyright 2011-{{ "now"|date("Y") }}</span>
+            <a
+              data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+              data-track-props='{"type": "More", "title": "Privacy Policy"}'
+              class="text-3 text--gray text--underline inline-block margin-left-xsmall"
+              href="{{ path('ClassCentralSiteBundle_privacy') }}"
+            >Privacy Policy</a>
           </div>
         </div>
       {% endif %}

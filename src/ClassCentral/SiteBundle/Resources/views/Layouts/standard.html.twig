@@ -69,7 +69,7 @@
     {% set navbarData = apiService.getNavbarData(contextBar) %}
 
     {% include 'ClassCentralSiteBundle:Layouts:promobar.html.twig' %}
-    <div id="header">{{ reactService.component('header', '', navbarData)|raw }}</div>
+    <div id="header"></div>
 
     {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
     <div class="classcentral-style">

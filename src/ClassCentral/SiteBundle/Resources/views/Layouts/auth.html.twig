@@ -68,7 +68,7 @@
     {% endif %}
     {% set navbarData = apiService.getNavbarData(contextBar) %}
 
-    <div id="header">{{ reactService.component('header', '', navbarData)|raw }}</div>
+    <div id="header"></div>
 
     {%  block content %}
     {% endblock %}

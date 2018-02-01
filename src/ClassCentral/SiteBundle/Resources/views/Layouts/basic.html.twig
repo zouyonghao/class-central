@@ -63,7 +63,7 @@
   <div class="contain-page">
     {% set navbarData = apiService.getNavbarData() %}
 
-    <div id="header" class="simple">{{ reactService.component('header', '', navbarData)|raw }}</div>
+    <div id="header" class="simple"></div>
 
     {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
       <div class="classcentral-style">
