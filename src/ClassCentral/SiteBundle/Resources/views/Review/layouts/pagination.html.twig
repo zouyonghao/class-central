@@ -10,7 +10,7 @@
   {% endif %}
   {% for i in 2..1 %}
       {% if reviews.currentPage - i > 0 %}
-        <li class="inline-block margin-horz-xxsmall">
+        <li class="inline-block margin-horz-xxsmall {% if i == 2 %}xsmall-only-hidden{% endif %}">
           <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.currentPage - i - 1) * 20) }}" class="text--blue">{{ reviews.currentPage - i }}</button>
         </li>
       {% endif %}
@@ -20,7 +20,7 @@
   </li>
   {% for i in 1..2 %}
       {% if reviews.currentPage + i <= reviews.numPages %}
-        <li class="inline-block margin-horz-xxsmall">
+        <li class="inline-block margin-horz-xxsmall {% if i == 2 %}xsmall-only-hidden{% endif %}">
           <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.currentPage + i - 1) * 20) }}" class="text--blue">
             {{ reviews.currentPage + i }}
           </button>

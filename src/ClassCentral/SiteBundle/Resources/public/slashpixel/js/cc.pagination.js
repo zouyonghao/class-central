@@ -15,6 +15,18 @@ class Pagination {
         _this.getPage($(this).data());
       });
     });
+
+    window.addEventListener("popstate", function (event) {
+      if (history.state && history.state.id.indexOf("paginate") >= 0) {
+        const courseId = history.state.id.split("-")[1];
+        const start = history.state.id.split("-")[2];
+        _this.getPage({
+          courseid: courseId,
+          start,
+          popstateEvent: true,
+        });
+      }
+    }, false);
   }
 
   getPage(data) {
@@ -26,9 +38,9 @@ class Pagination {
       dataType: "json",
       url,
     }).then((response) => {
-      if (history && history.pushState) {
+      if (history && history.pushState && !data.popstateEvent) {
         const pageUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?start=${data.start}`;
-        history.pushState(null, null, pageUrl);
+        history.pushState({ id: `paginate-${data.courseid}-${data.start}` }, null, pageUrl);
       }
       this.updateView(response.reviewsRendered);
     })
@@ -43,7 +55,7 @@ class Pagination {
   scrollToReviews() {
     $("html, body").stop().animate({
       scrollTop: $(".course-all-reviews").offset().top - 50,
-    }, 500, 'swing');
+    }, 1000, 'swing');
   }
 }
 

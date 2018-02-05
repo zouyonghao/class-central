@@ -792,7 +792,7 @@
 
     <div class="col-sm-12 course-col classcentral-style">
         <div class="course-all-reviews border-top border--gray-xlight border--thin padding-top-medium" id="course-all-reviews">
-            <header class="reviews-header" id="reviews">
+            <header class="xsmall-only-margin-bottom-medium small-only-margin-bottom-medium reviews-header" id="reviews">
                 <h2>
                   <span class="head-1">
                     {% if ratingsSummary.numRatings == 1 %}Review{% else %}Reviews{% endif %}
@@ -807,18 +807,19 @@
                  </a>
                 </h2>
 
-                <ul style="width: 275px;" class="margin-top-medium">
+                <ul id="reviews-summary" class="margin-vert-medium">
                   {% for star,starCount in ratingsSummary.ratingsBreakdown %}
                   <li class="row">
                     <span class="col width-3-16 text--gray text-3">
                       {{ star }}
                       {{ (starCount > 1) ? "stars" : "star" }}
                      </span>
-                     {% set ratingPercentage = 0 %}
-                    {% if ratingsSummary.numRatings > 0 %}
-                        {% set ratingPercentage = ((starCount / ratingsSummary.numRatings) * 100)|round  %}
-                    {% endif %}
-                    <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
+
+                  {% set ratingPercentage = 0 %}
+                  {% if ratingsSummary.numRatings > 0 %}
+                      {% set ratingPercentage = ((starCount / ratingsSummary.numRatings) * 100)|round  %}
+                  {% endif %}
+                      <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
                       <span class="bg-yellow absolute height-100 left top" style="width: {{ ratingPercentage }}%"></span>
                     </span>
                     <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ratingPercentage }}%</span>

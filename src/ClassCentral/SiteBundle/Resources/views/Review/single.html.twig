@@ -1,6 +1,6 @@
 
 <div
-  class="border-all {% if highlightedReview is defined and highlightedReview == 1 %}shadow{% endif %} border--gray-xlight radius padding-large single-review margin-vert-large"
+  class="border-all {% if highlightedReview is defined and highlightedReview == 1 %}shadow{% endif %} border--gray-xlight radius padding-large single-review margin-top-medium margin-bottom-large"
   style="{% if highlightedReview is defined and highlightedReview == 1 %}border-color: #FFCA65;{% endif %}"
   id="review-{{ review.id }}"
 >
@@ -16,8 +16,7 @@
   {% endif %}
   {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: review.rating } %}
   <a
-    class="relative text--charcoal inline-block padding-left-xxsmall"
-    style="top: 3px;"
+    class="review-date relative text--charcoal inline-block padding-left-xxsmall"
     href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug, "review-id":review.id }) }}">
     {{ review.displayDate }}
   </a>
@@ -82,7 +81,7 @@
     </div>
 
     <div class="row">
-      <div class="col width-100 medium-up-width-1-2">
+      <div class="col width-1-2">
         {% if review.fb.total > 0 %}
             <div class="unit-horz">
               <span class="review-feedback unit-block head-2 text--bold padding-right-xsmall">
@@ -94,7 +93,7 @@
             </div>
         {% endif %}
       </div>
-      <div class="col width-100 medium-up-width-1-2 text-center medium-up-text-right">
+      <div class="col width-1-2 text-right">
         {% if app.user and user_session.isUserReview(review.id) %}
             {% if not is_granted('ROLE_ADMIN') %}
               {# show the edit button #}
@@ -104,7 +103,7 @@
             {% endif %}
         {% else %}
             {# show the feedback #}
-            <div class="text-3 question" id="review-feedback-{{ review.id }}">Was this review helpful to you?
+            <div class="text-3 question" id="review-feedback-{{ review.id }}"><span class="xsmall-only-hidden small-only-hidden">Was this review helpful to you?</span>
                 <span class="yes-no padding-left-xsmall">
                   <a
                     href="#"
@@ -121,7 +120,7 @@
     {# edit button for all admins#}
     {% if is_granted('ROLE_ADMIN') %}
       <div class="row margin-top-small">
-        <div class="col width-100 medium-up-width-1-2 text-center medium-up-text-left">
+        <div class="xsmall-only-margin-bottom-small small-only-margin-bottom-small col width-100 medium-up-width-1-2 text-center medium-up-text-left">
           <a class="btn-white btn--small text--charcoal icon-checkmark icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">
             Approve
           </a>
