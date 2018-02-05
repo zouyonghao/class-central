@@ -811,6 +811,7 @@ class Review {
             }
         }
 
+        $rating = 0;
         if($ratingCount > 0)
         {
             $rating = $ratingSum/$ratingCount;
