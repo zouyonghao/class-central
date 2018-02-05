@@ -7,10 +7,10 @@
     <form id="merge-course-form" class="clearfix" method="post" action="{{ path('course_merge_save') }}">
 
         <span >Original course id</span>
-        <input type="text" class="form-control bfh-number" data-min="0" name="orig" >
+        <input type="text" class="form-control bfh-number" data-min="0" data-max="999999" name="orig" >
 
         <span >Duplicate course id</span>
-        <input type="text" class="form-control bfh-number" data-min="0" name="dup" >
+        <input type="text" class="form-control bfh-number" data-min="0" data-max="999999" name="dup" >
 
         <span >Merge Type</span>
         <select name="type">
