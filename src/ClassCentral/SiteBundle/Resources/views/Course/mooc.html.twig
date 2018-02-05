@@ -120,7 +120,7 @@
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "{{ rating }}",
-            "reviewCount": "{{ reviews.ratingCount }}",
+            "reviewCount": "{{ ratingsSummary.numRatings }}",
             "worstRating":  1,
             "bestRating": 5
           },
@@ -158,7 +158,7 @@
         {% if course.institutions is not empty %}
             {% set bufferFrom = 'from ' ~ course.institutions[0].name %}
         {% endif %}
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ reviews.ratingCount }} {% if reviews.ratingCount > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ ratingsSummary.numRatings }} {% if ratingsSummary.numRatings > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
         <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }}{% endif %}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
     {% endif %}
     <div class="course-block row">
@@ -331,11 +331,11 @@
                 <div class="tiny-review-block__rating-group-inner">
                     <div class="tiny-review-block__count">
                         <span class="tiny-review-block__single">
-                            <span  >{{ reviews.ratingCount }}</span>
+                            <span  >{{ ratingsSummary.numRatings }}</span>
                         </span>
                         <span class="tiny-review-block__double">
                             Student<br>
-                            {% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}
+                            {% if ratingsSummary.numRatings == 1 %}review{% else %}reviews{% endif %}
                         </span>
 
                     </div>
@@ -795,29 +795,29 @@
             <header class="reviews-header" id="reviews">
                 <h2>
                   <span class="head-1">
-                    {% if reviews.ratingCount == 1 %}Review{% else %}Reviews{% endif %}
+                    {% if ratingsSummary.numRatings == 1 %}Review{% else %}Reviews{% endif %}
                   </span>
                   <span class="text-1">
                     for {% if course.initiative.name != 'Independent' %}{{ course.initiative.name  }}'s {% endif %}{{ course.name }}
                   </span>
                   <div class="margin-vert-medium">
                     {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: rating } %}
-                    <span style="top: 3px" class="relative inline-block text-3 text--charcoal margin-left-xsmall">Based on {{ reviews.ratingCount }} reviews</span>
+                    <span style="top: 3px" class="relative inline-block text-3 text--charcoal margin-left-xsmall">Based on {{ ratingsSummary.numRatings }} reviews</span>
                   </div>
                  </a>
                 </h2>
 
-                <ul style="width: 275px;" class="margin-vert-medium">
-                  {% for star,starCount in reviews.ratingsBreakdown %}
+                <ul style="width: 275px;" class="margin-top-medium">
+                  {% for star,starCount in ratingsSummary.ratingsBreakdown %}
                   <li class="row">
                     <span class="col width-3-16 text--gray text-3">
                       {{ star }}
                       {{ (starCount > 1) ? "stars" : "star" }}
                      </span>
                     <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
-                      <span class="bg-yellow absolute height-100 left top" style="width: {{ ((starCount / reviews.ratingCount) * 100)|round }}%"></span>
+                      <span class="bg-yellow absolute height-100 left top" style="width: {{ ((starCount / ratingsSummary.numRatings) * 100)|round }}%"></span>
                     </span>
-                    <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ((starCount / reviews.ratingCount) * 100)|round }}%</span>
+                    <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ((starCount / ratingsSummary.numRatings) * 100)|round }}%</span>
                   </li>
                   {% endfor %}
                 </ul>
@@ -832,18 +832,10 @@
 
             </header>
 
-            {% if reviews.count > 0 %}
-                <div class="single-reviews-wrap">
-                    {% for review in reviews.reviews %}
-                        {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review,'rating':rating} %}
-                    {% endfor %}
+            {% if ratingsSummary.numReviews > 0 %}
+                <div id="course-reviews-container" class="single-reviews-wrap">
+                  {% include 'ClassCentralSiteBundle:Review:layouts/reviews_block.html.twig' with {'reviews':reviews, 'highlightReview': highlightReview} %}
                 </div>
-
-                <!--
-                    <div class="view-more-wrap">
-                        <button class="view-more">View More Reviews</button>
-                    </div>
-                -->
             {% endif %}
 
         </div>

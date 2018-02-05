@@ -27,6 +27,7 @@ class Review {
 
     const AVG_NUM_VOTES = 7 ;
     const AVG_RATING = 4 ;
+    const NUM_REVIEWS_PER_PAGE = 20;
 
     const REVIEW_ALREADY_SUMMARIZED_OR_EMPTY_TEXT = 0;
     const REVIEW_SUMMARY_FAILED = -1;
@@ -771,5 +772,135 @@ class Review {
         }
 
         return $r;
+    }
+
+    /**
+     * Given a course id, it generates the rating summary for a particular course including average rating and baysiean rating
+     * @param $courseId
+     */
+    public function caclulateRatingsSummaryV2($courseId)
+    {
+        $reviewEntities = $this->em->createQuery("
+               SELECT r,f, LENGTH (r.review) as reviewLength from ClassCentralSiteBundle:Review r JOIN r.course c LEFT JOIN r.fbSummary f WHERE c.id = $courseId
+                ORDER BY r.score DESC")
+            ->getResult();
+
+        $reviewCount = 0;
+        $ratingCount = 0;
+        $ratingsBreakdown = array(
+            1 => 0,
+            2 => 0,
+            3 => 0,
+            4 => 0,
+            5 => 0,
+        );
+        $ratingSum = 0;
+        foreach($reviewEntities as $review)
+        {
+            $review = $review[0];
+            if($review->getStatus() < ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND )
+            {
+                $ratingCount++;
+                $ratingsBreakdown[$review->getRating()]++;
+                $ratingSum += $review->getRating();
+
+                if( !$review->getIsRating() )
+                {
+                    $reviewCount++;
+                }
+            }
+        }
+
+        if($ratingCount > 0)
+        {
+            $rating = $ratingSum/$ratingCount;
+        }
+
+        $reviews = array();
+        $reviews['numRatings'] = $ratingCount;
+        $reviews['averageRating'] = $rating;
+        $reviews['baysesianAverageRating'] = $this->calculateBayesianAverageRating($rating,$ratingCount);
+        $reviews['numReviews'] = $reviewCount;
+        $reviews['ratingsBreakdown'] = array_reverse($ratingsBreakdown,true);
+        return $reviews;
+    }
+
+
+    public function calculateReviewsV2($courseId, $start = 0,$highlightReview = 0, $length = self::NUM_REVIEWS_PER_PAGE )
+    {
+        $reviewStatusLowerBound = ReviewEntity::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND;
+        $reviewEntitiesQuery = $this->em->createQuery("
+               SELECT r,f, LENGTH (r.review) as reviewLength from ClassCentralSiteBundle:Review r JOIN r.course c LEFT JOIN r.fbSummary f WHERE c.id = $courseId
+                AND r.status < $reviewStatusLowerBound AND ( r.isRating != 1 OR r.isRating is NULL) ORDER BY r.score DESC");
+        $reviewEntitiesQuery->setFirstResult($start);
+        $reviewEntitiesQuery->setMaxResults($length);
+        $reviewEntities = $reviewEntitiesQuery->getResult();
+
+        $r = array();
+        // The controller has already checked if the review is for this course and is valid
+        if($highlightReview)
+        {
+            $highlightedReview = $this->em->getRepository('ClassCentralSiteBundle:Review')->find($highlightReview);
+            $r[] = ReviewUtility::getReviewArray($highlightedReview);
+        }
+
+
+        foreach($reviewEntities as $review)
+        {
+            $review = $review[0];
+            $r[] = ReviewUtility::getReviewArray($review);
+        }
+
+        $reviews = array();
+        $reviews['reviews'] = $r;
+
+        // calculate number of pages
+        $ratingsSummary = $this->getRatingsSummaryV2($courseId);
+        $numPages = 0;
+        if($ratingsSummary['numReviews'] > 0)
+        {
+            $numPages = ceil($ratingsSummary['numReviews']/$length);
+        }
+        $reviews['numPages'] = $numPages;
+        $reviews['currentPage'] = round($start/$length) + 1;
+        $reviews['numReviews'] = $ratingsSummary['numReviews'];
+        $reviews['courseId'] = $courseId;
+
+        return $reviews;
+    }
+
+    public function calculateBayesianAverageRating( $rating, $numRatings)
+    {
+
+        $bayesian_average = 0;
+        if( $rating > 0 )
+        {
+            $bayesian_average = ((self::AVG_NUM_VOTES * self::AVG_RATING) + ($numRatings * $rating)) / (self::AVG_NUM_VOTES + $numRatings);
+        }
+
+        return round( $bayesian_average, 4);
+    }
+
+    public function getRatingsSummaryV2($courseId)
+    {
+        $ratingDetails = $this->cache->get(
+            $this->getRatingsCacheKey($courseId),
+            array($this,'caclulateRatingsSummaryV2'),
+            array($courseId)
+        );
+
+        return $ratingDetails;
+
+    }
+
+    public function getReviewsV2($courseId, $start = 0, $highlighReview = 0,$length = self::NUM_REVIEWS_PER_PAGE)
+    {
+        $reviews = $this->cache->get(
+            "mooc_reviews_{$courseId}_{$start}_{$length}_{$highlighReview}",
+            array($this,'calculateReviewsV2'),
+            array($courseId,$start,$highlighReview,$length)
+        );
+
+        return $reviews;
     }
 }

@@ -630,7 +630,7 @@ jQuery(function($) {
 
 
     // Review feedback
-    $('.review-feedback').bind('click',function(e){
+    $(document).on('click', '.review-feedback', function(e){
         e.preventDefault();
 
         var helpful = $(this).text();
@@ -754,7 +754,7 @@ jQuery(function($) {
     });
 
     // expand single reviews
-    $('.expand-preview').on('click', function(e) {
+    $(document).on("click", '.expand-preview', function(e) {
         e.preventDefault();
         const $this = $(this);
         $this.parent().hide();
@@ -1189,7 +1189,7 @@ jQuery(function($) {
 
     }
 
-    $('.review-status-update').click(function(event){
+    $(document).on("click", '.review-status-update', function(event){
         event.preventDefault();
         $.ajax({
             type:"get",

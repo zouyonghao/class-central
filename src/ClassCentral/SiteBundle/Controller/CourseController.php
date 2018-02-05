@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\CourseStatus;
 use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Entity\Review;
 use ClassCentral\SiteBundle\Entity\User;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Form\SignupType;
@@ -461,9 +462,38 @@ class CourseController extends Controller
             $nextSessionStart = $nextSession['displayDate'];
         }
 
-       // Get reviews and ratings
-        $rating = $rs->getRatings($courseId);
-        $reviews = $rs->getReviews($courseId);
+        // Get ratings summary
+        $reviewsOffset = (int)(($request->query->get('start'))? $request->query->get('start') : 0);
+        $ratingsSummary = $rs->getRatingsSummaryV2($courseId);
+        if($reviewsOffset > $ratingsSummary['numReviews'])
+        {
+            // Redirect it back to the course page without the offset
+            $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
+            return $this->redirect($url,301);
+
+        }
+        // Review permanent link:
+        $highlightReview = 0;
+        $reviewId = (int)$request->query->get('review-id');
+        if($reviewId)
+        {
+            // check if this review belongs to this course
+            $review = $em->getRepository('ClassCentralSiteBundle:Review')->find($reviewId);
+            if( $review and $review->getCourse()->getId() == $courseId and $review->getStatus() < Review::REVIEW_NOT_SHOWN_STATUS_LOWER_BOUND )
+            {
+                $highlightReview = $reviewId;
+            }
+            else
+            {
+                // redirect back to the course page
+                // Redirect it back to the course page without the offset
+                $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
+                return $this->redirect($url,301);
+
+            }
+        }
+
+        $reviews = $rs->getReviewsV2($courseId,$reviewsOffset, $highlightReview);
 
         // Breadcrumbs
         $breadcrumbs = array();
@@ -591,8 +621,8 @@ class CourseController extends Controller
                 'courseInfo' => [
                     'id' => $course['id'],
                     'title' => $course['name'],
-                    'rating' => $rating ,
-                    'numRatings' => $reviews['ratingCount'],
+                    'rating' => $ratingsSummary['averageRating'] ,
+                    'numRatings' => $ratingsSummary['numRatings'],
                     'url' => $goToClassUrl
                 ],
             ]
@@ -608,14 +638,16 @@ class CourseController extends Controller
                  'nextSessionStart' => $nextSessionStart,
                  'recentlyViewedCourses' => $recentlyViewedCourses,
                  'listTypes' => UserCourse::$lists,
-                 'rating' => $rating,
+                 'rating' => $ratingsSummary['averageRating'],
+                 'ratingsSummary' => $ratingsSummary,
                  'reviews' => $reviews,
+                 'highlightReview' => $highlightReview,
                  'breadcrumbs' => $breadcrumbs,
                  'recommendations' => $recommendations,
                  'providersWithLogos' => Course::$providersWithFavicons,
                  'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] ),
                  'courseImage' => $this->getCourseImage( $courseId),
-                 'ratingStars' => ReviewUtility::getRatingStars( $rating ),
+                 'ratingStars' => ReviewUtility::getRatingStars( $ratingsSummary['averageRating'] ),
                  'interestedUsers' => $interestedUsers,
                  'courseRank' =>$courseRank,
                  'potentialDuplicates' => $potentialDuplicates,

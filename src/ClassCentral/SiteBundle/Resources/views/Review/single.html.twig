@@ -1,7 +1,11 @@
 
-<div class="border-all border--gray-xlight radius padding-large single-review margin-vert-large"  id="review-{{ review.id }}" >
-  {% if course is defined %}
-      <meta content="{{ course.name}}">
+<div
+  class="border-all {% if highlightedReview is defined and highlightedReview == 1 %}shadow{% endif %} border--gray-xlight radius padding-large single-review margin-vert-large"
+  style="{% if highlightedReview is defined and highlightedReview == 1 %}border-color: #FFCA65;{% endif %}"
+  id="review-{{ review.id }}"
+>
+  {% if review.course is defined %}
+      <meta content="{{ review.course.name}}">
   {% else %}
       {# This is for My Reviews page#}
       <h2>
@@ -14,7 +18,7 @@
   <a
     class="relative text--charcoal inline-block padding-left-xxsmall"
     style="top: 3px;"
-    href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}#review-{{ review.id }}">
+    href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug, "review-id":review.id }) }}">
     {{ review.displayDate }}
   </a>
   <meta content="{{ review.rating }}">
@@ -57,7 +61,7 @@
         {% if review.reviewText and review.reviewText|length >1000 %}
             <div class="review-preview">
                 <div class="margin-right-xsmall inline">
-                  {{ review.reviewText|striptags|slice(0,1000) }}
+                  {{ review.reviewText|striptags('<br>')|slice(0,1000)|raw }}
                 </div>
                 <a class="expand-preview text-2 icon--right icon-chevron-down-blue text--blue" href="#">
                   Read more
@@ -78,7 +82,7 @@
     </div>
 
     <div class="row">
-      <div class="col width-1-2">
+      <div class="col width-100 medium-up-width-1-2">
         {% if review.fb.total > 0 %}
             <div class="unit-horz">
               <span class="review-feedback unit-block head-2 text--bold padding-right-xsmall">
@@ -90,7 +94,7 @@
             </div>
         {% endif %}
       </div>
-      <div class="col width-1-2 text-right">
+      <div class="col width-100 medium-up-width-1-2 text-center medium-up-text-right">
         {% if app.user and user_session.isUserReview(review.id) %}
             {% if not is_granted('ROLE_ADMIN') %}
               {# show the edit button #}
@@ -117,7 +121,7 @@
     {# edit button for all admins#}
     {% if is_granted('ROLE_ADMIN') %}
       <div class="row margin-top-small">
-        <div class="col width-1-2 text-left">
+        <div class="col width-100 medium-up-width-1-2 text-center medium-up-text-left">
           <a class="btn-white btn--small text--charcoal icon-checkmark icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">
             Approve
           </a>
@@ -125,7 +129,7 @@
             Don't Show
           </a>
         </div>
-        <div class="question col width-1-2 text-right">
+        <div class="question col width-100 medium-up-width-1-2 text-center medium-up-text-right">
           <a href="{{ path('review_edit',{reviewId:review.id}) }}" class="btn-white btn--small icon--left icon-pencil-charcoal text--charcoal icon--xsmall">Edit Review (Staff Only)</a>
         </div>
       </div>

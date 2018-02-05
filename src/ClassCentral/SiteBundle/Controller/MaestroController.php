@@ -280,4 +280,31 @@ class MaestroController extends Controller {
             'numCredentials' => $data['numCredentials'],
         )));
     }
+
+    /**
+     *  Ajax call for reviews pagination
+     * @param Request $request
+     * @param $courseId
+     * @param $start
+     */
+    public function courseReviewsAction(Request $request, $courseId, $start)
+    {
+        $query = $request->query->all();
+        $rs = $this->get('review');
+        $reviews = $rs->getReviewsV2($courseId,$start);
+
+        $reviewsHtml = $this->render('ClassCentralSiteBundle:Review:layouts/reviews_block.html.twig', array(
+          'reviews' => $reviews,
+        ))->getContent();
+
+        $response = array(
+            'success' => true,
+            'reviewsRendered' => $reviewsHtml,
+            'numReviews' => $reviews['numReviews'],
+            'numPages' => $reviews['numPages'],
+            'currentPage' => $reviews['currentPage'],
+        );
+
+        return new Response( json_encode($response) );
+    }
 }

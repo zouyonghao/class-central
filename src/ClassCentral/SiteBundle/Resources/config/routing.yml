@@ -434,6 +434,10 @@ maestro_udemy_courses:
   pattern: /maestro/udemy
   defaults: {_controller: ClassCentralSiteBundle:Course:getUdemyCoursesTableHtml}
 
+maestro_course_reviews:
+  pattern: /maestro/course-reviews/{courseId}-{start}
+  defaults: {_controller: ClassCentralSiteBundle:Maestro:courseReviews}
+
 user_profile_dummy:
   pattern: /profile
   defaults: {_controller: ClassCentralSiteBundle:User:profile }

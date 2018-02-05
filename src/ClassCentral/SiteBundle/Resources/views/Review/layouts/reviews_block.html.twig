@@ -1,0 +1,26 @@
+{% set numPagesAfter = reviews.numPages - reviews.currentPage %}
+{% set numPagesBefore = reviews.currentPage - 1 %}
+
+{% if highlightReview is not defined %}
+    {% set highlightReview = 0  %}
+{% endif %}
+
+<div class="pagination-block text-center medium-up-text-right relative">
+  {% include 'ClassCentralSiteBundle:Review:layouts/pagination.html.twig' %}
+</div>
+
+<div id="reviews-items">
+  {# include the highlighted review first #}
+  {% if reviews and reviews.reviews[0]['id'] == highlightReview %}
+      {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':reviews.reviews[0], 'highlightedReview' : 1 } %}
+  {% endif %}
+  {% for review in reviews.reviews %}
+      {% if review.id !=  highlightReview %}
+          {% include 'ClassCentralSiteBundle:Review:single.html.twig' with{'review':review} %}
+      {% endif %}
+  {% endfor %}
+</div>
+
+<div class="pagination-block text-center relative">
+  {% include 'ClassCentralSiteBundle:Review:layouts/pagination.html.twig' %}
+</div>
