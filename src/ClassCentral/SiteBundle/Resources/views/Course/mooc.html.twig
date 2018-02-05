@@ -814,10 +814,14 @@
                       {{ star }}
                       {{ (starCount > 1) ? "stars" : "star" }}
                      </span>
+                     {% set ratingPercentage = 0 %}
+                    {% if ratingsSummary.numRatings > 0 %}
+                        {% set ratingPercentage = ((starCount / ratingsSummary.numRatings) * 100)|round  %}
+                    {% endif %}
                     <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
-                      <span class="bg-yellow absolute height-100 left top" style="width: {{ ((starCount / ratingsSummary.numRatings) * 100)|round }}%"></span>
+                      <span class="bg-yellow absolute height-100 left top" style="width: {{ ratingPercentage }}%"></span>
                     </span>
-                    <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ((starCount / ratingsSummary.numRatings) * 100)|round }}%</span>
+                    <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ratingPercentage }}%</span>
                   </li>
                   {% endfor %}
                 </ul>

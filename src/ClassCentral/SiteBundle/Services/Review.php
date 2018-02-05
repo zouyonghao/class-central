@@ -812,15 +812,17 @@ class Review {
         }
 
         $rating = 0;
+        $baysesianAverageRating = 0;
         if($ratingCount > 0)
         {
             $rating = $ratingSum/$ratingCount;
+            $baysesianAverageRating = $this->calculateBayesianAverageRating($rating,$ratingCount);
         }
 
         $reviews = array();
         $reviews['numRatings'] = $ratingCount;
         $reviews['averageRating'] = $rating;
-        $reviews['baysesianAverageRating'] = $this->calculateBayesianAverageRating($rating,$ratingCount);
+        $reviews['baysesianAverageRating'] = $baysesianAverageRating;
         $reviews['numReviews'] = $reviewCount;
         $reviews['ratingsBreakdown'] = array_reverse($ratingsBreakdown,true);
         return $reviews;
