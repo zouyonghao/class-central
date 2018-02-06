@@ -887,7 +887,7 @@ class Review {
     public function getRatingsSummaryV2($courseId)
     {
         $ratingDetails = $this->cache->get(
-            $this->getRatingsCacheKey($courseId),
+            "course_reviews_ratings_summary_". $courseId,
             array($this,'caclulateRatingsSummaryV2'),
             array($courseId)
         );
