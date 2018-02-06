@@ -5,6 +5,7 @@ require("pnotify/dist/pnotify.css");
 
 // exposed globals
 require("jquery");
+require("./packages/utils/responsive.js");
 require("ismobilejs");
 require("js-cookie");
 require("../slashpixel/js/respond.js");
