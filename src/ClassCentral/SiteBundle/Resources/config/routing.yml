@@ -84,8 +84,16 @@ ClassCentralSiteBundle_mooc_share:
   defaults: { _controller: ClassCentralSiteBundle:Course:share}
 
 ClassCentralSiteBundle_mooc:
+  pattern: /course/{slug}-{id}
+  defaults: { _controller: ClassCentralSiteBundle:Course:course}
+  requirements:
+    slug: "[a-zA-Z0-9\-_\/]+"
+    id: "\d+"
+
+ClassCentralSiteBundle_mooc_old:
   pattern: /mooc/{id}/{slug}
   defaults: { _controller: ClassCentralSiteBundle:Course:mooc}
+
 
 reviews_short_url:
   pattern: /r/{courseId}

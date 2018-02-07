@@ -319,7 +319,7 @@ class CourseController extends Controller
      * @param $slug descriptive url for the course
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function moocAction(Request $request,$id, $slug)
+    public function courseAction(Request $request,$id, $slug)
     {
         // Autologin if a token exists
         $this->get('user_service')->autoLogin($request);
@@ -340,10 +340,7 @@ class CourseController extends Controller
        if( isset($course['duplicate']) )
        {
             // Exists - redirect to the original course
-            return $this->redirect(
-            $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['duplicate']['id'],'slug' => $course['duplicate']['slug'])),
-            301
-            );
+           return $this->redirectToCorrectUrl($request->query->all(),$course['duplicate']['id'], $course['duplicate']['slug']);
        }
 
 
@@ -351,8 +348,7 @@ class CourseController extends Controller
 
         if( $course['slug'] !== $slug)
         {
-            $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
-            return $this->redirect($url,301);
+            return $this->redirectToCorrectUrl($request->query->all(),$course['id'], $course['slug']);
         }
 
         if ( $course['status'] == 100 )
@@ -467,10 +463,9 @@ class CourseController extends Controller
         $ratingsSummary = $rs->getRatingsSummaryV2($courseId);
         if($reviewsOffset > $ratingsSummary['numReviews'])
         {
-            // Redirect it back to the course page without the offset
-            $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
-            return $this->redirect($url,301);
-
+            $params = $request->query->all();
+            unset($params['start']);
+            return $this->redirectToCorrectUrl($params,$course['id'], $course['slug']);
         }
         // Review permanent link:
         $highlightReview = 0;
@@ -486,10 +481,9 @@ class CourseController extends Controller
             else
             {
                 // redirect back to the course page
-                // Redirect it back to the course page without the offset
-                $url = $this->container->getParameter('baseurl') . $this->get('router')->generate('ClassCentralSiteBundle_mooc', array('id' => $course['id'],'slug' => $course['slug']));
-                return $this->redirect($url,301);
-
+                $params = $request->query->all();
+                unset($params['review-id']);
+                return $this->redirectToCorrectUrl($params,$course['id'], $course['slug']);
             }
         }
 
@@ -680,6 +674,37 @@ class CourseController extends Controller
 
         ]);
     }
+
+    /**
+     * This is the old path for MOOCs. Redirect it to the new path
+     * @param Request $request
+     * @param $id
+     * @param $slug
+     */
+    public function moocAction(Request $request,$id, $slug)
+    {
+        return $this->redirectToCorrectUrl($request->query->all(),$id,$slug);
+    }
+
+    private function redirectToCorrectUrl($additionalQueryParams,$id, $slug)
+    {
+        $params = [
+            'id' => $id,
+            'slug' => $slug
+        ];
+
+        foreach ($additionalQueryParams as $key => $value )
+        {
+            $params[$key] =  $value;
+        }
+
+        // Exists - redirect to the original course
+        return $this->redirect(
+            $this->get('router')->generate('ClassCentralSiteBundle_mooc',$params),
+            301
+        );
+    }
+
 
     /**
      * Checks whether if the video is a youtube video
