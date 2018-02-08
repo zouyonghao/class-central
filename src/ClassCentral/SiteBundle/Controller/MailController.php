@@ -11,7 +11,9 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
 use ClassCentral\MOOCTrackerBundle\Job\AnnouncementEmailJob;
+use ClassCentral\MOOCTrackerBundle\Job\NewCoursesEmailJob;
 use ClassCentral\MOOCTrackerBundle\Job\NewUserFollowUpJob;
+use ClassCentral\MOOCTrackerBundle\Job\RecommendationEmailJob;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +29,8 @@ class MailController extends Controller
     public function previewAction(Request $request, $type = null)
     {
         $templating = $this->get('templating');
+        $finder= $this->container->get('course_finder');
+
         $availableTypes = [
           'welcome-email' => 'Welcome Email',
           'new-user-followup' => 'New User Follow Up',
@@ -34,10 +38,17 @@ class MailController extends Controller
           'coursera-free-courses-2018' => "Coursera Courses Completely Free",
           'newsletter' => "Monthly MOOC Report",
           'newsletter-old' => "Monthly MOOC Report Old",
+          'recommendation-email' => 'Recommendation Email',
+          'new-courses-email' => 'New Courses Email'
         ];
 
         $html = '<b>Template not found</b>';
         $user = $this->getUser();
+        if(!empty($request->query->get('user-id')))
+        {
+            $userId = $request->query->get('user-id');
+            $user = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:User')->find($userId);
+        }
 
         switch ($type) {
             case 'vote-best-courses-2017':
@@ -83,6 +94,24 @@ class MailController extends Controller
                   "baseUrl" => $this->container->getParameter('baseurl'),
                 ));
                 $html = $html->getContent();
+                break;
+            case 'recommendation-email':
+                $recommendationEmailJob = new RecommendationEmailJob();
+                $recommendationEmailJob->setContainer($this->container);
+                $recommendationEmailESJob = new ESJob(0);
+                $recommendationEmailESJob->setJobType(RecommendationEmailJob::RECOMMENDATION_EMAIL_JOB_TYPE);
+                $recommendationEmailJob->setJob($recommendationEmailESJob);
+                $courses =  $finder->byCourseIds([2161,3768,981,835,3314,442]);
+                $html = $recommendationEmailJob->getHTML($user, $courses,'follow_course_recommendations', new \DateTime());
+                break;
+            case 'new-courses-email':
+                $newCoursesEmailJob = new NewCoursesEmailJob();
+                $newCoursesEmailJob->setContainer($this->container);
+                $newCoursesEmailESJob = new ESJob(0);
+                $newCoursesEmailESJob->setJobType(NewCoursesEmailJob::NEW_COURSES_EMAIL_JOB_TYPE);
+                $newCoursesEmailJob->setJob($newCoursesEmailESJob);
+                $courses =  $finder->byCourseIds([2161,3768,981,835,3314,442]);
+                $html = $newCoursesEmailJob->getHTML($user, $courses,'follow_new_courses_notification', new \DateTime());
                 break;
             default:
                 $html = "<b> Here all the available emails for previews </b>";
