@@ -52,7 +52,6 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         $em = $this->getContainer()->get('doctrine')->getManager();
         $userId = $this->getJob()->getUserId();
         $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneBy( array( 'id' => $userId) );
-        $cache = $this->getContainer()->get('cache');
         $rs = $this->getContainer()->get('review');
 
         if(!$user)
@@ -67,28 +66,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
                            self::MAILGUN_1_DAY_BEFORE_CAMPAIGN_ID : self::MAILGUN_2_WEEKS_BEFORE_CAMPAIGN_ID;
 
        // Get counts for self paced and recently started courses
-        $counts = $cache->get( 'mt_courses_count', function( $container){
-            $esCourses = $container->get('es_courses');
-            $counts = $esCourses->getCounts();
-            $em = $container->get('doctrine')->getManager();
-
-            $offeringCount = array();
-            foreach (array_keys(Offering::$types) as $type)
-            {
-                if(isset($counts['sessions'][strtolower($type)]))
-                {
-                    $offeringCount[$type] = $counts['sessions'][strtolower($type)];
-                }
-                else
-                {
-                    $offeringCount[$type] = 0;
-                }
-            }
-
-            return compact('offeringCount');
-
-        }, array( $this->getContainer() ) );
-
+        $counts = $this->getCounts();
 
         $numCourses = 0;
         if(isset( $args[UserCourse::LIST_TYPE_INTERESTED]) )
@@ -192,7 +170,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
     }
 
-    private function getSingleCourseEmail($course, $isInterested, $user, $jobType, $counts)
+    public function getSingleCourseEmail($course, $isInterested, $user, $jobType, $counts)
     {
 
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -225,7 +203,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
 
     }
 
-    private function getMultipleCouresEmail( $courses, User $user, $counts )
+    public function getMultipleCouresEmail( $courses, User $user, $counts )
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
@@ -287,6 +265,33 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         }
 
         return SchedulerJobStatus::getStatusObject(SchedulerJobStatus::SCHEDULERJOB_STATUS_SUCCESS, "$campaignId: Email sent for ". $user->getId());
+    }
+
+    public function getCounts()
+    {
+        $cache = $this->getContainer()->get('cache');
+        $counts = $cache->get( 'mt_courses_count', function( $container){
+            $esCourses = $container->get('es_courses');
+            $counts = $esCourses->getCounts();
+            $em = $container->get('doctrine')->getManager();
+
+            $offeringCount = array();
+            foreach (array_keys(Offering::$types) as $type)
+            {
+                if(isset($counts['sessions'][strtolower($type)]))
+                {
+                    $offeringCount[$type] = $counts['sessions'][strtolower($type)];
+                }
+                else
+                {
+                    $offeringCount[$type] = 0;
+                }
+            }
+
+            return compact('offeringCount');
+
+        }, array( $this->getContainer() ) );
+        return $counts;
     }
 
     public function tearDown()

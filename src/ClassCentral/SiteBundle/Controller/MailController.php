@@ -11,9 +11,11 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\ElasticSearchBundle\Scheduler\ESJob;
 use ClassCentral\MOOCTrackerBundle\Job\AnnouncementEmailJob;
+use ClassCentral\MOOCTrackerBundle\Job\CourseStartReminderJob;
 use ClassCentral\MOOCTrackerBundle\Job\NewCoursesEmailJob;
 use ClassCentral\MOOCTrackerBundle\Job\NewUserFollowUpJob;
 use ClassCentral\MOOCTrackerBundle\Job\RecommendationEmailJob;
+use ClassCentral\SiteBundle\Utility\ReviewUtility;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +41,9 @@ class MailController extends Controller
           'newsletter' => "Monthly MOOC Report",
           'newsletter-old' => "Monthly MOOC Report Old",
           'recommendation-email' => 'Recommendation Email',
-          'new-courses-email' => 'New Courses Email'
+          'new-courses-email' => 'New Courses Email',
+          'course-reminder-email-single-course' => 'Course Reminder Email - Single Course',
+            'course-reminder-email-multiple-courses' => 'Course Reminder Email - Multiple Courses'
         ];
 
         $html = '<b>Template not found</b>';
@@ -112,6 +116,44 @@ class MailController extends Controller
                 $newCoursesEmailJob->setJob($newCoursesEmailESJob);
                 $courses =  $finder->byCourseIds([2161,3768,981,835,3314,442]);
                 $html = $newCoursesEmailJob->getHTML($user, $courses,'follow_new_courses_notification', new \DateTime());
+                break;
+            case 'course-reminder-email-single-course':
+                $courseReminderJob = new CourseStartReminderJob();
+                $courseReminderJob->setContainer($this->container);
+                $courseReminderESJob = new ESJob(0);
+                $courseReminderESJob->setJobType(CourseStartReminderJob::JOB_TYPE_2_WEEKS_BEFORE);
+                $courseReminderJob->setJob($courseReminderESJob);
+                $course = $this->getDoctrine()->getRepository('ClassCentralSiteBundle:Course')->find( 2161 );
+                $html = $courseReminderJob->getSingleCourseEmail($course, 1, $user, CourseStartReminderJob::JOB_TYPE_2_WEEKS_BEFORE, $courseReminderJob->getCounts());
+                break;
+            case 'course-reminder-email-multiple-courses':
+                $courseReminderJob = new CourseStartReminderJob();
+                $courseReminderJob->setContainer($this->container);
+                $courseReminderESJob = new ESJob(0);
+                $courseReminderESJob->setJobType(CourseStartReminderJob::JOB_TYPE_2_WEEKS_BEFORE);
+                $courseReminderJob->setJob($courseReminderESJob);
+                $courses = [];
+                $rs = $this->container->get('review');
+
+                foreach( [2161,3768,981,835,3314,442] as $courseId)
+                {
+                    $course =  $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Course')->find( $courseId );
+
+                    // Get the review details
+                    $courseArray = $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Course')->getCourseArray( $course );
+                    $courseArray['rating'] = $rs->getRatings($course->getId());
+                    $courseArray['ratingStars'] = ReviewUtility::getRatingStars( $courseArray['rating'] );
+                    $rArray = $rs->getReviewsArray($course->getId());
+                    $courseArray['reviewsCount'] = $rArray['count'];
+
+                    $courses[] = array(
+                        'interested' => true,
+                        'id' => $courseId,
+                        'course' => $courseArray
+                    );
+                }
+
+                $html = $courseReminderJob-> getMultipleCouresEmail( $courses,$user,  $courseReminderJob->getCounts() );
                 break;
             default:
                 $html = "<b> Here all the available emails for previews </b>";
