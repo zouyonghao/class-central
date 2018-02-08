@@ -497,7 +497,7 @@ jQuery(function($) {
                     result = JSON.parse(result);
                     if(result['success']) {
                         // Redirect to the course page
-                        window.location.href = $('#courseUrl').data("value");
+                        window.location.href = $('#courseUrl').data("value") + "?review-id=" + result['message'];
                     } else {
                         // Show an error message
                     }
@@ -539,7 +539,7 @@ jQuery(function($) {
                     result = JSON.parse(result);
                     if(result['success']) {
                         // Redirect back to the course page and ask the user if they want to signup for the course
-                        window.location.href = $('#courseUrl').data("value");
+                        window.location.href = $('#courseUrl').data("value")+"?review-id=" + result['message'];
                     } else {
                         // Show an error message
                         showPinesNotification('error','Some error occurred',result['message']);

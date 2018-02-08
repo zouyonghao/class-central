@@ -301,6 +301,22 @@ class Review {
     {
         $this->cache->deleteCache($this->getReviewsCacheKey($courseId));
         $this->cache->deleteCache($this->getRatingsCacheKey($courseId));
+
+        // get rating details to calculate number of pages:
+        $rating = $this->getRatingsSummaryV2($courseId);
+        if($rating['numPages'] > 0)
+        {
+            for($page = 1; $page < $rating['numPages']; $page++)
+            {
+                $this->cache->deleteCache($this->getReviewsV2CacheKey($courseId,$page*self::NUM_REVIEWS_PER_PAGE));
+            }
+        }
+        else
+        {
+            $this->cache->deleteCache($this->getReviewsV2CacheKey($courseId));
+        }
+        $this->cache->deleteCache("course_reviews_ratings_summary_". $courseId);
+
     }
 
     /**
@@ -502,7 +518,8 @@ class Review {
                     $message .= "\n\n" . $review->getReview();
                 }
 
-                $message .=  "\n" .  $this->container->getParameter('baseurl'). $this->container->get('router')->generate('review_edit', array('reviewId' => $review->getId() ));
+                $message .=  "\n" .  $this->container->getParameter('baseurl'). $this->container->get('router')->generate('ClassCentralSiteBundle_mooc',
+                        array('review-id' => $review->getId(),'id'=>$course->getId(),'slug'=>$course->getSlug() ));
 
                 $message = str_replace('<strong>','_', $message);
                 $message = str_replace('</strong>','_', $message);
@@ -819,12 +836,20 @@ class Review {
             $baysesianAverageRating = $this->calculateBayesianAverageRating($rating,$ratingCount);
         }
 
+        $numPages = 0;
+        if($reviewCount > 0)
+        {
+            $numPages = ceil($reviewCount/self::NUM_REVIEWS_PER_PAGE);
+        }
+
         $reviews = array();
         $reviews['numRatings'] = $ratingCount;
         $reviews['averageRating'] = $rating;
         $reviews['baysesianAverageRating'] = $baysesianAverageRating;
         $reviews['numReviews'] = $reviewCount;
         $reviews['ratingsBreakdown'] = array_reverse($ratingsBreakdown,true);
+        $reviews['numPages'] = $numPages;
+
         return $reviews;
     }
 
@@ -899,11 +924,17 @@ class Review {
     public function getReviewsV2($courseId, $start = 0, $highlighReview = 0,$length = self::NUM_REVIEWS_PER_PAGE)
     {
         $reviews = $this->cache->get(
-            "mooc_reviews_{$courseId}_{$start}_{$length}_{$highlighReview}",
+            $this->getReviewsV2CacheKey($courseId,$start,$highlighReview,$length),
             array($this,'calculateReviewsV2'),
             array($courseId,$start,$highlighReview,$length)
         );
 
         return $reviews;
+    }
+
+    private function getReviewsV2CacheKey($courseId, $start = 0, $highlighReview = 0,$length = self::NUM_REVIEWS_PER_PAGE)
+    {
+        $key = "mooc_reviews_{$courseId}_{$start}_{$length}_{$highlighReview}";
+        return $key;
     }
 }
