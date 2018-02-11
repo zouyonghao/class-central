@@ -213,9 +213,9 @@ class Api
               'description' => 'Where to Find MOOCs: The Definitive Guide to MOOC Providers'
           ],
           [
-              'title' => 'Meet the Independent MOOC Whose Performance Rivals the Big Platforms',
-              'url' => '/report/utas-dementia-mooc/',
-              'description' => 'Top 50 MOOC with 120,000 students and a 40% completion rate'
+              'title' => '6 Biggest MOOC Trends of 2017',
+              'url' => '/report/6-biggest-mooc-trends-2017/',
+              'description' => 'MOOCs on campus, a product at every price point, content paywalls, and more.'
           ]
       ];
     return $articles;
