@@ -4,7 +4,7 @@
 <tr>
   <td valign="top" class="bodyContentTop">
     <div style="background: #ffffff; padding: 20px 0px 0px 0px">
-      <p style="color: #454545; text-align: left; font-size: 16px;">
+      <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
         Hi{% if name is not empty %} {{name}}{% endif %},
         <br><br>
         Welcome to <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Class Central</span></a>! We are excited to be a part of your educational journey. If you are new to MOOCs or free online courses, please
@@ -22,21 +22,21 @@
   <td valign="top" class="bodyContentBullets">
     <table style="border-radius: 10px; padding: 25px; background-color: #F3F6F9;" border="0" cellpadding="10" cellspacing="0" width="100%">
       <tr>
-        <td valign="top" class="bodyContentTop" width="12%">
-          <img width="40" src="{{ baseUrl }}/bundles/classcentralsite/images/email/icon-bullet-one.png" alt="1" />
+        <td valign="top" class="bodyContentTop" width="8%">
+          <img width="30" src="{{ baseUrl }}/bundles/classcentralsite/images/email/icon-bullet-one.png" alt="1" />
         </td>
         <td>
-          <p style="padding: 0px; margin: 0px; color: #454545; text-align: left; font-size: 16px;">
+          <p style="padding: 0px; margin: 0px; color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
             <a href="{{ baseUrl }}{{ path('subjects', {autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Browse our Subjects</span></a> categories for topics you are interested in. You can also use the search bar to type in keywords.
           </p>
         </td>
       </tr>
       <tr>
-        <td valign="top" class="bodyContentTop" width="12%">
-          <img width="40" src="{{ baseUrl }}/bundles/classcentralsite/images/email/icon-bullet-two.png" alt="2" />
+        <td valign="top" class="bodyContentTop" width="8%">
+          <img width="30" src="{{ baseUrl }}/bundles/classcentralsite/images/email/icon-bullet-two.png" alt="2" />
         </td>
         <td>
-          <p style="padding: 0px; margin: 0px; color: #454545; text-align: left; font-size: 16px;">
+          <p style="padding: 0px; margin: 0px; color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
             Look at courses that are
             <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent',autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">about to start</span></a> or are
             <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">self-paced</span></a>. These are guaranteed to be available for sign up.
@@ -49,7 +49,7 @@
 <tr>
   <td valign="top" class="bodyContentBottom">
     <div style="background: #ffffff; padding: 20px 0px 0px 0px">
-      <p style="color: #454545; text-align: left; font-size: 16px;">
+      <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
         {% set redirect_url = path('user_library',{utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) %}
         As you browse courses, you can use the <span style="font-size: 18px; font-weight: bold">+</span> icon next to the course name to add it to your list of <a href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign }) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">My Courses</span></a>
         These can be seen on your profile page. Here is mine as an example: <a href="http://www.class-central.com/@dhawal" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">www.class-central.com/@dhawal</span></a>

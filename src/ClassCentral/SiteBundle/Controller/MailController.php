@@ -39,11 +39,10 @@ class MailController extends Controller
           'vote-best-courses-2017' => "Vote Best Courses 2017",
           'coursera-free-courses-2018' => "Coursera Courses Completely Free",
           'newsletter' => "Monthly MOOC Report",
-          'newsletter-old' => "Monthly MOOC Report Old",
           'recommendation-email' => 'Recommendation Email',
           'new-courses-email' => 'New Courses Email',
           'course-reminder-email-single-course' => 'Course Reminder Email - Single Course',
-            'course-reminder-email-multiple-courses' => 'Course Reminder Email - Multiple Courses'
+          'course-reminder-email-multiple-courses' => 'Course Reminder Email - Multiple Courses'
         ];
 
         $html = '<b>Template not found</b>';
@@ -85,14 +84,6 @@ class MailController extends Controller
                 break;
             case 'newsletter':
                 $month = ($request->query->get('month')) ? $request->query->get('month') : '_template';
-                $html = $templating->renderResponse(sprintf('ClassCentralSiteBundle:Mail:%s/%s.html.twig','mooc-report',$month), array(
-                  "user" => $user,
-                  "baseUrl" => $this->container->getParameter('baseurl'),
-                ));
-                $html = $html->getContent();
-                break;
-            case 'newsletter-old':
-                $month = ($request->query->get('month')) ? $request->query->get('month') : 'january2018';
                 $html = $templating->renderResponse(sprintf('ClassCentralSiteBundle:Mail:%s/%s.html.twig','mooc-report',$month), array(
                   "user" => $user,
                   "baseUrl" => $this->container->getParameter('baseurl'),

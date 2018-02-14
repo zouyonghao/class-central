@@ -73,7 +73,7 @@ class NewCoursesEmailJob extends SchedulerJobAbstract
     {
         $templating = $this->getContainer()->get('templating');
         $html = $templating->renderResponse(
-            'ClassCentralMOOCTrackerBundle:NewCourses:newcourses.inlined.html',array(
+            'ClassCentralMOOCTrackerBundle:NewCourses:newcourses.html.twig',array(
                 'user'   => $user,
                 'courses' => $courses,
                 'recommendationsPageUnlocked' => ( count($user->getFollows()) >= 10),

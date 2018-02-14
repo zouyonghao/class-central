@@ -4,7 +4,7 @@
 <tr>
   <td valign="top" class="bodyContentTop">
     <div style="background: #ffffff; padding: 20px 0px 0px 0px">
-      <p style="color: #454545; text-align: left; font-size: 16px;">
+      <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
         Hello {{ user.displayName }},
         <br><br>
         Thanks again for signing up for <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">Class Central</span></a>! Every day thousands of learners use Class Central to find free online courses from the best MOOC providers and universities in the world. Have you signed up for one yet?
@@ -50,7 +50,7 @@
             <span style="color: #454545; text-decoration: none; font-size: 12px;">{{ course.reviewsCount }} {% if course.reviewsCount == 1 %}review{% else %}reviews{% endif %}</span>
           </a>
         </td>
-        <td valign="top" style="text-align: left; font-size: 16px;" class="table-column">
+        <td valign="top" style="text-align: left; font-size: 14px; line-height: 18px;" class="table-column">
           <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken}) }}" style="color: #5074E9; text-decoration: none;"><span style="color: #5074E9;">{{ course.name }}</span></a>
           <p style="margin: 0px; padding: 0px; color: #454545; text-align: left; font-size: 14px;">
             {% if course.institutions %}{{ course.institutions[0]["name"] }}{% endif %} via <span style="font-weight: bold;">{{ course.provider["name"]}}</span>
@@ -64,7 +64,7 @@
 <tr>
   <td valign="top" class="bodyContentBottom">
     <div style="background: #ffffff; padding: 20px 0px 0px 0px">
-      <p style="color: #454545; text-align: left; font-size: 16px;">
+      <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
         Questions or feedback for Class Central? Please send me a message by replying to this email.
         <br><br>
         Never stop learning!
