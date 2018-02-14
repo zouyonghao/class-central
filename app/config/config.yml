@@ -54,6 +54,7 @@ twig:
       segment_write_key: %segment_write_key%
       coursera_url: %coursera_url%
       edx_url: %edx_url%
+      kadenze_url: %kadenze_url%
       udemy_url: %udemy_url%
       google_auth_client_id: %google_auth_client_id%
       assetService: @asset
