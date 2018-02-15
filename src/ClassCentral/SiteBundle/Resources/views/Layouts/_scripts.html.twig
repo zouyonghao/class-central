@@ -4,6 +4,10 @@
 
 {% include 'ClassCentralSiteBundle:Layouts:React/preloaded.state.html.twig' %}
 
+<script type="text/javascript">
+  var NEWS_BANNER = "{{ news_banner_id }}";
+</script>
+
 <script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
 
 {% if is_granted('ROLE_ADMIN') %}

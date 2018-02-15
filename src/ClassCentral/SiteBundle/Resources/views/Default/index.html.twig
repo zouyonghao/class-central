@@ -7,7 +7,7 @@
 {% block content %}
   <!-- banner -->
   <div class="classcentral-style">
-    <section data-slideshow class="cc-gradient-orange-green">
+    <section data-slideshow class="cc-gradient-gold">
       <div class="relative width-100 width-centered" style="max-width: 1400px;">
         <nav id="ss-nav" class="absolute">
           <button data-slideshow-target="0" class="bg-blue inline-block">1</button>
@@ -16,7 +16,29 @@
           <button data-slideshow-target="3" class="bg-blue transparent inline-block">4</button>
         </nav>
         <ul>
-          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-orange-green" }' class="active absolute top left width-100">
+          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-gold" }' class="active absolute top left width-100">
+            <h2>
+              <img
+                class="width-100"
+                src="/bundles/classcentralsite/images/banner-2017-best-courses-homepage{% if isMobile %}-mobile{% endif %}.png"
+                alt="The Best Online Courses of 2017"
+                data-media-switch="802"
+                data-large="/bundles/classcentralsite/images/banner-2017-best-courses-homepage.png"
+                data-small="/bundles/classcentralsite/images/banner-2017-best-courses-homepage-mobile.png"
+              />
+            </h2>
+            <div class="absolute width-100 text-center inline-block">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Banner", "title": "2017 Best Online Courses Results" }'
+                href="https://www.class-central.com/report/best-free-online-courses-2017/"
+                class="btn-blue btn--large large-only-btn--medium"
+              >
+                View Now
+              </a>
+            </div>
+          </li>
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-orange-green" }' class="next absolute top left width-100">
             <h2>
               <img
                 class="width-100"
@@ -31,7 +53,7 @@
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
             </div>
           </li>
-          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-2017" }' class="absolute top left next width-100">
+          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-2017" }' class="absolute top left width-100">
             <h2>
               <img
                 class="width-100"
@@ -50,28 +72,6 @@
                 class="btn-blue btn--large large-only-btn--medium"
               >
                 Learn More
-              </a>
-            </div>
-          </li>
-          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-green-blue" }' class="absolute top left width-100">
-            <h2>
-              <img
-                class="width-100"
-                src="/bundles/classcentralsite/images/banner-getting-to-know-miriadax{% if isMobile %}-mobile{% endif %}.png"
-                alt="Getting to know Miríadax — Class Central's deep dive into Latin America's largest MOOC provider"
-                data-media-switch="802"
-                data-large="/bundles/classcentralsite/images/banner-getting-to-know-miriadax.png"
-                data-small="/bundles/classcentralsite/images/banner-getting-to-know-miriadax-mobile.png"
-              />
-            </h2>
-            <div class="absolute width-100 text-center inline-block">
-              <a
-                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-                data-track-props='{ "type": "Banner", "title": "Miríadax" }'
-                href="/report/getting-know-miriadax/"
-                class="btn-blue btn--large large-only-btn--medium"
-              >
-                Read Article
               </a>
             </div>
           </li>

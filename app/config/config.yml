@@ -62,6 +62,7 @@ twig:
       reactService: @react
       ts: @tracking
       webpack_dev_server: %webpack_dev_server%
+      news_banner_id: %news_banner_id%
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%

@@ -23,11 +23,11 @@ class Ui {
       $(".bfh-number-btn.dec").addClass('btn-small btn-white icon-chevron-down icon--center');
 
       $("#news-banner a").click(function() {
-        Cookies.set("news_banner", 1);
+        Cookies.set("news_banner", NEWS_BANNER || 1, { expires: 365 });
       });
 
       if (window.location.search.match(/news_banner=1/)) {
-        Cookies.set("news_banner", 1);
+        Cookies.set("news_banner", NEWS_BANNER || 1, { expires: 365 });
       }
     });
   }
@@ -39,7 +39,7 @@ class Ui {
           const el = target.parentElement;
           $(el).hide();
           if ($(target).data('cookie')) {
-            Cookies.set($(target).data('cookie'), 1);
+            Cookies.set($(target).data('cookie'), $(target).data('cookie-value') || 1);
           }
         }
       }
@@ -255,7 +255,7 @@ class Ui {
       const bgColor = $next.data("slideshow-item").bg;
       let $upcoming;
 
-      $slideshow.removeClass("bg-cc-gradient cc-gradient-gold cc-gradient-green-blue cc-gradient-yellow-orange cc-gradient-purple-blue cc-gradient-orange-green")
+      $slideshow.removeClass("cc-gradient-2017 cc-gradient-gold cc-gradient-purple-blue cc-gradient-orange-green")
       $navItems.addClass("transparent").eq(index).removeClass("transparent");
       $slideshow.addClass(bgColor);
       $active.removeClass('active');

@@ -109,6 +109,7 @@ parameters:
     imgix_token: ~
 
     webpack_dev_server: false
+    news_banner_id: ~
     react_server: ~
     urlbox_api_key: ~
     urlbox_api_secret: ~
