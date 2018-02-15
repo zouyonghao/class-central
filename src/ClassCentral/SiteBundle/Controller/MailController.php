@@ -36,13 +36,13 @@ class MailController extends Controller
         $availableTypes = [
           'welcome-email' => 'Welcome Email',
           'new-user-followup' => 'New User Follow Up',
-          'vote-best-courses-2017' => "Vote Best Courses 2017",
           'coursera-free-courses-2018' => "Coursera Courses Completely Free",
           'newsletter' => "Monthly MOOC Report",
           'recommendation-email' => 'Recommendation Email',
           'new-courses-email' => 'New Courses Email',
           'course-reminder-email-single-course' => 'Course Reminder Email - Single Course',
-          'course-reminder-email-multiple-courses' => 'Course Reminder Email - Multiple Courses'
+          'course-reminder-email-multiple-courses' => 'Course Reminder Email - Multiple Courses',
+          'announcement-email' => 'Announcement email (use the template query param to switch templates)'
         ];
 
         $html = '<b>Template not found</b>';
@@ -54,13 +54,14 @@ class MailController extends Controller
         }
 
         switch ($type) {
-            case 'vote-best-courses-2017':
+            case 'announcement-email':
                   $announcementEmailJob = new AnnouncementEmailJob();
                   $announcementEmailJob->setContainer( $this->container );
                   $announcementEmailESJob = new ESJob(0);
                   $announcementEmailESJob->setJobType(AnnouncementEmailJob::ANNOUNCEMENT_EMAIL_JOB_TYPE);
                   $announcementEmailJob->setJob($announcementEmailESJob);
-                  $html = $announcementEmailJob->getAnnouncementHTML($user,'vote_best_courses_2017.html.twig','vote_best_courses_2017');
+                  $template = ($request->query->get('template')) ? $request->query->get('template'): 'vote_best_courses_2017';
+                  $html = $announcementEmailJob->getAnnouncementHTML($user,$template.".html.twig",$template);
                   break;
             case 'coursera-free-courses-2018':
                 $announcementEmailJob = new AnnouncementEmailJob();

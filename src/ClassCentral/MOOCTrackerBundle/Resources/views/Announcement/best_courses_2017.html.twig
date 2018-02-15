@@ -1,0 +1,63 @@
+{% extends 'ClassCentralSiteBundle::Mail/layout/borderless.html.twig' %}
+
+{%  block content %}
+    <tr>
+        <td valign="top" class="bodyContentMiddle">
+            <img width="700" style="max-width: 100%;" src="https://d3r3mog6nu8pt4.cloudfront.net/mooc-report/best-courses-2017-collage.jpg" alt="The Best Online Courses of 2017" />
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" class="bodyContentMiddle">
+            <div style="background: #ffffff; padding: 20px 30px 0px 30px;">
+                <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
+                    Hello {{user.displayName}},
+                    <br><br>
+                    The results are in! We are back with a list of the best online courses of 2017. Like last year and the year before, this year’s list is based on thousands of reviews written by our users.
+                    <br><br>
+
+                    Our methodology is simple. We made a list of all the courses that were offered for the first time in 2017 (which comes out to be over 2000 courses), ranked the courses by the Bayesian average of their ratings, and filtered out the ones with less than ten reviews.
+                    <br><br>
+                    Some of the highlights of this year’s ranking include: a new course by the team that created Learning How To Learn, one of the most popular MOOCs of all time; a new course from Andrew Ng, one of the founders of the modern MOOC movement; and, for you Italian speakers, three new courses from Italy’s University of Naples Federico, which started offering its MOOCs on the edX platform in 2017.
+                </p>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="center" class="bodyContentCTA">
+            <div style="background: #ffffff; padding: 10px 0px 10px 0px; text-align: center;">
+                <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign,
+                    redirect: 'https://www.class-central.com/report/best-free-online-courses-2017'}) }}" class="btn-blue" style="background: #0E4DF1; border-radius: 10px; padding: 15px 20px 15px 20px; color: #ffffff; text-decoration: none; display: inline-block;">
+                    <span style="color: #ffffff; text-decoration: none;">Best Online Courses of 2017</span>
+                </a>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" valign="top">
+            <h3 style="font-weight: bold; color: #3B3B3B; padding: 10px 0px 0px 0px; font-size: 14px;">Check out top courses from previous years</h3>
+            <table border="0" cellpadding="0" cellspacing="0" width="85%">
+                <tr>
+                    <td valign="middle" align="center" class="bodyContentCTA" width="50%">
+                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign,
+                            redirect: 'https://www.class-central.com/report/best-free-online-courses-2016'}) }}" style="color: #5074E9; text-decoration: none;" class="text--blue">
+            <span style="color: #5074E9; text-decoration: none; font-size: 14px;">
+              <img src="https://d3r3mog6nu8pt4.cloudfront.net/star-blue.png" alt="Star" width="24px" style="vertical-align: bottom;" />
+              2016 Best Online Courses
+            </span>
+                        </a>
+                    </td>
+                    <td valign="middle" align="center" class="bodyContentCTA" width="50%">
+                        <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign,
+                            redirect: 'https://www.class-central.com/report/best-free-online-courses-2015'}) }}" style="color: #5074E9; text-decoration: none;" class="text--blue">
+            <span style="color: #5074E9; text-decoration: none; font-size: 14px;">
+              <img src="https://d3r3mog6nu8pt4.cloudfront.net/star-blue.png" alt="Star" width="24px" style="vertical-align: bottom;" />
+              2015 Best Online Courses
+            </span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <br><br>
+        </td>
+    </tr>
+{% endblock %}
