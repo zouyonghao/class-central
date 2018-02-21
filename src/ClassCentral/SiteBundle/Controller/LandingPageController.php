@@ -358,6 +358,12 @@ class LandingPageController extends Controller
                     'cta' => 'Read Article',
                     'url' => '/report/zeitgeist-moocs-2017/',
                 ),
+                array(
+                    'title' => 'Class Central\'s Best Online Courses 2017',
+                    'image' => 'cc-2017-best-online-courses.png',
+                    'cta' => 'View Courses',
+                    'url' => '/report/best-free-online-courses-2017/',
+                ),
             )
           )
       ));

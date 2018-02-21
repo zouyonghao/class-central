@@ -236,11 +236,11 @@
             {% endif %}
           {% endfor %}
         </ul>
-        <div class="margin-vert-xlarge text-center {% if courseType["title"] != "All" %}hidden{% endif %}" data-show-target="{{courseType["title"]}}">
+        <div class="margin-vert-medium text-center {% if courseType["title"] != "All" %}hidden{% endif %}" data-show-target="{{courseType["title"]}}">
           <a
             data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
             data-track-props='{ "type": "Popular Courses", "title": "View All", "sub_section": "{{ courseType["title"] }}" }'
-            class="btn-blue-outline btn--large margin-bottom-large"
+            class="btn-blue-outline btn--large"
             href="{{ courseType["url"] }}"
           >
             Show more
@@ -249,94 +249,73 @@
         {% endfor %}
     </section>
 
-    <!-- year in review -->
     <section class="row width-centered padding-horz-large padding-bottom-xlarge" style="max-width: 1400px;">
-      <header class="text-center border-bottom border--gray-light border--thin">
-        <h1 class="relative head-3 small-up-head-2 large-up-head-1  bg-white relative inline-block padding-horz-medium" style="top: 15px">
-          MOOCs Through the Years
+      <header class="text-left border-bottom border--gray-light border--thin">
+        <h1 class="relative head-3 small-up-head-2 large-up-head-1 bg-white relative inline-block xlarge-up-padding-horz-medium" style="top: 15px">
+          Career Guides
         </h1>
       </header>
-
-      <ul class="width-centered row margin-top-xlarge" style="max-width: 1000px;">
-          <li class="width-100 large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
-            <a
-              data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-              data-track-props='{ "type": "Year in Review", "title": "2017", "section": "Class Central" }'
-              href="{{ path('year_in_review_2017') }}"
-              class="block"
-            >
-                {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-mobile.png', 546,420) %}
-              <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail }}" alt="2017 Year in Review" />
-            </a>
-            <p class="text-center absolute width-100 left" style="bottom: -15px;">
-              <a href="{{ path('year_in_review_2017') }}" class="btn-blue">Read More</a>
-            </p>
-          </li>
-          <li class="width-100 large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
-            <a
-              data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-              data-track-props='{ "type": "Year in Review", "title": "2016", "section": "Class Central" }'
-              href="{{ path('year_in_review_2016') }}"
-              class="block"
-            >
-              {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2016-year-in-review-mobile.png', 546,420) %}
-              <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail  }}" alt="2016 Year in Review" />
-            </a>
-            <p class="text-center absolute width-100 left" style="bottom: -15px;">
-              <a href="{{ path('year_in_review_2016') }}" class="btn-blue">Read More</a>
-            </p>
-          </li>
-          <li class="width-100 large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
-            <a
-              data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-              data-track-props='{ "type": "Year in Review", "title": "2016", "section": "Class Central" }'
-              href="{{ path('year_in_review_2015') }}"
-              class="block"
-            >
-                {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2015-year-in-review-mobile.png', 546,420) %}
-              <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail }}" alt="2015 Year in Review" />
-            </a>
-            <p class="text-center absolute width-100 left" style="bottom: -15px;">
-              <a href="{{ path('year_in_review_2015') }}" class="btn-blue">Read More</a>
-            </p>
-          </li>
+      <ul class="width-100 xlarge-up-width-6-7 xxlarge-up-width-5-7 width-centered margin-top-xxlarge xlarge-up-padding-horz-medium">
+        <li class="unit-horz">
+          <div class="small-only-hidden xsmall-only-hidden unit-block padding-right-xxlarge text-middle">
+            <img class="radius--large width-100" src="/bundles/classcentralsite/images/guides/guide-data-scientist.jpg" alt="Become a scientist"/>
+          </div>
+          <div class="unit-block">
+            <img class="medium-up-hidden margin-bottom-medium radius--large width-100" src="/bundles/classcentralsite/images/guides/guide-data-scientist.jpg" alt="Become a scientist"/>
+            <p class="text-1 margin-bottom-small">Our six-piece series that recommends the best MOOCs for launching yourself into the data science industry.</p>
+            <ul class="text-1">
+              <li class="margin-vert-xxsmall unit-horz">
+                <span class="text--bold padding-right-xsmall unit-block text-top">#1</span>
+                <div class="unit-block unit-fill">
+                  <a href="https://www.class-central.com/report/best-programming-courses-data-science/" class="text--blue">
+                    The Best Intro to Programming Courses for Data Science
+                  </a>
+                </div>
+              </li>
+              <li class="margin-vert-xxsmall unit-horz">
+                <span class="text--bold padding-right-xsmall unit-block text-top">#2</span>
+                <div class="unit-block unit-fill">
+                  <a href="https://www.class-central.com/report/best-statistics-probability-courses-data-science/" class="text--blue">
+                    The Best Statistics & Probability Courses for Data Science
+                  </a>
+                </div>
+              </li>
+              <li class="margin-vert-xxsmall unit-horz">
+                <span class="text--bold padding-right-xsmall unit-block text-top">#3</span>
+                <div class="unit-block unit-fill">
+                  <a href="https://www.class-central.com/report/best-intro-data-science-courses/" class="text--blue">
+                    The Best Intro to Data Science Courses
+                  </a>
+                </div>
+              </li>
+              <li class="margin-vert-xxsmall unit-horz">
+                <span class="text--bold padding-right-xsmall unit-block text-top">#4</span>
+                <div class="unit-block unit-fill">
+                  <a href="https://www.class-central.com/report/best-data-visualization-courses/" class="text--blue">
+                    The Best Data Visualization Courses
+                  </a>
+                </div>
+              </li>
+              <li class="margin-vert-xxsmall unit-horz">
+                <span class="text--bold padding-right-xsmall unit-block text-top">#5</span>
+                <div class="unit-block unit-fill">
+                  <a href="https://www.class-central.com/report/best-machine-learning-courses/" class="text--blue">
+                    The Best Machine Learning Courses
+                  </a>
+                </div>
+              </li>
+              <li class="margin-vert-xxsmall unit-horz">
+                <span class="text--bold padding-right-xsmall unit-block text-top">#6</span>
+                <div class="unit-block unit-fill">
+                  <a href="https://www.class-central.com/report/best-data-science-curriculum/" class="text--blue">
+                    The Best Data Science Curriculum
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
       </ul>
-
-      <div class="width-centered row margin-top-medium text-center">
-        <h4 class="text-2 padding-right-xsmall inline-block">Previous Years:</h4>
-        <ul class="inline-block">
-          <li class="inline-block padding-horz-small border-right border--thin border--gray-light">
-            <a
-              data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-              data-track-props='{ "type": "Year in Review", "title": "2014", "section": "Class Central" }'
-              href="{{ path('year_in_review_2014') }}"
-              class="block text--blue text-2"
-            >
-            2014
-            </a>
-          </li>
-          <li class="inline-block padding-horz-small border-right border--thin border--gray-light">
-            <a
-              data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-              data-track-props='{ "type": "Year in Review", "title": "2013", "section": "Class Central" }'
-              href="{{ path('year_in_review_2013') }}"
-              class="block text--blue text-2"
-            >
-            2013
-            </a>
-          </li>
-          <li class="inline-block padding-horz-small">
-            <a
-              data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-              data-track-props='{ "type": "Year in Review", "title": "2012", "section": "Class Central" }'
-              href="{{ path('year_in_review_2012') }}"
-              class="block text--blue text-2"
-            >
-            2012
-            </a>
-          </li>
-        </ul>
-      </div>
     </section>
 
     <!-- signup -->
@@ -440,6 +419,7 @@
               {% endfor %}
           </ul>
         </aside>
+
         <section class="col width-100 border-box">
           <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large margin-bottom-large">
             <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Popular Articles</h1>
@@ -495,6 +475,7 @@
             }} %}
           </ul>
         </section>
+
         <section id="as-seen-in" class="col width-100 border-box margin-top-xlarge">
           <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large margin-bottom-large">
             <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px"><span class="small-hide">MOOC Report Articles also</span> Published in</h1>
@@ -551,6 +532,95 @@
         </section>
       </div>
 
+      <!-- year in review -->
+      <section class="row col width-100 width-centered padding-horz-large padding-bottom-xlarge margin-top-xlarge" style="max-width: 1400px;">
+        <header class="text-center border-bottom border--gray-light border--thin">
+          <h1 class="relative head-3 small-up-head-2 large-up-head-1  bg-white relative inline-block padding-horz-medium" style="top: 15px">
+            MOOCs Through the Years
+          </h1>
+        </header>
+
+        <ul class="width-centered row margin-top-xlarge" style="max-width: 1000px;">
+            <li class="width-100 large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Year in Review", "title": "2017", "section": "Class Central" }'
+                href="{{ path('year_in_review_2017') }}"
+                class="block"
+              >
+                  {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-mobile.png', 546,420) %}
+                <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail }}" alt="2017 Year in Review" />
+              </a>
+              <p class="text-center absolute width-100 left" style="bottom: -15px;">
+                <a href="{{ path('year_in_review_2017') }}" class="btn-blue">Read More</a>
+              </p>
+            </li>
+            <li class="width-100 large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Year in Review", "title": "2016", "section": "Class Central" }'
+                href="{{ path('year_in_review_2016') }}"
+                class="block"
+              >
+                {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2016-year-in-review-mobile.png', 546,420) %}
+                <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail  }}" alt="2016 Year in Review" />
+              </a>
+              <p class="text-center absolute width-100 left" style="bottom: -15px;">
+                <a href="{{ path('year_in_review_2016') }}" class="btn-blue">Read More</a>
+              </p>
+            </li>
+            <li class="width-100 large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Year in Review", "title": "2016", "section": "Class Central" }'
+                href="{{ path('year_in_review_2015') }}"
+                class="block"
+              >
+                  {% set yearInReviewThumbnail = imageService.cropImage('https://www.class-central.com/bundles/classcentralsite/images/year-in-review/banner-2015-year-in-review-mobile.png', 546,420) %}
+                <img class="radius width-100 hover-grow shadow" src="{{ yearInReviewThumbnail }}" alt="2015 Year in Review" />
+              </a>
+              <p class="text-center absolute width-100 left" style="bottom: -15px;">
+                <a href="{{ path('year_in_review_2015') }}" class="btn-blue">Read More</a>
+              </p>
+            </li>
+        </ul>
+
+        <div class="width-centered row margin-top-medium text-center">
+          <h4 class="text-2 padding-right-xsmall inline-block">Previous Years:</h4>
+          <ul class="inline-block">
+            <li class="inline-block padding-horz-small border-right border--thin border--gray-light">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Year in Review", "title": "2014", "section": "Class Central" }'
+                href="{{ path('year_in_review_2014') }}"
+                class="block text--blue text-2"
+              >
+              2014
+              </a>
+            </li>
+            <li class="inline-block padding-horz-small border-right border--thin border--gray-light">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Year in Review", "title": "2013", "section": "Class Central" }'
+                href="{{ path('year_in_review_2013') }}"
+                class="block text--blue text-2"
+              >
+              2013
+              </a>
+            </li>
+            <li class="inline-block padding-horz-small">
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Year in Review", "title": "2012", "section": "Class Central" }'
+                href="{{ path('year_in_review_2012') }}"
+                class="block text--blue text-2"
+              >
+              2012
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
   </div>
 {% endblock %}
 

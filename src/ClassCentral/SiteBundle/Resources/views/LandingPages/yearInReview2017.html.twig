@@ -141,9 +141,9 @@
     </section>
 
     <section class="row width-centered padding-large" style="max-width: 1150px;">
-      <ul class="row">
+      <ul class="row width-centered width-100 large-up-width-2-3">
         {% for cc in data.classCentral %}
-          <li class="width-100 width-centered large-up-width-1-3 col padding-horz-large relative margin-bottom-xlarge">
+          <li class="width-100 large-up-width-1-2 col padding-horz-large relative margin-bottom-xlarge">
             <a
               data-track-click="{{ ts.event('LANDING_PAGE_CLICK') }}"
               data-track-props='{ "type": "Year in Review", "title": {{ cc.title }}, "section": "Class Central" }'
