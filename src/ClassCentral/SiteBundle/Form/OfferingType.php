@@ -22,8 +22,12 @@ class OfferingType extends AbstractType
         $entity = $builder->getData();
 
         $builder
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', 'date', array(
+                'years' => range(date(2011), date('Y') + 10),
+            ))
+            ->add('endDate', 'date', array(
+                'years' => range(date(2011), date('Y') + 10),
+            ))
             ->add('status','choice', array('choices'=> \ClassCentral\SiteBundle\Entity\Offering::getStatuses() ))
             ->add('course','text',array(
                 'invalid_message' => 'That is not a valid course id',
