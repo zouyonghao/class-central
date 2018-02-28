@@ -1,0 +1,39 @@
+{% if course['videoEmbedUrl'] is not null and isYoutube %}
+  <div class="classcentral-style">
+    <div class="ratio ratio--9-16 bg-gray js-course-video border-left border-right border-top border--thin border--gray" style="top: 1px;">
+      <div class="video-container ratio-content width-100 height-100">
+        <iframe class="width-100 ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;autohide=1&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
+      </div>
+    </div>
+  </div>
+{% elseif course.videoIntro is not null and course.initiative.code == 'coursera' %}
+  <div class="classcentral-style">
+    <div
+      class="ratio ratio--9-16 bg-gray js-course-video border-left border-right border-top border--thin border--gray"
+      style="top: 1px;"
+    >
+      {% set videoInfo= course.videoIntro|split('|||') %}
+      <div class="html5-video-container ratio-content width-100 height-100">
+        <video poster="{{ videoInfo[1] }}">
+          <source type="video/mp4" src="{{ videoInfo[0] }}full/540p/index.mp4">
+          <source type="video/webm" src="{{ videoInfo[0] }}full/540p/index.webm">
+        </video>
+        <div class="html5-video-play-wrap js-video-play">
+          <div class="html5-video-play-button"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% elseif courseImage %}
+  <div class="classcentral-style">
+    <div
+      class="ratio ratio--9-16 bg-gray bg-cover border-left border-right border-top border--thin border--gray"
+      style="
+        top: 1px;
+        background-image: url({{ courseImage }});
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+      ">
+      </div>
+  </div>
+{% endif %}

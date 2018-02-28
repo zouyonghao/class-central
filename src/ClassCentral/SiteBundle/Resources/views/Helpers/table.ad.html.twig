@@ -103,7 +103,8 @@
     #}
 
   {% if not app.request.cookies.get('ads_hidden') %}
-    <div class="flexAd"
+    <div
+      class="relative padding-horz-large"
       data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
       data-track-props='{
         "ad": {
@@ -114,8 +115,13 @@
         }
       }'
     >
-        <div class="flexAd_tag">Sponsored</div>
-        <a href="{{ courseUrl }}" rel="nofollow" target="_blank" class="flexAd_title"
+      <span
+        style="color: #FF8E6C;"
+        class="text-3 absolute top right text--bold padding-right-medium"
+      >
+        AD
+      </span>
+        <a href="{{ courseUrl }}" rel="nofollow" target="_blank" class="padding-right-large inline-block text--bold text--charcoal"
           onmousedown='
             CC.track("{{ ts.event('AD_CLICK') }}", {
               ad: {
@@ -127,17 +133,23 @@
             });ga("send", "event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'
         >{{ courseName }}
         </a>
-        <div class="flexAd_meta">
-            {% if institutionName is not empty %} {{ institutionName }}{% endif %} via <a href="{{ courseUrl }}" rel="nofollow" target="_blank" onmousedown='
-              CC.track("{{ ts.event('AD_CLICK') }}", {
-                ad: {
-                  provider: "{{ providerName }}",
-                  unit: "Course Page Text Ad",
-                  title: "{{ courseName }}",
-                  position: "{% if adPosition is defined %}{{ adPosition }}{% endif %}"
+        <div>
+            {% if institutionName is not empty %} {{ institutionName }}{% endif %} via
+            <a
+              href="{{ courseUrl }}"
+              rel="nofollow"
+              target="_blank"
+              class="text--charcoal"
+              onmousedown='
+                CC.track("{{ ts.event('AD_CLICK') }}", {
+                  ad: {
+                    provider: "{{ providerName }}",
+                    unit: "Course Page Text Ad",
+                    title: "{{ courseName }}",
+                    position: "{% if adPosition is defined %}{{ adPosition }}{% endif %}"
+                  }
                 }
-              }
-            });ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>{{ providerName }}
+              });ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>{{ providerName }}
           </a>
         </div>
     </div>

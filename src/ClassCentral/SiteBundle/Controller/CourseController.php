@@ -57,22 +57,22 @@ class CourseController extends Controller
             'entities' => $entities
         ));
     }
-    
+
     /**
      *  List all Course entities filtered by intiative
      */
-    
+
     public function initiativeAction($initiative)
     {
         $em = $this->getDoctrine()->getManager();
         $initiative = $em->getRepository('ClassCentralSiteBundle:Initiative')->findOneByCode($initiative);
-        
+
         $entities = $em->getRepository('ClassCentralSiteBundle:Course')->findByInitiative($initiative->getId());
 
         return $this->render('ClassCentralSiteBundle:Course:index.html.twig', array(
             'entities' => $entities
         ));
-        
+
     }
 
     /**
@@ -88,7 +88,7 @@ class CourseController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Course entity.');
         }
-        
+
         $offerings = $em->getRepository('ClassCentralSiteBundle:Offering')->findByCourse($id);
 
         $deleteForm = $this->createDeleteForm($id);
@@ -335,7 +335,7 @@ class CourseController extends Controller
            // TODO: render a error page
           return;
        }
-       
+
        // Check if the course is a duplicate
        if( isset($course['duplicate']) )
        {
@@ -505,11 +505,6 @@ class CourseController extends Controller
                 $this->generateUrl('ClassCentralSiteBundle_initiative',array('type' => 'others'))
             );
         }
-
-        $breadcrumbs[] = Breadcrumb::getBreadCrumb(
-            $course['name']
-        );
-
 
         $recommendations = $this->get('Cache')->get('course_recommendation_'. $courseId, array($this,'getCourseRecommendations'), array($courseId));
 
@@ -1073,7 +1068,7 @@ EOD;
             'page' => 'mooc-report'
         ));
     }
-    
+
     public function tagAction(Request $request, $tag)
     {
         $cl = $this->get('course_listing');
@@ -1228,7 +1223,7 @@ EOD;
              $userService->removeCourse($uc->getUser(), $dup, $uc->getListId() );
 
         }
-        
+
         // Merge the reviews too
         foreach( $dup->getReviews() as $review )
         {
@@ -1245,10 +1240,10 @@ EOD;
                 $em->persist( $o );
             }
         }
-        
+
         // Rename the duplicate course
         $dup->setName( '***DUPLICATE*** ' . $dup->getName()  );
-        
+
         $dup->setDuplicateCourse( $orig );
         $dup->setStatus( CourseStatus::NOT_AVAILABLE );
         $em->persist( $dup );

@@ -1,6 +1,5 @@
 {% extends 'ClassCentralSiteBundle::base.html.twig' %}
 
-
 {# logged out user finished writing a review and has been redirected here. Show the user a signup form#}
  {% set showPostReviewSignupForm = false %}
 {% for flashMessage in app.session.flashbag.get('show_post_review_signup_prompt') %}
@@ -147,236 +146,78 @@
 
     {# Links for admin #}
     {% if is_granted('ROLE_ADMIN') %}
+      <div class="classcentral-style">
+        <section class="margin-top-large padding-large radius margin-bottom-large" style="background-color: #E6F4FF;">
+          <h1 class="head-3 margin-bottom-medium">Links for Admin</h1>
+          <div class="margin-vert-medium">
+            <a
+              class="btn-white icon-pencil icon--xsmall icon--left margin-right-xsmall"
+              href="{{ path('course_edit', { 'id': course.id }) }}"
+              >Edit Course</a>
+            <a
+              class="btn-white margin-right-xsmall"
+              href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
+            {% if course.status == 101  %}
+              <a
+                class="btn-white icon-checkmark icon--left margin-right-xsmall"
+                href="{{ path('course_approve',{'courseId': course.id}) }}"
+              >Quick Approve Course</a>
 
-        <p><b>Links for Admin</b></p>
-        <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit Course</a> <a href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
-        {% if course.status == 101  %}
-            <b><a href="{{ path('course_approve',{'courseId': course.id}) }}">Quick Approve Course</a></b>
-        {% endif %}
-        <br/>
-        {% set bufferFrom = '' %}
-        {% if course.institutions is not empty %}
-            {% set bufferFrom = 'from ' ~ course.institutions[0].name %}
-        {% endif %}
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ ratingsSummary.numRatings }} {% if ratingsSummary.numRatings > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
-        <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }}{% endif %}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+            {% endif %}
+          </div>
+          {% set bufferFrom = '' %}
+          {% if course.institutions is not empty %}
+              {% set bufferFrom = 'from ' ~ course.institutions[0].name %}
+          {% endif %}
+          <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[Starts Today] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }} {% endif %} {% if rating > 0 %} {{ ratingStars }} ({{ ratingsSummary.numRatings }} {% if ratingsSummary.numRatings > 1 %} ratings{% else %} rating{% endif %}) {% endif %} " data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+          <a href="http://bufferapp.com/add" class="buffer-add-button" {% if courseImage %} data-picture="{{ courseImage }}" {% endif %} data-text="[New Course] {{ course.name }} {{ bufferFrom }} {% if course.initiative %}on {{ course.initiative.name }}{% endif %}" data-count="vertical" ></a><script type="text/javascript" src="https://d389zggrogs7qo.cloudfront.net/js/button.js"></script>
+        </section>
+      </div>
     {% endif %}
-    <div class="course-block row">
 
-    <div class="course-meta-main-wrap col-sm-8 col-lg-9" >
+    <div class="row">
+    <div class="course-meta-main-wrap col-sm-8 col-lg-8">
         <div class="course-meta-main border-radius">
-
-            <div class="course-video js-course-video">
-                {% if course['videoEmbedUrl'] is not null and isYoutube %}
-                    <span class="preview-tab">Intro</span>
-                        <div class="video-container">
-                            <iframe class="ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;autohide=1&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
-                        </div>
-                {% elseif course.videoIntro is not null and course.initiative.code == 'coursera' %}
-                    <span class="preview-tab js-video-overlay-item">Intro</span>
-                    {% set videoInfo= course.videoIntro|split('|||') %}
-
-                    <div class="html5-video-container">
-                        <video poster="{{ videoInfo[1] }}">
-                            <source type="video/mp4" src="{{ videoInfo[0] }}full/540p/index.mp4">
-                            <source type="video/webm" src="{{ videoInfo[0] }}full/540p/index.webm">
-                        </video>
-                        <div class="html5-video-play-wrap js-video-play">
-                            <div class="html5-video-play-button"></div>
-                        </div>
-                    </div>
-                {% endif %}
+          {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.title.html.twig' %}
+          {% if course.credential is not empty %}
+            <div class="course-name-column-cred" style="padding-left:45px;margin-bottom: 25px">
+              <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">
+                <span class="course-name-column-cred__button" >Earn A Credential</span>
+                <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
+              </a>
             </div>
-            <div class='course-info'>
-
-                <h1 class="course-title" >{% if course.initiative.name != 'Independent' %}{{ course.initiative.name }}: {% endif %}{{ course['name'] }}</h1>
-
-
-
-                <div class="course-provider-wrap">
-
-                    {% if course['initiative']['name']|length > 0 and course.initiative.code in providersWithLogos %}
-
-                        <a class="provider-logo" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs"
-                           onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')"
-                           title="{{ course['initiative']['name'] }}"><img src="/bundles/classcentralsite/slashpixel/images/providers/{{ course.initiative.code }}" alt="provider logo"></a>
-                    {% endif %}
-
-                    {% set totalInstitutions = course['institutions']|length %}
-                    {% set insCount = 1 %}
-                    {% if totalInstitutions > 0 %}
-                        {# Output the institutions with links #}
-                        <ul class="institution-list">
-                            {% for institution in course['institutions'] %}
-                                {% set route = 'ClassCentralSiteBundle_university' %}
-                                {% if not institution['isUniversity'] %}
-                                    {% set route = 'ClassCentralSiteBundle_institution' %}
-                                {% endif %}
-                                {% if insCount > 1 %}
-                                    {% if insCount < totalInstitutions %}
-                                       ,
-                                    {% else %}
-                                        and
-                                    {% endif %}
-                                {% endif %}
-                                <a href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} free online/courses MOOCs"
-                                       onClick="ga('send','event', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
-                                {% set insCount = insCount + 1 %}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% if course['instructorsSingleLineDisplay'] %}
-                        <span class="with-separator"> &nbsp;with&nbsp;</span>
-                        <span class="course-instructors">{{ course['instructorsSingleLineDisplay'] }}</span>
-                    {% endif %}
-
-                    <!--
-                    <div class="course-provider-wrap--sub">
-                        This course prepares you for a career in...
-                    </div>
-                    -->
-                </div>
-
-
-                {% if course.credential is not empty %}
-                    <div class="course-name-column-cred" style="padding-left:45px;margin-bottom: 25px">
-                        <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">
-                            <span class="course-name-column-cred__button" >Earn A Credential</span>
-                            <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
-                        </a>
-                    </div>
-                {% endif %}
-
-
-
-                <div class="course-desc">
-
-
-
-                    <div class="course-meta__ad course-ad-below">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                {{ cc_ads.renderTextRowAd('course-top',{"adPosition": "below_title"})|raw }}
-                            </div>
-
-                            <div class="col-sm-6">
-                                {{ cc_ads.renderTextRowAd('course-top',{"adPosition": "below_title"})|raw }}
-                            </div>
-                        </div>
-                    </div>
-
-                    {% if courseRank is not empty %}
-                        <strong>Class Central Course Rank </strong> <br/>
-                        {% for rank in courseRank %}
-                            <strong>
-                                #{{ rank.rank }} in <a href="{{ path('subjects') }}" onmousedown="ga('send','event', 'Inbound Click - Course Ranking Subject Click', '{{ course.name}}', 'Subjects')">Subjects</a>
-                                {% if rank.subject %}
-                                    > <a href="{{ path('ClassCentralSiteBundle_stream',{slug:rank.subject.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Course Ranking Subject Click', '{{ course.name}}', '{{ rank.subject.name }}')">{{ rank.subject.name  }}</a>
-                                {% endif %}
-                                {% if rank.category %}
-                                    > <a href="{{ path('ClassCentralSiteBundle_stream',{slug:rank.category.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Course Ranking Subject Click', '{{ course.name}}', '{{ rank.category.name }}')">{{ rank.category.name  }}</a>
-                                {% endif %}
-                            </strong>
-                            <br/>
-                        {% endfor %}
-                        <br/>
-                    {% endif %}
-
-                    {% if top50course %}
-                        <div class="alert alert-success">
-                            <h3><b>HIGHEST RATED MOOC</b></h3>
-                            <p>This course is a <i>Top 50 MOOC of All Time</i> based on thousands of reviews written by Class Central users. It's guaranteed to be good!</p>
-                            <p>
-                                Check out the rest of the <a href="https://www.class-central.com/collection/top-free-online-courses?utm_source=top-50-course-page">Top 50 here</a>.
-                            </p>
-                        </div>
-                    {% endif %}
-
-
-                    {{ course.desc|raw }}
-
-                    {% if course.syllabus %}
-                        <h2>Syllabus</h2>
-                        {{ course.syllabus|raw }}
-                    {% endif %}
-                </div>
-                <div class="course-footer-wrap">
-                    {% if course.tags|length > 0 %}
-                        <div class="taglist">
-                            <span>Tags</span>
-                            {% for tag in course.tags %}
-                                <a href="{{ path('tag_courses', {tag: tag|lower}) }}"
-                                   onmousedown="ga('send','event', 'Course - Inbound Clicks - tags', '{{tag}}', '{{course['name']}}')">{{ tag|lower }}
-                                </a>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    {#
-                    {% if not user_session.isCourseReviewed(course.id) %}
-                        <a class="review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
-                    {% endif %}
-                    #}
-                </div>
-            </div><!-- course info -->
+          {% endif %}
+          {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.tabs.html.twig' %}
         </div>
     </div>
 
-    <div class ="course-meta-sidebar col-sm-4 col-lg-3">
+    <div class ="course-meta-sidebar col-sm-4 col-lg-4">
+      {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.trailer.html.twig' %}
+      <div class="course-data">
+        <div class="classcentral-style">
+          <p class="margin-top-small text-center">
+            <a
+              id="read-reviews"
+              href="#reviews"
+              class="btn-white"
+              onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Top')">
+              Read reviews
+            </a>
 
-        <div class="tiny-review-block">
-
-            <div class="tiny-review-block__rating-group" >
-
-                <div class="tiny-review-block__rating-group-inner">
-                    <div class="tiny-review-block__count">
-                        <span class="tiny-review-block__single">
-                            <span  >{{ ratingsSummary.numRatings }}</span>
-                        </span>
-                        <span class="tiny-review-block__double">
-                            Student<br>
-                            {% if ratingsSummary.numRatings == 1 %}review{% else %}reviews{% endif %}
-                        </span>
-
-                    </div>
-
-                    <div class="tiny-review-block__star-rating">
-                        <div class="average-rating course-rating-course-page" data-score="{{ rating }}">
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="tiny-review-block__button-group">
-                <a href="#reviews" id="read-reviews" class="tiny-review-block__button read-reviews-btn" onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Top')">
-                    Read reviews
-                </a>
-
-                {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
-                    <a class="tiny-review-block__button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write review</a>
-                {% else %}
-                    <span class="tiny-review-block__button">Reviewed</span>
-                {% endif %}
-            </div>
-
-
-        </div><!-- /.tiny-review-block -->
-
-
-        {#
-
-            <div class="basicAdWrap">
-                {{ cc_ads.renderTextRowAd('course-top',{})|raw }}
-            </div>
-        #}
-
-
-
-
-        <div class="course-data">
-
+            {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
+              <a
+                class="btn-white icon--left icon-star"
+                href="{{ reviewUrl }}"
+                rel="nofollow"
+                onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')"
+              >
+                Write review
+              </a>
+            {% else %}
+              <span class="margin-horz-medium inline-block text--italic text-2 text--bold icon--left icon-star">Reviewed</span>
+            {% endif %}
+          </p>
+        </div>
 
             <div class="course-data-inner">
 
@@ -540,26 +381,6 @@
                         </span>
                 </div>
 
-                <div class="course-data-row course-participants">
-                    <a href="{{ path('mooc_interested', { id: course.id, slug: course.slug } ) }}" title="List of Class Central users interested in {{ course.name }}"
-                       onmousedown="ga('send','event', 'View all interested users', '{{ course.name }}')" rel="nofollow"
-                    >
-                        {% set countWidth = 10 + course.listed|length * 20  %}
-                        <span class="course-participants__single" id="mycourses-listed-count" style="width: {{ countWidth }}px">0</span>
-                        <span class="course-participants__double">Interested<br> students</span>
-                    </a>
-
-                    {% include 'ClassCentralSiteBundle:Helpers:user.profile.html.twig' with
-                        {
-                           numProfiles: 12,
-                           profileUsers: interestedUsers,
-                           profileLocation: 'Course Page'
-                        }
-                    %}
-
-
-                </div>
-
                 {% if course.initiative.code == 'coursera' %}
                 <div class="margin-bottom-large text-center">
                   <span class="margin-right-small">Sign up for free?</span>
@@ -573,14 +394,6 @@
 
                 {% endif %}
                 {% set userListIds = user_session.getCourseListIds(course['id']) %}
-
-                <div class="classcentral-style">
-                  <p class="margin-bottom-medium">
-                    <span class="text-3">
-                      <strong class="text--bold icon-alert-charcoal icon--left text-3">Disclosure</strong>: To support our site, Class Central may be compensated by some course providers.
-                    </span>
-                  </p>
-                </div>
 
                 <div class="course-data-button">
                     <a class="cta-button btn_go_to_class" href="{{ goToClassUrl }}" id="btnProviderCoursePage"
@@ -648,15 +461,7 @@
 
     </div>
 
-    {% if course.initiative.code == 'coursera' %}
-      <div class="col-sm-8 col-lg-9 classcentral-style">
-        <div class="padding-medium margin-top-large" style="background-color: #F4F9FF;">
-          {% include 'ClassCentralSiteBundle:Helpers:coursera.degrees.html.twig' with { type: "course" } %}
-        </div>
-      </div>
-    {% endif %}
-
-    <div class="col-sm-8 col-lg-9 course-bottom-wrap">
+    <div class="col-sm-8 col-lg-8 course-bottom-wrap">
     <div class="row">
 
         {% if is_granted('ROLE_ADMIN') %}
@@ -851,162 +656,6 @@
 
 
     </div>
-    {# Class central dock bar #}
-    {#
-    <div class="dock ui-theme-dark">
-        <span class="dock__bg-decoration"></span>
-        <div class="dock__inner">
-            <div class="dock__left">
-                {{ cc_ads.renderTextRowAd('dock',{})|raw }}
-            </div><!-- /.dock__left -->
-            <div class="dock__right">
-                <div class="action-bar">
-                    <div class="action-bar__button-group">
-                        <div class="action-bar_button">
-                            {% set courseInitiative = course['initiative']['name'] %}
-                            {% set courseName = course['name'] %}
-                            <a href="{{ goToClassUrl }}" class="action-button action-button--solid btn_go_to_class" target="_blank"
-                               onmousedown="ga('send','event', 'Go to Class - Dock' ,'{{ courseInitiative }}','{{ courseName }}')"
-                               onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}')"
-                                    >
-                                <div class="action-button__container">
-                                    <span class="action-button__unit">Go to Class</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="action-bar_button">
-                            <div class="module-wrap">
-
-                                <div class="module-wrap__module">
-                                    <div class="rating-module">
-                                        <div class="rating-module__logo">
-                                            <div class="u-scaling-svg">
-                                                <svg class="u-scalingSvg__shape">
-                                                    <use xlink:href="#shape-cc-single-letter"></use>
-                                                </svg>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="rating-module__total-rating">
-                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(rating),ratingColour: 'current'} %}
-                                        </div><!-- /.rating-module__total-rating -->
-
-                                        <div class="rating-module_ratings">
-                                            <div class="bar-rating">
-                                                <div class="bar-rating__title">{{ reviews.ratingCount }}  {% if reviews.ratingCount == 1 %}rating{% else %}ratings{% endif %}</div>
-
-                                                {% for i in range(5,1,-1) %}
-                                                    <div class="bar-rating__bar">
-                                                        <div class="rating-bar">
-                                                            <div class="rating-bar__label">
-                                                                <div class="rating-bar__label-text">
-                                                                   {{ i }}
-                                                                </div>
-                                                                <div class="rating-bar__label-icon">
-                                                                    <div class="u-scaling-svg">
-                                                                        <svg class="u-scalingSvg__shape">
-                                                                            <use xlink:href="#shape-star-full"></use>
-                                                                        </svg>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="rating-bar__bar">
-                                                                <div class="rating-bar__level" style="width: {{ reviewService.calculateRatingPercentage(reviews.ratingCount,reviews.ratingsBreakdown[i]) }}%">
-                                                                    <div class="rating-bar__info">{{ reviews.ratingsBreakdown[i] }}</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- /.bar-rating__bar -->
-                                                {% endfor %}
-
-                                            </div>
-                                        </div><!-- /.rating-module__ratings -->
-
-                                        <div class="rating-module__footer">
-                                            <div class="rating-module__footer-button">
-                                                <a href="#reviews" class="rating-module__button rating-module__button--transparent read-reviews-btn"
-                                                   onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Dock');"
-                                                        >View All Reviews</a>
-                                            </div>
-                                            <div class="rating-module__footer-button">
-                                                {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
-                                                    <a class="rating-module__button"  href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write Review</a>
-                                                {% else %}
-                                                    <span class="rating-module__button">Reviewed</span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div><!-- /.rating-module -->
-                                </div><!-- /.module-wrap__module -->
-
-                                <a href="#reviews" class="action-button action-button--transparent read-reviews-btn">
-                                    <span class="action-button__container">
-                                        <span class="action-button__unit">
-                                            {% include 'ClassCentralSiteBundle:Helpers:starRating.html.twig' with {formattedRating: reviewService.formatRating(rating),ratingColour: 'current'} %}
-                                        </span>
-                                        <span class="action-button__unit">{{ reviews.ratingCount }}  {% if reviews.ratingCount == 1 %}review{% else %}reviews{% endif %}</span>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="action-bar_button action-bar_button-follow">
-                            <div class="module-wrap">
-                                <div class="module-wrap__module">
-                                    <div class="tip">
-                                        <div class="tip__symbol">
-                                            @
-                                        </div>
-                                        <h4 class="tip__title">{{ course.name }}</h4>
-                                        <div class="tip__text">
-                                            {% if userListIds is not empty %}
-                                                You are signed up to receive email notifications for this class.
-                                            {% else %}
-                                                Receive email notifications about course start dates and new sessions.
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <a href="#" id='follow-class' class="action-button action-button--transparent {% if userListIds is not empty %} active {% endif %} btn-course-follow" data-course-id="{{ course.id }}" data-course-name="{{ course.name }}" data-source ="follow">
-                                    <span class="action-button__container">
-                                        <span class="action-button__unit action-button__unit-bordered">
-
-                                            <div class="action-button__icon">
-                                                <div class="u-scaling-svg">
-                                                    <svg class="u-scalingSvg__shape">
-                                                        <use xlink:href="#shape-cc-single-letter"></use>
-                                                    </svg>
-                                                </div>
-                                            </div>
-
-                                        </span>
-                                        <span class="action-button__unit">{% if userListIds is empty %}Follow {% else %}Following {% endif %} <i>Class</i></span>
-                                    </span><!-- /.action-button__container -->
-                                </a><!-- /.action-button -->
-                            </div><!-- /.module-wrap__module -->
-
-                        </div>
-
-                    </div><!-- /.action-bar__button-group -->
-
-                    <div class="action-bar__profiles">
-
-                        {% include 'ClassCentralSiteBundle:Helpers:user.profile.html.twig' with
-                        {
-                            numProfiles: 6,
-                            profileUsers: interestedUsers,
-                            profileLocation: 'Course Page - Dock'
-                        }
-                        %}
-                    </div><!-- /.action-bar__profiles -->
-                </div><!-- .action-bar -->
-            </div><!-- /.dock__right -->
-        </div><!-- /.dock__inner -->
-    </div><!-- /.dock -->
-
-    #}
 
 {% endblock %}
 
@@ -1067,11 +716,6 @@
     {% if  showAddToMTModal %}
         CC.Class["Signup"].showSignupModal('mooc_tracker_add_to_my_courses');
     {% endif %}
-    // Counter for the numbers
-    setTimeout( function() {
-    var numAnim = new countUp("mycourses-listed-count", 0, {{ course.listed }}, 0, 3, { separator: '' } );
-    numAnim.start();
-    }, 1000);
 
     {# global state to help decide when the counter is to be updated #}
     {% set userListIds = user_session.getCourseListIds(course['id']) %}

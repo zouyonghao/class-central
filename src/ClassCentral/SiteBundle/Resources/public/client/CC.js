@@ -27,7 +27,6 @@ require("../slashpixel/js/classcentral.js");
 require("../slashpixel/js/course-filter.js");
 require("../slashpixel/js/bootstrap-formhelpers-number.js");
 require("../slashpixel/js/purl.js");
-require("countup.js");
 require("../slashpixel/js/btn.follow.js");
 
 require("classcentral-react/dist/header.js");

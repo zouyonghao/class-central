@@ -26,7 +26,8 @@ config.module.rules.push({
         loader: 'less-loader',
         options: {
           globalVars: {
-            assetUrl: "'https://class-central.dev/bundles/classcentralsite/slashpixel/images/'"
+            imageUrl: "'https://class-central.test/bundles/classcentralsite/images/'",
+            assetUrl: "'https://class-central.test/bundles/classcentralsite/slashpixel/images/'"
           }
         }
       },

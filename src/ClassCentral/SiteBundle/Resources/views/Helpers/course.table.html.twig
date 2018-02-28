@@ -171,14 +171,6 @@
             </tr>
         {% endif %}
 
-        {% if loop.index == 3 and info is defined and info.name == "Coursera" %}
-          <tr style="background-color: #F4F9FF;">
-            <td colspan="4">
-              {% include 'ClassCentralSiteBundle:Helpers:coursera.degrees.html.twig' with { type: "listing" } %}
-            </td>
-          </tr>
-        {% endif %}
-
         <tr itemscope itemtype="http://schema.org/Event">
 
             {# add to profile column #}

@@ -1,4 +1,8 @@
-<span class="review-rating xsmall-only-hidden small-only-hidden">
+{% set mobilize = true %}
+{% if ratingMobilize is defined %}
+  {% set mobilize = ratingMobilize %}
+{% endif %}
+<span class="review-rating {{ mobilize ? "xsmall-only-hidden small-only-hidden" : ""}}">
   {% set modulo = (rating|round(0, 'floor') - rating)|abs %}
 
   {% if rating >= 1 %}
@@ -24,7 +28,7 @@
     {% endfor %}
   {% endif %}
 </span>
-<span class="review-rating medium-up-hidden text--charcoal">
+<span class="review-rating {{ mobilize ? "medium-up-hidden" : "hidden"}} text--charcoal">
   {% if rating >= 1 %}
     {{ rating|number_format(1, '.') }}
     <i class="icon-star icon--xxsmall relative" style="top: -2px;"></i>

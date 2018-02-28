@@ -103,9 +103,6 @@ jQuery(function($) {
         } else {
             end = start - 1;
         }
-
-        var numAnim = new countUp("mycourses-listed-count", start, end, 0, 1);
-        numAnim.start();
     }
 
     function addRemoveCourse(listId, courseId, checked,name) {
@@ -754,12 +751,27 @@ jQuery(function($) {
     });
 
     // expand single reviews
-    $(document).on("click", '.expand-preview', function(e) {
-        e.preventDefault();
-        const $this = $(this);
-        $this.parent().hide();
-        $this.closest(".review-content").find(".review-full").show();
-        $this.hide();
+    $(document).on("click", '[data-expand]', function(event) {
+        event.preventDefault();
+        const target = $(this).data("expand");
+        $(`[data-expand-target="${target}"]`).removeClass("hidden");
+        $(`[data-expand-preview="${target}"]`).addClass("hidden");
+    });
+
+    // expand single articles
+    $(document).on("click", '[data-expand-article]', function(event) {
+        event.preventDefault();
+        const target = $(this).data("expand-article");
+        const $targetEl = $(`[data-expand-article-target="${target}"]`);
+
+        if ($(this).hasClass("icon-chevron-down-blue")) {
+          $targetEl.removeClass("fade-bottom");
+          $(this).html("Collapse");
+        } else {
+          $targetEl.addClass("fade-bottom");
+          $(this).html("Read more");
+        }
+        $(this).toggleClass("icon-chevron-down-blue").toggleClass("icon-chevron-up-blue");
     });
 
 
@@ -1115,13 +1127,10 @@ jQuery(function($) {
             if (video.paused) {
                 video.play();
                 $this.fadeOut(300);
-                $overlayItems.fadeOut(300, function() {
-                  videoElement.prop("controls",true);
-                });
+                videoElement.prop("controls",true);
             } else {
                 video.pause();
                 $this.fadeIn(300);
-                $overlayItems.fadeIn(300);
                 videoElement.prop("controls",false);
             }
 

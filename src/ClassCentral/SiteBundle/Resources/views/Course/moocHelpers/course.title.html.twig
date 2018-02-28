@@ -1,0 +1,144 @@
+{%
+  set colorSets = [
+    [
+      { color: "#cdb6d7", colorBg: "#f5f0f7" },
+      { color: "#98dade", colorBg: "#eaf7f8" },
+      { color: "#f5d79b", colorBg: "#fdf7eb" }
+    ],
+    [
+      { color: "#b2e6c8", colorBg: "#effaf4" },
+      { color: "#d89798", colorBg: "#f7eaea" },
+      { color: "#a7add2", colorBg: "#edeef6" }
+    ]
+  ]
+%}
+{% set colors = colorSets[random(1)] %}
+{% set totalInstitutions = course['institutions']|length %}
+{% set insCount = 1 %}
+
+<div class="classcentral-style">
+  <h1
+    class="head-2 medium-up-head-1 text--bold margin-bottom-xsmall medium-up-margin-bottom-small xlarge-up-margin-bottom-xsmall"
+    id="course-title"
+  >
+    {{ course['name'] }}
+  </h1>
+
+  {# ---- RANKINGS ----- #}
+  {% if top50course %}
+    <a
+      style="top: -3px;"
+      class="
+        inline-block head-5 text--upper
+        padding-horz-xsmall text--white
+        bg-banner bg-banner--purple text--bold
+        relative
+        margin-right-xxsmall"
+      href="https://www.class-central.com/collection/top-free-online-courses?utm_source=top-50-course-page"
+    >All-Time Top 50</a>
+  {% endif %}
+  {% if false %}
+    <a
+      style="top: -3px;"
+      class="
+        inline-block head-5 text--upper
+        padding-horz-xsmall text--white
+        bg-banner bg-banner--blue text--bold
+        relative
+        margin-right-xxsmall"
+      href="https://www.class-central.com/collection/top-free-online-courses?utm_source=top-50-course-page"
+    >Best of 2017</a>
+  {% endif %}
+
+  {# ---- INSTITUTION & PROVIDER ----- #}
+  <p class="head-4 medium-up-head-3 block large-up-inline-block">
+    {% if totalInstitutions > 0 %}
+      {# Output the institutions with links #}
+      {% for institution in course['institutions'] %}
+        {% set route = 'ClassCentralSiteBundle_university' %}
+        {% if not institution['isUniversity'] %}
+            {% set route = 'ClassCentralSiteBundle_institution' %}
+        {% endif %}
+        {% if insCount > 1 %}
+            {% if insCount < totalInstitutions %}
+               ,
+            {% else %}
+                and
+            {% endif %}
+        {% endif %}
+        <a
+          class="text--charcoal hover-text--underline"
+          href="{{ path(route,{'slug' : institution['slug']|lower })}}"
+          title="List of {{institution['name']}} free online/courses MOOCs"
+          onClick="ga('send','event', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')"
+        >{{institution['name']}}</a>
+        {% set insCount = insCount + 1 %}
+      {% endfor %}
+    {% endif %}
+    {% if course.initiative.name != 'Independent' %}
+      via <a
+        href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"
+        class="text--charcoal text--italic hover-text--underline"
+        onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.initiative.name }}', '{{course.name}}')"
+        data-track-click="{{ ts.event('COURSE_CLICK') }}"
+        data-track-props='{ "type": "Provider", "clickMetadata": {
+          "course": "{{ course.name }}",
+          "courseId": "{{ course.id }}"
+        }}'
+      >{{ course.initiative.name }}</a>
+    {% endif %}
+  </p>
+
+  {# ---- SOCIAL BLOCK (reviews and students interested) ----- #}
+  <div id="course-social" class="unit-horz xlarge-up-margin-top-xxsmall margin-bottom-large">
+    {# review block #}
+    <div class="inline-block unit-block padding-right-medium">
+      {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { ratingMobilize: false, rating: rating } %}
+      <a
+        id="read-reviews"
+        href="#reviews"
+        class="text-4 text--charcoal hover-text--underline medium-up-text-3 padding-left-xsmall relative medium-up-offset-4"
+        onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Top')"
+      >Based on {{ ratingsSummary.numRatings }} {% if ratingsSummary.numRatings == 1 %}Review{% else %}Reviews{% endif %}</a>
+    </div>
+
+    {# students interested block #}
+    {% if interestedUsers|length > 0 %}
+      <div class="
+        block unit-block xlarge-up-inline-block
+        xsmall-only-margin-top-xxsmall
+        small-only-margin-top-xxsmall
+        medium-only-margin-top-xxsmall
+        large-only-margin-top-xxsmall
+      ">
+        {% set interestedUsersLength = interestedUsers|length %}
+        {% set numUsers = interestedUsersLength >= 3 ? 3 : interestedUsersLength %}
+        {% set paddingOffset = interestedUsersLength == 1 ? 5 : interestedUsersLength == 2 ? -3 : -8 %}
+        <div
+          style="padding-left: {{ 32 * numUsers + (paddingOffset) }}px;"
+          class="inline-block relative margin-right-xxsmall"
+        >
+          <div class="absolute left">
+            <ul class="inline-block relative">
+              {% set userCount = 0 %}
+              {% for user in interestedUsers if userCount < 3 %}
+                {% set offset = userCount > 0 ? userCount * 10 : 0 %}
+                <li class="inline-block relative" style="left: -{{ offset }}px">
+                  {% include 'ClassCentralSiteBundle:Helpers:user.profile.html.twig' with {
+                    width: 32,
+                    user: user,
+                    colors: colors[userCount],
+                    location: "Course Page"
+                  } %}
+                  {% set userCount = userCount+1 %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <strong class="head-3 medium-up-head-2 text--bold text--charcoal" data-format-number>{{ course.listed }}</strong>
+        </div>
+        <span class="text-4 medium-up-text-3 text--charcoal relative" style="top: -2px;"> students interested</span>
+      </div>
+     </div>
+   {% endif %}
+</div>

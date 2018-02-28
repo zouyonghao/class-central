@@ -57,19 +57,22 @@
       </div>
 
         <div class="review-content text-2 margin-vert-small">
-        {% if review.reviewText and review.reviewText|length >1000 %}
-            <div class="review-preview">
-                <div class="margin-right-xsmall inline">
-                  {{ review.reviewText|striptags('<br>')|slice(0,1000)|raw }}
-                </div>
-                <a class="expand-preview text-2 icon--right icon-chevron-down-blue text--blue" href="#">
-                  Read more
-                </a>
+          {% if review.reviewText and review.reviewText|length >1000 %}
+            <div data-expand-preview="review-{{ review.id }}">
+              <div class="margin-right-xsmall inline">
+                {{ review.reviewText|striptags('<br>')|slice(0,1000)|raw }}&hellip;
+              </div>
+              <button
+                data-expand="review-{{ review.id }}"
+                class="text-2 icon--right icon-chevron-down-blue text--blue"
+              >
+                Read more
+              </button>
             </div>
-        {% endif %}
-        <div class="review-full">
+          {% endif %}
+          <div class="{{ review.reviewText and review.reviewText|length >1000 ? "hidden" : "" }}" data-expand-target="review-{{ review.id }}">
             {{ review.reviewText|striptags('<br>')|raw }}
-        </div>
+          </div>
         </div>
         {% if review.externalReviewLink is not empty %}
             <div id="ext-review-link">

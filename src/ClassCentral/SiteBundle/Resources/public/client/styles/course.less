@@ -1,14 +1,128 @@
 @import "~classcentral-style/dist/icon-thumbsup.css";
+@import "~classcentral-style/dist/png-top-50.css";
 
-#reviews-summary {
-  width: 275px;
-  .bg-gray {
-    height: 10px;
-    top: 2px;
+#page-course {
+  .container {
+    width: 100% !important;
+    max-width: 1250px !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    @media (min-width: 641px) {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
   }
-}
-@media (min-width: 641px) {
-  .review-date {
-    top: 3px;
+  .bg-banner--purple {
+    background: #9C27B0;
+  }
+  .bg-banner--blue {
+    background: #5074E9;
+  }
+  .bg-banner {
+    padding-right: 20px;
+    position: relative;
+    font-size: 10px;
+    &:after {
+      content: " ";
+      display: block;
+      background: white;
+      position: absolute;
+      right: -7px;
+      top: 3px;
+      width: 15px;
+      height: 15px;
+      transform: rotate(45deg);
+    }
+  }
+  .cc-page {
+    margin-top: 0px !important;
+  }
+  // .offset {
+  //   top: -14px;
+  //   position: relative;
+  // }
+  #course-title {
+    line-height: 30px;
+    @media only screen and (min-width: 641px) {
+      line-height: 37px;
+    }
+  }
+  @media only screen and (min-width: 641px) {
+    .medium-up-offset-4 {
+      top: 4px;
+    }
+  }
+  .html5-video-play-button {
+    margin-left: -50px;
+    margin-top: -50px;
+  }
+  #reviews-summary {
+    width: 275px;
+    .bg-gray {
+      height: 10px;
+      top: 2px;
+    }
+  }
+  @media (min-width: 641px) {
+    .review-date {
+      top: 3px;
+    }
+  }
+
+  #course-summary {
+    .medium-up-text-1 {
+      line-height: 28px;
+    }
+    .wysiwyg {
+      a:link, a:visited {
+        color: #5074E9 !important;
+        text-decoration: none;
+      }
+      a:hover, a:active {
+        color: #5074E9 !important;
+        text-decoration: underline;
+      }
+      b, strong {
+        font-weight: 800;
+      }
+      i {
+        font-style: italic;
+      }
+      p {
+        margin-bottom: 10px;
+      }
+      .schedule-entry {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  #course-social {
+    .review-rating {
+      .icon-star,
+      .icon-star-half,
+      .icon-star-gray-light {
+        height: 30px;
+        line-height: 30px;
+        width: 25px;
+        background-size: 50px 50px !important;
+      }
+    }
+  }
+
+  .fade-bottom {
+    max-height: 500px;
+    overflow: hidden;
+    &:after {
+      content: " ";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-image: url("@{imageUrl}fade-gradient.png");
+      background-repeat: repeat-x;
+      height: 100px;
+      display: block;
+      width: 100%;
+    }
   }
 }
