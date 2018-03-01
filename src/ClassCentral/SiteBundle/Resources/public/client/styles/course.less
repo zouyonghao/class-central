@@ -37,10 +37,6 @@
   .cc-page {
     margin-top: 0px !important;
   }
-  // .offset {
-  //   top: -14px;
-  //   position: relative;
-  // }
   #course-title {
     line-height: 30px;
     @media only screen and (min-width: 641px) {
@@ -82,7 +78,10 @@
         color: #5074E9 !important;
         text-decoration: underline;
       }
-      b, strong {
+      h1, h2, h3 {
+        margin: 10px 0 5px 0px;
+      }
+      h1, h2, h3, b, strong {
         font-weight: 800;
       }
       i {
@@ -93,6 +92,30 @@
       }
       .schedule-entry {
         margin-bottom: 10px;
+      }
+      ul {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        padding-left: 0 !important;
+        li {
+          &:before {
+            content: none !important;
+          }
+          padding-left: 0 !important;
+          list-style: circle !important;
+        }
+      }
+      ol {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        padding-left: 0 !important;
+        li {
+          &:before {
+            content: none !important;
+          }
+          padding-left: 0 !important;
+          list-style-type: decimal !important;
+        }
       }
     }
   }
