@@ -261,8 +261,13 @@ class Scraper extends ScraperAbstractInterface {
             $course->setCertificatePrice('49');
         }
         $course->setWorkloadType(Course::WORKLOAD_TYPE_HOURS_PER_WEEK);
-        $course->setWorkloadMin( $c['hours_per_week'] ) ;
-        $course->setWorkloadMax( $c['hours_per_week'] ) ;
+
+        if( isset($c['hours_per_week']))
+        {
+            $course->setWorkloadMin($c['hours_per_week']);
+            $course->setWorkloadMax($c['hours_per_week']);
+        }
+
         // Get the length
         if( $c['runs'] )
         {
