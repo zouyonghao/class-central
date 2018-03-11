@@ -59,6 +59,7 @@ class CourseReportCommand extends ContainerAwareCommand
         $totalCourses = 0;
         $courseraSkipped = 0;
         $selfPacedSkipped = 0;
+        $coursesAlreadyAdded = [];
         foreach($offerings as $offering)
         {
             if($offering->getInitiative() == null)
@@ -91,7 +92,7 @@ class CourseReportCommand extends ContainerAwareCommand
             if($offering->getStatus() == Offering::COURSE_OPEN)
             {
 
-               // continue;
+                 //continue;
                 // Check if the course is less than month old
                 // Check if the course is a new course
                 $course = $offering->getCourse();
@@ -114,6 +115,15 @@ class CourseReportCommand extends ContainerAwareCommand
             {
                 // continue;
             }
+
+
+            $courseId = $offering->getCourse()->getId();
+            if(isset($coursesAlreadyAdded[$courseId]))
+            {
+                // duplicate course
+                continue;
+            }
+            $coursesAlreadyAdded[$courseId] = 1;
             $totalCourses++;
 
             // Check if its a Coursera course.
@@ -209,7 +219,7 @@ class CourseReportCommand extends ContainerAwareCommand
                 {
                     $network->outOffering( $offering );
                     // Count the number of times its been added to my courses
-                    $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
+                    //$added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
                     $timesOffered = 0;
                     foreach($offering->getCourse()->getOfferings() as $o)
                     {
@@ -221,8 +231,8 @@ class CourseReportCommand extends ContainerAwareCommand
                     }
                     if ($timesOffered <2 )
                     {
-                        $timesAdded = count($added);
-                        $coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
+                        //$timesAdded = count($added);
+                        //$coursesByCount[$offering->getCourse()->getName()] = $timesAdded;
                     }
 
                 }
@@ -246,7 +256,7 @@ class CourseReportCommand extends ContainerAwareCommand
                 {
                     $network->outOffering( $offering );
                     // Count the number of times its been added to my courses
-                    $added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
+                    //$added = $em->getRepository('ClassCentralSiteBundle:UserCourse')->findBy(array('course' => $offering->getCourse()));
                     $timesOffered = 0;
                     foreach($offering->getCourse()->getOfferings() as $o)
                     {
@@ -259,8 +269,8 @@ class CourseReportCommand extends ContainerAwareCommand
                     }
                     if ($timesOffered < 1 )
                     {
-                        $timesAdded = count($added);
-                        $coursesByCount[$offering->getCourse()->getId()] = $timesAdded;
+                        //$timesAdded = count($added);
+                        //$coursesByCount[$offering->getCourse()->getId()] = $timesAdded;
                         $newOfferings[] = $offering;
                     }
                     else
