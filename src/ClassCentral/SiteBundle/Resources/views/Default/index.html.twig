@@ -16,15 +16,21 @@
           <button data-slideshow-target="3" class="bg-blue transparent inline-block">4</button>
         </nav>
         <ul>
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-2017-best-courses-homepage.png" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-2017-best-courses-homepage-mobile.png" %}
+          {% if app.environment == 'prod' %}
+              {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
+              {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
+          {% endif %}
           <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-gold" }' class="active absolute top left width-100">
             <h2>
               <img
                 class="width-100"
-                src="/bundles/classcentralsite/images/banner-2017-best-courses-homepage{% if isMobile %}-mobile{% endif %}.png"
+                src="{% if isMobile %}homePageBannerImageMobile{% else %}homePageBannerImage{% endif %}"
                 alt="The Best Online Courses of 2017"
                 data-media-switch="802"
-                data-large="/bundles/classcentralsite/images/banner-2017-best-courses-homepage.png"
-                data-small="/bundles/classcentralsite/images/banner-2017-best-courses-homepage-mobile.png"
+                data-large="{{ homePageBannerImage }}"
+                data-small="{{ homePageBannerImageMobile }}"
               />
             </h2>
             <div class="absolute width-100 text-center inline-block">
@@ -38,30 +44,42 @@
               </a>
             </div>
           </li>
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png" %}
+          {% if app.environment == 'prod' %}
+              {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
+              {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
+          {% endif %}
           <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-orange-green" }' class="next absolute top left width-100">
             <h2>
               <img
                 class="width-100"
-                src="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities{% if isMobile %}-mobile{% endif %}.png"
+                src="{% if isMobile %}homePageBannerImageMobile{% else %}homePageBannerImage{% endif %}"
                 alt="Find the Best Online Courses from Top Universities"
                 data-media-switch="802"
-                data-large="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png"
-                data-small="/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png"
+                data-large="{{ homePageBannerImage }}"
+                data-small="{{ homePageBannerImageMobile }}"
               />
             </h2>
             <div class="absolute width-100 text-center inline-block">
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
             </div>
           </li>
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage.png" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage-mobile.png" %}
+          {% if app.environment == 'prod' %}
+              {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
+              {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
+          {% endif %}
           <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-2017" }' class="absolute top left width-100">
             <h2>
               <img
                 class="width-100"
-                src="/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage{% if isMobile %}-mobile{% endif %}.png"
+                src="{% if isMobile %}homePageBannerImageMobile{% else %}homePageBannerImage{% endif %}"
                 alt="Class Central's 2017 Year in Review"
                 data-media-switch="802"
-                data-large="/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage.png"
-                data-small="/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage-mobile.png"
+                data-large="{{ homePageBannerImage }}"
+                data-small="{{ homePageBannerImageMobile }}"
               />
             </h2>
             <div class="absolute width-100 text-center inline-block">
@@ -75,15 +93,21 @@
               </a>
             </div>
           </li>
+          {% set homePageBannerImage = "bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools.png" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-mobile.png" %}
+          {% if app.environment == 'prod' %}
+              {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
+              {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
+          {% endif %}
           <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
             <h2>
               <img
                 class="width-100"
-                src="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools{% if isMobile %}-mobile{% endif %}.png"
+                src="{% if isMobile %}homePageBannerImageMobile{% else %}homePageBannerImage{% endif %}"
                 alt="Discover Free Online Courses from Ivy League Schools"
                 data-media-switch="802"
-                data-large="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools.png"
-                data-small="/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-mobile.png"
+                data-large="{{ homePageBannerImage }}"
+                data-small="{{ homePageBannerImageMobile }}"
               />
             </h2>
             <div class="absolute width-100 text-center inline-block">
@@ -255,13 +279,18 @@
           Career Guides
         </h1>
       </header>
+
+      {% set dataScienceGuideImg = "/bundles/classcentralsite/images/guides/guide-data-scientist.jpg" %}
+      {% if app.environment == 'prod' %}
+          {% set dataScienceGuideImg = imageService.cropImage(baseurl~"/bundles/classcentralsite/images/guides/guide-data-scientist.jpg") %}
+      {% endif %}
       <ul class="width-100 xlarge-up-width-6-7 xxlarge-up-width-5-7 width-centered margin-top-xxlarge xlarge-up-padding-horz-medium">
         <li class="unit-horz">
           <div class="small-only-hidden xsmall-only-hidden unit-block padding-right-xxlarge text-middle">
-            <img class="radius radius--large width-100" src="/bundles/classcentralsite/images/guides/guide-data-scientist.jpg" alt="Become a scientist"/>
+            <img class="radius radius--large width-100" src="{{ dataScienceGuideImg }}" alt="Become a scientist"/>
           </div>
           <div class="unit-block">
-            <img class="medium-up-hidden margin-bottom-medium radius radius--large width-100" src="/bundles/classcentralsite/images/guides/guide-data-scientist.jpg" alt="Become a scientist"/>
+            <img class="medium-up-hidden margin-bottom-medium radius radius--large width-100" src="{{ dataScienceGuideImg }}" alt="Become a scientist"/>
             <p class="text-1 margin-bottom-small">Our six-piece series that recommends the best MOOCs for launching yourself into the data science industry.</p>
             <ul class="text-1">
               <li class="margin-vert-xxsmall unit-horz">
@@ -367,10 +396,15 @@
               <div style="position: absolute; left: -5000px;"><input type="text" name="b_a04149ada492173efe6609e68_c5a9919ea5" tabindex="-1" value=""></div>
             </form>
 
+            {% set moocwatchImage = "/bundles/classcentralsite/slashpixel/images/moocwatch-16-illustration-crop.png" %}
+            {% if app.environment == 'prod' %}
+                {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
+            {% endif %}
+
             <ul class="margin-vert-xlarge">
               {% include 'ClassCentralSiteBundle:Default:moocreport.watch.html.twig' with { watch: {
                 edition: "16",
-                image: "/bundles/classcentralsite/slashpixel/images/moocwatch-16-illustration-crop.png",
+                image: moocwatchImage,
                 title: "MOOC Providers Target Degrees",
                 description: "We round up all the news from the MOOC sphere: iMBA stats, Udacity’s impressive numbers, Learner Tips, and much, much more.",
                 author: "Dhawal Shah",
@@ -378,9 +412,16 @@
                 color: "#f7c928",
                 url: "https://www.class-central.com/report/moocwatch-16-mooc-providers-target-degrees/"
               }} %}
+
+              {% set moocwatchImage = "/bundles/classcentralsite/slashpixel/images/moocwatch-15-illustration-crop.png" %}
+              {% if app.environment == 'prod' %}
+                  {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
+              {% endif %}
+
+
               {% include 'ClassCentralSiteBundle:Default:moocreport.watch.html.twig' with { watch: {
                 edition: "15",
-                image: "/bundles/classcentralsite/slashpixel/images/moocwatch-15-illustration-crop.png",
+                image: moocwatchImage,
                 title: "MOOCs Find Their Audience",
                 description: "New CEOs, enrollment milestones, and more.",
                 author: "Dhawal Shah",

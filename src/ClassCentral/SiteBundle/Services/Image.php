@@ -189,7 +189,7 @@ class Image {
      * @param $width
      * @return string
      */
-    public function cropImage($imageUrl, $height, $width)
+    public function cropImage($imageUrl, $height = null, $width = null)
     {
         // If Imgix params are missing, return the same image. Useful for dev environment.
         if(empty($this->getImgixKey()) || empty($this->getImgixToken()))
@@ -200,9 +200,14 @@ class Image {
         $builder = new UrlBuilder($this->getImgixKey());
         $builder->setSignKey($this->getImgixToken());
         $builder->setUseHttps(true);
-        $params = array(
-            "w" => $width, "h" => $height, "auto" => 'compress'
-        );
+
+        $params = ["auto" => 'compress'];
+        if( !empty($width) && !empty($height))
+        {
+            $params = array(
+                "w" => $width, "h" => $height, "auto" => 'compress'
+            );
+        }
 
         return $builder->createURL($imageUrl,$params);
     }

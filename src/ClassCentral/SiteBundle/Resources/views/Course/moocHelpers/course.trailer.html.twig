@@ -25,6 +25,8 @@
     </div>
   </div>
 {% elseif courseImage %}
+    {% set courseImageThumbnail = imageService.cropImage(courseImage, 710,400) %}
+
   <div class="classcentral-style">
     <div
       class="ratio ratio--9-16 bg-gray bg-cover border-left border-right border-top border--thin border--gray"
