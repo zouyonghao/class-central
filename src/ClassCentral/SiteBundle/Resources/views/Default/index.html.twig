@@ -93,7 +93,7 @@
               </a>
             </div>
           </li>
-          {% set homePageBannerImage = "bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools.png" %}
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools.png" %}
           {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-mobile.png" %}
           {% if app.environment == 'prod' %}
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
