@@ -30,7 +30,7 @@
 </span>
 <span class="review-rating {{ mobilize ? "medium-up-hidden" : "hidden"}} text--charcoal">
   {% if rating >= 1 %}
-    {{ rating|number_format(1, '.') }}
+    <span class="{{ mobileClassName is defined ? mobileClassName : "" }}">{{ rating|number_format(1, '.') }}</span>
     <i class="icon-star icon--xxsmall relative" style="top: -2px;"></i>
   {% else %}
     <i class="icon-star-gray-light icon--xxsmall"></i>

@@ -267,40 +267,45 @@ class Api
 
   public function getNavbarData($contextBar = null)
   {
-      $router = $this->container->get('router');
-      $request = $this->container->get('request');
+    ;
+      $cache = $this->container->get('cache');
+      $navbarData = $cache->get('navbar_data',function (){
+          $router = $this->container->get('router');
+          $request = $this->container->get('request');
+          return [
+              'collections' =>[
+                  'notable' => $this->notableList(),
+                  'subject' => [
+                      'url' => $router->generate('subjects'),
+                      'cta' => 'See all Subjects',
+                      'data' => $this->subjectsList()
+                  ],
+                  'university' => [
+                      'url' =>$router->generate('universities'),
+                      'cta' => 'See all Universties',
+                      'data' => $this->universitiesList()
+                  ],
+                  'provider' => [
+                      'url' => $router->generate('providers'),
+                      'cta' => 'See all Providers',
+                      'data' => $this->providersList()
+                  ],
+                  'articles' => $this->articles(),
+              ],
+              'user' => $this->getUserInfo(),
+              'query' => $request->query->get('q'),
+              'searchPlaceholder' => "What do you want to learn?",
+              'searchPath' => '/autocomplete',
+              'layout' => 'header',
+              'tracking' => [
+                  'clickGroup' => 'nav_click',
+                  'contextBarClickGroup' => 'contextbar_click',
+              ]
+          ];
+      });
+      $navbarData['contextBar'] = $contextBar;
 
-      return [
-          'collections' =>[
-              'notable' => $this->notableList(),
-              'subject' => [
-                  'url' => $router->generate('subjects'),
-                  'cta' => 'See all Subjects',
-                  'data' => $this->subjectsList()
-              ],
-              'university' => [
-                  'url' =>$router->generate('universities'),
-                  'cta' => 'See all Universties',
-                  'data' => $this->universitiesList()
-              ],
-              'provider' => [
-                  'url' => $router->generate('providers'),
-                  'cta' => 'See all Providers',
-                  'data' => $this->providersList()
-              ],
-              'articles' => $this->articles(),
-          ],
-          'user' => $this->getUserInfo(),
-          'query' => $request->query->get('q'),
-          'searchPlaceholder' => "What do you want to learn?",
-          'searchPath' => '/autocomplete',
-          'layout' => 'header',
-          'contextBar' => $contextBar,
-          'tracking' => [
-            'clickGroup' => 'nav_click',
-            'contextBarClickGroup' => 'contextbar_click',
-          ]
-      ];
+      return $navbarData;
   }
 
   public function getReviewbarData()

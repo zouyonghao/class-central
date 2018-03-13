@@ -62,13 +62,7 @@
 <body>
 
   <div class="contain-page">
-    {% if contextBar is not defined  %}
-        {% set contextBar = null %}
-    {% endif %}
-    {% set navbarData = apiService.getNavbarData(contextBar) %}
-
-    {% include 'ClassCentralSiteBundle:Layouts:promobar.html.twig' %}
-    <div id="header"></div>
+    {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' %}
 
     {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
     <div class="classcentral-style">

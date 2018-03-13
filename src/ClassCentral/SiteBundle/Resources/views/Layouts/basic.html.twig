@@ -60,9 +60,7 @@
 
 <body>
   <div class="contain-page">
-    {% set navbarData = apiService.getNavbarData() %}
-
-    <div id="header" class="simple"></div>
+    {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' with { navBarStyle: "simple" } %}
 
     {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
       <div class="classcentral-style">

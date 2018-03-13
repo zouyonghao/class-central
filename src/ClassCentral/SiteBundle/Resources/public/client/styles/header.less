@@ -40,7 +40,7 @@
 @import "~classcentral-style/dist/png-delft-gray.css";
 @import "~classcentral-style/dist/png-ubc-gray.css";
 
-#header {
+.header {
   position: relative;
   z-index: 10000;
   &.simple {
@@ -54,10 +54,9 @@
     }
   }
 }
-#cc-header {
+.cc-header {
   z-index: 10;
 }
-
 .classcentral-style {
   .review-rating {
     .icon-star,
@@ -69,7 +68,7 @@
       background-size: 32px 32px !important;
     }
   }
-  #browse-menu.arrow-top-middle::after {
+  .browse-menu.arrow-top-middle::after {
     left: 290px;
   }
   #search-results ol a:focus {
@@ -110,16 +109,25 @@
   }
 }
 
-#header {
+.header {
   font-family: "myriad-pro", "Myriad Pro", "Myriad", Helvetica, Arial, sans-serif;
   min-height: 91px;
-  @media (max-width: 1000px) {
+  @media (max-width: 1024px) {
     min-height: 60px;
     height: 60px;
   }
 }
-#cc-header,
+.cc-header,
 .cc-search {
+  input[type=text] {
+    @media (max-width: 1024px) {
+      min-height: 40px !important;
+    }
+    min-height: 50px !important;
+  }
+  a:hover .hover--text-underline {
+    text-decoration: underline;
+  }
   .animate-hidden,
   .animate-entering,
   .animate-exiting {
@@ -155,4 +163,201 @@
   transition: opacity 500ms ease;
   opacity: 1;
   visibility: visible;
+}
+
+
+/**
+ * Created by MJ on 7/2/18.
+ */
+
+.classcentral-style #browse-menu.arrow-top-middle:after {
+  left: 290px;
+}
+
+/*
+* using the .cc-header_brandLogo class feels like an antipattern here
+*/
+.classcentral-style {
+  .cc-header_brandLogo .symbol-classcentral-blue.symbol--small {
+    margin-top: 23px;
+  }
+
+  .cc-header_brandLogo .icon-lettermark {
+    margin-top: 8px;
+  }
+
+  .cc-subMenu-user {
+    top: 60px;
+    width: auto;
+    min-width: 100px;
+  }
+
+  .cc-navBar-search {
+    top: 10px;
+    left: 60px;
+    width: ~"calc(100% - 125px)";
+    display: none;
+  }
+}
+
+// the responsive plugin doesn't provide a screen size for 375px
+@media (max-width: 375px) {
+  .classcentral-style {
+    .cc-header_brandLogo  .symbol-classcentral-blue.symbol--small {
+      width: 105px;
+      margin-top: 24px;
+    }
+  }
+}
+
+.classcentral-style {
+  .cc-subMenu {
+    top: 60px;
+  }
+
+  .cc-subMenu_navContainer {
+    min-width: 125px;
+    min-height: 425px;
+    height: 100%;
+  }
+
+  .cc-search-loading-pulse {
+    top: 10px;
+    right: 30px;
+  }
+
+  .cc-search-button {
+    right: 5px;
+    top: 5px;
+    height: 30px;
+  }
+
+  #search-results {
+    top: 60px;
+    width: 100%;
+  }
+
+  .cc-sticky-nav-course-text {
+    max-width: 60%;
+    width: auto;
+  }
+}
+
+.search-results-shown .hide-if-search-results-shown {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .classcentral-style {
+    .cc-subMenu_tabContainer {
+      padding-left: 125px;
+      min-height: 425px;
+    }
+
+    .cc-subMenu-tabContainerButton {
+      margin-left: 175px;
+    }
+
+    #search-results {
+      top: 88px;
+      width: 86%;
+      left: 7%;
+    }
+
+    .cc-subMenu_navContainer {
+      padding-right: 30px;
+    }
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .classcentral-style {
+    .cc-subMenu_navContainer {
+      padding-right: 30px;
+      padding-top: 35px;
+    }
+
+    .cc-subMenu_tabContainer {
+      padding-left: 155px;
+    }
+
+    .cc-subMenu-tabContainerButton {
+      margin-left: 184px;
+    }
+
+    .cc-subMenu-tabContainerButton-logoAlign {
+      margin-left: 196px;
+    }
+  }
+
+}
+
+@media (min-width: 750px) {
+  .classcentral-style {
+    #search-results {
+      width: 726px;
+      left: 50%;
+      margin-left: -363px;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .classcentral-style {
+    .cc-subMenu {
+      top: 90px;
+    }
+
+    .cc-subMenu-user {
+      top: 90px;
+    }
+
+    .cc-subMenu_tabContainer {
+      padding-left: 250px;
+    }
+    .cc-subMenu_navContainer {
+      min-width: 250px;
+      min-height: 425px;
+    }
+    .cc-header_ratingContext {
+      padding-right: 100px;
+    }
+
+    .cc-subMenu-tabContainerButton {
+      margin-left: 300px;
+    }
+
+    .cc-navBar-search {
+      display: block !important;
+      width: 100%;
+      top: auto;
+      left: auto;
+      padding-left: 475px;
+      padding-right: 350px;
+    }
+    .cc-header-signed-in {
+      .cc-navBar-search {
+        padding-right: 300px !important;
+      }
+    }
+
+    .cc-search-loading-pulse {
+      top: 15px;
+    }
+
+    .cc-search-button {
+      height: 40px;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .classcentral-style {
+    // override js centering
+    .cc-subMenu-user {
+      right: 0 !important;
+      left: auto !important;
+      margin-left: 0 !important;
+    }
+  }
 }

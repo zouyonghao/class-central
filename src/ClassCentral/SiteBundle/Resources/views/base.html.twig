@@ -64,14 +64,7 @@
 <div {% if page is not defined or page != "auth" %}class="siteWrap contain-page"{% endif %}>
 
 {% include 'ClassCentralSiteBundle:Helpers:sprites.svg.twig' %}
-
-{% if contextBar is not defined  %}
-    {% set contextBar = null %}
-{% endif %}
-{% set navbarData = apiService.getNavbarData(contextBar) %}
-
-{% include 'ClassCentralSiteBundle:Layouts:promobar.html.twig' %}
-<div id="header" {% if navbarStyle is defined and navbarStyle == "simple" %}class="simple"{% endif %}></div>
+{% include 'ClassCentralSiteBundle:Layouts:header.html.twig' %}
 
 {%  block contentheader %}
 {% endblock %}

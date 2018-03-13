@@ -59,13 +59,7 @@
 <body>
 
   <div class="contain-page">
-    {% if contextBar is not defined  %}
-        {% set contextBar = null %}
-    {% endif %}
-    {% set navbarData = apiService.getNavbarData(contextBar) %}
-
-    <div id="header"></div>
-
+    {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' %}
     {%  block content %}
     {% endblock %}
   </div>

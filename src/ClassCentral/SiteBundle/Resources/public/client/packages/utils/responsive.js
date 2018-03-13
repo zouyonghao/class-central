@@ -1,21 +1,25 @@
+import breakpoints from "../settings/breakpoints"
+
 const mediaSizes = {
-  "xsmallOnly": (screenSize) => (screenSize <= 480),
-  "smallUp": (screenSize) => (screenSize >= 481),
-  "smallOnly": (screenSize) => (screenSize > 480 && screenSize <= 640),
-  "mediumUp": (screenSize) => (screenSize > 640),
-  "mediumOnly": (screenSize) => (screenSize > 640 && screenSize <= 768),
-  "largeUp": (screenSize) => (screenSize > 768),
-  "largeOnly": (screenSize) => (screenSize > 768 && screenSize <= 1024),
-  "xlargeUp": (screenSize) => (screenSize > 1024),
-  "xlargeOnly": (screenSize) => (screenSize > 1024 && screenSize <= 1200),
-  "xxlargeUp": (screenSize) => (screenSize > 1200),
-  "xxlargeOnly": (screenSize) => (screenSize > 1200),
+  "xsmallOnly": (screenSize) => (screenSize <= breakpoints.small),
+  "smallUp": (screenSize) => (screenSize >= (breakpoints.small + 1)),
+  "smallOnly": (screenSize) => (screenSize > breakpoints.small && screenSize <= breakpoints.medium),
+  "mediumUp": (screenSize) => (screenSize > breakpoints.medium),
+  "mediumOnly": (screenSize) => (screenSize > breakpoints.medium && screenSize <= breakpoints.large),
+  "largeUp": (screenSize) => (screenSize > breakpoints.large),
+  "largeOnly": (screenSize) => (screenSize > breakpoints.large && screenSize <= breakpoints.xlarge),
+  "xlargeUp": (screenSize) => (screenSize > breakpoints.xlarge),
+  "xlargeOnly": (screenSize) => (screenSize > breakpoints.xlarge && screenSize <= breakpoints.xxlarge),
+  "xxlargeUp": (screenSize) => (screenSize > breakpoints.xxlarge),
+  "xxlargeOnly": (screenSize) => (screenSize > breakpoints.xxlarge),
 };
 
 class Responsive {
   constructor() {
     document.addEventListener("DOMContentLoaded", () => {
       this.watchResize();
+      // trigger the initial resize
+      $(window).trigger("resize");
     });
   }
 
@@ -30,7 +34,7 @@ class Responsive {
             const classes = $(this).data("responsive");
             let replaceClasses = "";
             let addClasses = "";
-
+            
             lastMediaSizes.matching.forEach((size) => {
               replaceClasses += ` ${classes[size] || ""}`;
             })

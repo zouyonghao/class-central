@@ -1,0 +1,620 @@
+{% include 'ClassCentralSiteBundle:Layouts:promobar.html.twig' %}
+
+{% if contextBar is not defined  %}
+  {% set contextBar = null %}
+{% endif %}
+{% set navbarData = apiService.getNavbarData(contextBar) %}
+{% set userData = apiService.getUserInfo() %}
+
+<div class="classcentral-style header{% if navbarStyle is defined and navbarStyle == "simple" %} simple{% endif %}" data-cc-header>
+  <header class="cc-header {{ app.user ? "cc-header-signed-in" : ""}}">
+
+    <nav class="row z-high absolute height-100 width-100 bg-white border-bottom border--thin border--gray-light">
+
+      <h2 class="absolute top left xlarge-up-hidden">
+        <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Bar", "title": "Homepage" }'
+          class="cc-header_brandLogo pull inline-block padding-left-small" href="/">
+          <i
+            class="symbol-classcentral-blue symbol--small"
+            data-hide-if-search-shown
+          >Class Central</i>
+          <i
+            class="icon icon--center icon-lettermark hidden"
+            style="width: 25px;"
+            data-show-if-search-shown
+          >Class Central</i>
+        </a>
+      </h2>
+
+      <div class="absolute top left padding-horz-large padding-vert-medium xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
+        <div class="col margin-top-small text-left">
+          <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Bar", "title": "Homepage" }'
+            href="/" class="inline-block" style="width: 175px;">
+            <h1 class="push">
+              <i class="symbol-classcentral-blue">Class Central</i>
+            </h1>
+          </a>
+        </div>
+        <div class="menu-item hide-if-search-results-shown text-center col menu-item-browse" style="min-width: 125px; height: auto; overflow: auto;">
+          <button class="inline-block padding-bottom-medium" data-sub-menu-toggle="courses">
+            <span class="line--medium icon--right head-5 text--charcoal text--bold icon-chevron-down-charcoal" style="max-width: 150px;">
+              <span class="width-100">Courses</span>
+            </span>
+          </button>
+        </div>
+        <div class="menu-item hide-if-search-results-shown text-center col menu-item-mooc" style="min-width: 125px; height: auto; overflow: auto;">
+          <button class="inline-block padding-bottom-medium" data-sub-menu-toggle="mooc">
+            <span class="line--medium icon--right head-5 text--charcoal text--bold icon-chevron-down-charcoal" style="max-width: 150px;">
+              <span class="width-100">MOOC Report</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <form
+        method="get"
+        action="/search"
+        class="cc-navBar-search form xsmall-only-absolute small-only-absolute medium-only-absolute large-only-absolute width-100 width-centered border-box xlarge-up-padding-vert-medium"
+        data-cc-search
+      >
+        <fieldset class="relative">
+          <input
+            type="text"
+            autocomplete="off"
+            placeholder="What do you want to learn?"
+            name="q"
+            class="width-100 input--small icon-search-charcoal icon--right"
+            data-responsive='{
+              "xlargeUp": "input--medium"
+            }'
+            data-cc-search-input
+          >
+          <input
+            type="submit"
+            data-track-click="{{ ts.event('NAV_CLICK') }}"
+            class="absolute btn-white btn--small icon--right text--charcoal icon-search-charcoal hidden cc-search-button"
+            value="Search"
+            data-responsive='{
+              "xsmallOnly": "icon--center",
+              "smallOnly": "icon--center",
+              "mediumOnly": "icon--center",
+              "largeOnly": "icon--center"
+            }'
+            data-cc-search-button
+          >
+          <div
+            class="loading-pulse absolute hidden cc-search-loading-pulse"
+            data-cc-search-loader
+          ></div>
+        </fieldset>
+      </form>
+
+      <div class="absolute hide-if-search-results-shown top right padding-medium xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
+
+
+        <div class="col text-center menu-item-review" style="min-width: 150px;">
+          <a href="/write-a-review" class="inline-block line--medium head-5 text--charcoal icon--left icon-star" data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Bar", "title": "Write a Review" }'>Write a Review</a>
+        </div>
+
+        {% if app.user %}
+        <div class="menu-item text-center col menu-item-user" style="min-width: 120px; height: auto; overflow: auto;">
+          <button class="inline-block padding-bottom-medium" data-sub-menu-toggle="user">
+            <span class="line--medium icon--right head-5 text--charcoal text--bold icon-chevron-down-charcoal" style="max-width: 150px;">
+              <span class="width-100">{{ userData.firstName }}</span>
+            </span>
+          </button>
+        </div>
+        {% else %}
+        <div class="menu-item text-center col" style="width: 175px;">
+          <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "User", "title": "Login" }'
+            href="/login" class="head-5 text--blue text--bold line--medium">Sign in</a>
+          <span class="inline-block padding-horz-xsmall text--gray">or</span>
+          <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "User", "title": "Register" }'
+            id="navbar-create-free-account" href="/signup" class=" head-5 text--blue text--bold line--medium icon--right icon-arrow-right-blue">Register</a>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="animate-fade-entered push padding-horz-xsmall xlarge-up-hidden">
+        <div class="menu-item text-center col menu-item-browse medium-up-hidden" data-hide-if-search-shown>
+          <button class="inline-block" data-sub-menu-click-show="courses">
+            <span class="line--large icon--right head-5 text--charcoal text--bold icon-chevron-down-charcoal">
+              <span class="width-100">Courses</span>
+            </span>
+          </button>
+          <button class="line--large padding-horz-medium icon--xsmall icon-x-charcoal icon--center" style="display: none;" data-sub-menu-click-hide="courses">
+            Close
+          </button>
+        </div>
+
+        <div class="menu-item text-center col menu-item-browse xsmall-only-hidden small-only-hidden" data-hide-if-search-shown>
+          <button class="inline-block" data-sub-menu-toggle="courses">
+            <span class="line--large icon--right head-5 text--charcoal text--bold icon-chevron-down-charcoal">
+              <span class="width-100">Courses</span>
+            </span>
+          </button>
+        </div>
+
+        <button class="margin-horz-xsmall inline-block line--large icon-search-charcoal icon--center" data-cc-search-show>Search</button>
+        <div class="inline-block" data-hide-if-search-shown>
+          <button class="padding-horz-medium inline-block line--large icon-profile-charcoal icon--center xsmall-only-hidden small-only-hidden"
+            data-sub-menu-toggle="user">
+            Sign in / Register
+          </button>
+          <button class="padding-horz-medium inline-block line--large icon-profile-charcoal icon--center medium-up-hidden" data-sub-menu-click-show="user">
+            Sign in / Register
+          </button>
+          <button class="line--large padding-horz-medium icon--xsmall icon-x-charcoal icon--center medium-up-hidden" style="display: none;"
+            data-sub-menu-click-hide="user">Close
+          </button>
+        </div>
+
+        <div class="inline-block">
+          <button class="line--large padding-horz-medium icon--xsmall icon-x-charcoal icon--center hidden" data-cc-search-hide>Close</button>
+        </div>
+      </div>
+
+    </nav>
+
+    {# course sticky menu #}
+    {% if navbarData.contextBar is not empty and navbarData.contextBar.type == 'course' %}
+      {% set cb = navbarData.contextBar  %}
+      <nav class="animate-hidden row z-top fixed top width-100 bg-white border-bottom border--thin border--gray-light" data-cc-sticky-top-bar style="height: 60px;">
+      <h2 class="absolute top left xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
+        <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Bar", "title": "Homepage" }'
+          class="cc-header_brandLogo pull inline-block padding-left-small" href="/" >
+          <i class="symbol-classcentral-blue symbol--small">Class Central</i>
+        </a>
+      </h2>
+      <div class="padding-left-small xlarge-up-hidden" style="max-width: 70%;">
+        <div class="row col width-3-5 padding-right-small" style="max-width: none;">
+          <span class="line--large head-4 truncate">{{ cb.data.courseInfo.title }}</span>
+        </div>
+      </div>
+      <div class="width-2-3 pull inline-block padding-horz-xsmall xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden" style="padding-left: 170px;">
+        <div class="row col width-3-5 padding-right-small cc-sticky-nav-course-text">
+          <span class="line--large head-4 truncate">{{ cb.data.courseInfo.title }}</span>
+        </div>
+        <div class="margin-top-medium width-1-3 col text-left">
+          <a href="#reviews" id="read-reviews" class="read-reviews-btn review-rating text-5 text--charcoal width-text-right" data-track-click="{{ ts.event('NAV_CLICK') }}"
+            data-track-props='{ "type": "Contextbar Reviews", "title": "{{ cb.data.courseInfo.title }}" }'>
+            <span style="position: relative; top: 3px;">
+              <span class="text--underline inline-block padding-right-xxsmall" style="height: 15px; line-height: 18px;">
+                {{ cb.data.courseInfo.numRatings }} Reviews
+              </span>
+            </span>
+            {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with {
+              rating: cb.data.courseInfo.rating,
+              mobileClassName: "text--underline"
+            } %}
+          </a>
+        </div>
+      </div>
+      <div class="animate-fade-entered push padding-xsmall">
+        <div class="inline-block xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
+          <p class="head-5 inline-block margin-right-xsmall">
+            Share <span class="xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden"  data-responsive='{"xlargeOnly": "hidden"}'>this course</span>
+          </p>
+          <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Twitter" }'
+            href="{{ cb.data.twitterUrl }}"
+            target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-twitter margin-horz-xxsmall">Twitter</a>
+          <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Facebook" }'
+            href="{{ cb.data.twitterUrl }}"
+            target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-facebook">Facebook</a>
+        </div>
+        <a href="#reviews" id="read-reviews" class="read-reviews-btn xlarge-up-hidden" data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Contextbar Reviews", "title": "{{ cb.data.courseInfo.title }}" }'>
+          {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with {
+            rating: cb.data.courseInfo.rating,
+            mobileClassName: "text--underline"
+          } %}
+        </a>
+        <div class="inline-block margin-left-xsmall xlarge-up-margin-left-small">
+          <a data-track-props='{ "type": "Course CTA", "title": "{{ cb.data.courseInfo.title }}", "trigger": "goToClassClick" }'
+            href="{{ cb.data.courseInfo.url }}"
+            target="_blank" class="btn-green xsmall-only-btn--small small-only-btn--small medium-only-btn--small large-only-btn--small icon-arrow-right-white icon--right">Go to class</a>
+        </div>
+      </div>
+    </nav>
+    {% endif %}
+    {# end course sticky menu #}
+
+    {# courses sub menu #}
+    <section id="browse-menu" class="cc-subMenu animate-hidden row bg-white z-mid absolute left width-100 shadow border-bottom border-top border--gray-light border--thin border-box"
+      data-sub-menu="courses" data-responsive='{
+        "xlargeUp": "arrow arrow-top-middle arrow--medium arrow--white"
+      }'>
+
+      {# submenu desktop tab nav #}
+      <nav class="cc-subMenu_navContainer xsmall-only-hidden small-only-hidden padding-left-small padding-right-medium padding-vert-large border-box absolute top left border-right border--thin border--gray-light">
+        <ul>
+          <li class="text-left">
+            <a href="/trending" data-key="notable" class="inline-block icon-bullhorn-gray large-only-padding-vert-small medium-only-padding-vert-small padding-vert-medium icon--left" data-tab-nav-button="notable"
+              data-responsive='{
+                "xsmallOnly": "icon--small",
+                "smallOnly": "icon--small",
+                "mediumOnly": "icon--small",
+                "largeOnly": "icon--small",
+                "xlargeUp": "icon--large"
+              }'>
+              <span class="text--bold text--gray" data-responsive='{
+                  "xsmallOnly": "head-5",
+                  "smallOnly": "head-5",
+                  "mediumOnly": "head-5",
+                  "largeOnly": "head-5",
+                  "xlargeUp": "head-3 margin-left-medium"
+                }'>
+                Notable
+              </span>
+            </a>
+          </li>
+          <li class="text-left">
+            <a href="/subjects" data-key="subject" class="inline-block icon-subject-gray large-only-padding-vert-small medium-only-padding-vert-small padding-vert-medium icon--left" data-tab-nav-button="subject"
+              data-responsive='{
+                "xsmallOnly": "icon--small",
+                "smallOnly": "icon--small",
+                "mediumOnly": "icon--small",
+                "largeOnly": "icon--small",
+                "xlargeUp": "icon--large"
+              }'>
+              <span class="text--bold text--gray" data-responsive='{
+                  "xsmallOnly": "head-5",
+                  "smallOnly": "head-5",
+                  "mediumOnly": "head-5",
+                  "largeOnly": "head-5",
+                  "xlargeUp": "head-3 margin-left-medium"
+                }'>
+                Subject
+              </span>
+            </a>
+          </li>
+          <li class="text-left">
+            <a href="/universities" data-key="university" class="inline-block icon-university-gray large-only-padding-vert-small medium-only-padding-vert-small padding-vert-medium icon--left" data-tab-nav-button="university"
+              data-responsive='{
+                "xsmallOnly": "icon--small",
+                "smallOnly": "icon--small",
+                "mediumOnly": "icon--small",
+                "largeOnly": "icon--small",
+                "xlargeUp": "icon--large"
+              }'>
+              <span class="text--bold text--gray" data-responsive='{
+                  "xsmallOnly": "head-5",
+                  "smallOnly": "head-5",
+                  "mediumOnly": "head-5",
+                  "largeOnly": "head-5",
+                  "xlargeUp": "head-3 margin-left-medium"
+                }'>
+                University
+              </span>
+            </a>
+          </li>
+          <li class="text-left">
+            <a href="/providers" data-key="provider" class="inline-block icon-provider-gray large-only-padding-vert-small medium-only-padding-vert-small padding-vert-medium icon--left" data-tab-nav-button="provider"
+              data-responsive='{
+                "xsmallOnly": "icon--small",
+                "smallOnly": "icon--small",
+                "mediumOnly": "icon--small",
+                "largeOnly": "icon--small",
+                "xlargeUp": "icon--large"
+              }'>
+              <span class="text--bold text--gray" data-responsive='{
+                  "xsmallOnly": "head-5",
+                  "smallOnly": "head-5",
+                  "mediumOnly": "head-5",
+                  "largeOnly": "head-5",
+                  "xlargeUp": "head-3 margin-left-medium"
+                }'>
+                Provider
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      {# submenu mobile tab nav #}
+      <nav class="border-box border-vert border--thin border--gray-light bg-gray width-100 padding-small text-center" data-responsive='{
+          "mediumUp": "hidden"
+        }'>
+        <span class="text--charcoal icon-chevron-down-charcoal icon--right text-2" data-tab-select-text>
+          Notable
+        </span>
+        <select class="absolute left top btn-white btn--small width-100 text--charcoal" style="top: 5px; opacity: 0;" data-tab-nav-select>
+          <option value="notable">Notable</option>
+          <option value="subject">Subject</option>
+          <option value="university">University</option>
+          <option value="provider">Provider</option>
+        </select>
+      </nav>
+
+      {# "Notable" tab contents #}
+      <div class="border-box width-100 row cc-subMenu_tabContainer xsmall-only-padding-vert-small small-only-padding-vert-small medium-up-padding-vert-large"
+        data-tab-content="notable">
+        <section class="row relative">
+          <div class="col border-box" data-responsive='{
+              "xsmallOnly": "width-100",
+              "smallOnly": "width-100",
+              "mediumOnly": "width-3-7",
+              "largeOnly": "width-3-7",
+              "xlargeUp": "width-1-3"
+            }'>
+            <h3 class="padding-horz-xlarge margin-top-medium medium-only-padding-horz-small large-only-padding-horz-small">
+              <div class="head-4 icon--small icon--left icon-lightening-charcoal">
+                <span class="text--charcoal text--bold head-4 padding-left-xxsmall">New &amp; Trending</span>
+              </div>
+            </h3>
+            <ul class="row padding-top-small medium-only-padding-horz-large large-only-padding-horz-large padding-horz-xxlarge">
+
+              {% for notable in navbarData.collections.notable.newAndTrending %}
+                <li class="col" data-responsive='{
+                  "xsmallOnly": "width-1-2",
+                  "smallOnly": "width-1-2",
+                  "mediumUp": "width-100",
+                  "xxlargeUp": "width-1-2 padding-right-medium"
+                }'>
+                  <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ 'type':'Notable', 'title':'{{ notable.name }}' }'
+                     href='{{ notable.url }}' class="unit-horz padding-vert-small ">
+                  <span class="unit-block unit-fill">
+                    <h5 class="text--blue hover--text-underline text-2 text--bold truncate truncate--large ">{{ notable.name }}</h5>
+                    <p class="text--charcoal text-2">{{ notable.numCourses }} courses</p>
+                  </span>
+                  </a>
+                </li>
+              {% endfor %}
+
+              <li
+                class="text-left"
+                data-responsive='{
+                  "xxlargeUp": "padding-left-xxlarge absolute left bottom"
+                }'>
+                <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Trending", "title": "Recommendations" }'
+                  href="/user/recommendations" data-action="meet-your-next-course" class="btn-white margin-top-medium icon-random-blue icon--left">
+                  Recommendations
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col border-box" data-responsive='{
+              "xsmallOnly": "width-100 padding-top-medium",
+              "smallOnly": "width-100 padding-top-medium",
+              "mediumOnly": "width-4-7",
+              "largeOnly": "width-4-7",
+              "mediumUp": "border-left border--gray-light border--thin",
+              "xlargeUp": "width-2-3"
+            }'>
+            <h3 class="padding-horz-xlarge medium-only-padding-horz-small large-only-padding-horz-small margin-top-medium">
+              <div class="head-4 icon--small icon--left icon-star-outline-charcoal">
+                <span class="text--charcoal text--bold head-4 padding-left-xsmall">Top 50 MOOCs</span>
+              </div>
+            </h3>
+            <ul class="row padding-top-small medium-only-padding-horz-large large-only-padding-horz-large padding-horz-xxlarge">
+
+                {% for top50Course in navbarData.collections.notable.topFifty %}
+                  <li class="relative">
+                    <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ 'type' :'Top 50', 'title' : '#{{ top50Course.top50Rank }} {{ top50Course.name }}' }'
+                       href='{{ top50Course.url }}' class="block unit-horz padding-vert-small">
+                      <div class="unit-block text--charcoal text-1 large-only-hidden xsmall-only-hidden small-only-hidden medium-only-hidden">
+                        <span class="padding-right-medium">#{{ top50Course.top50Rank }}</span>
+                      </div>
+                      <div class="unit-block unit-fill">
+                        <div class="cc-header_ratingContext">
+                          <h5 class="text--blue hover--text-underline text-2 text--bold ">
+                            <span class="medium-up-hidden">#{{ top50Course.top50Rank }}</span> {{ top50Course.name }}</h5>
+                          <p class="text--charcoal text-2">
+                            <em class="text--italic">{{ top50Course.institution }}</em> via {{ top50Course.provider }}</p>
+                        </div>
+                        <div data-responsive='{
+                        "xsmallOnly": "padding-top-xsmall",
+                        "smallOnly": "padding-top-xsmall",
+                        "mediumOnly": "padding-top-xsmall",
+                        "largeOnly": "padding-top-xsmall",
+                        "xlargeUp": "absolute top right padding-top-medium"
+                      }'>
+                          <div class="review-rating text-5 text--charcoal width-text-left">
+                            <div>
+                              {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: top50Course.rating } %}
+                              <div>
+                                <span class=" inline-block padding-right-xxsmall" style="height: 15px; line-height: 18px;">{{ top50Course.numRatings }} Reviews</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                {% endfor %}
+
+              <li class="width-1-1 col xlarge-up-text-right">
+                <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Top 50", "title": "Top 50 View All" }'
+                  href="/collection/top-free-online-courses" class="btn-blue margin-top-medium margin-bottom-large icon-arrow-right-white icon--right">See Top 50
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+
+        </section>
+      </div>
+      {# end "Notable" tab contents #}
+      {# "Subject" tab contents #}
+      <div class="border-box width-100 row cc-subMenu_tabContainer xsmall-only-padding-vert-small small-only-padding-vert-small medium-up-padding-vert-large"
+        data-tab-content="subject">
+        <ul class="xsmall-only-padding-horz-large small-only-padding-horz-large medium-only-padding-horz-large large-only-padding-horz-large xlarge-up-padding-horz-xxlarge row" style="padding-bottom: 65px;">
+          <li
+            class="cc-subMenu-tabContainerButton padding-vert-medium xsmall-only-col small-only-col xsmall-only-width-100 small-only-width-100 text-center medium-up-absolute medium-up-bottom medium-up-left medium-up-margin-bottom-small"
+          >
+            <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Subject", "title": "See all Subjects" }'
+              href="/subjects" class="btn-blue width-100">
+              <span class="icon-arrow-right-white icon--right text--bold">See all Subjects</span>
+            </a>
+          </li>
+          {% for subject in navbarData.collections.subject.data %}
+            <li class="width-1-2 large-up-width-1-3 xlarge-up-width-1-4 col">
+              <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Subject", "title": "Computer Science" }'
+                 href='{{ subject.url }}' class="unit-horz padding-vert-small ">
+              <span class="unit-block unit-fill">
+                <h5 class="text--blue hover--text-underline text-2 text--bold truncate truncate--large ">{{ subject.name }}</h5>
+                <p class="text--charcoal text-2">
+                  {{ subject.numCourses }} courses
+                  <span class="xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">/
+                    <span class="text--bold block xlarge-up-inline"><span class="text--bold" data-format-number>{{ subject.numFollows }}</span> followers</span>
+                  </span>
+                </p>
+              </span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {# end "Subject" tab contents #}
+      {# "University" tab contents #}
+      <div class="border-box width-100 row cc-subMenu_tabContainer xsmall-only-padding-vert-small small-only-padding-vert-small medium-up-padding-vert-large"
+        data-tab-content="university">
+        <ul class="xsmall-only-padding-horz-large small-only-padding-horz-large medium-only-padding-horz-large large-only-padding-horz-large xlarge-up-padding-horz-xxlarge row" style="padding-bottom: 65px;">
+          <li class="cc-subMenu-tabContainerButton cc-subMenu-tabContainerButton-logoAlign padding-vert-medium xsmall-only-col small-only-col xsmall-only-width-100 small-only-width-100 text-center medium-up-absolute medium-up-bottom medium-up-left medium-up-margin-bottom-small">
+            <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "University", "title": "See all Universties" }'
+              href="/universities" class="
+                      btn-blue width-100
+                      ">
+              <span class="icon-arrow-right-white icon--right text--bold">See all Universties</span>
+            </a>
+          </li>
+          {% for university in navbarData.collections.university.data %}
+            <li
+                    class="width-1-2 xxlarge-up-width-1-3 medium-up-padding-right-medium col"
+                    data-responsive='{
+              "xxlargeUp": "width-1-3"
+            }'>
+
+              <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ 'type': 'University', 'title':'{{ university.name }}'}'
+                 href='{{ university.url }}' class="unit-horz padding-vert-xsmall">
+              <span class="unit-block padding-right-small">
+                <i class="icon icon--medium icon-{{ university.slug }}-gray" data-responsive='{
+                    "mediumUp": "icon--xlarge"
+                  }'>
+                </i>
+              </span>
+                <span class="unit-block unit-fill">
+                <h5 class="text--blue hover--text-underline text-2 text--bold truncate truncate--large ">{{ university.name }}</h5>
+                <p class="text--charcoal text-2">
+                  {{ university.numCourses }} courses
+                  <span class="xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">/
+                    <span class="text--bold block xlarge-up-inline"><span class="text--bold" data-format-number>{{ university.numFollows }}</span> followers</span>
+                  </span>
+                </p>
+              </span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {# end "University" tab contents #} {# "Provider" tab contents #}
+      <div class="border-box width-100 row cc-subMenu_tabContainer xsmall-only-padding-vert-small small-only-padding-vert-small medium-up-padding-vert-large"
+        data-tab-content="provider">
+        <ul class="xsmall-only-padding-horz-large small-only-padding-horz-large medium-only-padding-horz-large large-only-padding-horz-large xlarge-up-padding-horz-xxlarge row" style="padding-bottom: 65px;">
+          <li class="cc-subMenu-tabContainerButton cc-subMenu-tabContainerButton-logoAlign padding-vert-medium xsmall-only-col small-only-col xsmall-only-width-100 small-only-width-100 text-center medium-up-absolute medium-up-bottom medium-up-left medium-up-margin-bottom-small">
+            <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Provider", "title": "See all Providers" }'
+              href="/providers" class="
+
+                        btn-blue width-100
+                      ">
+              <span class="icon-arrow-right-white icon--right text--bold">See all Providers</span>
+            </a>
+          </li>
+
+          {% for provider in navbarData.collections.provider.data %}
+            <li class="width-1-2 col medium-up-padding-right-medium">
+              <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ 'type': 'Provider', 'title': '{{ provider.name }}' }'
+                 href='{{ provider.url }}' class="unit-horz padding-vert-small ">
+              <span class="unit-block padding-right-small">
+                <i class="icon icon--medium icon-{{ provider.slug }}-gray" data-responsive='{
+                    "mediumUp": "icon--xlarge"
+                  }'></i>
+              </span>
+                <span class="unit-block unit-fill">
+                <h5 class="text--blue hover--text-underline text-2 text--bold truncate truncate--large ">{{ provider.name }}</h5>
+                <p class="text--charcoal text-2">
+                  {{ provider.numCourses }} courses
+                  <span class="xsmall-only-hidden small-only-hidden">/
+                    <span class="text--bold block xlarge-up-inline"><span class="text--bold" data-format-number>{{ provider.numFollows }}</span> followers</span>
+                  </span>
+                </p>
+                <p class="margin-top-small text--charcoal xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">{{ provider.description }}</p>
+              </span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {# end "Provider" tab contents #}
+
+    </section>
+    {# end Courses sub menu #}
+
+    {# search results container #}
+    <div
+      id="search-results"
+      class="animate-hidden bg-white z-high absolute width-1-3 border-box border-all border--thin border--gray-light shadow"
+      data-responsive='{
+        "mediumUp": "arrow arrow-top-middle arrow--medium arrow--white"
+      }'
+      data-cc-search-results
+    >
+      <ol data-cc-search-results-list></ol>
+      <div class="padding-medium text-center border-bottom border--thin border--gray-light bg-white">
+        <a
+          data-track-click="{{ ts.event('NAV_CLICK') }}"
+          data-track-props='{ "type": "Search", "title": "Search View All", "query": "test" }'
+          class="search-item btn-blue btn--medium padding-horz-large icon--right icon-arrow-right-white"
+          href="/search?q=test"
+          data-cc-search-link
+        >
+          See all results for <span class="text--bold" data-cc-search-query-text></span>
+        </a>
+      </div>
+    </div>
+    {# end search results container #}
+
+    {# start MOOC Report sub menu #}
+    <div class="cc-subMenu animate-hidden bg-white z-top absolute width-1-3 border-all border--thin border--gray-light shadow arrow arrow-top-middle arrow--medium arrow--white"
+      style="top: 87px; max-width: 400px; left: 392.5px; margin-left: -200px;" data-sub-menu="mooc" data-auto-align="true">
+      <ol>
+        {% for article in navbarData.collections.articles  %}
+          <li>
+            <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "MOOC Report", "title": "{{ article.title }}" }'
+               href="{{ article.url }}" class="block padding-medium border-bottom border--gray-light border--thin hover-bg-gray">
+              <h5 class="text-2 text--bold text--blue">{{ article.title }}</h5>
+              <p class="text-3 text--charcoal">{{ article.description }}</p>
+              <p class="text-4 text--italic text--gray margin-top-xsmall">via MOOC Report</p>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+      <div class="padding-vert-small padding-horz-medium text-right">
+        <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "MOOC Report", "title": "MOOC Report View All" }'
+          class="btn-white icon--right icon-arrow-right-blue" href="/report">See more</a>
+      </div>
+    </div>
+    {# end MOOC Report sub menu #} {# start user sub menu #}
+    <div class="animate-hidden cc-subMenu-user bg-white z-top absolute width-1-3 border-all border--thin border--gray-light shadow"
+      data-sub-menu="user" data-auto-align="true" data-responsive='{
+        "xlargeUp": "arrow arrow-top-middle arrow--medium arrow--white"
+      }'>
+      <ol class="padding-vert-small">
+        {% for title, url in userData.navMenu %}
+          <li>
+            <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "User", "title": "{{ title }}" }'
+              href="{{ url }}" class="block padding-horz-small padding-vert-xsmall" id="{{ title == "Register" ? "navbar-create-free-account" : "" }}">
+              <h5 class="text-3 text--bold {{ title == "Logout" ? "text--charcoal" : "text--blue" }}">{{ title }}</h5>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+    {# end usersub menu #}
+
+    <div id="cc-header-blanket" class="animate-hidden width-100 height-100 fixed top left" style="background-color: rgba(0, 0, 0, 0.8);"
+      data-header-blanket>
+    </div>
+  </header>
+</div>

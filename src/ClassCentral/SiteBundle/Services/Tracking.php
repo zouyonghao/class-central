@@ -25,6 +25,8 @@ class Tracking {
     const LANDING_PAGE_CLICK = 'landing_page_click';
     const FILTER_CLICK = 'filter_click';
     const COURSE_CLICK = 'course_click';
+    const NAV_CLICK = 'nav_click';
+    const CONTEXTBAR_CLICK = 'contextbar_click';
     const COURSERA_DEGREE_CLICK = 'coursera_degree_click';
 
 

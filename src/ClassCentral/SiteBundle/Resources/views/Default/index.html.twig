@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+
+  {% set userData = apiService.getUserInfo() %}
   <!-- banner -->
   <div class="classcentral-style">
     <section data-slideshow class="cc-gradient-gold">
@@ -145,7 +147,7 @@
         <div id="for-you-header" class="text-left small-only-hidden xsmall-only-hidden absolute left">
           <h2 class="head-2 medium-up-head-1 padding-bottom-small inline-block">For You</h2>
           <p class="small-only-hidden xsmall-only-hidden medium-only-hidden large-only-hidden text-1 inline-block padding-left-small">
-            You are logged in as <a href="{{ navbarData["user"]["navMenu"]["My Profile"] }}" class="text--blue">{{ navbarData["user"]["firstName"] }}</a>
+            You are logged in as <a href="{{ userData.navMenu["My Profile"] }}" class="text--blue">{{ userData["firstName"] }}</a>
           </p>
         </div>
         <div class="text-center medium-up-text-right width-100 push">
