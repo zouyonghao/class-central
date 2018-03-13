@@ -113,8 +113,8 @@ class OnboardingController extends Controller
         $finder = $this->container->get('course_finder');
 
 
-        // Additional upcoming or interested courses to gauge interest:
-        $courses = array(8284,10503,10159, 10427,10445,10473,10383);
+        // Show new courses at the top to guage interest
+        $courses = $this->get('course')->getRandomNewCourseIds();
         $interestingCourses = $finder->byCourseIds($courses);
 
 

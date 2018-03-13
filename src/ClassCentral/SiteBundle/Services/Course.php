@@ -327,4 +327,31 @@ class Course
         }
         return $coursesByCategory;
     }
+
+    public function getRandomNewCourseIds()
+    {
+        $cache = $this->container->get('cache');
+
+        $courseIds = $cache->get('recently_added_courses', function (){
+            $finder = $this->container->get('course_finder');
+            $courses = $finder->byTime('recentlyAdded', [], [], -1);
+            $courseIds = [];
+            foreach ($courses['hits']['hits'] as $course)
+            {
+                $course = $course['_source'];
+                $courseIds[] = $course['id'];
+            }
+
+            return $courseIds;
+        });
+
+        $randomCourseIds = [];
+        for($i = 0 ; $i <= 5; $i++)
+        {
+            $randId = random_int(0,count($courseIds) - 1);
+            $randomCourseIds[] = $courseIds[$randId];
+        }
+
+        return $randomCourseIds;
+    }
 }

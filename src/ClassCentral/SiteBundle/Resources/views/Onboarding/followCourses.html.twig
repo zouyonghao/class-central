@@ -28,10 +28,11 @@
                                         {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                                             item : followCourseItem,
                                             item_id : course.id,
-                                            itemName: course.name,
+                                            itemName: course.name ,
                                             followed: followed,
                                             simpleButton: true,
-                                            hideNotification: true
+                                            hideNotification: true,
+                                            showNew: true
                                             }
                                         %}
 

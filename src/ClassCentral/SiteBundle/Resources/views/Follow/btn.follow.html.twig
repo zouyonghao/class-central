@@ -30,6 +30,10 @@
     {% set nextCourseWizard = false %}
 {% endif %}
 
+{% if showNew is not defined %}
+    {% set showNew = false %}
+{% endif %}
+
 {% if simpleButton %}
     <a href="#"
        class="tagboard__tag btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}  {% if followed %}active{% endif %}"
@@ -43,6 +47,7 @@
        data-hide-notification ="{{ hideNotification }}"
        data-next-course-wizard = "{{ nextCourseWizard }}"
             >
+        {% if showNew %}New: {% endif %}
         {% if truncate %}
             {{ itemName|slice(0,27) }}...
         {% else %}
