@@ -18,7 +18,7 @@ framework:
     default_locale: "%locale%"
     trusted_proxies: ~
     session:
-      handler_id: session.handler.memcached
+      handler_id: session.handler.pdo
       cookie_lifetime: 2592000
     fragments:       ~
 
@@ -255,3 +255,9 @@ services:
   keen:
      class: ClassCentral\SiteBundle\Services\Keen
      arguments: [ '@service_container' ]
+  session.handler.pdo:
+     class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+     public:    false
+     arguments:
+      - 'mysql:host=%database_host%;dbname=%database_name%'
+      - { db_username: '%database_user%', db_password: '%database_password%' }
