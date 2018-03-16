@@ -80,3 +80,7 @@ courses_all:
 course_autocomplete:
   pattern: /autocomplete
   defaults: { _controller: ClassCentralSiteBundle:Course:autoCompleteCourse }
+
+course_new_sorted_by_popularity:
+  pattern: /popular-new-courses
+  defaults: { _controller: ClassCentralSiteBundle:Course:newCoursesSortedByPopularity }

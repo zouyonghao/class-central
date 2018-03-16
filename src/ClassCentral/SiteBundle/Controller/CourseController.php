@@ -1968,4 +1968,26 @@ EOD;
         ));
     }
 
+    /**
+     * This page shows new courses sorted by popularity i.e followed
+     * @param Request $request
+     */
+    public function newCoursesSortedByPopularityAction(Request $request)
+    {
+        $finder = $this->container->get('course_finder');
+        $courses = $finder->byTime('recentlyAdded', [], [], -1);
+        uasort($courses['hits']['hits'],function ($c1,$c2){
+
+            return $c1['_source']['followed'] < $c2['_source']['followed'];
+        });
+
+        return $this->render('ClassCentralSiteBundle:Course:newCoursesSortedByPopularity.html.twig',[
+            'courses' => $courses
+        ]);
+
+    }
+
+
+
+
 }

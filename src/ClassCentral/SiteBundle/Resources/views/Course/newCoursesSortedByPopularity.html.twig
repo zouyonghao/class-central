@@ -1,0 +1,17 @@
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{%  block content %}
+<div class="classcentral-style">
+    <section class="width-centered large-up-padding-horz-large" style="max-width: 1250px;">
+        <table>
+        {% for course in courses['hits']['hits'] %}
+        {% set course = course['_source'] %}
+            <tr>
+                <td><a href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}">{{ course.name }}</a></td>
+                <td>{{ course.followed }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </section>
+</div>
+{% endblock %}

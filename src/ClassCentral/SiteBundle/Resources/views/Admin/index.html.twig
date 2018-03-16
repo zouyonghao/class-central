@@ -30,6 +30,7 @@
                 <li><a href="{{ path('stream_text_view',{'slug':'cs'}) }}">Courses by subject in text format</a> (Update slug to see different subject course)</li>
                 <li><a href="{{ path('course_merge') }}">Merge Course</a></li>
                 <li><a href="{{ path('course_image_upload') }}">Course Image Upload</a></li>
+                <li><a href="{{ path('course_new_sorted_by_popularity') }}">Popular new courses</a></li>
             </ul>
         </div>
 
@@ -184,6 +185,13 @@
             <h3><a href="{{ path('ClassCentralSiteBundle_clearcache') }}">Clear Cache</a></h3>
         </div>
 
+        <div>
+            <h2>Mail Templates</h2>
+            <ul>
+                <li><a href="{{ path('mail_preview_list') }}">List of templates</a></li>
+
+            </ul>
+        </div>
 
 
     </div>
