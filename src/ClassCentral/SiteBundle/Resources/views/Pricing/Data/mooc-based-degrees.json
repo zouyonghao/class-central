@@ -13,6 +13,36 @@
   ],
   "rows": [
     {
+      "title": "Bachelor of Science in Computer Science",
+      "subtitle": "University of London via Coursera",
+      "price": "£9,600 - £17,000"
+    },
+    {
+      "title": "Master of Computer Science",
+      "subtitle": "Arizona State University via Coursera",
+      "price": "$15,000"
+    },
+    {
+      "title": "Master of Computer Science",
+      "subtitle": "University of Illinois via Coursera",
+      "price": "$19,200 + fees"
+    },
+    {
+      "title": "Global Master of Public Health",
+      "subtitle": "Imperial College London via Coursera",
+      "price": "NA"
+    },
+    {
+      "title": "Master of Public Health",
+      "subtitle": "University of Michigan via Coursera",
+      "price": "NA"
+    },
+    {
+      "title": "Master of Applied Data Science",
+      "subtitle": "University of Michigan via Coursera",
+      "price": "NA"
+    },
+    {
       "title": "Masters of Science in Computer Science (OMSCS)",
       "subtitle": "Georgia Institute of Technology via Udacity",
       "price": "~$7000"
