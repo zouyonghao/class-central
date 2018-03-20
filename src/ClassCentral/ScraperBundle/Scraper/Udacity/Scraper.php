@@ -55,10 +55,6 @@ class Scraper extends ScraperAbstractInterface{
             $course = $this->getCourseEntity( $udacityCourse );
             $offering = null;
             $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
-            if( !$dbCourse )
-            {
-                $dbCourse = $this->dbHelper->findCourseByName( $course->getName() , $this->initiative );
-            }
 
             if( !$dbCourse )
             {
@@ -191,7 +187,7 @@ class Scraper extends ScraperAbstractInterface{
         $defaultLanguage = $langMap[ 'English' ];
 
         $course = new Course();
-        $course->setShortName( substr('udacity_' . $udacityCourse['slug'],0,50));
+        $course->setShortName('udacity_' . $udacityCourse['slug']);
         $course->setInitiative( $this->initiative );
         $course->setName( $udacityCourse['title'] );
         $course->setDescription( $udacityCourse['short_summary'] );

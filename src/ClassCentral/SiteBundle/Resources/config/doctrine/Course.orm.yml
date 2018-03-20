@@ -23,7 +23,7 @@ ClassCentral\SiteBundle\Entity\Course:
       nullable: false
     shortName:
       type: string
-      length: 50
+      length: 100
       column: short_name
     url:
      type: text
