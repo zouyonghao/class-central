@@ -155,6 +155,7 @@ class User implements UserInterface, \Serializable
     {
         $this->role = "ROLE_STUDENT";
         $this->isActive = true;
+        $this->isPrivate = true;
         $this->setCreated(new \DateTime());
         $this->moocTrackerCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userCourses = new \Doctrine\Common\Collections\ArrayCollection();
@@ -175,7 +176,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -196,14 +197,14 @@ class User implements UserInterface, \Serializable
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -219,14 +220,14 @@ class User implements UserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
-    
+
         return $this;
     }
 
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -242,14 +243,14 @@ class User implements UserInterface, \Serializable
     public function setRole($role)
     {
         $this->role = $role;
-    
+
         return $this;
     }
 
     /**
      * Get role
      *
-     * @return string 
+     * @return string
      */
     public function getRole()
     {
@@ -265,14 +266,14 @@ class User implements UserInterface, \Serializable
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-    
+
         return $this;
     }
 
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -377,14 +378,14 @@ class User implements UserInterface, \Serializable
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -426,14 +427,14 @@ class User implements UserInterface, \Serializable
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -449,14 +450,14 @@ class User implements UserInterface, \Serializable
     public function setModified($modified)
     {
         $this->modified = $modified;
-    
+
         return $this;
     }
 
     /**
      * Get modified
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModified()
     {
@@ -472,14 +473,14 @@ class User implements UserInterface, \Serializable
     public function setLastLogin($lastLogin)
     {
         $this->lastLogin = $lastLogin;
-    
+
         return $this;
     }
 
     /**
      * Get lastLogin
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastLogin()
     {
@@ -496,7 +497,7 @@ class User implements UserInterface, \Serializable
     public function addMoocTrackerSearchTerm(\ClassCentral\SiteBundle\Entity\MoocTrackerSearchTerm $moocTrackerSearchTerms)
     {
         $this->moocTrackerSearchTerms[] = $moocTrackerSearchTerms;
-    
+
         return $this;
     }
 
@@ -513,7 +514,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get moocTrackerSearchTerms
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMoocTrackerSearchTerms()
     {
@@ -529,7 +530,7 @@ class User implements UserInterface, \Serializable
     public function addMoocTrackerCourse(\ClassCentral\SiteBundle\Entity\MoocTrackerCourse $moocTrackerCourses)
     {
         $this->moocTrackerCourses[] = $moocTrackerCourses;
-    
+
         return $this;
     }
 
@@ -546,7 +547,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get moocTrackerCourses
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMoocTrackerCourses()
     {
@@ -616,7 +617,7 @@ class User implements UserInterface, \Serializable
     public function addNewsletter(\ClassCentral\SiteBundle\Entity\Newsletter $newsletters)
     {
         $this->newsletters[] = $newsletters;
-    
+
         return $this;
     }
 
@@ -633,7 +634,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get newsletters
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getNewsletters()
     {
@@ -678,14 +679,14 @@ class User implements UserInterface, \Serializable
     public function setIsverified($isverified)
     {
         $this->isverified = $isverified;
-    
+
         return $this;
     }
 
     /**
      * Get isverified
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsverified()
     {
@@ -701,7 +702,7 @@ class User implements UserInterface, \Serializable
     public function addReview(\ClassCentral\SiteBundle\Entity\Review $reviews)
     {
         $this->reviews[] = $reviews;
-    
+
         return $this;
     }
 
@@ -718,7 +719,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get reviews
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getReviews()
     {
@@ -745,14 +746,14 @@ class User implements UserInterface, \Serializable
     public function setSignupType($signupType)
     {
         $this->signupType = $signupType;
-    
+
         return $this;
     }
 
     /**
      * Get signupType
      *
-     * @return integer 
+     * @return integer
      */
     public function getSignupType()
     {
@@ -778,14 +779,14 @@ class User implements UserInterface, \Serializable
     public function setFb(\ClassCentral\SiteBundle\Entity\UserFb $fb = null)
     {
         $this->fb = $fb;
-    
+
         return $this;
     }
 
     /**
      * Get fb
      *
-     * @return \ClassCentral\SiteBundle\Entity\Userfb 
+     * @return \ClassCentral\SiteBundle\Entity\Userfb
      */
     public function getFb()
     {
@@ -825,7 +826,7 @@ class User implements UserInterface, \Serializable
     public function setHandle($handle)
     {
         $this->handle = $handle;
-    
+
         return $this;
     }
 
@@ -846,14 +847,14 @@ class User implements UserInterface, \Serializable
     public function setProfile(\ClassCentral\SiteBundle\Entity\Profile $profile = null)
     {
         $this->profile = $profile;
-    
+
         return $this;
     }
 
     /**
      * Get profile
      *
-     * @return \ClassCentral\SiteBundle\Entity\Profile 
+     * @return \ClassCentral\SiteBundle\Entity\Profile
      */
     public function getProfile()
     {
@@ -870,14 +871,14 @@ class User implements UserInterface, \Serializable
     public function setIsPrivate($isPrivate)
     {
         $this->isPrivate = $isPrivate;
-    
+
         return $this;
     }
 
     /**
      * Get isPrivate
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsPrivate()
     {
@@ -894,7 +895,7 @@ class User implements UserInterface, \Serializable
     public function addIndepthReview(\ClassCentral\SiteBundle\Entity\IndepthReview $indepthReviews)
     {
         $this->indepthReviews[] = $indepthReviews;
-    
+
         return $this;
     }
 
@@ -911,7 +912,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get indepthReviews
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIndepthReviews()
     {
@@ -927,7 +928,7 @@ class User implements UserInterface, \Serializable
     public function addCredentialReview(\ClassCentral\CredentialBundle\Entity\Credential $credentialReviews)
     {
         $this->credentialReviews[] = $credentialReviews;
-    
+
         return $this;
     }
 
@@ -944,7 +945,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get credentialReviews
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCredentialReviews()
     {

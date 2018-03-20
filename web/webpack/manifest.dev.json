@@ -1,7 +1,7 @@
 {
-  "cc.css": "cc.dev.css",
   "cc.js": "cc.dev.js",
   "cc-search.js": "cc-search.dev.js",
   "analytics.js": "analytics.dev.js",
-  "cc-style.css": "cc-style.dev.css"
+  "cc-style.css": "cc-style.dev.css",
+  "cc-legacy.css": "cc-legacy.dev.css"
 }

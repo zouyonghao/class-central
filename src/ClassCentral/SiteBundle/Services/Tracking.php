@@ -19,6 +19,7 @@ class Tracking {
     const LISTING_CLICK = 'listing_click';
     const FOOTER_CLICK = 'footer_click';
     const AUTH_CLICK = 'auth_click';
+    const SIGNUP_CLICK = 'signup_click';
     const REVIEW_CLICK = 'review_click';
     const SUBJECT_CLICK = 'subject_click';
     const HTTP_ERROR = 'http_error';

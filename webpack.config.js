@@ -5,6 +5,7 @@ module.exports = {
   context: __dirname + '/src/ClassCentral/SiteBundle/Resources/public/client',
   entry: {
     'cc': './CC.js',
+    'cc-legacy': './Legacy.less',
     'analytics': './Analytics.js',
     'cc-style': './Style.less',
   },

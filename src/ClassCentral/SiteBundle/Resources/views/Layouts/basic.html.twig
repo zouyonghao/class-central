@@ -27,9 +27,6 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    {% if ccStyleOnly is not defined or ccStyleOnly != true or app.user %}
-      <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc.css') }}" />
-    {% endif %}
     <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-style.css') }}" />
 
     <!-- Google+ Direct connect -->
@@ -59,25 +56,31 @@
 </script>
 
 <body>
-  <div class="contain-page">
-    {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' with { navbarStyle: "simple" } %}
+  <div class="contain-body">
+    <div class="contain-page">
+      {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' with { navbarStyle: "simple" } %}
 
-    {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
-      <div class="classcentral-style">
-        <div class="width-centered padding-horz-large margin-top-medium" style="max-width: 1400px;">
-            {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
+      {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
+        <div class="classcentral-style">
+          <div class="width-centered padding-horz-large margin-top-medium" style="max-width: 1400px;">
+              {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
+          </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
 
-    {%  block content %}
-    {% endblock %}
+      {%  block content %}
+      {% endblock %}
+    </div>
+
+    {# Footer #}
+    {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "basic" } %}
   </div>
-
-  {# Footer #}
-  {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "basic" } %}
+  
   {# Footer scripts #}
   {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
+  {# Modals #}
+  {% include 'ClassCentralSiteBundle:Layouts:_modal.html.twig' %}
+
   <script type="text/javascript">
       {% block customJS %}
       {% endblock %}

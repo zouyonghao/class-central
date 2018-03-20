@@ -1,90 +1,74 @@
-<div class="modal fade" id="next-course-pick-providers-modal"  role="dialog" aria-labelledby="write-modal-title-here" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-dialog__large" role="document">
-        <div class="modal-base-wrap">
+<div id="modal-nextcourse-providers" class="relative">
+  <header class="text-center padding-top-large padding-horz-large">
+    <h4 class="head-2 text--bold">Pick course providers and universities</h4>
+    <p class="head-4">
+      It'll help us find courses you'll love.
+    </p>
+  </header>
+
+  <div class="relative border-bottom border--thin border--gray-xxlight">
+    <div class="scrollable-y fade-bottom" style="height: 400px;">
+      <div class="tagboard padding-bottom-xxlarge margin-bottom-xlarge padding-horz-xlarge padding-top-large">
+        {% set providerCount = 0  %}
+        {% for provider in providers if providerCount <= 8 %}
+          {% if provider.name != 'Independent' %}
+            <span class="block medium-up-inline-block margin-bottom-xxsmall relative">
+              {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+              item : followProviderItem,
+              item_id : provider.id,
+              itemName: provider.name,
+              followed: false,
+              simpleButton: true,
+              hideNotification: true,
+              nextCourseWizard: true
+              } %}
+            </span>
+          {% endif %}
+
+          {% set providerCount = providerCount + 1 %}
+        {% endfor %}
 
 
-            <div class="modal-base-layout">
+        {% set insCount = 0 %}
+        {% for institution in institutions if insCount <= 100 %}
+          <span class="block medium-up-inline-block margin-bottom-xxsmall relative">
+            {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+            item : followInstitutionItem,
+            item_id : institution.id,
+            itemName: institution.name,
+            followed: false,
+            simpleButton: true,
+            hideNotification: true,
+            nextCourseWizard: true
+            } %}
 
-
-                <div id="modal-pane-2" class="modal-pane">
-                    <div class="on-modal-header">
-                        <h1 class="on-modal-title">Pick <i>course providers</i> and <i>universities</i></h1>
-                        <h2 class="on-modal-subtitle">that you are interested in. It'll help us find courses you'll love</h2>
-                    </div>
-
-                    <div class="on-modal-body">
-                        <div class="on-modal-body__tags">
-                            <div class="on-modal-body__tagswrap js-custom-scrollbar">
-                                <div class="tagboard">
-
-                                    {% set providerCount = 0  %}
-                                    {% for provider in providers if providerCount <= 8 %}
-
-                                        {% if provider.name != 'Independent' %}
-                                            {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                                            item : followProviderItem,
-                                            item_id : provider.id,
-                                            itemName: provider.name,
-                                            followed: false,
-                                            simpleButton: true,
-                                            hideNotification: true,
-                                            nextCourseWizard: true
-                                            } %}
-                                        {% endif %}
-
-                                        {% set providerCount = providerCount + 1 %}
-                                    {% endfor %}
-
-
-                                    {% set insCount = 0 %}
-                                    {% for institution in institutions if insCount <= 100 %}
-
-                                        {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                                        item : followInstitutionItem,
-                                        item_id : institution.id,
-                                        itemName: institution.name,
-                                        followed: false,
-                                        simpleButton: true,
-                                        hideNotification: true,
-                                        nextCourseWizard: true
-                                        } %}
-
-                                        {% set insCount = insCount + 1 %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="on-modal-footer">
-                        <div class="on-modal-footer__bar">
-                            <div class="meter">
-                                <span class="meter__bar" style="width: 0%"></span>
-                            </div>
-                        </div>
-                        <div class="on-modal-footer__button">
-                            <a href="#" class="on-modal-button" id="next-course-pick-providers__next">
-                                <div class="on-modal-button__icon">
-                                    <div class="u-scaling-svg">
-                                        <svg class="u-scalingSvg__shape">
-                                            <use xlink:href="#shape-arrow-right-thin" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <span>Pick 5 or more providers</span>
-                            </a>
-                        </div>
-                    </div>
-                </div><!-- /.modal-pane -->
-
-            </div>
-            <a href="#" class="modal-close-button" data-dismiss="modal" aria-label="Close">
-                <svg class="modal-close-button__icon">
-                    <use xlink:href="#icon-close"></use>
-                </svg>
-                Not right now, thanks.
-            </a>
-
-        </div>
+            {% set insCount = insCount + 1 %}
+          </span>
+        {% endfor %}
+      </div>
+      <div class="z-top width-100 absolute bottom text-center left">
+        <p class="text--charcoal text-3 icon--left icon-arrow-down text--bold padding-small">
+          Scroll for more
+        </p>
+      </div>
     </div>
+  </div>
+
+  <div class="bg-gray padding-vert-small text-center large-up-text-right row padding-horz-large">
+    <div class="col width-10-16 relative padding-right-medium text-left medium-only-hidden small-only-hidden xsmall-only-hidden">
+      <span
+        class="width-1-3 bg-white relative radius shadow inline-block margin-right-small"
+        data-ob-meterbar
+        style="height: 20px; top: 5px;">
+        <span class="bg-yellow absolute left top radius" style="height: 100%; width: 0px;"></span>
+      </span>
+      <span data-ob-info class="inline-block text-center line--small">
+        Pick 5 or more providers
+      </span>
+    </div>
+    <div class="col width-100 large-up-width-6-16 large-up-text-right text-center">
+      <button data-ob-action-back="loggedOut.subjects" class="text--blue icon--left icon-arrow-left-blue text-2 margin-right-small">Back</button>
+      <button data-ob-action-next="loggedOut.generate" class="btn-white">Skip & Generate</button>
+    </div>
+  </div>
 </div>

@@ -26,152 +26,6 @@
   }
 }
 
-[data-slideshow="0"] {
-  nav [data-slideshow-target="0"] {
-    opacity: 1 !important;
-  }
-}
-[data-slideshow="1"] {
-  nav [data-slideshow-target="1"] {
-    opacity: 1 !important;
-  }
-}
-[data-slideshow="2"] {
-  nav [data-slideshow-target="2"] {
-    opacity: 1 !important;
-  }
-}
-[data-slideshow="3"] {
-  nav [data-slideshow-target="3"] {
-    opacity: 1 !important;
-  }
-}
-[data-slideshow="4"] {
-  nav [data-slideshow-target="4"] {
-    opacity: 1 !important;
-  }
-}
-
-[data-slideshow] {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-
-  nav {
-    z-index: 5;
-    button {
-      margin: 0 3px;
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      color: transparent;
-      @media (max-width: 801px) {
-        border-radius: 0px;
-        width: 25%;
-        height: 10px;
-        border-right: 1px solid #1639A8;
-        display: block;
-        float: left;
-        margin: 0 0;
-      }
-    }
-  }
-  &:before {
-    content: " ";
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    z-index: -1;
-  }
-  &:after {
-    content: " ";
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    z-index: -1;
-  }
-  &.cc-gradient-yellow-orange {
-    &:before { background-color: #FFF0F1; }
-    &:after { background-color: #FFF2FE; }
-  }
-  &.cc-gradient-purple-blue {
-    &:before { background-color: #F8F2FF; }
-    &:after { background-color: #D5ECF7; }
-  }
-  &.cc-gradient-green-blue {
-    &:before { background-color: #CCFDFF; }
-    &:after { background-color: #A2DEFE; }
-  }
-  &.cc-gradient-orange-green {
-    &:before { background-color: #FEEED9; }
-    &:after { background-color: #E5FFF5; }
-  }
-
-  ul {
-    padding-bottom: 31.25%;
-  }
-  @media (max-width: 801px) {
-    ul {
-      padding-bottom: 90%;
-    }
-  }
-
-  [data-slideshow-item] {
-    opacity: 0;
-    transition: opacity 500ms ease;
-    &.active {
-      z-index: 2;
-      opacity: 1;
-      pointer-events: all;
-    }
-    &.next {
-      z-index: 3;
-      opacity: 0;
-      pointer-events: none;
-    }
-  }
-}
-
-[data-slideshow] {
-  @media (max-width: 801px) {
-    margin-bottom: 75px;
-  }
-}
-#ss-nav {
-  top: 0;
-  right: 0;
-  margin: 25px;
-  @media (max-width: 801px) {
-    margin: 0px;
-    width: 100%;
-    bottom: 0;
-    height: 10px;
-  }
-}
-#ss-mobile {
-  .absolute {
-    bottom: 82px;
-  }
-  @media (max-width: 480px) {
-    .absolute {
-      bottom: 55px;
-    }
-  }
-}
-[data-slideshow-item] {
-  .absolute {
-    left: 0;
-    max-width: none;
-    bottom: 12%;
-  }
-}
-
 @media (min-width: 802px) {
   .slide-align-left {
     .absolute {
@@ -219,5 +73,66 @@
 @media (max-width: 740px) {
   .popular-course-list li:nth-of-type(1n+4) {
     display: none;
+  }
+}
+
+[data-slideshow="homepage"] {
+  @media (max-width: 801px) {
+    margin-bottom: 75px;
+  }
+  nav {
+    top: 0;
+    right: 0;
+    margin: 25px;
+    @media (max-width: 801px) {
+      margin: 0px;
+      width: 100%;
+      bottom: 0;
+      height: 10px;
+    }
+  }
+  ul {
+    padding-bottom: 31.25%;
+  }
+  @media (max-width: 801px) {
+    ul {
+      padding-bottom: 90%;
+    }
+  }
+  &:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: -1;
+  }
+  &:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: -1;
+  }
+  &.cc-gradient-yellow-orange {
+    &:before { background-color: #FFF0F1; }
+    &:after { background-color: #FFF2FE; }
+  }
+  &.cc-gradient-purple-blue {
+    &:before { background-color: #F8F2FF; }
+    &:after { background-color: #D5ECF7; }
+  }
+  &.cc-gradient-green-blue {
+    &:before { background-color: #CCFDFF; }
+    &:after { background-color: #A2DEFE; }
+  }
+  &.cc-gradient-orange-green {
+    &:before { background-color: #FEEED9; }
+    &:after { background-color: #E5FFF5; }
   }
 }

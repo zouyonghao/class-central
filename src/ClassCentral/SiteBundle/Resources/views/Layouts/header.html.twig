@@ -367,7 +367,7 @@
                   "xxlargeUp": "padding-left-xxlarge absolute left bottom"
                 }'>
                 <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Trending", "title": "Recommendations" }'
-                  href="/user/recommendations" data-action="meet-your-next-course" class="btn-white margin-top-medium icon-random-blue icon--left">
+                  href="/user/recommendations" {% if not app.user %}data-action="meet-your-next-course"{% endif %} class="btn-white margin-top-medium icon-random-blue icon--left">
                   Recommendations
                 </a>
               </li>

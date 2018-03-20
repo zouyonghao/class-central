@@ -714,7 +714,9 @@
     });
 
     {% if  showAddToMTModal %}
+      $(document).on("modal:ready", function() {
         CC.Class["Signup"].showSignupModal('mooc_tracker_add_to_my_courses');
+      });
     {% endif %}
 
     {# global state to help decide when the counter is to be updated #}
@@ -727,7 +729,9 @@
 
     {# redirect after a logged out user completes a review. Show a signup portal #}
         {% if showPostReviewSignupForm  %}
+          $(document).on("modal:ready", function() {
             CC.Class["Signup"].showSignupModal('create_course_review');
+          });
         {% endif %}
     });
 {% endblock %}

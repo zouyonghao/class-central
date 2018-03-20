@@ -19,13 +19,13 @@
       width: {{ width is defined ? width : "36" }}px;
       height: {{ width is defined ? width : "36" }}px;
       border-radius: 50%;
-      background-color: {{ colors["colorBg"] }};
-      border-color: {{ colors["color"] }};
+      background-color: {{ colors ? colors["colorBg"] : "#f9f9f9"}};
+      border-color: {{ colors ? colors["color"] : "#f1f1f1" }};
     ">
     <span
       class="text-center absolute width-100 left text--bold"
       style="
-        color: {{ colors["color"] }};
+        color: {{ colors ? colors["color"] : "#999999" }};
         top: 50%;
         margin-top: -{{ width is defined ? (width * 0.52) / 2 : 8 }}px;
         font-size: {{ width is defined ? width * 0.44 : 16 }}px;

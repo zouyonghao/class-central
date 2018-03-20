@@ -18,7 +18,7 @@
         {# show a certificate filter #}
         {% if numCoursesWithCertificates is defined and numCoursesWithCertificates > 0 %}
           <li class="bg-white filter-certificate active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
-          <ul class="main-filter-dropdown text-2">
+          <ul class="main-filter-dropdown text-2 text--charcoal">
             <li id="certificate-toggle">
               <div class="tick-wrap">
                 <fieldset class="checkbox checkbox--medium checkbox--standard padding-small relative">
@@ -51,11 +51,11 @@
           <li class="bg-white filter-courses active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
             <a
               href="#"
-              class="filter-dropdown-toggle main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+              class="filter-dropdown-toggle main-category border-box text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
             >
-              <span class="icon--right icon-chevron-down icon--xsmall width-100 block">My Courses</span>
+              <span class="icon--right icon-chevron-down icon--xsmall width-100 border-box block">My Courses</span>
             </a>
-            <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+            <ul class="main-filter-dropdown padding-small border-top border--thin text-2 text--charcoal">
               {% for list in listTypes if list.slug in userLists %}
                 <li>
                   <div class="tick-wrap">
@@ -108,12 +108,12 @@
           <li class="bg-white filter-sessions active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
             <a
               href="#"
-              class="filter-dropdown-toggle main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+              class="filter-dropdown-toggle border-box main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
             >
-              <span class="icon--right icon-chevron-down icon--xsmall width-100 block">By start date</span>
+              <span class="icon--right icon-chevron-down icon--xsmall width-100 block border-box">By start date</span>
             </a>
 
-            <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+            <ul class="main-filter-dropdown padding-small border-top border--thin text-2 text--charcoal">
               {% for slug,session in offSessions %}
                 <li id="session-{{ slug }}">
                   <div class="tick-wrap">
@@ -149,12 +149,12 @@
           <li class="bg-white filter-subjects active margin-bottom-xsmall radius border-all border--thin border--gray-dark">
             <a
               href="#"
-              class="filter-dropdown-toggle main-category text-1 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+              class="filter-dropdown-toggle border-box main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
             >
-              <span class="icon--right icon-chevron-down icon--xsmall width-100 block">By subject</span>
+              <span class="icon--right icon-chevron-down icon--xsmall width-100 block border-box">By subject</span>
             </a>
 
-            <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+            <ul class="main-filter-dropdown padding-small border-top border--thin text-2 text--charcoal">
               {% for pSub in offSubjects %}
                 <li id="subject-{{ pSub.slug }}" data-type="parent-sub">
                   <div class="tick-wrap">
@@ -207,12 +207,12 @@
             <li class="bg-white filter-languages margin-bottom-xsmall radius border-all border--thin border--gray-dark">
               <a
                 href="#"
-                class="filter-dropdown-toggle main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
+                class="filter-dropdown-toggle border-box main-category text-2 text--blue bg-gray-light padding-vert-xsmall padding-horz-small width-100 block"
               >
-                <span class="icon--right icon-chevron-right icon--xsmall width-100 block">By language</span>
+                <span class="icon--right icon-chevron-right icon--xsmall width-100 block border-box">By language</span>
               </a>
 
-              <ul class="main-filter-dropdown padding-small border-top border--thin text-2">
+              <ul class="main-filter-dropdown padding-small border-top border--thin text-2 text--charcoal">
                   {% for language in offLanguages %}
                       <li id="lang-{{ language.name|lower }}">
                         <div class="tick-wrap">

@@ -31,12 +31,13 @@
 {% endif %}
 
 {% if showNew is not defined %}
-    {% set showNew = false %}
+  {% set showNew = false %}
 {% endif %}
 
+<!-- tagboard__tag btn-follow-item -->
 {% if simpleButton %}
     <a href="#"
-       class="tagboard__tag btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}  {% if followed %}active{% endif %}"
+       class="xsmall-only-width-100 small-only-width-100 btn-white text--bold text--normal btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}  {% if followed %}selected active{% endif %}"
        {% if truncate %}data-toggle="tooltip" data-placement="top"{% endif %}
        title="{{ itemName }}"
        data-original-title="{{ itemName }}"
@@ -47,7 +48,7 @@
        data-hide-notification ="{{ hideNotification }}"
        data-next-course-wizard = "{{ nextCourseWizard }}"
             >
-        {% if showNew %}New: {% endif %}
+          {% if showNew %}<span class="bg-yellow radius text--white text-4 padding-xxsmall text--bold inline-block margin-right-xxsmall">New</span>{% endif %}
         {% if truncate %}
             {{ itemName|slice(0,27) }}...
         {% else %}
@@ -86,7 +87,7 @@
 {% else %}
     <a href="#"
        class="action-button action-button--transparent btn-follow-item btn-follow-item-{{ item }}-{{ item_id }}
-       {% if followed %}active{% endif %}"
+       {% if followed %}selected active{% endif %}"
        data-item="{{ item }}"
        data-item-id="{{ item_id }}"
        data-item-name="{{ itemName }}"

@@ -192,7 +192,7 @@
             </div>
           </div>
           <div class="col xsmall-only-width-centered small-only-width-centered medium-only-width-centered width-100 medium-up-width-3-4 large-up-width-2-5 text-center large-up-text-left">
-            <h3 class="head-3 margin-bottom-small">Class Central Newsletter</h2>
+            <h3 class="head-3 margin-bottom-small">Class Central Newsletter</h3>
             <p class="text--charcoal text-2">Never miss a course.</p>
             <form action="{{ path('newsletter_subscribe_to',{code: 'mooc-report'}) }}" method="post" class="form margin-top-medium margin-bottom-small">
               <div class="row">
@@ -204,7 +204,7 @@
             </form>
             <p class="text--gray text-3">No spam. Unsubscribe at any time.</p>
 
-            <h3 class="head-3 margin-bottom-small margin-top-large">About Class Central</h2>
+            <h3 class="head-3 margin-bottom-small margin-top-large">About Class Central</h3>
             <p class="text--charcoal text-2">Class Central is a search engine and reviews site for free online courses popularly known as MOOCs or Massive Open Online Courses.</p>
             <ul class="margin-top-medium">
               <li class="margin-right-xsmall inline-block">
@@ -316,7 +316,7 @@
     <div class="flash-messages hidden">
         {% for type, messages in app.session.flashbag.all() %}
             {% for message in messages %}
-                <div class="flash-message" data-type="{{ type }}" data-title="{{ message.title }}" data-delay="{{ message.delay }}">{{ message.text }}</div>
+              <div class="flash-message" data-type="{{ type }}" data-title="{{ message.title }}" data-delay="{{ message.delay }}">{{ message.text }}</div>
             {% endfor %}
         {% endfor %}
     </div>

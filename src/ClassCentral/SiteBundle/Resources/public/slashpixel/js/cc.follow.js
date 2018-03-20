@@ -4,9 +4,9 @@ const Follow = (function(){
     var promptShownCookie = 'follow_personalized_page_prompt';
 
     function init() {
-        $('.btn-follow-item').click(followClicked);
-        $('[data-toggle="tooltip"]').tooltip();
-        btnFollowBind();
+      $('.btn-follow-item').click(followClicked);
+      $('[data-toggle="tooltip"]').tooltip();
+      btnFollowBind();
     }
 
     function followClicked(e) {
@@ -46,7 +46,7 @@ const Follow = (function(){
                         if(!hideFollowing) {
                             btnText = "Follow " + btnText;
                         }
-                        $(itemClass).removeClass('active');
+                        $(itemClass).removeClass('selected active');
                         $(self).data('following',false);
                     } else {
 
@@ -57,7 +57,7 @@ const Follow = (function(){
                         if(!hideFollowing) {
                             btnText = "Following " + btnText;
                         }
-                        $(itemClass).addClass('active');
+                        $(itemClass).addClass('selected active');
 
                         $(self).data('following',true);
                     }
@@ -105,7 +105,7 @@ const Follow = (function(){
                                         if(!hideFollowing) {
                                             btnText = "Follow " + btnText;
                                         }
-                                        $(itemClass).removeClass('active');
+                                        $(itemClass).removeClass('selected active');
                                         $(self).data('following',false);
                                         if(!hideNotification) {
                                             Utilities.notify(
@@ -125,7 +125,7 @@ const Follow = (function(){
                                         if(!hideFollowing) {
                                             btnText = "Following " + btnText;
                                         }
-                                        $(itemClass).addClass('active');
+                                        $(itemClass).addClass('selected active');
 
                                         $(self).data('following',true);
                                         if( result.message.followCount == 10 ) {
@@ -286,7 +286,7 @@ const Follow = (function(){
                         setTimeout(function(){
                             // Check the cookie again
                             if(Cookies.get( promptShownCookie) === undefined ) {
-                                window.CC.Class.Signup.followSubjectOnboarding();
+                                window.CC.Class.Onboarding.showStep("loggedIn", "subjects");
                                 setPersonalizationPromptShown();
                             }
 

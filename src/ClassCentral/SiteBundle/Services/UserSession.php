@@ -119,6 +119,12 @@ class UserSession
             return;
         }
 
+        // If its starts with ajax_
+        if(strpos($routeName, "next-course") === 0)
+        {
+            return;
+        }
+
         // If its starts with maestro_
         if(strpos($routeName, "maestro") === 0)
         {

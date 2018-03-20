@@ -28,9 +28,6 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    {% if ccStyleOnly is not defined or ccStyleOnly != true or app.user %}
-      <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc.css') }}" />
-    {% endif %}
     <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-style.css') }}" />
 
     <!-- Google+ Direct connect -->
@@ -58,16 +55,22 @@
 
 <body>
 
-  <div class="contain-page">
-    {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' %}
-    {%  block content %}
-    {% endblock %}
+  <div class="contain-body">
+    <div class="contain-page">
+      {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' %}
+      {%  block content %}
+      {% endblock %}
+    </div>
+
+    {# Footer #}
+    {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "minimal" } %}
   </div>
 
-  {# Footer #}
-  {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "minimal" } %}
   {# Footer scripts #}
   {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
+  {# Modals #}
+  {% include 'ClassCentralSiteBundle:Layouts:_modal.html.twig' %}
+  
   <script type="text/javascript">
       {% block customJS %}
       {% endblock %}

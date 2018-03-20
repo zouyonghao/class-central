@@ -1,12 +1,14 @@
 {
-  "analytics.js": "analytics.83863400fd196082a762.js",
-  "analytics.js.map": "analytics.83863400fd196082a762.js.map",
-  "cc-style.css": "cc-style.f6bb64b28fcc2401b587ecc9c9f35154.css",
-  "cc-style.css.map": "cc-style.f6bb64b28fcc2401b587ecc9c9f35154.css.map",
-  "cc-style.js": "cc-style.36433f61ba0b7889ceca.js",
-  "cc-style.js.map": "cc-style.36433f61ba0b7889ceca.js.map",
-  "cc.css": "cc.a64f516c93800926dbec5947001b1522.css",
-  "cc.css.map": "cc.a64f516c93800926dbec5947001b1522.css.map",
-  "cc.js": "cc.ec8c360081a33ec5c28f.js",
-  "cc.js.map": "cc.ec8c360081a33ec5c28f.js.map"
+  "analytics.js": "analytics.e4e3680ca76b5a2af643.js",
+  "analytics.js.map": "analytics.e4e3680ca76b5a2af643.js.map",
+  "cc-legacy.css": "cc-legacy.6d267779e06a6365eff59a8ed9b64070.css",
+  "cc-legacy.css.map": "cc-legacy.6d267779e06a6365eff59a8ed9b64070.css.map",
+  "cc-legacy.js": "cc-legacy.cbe9358cc41d8da3a7aa.js",
+  "cc-legacy.js.map": "cc-legacy.cbe9358cc41d8da3a7aa.js.map",
+  "cc-style.css": "cc-style.03cecc1f24fde482046cdfcfd2c71dfb.css",
+  "cc-style.css.map": "cc-style.03cecc1f24fde482046cdfcfd2c71dfb.css.map",
+  "cc-style.js": "cc-style.4611e6ad9e617dcec281.js",
+  "cc-style.js.map": "cc-style.4611e6ad9e617dcec281.js.map",
+  "cc.js": "cc.d2f665d579b6abb3a636.js",
+  "cc.js.map": "cc.d2f665d579b6abb3a636.js.map"
 }

@@ -22,14 +22,14 @@
 {% endif %}
 
 <section id="cc-related" class="width-centered classcentral-style" style="max-width: 1400px;">
-  <div class="margin-top-large margin-horz-xxlarge padding-vert-medium relative border-top border--thin">
-    <h4 class="head-3 icon-{{ relatedIcon }}-charcoal icon--left"><span class="">{{ related.header }}</span></h4>
-    <ul data-equalize>
+  <div class="margin-top-large margin-horz-xxlarge padding-vert-medium relative border-top border--thin text-center medium-up-text-left">
+    <h4 class="head-2 icon-{{ relatedIcon }}-charcoal icon--left margin-vert-large"><span class="">{{ related.header }}</span></h4>
+    <ul data-equalize class="row margin-horz-small margin-vert-medium">
         {% for relatedItem in related.items if relatedItem.name != related.skipName %}
-            <li data-equalize-child>
-                <h5><a href="{{ relatedItem.url }}" class="text--blue text-2"
+            <li data-equalize-child class="width-100 medium-up-width-1-2 large-up-width-1-3 xlarge-up-width-1-4 col padding-bottom-large">
+                <h5><a href="{{ relatedItem.url }}" class="text--blue text-2 text--bold"
                        onmousedown="ga('send','event', 'Related Section Clicks', '{{related.type}}', '{{relatedItem.name}}')">{{ relatedItem.name }}</a></h5>
-                <p>{{ relatedItem.numCourses }} Courses / <span class="text--bold"><span data-format-number="short">{{ relatedItem.numFollows }}</span> following</span></p>
+                <p class="text-2">{{ relatedItem.numCourses }} Courses / <span class="text--bold"><span data-format-number="short">{{ relatedItem.numFollows }}</span> following</span></p>
             </li>
         {% endfor %}
         <li>

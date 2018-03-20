@@ -153,8 +153,8 @@
 
         {% if followItem is defined and loop.index == 5 and showHeader and not user_session.isItemFollowed(followItem,followItemId) %}
             <tr style="background-color: #F4F9FF;">
-              <td colspan="4" class="featured-cell width-100">
-                <div class="head-4">
+              <td colspan="4" class="featured-cell width-100 text-center">
+                <div class="head-4 inline-block">
                   <span class="small-hide">Get an email when new courses are available</span>
                   {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
                       item : followItem,
@@ -208,7 +208,7 @@
                       data-toggle="dropdown">
                         <span id="check-{{ tableId }}-{{ course.id }}"></span>
                     </a>
-                    <div data-dropdown-menu class="dropdown-menu radius bg-white padding-bottom-small" style="width: 200px;">
+                    <div data-dropdown-menu class="z-top dropdown-menu radius bg-white absolute padding-bottom-small border-all border--thin border--gray-xlight" style="width: 200px; display: none;">
                       <ul class="text-left">
                         <li class="dropdown-list-header bg-gray padding-xsmall padding-left-medium margin-bottom-small">My Courses</li>
                           <ul>

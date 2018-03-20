@@ -13,33 +13,26 @@
 {% endif %}
 
 <script type="text/javascript">
-    {# show the user a personalization prompts #}
-    {% if app.user and app.user.follows| length < 5 and app.request.attributes.get('_route') != 'user_profile' and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' %}
-        if(!isMobile.phone) {
-            //CC.Class['Follow'].showPersonalizationPrompt(20000);
-        }
-    {% endif %}
+  {% if not app.user and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' and not disableSignup
+  and app.request.attributes.get('_route') !='ClassCentralSiteBundle_homepage' and app.request.attributes.get('_route') !='login' and app.request.attributes.get('_route') !='forgotpassword' and app.request.attributes.get('_route') !='loginViaEmail'
+  %}
+    if(!isMobile.phone ) {
+      CC.Class['Signup'].showSignupPrompt(20000);
+    }
+  {% endif %}
 
-    {% if not app.user and app.request.attributes.get('_route') != 'review_new' and app.request.attributes.get('_route') !='credential_review' and not disableSignup
-    and app.request.attributes.get('_route') !='ClassCentralSiteBundle_homepage' and app.request.attributes.get('_route') !='login' and app.request.attributes.get('_route') !='forgotpassword' and app.request.attributes.get('_route') !='loginViaEmail'
-    %}
-        if(!isMobile.phone ) {
-            CC.Class['Signup'].showSignupPrompt(20000);
-        }
-    {% endif %}
+  {% if showProfileEditModal %}
+    $(document).on("modal:ready", function () {
+      CC.Class.Onboarding.showStep("{{ app.user ? "loggedIn" : "loggedOut" }}", "subjects")
+    });
+  {% endif %}
 
-    {% if showProfileEditModal %}
-        $( document).ready(function () {
-            CC.Class["Signup"].followSubjectOnboarding();
-        });
-    {% endif %}
-
-    {# show the update follows modal if it contains query parameter update_follows #}
-    {% if app.user and app.request.get('update_follows') is not empty  %}
-        $( document).ready(function () {
-              if (Cookies.get( 'follow_personalized_page_prompt' ) === undefined) {
-                  CC.Class["Signup"].followSubjectOnboarding();
-              }
-        });
-    {% endif %}
+  {# show the update follows modal if it contains query parameter update_follows #}
+  {% if app.user and app.request.get('update_follows') is not empty  %}
+    $(document).on("modal:ready", function () {
+      if (Cookies.get('follow_personalized_page_prompt') === undefined) {
+        CC.Class.Onboarding.showStep("loggedIn", "subjects")
+      }
+    });
+  {% endif %}
 </script>

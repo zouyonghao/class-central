@@ -813,8 +813,8 @@ jQuery(function($) {
         }catch (e){}
     });
 
-    $('#convincer-create-free-account').click( function(e){
-        e.preventDefault();
+    $('#convincer-create-free-account').on("click", function(event) {
+        event.preventDefault();
         Utilities.hideWidgets();
         Signup.showSignupModal("convincer_create_free_account");
         try {
@@ -1255,41 +1255,6 @@ jQuery(function($) {
 
     });
 
-
-    if ($("html").hasClass("no-touch")) {
-        if ($(window).width() > 800 ) {
-            $("#sticky-cred").stick_in_parent();
-        }
-        $( window ).resize(function() {
-            if ($(window).width() > 800 ) {
-                $("#sticky-cred").stick_in_parent();
-            } else {
-                $("#sticky-cred").trigger("sticky_kit:detach");
-            }
-        });
-    }
-
-    // make ads sticky
-    if ($("html").hasClass("no-touch")) {
-        if ($(window).width() > 768 ) {
-            $(".js-sticky-in-parent-row").stick_in_parent({
-                parent: '.row'
-            });
-        }
-        $( window ).resize(function() {
-            if ($(window).width() > 768 ) {
-                $(".js-sticky-in-parent-row").stick_in_parent({
-                    parent: '.row'
-                });
-            } else {
-                $(".js-sticky-in-parent-row").trigger("sticky_kit:detach");
-            }
-        });
-    }
-
-
-
-
     $('[data-toggle="tooltip"]').tooltip();
 
     // Clipboard.js is only included for admins
@@ -1445,8 +1410,8 @@ jQuery(function($) {
         _this.init();
 
         $(window).on('resize', function() {
-            _this.resetHeight();
             _this.getRows();
+            _this.resetHeight();
             _this.getTallestForEachRow();
 
             Object.keys(_this.rows).map((key) => {

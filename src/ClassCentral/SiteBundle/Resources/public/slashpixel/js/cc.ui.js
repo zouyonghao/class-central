@@ -14,6 +14,7 @@ class Ui {
       this.tabs();
       this.dropdowns();
       this.mediaImages();
+      this.checkboxToggle();
 
       if ($(".sidebar-ads").length) {
         this.stickyAds();
@@ -232,6 +233,16 @@ class Ui {
       const container = $(this).closest("[data-rating]");
       container.find('input').val(container.find('.icon-star').length);
     })
+  }
+
+  checkboxToggle() {
+    $(document).on("click", "[data-checkbox=toggle]", function(event) {
+      const target = $(event.currentTarget);
+      const checkbox = $(event.currentTarget).find("input[type=checkbox]");
+
+      target.find(".checkbox--label").html(checkbox.is(":checked") ? "On" : "Off");
+      target.find("[data-checkbox-label]").html(checkbox.is(":checked") ? "My Class Central profile is public" : "My Class Central profile is private");
+    });
   }
 
   slideShow() {
