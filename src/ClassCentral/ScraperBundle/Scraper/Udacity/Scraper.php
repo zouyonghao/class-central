@@ -49,6 +49,7 @@ class Scraper extends ScraperAbstractInterface{
         $udacityCourses = json_decode( file_get_contents(self::COURSES_API_ENDPOINT), true );
         $courseService = $this->container->get('course');
         $coursesChanged = array();
+        $courseChanged = false;
 
         foreach ($udacityCourses['courses'] as $udacityCourse)
         {
