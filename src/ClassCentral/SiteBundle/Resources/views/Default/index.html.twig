@@ -386,6 +386,197 @@
         </nav>
       </header>
 
+      <div class="row width-centered" style="max-width: 1400px;">
+        <section class="col width-100 large-up-width-3-5 border-box">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large">
+            <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">MOOCWatch</h1>
+          </header>
+          <div class="border-right border--thin border--gray-light border-box medium-up-padding-xxlarge">
+            <p class="text--charcoal text-2 margin-bottom-large margin-top-medium">MOOCWatch is our semi-regular publication where we dive deep into the world of MOOCs, giving the latest trends, news, and our perspective on what’s happening in the industry.</p>
+            <form action="//class-central.us8.list-manage.com/subscribe/post?u=a04149ada492173efe6609e68&amp;id=c5a9919ea5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"  class="form bg-gray width-centered width-100 xlarge-up-width-3-4 padding-medium radius text-center">
+              <label class="head-5 block">Get MOOCWatch in your inbox</label>
+              <input id="mce-EMAIL" type="email" name="EMAIL" placeholder="Your email" class="inline-block margin-top-small width-100 large-up-width-2-5" />
+              <button type="submit" class="btn-blue xsmall-only-width-100 small-only-width-100 margin-top-small medium-up-margin-left-medium">Subscribe</button>
+              <div style="position: absolute; left: -5000px;"><input type="text" name="b_a04149ada492173efe6609e68_c5a9919ea5" tabindex="-1" value=""></div>
+            </form>
+
+              {% set moocwatchImage = "/bundles/classcentralsite/slashpixel/images/moocwatch-16-illustration-crop.png" %}
+              {% if app.environment == 'prod' %}
+                  {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
+              {% endif %}
+
+            <ul class="margin-vert-xlarge">
+                {% include 'ClassCentralSiteBundle:Default:moocreport.watch.html.twig' with { watch: {
+                edition: "16",
+                image: moocwatchImage,
+                title: "MOOC Providers Target Degrees",
+                description: "We round up all the news from the MOOC sphere: iMBA stats, Udacity’s impressive numbers, Learner Tips, and much, much more.",
+                author: "Dhawal Shah",
+                publishedDate: "October 23rd, 2017",
+                color: "#f7c928",
+                url: "https://www.class-central.com/report/moocwatch-16-mooc-providers-target-degrees/"
+                }} %}
+
+                {% set moocwatchImage = "/bundles/classcentralsite/slashpixel/images/moocwatch-15-illustration-crop.png" %}
+                {% if app.environment == 'prod' %}
+                    {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
+                {% endif %}
+
+
+                {% include 'ClassCentralSiteBundle:Default:moocreport.watch.html.twig' with { watch: {
+                edition: "15",
+                image: moocwatchImage,
+                title: "MOOCs Find Their Audience",
+                description: "New CEOs, enrollment milestones, and more.",
+                author: "Dhawal Shah",
+                publishedDate: "June 22nd, 2017",
+                color: "#64C187",
+                url: "https://www.class-central.com/report/moocwatch-15-moocs-lifelong-learners/"
+                }} %}
+            </ul>
+          </div>
+        </section>
+        <aside class="col width-100 large-up-width-2-5 border-box">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large">
+            <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Latest Articles</h1>
+          </header>
+          <ul class="border-box medium-up-padding-large">
+              {% set postsShown = 0 %}
+              {% for post in latestPosts if postsShown < 5 %}
+                  {% set postCategory = 'News' %}
+                  {% if post._embedded['wp:term'][0][0] is not empty %}
+                      {%  set postCategory = post._embedded['wp:term'][0][0]['name'] %}
+                  {% endif %}
+                  {% if 'moocwatch' not in post.title.rendered|lower %}
+                      {% include 'ClassCentralSiteBundle:Default:moocreport.article.html.twig' with { article: {
+                      type: postCategory,
+                      simple: true,
+                      section: "Latest Articles",
+                      title: post.title.rendered|raw,
+                      description: post['acf']['subtitle'],
+                      author: moocReport.author(post.author).name,
+                      width: "width-100",
+                      publishedDate: post.date|date("jS M, Y"),
+                      url: post.link
+                      }} %}
+                      {% set postsShown = postsShown + 1 %}
+                  {% endif %}
+              {% endfor %}
+          </ul>
+        </aside>
+
+        <section class="col width-100 border-box">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large margin-bottom-large">
+            <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px">Popular Articles</h1>
+          </header>
+          <ul class="row border-box medium-up-padding-horz-large">
+              {% include 'ClassCentralSiteBundle:Default:moocreport.article.html.twig' with { article: {
+              type: "World",
+              title: "Massive List of MOOC Providers Around The World",
+              simple: false,
+              section: "Popular Articles",
+              description: "Where to find MOOCs: The definitive guide to MOOC providers.",
+              author: "Dhawal Shah",
+              publishedDate: "",
+              width: "width-100 large-up-width-1-4",
+              border: true,
+              url: 'https://www.class-central.com/report/mooc-providers-list/'
+              }} %}
+              {% include 'ClassCentralSiteBundle:Default:moocreport.article.html.twig' with { article: {
+              type: "Guides",
+              title: "The Best Data Science Curriculum",
+              simple: false,
+              section: "Popular Articles",
+              description: "The best MOOCs for launching yourself into the data science industry.",
+              author: "David Venturi",
+              publishedDate: "",
+              width: "width-100 large-up-width-1-4",
+              border: true,
+              url: 'https://www.class-central.com/report/best-data-science-curriculum/'
+              }} %}
+              {% include 'ClassCentralSiteBundle:Default:moocreport.article.html.twig' with { article: {
+              type: "Analysis",
+              title: "Harvard and the Rise of a Digital Ivy League",
+              simple: false,
+              section: "Popular Articles",
+              description: "There’s a new elite forming in higher education: universities that have millions of enrollments.",
+              author: "Anuar Lequerica",
+              publishedDate: "",
+              width: "width-100 large-up-width-1-4",
+              border: true,
+              url: 'https://www.class-central.com/report/harvard-digital-ivy-league/'
+              }} %}
+              {% include 'ClassCentralSiteBundle:Default:moocreport.article.html.twig' with { article: {
+              type: "Opinion",
+              title: "MOOCs No Longer Massive, Still Attract Millions",
+              simple: false,
+              section: "Popular Articles",
+              description: "We've gained the ability to take MOOCs at any time, but lost something in the process.",
+              author: "Dhawal Shah",
+              publishedDate: "",
+              width: "width-100 large-up-width-1-4",
+              border: false,
+              url: 'https://www.class-central.com/report/moocs-no-longer-massive/'
+              }} %}
+          </ul>
+        </section>
+
+        <section id="as-seen-in" class="col width-100 border-box margin-top-xlarge">
+          <header class="text-center border-bottom border--gray-light border--thin medium-up-margin-horz-large margin-bottom-large">
+            <h1 class="head-3 padding-horz-medium bg-white relative inline-block" style="top: 15px"><span class="small-hide">MOOC Report Articles also</span> Published in</h1>
+          </header>
+          <ul class="row border-box medium-up-padding-horz-xlarge">
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
+              <a
+                      target="_blank"
+                      data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                      data-track-props='{ "type": "MOOC Report", "title": "TechCrunch", "sub_section": "Published In" }'
+                      href="https://techcrunch.com/2015/08/21/how-coursera-cracked-the-chinese-market/">
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-techcrunch.png" class="width-100" style="max-width: 250px" alt="TechCrunch" />
+              </a>
+            </li>
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
+              <a
+                      target="_blank"
+                      data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                      data-track-props='{ "type": "MOOC Report", "title": "VentureBeat", "sub_section": "Published In" }'
+                      href="https://venturebeat.com/2016/09/05/moocs-no-longer-massive-still-attract-millions/">
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-venturebeat.png" class="width-100" style="max-width: 250px" alt="VentureBeat" />
+              </a>
+            </li>
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large border-right border--gray-light border--thin">
+              <a
+                      target="_blank"
+                      data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                      data-track-props='{ "type": "MOOC Report", "title": "EdSurge", "sub_section": "Published In" }'
+                      href="https://www.edsurge.com/writers/dhawal-shah">
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-edsurge.png" class="width-100" style="max-width: 250px" alt="EdSurge" />
+              </a>
+            </li>
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-large">
+              <a
+                      target="_blank"
+                      data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                      data-track-props='{ "type": "MOOC Report", "title": "Quartz", "sub_section": "Published In" }'
+                      href="https://qz.com/941768/here-are-250-ivy-league-courses-you-can-take-online-right-now-for-free/"
+              >
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-quartz.png" class="width-100" style="max-width: 250px" alt="Quartz" />
+              </a>
+            </li>
+            <li class="text-center width-100 medium-up-width-1-2 large-up-width-1-5 col large-up-margin-vert-large border-box padding-horz-xsmall large-up-padding-horz-medium xlarge-up-padding-horz-large">
+              <a
+                      target="_blank"
+                      data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                      data-track-props='{ "type": "MOOC Report", "title": "OpenCulture", "sub_section": "Published In" }'
+                      href="http://www.openculture.com/2015/03/the-keys-to-happiness.html"
+              >
+                <img src="/bundles/classcentralsite/slashpixel/images/as-seen-open-culture.png" class="width-100" style="max-width: 250px" alt="OpenCulture" />
+              </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+
 
       <!-- year in review -->
       <section class="row col width-100 width-centered padding-horz-large padding-bottom-xlarge margin-top-xlarge" style="max-width: 1400px;">
