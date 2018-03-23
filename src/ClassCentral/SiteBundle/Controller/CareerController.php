@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Controller;
 
 use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -277,6 +278,18 @@ class CareerController extends Controller
                 'followItemId' => $career->getId(),
                 'followItemName' => $career->getName(),
                 'pageMetadata' => $pageMetadata,
+                'contextBar' => [
+                    'type' => 'listing',
+                    'data' => [
+                        'twitterUrl' => UniversalHelper::getTwitterShareUrl($data["pageInfo"]->getPageUrl(), $career->getName()),
+                        'facebookUrl' => 'https://www.facebook.com/sharer/sharer.php?u='. urlencode($data["pageInfo"]->getPageUrl()),
+                        'listingInfo' => [
+                            'id' => $career->getId(),
+                            'title' => $career->getName(),
+                            'coursesCount' => $data['courses']["hits"]["total"],
+                        ],
+                    ]
+                ]
             ));
     }
 

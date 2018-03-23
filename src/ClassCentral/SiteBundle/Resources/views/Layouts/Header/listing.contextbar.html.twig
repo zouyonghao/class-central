@@ -1,0 +1,45 @@
+<nav class="animate-hidden row z-top fixed top width-100 bg-white border-bottom border--thin border--gray-light" data-cc-sticky-top-bar style="height: 60px;">
+  <h2 class="absolute top left xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
+    <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Bar", "title": "Homepage" }'
+      class="cc-header_brandLogo pull inline-block padding-left-small" href="/" >
+      <i class="symbol-classcentral-blue symbol--small">Class Central</i>
+    </a>
+  </h2>
+  <div class="cc-header_cbTextblock width-1-2 small-up-width-3-4 pull inline-block padding-horz-xsmall">
+    <div class="row col width-100 padding-right-small">
+      <span class="line--large head-4 truncate hidden xsmall-only-block">{{ cb.data.listingInfo.title }}
+      </span>
+      <div class="unit-horz xsmall-only-hidden">
+        <span class="unit-block padding-right-xsmall">
+          {% if cb.data.listingInfo.icon is defined and cb.data.listingInfo.icon is not null %}
+            <img src="/bundles/classcentralsite/images/{{ cb.data.listingInfo.icon }}" style="width: 40px;" class="inline-block">
+          {% endif %}
+          {% if cb.data.listingInfo.image is defined and cb.data.listingInfo.image is not null %}
+            <img src="{{ rackspace_cdn_base_url }}{{ cb.data.listingInfo.image }}" style="width: 40px;">
+          {% endif %}
+        </span>
+        <span class="unit-block padding-right-xsmall xsmall-only-width-100 small-only-width-100">
+          <span class="line--large head-4 truncate">{{ cb.data.listingInfo.title }}
+          </span>
+        </span>
+        <span class="unit-block xsmall-only-hidden small-only-hidden width-100">
+          <strong class="text-1 text--bold">({{cb.data.listingInfo.coursesCount}} courses)</strong>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="animate-fade-entered push padding-xsmall">
+    <div class="inline-block">
+      <p class="head-5 inline-block margin-right-xsmall">
+        <span class="hidden xlarge-up-block">Share this page</span>
+        <span class="hidden medium-only-block large-only-block">Share</span>
+      </p>
+      <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Twitter" }'
+        href="{{ cb.data.twitterUrl }}"
+        target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-twitter margin-horz-xxsmall">Twitter</a>
+      <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Facebook" }'
+        href="{{ cb.data.facebookUrl }}"
+        target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-facebook">Facebook</a>
+    </div>
+  </div>
+</nav>

@@ -84,7 +84,7 @@ const subMenuTabs = wrapper => {
   }
 
   let state = {
-    currentTab: $element.TAB_CONTENTS.first().data(dataApi.TAB_CONTENT),
+    currentTab: $(window).innerWidth() <= 640 ? "subject" : "notable",
   }
 
   const render = state => {

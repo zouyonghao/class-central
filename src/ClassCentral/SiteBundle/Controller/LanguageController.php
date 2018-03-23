@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -88,7 +89,7 @@ class LanguageController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('language_show', array('id' => $entity->getId())));
-            
+
         }
 
         return $this->render('ClassCentralSiteBundle:Language:new.html.twig', array(
@@ -216,10 +217,21 @@ class LanguageController extends Controller
                 'sortField' => $data['sortField'],
                 'sortClass' => $data['sortClass'],
                 'pageNo' => $data['pageNo'],
-                'showHeader' => true
+                'showHeader' => true,
+                'contextBar' => [
+                    'type' => 'listing',
+                    'data' => [
+                        'twitterUrl' => UniversalHelper::getTwitterShareUrl($data["pageInfo"]->getPageUrl(), $data['language']->getName()),
+                        'facebookUrl' => 'https://www.facebook.com/sharer/sharer.php?u='. urlencode($data["pageInfo"]->getPageUrl()),
+                        'listingInfo' => [
+                            'id' => $data['language']->getId(),
+                            'title' => $data['language']->getName(),
+                            'coursesCount' => $data['courses']["hits"]["total"],
+                        ],
+                    ]
+                ]
             ));
     }
-
 
     /**
      * Shows a page which lists all languages

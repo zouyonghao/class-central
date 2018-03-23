@@ -7,6 +7,7 @@ use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Services\Filter;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ClassCentral\SiteBundle\Entity\Initiative;
@@ -90,7 +91,6 @@ class InitiativeController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('initiative_show', array('id' => $entity->getId())));
-            
         }
 
         return $this->render('ClassCentralSiteBundle:Initiative:new.html.twig', array(
@@ -245,6 +245,12 @@ class InitiativeController extends Controller
             'provider_slug' => strtolower($provider->getCode())
         ];
 
+        if ($data['pageInfo']->getImageUrl()) {
+          $image = $data['pageInfo']->getImageUrl();
+        }
+
+        $twitterShareText = $data['courses']["hits"]["total"]. " {$provider->getName()} free online courses and MOOCs";
+
         return $this->render('ClassCentralSiteBundle:Initiative:provider.html.twig',array(
             'results' => $data['courses'],
             'listTypes' => UserCourse::$lists,
@@ -266,7 +272,20 @@ class InitiativeController extends Controller
             'credentials' => $data['credentials'],
             'numCredentials' => $data['numCredentials'],
             'related' => $related,
-            'pageMetadata' => $pageMetadata
+            'pageMetadata' => $pageMetadata,
+            'contextBar' => [
+                'type' => 'listing',
+                'data' => [
+                    'twitterUrl' => UniversalHelper::getTwitterShareUrl($data["pageInfo"]->getPageUrl(), $twitterShareText),
+                    'facebookUrl' => 'https://www.facebook.com/sharer/sharer.php?u='. urlencode($data["pageInfo"]->getPageUrl()),
+                    'listingInfo' => [
+                        'id' => $provider->getId(),
+                        'title' => $provider->getName(),
+                        'image' => isSet($image) ? $image : null,
+                        'coursesCount' => $data['courses']["hits"]["total"],
+                    ],
+                ]
+            ]
         ));
     }
 

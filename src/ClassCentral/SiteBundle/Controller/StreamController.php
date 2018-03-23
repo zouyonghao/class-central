@@ -5,6 +5,7 @@ namespace ClassCentral\SiteBundle\Controller;
 use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\UserCourse;
 use ClassCentral\SiteBundle\Utility\Breadcrumb;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use ClassCentral\SiteBundle\Utility\PageHeader\PageHeaderFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -241,6 +242,11 @@ class StreamController extends Controller
             'subject_name' => $subject->getName()
         ];
 
+        if ($data['pageInfo']->getType() == "Stream" and $subject->getIsParentStream()) {
+          $icon = "icon-" . $subject->getSlug() . ".png";
+        }
+
+        $twitterShareText = $data['courses']["hits"]["total"]. " {$subject->getName()} free online courses and MOOCs";
 
         return $this->render('ClassCentralSiteBundle:Stream:view.html.twig', array(
                 'subject' => $subject,
@@ -266,7 +272,21 @@ class StreamController extends Controller
                 'numCredentials' => $data['numCredentials'],
                 'related' => $related,
                 'tagCounts' => $data['tags'],
-                'pageMetadata' => $pageMetadata
+                'pageMetadata' => $pageMetadata,
+                'contextBar' => [
+                    'type' => 'listing',
+                    'data' => [
+                        'twitterUrl' => UniversalHelper::getTwitterShareUrl($data["pageInfo"]->getPageUrl(), $twitterShareText),
+                        'facebookUrl' => 'https://www.facebook.com/sharer/sharer.php?u='. urlencode($data["pageInfo"]->getPageUrl()),
+                        'listingInfo' => [
+                            'id' => $subject->getId(),
+                            'title' => $subject->getName(),
+                            'slug' => $subject->getSlug(),
+                            'icon' => isSet($icon) ? $icon : null,
+                            'coursesCount' => $data['courses']["hits"]["total"],
+                        ],
+                    ]
+                ]
             ));
     }
 
@@ -343,5 +363,4 @@ class StreamController extends Controller
 
 
     }
-
 }

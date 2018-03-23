@@ -56,20 +56,21 @@ class Ui {
 
   stickyAds() {
     const sidebarAds = $(".sidebar-ads");
+    const offset = sidebarAds.data("sticky-offset") ? parseInt(sidebarAds.data("sticky-offset"), 10) : 0;
     const sidebarAdsClone = sidebarAds.clone();
-    sidebarAds.after(sidebarAdsClone.addClass("sidebar-ads-clone fixed top hidden").removeClass("sidebar-ads"));
+    sidebarAds.after(sidebarAdsClone.addClass("sidebar-ads-clone fixed top hidden").css("paddingTop", `${offset}px`).removeClass("sidebar-ads"));
 
     $(window).on("scroll", () => {
-      this.checkAdsPosition(sidebarAds, sidebarAdsClone);
+      this.checkAdsPosition(sidebarAds, sidebarAdsClone, offset);
     });
     $(window).on("resize", () => {
-      this.checkAdsPosition(sidebarAds, sidebarAdsClone);
+      this.checkAdsPosition(sidebarAds, sidebarAdsClone, offset);
     });
 
     $(window).trigger("scroll");
   }
 
-  checkAdsPosition(sidebarAds, sidebarAdsClone) {
+  checkAdsPosition(sidebarAds, sidebarAdsClone, offset) {
     const topPos = ($(".tables-wrap").offset().top + $(".tables-wrap").height() - $('.sidebar-ads').height() - 50);
     const pastBottom = $(window).scrollTop() >= topPos;
     const width = sidebarAds.width();
@@ -82,7 +83,7 @@ class Ui {
         .css("top", `${topPos}px`)
         .width(width);
     }
-    else if ($(window).scrollTop() >= $(".sidebar-ads").position().top && mediaLargeUp) {
+    else if ($(window).scrollTop() >= $(".sidebar-ads").position().top - offset && mediaLargeUp) {
       sidebarAds.addClass("invisible");
       sidebarAdsClone
         .removeClass("hidden absolute")

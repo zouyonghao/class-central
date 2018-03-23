@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Form\InstitutionType;
 use ClassCentral\SiteBundle\Entity\Offering;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -284,6 +285,12 @@ class InstitutionController extends Controller
             'institution_slug' => strtolower($institution->getSlug())
         ];
 
+        if ($data['pageInfo']->getImageUrl()) {
+          $image = $data['pageInfo']->getImageUrl();
+        }
+
+        $twitterShareText = $data['courses']["hits"]["total"]. " {$institution->getName()} free online courses and MOOCs";
+
 
         return $this->render('ClassCentralSiteBundle:Institution:view.html.twig',
                 array(
@@ -307,7 +314,21 @@ class InstitutionController extends Controller
                     'followItemName' => $institution->getName(),
                     'free' => $free,
                     'related' => $related,
-                    'pageMetadata' => $pageMetadata
+                    'pageMetadata' => $pageMetadata,
+                    'contextBar' => [
+                        'type' => 'listing',
+                        'data' => [
+                            'twitterUrl' => UniversalHelper::getTwitterShareUrl($data["pageInfo"]->getPageUrl(), $twitterShareText),
+                            'facebookUrl' => 'https://www.facebook.com/sharer/sharer.php?u='. urlencode($data["pageInfo"]->getPageUrl()),
+                            'listingInfo' => [
+                                'id' => $institution->getId(),
+                                'title' => $institution->getName(),
+                                'slug' => $institution->getSlug(),
+                                'image' => isSet($image) ? $image : null,
+                                'coursesCount' => $data['courses']["hits"]["total"],
+                            ],
+                        ]
+                    ]
                 ));
     }
 

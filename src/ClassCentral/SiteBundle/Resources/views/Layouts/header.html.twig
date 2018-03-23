@@ -158,64 +158,14 @@
     </nav>
 
     {# course sticky menu #}
-    {% if navbarData.contextBar is not empty and navbarData.contextBar.type == 'course' %}
+    {% if navbarData.contextBar is not empty %}
       {% set cb = navbarData.contextBar  %}
-      <nav class="animate-hidden row z-top fixed top width-100 bg-white border-bottom border--thin border--gray-light" data-cc-sticky-top-bar style="height: 60px;">
-      <h2 class="absolute top left xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
-        <a data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Bar", "title": "Homepage" }'
-          class="cc-header_brandLogo pull inline-block padding-left-small" href="/" >
-          <i class="symbol-classcentral-blue symbol--small">Class Central</i>
-        </a>
-      </h2>
-      <div class="padding-left-small xlarge-up-hidden" style="max-width: 70%;">
-        <div class="row col width-3-5 padding-right-small" style="max-width: none;">
-          <span class="line--large head-4 truncate">{{ cb.data.courseInfo.title }}</span>
-        </div>
-      </div>
-      <div class="width-2-3 pull inline-block padding-horz-xsmall xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden" style="padding-left: 170px;">
-        <div class="row col width-3-5 padding-right-small cc-sticky-nav-course-text">
-          <span class="line--large head-4 truncate">{{ cb.data.courseInfo.title }}</span>
-        </div>
-        <div class="margin-top-medium width-1-3 col text-left">
-          <a href="#reviews" id="read-reviews" class="read-reviews-btn review-rating text-5 text--charcoal width-text-right" data-track-click="{{ ts.event('NAV_CLICK') }}"
-            data-track-props='{ "type": "Contextbar Reviews", "title": "{{ cb.data.courseInfo.title }}" }'>
-            <span style="position: relative; top: 3px;">
-              <span class="text--underline inline-block padding-right-xxsmall" style="height: 15px; line-height: 18px;">
-                {{ cb.data.courseInfo.numRatings }} Reviews
-              </span>
-            </span>
-            {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with {
-              rating: cb.data.courseInfo.rating,
-              mobileClassName: "text--underline"
-            } %}
-          </a>
-        </div>
-      </div>
-      <div class="animate-fade-entered push padding-xsmall">
-        <div class="inline-block xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
-          <p class="head-5 inline-block margin-right-xsmall">
-            Share <span class="xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden"  data-responsive='{"xlargeOnly": "hidden"}'>this course</span>
-          </p>
-          <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Twitter" }'
-            href="{{ cb.data.twitterUrl }}"
-            target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-twitter margin-horz-xxsmall">Twitter</a>
-          <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Facebook" }'
-            href="{{ cb.data.twitterUrl }}"
-            target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-facebook">Facebook</a>
-        </div>
-        <a href="#reviews" id="read-reviews" class="read-reviews-btn xlarge-up-hidden" data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Contextbar Reviews", "title": "{{ cb.data.courseInfo.title }}" }'>
-          {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with {
-            rating: cb.data.courseInfo.rating,
-            mobileClassName: "text--underline"
-          } %}
-        </a>
-        <div class="inline-block margin-left-xsmall xlarge-up-margin-left-small">
-          <a data-track-props='{ "type": "Course CTA", "title": "{{ cb.data.courseInfo.title }}", "trigger": "goToClassClick" }'
-            href="{{ cb.data.courseInfo.url }}"
-            target="_blank" class="btn-green xsmall-only-btn--small small-only-btn--small medium-only-btn--small large-only-btn--small icon-arrow-right-white icon--right">Go to class</a>
-        </div>
-      </div>
-    </nav>
+      {% if navbarData.contextBar.type == "course" %}
+        {% include 'ClassCentralSiteBundle:Layouts:Header/course.contextbar.html.twig' %}
+      {% endif %}
+      {% if navbarData.contextBar.type == "listing" %}
+        {% include 'ClassCentralSiteBundle:Layouts:Header/listing.contextbar.html.twig' %}
+      {% endif %}
     {% endif %}
     {# end course sticky menu #}
 

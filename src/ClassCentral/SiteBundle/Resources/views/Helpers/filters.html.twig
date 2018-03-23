@@ -253,6 +253,6 @@
     {% set pageName = page %}
 {% endif %}
 
-<div class="sidebar-ads">
+<div class="sidebar-ads" {% if contextBar is defined %}data-sticky-offset="100"{% endif %}>
   {% render controller('ClassCentralSiteBundle:TextAd:showAds', {'pageName':pageName}) %}
 </div>
