@@ -40,12 +40,12 @@
           <a class="medium-up-hidden text--blue text-3 icon--right icon-chevron-down-blue" data-dropdown-anchor data-toggle="dropdown">Previous years</a>
           <ul
             data-dropdown-menu
-            class="text-left dropdown-menu radius bg-white padding-vert-medium"
-            style="display: none;"
+            class="text-center dropdown-menu radius bg-white padding-vert-medium absolute padding-small shadow border-all border--thin"
+            style="display: none; min-width: 60px;"
           >
             {% for yearAvailable in data.yearsAvailable %}
             <li>
-              <a class="padding-vert-xxsmall text--blue" href="/moocs-year-in-review-{{ yearAvailable }}">{{ yearAvailable }}<span class="xsmall-only-hidden small-only-hidden">: Year in Review</span></a>
+              <a class="padding-bottom-xxsmall inline-block text--blue" href="{{ path('year_in_review_' ~ yearAvailable)}}">{{ yearAvailable }}<span class="xsmall-only-hidden small-only-hidden">: Year in Review</span></a>
             </li>
             {% endfor %}
           </ul>
