@@ -1,0 +1,37 @@
+<header class="width-centered padding-horz-large margin-top-xlarge" style="max-width: 1250px;">
+  <div class="row">
+    <div class="col width-100">
+      <div class="unit-horz margin-bottom-small">
+        {% if collection["image-icon"] is defined %}
+          <div class="unit-block padding-right-medium">
+            <img src="/bundles/classcentralsite/images/{{ collection["image-icon"] }}" style="width: 75px;">
+          </div>
+        {% endif %}
+        <div class="unit-block unit-fill">
+          {% if collection.subtitle is defined %}
+            <h2 class="head-4 medium-up-head-3 block">{{ collection.subtitle }}</h2>
+          {% endif %}
+          <h1><strong class="head-2 medium-up-head-1 text--bold">{{ pageTitle }}</strong></h1>
+        </div>
+      </div>
+
+      {% if pageDescription is defined %}
+        <p class="text--charcoal text-1 wysig width-100 large-up-width-2-3">{{ pageDescription|raw }}</p>
+      {% endif %}
+
+      <div class="text-center margin-top-medium medium-up-text-left">
+        {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+          item : followItem,
+          item_id : followItemId,
+          itemName: followItemName,
+          followed: user_session.isItemFollowed(followItem,followItemId),
+          followButtonWithCount: true,
+          followDesc: 'Want an email when new courses are available?',
+          followDescPosition: 'bottom',
+          followDescColor: 'white',
+          followers:followService.getNumFollowers(followItem,followItemId)
+        } %}
+      </div>
+    </div>
+  </div>
+</header>

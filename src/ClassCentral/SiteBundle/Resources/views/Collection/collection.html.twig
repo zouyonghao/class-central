@@ -27,34 +27,9 @@
  {% endblock %}
 
 {% block contentheader %}
-    <section class="headerArea headerArea-slim">
-        <div class="container">
-            <div class="headerIntro">
-
-                <div class="headerIntro_topText">
-                    {{ collection.subtitle }}
-                </div>
-
-                <h1 class="headerIntro_title">{{ pageTitle }}</h1>
-                <h2 class="headerIntro_subTitle">{{ pageDescription|raw }}</h2>
-
-                {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
-                    item : followItem,
-                    item_id : followItemId,
-                    itemName: followItemName,
-                    followed: user_session.isItemFollowed(followItem,followItemId),
-                    followButtonWithCount: true,
-                    followDesc: 'Want an email when new courses are available?',
-                    followDescPosition: 'bottom',
-                    followDescColor: 'white',
-                    followers:followService.getNumFollowers(followItem,followItemId)
-                } %}
-                <span class="headerIntro_buttonSub headerIntro_buttonSub-larger"></span>
-
-            </div>
-
-        </div><!-- /container -->
-    </section>
+  <div class="classcentral-style">
+    {% include 'ClassCentralSiteBundle:Collection:collectionHeader.html.twig' %}
+  </div>
 {% endblock %}
 
 {%  block content %}
