@@ -51,24 +51,32 @@ class Ui {
     }
 
     $(document).on("click", "[data-pulse-trigger]", function(event) {
-      event.preventDefault();
-      if ($(this).hasClass("active")) {
-        hideTooltip(this);
-      } else {
-        showTooltip(this);
+      if ($(window).width() < 1024) {
+        event.preventDefault();
+        if ($(this).hasClass("active")) {
+          hideTooltip(this);
+        } else {
+          showTooltip(this);
+        }
       }
     });
     $(document).on("click", "[data-pulse-target]", function(event) {
-      event.preventDefault();
-      hideTooltip(this);
+      if ($(window).width() < 1024) {
+        event.preventDefault();
+        hideTooltip(this);
+      }
     });
     $(document).on("mouseenter", "[data-pulse-trigger]", function(event) {
-      event.preventDefault();
-      showTooltip(this);
+      if ($(window).width() >= 1024) {
+        event.preventDefault();
+        showTooltip(this);
+      }
     });
     $(document).on("mouseleave", "[data-pulse-trigger]", function(event) {
-      event.preventDefault();
-      hideTooltip(this);
+      if ($(window).width() >= 1024) {
+        event.preventDefault();
+        hideTooltip(this);
+      }
     });
   }
 
