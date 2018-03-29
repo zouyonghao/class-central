@@ -1,13 +1,15 @@
 <a
   data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-  data-track-props='{ "type": "Popular Courses", "title": "{{ course.name }}", "sub_section": "{{ courseType }}" }'
+  data-track-props='{ "type": "Popular Courses", "title": "{{ course.name }}", "sub_section": "{{ courseType is defined ? courseType : null }}" }'
   href="/mooc/{{ course.id }}/{{ course.slug }}"
   class="course-card hover-grow shadow border--thin border--gray-light border-box block"
 >
   <div class="course-card-container row padding-large border-bottom border--thin border--gray-light relative">
     <h3 class="width-3-5 col head-5 text--charcoal truncate">{% if course.institutions %}{{ course.institutions[0]["name"] }}{% endif %}</h3>
     <h4 class="width-2-5 col head-5 text--gray text--italic text-right">
-      <span class="icon--left icon-{{ course.provider["name"]|lower }}-gray icon--small">{{ course.provider["name"]}}</span>
+      {% if course.provider is defined %}
+        <span class="icon--left icon-{{ course.provider["name"]|lower }}-gray icon--small">{{ course.provider["name"]}}</span>
+      {% endif %}
     </h4>
     <h2 class="course-card-title width-1-1 col text-1 text--blue margin-top-small">
       {{ course.name|length > 60 ? course.name|slice(0, 60) ~ '...' : course.name }}
@@ -16,11 +18,14 @@
   <div class="row padding-horz-large padding-vert-medium">
     <div class="width-1-2 col course-card-interested">
       <div class="unit-horz text-left">
+        {% if course.followed is defined %}
         <span class="unit-block head-2 line--small text--bold padding-right-small text--charcoal text--white" data-format-number>{{ course.followed }}</span>
         <span class="unit-block unit-fill text-4 text--charcoal">students <br>interested</span>
+        {% endif %}
       </div>
     </div>
     <div class="width-1-2 col course-card-rating text-right">
+      {% if course.rating is defined %}
       {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: course.rating } %}
        <span class="block margin-top-xxsmall text-4 text--gray">
          {% if course.reviewsCount > 0 %}
@@ -29,6 +34,7 @@
           <span class="text-4 text--gray text--italic">No reviews yet.</span>
         {% endif %}
       </span>
+      {% endif %}
     </div>
   </div>
 </a>

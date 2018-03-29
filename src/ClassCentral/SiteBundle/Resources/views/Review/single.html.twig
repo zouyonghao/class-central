@@ -1,3 +1,22 @@
+{%
+  set colorSets = [
+    { color: "#cdb6d7", colorBg: "#f5f0f7" },
+    { color: "#98dade", colorBg: "#eaf7f8" },
+    { color: "#f5d79b", colorBg: "#fdf7eb" },
+    { color: "#b2e6c8", colorBg: "#effaf4" },
+    { color: "#d89798", colorBg: "#f7eaea" },
+    { color: "#a7add2", colorBg: "#edeef6" },
+  ]
+%}
+{% set colors = colorSets[random(1)] %}
+
+{% if review.externalReviewerName is not empty %}
+  {% set reviewer = review.externalReviewerName %}
+{% else %}
+  {% set reviewer = review.user.name  %}
+{% endif %}
+
+{% set reviewerName = reviewer|split(' ') %}
 
 <div
   class="border-all {% if highlightedReview is defined and highlightedReview == 1 %}shadow{% endif %} border--gray-xlight radius padding-large single-review margin-top-medium margin-bottom-large"
@@ -5,39 +24,46 @@
   id="review-{{ review.id }}"
 >
   {% if review.course is defined %}
-      <meta content="{{ review.course.name}}">
+    <meta content="{{ review.course.name}}">
   {% else %}
-      {# This is for My Reviews page#}
-      <h2>
-        <a class="text-1 text--blue" href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}">
-          {{ review.course.name }}
-        </a>
-      </h2>
+    <h2>
+      <a class="text-1 text--blue" href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug}) }}">
+        {{ review.course.name }}
+      </a>
+    </h2>
   {% endif %}
-  {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: review.rating } %}
-  <a
-    class="review-date relative text--charcoal inline-block padding-left-xxsmall"
-    href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug, "review-id":review.id }) }}">
-    {{ review.displayDate }}
-  </a>
-  <meta content="{{ review.rating }}">
 
-    {#
-        {% if review.externalReviewLink is not empty %}
-            <span class="author">
-                <a href="{{ review.externalReviewLink }}" target="_blank">  &nbsp;External Review</a>
-            </span>
-        {% endif %}
-    #}
+  <div class="row">
+    <div class="col width-100 large-up-width-1-4 xlarge-up-width-3-16">
+      {% if review.user.name == "Anonymous" %}
+        <strong class="text-2 text--bold">
+            Anonymous
+        </strong>
+      {% elseif reviewerName %}
+      <div class="unit-horz">
+        <div class="unit-block padding-right-xsmall">
+          {% include 'ClassCentralSiteBundle:Helpers:user.profile.html.twig' with {
+            width: 32,
+            user: review.user,
+            colors: colors,
+            location: "Course Page"
+          } %}
+        </div>
+        <strong class="unit-block unit-fill text-2 text--bold">
+          {{ reviewerName[0] }} {{ reviewerName[reviewerName|length - 1]|first|upper }}
+        </strong>
+      </div>
+      {% endif %}
+    </div>
 
-    {% if review.externalReviewerName is not empty %}
-        {% set reviewer = review.externalReviewerName %}
-    {% else %}
-        {% set reviewer = review.user.name  %}
-    {% endif %}
-
-
-    <div>
+    <div class="col width-100 large-up-width-3-4 xlarge-up-width-13-16 xlarge-up-padding-left-medium">
+      {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: review.rating } %}
+      <a
+        class="review-date relative text--charcoal inline-block padding-left-xxsmall"
+        href="{{ path('ClassCentralSiteBundle_mooc', {id: review.course.id, slug: review.course.slug, "review-id":review.id }) }}">
+        {{ review.displayDate }}
+      </a>
+      <meta content="{{ review.rating }}">
       {% set reviewerProfileUrl = user_service.profileUrl(review.user.id,review.user.handle, review.user.isPrivate) %}
       <div class="review-title title-with-image margin-top-xsmall text-2">
         {% if reviewerProfileUrl %}
@@ -49,91 +75,93 @@
             rel="nofollow"
           >
         {% endif %}
-            <span class="author text--bold">{{ reviewer }}</span>
+            <span class="author">{{ reviewerName[0] }}</span>
         {% if reviewerProfileUrl %}
           </a>
         {% endif %}
         <span class="text--italic">{{ review.reviewTitle|raw }}</span>
       </div>
 
-        <div class="review-content text-2 margin-vert-small">
-          {% if review.reviewText and review.reviewText|length >1000 %}
-            <div data-expand-preview="review-{{ review.id }}">
-              <div class="margin-right-xsmall inline">
-                {{ review.reviewText|striptags('<br>')|slice(0,1000)|raw }}&hellip;
-              </div>
-              <button
-                data-expand="review-{{ review.id }}"
-                class="text-2 icon--right icon-chevron-down-blue text--blue"
-              >
-                Read more
-              </button>
+      <div class="review-content text-2 margin-vert-small">
+        {% if review.reviewText and review.reviewText|length >1000 %}
+          <div data-expand-preview="review-{{ review.id }}">
+            <div class="margin-right-xsmall inline">
+              {{ review.reviewText|striptags('<br>')|slice(0,600)|raw }}&hellip;
             </div>
+            <button
+              data-expand="review-{{ review.id }}"
+              class="text-2 icon--right icon-chevron-down-blue text--blue"
+            >
+              Read more
+            </button>
+          </div>
+        {% endif %}
+        <div class="{{ review.reviewText and review.reviewText|length >1000 ? "hidden" : "" }}" data-expand-target="review-{{ review.id }}">
+          {{ review.reviewText|striptags('<br>')|raw }}
+        </div>
+      </div>
+
+      {% if review.externalReviewLink is not empty %}
+        <div id="ext-review-link">
+          <a href="{{ review.externalReviewLink }}" target="_blank" class="margin-bottom-medium text-2 text--blue icon--left icon-expand-blue">
+            Full Review
+          </a>
+        </div>
+      {% endif %}
+
+      <div class="row">
+        <div class="col width-1-2">
+          {% if review.fb.total > 0 %}
+              <div class="unit-horz">
+                <span class="review-feedback unit-block head-2 text--bold padding-right-xsmall">
+                  {{review.fb.positive }}
+                </span>
+                <span class="unit-block unit-fill text-4">
+                  {{ (review.fb.positive > 1) ? "people" : "person" }} found<br> this review helpful
+                </span>
+              </div>
           {% endif %}
-          <div class="{{ review.reviewText and review.reviewText|length >1000 ? "hidden" : "" }}" data-expand-target="review-{{ review.id }}">
-            {{ review.reviewText|striptags('<br>')|raw }}
+        </div>
+        <div class="col width-1-2 text-right">
+          {% if app.user and user_session.isUserReview(review.id) %}
+              {% if not is_granted('ROLE_ADMIN') %}
+                {# show the edit button #}
+                <div class="question">
+                  <a href="{{ path('review_edit',{reviewId:review.id}) }}" class="btn-white btn--small icon--left icon-pencil-charcoal text--charcoal">Edit Review</a>
+                </div>
+              {% endif %}
+          {% else %}
+              {# show the feedback #}
+              <div class="text-3 question" id="review-feedback-{{ review.id }}"><span class="xsmall-only-hidden small-only-hidden">Was this review helpful to you?</span>
+                  <span class="yes-no padding-left-xsmall">
+                    <a
+                      href="#"
+                      class="btn-white btn-circle border--blue btn--medium review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}"
+                      onmousedown="ga('send','event','Review Feedback','Yes');"
+                      >
+                      <span class="icon--center icon-thumbsup-blue">Yes</span>
+                    </a>
+                  </span>
+                  </div>
+          {% endif %}
+        </div>
+      </div>
+      {# edit button for all admins#}
+      {% if is_granted('ROLE_ADMIN') %}
+        <div class="row margin-top-small">
+          <div class="xsmall-only-margin-bottom-small small-only-margin-bottom-small col width-100 medium-up-width-1-2 text-center medium-up-text-left">
+            <a class="btn-white btn--small text--charcoal icon-checkmark icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">
+              Approve
+            </a>
+            <a class="btn-white btn--small text--charcoal icon-ban icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 100, reviewId: review.id}) }}">
+              Don't Show
+            </a>
+          </div>
+          <div class="question col width-100 medium-up-width-1-2 text-center medium-up-text-right">
+            <a href="{{ path('review_edit',{reviewId:review.id}) }}" class="btn-white btn--small icon--left icon-pencil-charcoal text--charcoal icon--xsmall">Edit Review (Staff Only)</a>
           </div>
         </div>
-        {% if review.externalReviewLink is not empty %}
-            <div id="ext-review-link">
-                <a href="{{ review.externalReviewLink }}" target="_blank" class="margin-bottom-medium text-2 text--blue icon--left icon-expand-blue">
-                  Full Review
-                </a>
-            </div>
-        {% endif %}
+      {% endif %}
     </div>
-
-    <div class="row">
-      <div class="col width-1-2">
-        {% if review.fb.total > 0 %}
-            <div class="unit-horz">
-              <span class="review-feedback unit-block head-2 text--bold padding-right-xsmall">
-                {{review.fb.positive }}
-              </span>
-              <span class="unit-block unit-fill text-4">
-                {{ (review.fb.positive > 1) ? "people" : "person" }} found<br> this review helpful
-              </span>
-            </div>
-        {% endif %}
-      </div>
-      <div class="col width-1-2 text-right">
-        {% if app.user and user_session.isUserReview(review.id) %}
-            {% if not is_granted('ROLE_ADMIN') %}
-              {# show the edit button #}
-              <div class="question">
-                <a href="{{ path('review_edit',{reviewId:review.id}) }}" class="btn-white btn--small icon--left icon-pencil-charcoal text--charcoal">Edit Review</a>
-              </div>
-            {% endif %}
-        {% else %}
-            {# show the feedback #}
-            <div class="text-3 question" id="review-feedback-{{ review.id }}"><span class="xsmall-only-hidden small-only-hidden">Was this review helpful to you?</span>
-                <span class="yes-no padding-left-xsmall">
-                  <a
-                    href="#"
-                    class="btn-white btn-circle border--blue btn--medium review-feedback" data-reviewId="{{ review.id }}" data-reviewId="{{ review.id }}"
-                    onmousedown="ga('send','event','Review Feedback','Yes');"
-                    >
-                    <span class="icon--center icon-thumbsup-blue">Yes</span>
-                  </a>
-                </span>
-                </div>
-        {% endif %}
-      </div>
-    </div>
-    {# edit button for all admins#}
-    {% if is_granted('ROLE_ADMIN') %}
-      <div class="row margin-top-small">
-        <div class="xsmall-only-margin-bottom-small small-only-margin-bottom-small col width-100 medium-up-width-1-2 text-center medium-up-text-left">
-          <a class="btn-white btn--small text--charcoal icon-checkmark icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 2, reviewId: review.id}) }}">
-            Approve
-          </a>
-          <a class="btn-white btn--small text--charcoal icon-ban icon--left icon--xsmall review-status-update" href="{{ path('reviews_status_update', {statusId: 100, reviewId: review.id}) }}">
-            Don't Show
-          </a>
-        </div>
-        <div class="question col width-100 medium-up-width-1-2 text-center medium-up-text-right">
-          <a href="{{ path('review_edit',{reviewId:review.id}) }}" class="btn-white btn--small icon--left icon-pencil-charcoal text--charcoal icon--xsmall">Edit Review (Staff Only)</a>
-        </div>
-      </div>
-    {% endif %}
+  </div>
 </div>

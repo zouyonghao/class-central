@@ -1,0 +1,8 @@
+<span class="review-rating text--charcoal">
+  {% if rating >= 1 %}
+    <span>{{ rating|number_format(1, '.') }}</span>
+    <i class="icon-star icon--xxsmall relative" style="top: -2px;"></i>
+  {% else %}
+    <i class="icon-star-gray-light icon--xxsmall"></i>
+  {% endif %}
+</span>

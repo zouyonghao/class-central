@@ -4,14 +4,14 @@
 <ul class="inline-block">
   {% if numPagesBefore > 2 %}
     <li class="inline-block margin-horz-xxsmall">
-      <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="1" class="text--blue">1</button>
+      <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="1" class="text-2 text--blue">1</button>
       <span class="text--gray margin-left-xxsmall">&hellip;</span>
     </li>
   {% endif %}
   {% for i in 2..1 %}
       {% if reviews.currentPage - i > 0 %}
         <li class="inline-block margin-horz-xxsmall {% if i == 2 %}xsmall-only-hidden{% endif %}">
-          <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.currentPage - i - 1) * 20) }}" class="text--blue">{{ reviews.currentPage - i }}</button>
+          <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.currentPage - i - 1) * 20) }}" class="text-2 text--blue">{{ reviews.currentPage - i }}</button>
         </li>
       {% endif %}
   {% endfor %}
@@ -21,7 +21,7 @@
   {% for i in 1..2 %}
       {% if reviews.currentPage + i <= reviews.numPages %}
         <li class="inline-block margin-horz-xxsmall {% if i == 2 %}xsmall-only-hidden{% endif %}">
-          <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.currentPage + i - 1) * 20) }}" class="text--blue">
+          <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.currentPage + i - 1) * 20) }}" class="text-2 text--blue">
             {{ reviews.currentPage + i }}
           </button>
         </li>
@@ -30,7 +30,7 @@
   {% if numPagesAfter > 2 %}
     <li class="inline-block margin-horz-xxsmall">
       <span class="text--gray margin-right-xxsmall">&hellip;</span>
-      <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.numPages - 1) * 20) }}" class="text--blue">{{ reviews.numPages }}</button>
+      <button data-paginate data-courseid="{{ reviews.courseId }}" data-start="{{ ((reviews.numPages - 1) * 20) }}" class="text-2 text--blue">{{ reviews.numPages }}</button>
     </li>
   {% endif %}
 </ul>

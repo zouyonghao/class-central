@@ -20,8 +20,10 @@
           data-track-click="{{ ts.event('COURSE_CLICK') }}"
           data-track-props='{ "type": "Course Overview Tab" }'
           class="head-4 bg-white medium-up-head-3 text--charcoal text--bold inline-block border--thin border-top border-left border-right border--gray-dark padding-vert-xsmall padding-horz-small large-up-padding-horz-xxlarge margin-right-xsmall"
-        ><span>About</span><span class="xsmall-only-hidden small-only-hidden"> this course</span></a>
-        {# bg-white bg-gray #}
+        >
+          <span>About</span>
+          <span class="xsmall-only-hidden small-only-hidden"> this course</span>
+        </a>
       {% if course.syllabus %}
         <a
           data-tab="syllabus"
@@ -30,20 +32,38 @@
           data-track-click="{{ ts.event('COURSE_CLICK') }}"
           data-track-props='{ "type": "Course Syllabus Tab" }'
           class="head-4 bg-gray medium-up-head-3 text--charcoal inline-block border--thin border-top border-left border-right border--gray-dark padding-vert-xsmall padding-horz-small large-up-padding-horz-xxlarge"
-        >Syllabus</a>
+        >
+          Syllabus
+        </a>
       {% endif %}
     </div>
   </nav>
 
-  <div id="course-tabs" class="padding-vert-large padding-horz-small medium-up-padding-horz-medium">
+  <div id="course-tabs" class="padding-vert-large">
     <div data-tab-family="course-summary" data-tab-target="overview">
       <div>
         <article class="wysiwyg text-2 medium-up-text-1">
+          {% if course.initiative.code == 'coursera' %}
+            <p class="margin-bottom-medium text-center large-up-text-left">
+                <span class="text-2 text--bold margin-right-small">Sign up to Coursera courses for free</span>
+                <a
+                  target="_blank"
+                  href="https://www.class-central.com/report/coursera-signup-for-free/"
+                  onmousedown='CC.track("{{ ts.event('TIP_CLICK') }}", {
+                    tip_key: "coursera-signup-free-learn-how",
+                    tip_link: "https://www.class-central.com/report/coursera-signup-for-free/"
+                  });'
+                  class="btn-white icon--left icon-lightbulb-skyblue"
+                >
+                  Learn how
+                </a>
+            </p>
+          {% endif %}
           <div class="relative {% if course.desc|length > 1500 %}fade-bottom{% endif %}" data-expand-article-target="overview">
             {{ course.desc|raw }}
           </div>
           {% if course.desc|length > 1500 %}
-            <p class="margin-vert-small text-center">
+            <p class="margin-vert-small text-left">
               <button data-expand-article="overview" class="xsmall-only-width-100 small-only-width-100 btn--large btn-blue-outline icon--right icon--small icon-chevron-down-blue margin-bottom-large">
                 Read more
               </button>
@@ -63,7 +83,7 @@
             </div>
           </article>
           {% if course.syllabus|length > 1500 %}
-            <p class="margin-vert-small text-center">
+            <p class="margin-vert-small text-left">
               <button data-expand-article="syllabus" class="xsmall-only-width-100 small-only-width-100 btn--large btn-blue-outline icon--right icon--small icon-chevron-down-blue margin-bottom-large">
                 Read more
               </button>
@@ -79,7 +99,7 @@
         <h4 class="col width-100 text--bold inline-block margin-bottom-xsmall">
           Taught by
         </h4>
-        <div class="col width-100 text-2">
+        <div class="col width-100 text-2 medium-up-text-1">
           {{ course['instructorsSingleLineDisplay'] }}
         </div>
       </div>
@@ -87,15 +107,15 @@
     {% endif %}
   </div>
 
-  <div class="border-top border--gray-dark border--thin margin-horz-medium padding-top-medium">
-    {% if courseRank is not empty %}
+  {% if courseRank is not empty %}
+    <div class="border-top border--gray-dark border--thin padding-top-medium">
       <h4 class="text-1 width-100 text--bold inline-block margin-bottom-xsmall">
         Class Central Charts
       </h4>
-      <ul class="text-3 medium-up-text-2 margin-bottom-medium">
+      <ul class="text-2 medium-up-text-1 margin-bottom-medium">
       {% for rank in courseRank %}
-        <li class="margin-bottom-xxsmall">
-          <strong class="text--bold">#{{ rank.rank }}</strong> in <a class="text--blue" href="{{ path('subjects') }}" onmousedown="ga('send','event', 'Inbound Click - Course Ranking Subject Click', '{{ course.name}}', 'Subjects')">Subjects</a>
+        <li>
+          <strong>#{{ rank.rank }}</strong> in <a class="text--blue" href="{{ path('subjects') }}" onmousedown="ga('send','event', 'Inbound Click - Course Ranking Subject Click', '{{ course.name}}', 'Subjects')">Subjects</a>
           {% if rank.subject %}
               > <a class="text--blue" href="{{ path('ClassCentralSiteBundle_stream',{slug:rank.subject.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Course Ranking Subject Click', '{{ course.name}}', '{{ rank.subject.name }}')">{{ rank.subject.name  }}</a>
           {% endif %}
@@ -105,23 +125,22 @@
         </li>
       {% endfor %}
       </ul>
-    {% endif %}
-
-    <div class="text-1">
-      {% if course.tags|length > 0 %}
-        <div class="row">
-          <h4 class="col width-100 text--bold inline-block margin-bottom-xsmall">
-            Tags
-          </h4>
-          <div class="col width-100">
-            {% for tag in course.tags %}
-              <a class="block medium-up-inline-block btn-gray btn--small text--normal margin-bottom-xsmall medium-up-margin-right-xsmall" href="{{ path('tag_courses', {tag: tag|lower}) }}"
-                onmousedown="ga('send','event', 'Course - Inbound Clicks - tags', '{{tag}}', '{{course['name']}}')">{{ tag|lower }}
-             </a>
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
     </div>
-  </div>
+  {% endif %}
+
+  {% if course.tags|length > 0 %}
+    <div class="text-1 border-top border--gray-dark border--thin row padding-top-medium">
+      <h4 class="col width-100 text--bold inline-block margin-bottom-xsmall">
+        Tags
+      </h4>
+      <div class="col width-100">
+        {% for tag in course.tags %}
+          <a class="block medium-up-inline-block btn-gray btn--medium text--normal margin-bottom-xsmall medium-up-margin-right-xsmall" href="{{ path('tag_courses', {tag: tag|lower}) }}"
+            onmousedown="ga('send','event', 'Course - Inbound Clicks - tags', '{{tag}}', '{{course['name']}}')">{{ tag|lower }}
+         </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
 </section>

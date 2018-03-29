@@ -1,0 +1,236 @@
+<div class="classcentral-style">
+  <div class="shadow border-all border--xgray border--thin">
+    {# trailer #}
+    {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.trailer.html.twig' %}
+
+    <div class="padding-horz-small medium-up-padding-horz-medium xxlarge-up-padding-horz-large padding-vert-medium row">
+      {% set userListIds = user_session.getCourseListIds(course['id']) %}
+
+      <div class="col width-1-3 xlarge-up-width-2-5 xxlarge-up-width-1-3">
+        <div class="relative">
+          <div data-pulse-trigger="interested" class="icon-pulse absolute" style="top: 2px; left: 2px;"></div>
+          <div data-pulse="interested" class="hidden padding-small text--white absolute shadow bg-blue radius" style="width: 250px; top: -80px; left: -7px;">
+            Never miss a course! Add as <span class="text--bold">"Interested"</span> to get notified of this course's next session
+          </div>
+        </div>
+        <div class="dropdown" data-dropdown>
+          <button
+            data-dropdown-anchor
+            data-toggle="dropdown"
+            class="btn-white btn--large width-100"
+            style="padding: 0 14px 0px 7px"
+          >
+            <span class="icon--left icon-list-add-blue" style="padding-left: 42px;">
+              Add
+            </span>
+          </button>
+
+          <div data-dropdown-menu class="z-top dropdown-menu shadow radius bg-white absolute padding-bottom-small border-all border--thin border--gray-xlight" style="width: 200px; display: none;">
+            <p class="dropdown-list-header bg-gray padding-xsmall padding-left-medium margin-bottom-small">
+              My Courses
+            </p>
+            <ul>
+              {% for listId, list in listTypes %}
+              <li class="padding-horz-small">
+                <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                  <input
+                    id="check-{{ listId }}-{{ course.id }}"
+                    type="checkbox"
+                    name="course-interest-checkbox"
+                    class="course-list-checkbox"
+                    value="{{ listId }}"
+                    data-track-click="{{ ts.event('COURSE_CLICK') }}"
+                    data-track-props='{ "type": "Dropdown Item", "title": "{{ list.desc }}", "courseName": "{{ course.name }}", "courseId": "{{ course.id }}" }'
+                    data-course-id="{{ course.id }}"
+                    {% if listId in userListIds %}checked="checked"{% endif %}
+                    data-course-name="{{ course.name }}"
+                    data-source="course-page"
+                  />
+                  <label for="check-{{ listId }}-{{ course.id }}">
+                    <span class="cursor-pointer">
+                      <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                        <span class="icon icon-checkmark-white"></span>
+                      </span>
+                      <span class="checkbox--label checkbox--label-solid inline-block">{{ list.desc }}</span>
+                    </span>
+                  </label>
+                </fieldset>
+              </li>
+              {% endfor %}
+            </ul>
+            {% if ts.device() != "desktop" %}
+              <a
+                data-dropdown-close
+                href="#"
+                class="icon--center icon-x-charcoal icon--xsmall absolute top right padding-top-xsmall margin-right-xxsmall">
+                Close
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col width-2-3 xlarge-up-width-3-5 xxlarge-up-width-2-3 padding-left-small">
+        <a
+          class="btn--large btn-green width-100"
+          href="{{ goToClassUrl }}" id="btnProviderCoursePage"
+          onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');
+                    CC.track('{{ ts.event('GO_TO_CLASS_CLICK') }}');"
+          target="_blank"
+        >
+          <span class="text-1 text--bold" style="font-size: 20px;">Go to class</span>
+          <span class="small-only-hidden xsmall-only-hidden xlarge-only-hidden">
+            <i class="icon icon-arrow-right-white "></i>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <ul>
+      {# Course Provider #}
+      <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+        <strong class="text-3 text--upper text--bold width-1-3 col">Provider</strong>
+        <a
+          class="text-2 text--charcoal hover-text--underline width-2-3 block col"
+          href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}"
+          title="List of {{ course['initiative']['name'] }} MOOCs"
+          onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')"
+        >
+          {{ course['initiative']['name'] }}
+        </a>
+      </li>
+
+      {# Course Cost #}
+      <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+        <strong class="text-3 text--upper text--bold width-1-3 col">$ Cost</strong>
+        <span class="text-2 text--charcoal width-2-3 block col">
+          {% if course.price > 0 %}
+            {% if course.discounted_price > 0 and course.discounted_price < course.price %}
+              <span style="text-decoration: line-through;">${{ course.price }}</span> ${{ course.discounted_price }}
+            {% else %}
+              {{ course.priceDisplay }}
+            {% endif %}
+          {% elseif course.price == -1 %}
+            Paid Course
+          {% else %}
+            {% if course.initiative.name == 'Coursera' or course.initiative.name =='FutureLearn' %}
+              Free Online Course (Audit)
+            {% else %}
+              Free Online Course
+            {% endif %}
+          {% endif %}
+        </span>
+      </li>
+
+      {# Course Status - Self Paced, Upcoming, etc #}
+      {% if course.nextOffering is defined and course.nextOffering.state is defined %}
+        <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+          <strong class="text-3 text--upper text--bold width-1-3 col">Session</strong>
+          <a
+            class="text-2 text--charcoal hover-text--underline width-2-3 block col"
+            href="{{ path('ClassCentralSiteBundle_courses', { type: course.nextOffering.state }) }}"
+            class="course-data-value"
+          >
+            {{ offeringTypes[course.nextOffering.state].sessionDesc }}
+          </a>
+        </li>
+      {% endif %}
+
+      {# Course Language #}
+      {% if course.lang is not empty %}
+        <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+          <strong class="text-3 text--upper text--bold width-1-3 col">Language</strong>
+          <a
+            href="{{ path('lang', {slug : course.lang.slug}) }}"
+            class="text-2 text--charcoal hover-text--underline width-2-3 block col"
+          >
+            {{ course.lang.name }}
+          </a>
+        </li>
+      {% endif %}
+
+      {# Certificate #}
+      {% if course.certificate %}
+        <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+          <strong class="text-3 text--upper text--bold width-1-3 col">Certificate</strong>
+          <span class="text-2 text--charcoal width-2-3 block col">{{ course.certificateDisplay }}</span>
+        </li>
+      {% endif %}
+
+      {% if course.workload %}
+        <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+          <strong class="text-3 text--upper text--bold width-1-3 col">Effort</strong>
+          <span class="text-2 text--charcoal width-2-3 block col">{{ course.workloadDisplay }}</span>
+        </li>
+      {% endif %}
+
+      <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+        <strong class="text-3 text--upper text--bold width-1-3 col">Calendar</strong>
+        <span class="width-2-3 block col">
+          {% set offeringUrl = null %}
+          {% set selectedOfferingDetails = null %}
+          {% if offeringTypesOrder|length > 0 %}
+          <select id="sessionOptions" class="text-2 text--charcoal border-all border--white bg-white relative" style="left: -8px;">
+            {% for offeringType in offeringTypesOrder %}
+              {% if course['offerings'][offeringType]|length > 0 %}
+                <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
+                {% for offering in course['offerings'][offeringType]%}
+                  {% if offeringUrl is null %}
+                    {% set offeringUrl = offering['url']  %}
+                    {% set selectedOfferingDetails = {
+                      'type' : offeringType,
+                      'startDate' : offering.startDate,
+                      'status' : offering.status
+                    } %}
+                  {% endif %}
+                  <option
+                    content="{{ offering['microdataDate'] }}"
+                    data-url="{{ offering['url'] }}"
+                    data-sessiontype="{{ offeringType }}"
+                    data-sessionstatus = '{{ offering.status }}'
+                    data-sessionstartdate="{{ offering.startDate }}"
+                    {% if course.nextOffering.id == offering.id %} selected="selected" {% endif %}
+                  >
+                    {{ offering['displayDate'] }}
+                  </option>
+                  {% if course.nextOffering.id == offering.id %}
+                    {% set offeringUrl = offering['url']  %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </select>
+          {% endif %}
+        </span>
+      </li>
+      {% if course.durationMin > 0 %}
+        <li class="border-box padding-vert-small padding-horz-small medium-up-padding-horz-large border-top border--thin border--gray width-100 row">
+          <strong class="text-3 text--upper text--bold width-1-3 col">Duration</strong>
+          <span class="text-2 text--charcoal width-2-3 block col">{{ course.durationDisplay }}</span>
+        </li>
+      {% endif %}
+    </ul>
+
+    <p class="padding-medium medium-up-padding-large text-center border-top border--thin border--gray">
+      {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
+        <span class="text-2 text--charcoal block margin-bottom-small margin-horz-small">Taken this course? Share your experience with other students.</span>
+        <a
+          class="btn-white icon--left icon-star"
+          href="{{ reviewUrl }}"
+          rel="nofollow"
+          onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')"
+        >
+          Write review
+        </a>
+      {% else %}
+        <span class="text-2 text--italic block margin-bottom-small margin-horz-small">You've reviewed this course.</span>
+        <a
+          class="btn-white icon--left icon-star"
+          href="#"
+        >
+          Edit Your Review
+        </a>
+      {% endif %}
+    </p>
+  </div>
+</div>

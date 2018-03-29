@@ -1,4 +1,4 @@
-{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
 
 {# logged out user finished writing a review and has been redirected here. Show the user a signup form#}
  {% set showPostReviewSignupForm = false %}
@@ -36,13 +36,6 @@
      <meta property="fb:admins" content="{{ fb_admins }}" />
 
      <!-- Twitter card integration -->
-     {#
-         <meta name="twitter:card" content="summary">
-         <meta name="twitter:site" content="@classcentral">
-         <meta name="twitter:title" content="{{ course['pageTitle'] }}. {% if nextSessionStart != '' %}Starts {{ nextSessionStart }}.{% endif %}">
-         <meta name="twitter:description" content="{{ course['shortDesc'] }}">
-         <meta name="twitter:domain" content="www.class-central.com">
-     #}
      <meta name="twitter:card" content="product">
      <meta name="twitter:site" content="@classcentral">
      <meta name="twitter:title" content="{{ course['pageTitle'] }}">
@@ -88,28 +81,7 @@
         {% set courseDesc = course.oneLiner %}
     {% endif %}
 
-    {#
-        <script type="application/ld+json">
-        {
-          "@context": "http://schema.org",
-          "@type": "Course",
-          {% if course.price == 0 %}
-            "isAccessibleForFree":"http://schema.org/True",
-          {% endif %}
-          "name": "{{ course.name }}",
-          "description": "{{ courseDesc|escape }}",
-          "provider": {{ course.schemaOrgs|json_encode(constant('JSON_PRETTY_PRINT'))|raw }},
-          "image": "{{ courseImageUrl }}",
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "{{ rating }}",
-            "reviewCount": "{{ reviews.ratingCount }}"
-          }
-        }
-       </script>
-   #}
-
-            <script type="application/ld+json">
+      <script type="application/ld+json">
         {
           "@context": "http://schema.org/",
           "@type": "Product",
@@ -147,19 +119,19 @@
     {# Links for admin #}
     {% if is_granted('ROLE_ADMIN') %}
       <div class="classcentral-style">
-        <section class="margin-top-large padding-large radius margin-bottom-large" style="background-color: #E6F4FF;">
-          <h1 class="head-3 margin-bottom-medium">Links for Admin</h1>
+        <section class="width-centered margin-top-large padding-medium radius margin-bottom-large" style="border: 4px solid #E6F4FF; max-width: 1250px;">
+          <h1 class="head-3 text--blue text--bold margin-bottom-medium">Links for Admin</h1>
           <div class="margin-vert-medium">
             <a
-              class="btn-white icon-pencil icon--xsmall icon--left margin-right-xsmall"
+              class="btn-white text--charcoal icon-pencil icon--xsmall icon--left margin-right-xsmall"
               href="{{ path('course_edit', { 'id': course.id }) }}"
               >Edit Course</a>
             <a
-              class="btn-white margin-right-xsmall"
+              class="btn-white text--charcoal margin-right-xsmall"
               href="{{ path('course_show', { 'id': course.id }) }}">Admin Page</a>
             {% if course.status == 101  %}
               <a
-                class="btn-white icon-checkmark icon--left margin-right-xsmall"
+                class="btn-white text--charcoal icon-checkmark icon--left margin-right-xsmall"
                 href="{{ path('course_approve',{'courseId': course.id}) }}"
               >Quick Approve Course</a>
 
@@ -175,278 +147,27 @@
       </div>
     {% endif %}
 
-    <div class="row">
-    <div class="course-meta-main-wrap col-sm-8 col-lg-8">
-        <div class="course-meta-main border-radius">
-          {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.title.html.twig' %}
-          {% if course.credential is not empty %}
-            <div class="course-name-column-cred" style="padding-left:45px;margin-bottom: 25px">
-              <a href="{{ path('credential_page', {slug: course.credential.slug}) }}" onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')">
-                <span class="course-name-column-cred__button" >Earn A Credential</span>
-                <span class="course-name-column-cred__text">Part of {{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
-              </a>
-            </div>
-          {% endif %}
-          {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.tabs.html.twig' %}
-        </div>
-    </div>
-
-    <div class ="course-meta-sidebar col-sm-4 col-lg-4">
-      {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.trailer.html.twig' %}
-      <div class="course-data">
-        <div class="classcentral-style">
-          <p class="margin-top-small text-center">
+  <div class="classcentral-style">
+    <div class="row width-centered padding-horz-small medium-up-padding-horz-medium xlarge-up-padding-horz-large" style="max-width: 1250px;">
+      <div class="col pull width-100 xlarge-up-width-2-3 xlarge-up-padding-right-xxlarge">
+        {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.title.html.twig' %}
+        {% if course.credential is not empty %}
             <a
-              id="read-reviews"
-              href="#reviews"
-              class="btn-white"
-              onmousedown="ga('send','event', 'Read reviews', '{{course['name']}}','Top')">
-              Read reviews
+              href="{{ path('credential_page', {slug: course.credential.slug}) }}"
+              onmousedown="ga('send','event', 'Inbound Click - Credential from Course Page', '{{ course.credential.name}}', '{{ course.credential.certificateName }}')"
+            >
+              <span class="btn-white btn--small text--charcoal icon--left icon-credential">Earn A Credential</span>
+              <span class="text--charcoal margin-left-xxsmall">Part of the</span>
+              <span class="text--blue">{{ course.credential.name }}{%  if course.credential.certificateSlug != 'nanodegree' %} {{ course.credential.certificateName }}{% endif %}</span>
             </a>
+        {% endif %}
+      </div>
 
-            {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
-              <a
-                class="btn-white icon--left icon-star"
-                href="{{ reviewUrl }}"
-                rel="nofollow"
-                onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')"
-              >
-                Write review
-              </a>
-            {% else %}
-              <span class="margin-horz-medium inline-block text--italic text-2 text--bold icon--left icon-star">Reviewed</span>
-            {% endif %}
-          </p>
-        </div>
-
-            <div class="course-data-inner">
-
-                <div class="course-data-row course-provider">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-paid-icon" viewBox="0 0 32 32"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-paid-icon"></use></svg>
-                            Cost
-                        </span>
-                    <span class="course-data-value">
-                        {% if course.price > 0 %}
-                                {% if course.discounted_price > 0 and course.discounted_price < course.price %}
-                                    <span style="text-decoration: line-through;">${{ course.price }}</span> ${{ course.discounted_price }}
-                                {% else %}
-                                    {{ course.priceDisplay }}
-                                {% endif %}
-                        {% elseif course.price == -1 %}
-                            Paid Course
-                        {% else %}
-                            {% if course.initiative.name == 'Coursera' or course.initiative.name =='FutureLearn' %}
-                                Free Online Course (Audit)
-                            {% else %}
-                                Free Online Course
-                            {% endif %}
-                        {% endif %}
-                    </span>
-                </div>
-
-                {# Course Status - Self Paced, Upcoming, etc #}
-                {% if course.nextOffering is defined and course.nextOffering.state is defined %}
-                    <div class="course-data-row course-pace">
-                            <span class="course-data-icon">
-                                <svg class="icon icon-pace-icon" viewBox="0 0 36 32"><use xlink:href="#icon-pace-icon"></use></svg>
-                                Pace
-                            </span>
-                        <a href="{{ path('ClassCentralSiteBundle_courses',{type: course.nextOffering.state}) }}" class="course-data-value">{{ offeringTypes[course.nextOffering.state].sessionDesc }}</a>
-                    </div>
-                {% endif %}
-
-                <!-- Subject -->
-                <div class="course-data-row course-subject">
-                    <span class="course-data-icon">
-                        <svg class="icon icon-subject-icon" viewBox="0 0 48 33"><use xlink:href="#icon-subject"></use></svg>
-                        Subject
-                    </span>
-                    <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
-                       title="List of {{ course['stream']['name'] }} MOOCs/free online courses"
-                       onClick="ga('send','event', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}')"
-                            >{{ course.stream.name }}</a>
-                 </div>
-
-
-                {% if course.institutions is not empty %}
-                    <div class="course-data-row course-institution">
-                            <span class="course-data-icon">
-                                <svg class="icon icon-institution-icon" viewBox="0 0 32 32"><use xlink:href="#icon-university"></use></svg>
-                                Institution
-                            </span>
-                        {% for institution in course['institutions'] %}
-                            {% set route = 'ClassCentralSiteBundle_university' %}
-                            {% if not institution['isUniversity'] %}
-                                {% set route = 'ClassCentralSiteBundle_institution' %}
-                            {% endif %}
-                            <a class="course-data-value" href="{{ path(route,{'slug' : institution['slug']|lower })}}" title="List of {{institution['name']}} MOOCs"
-                               onClick="ga('send','event', 'Course - Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                {# Course Provider #}
-                <div class="course-data-row course-provider">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-provider-icon" viewBox="0 0 37 34"><use xlink:href="#icon-folder"></use></svg>
-                            Provider
-                        </span>
-                    <a class="course-data-value" href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')">{{ course['initiative']['name'] }}</a>
-                </div>
-
-                {# Course Language #}
-                {% if course.lang is not empty %}
-                    <div class="course-data-row course-language">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-comment" viewBox="0 0 32 32"><use xlink:href="#icon-textbubble"></use></svg>
-                            Language
-                        </span>
-                        <a href="{{ path('lang', {slug : course.lang.slug}) }}" class="course-data-value">{{ course.lang.name }}</a>
-                    </div>
-                {% endif %}
-
-                {# Certificate #}
-                {% if course.certificate %}
-                    <div class="course-data-row course-certificates">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-certificate" viewBox="0 0 32 32"><use xlink:href="#icon-certificate"></use></svg>
-                            Certificates
-                        </span>
-                        <span class="course-data-value">{{ course.certificateDisplay }}</span>
-                    </div>
-                {% endif %}
-
-                {% if course.workload %}
-                    <div class="course-data-row course-hours">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-hours" viewBox="0 0 32 32"><use xlink:href="#icon-hours"></use></svg>
-                            Hours
-                        </span>
-                        <span class="course-data-value">{{ course.workloadDisplay }}</span>
-                    </div>
-                {% endif %}
-
-                {#
-                    <div class="course-data-row course-difficulty">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-difficulty" viewBox="0 0 32 32"><use xlink:href="#icon-effort"></use></svg>
-                            Difficulty
-                        </span>
-                        <a href="#" class="course-data-value">Hard</a>
-                    </div>
-                #}
-
-                <div class="course-data-row course-sessions">
-                        <span class="course-data-icon">
-                            <svg class="icon icon-calendar-icon" viewBox="0 0 32 32"><use xlink:href="#icon-coursecalendar"></use></svg>
-                            Calendar
-                        </span>
-                        <span class="course-data-value">
-                                {% set offeringUrl = null %}
-                            {% set selectedOfferingDetails = null %}
-                            {% if offeringTypesOrder|length > 0 %}
-                                <select id="sessionOptions"  {% if course.length > 0 %} style="margin-bottom: 15px;" {% endif %}>
-                                    {% for offeringType in offeringTypesOrder %}
-                                        {% if course['offerings'][offeringType]|length > 0 %}
-                                            <optgroup label="{{ offeringTypes[offeringType]['sessionDesc'] }}"></optgroup>
-                                            {% for offering in course['offerings'][offeringType]%}
-                                                {% if offeringUrl is null %}
-                                                    {% set offeringUrl = offering['url']  %}
-                                                    {% set selectedOfferingDetails = {
-                                                    'type' : offeringType,
-                                                    'startDate' : offering.startDate,
-                                                    'status' : offering.status
-                                                    } %}
-                                                {% endif %}
-                                                <option content="{{ offering['microdataDate'] }}" data-url="{{ offering['url'] }}"
-                                                        data-sessiontype="{{ offeringType }}"  data-sessionstatus = '{{ offering.status }}' data-sessionstartdate="{{ offering.startDate }}"
-                                                        {% if course.nextOffering.id == offering.id %} selected="selected" {% endif %}
-                                                        >
-                                                    {{ offering['displayDate'] }}
-                                                </option>
-
-                                                {% if course.nextOffering.id == offering.id %}
-                                                    {% set offeringUrl = offering['url']  %}
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                            {% if course.durationMin > 0 %}
-                                <span  class="course-length">{{ course.durationDisplay }}</span>
-                            {% endif %}
-
-                        </span>
-                </div>
-
-                {% if course.initiative.code == 'coursera' %}
-                <div class="margin-bottom-large text-center">
-                  <span class="margin-right-small">Sign up for free?</span>
-                  <a target="_blank" href="https://www.class-central.com/report/coursera-signup-for-free/"
-                      onmousedown='CC.track("{{ ts.event('TIP_CLICK') }}", {
-                        tip_key: "coursera-signup-free-learn-how",
-                        tip_link: "https://www.class-central.com/report/coursera-signup-for-free/"
-                      });'
-                      class="btn-white btn--small icon--left icon-lightbulb-skyblue">Learn how</a>
-                </div>
-
-                {% endif %}
-                {% set userListIds = user_session.getCourseListIds(course['id']) %}
-
-                <div class="course-data-button">
-                    <a class="cta-button btn_go_to_class" href="{{ goToClassUrl }}" id="btnProviderCoursePage"
-                       onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');
-                                CC.track('{{ ts.event('GO_TO_CLASS_CLICK') }}');"
-                       target="_blank">Go to Class</a>
-                </div>
-                {# if the course added to users list, don't send notification #}
-                {% if userListIds is empty %}
-                <div class="course-data-button">
-                    <a class="light-cta-button btn-course-follow" id="course-get-notified"
-                       data-course-id="{{ course.id }}" data-course-name="{{ course.name }}" data-source='get-notified' href="#">Get notified for next session</a>
-                </div>
-                {% endif %}
-
-            </div><!-- course-data-inner -->
-
-
-
-
-            <div class="course-data-row add-to-my-courses">
-                <span class="dropdown">
-
-                    <a class="add-button dropdown-toggle" href="#" data-toggle="dropdown">
-                     <span id="course-interest-checkbox">
-                            {% if userListIds is empty %}+{% else %}-{% endif %}
-                     </span>
-                        Add to My Courses
-                        <span class="arrow-icon arrow-down-icon">
-                            <svg class="icon icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                        </span>
-                        <span class="arrow-icon arrow-up-icon">
-                            <svg class="icon icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% for listId, list in listTypes %}
-                            <li>
-                                <input type="checkbox"  name="course-interest-checkbox" class = "course-list-checkbox" id="check{{ listId }}" value="{{ listId }}" data-course-id = "{{ course.id }}"
-                                       {% if listId in userListIds %}checked="checked"{% endif %} data-course-name="{{ course.name }}"
-                                       data-source="course-page"
-                                        >
-                                <label for="check{{ listId }}">{{ list.desc }}</label>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </span>
-            </div>
-
-
-
-
-        </div><!-- /.course-data -->
+      <div class="col push width-100 xlarge-up-width-1-3 xlarge-up-padding-left-small">
+        {# sidebar data #}
+        {% if ts.device() == "desktop" %}
+          {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.sidebar.html.twig' %}
+        {% endif %}
 
         {# include indepth review box#}
         {% include 'ClassCentralSiteBundle:Course:helpers/indepth.review.html.twig' %}
@@ -454,284 +175,111 @@
         {# include instructor review #}
         {% include 'ClassCentralSiteBundle:Course:helpers/interview.html.twig' %}
 
-        <div class="js-sticky-in-parent-row classcentral-style" style="overflow: hidden; margin-top: 20px;">
+        <div class="classcentral-style">
+          <div class="margin-top-xxlarge">
             {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
+          </div>
         </div>
+      </div>
 
-
-    </div>
-
-    <div class="col-sm-8 col-lg-8 course-bottom-wrap">
-    <div class="row">
+      <div class="col pull width-100 xlarge-up-width-2-3 xlarge-up-padding-right-xxlarge">
+        {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.tabs.html.twig' %}
 
         {% if is_granted('ROLE_ADMIN') %}
-
-            {% if potentialDuplicates['courses']['hits']['total'] > 0 %}
-                <p><b>POTENTIAL DUPLICATES</b></p>
-                <section class="classcentral-style">
-                  <div class="width-100 tables-wrap">
-                    {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':potentialDuplicates['courses'],'tableId':'searchtable', 'showHeader':0, 'hideLoadMore':true,'hideTableAd':true} %}
-                  </div>
-                </section>
-              </div>
-            {% endif %}
-
+          <section class="padding-medium radius" style="border: 4px solid #E6F4FF;">
+          {% if potentialDuplicates['courses']['hits']['total'] > 0 %}
+            <h4 class="head-3 text--blue text--bold margin-bottom-medium">Potential Duplicates</h4>
+            <div class="width-100 tables-wrap">
+              {% include 'ClassCentralSiteBundle:Helpers:course.table.html.twig' with{'results':potentialDuplicates['courses'],'tableId':'searchtable', 'showHeader':0, 'hideLoadMore':true,'hideTableAd':true} %}
+            </div>
+          {% endif %}
+          </section>
         {% endif %}
 
+        {# related #}
+        {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.related.html.twig' %}
 
-        <div class="col-md-6 course-col">
-
-
-        <div class="faq-wrap">
-            <h5 class="faq-heading">
-                FAQ
-                <a href="{{ path('ClassCentralSiteBundle_faq') }}" onmousedown="ga('send','event', 'View All FAQ - Course page')">View All</a>
-            </h5>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>What are MOOCs?</span>
-                                <span class="arrow-up">
-                                    <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                                </span>
-                                <span class="arrow-down">
-                                    <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                                </span>
-                </div>
-                <div class="faq-answer">
-                    MOOCs stand for Massive Open Online Courses. These are<span style="text-decoration: underline;"> <em>free online courses</em></span> from universities around the world (eg. <a title="Stanford University MOOCs" href="https://www.class-central.com/university/stanford" target="_blank">Stanford</a> <a title="Harvard University MOOCs" href="https://www.class-central.com/university/harvard" target="_blank">Harvard</a> <a title="MIT MOOCs" href="https://www.class-central.com/university/mit" target="_blank">MIT</a>) offered to anyone with an internet connection.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>How do I register?</span>
-                                <span class="arrow-up">
-                                    <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                                </span>
-                                <span class="arrow-down">
-                                    <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                                </span>
-                </div>
-                <div class="faq-answer">
-                    To register for a course, click on "Go to Class" button on the course page. This will take you to the providers website where you can register for the course.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>How do these MOOCs or free online courses work?</span>
-                                <span class="arrow-up">
-                                    <svg class="icon-arrow-up icon-cc-logo6" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo6"></use></svg>
-                                </span>
-                                <span class="arrow-down">
-                                    <svg class="icon-arrow-down icon-cc-logo7" viewBox="0 0 32 32"><use xlink:href="#icon-cc-logo7"></use></svg>
-                                </span>
-                </div>
-                <div class="faq-answer">
-                    MOOCs are designed for an online audience, teaching primarily through short (5-20 min.) pre recorded video lectures, that you watch on weekly schedule when convenient for you.  They also have student discussion forums, homework/assignments, and online quizzes or exams.
-                </div>
-            </div>
-        </div>
+        {# reviews #}
+        {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.reviews.html.twig' %}
+      </div>
     </div>
-    {# Show courses recommendationss #}
-
-    {% set coursesBoxTitle = 'Related Courses' %}
-    {% if recommendations|length == 0%}
-        {% set coursesBoxTitle = 'Highest Rated Courses' %}
-        {% set recommendations =  highlyRatedCourses %}
-    {% endif %}
-
-
-    {% if recommendations|length > 0 %}
-        <div class="col-md-6 course-col">
-            <div class="recommended-courses course-col-inner">
-                <table class="classcentral-style">
-                    <thead>
-                    <tr>
-                        <th class="text-left">
-                          <span class="head-2 text--bold block margin-vert-medium">{{ coursesBoxTitle }}</span></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for course in recommendations %}
-                        <tr>
-                            <td>
-                                {% if course.initiative is not null %}
-                                    {% set initiative=course.initiative.name %}
-                                {% else %}
-                                    {% set initiative='Others' %}
-                                {% endif %}
-
-                                    <ul class="table-uni-list text-3 block">
-                                        {% if course.institutions|length %}
-                                            {% for institution in course.institutions %}
-                                                {% set route = 'ClassCentralSiteBundle_university' %}
-                                                {% if not institution['isUniversity'] %}
-                                                    {% set route = 'ClassCentralSiteBundle_institution' %}
-                                                {% endif %}
-                                                <li class="inline">
-                                                    <a class="uni-name text--charcoal hover-text--underline" href="{{ path(route,{'slug' : institution['slug']})}}" title="List of {{institution['name']}} MOOCs" onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')">{{institution['name']}}</a>
-                                                </li>
-                                            {% endfor %}
-                                        {% endif %}
-                                    </ul>
-                                    <a class="text--charcoal text-1 text--bold block course-name" href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug}) }}"
-                                       onmousedown='recordInboundLink(
-                                               "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug }) }}",
-                                               "{{initiative}}","{{course.name}}","recommended");return false' >{{ course.name }}</a>
-                                    {% if course['initiative'] %}
-                                        <span class="via">via</span>
-                                        <a href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code }) }}"  class="initiativelinks text--charcoal text--italic hover-text--underline" title="List of {{ course['initiative']['name'] }} MOOCs" onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.initiative.name }}', '{{course.name}}')"> {{ course.initiative.name }}</a>
-                                    {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <a class="browse-more-courses"
-                   href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
-                   title="List of {{ course['stream']['name'] }} MOOCs"
-                   onClick="ga('send','event', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}')"
-                        > » Browse more <span>{{ course['stream']['name'] }} courses</span></a>
-            </div>
-        </div>
-    {% endif %}
-
-    <div class="col-sm-12 course-col classcentral-style">
-        <div class="course-all-reviews border-top border--gray-xlight border--thin padding-top-medium" id="course-all-reviews">
-            <header class="xsmall-only-margin-bottom-medium small-only-margin-bottom-medium reviews-header" id="reviews">
-                <h2>
-                  <span class="head-1">
-                    {% if ratingsSummary.numRatings == 1 %}Review{% else %}Reviews{% endif %}
-                  </span>
-                  <span class="text-1">
-                    for {% if course.initiative.name != 'Independent' %}{{ course.initiative.name  }}'s {% endif %}{{ course.name }}
-                  </span>
-                  <div class="margin-vert-medium">
-                    {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: rating } %}
-                    <span style="top: 3px" class="relative inline-block text-3 text--charcoal margin-left-xsmall">Based on {{ ratingsSummary.numRatings }} reviews</span>
-                  </div>
-                 </a>
-                </h2>
-
-                <ul id="reviews-summary" class="margin-vert-medium">
-                  {% for star,starCount in ratingsSummary.ratingsBreakdown %}
-                  <li class="row">
-                    <span class="col width-3-16 text--gray text-3">
-                      {{ star }}
-                      {{ (starCount > 1) ? "stars" : "star" }}
-                     </span>
-
-                  {% set ratingPercentage = 0 %}
-                  {% if ratingsSummary.numRatings > 0 %}
-                      {% set ratingPercentage = ((starCount / ratingsSummary.numRatings) * 100)|round  %}
-                  {% endif %}
-                      <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
-                      <span class="bg-yellow absolute height-100 left top" style="width: {{ ratingPercentage }}%"></span>
-                    </span>
-                    <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ratingPercentage }}%</span>
-                  </li>
-                  {% endfor %}
-                </ul>
-
-
-                {% if not user_session.isCourseReviewed(course.id) %}
-                <div class="text-1">
-                  <p class="margin-bottom-medium">Did you take this course? Share your experience with other students.</p>
-                  <a class="btn-white review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
-                <div>
-                {% endif %}
-
-            </header>
-
-            {% if ratingsSummary.numReviews > 0 %}
-                <div id="course-reviews-container" class="single-reviews-wrap">
-                  {% include 'ClassCentralSiteBundle:Review:layouts/reviews_block.html.twig' with {'reviews':reviews, 'highlightReview': highlightReview} %}
-                </div>
-            {% endif %}
-
-        </div>
-    </div>
-
-    </div>
-    </div>
-
-
-    </div>
+  </div>
 
 {% endblock %}
 
 {% block customJS %}
-    var addthis_share = {
-        templates: {
-            twitter: 'Check out this free online course "{{ course.name }}" via @classcentral \{\{url}} ',
-        }
-    };
-    $( document ).ready(function() {
-    if(!window.location.hash)
-    {
-        $.scrollTo('.section-heading',{ duration: 500    });
-    }
-    $(document).on('click', '.read-reviews-btn', function(e){
-        e.preventDefault();
-        $.scrollTo('#reviews',{ duration: 1000    });
-        var url = window.location.href.toString().split(window.location.host)[1];
-        if(url.indexOf('#reviews') == -1) {
-        history.replaceState( null, null, url + '#reviews');
-        }
-    }
-    );
+  var addthis_share = {
+      templates: {
+          twitter: 'Check out this free online course "{{ course.name }}" via @classcentral \{\{url}} ',
+      }
+  };
+  $( document ).ready(function() {
+  if(!window.location.hash)
+  {
+      $.scrollTo('.section-heading',{ duration: 500    });
+  }
+  $(document).on('click', '.read-reviews-btn', function(e){
+      e.preventDefault();
+      $.scrollTo('#reviews',{ duration: 1000    });
+      var url = window.location.href.toString().split(window.location.host)[1];
+      if(url.indexOf('#reviews') == -1) {
+      history.replaceState( null, null, url + '#reviews');
+      }
+  }
+  );
 
-    $("#share-course-form-submit").click(function(){
+  $("#share-course-form-submit").click(function(){
 
-    ga('send','event', 'Course - Share', 'Mail Sent', '{{ course['name'] }}')
+  ga('send','event', 'Course - Share', 'Mail Sent', '{{ course['name'] }}')
 
-    var to = $("input[name='toEmail']").val();
-    var from = $("input[name='fromEmail']").val();
-    var fromName = $("input[name='fromName']").val();
-    var dataString = 'name='+ fromName + '&to=' + to + '&from=' + from;
+  var to = $("input[name='toEmail']").val();
+  var from = $("input[name='fromEmail']").val();
+  var fromName = $("input[name='fromName']").val();
+  var dataString = 'name='+ fromName + '&to=' + to + '&from=' + from;
 
-    // Validations
-    if(to == "" || from == "" || fromName == "" )
-    {
-    $('#share-course-form-error').show().text("All fields are required");
-    return false;
-    }
+  // Validations
+  if(to == "" || from == "" || fromName == "" )
+  {
+  $('#share-course-form-error').show().text("All fields are required");
+  return false;
+  }
 
-    $('#share-course-form-error').hide().text("");
+  $('#share-course-form-error').hide().text("");
 
-    $.ajax({
-    type:"POST",
-    url: "{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}",
-    data: dataString,
-    success:function(response){
-    if(response.success) {
-    $("#sendMailModal").modal('hide');
-    $("input[name='toEmail']").val("");
-    } else {
-    $('#share-course-form-error').show().text(response.errors[0]);
-    }
-    }
+  $.ajax({
+  type:"POST",
+  url: "{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}",
+  data: dataString,
+  success:function(response){
+  if(response.success) {
+  $("#sendMailModal").modal('hide');
+  $("input[name='toEmail']").val("");
+  } else {
+  $('#share-course-form-error').show().text(response.errors[0]);
+  }
+  }
+  });
+  });
+
+  {% if  showAddToMTModal %}
+    $(document).on("modal:ready", function() {
+      CC.Class["Signup"].showSignupModal('mooc_tracker_add_to_my_courses');
     });
-    });
+  {% endif %}
 
-    {% if  showAddToMTModal %}
-      $(document).on("modal:ready", function() {
-        CC.Class["Signup"].showSignupModal('mooc_tracker_add_to_my_courses');
-      });
-    {% endif %}
+  {# global state to help decide when the counter is to be updated #}
+  {% set userListIds = user_session.getCourseListIds(course['id']) %}
+  {% if userListIds is empty %}
+      courseAdded = false;
+  {% else %}
+      courseAdded = true;
+  {% endif %}
 
-    {# global state to help decide when the counter is to be updated #}
-    {% set userListIds = user_session.getCourseListIds(course['id']) %}
-    {% if userListIds is empty %}
-        courseAdded = false;
-    {% else %}
-        courseAdded = true;
-    {% endif %}
-
-    {# redirect after a logged out user completes a review. Show a signup portal #}
-        {% if showPostReviewSignupForm  %}
-          $(document).on("modal:ready", function() {
-            CC.Class["Signup"].showSignupModal('create_course_review');
-          });
-        {% endif %}
-    });
+  {# redirect after a logged out user completes a review. Show a signup portal #}
+      {% if showPostReviewSignupForm  %}
+        $(document).on("modal:ready", function() {
+          CC.Class["Signup"].showSignupModal('create_course_review');
+        });
+      {% endif %}
+  });
 {% endblock %}

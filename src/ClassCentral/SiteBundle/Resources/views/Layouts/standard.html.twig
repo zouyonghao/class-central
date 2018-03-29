@@ -56,15 +56,22 @@
     </script>
 </head>
 
-<body>
+<body {% if page is defined %}id="page-{{ page }}"{% endif %}>
 
   <div class="contain-body">
     <div class="contain-page">
       {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' %}
 
+      <div class="classcentral-style">
+        {% if page is defined and page == "course" %}
+          <p class="width-100 padding-top-medium text-center border-box padding-horz-large text--blue text-2">
+            To support our site, Class Central may be compensated by some course providers.
+          </p>
+        {% endif %}
+      </div>
       {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
       <div class="classcentral-style">
-        <div class="width-centered padding-horz-large margin-top-medium" style="max-width: 1250px;">
+        <div class="width-centered padding-horz-small medium-up-padding-horz-medium xlarge-up-padding-horz-large margin-top-medium" style="max-width: 1250px;">
             {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
         </div>
       </div>

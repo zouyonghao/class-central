@@ -82,14 +82,7 @@
 
       <div class="cc-page">
           {# Content pages go here #}
-          <div class="classcentral-style">
-            <div class="classcentral-style">
-              {% if page is defined and page == "course" %}
-                <p class="width-100 padding-vert-medium text-center text--blue text-2">
-                  To support our site, Class Central may be compensated by some course providers.
-                </p>
-              {% endif %}
-            </div>
+          <div class="classcentral-style">            
             {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
               {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
             {% endif %}

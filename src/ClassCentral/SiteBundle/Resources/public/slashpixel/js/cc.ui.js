@@ -15,6 +15,7 @@ class Ui {
       this.dropdowns();
       this.mediaImages();
       this.checkboxToggle();
+      this.pulseTooltips();
 
       if ($(".sidebar-ads").length) {
         this.stickyAds();
@@ -30,6 +31,40 @@ class Ui {
       if (window.location.search.match(/news_banner=1/)) {
         Cookies.set("news_banner", NEWS_BANNER || 1, { expires: 365 });
       }
+    });
+  }
+
+  pulseTooltips() {
+    setTimeout(() => {
+      $("[data-pulse-trigger]").addClass("icon--pulse-stop");
+    }, 12500);
+
+    const showTooltip = (el) => {
+      const target = $(el).data("pulse-trigger");
+      $(el).addClass("icon--pulse-stop active");
+      $(`[data-pulse=${target}]`).removeClass("hidden");
+    }
+    const hideTooltip = (el) => {
+      const target = $(el).data("pulse-trigger");
+      $(el).removeClass("active");
+      $(`[data-pulse=${target}]`).addClass("hidden");
+    }
+
+    $(document).on("click", "[data-pulse-trigger]", function(event) {
+      event.preventDefault();
+      if ($(this).hasClass("active")) {
+        hideTooltip(this);
+      } else {
+        showTooltip(this);
+      }
+    });
+    $(document).on("mouseenter", "[data-pulse-trigger]", function(event) {
+      event.preventDefault();
+      showTooltip(this);
+    });
+    $(document).on("mouseleave", "[data-pulse-trigger]", function(event) {
+      event.preventDefault();
+      hideTooltip(this);
     });
   }
 

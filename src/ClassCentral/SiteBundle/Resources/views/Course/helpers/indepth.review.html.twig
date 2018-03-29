@@ -1,107 +1,62 @@
 {% if course.indepthReview %}
-    {% set profileUrl = user_service.getProfileUrl( course.indepthReview.user.id, course.indepthReview.user.handle, course.indepthReview.user.isPrivate ) %}
-    <div class="course-review-card">
-        <div class="review-card">
-            <div class="review-card__header">
-                <div class="review-card__image">
-                    {% if profileUrl is not empty %}
-                    <a href="{{ profileUrl }}" title="{{ course.indepthReview.user.name }} MOOC Transcript"
-                       onmousedown="ga('send','event','User Profile Click - InDepth Review','{{ course.name }}','{{ course.indepthReview.user.id  }}')"
-                     >
-                        {% endif %}
-                        <img src="{{  user_service.getProfilePic(course.indepthReview.user.id) }}"
-                             alt="{{ course.indepthReview.user.name }}"
-                             title="Review by {{ course.indepthReview.user.name }}"
-                        >
-                    {% if profileUrl is not empty %}
-                    </a>
-                    {% endif %}
-                </div>
-                <div class="review-card__info">
-                    <div class="review-card__rating">
-                        <div class="starRating rating{{ course.indepthReview.rating*10 }}">
-                            <div class="starRating_star">
-                                <svg class="starRating_starShape starRating_starShape-blank">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-full">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                                </svg>
-                            </div>
-                            <div class="starRating_star">
-                                <svg class="starRating_starShape starRating_starShape-blank">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-full">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                                </svg>
-                            </div>
-                            <div class="starRating_star">
-                                <svg class="starRating_starShape starRating_starShape-blank">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-full">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                                </svg>
-                            </div>
-                            <div class="starRating_star">
-                                <svg class="starRating_starShape starRating_starShape-blank">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-full">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                                </svg>
-                            </div>
-                            <div class="starRating_star">
-                                <svg class="starRating_starShape starRating_starShape-blank">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-full">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-full"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-left starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-left"></use>
-                                </svg>
-                                <svg class="starRating_starShape starRating_starShape-right starRating_starShape-half">
-                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-star-half-right"></use>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review-card__title">In-Depth Review</div>
-                </div>
-            </div>
-            <div class="review-card__body">
-                <span class="triangle"></span>
-                {{ course.indepthReview.summary }}
-                <a href="{{ course.indepthReview.url }}"
-                   onmousedown="ga('send','event','Read Indepth Review','{{ course.name }}')"
-                   class="review-card__read">Read Review</a>
-            </div>
-        </div>
-    </div><!-- /.course-review-card -->
+<aside class="margin-vert-large margin-horz-medium">
+  {% set profileUrl = user_service.getProfileUrl( course.indepthReview.user.id, course.indepthReview.user.handle, course.indepthReview.user.isPrivate ) %}
+  <div class="unit-horz border-bottom border--thin border--gray-xlight">
+    <div class="unit-block padding-right-small">
+      {% if profileUrl is not empty %}
+        {% if course.indepthReview.user.name is defined %}
+          {% set userSplit = course.indepthReview.user.name|split(' ') %}
+        {% endif %}
+
+        <a
+          href="{{ profileUrl }}"
+          title="{{ course.indepthReview.user.name }} MOOC Transcript"
+          onmousedown="ga('send','event','User Profile Click - InDepth Review','{{ course.name }}','{{ course.indepthReview.user.id  }}')"
+          class="border-all inline-block relative"
+          style="
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background-color: #f9f9f9;
+            border-color: #f1f1f1;
+          ">
+          <span
+            class="text-center absolute width-100 left text--bold"
+            style="
+              color: #999999;
+              top: 50%;
+              margin-top: -8px;
+              font-size: 16px;
+          ">
+            {% if userSplit %}
+              {{ userSplit[0]|first|upper }}{{ userSplit[userSplit|length - 1]|first|upper }}
+            {% endif %}
+          </span>
+          <span
+            class="bg-cover block absolute width-100 height-100 left top"
+            style="
+              border-radius: 50%;
+              background-image: url({{  user_service.getProfilePicThumbnail(course.indepthReview.user.id) }});
+            "></span>
+        </a>
+      {% endif %}
+    </div>
+    <div class="unit-block unit-fill">
+      <p>
+        {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: course.indepthReview.rating } %}
+      </p>
+      <strong class="text-1 text--bold">In-depth Review</strong>
+    </div>
+  </div>
+  <p class="text-2 margin-vert-medium">
+    {{ course.indepthReview.summary }}
+    <a
+      href="{{ course.indepthReview.url }}"
+      onmousedown="ga('send','event','Read Indepth Review','{{ course.name }}')"
+      class="block margin-top-xxsmall text--blue"
+    >
+      Read Review
+    </a>
+  </p>
+</aside>
 {% endif %}
