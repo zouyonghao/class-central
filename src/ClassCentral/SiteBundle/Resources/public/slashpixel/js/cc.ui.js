@@ -58,6 +58,10 @@ class Ui {
         showTooltip(this);
       }
     });
+    $(document).on("click", "[data-pulse-target]", function(event) {
+      event.preventDefault();
+      hideTooltip(this);
+    });
     $(document).on("mouseenter", "[data-pulse-trigger]", function(event) {
       event.preventDefault();
       showTooltip(this);

@@ -7,9 +7,9 @@
       {% set userListIds = user_session.getCourseListIds(course['id']) %}
 
       <div class="col width-1-3 xlarge-up-width-2-5 xxlarge-up-width-1-3">
-        <div class="relative">
-          <div data-pulse-trigger="interested" class="icon-pulse absolute" style="top: 2px; left: 2px;"></div>
-          <div data-pulse="interested" class="hidden padding-small text--white absolute shadow bg-blue radius" style="width: 250px; top: -80px; left: -7px;">
+        <div class="relative z-high">
+          <button data-pulse-trigger="interested" class="icon-pulse absolute" style="top: -2px; left: 2px;"></button>
+          <div data-pulse="interested" class="hidden padding-small text--white absolute shadow bg-blue radius">
             Never miss a course! Add as <span class="text--bold">"Interested"</span> to get notified of this course's next session
           </div>
         </div>
@@ -20,9 +20,10 @@
             class="btn-white btn--large width-100"
             style="padding: 0 14px 0px 7px"
           >
-            <span class="icon--left icon-list-add-blue" style="padding-left: 42px;">
+            <span class="xsmall-only-hidden icon--left icon-list-add-blue" style="padding-left: 42px;">
               Add
             </span>
+            <i class="small-up-hidden icon-list-add-blue" style="position: relative; left: 7px;"></i>
           </button>
 
           <div data-dropdown-menu class="z-top dropdown-menu shadow radius bg-white absolute padding-bottom-small border-all border--thin border--gray-xlight" style="width: 200px; display: none;">
