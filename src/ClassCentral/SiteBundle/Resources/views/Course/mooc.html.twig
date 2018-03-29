@@ -165,18 +165,18 @@
 
       <div class="col push width-100 xlarge-up-width-1-3 xlarge-up-padding-left-small">
         {# sidebar data #}
-        {% if ts.device() == "desktop" %}
-          {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.sidebar.html.twig' %}
-        {% endif %}
+        {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.sidebar.html.twig' %}
 
-        {# include indepth review box#}
-        {% include 'ClassCentralSiteBundle:Course:helpers/indepth.review.html.twig' %}
+        <div class="xsmall-only-hidden small-only-hidden">
+          {# include indepth review box#}
+          {% include 'ClassCentralSiteBundle:Course:helpers/indepth.review.html.twig' %}
 
-        {# include instructor review #}
-        {% include 'ClassCentralSiteBundle:Course:helpers/interview.html.twig' %}
+          {# include instructor review #}
+          {% include 'ClassCentralSiteBundle:Course:helpers/interview.html.twig' %}
+        </div>
 
         <div class="classcentral-style">
-          <div class="margin-top-xxlarge">
+          <div class="xsmall-only-hidden small-only-hidden margin-top-xxlarge">
             {% render controller('ClassCentralSiteBundle:TextAd:showAds', { 'pageName' : page } )   %}
           </div>
         </div>
