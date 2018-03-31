@@ -170,7 +170,6 @@ class Scraper extends ScraperAbstractInterface
         $course->setShortName('federica_' . $this->cleanName($c) . '-' . $c['uuid']);
         $course->setInitiative($this->initiative);
         $course->setName($c['name']);
-        $course->setDescription($c['description']);
         $course->setLongDescription($c['description']);
         $course->setLanguage($defaultLanguage);
         $course->setStream($defaultStream); // Default to Computer Science
@@ -207,12 +206,16 @@ class Scraper extends ScraperAbstractInterface
             if (isset($runs['start_date'])) {
                 $startDate = new \DateTime($runs['start_date']);
 
-                // calculate end dates based off of duration from API
-                $api_start_date = $runs['start_date'];
-                $calc_end_date = strtotime($api_start_date);
-                $calc_end_date = strtotime($duration, $calc_end_date);
-                $calc_end_date = date('Y-m-d', $calc_end_date);
-                $endDate = new \DateTime($calc_end_date);
+                if (isset($runs['end_date'])) {
+                    $endDate = new \DateTime($runs['end_date']);
+                } else {
+                    // calculate end dates based off of duration from API
+                    $api_start_date = $runs['start_date'];
+                    $calc_end_date = strtotime($api_start_date);
+                    $calc_end_date = strtotime($duration, $calc_end_date);
+                    $calc_end_date = date('Y-m-d', $calc_end_date);
+                    $endDate = new \DateTime($calc_end_date);
+                }
 
                 $offering->setStartDate($startDate);
                 $offering->setEndDate($endDate);
