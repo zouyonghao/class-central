@@ -923,11 +923,20 @@ class Review {
 
     public function getReviewsV2($courseId, $start = 0, $highlighReview = 0,$length = self::NUM_REVIEWS_PER_PAGE)
     {
-        $reviews = $this->cache->get(
-            $this->getReviewsV2CacheKey($courseId,$start,$highlighReview,$length),
-            array($this,'calculateReviewsV2'),
-            array($courseId,$start,$highlighReview,$length)
-        );
+        $reviews = null;
+        if($highlighReview !=0 || $start > 0)
+        {
+            $reviews = $this->calculateReviewsV2($courseId,$start,$highlighReview,$length);
+        }
+        else
+        {
+            // Get it from cache
+            $reviews = $this->cache->get(
+                $this->getReviewsV2CacheKey($courseId,$start,$highlighReview,$length),
+                array($this,'calculateReviewsV2'),
+                array($courseId,$start,$highlighReview,$length)
+            );
+        }
 
         return $reviews;
     }
