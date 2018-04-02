@@ -132,7 +132,7 @@ class NewCoursesCommand extends ContainerAwareCommand {
                     $universities[$course->getInstitutions()->first()->getName()] = 0;
                 }
                 $universities[$course->getInstitutions()->first()->getName()]++;
-                echo $formatter->emailFormat($course);
+                echo $formatter->blogFormatLite($course);
             }
 
             $output->writeln( "<br/>");

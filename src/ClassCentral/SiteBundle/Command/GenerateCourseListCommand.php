@@ -230,7 +230,7 @@ class GenerateCourseListCommand extends ContainerAwareCommand
 
 
         $fp = fopen("tmp/$fileName", "w");
-
+        
         // Add a title line to the CSV
         $title = array(
             'Course Id',
@@ -242,8 +242,7 @@ class GenerateCourseListCommand extends ContainerAwareCommand
             'Category',
             'Url',
             'Next Session Date',
-            'Duration',
-            'Effort',
+            'Length',
             'Language',
             'Video(Url)',
             'Course Description',
@@ -255,7 +254,6 @@ class GenerateCourseListCommand extends ContainerAwareCommand
         $dt = new \DateTime('2016-07-31');
         foreach($courses as $course)
         {
-            $formatter = $course->getFormatter();
             if($course->getStatus() != CourseStatus::AVAILABLE )
             {
                 continue;
@@ -344,8 +342,8 @@ class GenerateCourseListCommand extends ContainerAwareCommand
                 $date,
                 $course->getLength(),
                 $language,
-                $formatter->getDuration(),
-                $formatter->getWorkload(),
+                $course->getVideoIntro(),
+                $course->getDescription(),
                 $credential,
                 $created,
                 $status

@@ -397,138 +397,26 @@ class GenerateCourseTrackingDumpCommand extends ContainerAwareCommand{
      */
     private function generateUserCoursesCSV()
     {
-        $courses = $this->getContainer()->get('doctrine')->getManager()
-            ->getRepository('ClassCentralSiteBundle:Course')
-            ->findAll();
-        $reviewService = $this->getContainer()->get('review');
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $conn = $em->getConnection();
 
-        $fp = fopen("extras/courses.csv", "w");
 
-        // Add a title line to the CSV
-        $title = array(
-            'Course Id',
-            'Course Name',
-            'Provider',
-            'Universities/Institutions',
-            'Parent Subject',
-            'Child Subject',
-            'Category',
-            'Url',
-            'Next Session Date',
-            'Length',
-            'Language',
-            'Video(Url)',
-            'Course Description',
-            'Credential Name',
-            'Created',
-            'Status',
-            'Avg. Rating',
-            'Bayesian Avg. Rating',
-            'Total Ratings'
-        );
-        fputcsv($fp,$title);
-        //$dt = new \DateTime('2016-07-31');
-        foreach($courses as $course)
-        {
-            if($course->getStatus() != CourseStatus::AVAILABLE )
-            {
-                continue;
-            }
-//            if($course->getCreated() > $dt)
-//            {
-//                // continue;
-//            }
-            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
-            $ins = array();
-            foreach($course->getInstitutions() as $institution)
-            {
-                $ins[] = $institution->getName();
-            }
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('user_id', 'user_id');
+        $rsm->addScalarResult('list_id', 'list_id');
+        $rsm->addScalarResult('course_id', 'course_id');
+        $results = $em->createNativeQuery('SELECT user_id,course_id,list_id FROM users_courses', $rsm)->getResult();
 
-            $nextSession = $course->getNextOffering();
-            $date = "";
-            $url = $course->getUrl();
-            if($nextSession)
-            {
-                $url = $nextSession->getUrl();
-                $date = $nextSession->getDisplayDate();
-            }
 
-            $subject = $course->getStream();
-            if($subject->getParentStream())
-            {
-                $parent = $subject->getParentStream()->getName();
-                $subject = $subject->getName();
-            }
-            else
-            {
-                $parent = $subject->getName();
-                $subject = "";
-            }
-
-            $language = 'English';
-            if($course->getLanguage())
-            {
-                $language = $course->getLanguage()->getName();
-            }
-
-            $credential = '';
-            if ( !$course->getCredentials()->isEmpty() )
-            {
-                $cred = $course->getCredentials()->first();
-                $credential = $cred->getName();
-            }
-
-            $created = null;
-            if ($course->getCreated())
-            {
-                $created = $course->getCreated()->format('Y-m-d');
-            }
-
-            $description = $course->getLongDescription();
-            if(!$description)
-            {
-                $description = $course->getDescription();
-            }
-
-            $status = '';
-            if( $course->getNextOffering() )
-            {
-                $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $course->getNextOffering() ));
-                if(!empty($states))
-                {
-                    $status = array_pop($states);
-                }
-            }
-
-            $ratings = $reviewService->getRatingsAndCount($course->getId());
-            $rating = $ratings['rating'];
-            $totalRatings = $ratings['numRatings'];;
-            $bayesianRating = $reviewService->getBayesianAverageRating($course->getId());
-
+        $fp = fopen("extras/user_library.csv", "w");
+        foreach ($results as $userCourse) {
             $line = array(
-                $course->getId(),
-                $course->getName(),
-                $provider,
-                implode($ins,"|||"),
-                $parent,
-                $subject,
-                $course->getStream()->getName(),
-                $url,
-                $date,
-                $course->getLength(),
-                $language,
-                $course->getVideoIntro(),
-                $description,
-                $credential,
-                $created,
-                $status,
-                $rating,
-                $bayesianRating,
-                $totalRatings
+                $userCourse['user_id'],
+                $userCourse['course_id'],
+                UserCourse::$lists[$userCourse['list_id']]['slug'],
             );
 
-            fputcsv($fp,$line);
+            fputcsv($fp, $line);
         }
         fclose($fp);
 
