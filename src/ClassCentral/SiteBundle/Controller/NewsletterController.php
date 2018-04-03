@@ -10,6 +10,7 @@ use ClassCentral\SiteBundle\Entity\VerificationToken;
 
 use ClassCentral\SiteBundle\Entity\Newsletter;
 use ClassCentral\SiteBundle\Form\NewsletterType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\Email;
 
@@ -440,6 +441,24 @@ class NewsletterController extends Controller
 
         // Redirect to MOOC Tracker page
         return $this->redirect($referUrl);
+    }
+
+    /**
+     * Renders a newsletter
+     * @param Request $request
+     */
+    public function moocReportNewsletterAction(Request $request, $month)
+    {
+        $templating = $this->get('templating');
+        $date = preg_split("/(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))/i", $month);
+
+        $html = $templating->renderResponse(sprintf('ClassCentralSiteBundle:Mail:%s/%s.html.twig','mooc-report',$month), array(
+            "baseUrl" => $this->container->getParameter('baseurl'),
+            "month" => ucwords($date[0]). " " . $date[1],
+        ));
+        $html = $html->getContent();
+
+        return new Response($html);
     }
 
     public function moocWatchAction(Request $request)

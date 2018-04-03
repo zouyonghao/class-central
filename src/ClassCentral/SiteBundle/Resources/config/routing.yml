@@ -263,6 +263,10 @@ newsletter_mooc_tracker_signup:
   pattern: /newsletters/mooc-tracker-save-user
   defaults: {_controller: ClassCentralSiteBundle:Newsletter:moocTrackerSignup}
 
+newsletter_mooc_report:
+  pattern: /newsletter/mooc-report-{month}
+  defaults: { _controller: ClassCentralSiteBundle:Newsletter:moocReportNewsletter}
+
 moocwatch:
   pattern: /moocwatch
   defaults: {_controller: ClassCentralSiteBundle:Newsletter:moocWatch}
