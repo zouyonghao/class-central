@@ -37,6 +37,20 @@ class Scraper extends ScraperAbstractInterface{
         'beginning-ios-app-development-nanodegree--nd006' => 'beginning-ios-app-development--nd006'
     );
 
+    public $skipUpdate = array(
+        'udacity_kotlin-for-android-developers--ud888',
+        'udacity_react-redux--ud125',
+        'udacity_react-native--ud126',
+        'udacity_react-fundamentals--ud124',
+        'udacity_ab-testing--ud979', # name keeps changing, should be A/B Testing for Business Analysts
+    );
+
+    public $skipNewCourse = array(
+        'sql-for-data-analysis-by-mode--ud198', # dupe of sql for data analysis
+        'front-end-engineer-nanodegree-preview--nd001-preview', # not a course
+        'intro-to-html-and-css--ud304', # dupe of intro to html and css course
+    );
+
     public function scrape()
     {
         if($this->isCredential)
@@ -51,128 +65,126 @@ class Scraper extends ScraperAbstractInterface{
         $coursesChanged = array();
         $courseChanged = false;
 
-        foreach ($udacityCourses['courses'] as $udacityCourse)
-        {
-            $course = $this->getCourseEntity( $udacityCourse );
-            $offering = null;
-            $dbCourse = $this->dbHelper->getCourseByShortName( $course->getShortName() );
+        foreach ($udacityCourses['courses'] as $udacityCourse) {
 
-            if( !$dbCourse )
-            {
-              
-                // Course does not exist create it.
-                if($this->doCreate())
-                {
-                    $this->out("NEW COURSE - " . $course->getName());
+            if (in_array($udacityCourse['slug'], $this->skipNewCourse)) {
+                continue; // ignoring preview courses and dupes in API
+            } else {
 
-                    // NEW COURSE
-                    if ($this->doModify())
-                    {
-                        $em->persist($course);
-                        $em->flush();
+                $course = $this->getCourseEntity($udacityCourse);
+                $offering = null;
+                $dbCourse = $this->dbHelper->getCourseByShortName($course->getShortName());
 
-                        $this->dbHelper->sendNewCourseToSlack( $course, $this->initiative );
+                if (!$dbCourse) {
 
-                        if( $udacityCourse['banner_image'] )
-                        {
-                            $courseService->uploadImageIfNecessary( $udacityCourse['banner_image'], $course);
+                    // Course does not exist create it.
+                    if ($this->doCreate()) {
+                        $this->out("NEW COURSE - " . $course->getName());
+
+                        // NEW COURSE
+                        if ($this->doModify()) {
+                            $em->persist($course);
+                            $em->flush();
+
+                            $this->dbHelper->sendNewCourseToSlack($course, $this->initiative);
+
+                            if ($udacityCourse['banner_image']) {
+                                $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
+                            }
+
+
+                            // Create new offering
+                            $offering = new Offering();
+                            $offering->setCourse($course);
+                            $offering->setUrl($course->getUrl());
+
+                            $startDate = new \DateTime();
+                            $offering->setStartDate($startDate);
+
+                            $endDate = new \DateTime();
+                            $endDate->add(new \DateInterval('P30D'));
+                            $offering->setEndDate($endDate);
+
+                            $offering->setStatus(Offering::COURSE_OPEN);
+
+                            $em->persist($offering);
+                            $em->flush();
+                        }
+                        $courseChanged = true;
+                    }
+
+                } else {
+                    // Check if any fields are modified
+                    if (in_array($course->getShortName(), $this->skipUpdate)) {
+                        continue; // ignoring and skipping react, kotlin courses as udacity API has broken info
+                    } else {
+
+                        $courseModified = false;
+                        $changedFields = array(); // To keep track of fields that have changed
+                        foreach ($this->courseFields as $field) {
+                            $getter = 'get' . $field;
+                            $setter = 'set' . $field;
+                            if ($course->$getter() != $dbCourse->$getter()) {
+                                $courseModified = true;
+
+                                // Add the changed field to the changedFields array
+                                $changed = array();
+                                $changed['field'] = $field;
+                                $changed['old'] = $dbCourse->$getter();
+                                $changed['new'] = $course->$getter();
+                                $changedFields[] = $changed;
+
+                                $dbCourse->$setter($course->$getter());
+                            }
+
                         }
 
+                        if ($courseModified && $this->doUpdate()) {
+                            //$this->out( "Database course changed " . $dbCourse->getName());
+                            // Course has been modified
+                            $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
+                            $this->outputChangedFields($changedFields);
+                            if ($this->doModify()) {
+                                $em->persist($dbCourse);
+                                $em->flush();
 
-                        // Create new offering
-                        $offering = new Offering();
-                        $offering->setCourse( $course );
-                        $offering->setUrl( $course->getUrl() );
-
-                        $startDate = new \DateTime();
-                        $offering->setStartDate( $startDate );
-
-                        $endDate = new \DateTime();
-                        $endDate->add( new \DateInterval('P30D'));
-                        $offering->setEndDate( $endDate );
-
-                        $offering->setStatus( Offering::COURSE_OPEN );
-
-                        $em->persist( $offering );
-                        $em->flush();
-                    }
-                    $courseChanged = true;
-                }
-
-            }
-            else
-            {
-                // Check if any fields are modified
-                $courseModified = false;
-                $changedFields = array(); // To keep track of fields that have changed
-                foreach($this->courseFields as $field)
-                {
-                    $getter = 'get' . $field;
-                    $setter = 'set' . $field;
-                    if($course->$getter() != $dbCourse->$getter())
-                    {
-                        $courseModified = true;
-
-                        // Add the changed field to the changedFields array
-                        $changed = array();
-                        $changed['field'] = $field;
-                        $changed['old'] =$dbCourse->$getter();
-                        $changed['new'] = $course->$getter();
-                        $changedFields[] = $changed;
-
-                        $dbCourse->$setter($course->$getter());
-                    }
-
-                }
-
-                if($courseModified && $this->doUpdate())
-                {
-                    //$this->out( "Database course changed " . $dbCourse->getName());
-                    // Course has been modified
-                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
-                    $this->outputChangedFields($changedFields);
-                    if ($this->doModify())
-                    {
-                        $em->persist($dbCourse);
-                        $em->flush();
-
-                        if( $udacityCourse['banner_image'] )
-                        {
-                            $courseService->uploadImageIfNecessary( $udacityCourse['banner_image'], $course);
+                                if ($udacityCourse['banner_image']) {
+                                    $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
+                                }
+                            }
+                            $courseChanged = true;
                         }
                     }
-                    $courseChanged = true;
-                }
+                    // Check if offering has been modified
+                    if (in_array($dbCourse->getShortName(), $this->skipUpdate)) {
+                        continue; // ignoring and skipping react, kotlin courses as udacity API has broken info
+                    } else {
 
-                // Check if offering has been modified
-                $offering = $dbCourse->getNextOffering();
-                if($offering->getUrl() != $course->getUrl() && $this->doUpdate() )
-                {
-                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - ". $dbCourse->getId());
-                    // Offering modified
-                    $this->outputChangedFields( array( array(
-                        'field' => 'offering Url',
-                        'old' => $offering->getUrl(),
-                        'new' => $course->getUrl()
+                        $offering = $dbCourse->getNextOffering();
+                        if ($offering->getUrl() != $course->getUrl() && $this->doUpdate()) {
+                            $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
+                            // Offering modified
+                            $this->outputChangedFields(array(array(
+                                'field' => 'offering Url',
+                                'old' => $offering->getUrl(),
+                                'new' => $course->getUrl()
 
-                    ) ) );
+                            )));
 
-                    if ($this->doModify())
-                    {
-                        $offering->setUrl( $course->getUrl() );
-                        $em->persist( $offering );
-                        $em->flush();
+                            if ($this->doModify()) {
+                                $offering->setUrl($course->getUrl());
+                                $em->persist($offering);
+                                $em->flush();
+                            }
+                            $courseChanged = true;
+                        }
                     }
-                    $courseChanged = true;
+
+                    $course = $dbCourse;
+
                 }
-
-
-                $course = $dbCourse;
-
-
             }
         }
-
         if( $courseChanged )
         {
             $coursesChanged[] = $course;
