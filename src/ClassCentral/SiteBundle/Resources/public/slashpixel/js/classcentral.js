@@ -28,15 +28,11 @@ jQuery(function($) {
 
                     var name = $(clicked).attr("name");
                     if($(clicked).is(':checked')) {
-                        if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
-                            // Course page
-                            $('span[id=' + name + ']').html('-');
-                        } else {
+
                             // Course Table
                             $('#' + name).removeClass("icon--medium icon-list-add-blue");
                             $('#' + name).addClass("icon--small icon-pencil-charcoal");
                             // $('span[id=' + name + ']').html('<svg class="icon-minus" viewBox="0 0 32 32"><use xlink:href="#icon-minus"></use></svg>');
-                        }
 
                         // uncheck the rest
                         $('input[name=' + name +']:checked').each(function(){
@@ -45,12 +41,10 @@ jQuery(function($) {
                         // check this one back
                         $(clicked).prop('checked',true);
                     } else {
-                        if( $('span[id=' + name + ']').html().trim() == '+' || $('span[id=' + name + ']').html().trim() == '-') {
-                            $('span[id=' + name + ']').html('+');
-                        } else {
+
                             $('#' + name).removeClass("icon--small icon-pencil-charcoal");
                             $('#' + name).addClass("icon--medium icon-list-add-blue");
-                        }
+
 
                     }
 
