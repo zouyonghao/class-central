@@ -15,38 +15,68 @@
       "className": "text-right"
     }
   ],
-  "footer" : "udacity",
+  "footer": "udacity",
   "rows": [
+    {
+      "title": "Natural Language Processing",
+      "duration": "3 months",
+      "price": "$599"
+    },
+    {
+      "title": "Computer Vision",
+      "duration": "3 months",
+      "price": "$599"
+    },
+    {
+      "title": "AI programming with Python",
+      "duration": "2 months",
+      "price": "$299"
+    },
+    {
+      "title": "Flying Cars and Autonomous Flight",
+      "duration": "6 months",
+      "price": "$2400"
+    },
+    {
+      "title": "Learn Unreal VR",
+      "duration": "2 months",
+      "price": "$399"
+    },
     {
       "title": "Mobile Web Specialist",
       "duration": "6 months",
       "price": "$1200"
     },
-     {
-       "title": "Intro to Self-Driving Cars",
-       "duration": "4 months",
-       "price": "$800"
-     },
-     {
-       "title": "Learn ARKit",
-       "duration": "1 month",
-       "price": "$199"
-     },
-     {
-       "title": "Data Foundations",
-       "duration": "3 months",
-       "price": "$499"
-     },
-     {
-       "title": "Data Analyst",
-       "duration": "6 Months",
-       "price": " $1198"
-     },
-     {
-       "title": "React",
-       "duration": "4 months",
-       "price": "$499"
-     },
+    {
+      "title": "Intro to Self-Driving Cars",
+      "duration": "4 months",
+      "price": "$800"
+    },
+    {
+      "title": "Learn ARKit Using Unity",
+      "duration": "1 month",
+      "price": "$199"
+    },
+    {
+      "title": "Learn ARKit Using Swift",
+      "duration": "1 month",
+      "price": "$199"
+    },
+    {
+      "title": "Data Foundations",
+      "duration": "3 months",
+      "price": "$499"
+    },
+    {
+      "title": "Data Analyst",
+      "duration": "6 Months",
+      "price": " $1198"
+    },
+    {
+      "title": "React",
+      "duration": "4 months",
+      "price": "$499"
+    },
     {
       "title": "Design Sprint Foundations",
       "duration": "1 month",
@@ -57,75 +87,75 @@
       "duration": "3 month",
       "price": "$699 or $399 self study"
     },
-     {
-       "title": "Intro to Programming",
-       "duration": "5 months",
-       "price": "$399 or $99/mo"
-     },
-     {
-       "title": "VR Developer",
-       "duration": "6 months",
-       "price": "$1200"
-     },
-     {
-       "title": "Robotics",
-       "duration": "8 Months",
-       "price": "$2400"
-     },
-     {
-       "title": "Digital Marketing",
-       "duration": "3 months",
-       "price": "$999"
-     },
-     {
-       "title": "Deep Learning Foundation",
-       "duration": "4 months",
-       "price": "$599"
-     },
-     {
-       "title": "Artificial Intelligence",
-       "duration": "6 months",
-       "price": "$1600"
-     },
-     {
-       "title": "Self Driving Car Engineer",
-       "duration": "9 months",
-       "price": "$2400"
-     },
-     {
-       "title": "Business Analyst",
-       "duration": "160 hours",
-       "price": "$200/month"
-     },
-     {
-       "title": "Android Basics",
-       "duration": "4 months",
-       "price": "$199/month"
-     },
-     {
-       "title": "Machine Learning Engineer",
-       "duration": "6 months",
-       "price": "$999"
-     },
-     {
-       "title": "Front-End Web Developer",
-       "duration": "6 months",
-       "price": "$199/month"
-     },
-     {
-       "title": "Full Stack Web Developer",
-       "duration": "6 months",
-       "price": "$199/month"
-     },
-     {
-       "title": "Android Developer",
-       "duration": "8 months",
-       "price": "$1199 or $199/month"
-     },
-     {
-       "title": "Become an iOS Developer",
-       "duration": "6 months",
-       "price": "$199/month"
-     }
+    {
+      "title": "Intro to Programming",
+      "duration": "5 months",
+      "price": "$399 or $99/mo"
+    },
+    {
+      "title": "VR Developer",
+      "duration": "6 months",
+      "price": "$1200"
+    },
+    {
+      "title": "Robotics",
+      "duration": "8 Months",
+      "price": "$2400"
+    },
+    {
+      "title": "Digital Marketing",
+      "duration": "3 months",
+      "price": "$999"
+    },
+    {
+      "title": "Deep Learning Foundation",
+      "duration": "4 months",
+      "price": "$599"
+    },
+    {
+      "title": "Artificial Intelligence",
+      "duration": "3 months",
+      "price": "$599"
+    },
+    {
+      "title": "Self Driving Car Engineer",
+      "duration": "9 months",
+      "price": "$2400"
+    },
+    {
+      "title": "Business Analyst",
+      "duration": "160 hours",
+      "price": "$200/month"
+    },
+    {
+      "title": "Android Basics",
+      "duration": "4 months",
+      "price": "$199/month"
+    },
+    {
+      "title": "Machine Learning Engineer",
+      "duration": "6 months",
+      "price": "$999"
+    },
+    {
+      "title": "Front-End Web Developer",
+      "duration": "6 months",
+      "price": "$199/month"
+    },
+    {
+      "title": "Full Stack Web Developer",
+      "duration": "6 months",
+      "price": "$199/month"
+    },
+    {
+      "title": "Android Developer",
+      "duration": "8 months",
+      "price": "$1199 or $199/month"
+    },
+    {
+      "title": "Become an iOS Developer",
+      "duration": "6 months",
+      "price": "$199/month"
+    }
   ]
 }
