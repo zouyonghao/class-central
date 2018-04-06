@@ -13,6 +13,116 @@
   ],
   "rows": [
     {
+      "title": "Microsoft Professional Program in Artificial Intelligence",
+      "subtitle": "Microsoft",
+      "price": "$990"
+    },
+    {
+      "title": "Data Science",
+      "subtitle": "Harvard University",
+      "price": "$441.90"
+    },
+    {
+      "title": "Business Writing",
+      "subtitle": "University of California, Berkeley",
+      "price": "$267.30"
+    },
+    {
+      "title": "Product Design & Health",
+      "subtitle": "Delft University of Technology (TU Delft)",
+      "price": "$142.20"
+    },
+    {
+      "title": "The Science of Happiness at Work",
+      "subtitle": "University of California, Berkeley",
+      "price": "$402.30"
+    },
+    {
+      "title": "Foundations of Data Science",
+      "subtitle": "University of California, Berkeley",
+      "price": "$357.30"
+    },
+    {
+      "title": "Microsoft Professional Program in Entry-Level Software Development",
+      "subtitle": "Microsoft",
+      "price": "$1287"
+    },
+    {
+      "title": "Food, Nutrition and Health",
+      "subtitle": "Wageningen University & Research",
+      "price": "$178.20"
+    },
+    {
+      "title": "IT Fundamentals for Business Professionals",
+      "subtitle": "Universitat Politècnica de Valencia",
+      "price": "$337.50"
+    },
+    {
+      "title": "Lifestyle Medicine Competencies",
+      "subtitle": "Doane University",
+      "price": "$945"
+    },
+    {
+      "title": "Management and Financing of Engineering Projects",
+      "subtitle": "Delft University of Technology (TU Delft)",
+      "price": "$268.20"
+    },
+    {
+      "title": "Microsoft Professional Program in IT Support",
+      "subtitle": "Microsoft",
+      "price": "$1386"
+    },
+    {
+      "title": "Risk Management of Work Related Injuries using RAMP",
+      "subtitle": "KTH Royal Institute of Technology",
+      "price": "$405"
+    },
+    {
+      "title": "Marketing digital y redes sociales",
+      "subtitle": "Universidad Galileo",
+      "price": "$88.20"
+    },
+    {
+      "title": "Inteligencia de negocios",
+      "subtitle": "Universidad Galileo",
+      "price": "$88.20"
+    },
+    {
+      "title": "Empresas familiares: emprendimiento y liderazgo para trascender",
+      "subtitle": "Tecnológico de Monterrey",
+      "price": "$88.20"
+    },
+    {
+      "title": "Fundamentals of 3D Visualization",
+      "subtitle": "IITBombay",
+      "price": "$88.20"
+    },
+    {
+      "title": "Introducción a la programación en Java",
+      "subtitle": "Universidad Carlos III de Madrid",
+      "price": "$267.30"
+    },
+    {
+      "title": "Análisis y Visualización de Datos con Excel",
+      "subtitle": "Delft University of Technology (TU Delft)",
+      "price": "$178.20"
+    },
+    {
+      "title": "Fundamentos TIC para profesionales de negocios",
+      "subtitle": "Universitat Politècnica de Valencia",
+      "price": "$337.50"
+    },
+    {
+      "title": "Excel para los negocios",
+      "subtitle": "Universitat Politècnica de Valencia",
+      "price": "$180"
+    },
+    {
+      "title": "Economía, comercio e inversión en América Latina: Tendencias y horizontes emergentes",
+      "subtitle": "Inter-American Development Bank",
+      "price": "$67.50"
+    },
+    {
       "title": "Agile Development Using Ruby on Rails",
       "subtitle": "Berkeley",
       "price": "$198"
@@ -25,7 +135,7 @@
     {
       "title": "Corporate Finance",
       "subtitle": "Columbia University",
-      "price": "$297"
+      "price": "$267.30"
     },
     {
       "title": "Data Science for Executives",
@@ -45,7 +155,7 @@
     {
       "title": "Management of Engineering Projects; Dealing with Complexity",
       "subtitle": "Delft University of Technology (TU Delft)",
-      "price": "$298"
+      "price": "$268.20"
     },
     {
       "title": "Management and Financing of Engineering Projects",
@@ -55,17 +165,17 @@
     {
       "title": "Java and Android Foundation",
       "subtitle": "Hong Kong University of Science and Technology",
-      "price": "$297"
+      "price": "$161.10"
     },
     {
       "title": "Gestión Pública para el Desarrollo",
       "subtitle": "Inter-American Development Bank",
-      "price": "$75"
+      "price": "$89.10"
     },
     {
       "title": "Sparse Representations in Signal and Image Processing",
       "subtitle": "IsraelX",
-      "price": "$198"
+      "price": "$178.20"
     },
     {
       "title": "Microsoft Professional Program in Data Science",
@@ -75,7 +185,7 @@
     {
       "title": "Microsoft Professional Program in Front-End Web Development",
       "subtitle": "Microsoft",
-      "price": "$1,287"
+      "price": "$1,188"
     },
     {
       "title": "Microsoft Professional Program in Big Data",
@@ -90,7 +200,7 @@
     {
       "title": "Microsoft Professional Program in Cloud Admin",
       "subtitle": "Microsoft",
-      "price": "$1,188"
+      "price": "$1,089"
     },
     {
       "title": "Introduction to Computer Science",
@@ -145,12 +255,12 @@
     {
       "title": "Soft Skills",
       "subtitle": "Rochester Institute of Technology",
-      "price": "$294"
+      "price": "$264.60"
     },
     {
       "title": "Six Sigma and Lean: Quantitative Tools for Quality and Productivity",
       "subtitle": "Technische Universitt Mnchen",
-      "price": "$264"
+      "price": "$247.50"
     },
     {
       "title": "Public Library Management",
@@ -165,12 +275,12 @@
     {
       "title": "Front-End Web Developer",
       "subtitle": "The World Wide Web Consortium (W3C)",
-      "price": "$499.50"
+      "price": "445.50"
     },
     {
       "title": "Virtual Reality (VR) App Development",
       "subtitle": "UC San Diego",
-      "price": "$247"
+      "price": "$267.30"
     },
     {
       "title": "Introduction to Java Programming",
@@ -185,7 +295,7 @@
     {
       "title": "Essentials of Cybersecurity",
       "subtitle": "University of Washington",
-      "price": "$316"
+      "price": "$284.40"
     }
   ]
 }
