@@ -13,69 +13,84 @@
   ],
   "rows": [
     {
+      "title": "Algorithms and Data Structures",
+      "subtitle": "The University of California, San Diego",
+      "price": "$1080"
+    },
+    {
+      "title": "Design Thinking",
+      "subtitle": "Rochester Institute of Technology",
+      "price": "$900"
+    },
+    {
+      "title": "Emerging Automotive Technologies",
+      "subtitle": "Chalmers University of Technology",
+      "price": "$1260"
+    },
+    {
       "title": "Evidence-Based Management",
       "subtitle": "Australian National University",
-      "price": "$938.70"
+      "price": "$1192"
     },
     {
       "title": "Marketing Analytics",
-      "subtitle": "Berkeley",
+      "subtitle": "University of California, Berkeley",
       "price": "$716.40"
     },
     {
       "title": "Digital Product Management",
       "subtitle": "Boston University",
-      "price": "$1,000"
+      "price": "$900"
     },
     {
       "title": "Digital Leadership",
       "subtitle": "Boston University",
-      "price": "$1,000"
+      "price": "$900"
     },
     {
       "title": "Artificial Intelligence",
       "subtitle": "Columbia University",
-      "price": "$946"
+      "price": "$851.40"
     },
     {
       "title": "Business Analytics",
       "subtitle": "Columbia University",
-      "price": "$1,500"
+      "price": "$1,328.40"
     },
     {
       "title": "Internet of Things (IoT)",
       "subtitle": "Curtin University",
-      "price": "$1,294"
+      "price": "$1,164"
     },
     {
       "title": "Data Science",
-      "subtitle": "Curtin University",
-      "price": "$1,400"
+      "subtitle": "The University of California, San Diego",
+      "price": "$1,260"
     },
     {
       "title": "Human Rights",
       "subtitle": "Curtin University",
-      "price": "$900"
+      "price": "$810"
     },
     {
       "title": "Marketing in a Digital World",
       "subtitle": "Curtin University",
-      "price": "$795"
+      "price": "$715.50"
     },
     {
       "title": "Solar Energy Engineering",
       "subtitle": "Delft University of Technology (TU Delft)",
-      "price": "$1,400"
+      "price": "$1,260"
     },
     {
       "title": "Professional Android Developer",
       "subtitle": "Galileo University",
-      "price": "$646"
+      "price": "$581.40"
     },
     {
       "title": "e-Learning: crea actividades y contenidos para la enseanza virtual",
       "subtitle": "Galileo University",
-      "price": "$596"
+      "price": "$536.40"
     },
     {
       "title": "Entrepreneurship",
@@ -90,32 +105,32 @@
     {
       "title": "Supply Chain Management",
       "subtitle": "Massachusetts Institute of Technology",
-      "price": "$1,350"
+      "price": "$1,080"
     },
     {
       "title": "Principles of Manufacturing",
       "subtitle": "Massachusetts Institute of Technology",
-      "price": "$1,200"
+      "price": "$1,260"
     },
     {
       "title": "Cybersecurity",
       "subtitle": "Rochester Institute of Technology",
-      "price": "$1,200"
+      "price": "$1,080"
     },
     {
       "title": "Project Management",
       "subtitle": "Rochester Institute of Technology",
-      "price": "$1,050"
+      "price": "$945"
     },
     {
       "title": "Managing Technology & Innovation: How to deal with disruptive change",
       "subtitle": "RWTH Aachen University",
-      "price": "$894"
+      "price": "$804.60"
     },
     {
       "title": "Analytics: Essential Tools and Methods",
       "subtitle": "The Georgia Institute of Technology",
-      "price": "$1,000"
+      "price": "$1,500"
     },
     {
       "title": "International Hospitality Management",
@@ -140,22 +155,22 @@
     {
       "title": "Sustainable Energy",
       "subtitle": "The University of Queensland",
-      "price": "$1,495"
+      "price": "$1,345"
     },
     {
       "title": "Corporate Innovation",
       "subtitle": "The University of Queensland",
-      "price": "$1,345"
+      "price": "$1,210.50"
     },
     {
       "title": "Leadership in Global Development",
       "subtitle": "The University of Queensland",
-      "price": "$1,350"
+      "price": "$1,215"
     },
     {
       "title": "Business Leadership",
       "subtitle": "The University of Queensland",
-      "price": "$1,497"
+      "price": "$1,347.30"
     },
     {
       "title": "International Business Management",
@@ -165,7 +180,7 @@
     {
       "title": "Accounting and Financial Management",
       "subtitle": "UMUC, University System of Maryland",
-      "price": "$996"
+      "price": "$896.40"
     },
     {
       "title": "Cloud Computing",
@@ -195,12 +210,12 @@
     {
       "title": "International Law",
       "subtitle": "Universit catholique de Louvain",
-      "price": "$600"
+      "price": "$540"
     },
     {
       "title": "Management",
       "subtitle": "Universit catholique de Louvain",
-      "price": "$900"
+      "price": "$540"
     },
     {
       "title": "Big Data",
@@ -210,7 +225,7 @@
     {
       "title": "Business Fundamentals",
       "subtitle": "University of British Columbia",
-      "price": "$810"
+      "price": "$900"
     },
     {
       "title": "Software Development",
