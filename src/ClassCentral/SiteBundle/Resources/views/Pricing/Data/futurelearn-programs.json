@@ -13,9 +13,39 @@
   ],
   "rows": [
     {
+      "title": "Exploring Culture and Heritage",
+      "subtitle": "European University Institute",
+      "price": "$192"
+    },
+    {
+      "title": "Foundations of University Learning and Teaching",
+      "subtitle": "UNSW Sydney",
+      "price": "$1740.52"
+    },
+    {
+      "title": "Genomics in Healthcare",
+      "subtitle": "St. George's University of London",
+      "price": "$372"
+    },
+    {
+      "title": "Global Studies: International Relations and World Politics",
+      "subtitle": "Grenoble Ecole de Management",
+      "price": "$440.83"
+    },
+    {
+      "title": "Management and Leadership, Personal Development",
+      "subtitle": "Open University",
+      "price": "$540.30"
+    },
+    {
+      "title": "Understanding the Body",
+      "subtitle": "University of Aberdeen",
+      "price": "$721.76"
+    },
+    {
       "title": "Teaching for Success: Practices for English Language Teaching",
       "subtitle": "British Council",
-      "price": "$267"
+      "price": "$252"
     },
     {
       "title": "Social Enterprise",
@@ -25,107 +55,107 @@
     {
       "title": "Using Food as Medicine in Healthcare Practice",
       "subtitle": "Monash University",
-      "price": "$895"
+      "price": "$945"
     },
     {
       "title": "Inspiring Young People In STEM",
       "subtitle": "National STEM Learning Centre",
-      "price": "$176"
+      "price": "$196"
     },
     {
       "title": "STEM Teaching",
       "subtitle": "National STEM Learning Centre",
-      "price": "$267"
+      "price": "$282"
     },
     {
       "title": "Teaching Practical Science",
       "subtitle": "National STEM Learning Centre",
-      "price": "$222"
+      "price": "$237"
     },
     {
       "title": "Mergers and Acquisitions",
       "subtitle": "New York Institute of Finance",
-      "price": "$1,684.88"
+      "price": "$1,781.77"
     },
     {
       "title": "Business and Finance Fundamentals",
       "subtitle": "Open University",
-      "price": "$1,528.59"
+      "price": "$1,617"
     },
     {
       "title": "Business Fundamentals",
       "subtitle": "Open University",
-      "price": "$296"
+      "price": "$316"
     },
     {
       "title": "Finance Fundamentals",
       "subtitle": "Open University",
-      "price": "$296"
+      "price": "$316"
     },
     {
       "title": "Italian for Beginners",
       "subtitle": "Open University",
-      "price": "$264"
+      "price": "$294"
     },
     {
-      "title": "Management and Leadership",
+      "title": "Management and Leadership, Essentials",
       "subtitle": "Open University",
-      "price": "$512.94"
+      "price": "$540.30"
     },
     {
       "title": "Spanish for Beginners",
       "subtitle": "Open University",
-      "price": "$264"
+      "price": "$294"
     },
     {
       "title": "The Digital Economy",
       "subtitle": "Open University",
-      "price": "$1,043.30"
+      "price": "$1,098.92"
     },
     {
       "title": "Introducing Robotics",
       "subtitle": "Queensland University of Technology",
-      "price": "$267"
+      "price": "$282"
     },
     {
       "title": "Robotic Vision",
       "subtitle": "Queensland University of Technology",
-      "price": "$267"
+      "price": "$282"
     },
     {
       "title": "Good Brain, Bad Brain",
       "subtitle": "University of Birmingham",
-      "price": "$222"
+      "price": "$237"
     },
     {
       "title": "Unleash Your Potential",
       "subtitle": "University of Bristol",
-      "price": "$132"
+      "price": "$147"
     },
     {
       "title": "Causes of Human Disease",
       "subtitle": "University of Leeds",
-      "price": "$762.95"
+      "price": "$826.84"
     },
     {
       "title": "Discovering Science",
       "subtitle": "University of Leeds",
-      "price": "$762.95"
+      "price": "$826.84"
     },
     {
       "title": "Environmental Challenges",
       "subtitle": "University of Leeds",
-      "price": "$762.95"
+      "price": "$826.84"
     },
     {
       "title": "Writing in English for University Study",
       "subtitle": "University of Reading",
-      "price": "$174.28"
+      "price": "$187.19"
     },
     {
       "title": "Practical Data Mining",
       "subtitle": "University of Waikato",
-      "price": "$267"
+      "price": "$282"
     }
   ]
 }
