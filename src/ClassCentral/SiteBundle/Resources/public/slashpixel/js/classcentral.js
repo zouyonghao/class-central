@@ -27,25 +27,20 @@ jQuery(function($) {
                     ga('send','event','My Courses - Add Clicked',"Logged in", source);
 
                     var name = $(clicked).attr("name");
-                    if($(clicked).is(':checked')) {
+                    if ($(clicked).is(':checked')) {
+                      // Course Table
+                      $('#' + name + ", ." + name).removeClass("icon--medium icon-list-add-blue text--blue");
+                      $('#' + name + ", ." + name).addClass("icon--small icon-pencil-charcoal text--charcoal");
 
-                            // Course Table
-                            $('#' + name).removeClass("icon--medium icon-list-add-blue");
-                            $('#' + name).addClass("icon--small icon-pencil-charcoal");
-                            // $('span[id=' + name + ']').html('<svg class="icon-minus" viewBox="0 0 32 32"><use xlink:href="#icon-minus"></use></svg>');
-
-                        // uncheck the rest
-                        $('input[name=' + name +']:checked').each(function(){
-                            $(this).prop('checked',false);
-                        });
-                        // check this one back
-                        $(clicked).prop('checked',true);
+                      // uncheck the rest
+                      $('input[name=' + name +']:checked').each(function(){
+                          $(this).prop('checked',false);
+                      });
+                      // check this one back
+                      $(clicked).prop('checked',true);
                     } else {
-
-                            $('#' + name).removeClass("icon--small icon-pencil-charcoal");
-                            $('#' + name).addClass("icon--medium icon-list-add-blue");
-
-
+                      $('#' + name + ", ." + name).removeClass("icon--small icon-pencil-charcoal text--charcoal");
+                      $('#' + name + ", ." + name).addClass("icon--medium icon-list-add-blue text--blue");
                     }
 
                     addRemoveCourse($(clicked).val(), $(clicked).data('course-id'),$(clicked).is(':checked'), $(clicked).data('course-name'));
