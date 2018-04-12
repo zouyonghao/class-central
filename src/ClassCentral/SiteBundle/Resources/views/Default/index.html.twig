@@ -399,13 +399,26 @@
               <button type="submit" class="btn-blue xsmall-only-width-100 small-only-width-100 margin-top-small medium-up-margin-left-medium">Subscribe</button>
               <div style="position: absolute; left: -5000px;"><input type="text" name="b_a04149ada492173efe6609e68_c5a9919ea5" tabindex="-1" value=""></div>
             </form>
-
-              {% set moocwatchImage = "/bundles/classcentralsite/slashpixel/images/moocwatch-16-illustration-crop.png" %}
-              {% if app.environment == 'prod' %}
-                  {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
-              {% endif %}
-
             <ul class="margin-vert-xlarge">
+                {% set moocwatchImage = "/bundles/classcentralsite/images/mooc-watch/moocwatch-17-illustration-crop.png" %}
+                {% if app.environment == 'prod' %}
+                    {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
+                {% endif %}
+                {% include 'ClassCentralSiteBundle:Default:moocreport.watch.html.twig' with { watch: {
+                edition: "17",
+                image: moocwatchImage,
+                title: "MOOCs Become Big Business",
+                description: "Udacity’s revenues, Coursera’s Bachelors degree, MicroBachelors, Best Online Courses of 2017, and more.",
+                author: "Dhawal Shah",
+                publishedDate: "April 9th, 2018",
+                color: "#B08AC0",
+                url: "https://www.class-central.com/report/moocs-become-big-business/"
+                }} %}
+
+                {% set moocwatchImage = "/bundles/classcentralsite/images/mooc-watch/moocwatch-16-illustration-crop.png" %}
+                {% if app.environment == 'prod' %}
+                    {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
+                {% endif %}
                 {% include 'ClassCentralSiteBundle:Default:moocreport.watch.html.twig' with { watch: {
                 edition: "16",
                 image: moocwatchImage,
@@ -415,23 +428,6 @@
                 publishedDate: "October 23rd, 2017",
                 color: "#f7c928",
                 url: "https://www.class-central.com/report/moocwatch-16-mooc-providers-target-degrees/"
-                }} %}
-
-                {% set moocwatchImage = "/bundles/classcentralsite/slashpixel/images/moocwatch-15-illustration-crop.png" %}
-                {% if app.environment == 'prod' %}
-                    {% set moocwatchImage = imageService.cropImage(baseurl~moocwatchImage) %}
-                {% endif %}
-
-
-                {% include 'ClassCentralSiteBundle:Default:moocreport.watch.html.twig' with { watch: {
-                edition: "15",
-                image: moocwatchImage,
-                title: "MOOCs Find Their Audience",
-                description: "New CEOs, enrollment milestones, and more.",
-                author: "Dhawal Shah",
-                publishedDate: "June 22nd, 2017",
-                color: "#64C187",
-                url: "https://www.class-central.com/report/moocwatch-15-moocs-lifelong-learners/"
                 }} %}
             </ul>
           </div>
