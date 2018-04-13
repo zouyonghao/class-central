@@ -216,7 +216,7 @@
       {% if not user_session.isCourseReviewed(course.id) and not hideCreateReview %}
         <span class="text-2 text--charcoal block margin-bottom-small margin-horz-small">Taken this course? Share your experience with other students.</span>
         <a
-          class="btn-white icon--left icon-star"
+          class="btn-blue icon--left icon-star-white"
           href="{{ reviewUrl }}"
           rel="nofollow"
           onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')"

@@ -9,36 +9,48 @@
           </span>
           <div class="margin-vert-medium">
             {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: rating } %}
-            <span style="top: 3px" class="relative inline-block text-3 text--charcoal margin-left-xsmall">Based on {{ ratingsSummary.numRatings }} reviews</span>
+            <span style="top: 3px" class="relative inline-block text-3 text--charcoal margin-left-xsmall">Based on
+              <strong class="text-1 text--bold">{{ ratingsSummary.numRatings }}</strong> reviews
+            </span>
           </div>
          </a>
         </h2>
 
-        <ul id="reviews-summary" class="margin-vert-medium">
-          {% for star,starCount in ratingsSummary.ratingsBreakdown %}
-          <li class="row">
-            <span class="col width-3-16 text--gray text-3">
-              {{ star }}
-              {{ (starCount > 1) ? "stars" : "star" }}
-             </span>
+        <div class="margin-vert-medium row">
+          <ul class="col width-100 medium-up-width-1-3">
+            {% for star,starCount in ratingsSummary.ratingsBreakdown %}
+            <li class="row">
+              <span class="col width-3-16 text--gray text-3">
+                {{ star }}
+                {{ (starCount > 1) ? "stars" : "star" }}
+               </span>
 
-          {% set ratingPercentage = 0 %}
-          {% if ratingsSummary.numRatings > 0 %}
-              {% set ratingPercentage = ((starCount / ratingsSummary.numRatings) * 100)|round  %}
-          {% endif %}
-              <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
-              <span class="bg-yellow absolute height-100 left top" style="width: {{ ratingPercentage }}%"></span>
-            </span>
-            <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ratingPercentage }}%</span>
-          </li>
-          {% endfor %}
-        </ul>
-
+            {% set ratingPercentage = 0 %}
+            {% if ratingsSummary.numRatings > 0 %}
+                {% set ratingPercentage = ((starCount / ratingsSummary.numRatings) * 100)|round  %}
+            {% endif %}
+                <span class="col width-10-16 bg-gray relative" style="height: 10px; top: 2px">
+                <span class="bg-yellow absolute height-100 left top" style="width: {{ ratingPercentage }}%"></span>
+              </span>
+              <span class="col width-3-16 text--charcoal text-3 padding-left-xsmall">{{ ratingPercentage }}%</span>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="col width-100 medium-up-width-2-3 push text-center xsmall-only-hidden small-only-hidden text-center" style="position: relative; top: -20px;">
+            {% set reviewIllustration = "/bundles/classcentralsite/images/reviews-illustration.png" %}
+            {% if app.environment == 'prod' %}
+                {% set reviewIllustration = imageService.cropImage(baseurl~reviewIllustration, 300) %}
+            {% endif %}
+            <img src="{{ reviewIllustration }}" width="250">
+          </div>
+        </div>
 
         {% if not user_session.isCourseReviewed(course.id) %}
-        <div class="text-1">
+        <div class="text-2">
           <p class="margin-bottom-medium">Did you take this course? Share your experience with other students.</p>
-          <a class="xsmall-only-width-100 small-only-width-100 btn-blue-outline btn--large review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">Write a review</a>
+          <a class="xsmall-only-width-100 small-only-width-100 btn-blue review-button" href="{{ reviewUrl }}" rel="nofollow" onmousedown="ga('send','event', 'Create Review Link', 'Write a review', '{{course['name']}}')">
+            <span class="text-1 icon--left icon-star-white text--bold">Write a review</span>
+          </a>
         <div>
         {% endif %}
 
