@@ -12,18 +12,24 @@ namespace ClassCentral\ScraperBundle\Scraper;
 use ClassCentral\ScraperBundle\Utility\DBHelper;
 use ClassCentral\SiteBundle\Entity\Initiative;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class ScraperAbstractInterface
 {
+    /** @var  Initiative $initiative */
     protected $initiative;
     protected $type = 'updated';
     protected $simulate = 'Y';
     protected $isCredential = false;
+    /** @var  OutputInterface $output */
     protected $output;
     protected $created; // If true, new offerings can be added
     protected $updated; // If true,  offerings can only be updated
     protected $modify; // If true. database can be modified
+
+    /** @var  ContainerInterface $container */
     protected $container;
+    /** @var  DBHelper $dbHelper */
     protected $dbHelper;
 
     public function setIsCredential( $isCredential )
