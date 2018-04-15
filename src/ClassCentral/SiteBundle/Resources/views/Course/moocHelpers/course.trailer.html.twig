@@ -1,31 +1,45 @@
-{% if course['videoEmbedUrl'] is not null and isYoutube %}
-  <div class="ratio ratio--9-16 bg-gray js-course-video border-bottom border--thin border--gray-xlight">
-    <div class="video-container ratio-content width-100 height-100">
-      <iframe class="height-100 width-100 ytb-video-frame" src="{{ course['videoEmbedUrl'] }}&amp;autohide=1&amp;showinfo=0" frameborder="0" allowfullscreen  wmode="Opaque"></iframe>
-    </div>
-  </div>
-{% elseif course.videoIntro is not null and course.initiative.code == 'coursera' %}
-  <div class="ratio ratio--9-16 bg-gray js-course-video relative border-bottom border--thin border--gray-xlight">
-    {% set videoInfo= course.videoIntro|split('|||') %}
-    <div class="html5-video-container ratio-content width-100 height-100">
-      <video poster="{{ videoInfo[1] }}" class="height-100 width-100">
-        <source type="video/mp4" src="{{ videoInfo[0] }}full/540p/index.mp4">
-        <source type="video/webm" src="{{ videoInfo[0] }}full/540p/index.webm">
-      </video>
-      <div class="z-high absolute left width-100 text-center" style="top: 40%;">
-        <button class="html5-video-play-wrap js-video-play shadow btn-white btn-circle icon--center btn--large icon-play"></button>
-      </div>
-    </div>
-  </div>
-{% elseif courseImage %}
+{% set hasTrailer = false %}
+
+{% if courseImage %}
   {% set courseImageThumbnail = imageService.cropImage(courseImage, 710,400) %}
+{% endif %}
+
+{# coursera trailer #}
+{% if course.videoIntro is not null and course.initiative.code == 'coursera' %}
+  {% set hasTrailer = true %}
+  {% set trailerType = "coursera" %}
+  {% set trailerUrl = course.videoIntro|split('|||')[0] %}
+  {% set courseImageThumbnail = course.videoIntro|split('|||')[1] %}
+{% endif %}
+
+{# youtube trailer #}
+{% if course['videoEmbedUrl'] is not null and isYoutube %}
+  {% set hasTrailer = true %}
+  {% set courseImageThumbnail = "https://img.youtube.com/vi/" ~ youTubeId ~ "/mqdefault.jpg" %}
+  {% set trailerType = "youtube" %}
+  {% set trailerUrl = course['videoEmbedUrl'] %}
+{% endif %}
+
+{% if courseImageThumbnail is defined or hasTrailer %}
   <div
+    data-trailer-container
     class="ratio ratio--9-16 bg-gray bg-cover border-bottom border--thin border--gray-xlight"
-    style="
-      top: 1px;
-      background-image: url({{ courseImageThumbnail }});
-      background-repeat: no-repeat;
-      background-position: 50% 50%;
-    ">
+    style="top: 1px; {% if courseImageThumbnail is defined %}background-image: url({{ courseImageThumbnail }}); background-repeat: no-repeat; background-position: 50% 50%;{% endif %}">
+    {% if hasTrailer %}
+      <div class="video-container ratio-content width-100 height-100"></div>
+      <div class="video-button z-high absolute left width-100 text-center" style="top: 40%;">
+        <button
+          class="relative shadow btn-white btn-circle icon--center btn--large icon-play"
+          data-trailer='{ "type": "{{ trailerType }}", "url": "{{ trailerUrl }}" }'
+          data-track-click="{{ ts.event('COURSE_CLICK') }}"
+          data-track-props='{ "type": "Trailer Video Play", "title": "{{ course.name }}" }'
+        >
+        <div
+          style="right: 22px;"
+          class="loading-pulse hidden absolute cc-search-loading-pulse"
+        ></div>
+        </button>
+      </div>
+    {% endif %}
   </div>
 {% endif %}

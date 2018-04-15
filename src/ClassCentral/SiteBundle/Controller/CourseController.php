@@ -639,6 +639,7 @@ class CourseController extends Controller
                  'recommendations' => $recommendations,
                  'providersWithLogos' => Course::$providersWithFavicons,
                  'isYoutube' => $this->isYouTubeVideo( $course['videoIntro'] ),
+                 'youTubeId' => $this->getYouTubeId( $course['videoIntro'] ),
                  'courseImage' => $this->getCourseImage( $courseId),
                  'ratingStars' => ReviewUtility::getRatingStars( $ratingsSummary['averageRating'] ),
                  'interestedUsers' => $interestedUsers,
@@ -653,6 +654,15 @@ class CourseController extends Controller
        ));
     }
 
+    private function getYouTubeId($url)
+    {
+      if ($this->isYouTubeVideo($url)) {
+        preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i', $url, $match);
+        return $match[1];
+      }
+      return null;
+    }
+    
     private function getTwitterShareUrl($course)
     {
 

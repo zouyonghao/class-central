@@ -1105,29 +1105,6 @@ jQuery(function($) {
         }
     });
 
-    //html5 video play button
-    function vidplay() {
-        var video;
-        $(".js-video-play").on("click", function(e) {
-            const $this = $(this);
-            const videoElement = $this.closest(".html5-video-container").find("video");
-            const video = videoElement.get(0);
-            const $overlayItems = $this.closest(".js-course-video").find(".js-video-overlay-item");
-            if (video.paused) {
-                video.play();
-                $this.fadeOut(300);
-                videoElement.prop("controls",true);
-            } else {
-                video.pause();
-                $this.fadeIn(300);
-                videoElement.prop("controls",false);
-            }
-
-        });
-    }
-
-    vidplay();
-
     // Fire Google Analytic events for signup
     var userSignedUp = getUrlParameter('ref');
     var userSignedUpSrc = getUrlParameter('src');
@@ -1139,9 +1116,6 @@ jQuery(function($) {
         }
 
     }
-
-
-
 
     function getUrlParameter(sParam)
     {
