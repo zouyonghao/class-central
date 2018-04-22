@@ -9,50 +9,21 @@
   {% set userData = apiService.getUserInfo() %}
   <!-- banner -->
   <div class="classcentral-style">
-    <section data-slideshow="homepage" class="cc-gradient-gold">
+    <section data-slideshow="homepage" class="cc-gradient-orange-green border-bottom border--thin border--gray">
       <div class="relative width-100 width-centered" style="max-width: 1400px;">
         <nav class="absolute">
           <button data-slideshow-target="0" class="bg-blue inline-block">1</button>
           <button data-slideshow-target="1" class="bg-blue transparent inline-block">2</button>
           <button data-slideshow-target="2" class="bg-blue transparent inline-block">3</button>
-          <button data-slideshow-target="3" class="bg-blue transparent inline-block">4</button>
         </nav>
         <ul>
-          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-2017-best-courses-homepage.png" %}
-          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-2017-best-courses-homepage-mobile.png" %}
-          {% if app.environment == 'prod' %}
-              {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
-              {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
-          {% endif %}
-          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-gold" }' class="active absolute top left width-100">
-            <h2>
-              <img
-                class="width-100"
-                src="{% if isMobile %}{{ homePageBannerImageMobile }}{% else %}{{ homePageBannerImage }}{% endif %}"
-                alt="The Best Online Courses of 2017"
-                data-media-switch="802"
-                data-large="{{ homePageBannerImage }}"
-                data-small="{{ homePageBannerImageMobile }}"
-              />
-            </h2>
-            <div class="absolute width-100 text-center inline-block">
-              <a
-                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-                data-track-props='{ "type": "Banner", "title": "2017 Best Online Courses Results" }'
-                href="https://www.class-central.com/report/best-free-online-courses-2017/"
-                class="btn-blue btn--large large-only-btn--medium"
-              >
-                View Now
-              </a>
-            </div>
-          </li>
           {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png" %}
           {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png" %}
           {% if app.environment == 'prod' %}
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
               {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
           {% endif %}
-          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "cc-gradient-orange-green" }' class="next absolute top left width-100">
+          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-orange-green" }' class="active absolute top left width-100">
             <h2>
               <img
                 class="width-100"
@@ -67,18 +38,18 @@
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
             </div>
           </li>
-          {% set homePageBannerImage = "/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage.png" %}
-          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/year-in-review/banner-2017-year-in-review-homepage-mobile.png" %}
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-moocwatch-17.png" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-moocwatch-17-mobile.png" %}
           {% if app.environment == 'prod' %}
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
               {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
           {% endif %}
-          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-2017" }' class="absolute top left width-100">
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "bg-white" }' class="next absolute top left width-100">
             <h2>
               <img
                 class="width-100"
-                src="{% if isMobile %}{{ homePageBannerImageMobile  }}{% else %}{{ homePageBannerImage }}{% endif %}"
-                alt="Class Central's 2017 Year in Review"
+                src="{% if isMobile %}{{ homePageBannerImageMobile }}{% else %}{{ homePageBannerImage }}{% endif %}"
+                alt="MOOCWatch No. 17 - MOOCs Become Big Business"
                 data-media-switch="802"
                 data-large="{{ homePageBannerImage }}"
                 data-small="{{ homePageBannerImageMobile }}"
@@ -87,11 +58,11 @@
             <div class="absolute width-100 text-center inline-block">
               <a
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-                data-track-props='{ "type": "Banner", "title": "2017 Year in Review" }'
-                href="{{ path('year_in_review_2017') }}"
-                class="btn-blue btn--large large-only-btn--medium"
+                data-track-props='{ "type": "Banner", "title": "MOOCWatch No. 17 - MOOCs Become Big Business" }'
+                href="https://www.class-central.com/report/moocs-become-big-business/"
+                class="btn-blue btn--large xsmall-only-btn--medium large-only-btn--medium"
               >
-                Learn More
+                Read <span class="xsmall-only-hidden text--bold">Latest MOOCWatch</span> Article
               </a>
             </div>
           </li>
@@ -101,7 +72,7 @@
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
               {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
           {% endif %}
-          <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
+          <li id="ss-3" data-slideshow-item='{ "index": 2,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
             <h2>
               <img
                 class="width-100"
