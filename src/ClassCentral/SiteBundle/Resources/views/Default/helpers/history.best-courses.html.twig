@@ -1,0 +1,81 @@
+<!-- year in review -->
+<section class="row col width-100 width-centered padding-horz-large padding-bottom-xlarge margin-top-xlarge" style="max-width: 1400px;">
+  <header class="text-center border-bottom border--gray-light border--thin">
+    <h1 class="relative head-3 small-up-head-2 large-up-head-1 bg-white relative inline-block padding-horz-medium" style="top: 15px">
+      Highest Rated Courses on Class Central
+    </h1>
+  </header>
+
+  <ul class="width-centered text-center margin-top-xlarge" style="max-width: 1000px;">
+    <li class="width-100 inline-block large-up-width-1-3 border-box padding-horz-large relative margin-bottom-xlarge">
+      <a
+        data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+        data-track-props='{ "type": "Best Courses", "title": "All-Time", "section": "Class Central" }'
+        href="https://www.class-central.com/report/top-50-moocs-2017-edition/"
+        class="block"
+      >
+        {% set bestCoursesAllTimeImage = '/bundles/classcentralsite/images/year-in-review/cc-alltime-best-online-courses.png' %}
+        {% if app.environment == 'prod' %}
+          {% set bestCoursesAllTimeImage = imageService.cropImage(baseurl~bestCoursesAllTimeImage,546,420) %}
+        {% endif %}
+        <img class="radius width-100 hover-grow shadow" src="{{ bestCoursesAllTimeImage }}" alt="2016 Year in Review" />
+      </a>
+      <p class="text-center absolute width-100 left" style="bottom: -15px;">
+        <a
+          data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+          data-track-props='{ "type": "Best Courses", "title": "All-Time", "section": "Class Central" }'
+          href="https://www.class-central.com/report/top-50-moocs-2017-edition/"
+          class="btn-blue"
+        >Browse Courses</a>
+      </p>
+    </li>
+    <li class="width-100 inline-block large-up-width-1-3 border-box padding-horz-large relative margin-bottom-xlarge">
+      <a
+        data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+        data-track-props='{ "type": "Best Courses", "title": "2017", "section": "Class Central" }'
+        href="https://www.class-central.com/report/best-free-online-courses-2017/"
+        class="block"
+      >
+        {% set bestCourses2017Image = '/bundles/classcentralsite/images/year-in-review/cc-2017-best-online-courses.png' %}
+        {% if app.environment == 'prod' %}
+          {% set bestCourses2017Image = imageService.cropImage(baseurl~bestCourses2017Image,546,420) %}
+        {% endif %}
+        <img class="radius width-100 hover-grow shadow" src="{{ bestCourses2017Image }}" alt="2017 Year in Review" />
+      </a>
+      <p class="text-center absolute width-100 left" style="bottom: -15px;">
+        <a
+          data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+          data-track-props='{ "type": "Best Courses", "title": "2017", "section": "Class Central" }'
+          href="https://www.class-central.com/report/best-free-online-courses-2017/"
+          class="btn-blue"
+        >Browse Courses</a>
+      </p>
+    </li>
+  </ul>
+
+  <div class="width-centered row margin-top-medium text-center">
+    <h4 class="text-2 padding-right-xsmall inline-block">Previous Years:</h4>
+    <ul class="inline-block">
+      <li class="inline-block padding-horz-small border-right border--thin border--gray-light">
+        <a
+          data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+          data-track-props='{ "type": "Best Courses", "title": "2016", "section": "Class Central" }'
+          href="https://www.class-central.com/report/best-free-online-courses-2016/"
+          class="block text--blue text-2"
+        >
+        2016
+        </a>
+      </li>
+      <li class="inline-block padding-horz-small">
+        <a
+          data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+          data-track-props='{ "type": "Best Courses", "title": "2015", "section": "Class Central" }'
+          href="https://www.class-central.com/report/best-free-online-courses-2015/"
+          class="block text--blue text-2"
+        >
+        2015
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
