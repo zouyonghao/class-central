@@ -1,0 +1,41 @@
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{% block content %}
+    <div class="classcentral-style">
+        <div class="relative width-100 width-centered" style="max-width: 1400px;">
+
+            <h1 class="head-3 small-up-head-2 large-up-head-1 padding-right-xlarge margin-bottom-medium"> {{ title }}
+                Courses - {{ courses|length }}  </h1>
+
+            <table class="records_list">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.id }}</td>
+                        <td>
+                            <a href="{{ path('ClassCentralSiteBundle_mooc', {'id':course.id,'slug':course.slug}) }}">{{ course.name }}</a>
+                        </td>
+                        <td>
+                            {% if course.initiative.name is defined %}
+                                {{ course.initiative.name }}
+                            {% endif %}
+                        </td>
+
+                        <td><a href="{{ path('course_show', {'id':course.id}) }}"> Admin View</a></td>
+                        <td><a href="{{ path('course_edit', {'id':course.id}) }}"> Edit</a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

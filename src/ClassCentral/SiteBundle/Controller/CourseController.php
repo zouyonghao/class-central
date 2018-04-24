@@ -897,32 +897,40 @@ EOD;
     }
 
     /**
-     * Shows a list of courses that need to be reviewed
+     * Shows a list of courses by status
      * @param Request $request
+     * @param $status
      */
-    public function reviewAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findByStatus(CourseStatus::TO_BE_REVIEWED);
-        return $this->render('ClassCentralSiteBundle:Course:review.html.twig', array(
-                'courses' => $courses
-        ));
-    }
 
-    /**
-     * Shows courses which are marked as paid. These
-     * courses are not visible to the user
-     * @return Response
-     */
-    public function paidCoursesAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findByStatus(CourseStatus::PAID_COURSE);
-        return $this->render('ClassCentralSiteBundle:Course:review.html.twig', array(
-            'courses' => $courses
-        ));
-    }
 
+    public function statusAction(Request $request, $status)
+    {
+
+        if($status=='hidden'){
+            $statusId=CourseStatus::HIDDEN;
+            $title = 'Hidden';
+        }
+        if($status=='unlisted'){
+            $statusId=CourseStatus::UNLISTED;
+            $title = 'Unlisted';
+        }
+        if($status=='na'){
+            $statusId=CourseStatus::NOT_AVAILABLE;
+            $title = 'Not Available';
+        }
+        if($status=='review'){
+            $statusId=CourseStatus::TO_BE_REVIEWED;
+            $title = 'To Be Reviewed';
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findByStatus($statusId);
+        return $this->render('ClassCentralSiteBundle:Course:status.html.twig', array(
+            'courses' => $courses,
+            'title' => $title
+        ));
+
+    }
 
     public function bulkEditAction(Request $request)
     {

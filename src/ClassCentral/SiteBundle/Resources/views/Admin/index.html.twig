@@ -22,9 +22,11 @@
             <h2>Courses</h2>
             <ul>
                 <li><a href="{{ path('course_new') }}">New</a></li>
-                <li><a href="{{ path('course') }}">List</a></li>
-                <li><a href="{{ path('course_review') }}">Courses to be reviewed</a></li>
-                <li><a href="{{ path('course_paid') }}">Paid Courses</a></li>
+                <li><a href="{{ path('course_status',{status:'review'}) }}">To Be Reviewed</a></li>
+                <li><a href="{{ path('course_status',{status:'hidden'}) }}">Hidden Courses</a></li>
+                <li><a href="{{ path('course_status',{status:'unlisted'}) }}">Unlisted Courses</a></li>
+                <li><a href="{{ path('course_status',{status:'na'}) }}">Not Available Courses</a></li>
+                <li><a href="{{ path('course') }}">All Courses</a></li>
                 <li><a href="{{ path('course_bulk_edit') }}">Bulk Edit Subjects</a></li>
                 <li><a href="{{ path('course_bulk_update') }}">Bulk Update Subjects</a> (Note:  add <b>?copy-course=true</b> to course listing pages to enable copy link</li>
                 <li><a href="{{ path('stream_text_view',{'slug':'cs'}) }}">Courses by subject in text format</a> (Update slug to see different subject course)</li>

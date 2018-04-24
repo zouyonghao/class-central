@@ -2,6 +2,10 @@ course:
     pattern:  /
     defaults: { _controller: "ClassCentralSiteBundle:Course:index" }
 
+course_status:
+    pattern: /status/{status}
+    defaults: {_controller: "ClassCentralSiteBundle:Course:status"}
+
 course_initiative:
     pattern:  /initiative/{initiative}
     defaults: { _controller: "ClassCentralSiteBundle:Course:initiative" }
@@ -18,14 +22,6 @@ course_create:
     pattern:  /create
     defaults: { _controller: "ClassCentralSiteBundle:Course:create" }
     requirements: { _method: post }
-
-course_review:
-    pattern: /review
-    defaults: {_controller: "ClassCentralSiteBundle:Course:review"}
-
-course_paid:
-    pattern: /paid
-    defaults: {_controller: "ClassCentralSiteBundle:Course:paidCourses"}
 
 course_edit:
     pattern:  /{id}/edit
