@@ -902,24 +902,23 @@ EOD;
      * @param $status
      */
 
-
     public function statusAction(Request $request, $status)
     {
 
-        if($status=='hidden'){
-            $statusId=CourseStatus::HIDDEN;
+        if ($status == 'hidden') {
+            $statusId = 102;
             $title = 'Hidden';
         }
-        if($status=='unlisted'){
-            $statusId=CourseStatus::UNLISTED;
+        if ($status == 'unlisted') {
+            $statusId = 103;
             $title = 'Unlisted';
         }
-        if($status=='na'){
-            $statusId=CourseStatus::NOT_AVAILABLE;
+        if ($status == 'na') {
+            $statusId = 100;
             $title = 'Not Available';
         }
-        if($status=='review'){
-            $statusId=CourseStatus::TO_BE_REVIEWED;
+        if ($status == 'review') {
+            $statusId = 101;
             $title = 'To Be Reviewed';
         }
 
