@@ -40,6 +40,7 @@ class CourseType extends AbstractType {
             ->add('syllabus', null, array('required'=>false))
             ->add('shortName',null, array('required'=>false))
             ->add('status','choice',array('choices' => CourseStatus::getStatuses()))
+            ->add('internalNotes', null, array('required'=>false))
             ->add('stream', 'entity', array(
                 'label' => 'Primary Subject',
                 'class' => 'ClassCentralSiteBundle:Stream',

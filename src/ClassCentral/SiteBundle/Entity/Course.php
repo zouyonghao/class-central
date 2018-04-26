@@ -132,6 +132,8 @@ class Course {
 
     private $description;
 
+    private $internalNotes;
+
     /**
      * @var datetime $created
      */
@@ -517,6 +519,13 @@ class Course {
 
     public function setDescription($desc) {
         $this->description = $desc;
+    }
+    public function getInternalNotes() {
+        return $this->internalNotes;
+    }
+
+    public function setInternalNotes($notes) {
+        $this->internalNotes = $notes;
     }
 
     public function setShortName($shortName) {

@@ -117,6 +117,10 @@ ClassCentral\SiteBundle\Entity\Course:
         fixed: false
         nullable: true
         column: is_mooc
+    internalNotes:
+        type: text
+        nullable: true
+        column: internal_notes
   oneToOne:
     indepthReview:
       targetEntity: IndepthReview
