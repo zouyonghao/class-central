@@ -12,8 +12,10 @@
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th>View</th>
+                    <th>Provider</th>
+                    <th>Admin View</th>
                     <th>Edit</th>
+                    <th>Notes</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,6 +33,7 @@
 
                         <td><a href="{{ path('course_show', {'id':course.id}) }}"> Admin View</a></td>
                         <td><a href="{{ path('course_edit', {'id':course.id}) }}"> Edit</a></td>
+                        <td>{{ course.internalNotes }}</td>
                     </tr>
                 {% endfor %}
 
