@@ -17,7 +17,7 @@ class Ui {
       this.checkboxToggle();
       this.pulseTooltips();
 
-      if ($(".sidebar-ads").length) {
+      if ($(".sidebar-prmo").length) {
         this.stickyAds();
       }
 
@@ -102,10 +102,10 @@ class Ui {
   }
 
   stickyAds() {
-    const sidebarAds = $(".sidebar-ads");
+    const sidebarAds = $(".sidebar-prmo");
     const offset = sidebarAds.data("sticky-offset") ? parseInt(sidebarAds.data("sticky-offset"), 10) : 0;
     const sidebarAdsClone = sidebarAds.clone();
-    sidebarAds.after(sidebarAdsClone.addClass("sidebar-ads-clone fixed top hidden").css("paddingTop", `${offset}px`).removeClass("sidebar-ads"));
+    sidebarAds.after(sidebarAdsClone.addClass("sidebar-prmo-clone fixed top hidden").css("paddingTop", `${offset}px`).removeClass("sidebar-prmo"));
 
     $(window).on("scroll", () => {
       this.checkAdsPosition(sidebarAds, sidebarAdsClone, offset);
@@ -118,7 +118,7 @@ class Ui {
   }
 
   checkAdsPosition(sidebarAds, sidebarAdsClone, offset) {
-    const topPos = ($(".tables-wrap").offset().top + $(".tables-wrap").height() - $('.sidebar-ads').height() - 50);
+    const topPos = ($(".tables-wrap").offset().top + $(".tables-wrap").height() - $('.sidebar-prmo').height() - 50);
     const pastBottom = $(window).scrollTop() >= topPos;
     const width = sidebarAds.width();
     const mediaLargeUp = window.innerWidth > 768;
@@ -130,7 +130,7 @@ class Ui {
         .css("top", `${topPos}px`)
         .width(width);
     }
-    else if ($(window).scrollTop() >= $(".sidebar-ads").position().top - offset && mediaLargeUp) {
+    else if ($(window).scrollTop() >= $(".sidebar-prmo").position().top - offset && mediaLargeUp) {
       sidebarAds.addClass("invisible");
       sidebarAdsClone
         .removeClass("hidden absolute")
