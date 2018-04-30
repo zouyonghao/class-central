@@ -12,7 +12,10 @@ class InstitutionType extends AbstractType
         $builder
             ->add('name')
             ->add('url')
-            ->add('slug')
+            ->add('slug', null, array(
+                'read_only' => true,
+                'attr' => array('style' => 'color: #a8a8a8')
+            ))
             ->add('isUniversity', null, array('required' => false))
             ->add('description')
             ->add('imageUrl')

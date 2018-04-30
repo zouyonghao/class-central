@@ -11,7 +11,10 @@ class LanguageType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('slug')
+            ->add('slug', null, array(
+                'read_only' => true,
+                'attr' => array('style' => 'color: #a8a8a8')
+            ))
             ->add('code')
             ->add('color')
             ->add('displayOrder')
