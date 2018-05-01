@@ -1,0 +1,39 @@
+{% extends 'ClassCentralSiteBundle:Layouts:Admin/standard.html.twig' %}
+
+{% block content -%}
+  <section class="classcentral-style">
+    <div class="width-centered padding-small medium-up-padding-bottom-large padding-horz-xlarge relative" style="max-width: 1200px">
+        <form
+          action="{{ form.vars.action }}"
+          method="{{ form.vars.method }}"
+          class="width-centered width-100 form margin-top-large padding-top-large"
+          style="max-width: 500px;"
+        >
+          <h3></h3>
+
+          {{ form_errors(form) }}
+
+          {{ form_label(form.title, "Title", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
+          {{ form_widget(form.title, {'attr': {'class': "width-100 input--text input--large"}}) }}
+
+          {{ form_label(form.slug, "Slug", {"label_attr": {"class": "margin-top-medium block text--gray text-4 input--large"}}) }}
+          {{ form_widget(form.slug, {'attr': {'class': "width-100 input--text input--large"}}) }}
+
+          {{ form_label(form.author, "Author", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
+          {{ form_widget(form.author, {'attr': {'class': "width-100 btn-white btn--large text--charcoal icon-chevron-down-charcoal icon--right icon--xsmall"}}) }}
+
+          {{ form_label(form.section, "Section", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
+          {{ form_widget(form.section, {'attr': {'class': "width-100 btn-white btn--large text--charcoal icon-chevron-down-charcoal icon--right icon--xsmall"}}) }}
+
+          <div class="margin-vert-large text-center">
+            {{ form_row(form.submit, { "label": "Create Article", "attr": { "class": "btn-blue btn--large" }}) }}
+          </div>
+
+          <div class="hidden">
+            {{ form_rest(form) }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}

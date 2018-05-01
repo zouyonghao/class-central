@@ -21,7 +21,7 @@
     }
   {% endif %}
 
-  {% if showProfileEditModal %}
+  {% if showProfileEditModal is defined and showProfileEditModal == true %}
     $(document).on("modal:ready", function () {
       CC.Class.Onboarding.showStep("{{ app.user ? "loggedIn" : "loggedOut" }}", "subjects")
     });

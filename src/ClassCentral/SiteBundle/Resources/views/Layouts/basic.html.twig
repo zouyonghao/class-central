@@ -28,6 +28,9 @@
     <![endif]-->
 
     <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-style.css') }}" />
+    {% if sectionStyles is defined %}
+      <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName("section-" ~ sectionStyles ~ ".css") }}" />
+    {% endif %}
 
     <!-- Google+ Direct connect -->
     <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
@@ -39,9 +42,6 @@
     </script>
 
     {{ include ('ClassCentralSiteBundle:Layouts/Tracking:head.html.twig') }}
-
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
 </head>
 
 <script>
@@ -72,10 +72,9 @@
       {% endblock %}
     </div>
 
-    {# Footer #}
-    {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "basic" } %}
-  </div>
-  
+  {# Footer #}
+  {% set footerStyle = footer is defined ? footer : "basic" %}
+  {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: footerStyle } %}
   {# Footer scripts #}
   {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
   {# Modals #}

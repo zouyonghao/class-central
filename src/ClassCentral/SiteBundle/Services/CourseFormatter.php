@@ -264,10 +264,10 @@ class CourseFormatter {
         $newCourseTxt = '';
         if($newCourse)
         {
-            //$newCourseTxt = '[New] ';
+            $newCourseTxt = '[New] ';
         }
 
-        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'cc_mooc_report','utm_medium' =>'web','utm_campaign'=>'coursera_completely_free_courses'));
+        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'cc_mooc_report','utm_medium' =>'web','utm_campaign'=>'mooc_course_report_may_2018'));
         if($institution)
         {
             return sprintf("<li><a href='%s'>%s%s</a> from <em>%s</em> %s</li> ", $url, $newCourseTxt,$course->getName(),$institution, $ratingsLine);

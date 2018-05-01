@@ -677,6 +677,36 @@ class Course {
         return $nextOffering;
     }
 
+    public function getFirstOffering()
+    {
+        $firstRun = null;
+        $offerings = $this->getOfferings();
+        foreach($offerings as $offering)
+        {
+            if($offering->getStatus() == Offering::COURSE_NA)
+            {
+                // Skip the offering
+                continue;
+            }
+
+
+            // If there is no first run then use this as the first run
+            if(!$firstRun)
+            {
+                $firstRun = $offering;
+                continue;
+            }
+
+            // More that one offering, figure out which one is the earliest
+            if($offering->getStartDate() < $firstRun->getStartDate())
+            {
+                $firstRun = $offering;
+            }
+        }
+
+        return $firstRun;
+    }
+
     public function __toString() {
         return $this->getName();
     }

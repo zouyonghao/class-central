@@ -1,4 +1,3 @@
-
 ClassCentralSiteBundle_redirects:
     resource: "@ClassCentralSiteBundle/Resources/config/redirects.yml"
 
@@ -594,3 +593,17 @@ year_in_review_2017:
 course_pricing:
     pattern:  /pricing-charts/{table}
     defaults: { _controller: ClassCentralSiteBundle:CoursePricing:show }
+
+# Help Guides
+help_guides_article:
+  pattern: /help/{slug}
+  defaults: { _controller: ClassCentralSiteBundle:HelpGuides:article }
+
+help_guides_index:
+  pattern: /help/
+  defaults: { _controller: ClassCentralSiteBundle:HelpGuides:index }
+
+help_guides_section:
+  pattern: /help/section/{slug}
+  defaults: { _controller: ClassCentralSiteBundle:HelpGuides:Section }
+

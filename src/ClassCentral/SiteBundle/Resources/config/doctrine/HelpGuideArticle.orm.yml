@@ -1,0 +1,84 @@
+ClassCentral\SiteBundle\Entity\HelpGuideArticle:
+    type: entity
+    table: help_guide_articles
+    indexes:
+        fk_help_guide_articles_author_id:
+            columns:
+                - author_id
+        fk_help_guide_articles_section_id:
+            columns:
+                - section_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        text:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        summary:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        orderId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: order_id
+        slug:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+        created:
+            type: datetime
+            nullable: true
+        modified:
+            type: datetime
+            nullable: true
+        status:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+    manyToOne:
+        author:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                author_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        section:
+            targetEntity: HelpGuideSection
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                section_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

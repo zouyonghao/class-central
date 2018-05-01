@@ -1,0 +1,6 @@
+<script src="{{ assetService.getBundledAssetFileName('cc.js') }}"></script>
+<script src="{{ assetService.getBundledAssetFileName('cc-admin.js') }}"></script>
+
+{% if is_granted('ROLE_ADMIN') %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.8/clipboard.min.js"></script>
+{% endif %}

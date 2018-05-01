@@ -3,6 +3,8 @@
 namespace ClassCentral\SiteBundle\Utility;
 
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 class Breadcrumb {
 
     /**
@@ -17,6 +19,14 @@ class Breadcrumb {
         return array(
             'name' => $name,
             'url' => $url
+        );
+    }
+
+    public static function helpGuidesTopLevelBreadCrumb(Controller $controller)
+    {
+        return self::getBreadCrumb(
+            "Help Guides",
+            $controller->generateUrl('help_guides_admin_article_index')
         );
     }
 

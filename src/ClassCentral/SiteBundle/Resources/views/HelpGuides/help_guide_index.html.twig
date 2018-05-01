@@ -1,0 +1,104 @@
+{% set footer = "full" %}
+{% set sectionStyles = "help-guides" %}
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{% block headmeta -%}
+     <title>Class Central Help Center</title>
+     <meta name="description"
+           content="New to Class Central and/or online learning? We try to answer the most commonly asked questions."/>
+     <meta property="og:title" content="Class Central Help Center" />
+     <meta property="og:url" content="{{ path('help_guides_index')}}" />
+     <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/images/social-help.png">
+
+     <link rel="canonical" href="{{ path('help_guides_index') }}">
+
+     <meta name="twitter:card" content="summary_large_image">
+     <meta name="twitter:site" content="@classcentral">
+     <meta name="twitter:title" content="Class Central Help Center">
+     <meta name="twitter:description" content="New to Class Central and/or online learning? We try to answer the most commonly asked questions.">
+     <meta name="twitter:domain" content="www.class-central.com">
+     <meta property="twitter:image:src" content="https://www.class-central.com/bundles/classcentralsite/images/social-help.png">
+
+
+{% endblock %}
+
+{% block content -%}
+    <div class="classcentral-style">
+      {{ include ('ClassCentralSiteBundle:HelpGuides:_header.html.twig') }}
+
+      <div class="width-centered padding-bottom-xlarge padding-horz-medium medium-up-padding-horz-large" style="max-width: 850px;">
+        <header class="padding-horz-small row margin-bottom-xlarge padding-vert-large large-up-padding-vert-xxlarge border-bottom border--thin border--gray-dark">
+          <p class="col width-100 large-up-width-3-4 text-1">
+            <span class="unit-horz">
+              <span class="unit-block padding-right-large xsmall-only-hidden">
+                {% set illusImage = "/bundles/classcentralsite/images/illustration-help-desk.png" %}
+                {% if app.environment == 'prod' %}
+                  {% set illusImage = imageService.cropImage(baseurl~illusImage) %}
+                {% endif %}
+                <img src="{{ illusImage }}" width="125">
+              </span>
+              <span class="unit-block unit-fill">
+                New to Class Central? Start here to learn more about MOOCs and making the best of our curated catalog of world's top online courses
+              </span>
+            </span>
+          </p>
+          <p class="col width-100 large-up-width-1-4 text-center small-only-margin-top-small xsmall-only-margin-top-small">
+            <a href="{{ path('help_guides_article',{slug:'world-of-moocs'}) }}" class="btn-blue btn--large large-up-margin-top-xlarge">Read the guide</a>
+          </p>
+        </header>
+
+        <h2 class="head-2 margin-bottom-large text-center">Browse our Provider Guides</h2>
+        <section class="row" data-equalize='{ "height": 200}'>
+          {% for sectionSlug, section in providerSections %}
+          <div class="width-100 medium-up-width-1-2 padding-horz-small col margin-bottom-large">
+            <div class="border-all border--thin border--gray-dark padding-bottom-medium relative" data-equalize-child>
+              {% set articles = section.articles %}
+              <h3 class="padding-horz-large border-bottom border--thin border--gray-light">
+                <i class="icon-{{ sectionSlug }} icon--large"></i>
+                <a class="head-3 text--bold margin-top-xsmall inline-block padding-vert-small text--charcoal" href="{{ path('help_guides_section',{slug: section.slug}) }}">{{ section.name }}</a>
+              </h3>
+
+              <ul class="padding-horz-large padding-vert-large">
+                {% for article in articles %}
+                  <li class="margin-vert-xxsmall">
+                    <a class="text-2 text--charcoal hover-text--underline" href="{{ path('help_guides_article',{slug:article.slug}) }}">{{ article.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+              <p class="text-center padding-vert-medium absolute bottom absolute left width-100">
+                <a class="text--blue text-2 icon-chevron-right-blue icon--right" href="{{ path('help_guides_section',{slug: section.slug}) }}">See more articles</a>
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+        </section>
+
+          <h2 class="head-2 margin-vert-xlarge text-center">Can't find your answer?</h2>
+          <section class="row padding-bottom-large">
+            <div class="col width-100 medium-up-width-1-2 border-right border--thin border--gray-light medium-up-padding-right-large padding-bottom-large">
+              <div class="unit-horz">
+                <div class="unit-block padding-right-small">
+                  <i class="icon-envelope-blue icon--large"></i>
+                </div>
+                <div class="unit-block unit-fill text-2">
+                  We’d love to help with any questions you have. Please get in touch and we’ll get back to you as soon as we can.
+                  <a href="mailto:contact@class-central.com" class="text--blue">Contact Us</a>
+                </div>
+              </div>
+            </div>
+            <div class="col width-100 medium-up-width-1-2 medium-up-padding-left-large padding-bottom-large">
+              <div class="unit-horz">
+                <div class="unit-block padding-right-small">
+                  <i class="icon-reddit-blue icon--large"></i>
+                </div>
+                <div class="unit-block unit-fill text-2">
+                  Or join other learners on our Class Central Community on Reddit.
+                  <a href="https://www.reddit.com/r/classcentral/" class="text--blue">Visit Now</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% if adminBreadCrumbs is defined and adminBreadCrumbs is not empty %}
+    <ul class="margin-bottom-medium head-3">
+        <li class="inline" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+            <a href="/admin" class="text--slate" onmousedown="ga('send','event','Breadcrumbs','Home');" itemprop="url">
+                <span itemprop="title">Admin</span>
+            </a>
+        </li>
+
+        {% for b in adminBreadCrumbs %}
+            <li class="inline" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                {% if loop.last %}
+                  <span class="text--charcoal inline-block margin-horz-xxsmall">&gt;</span>
+                {% else %}
+                  <span class="text--slate inline-block margin-horz-xxsmall">&gt;</span>
+                {% endif %}
+                {% set pageUrl = b.url %}
+                {% if pageUrl is empty %}
+                    {% set pageUrl = path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params'))  %}
+                {% endif %}
+                <a href="{{ pageUrl }}" class="{% if loop.last %}text--charcoal{% else %}text--slate{% endif %}" itemprop="url" onmousedown="ga('send','event','Breadcrumbs','{{ b.name }}');">
+                  <span itemprop="title">{{ b.name }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

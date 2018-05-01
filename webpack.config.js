@@ -8,6 +8,9 @@ module.exports = {
     'cc-legacy': './Legacy.less',
     'analytics': './Analytics.js',
     'cc-style': './Style.less',
+    'cc-admin': './Admin.js',
+    'cc-admin-style': './AdminStyle.less',
+    'section-help-guides': './styles/help-guides.less',
   },
   resolve: {
     alias: {

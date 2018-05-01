@@ -101,7 +101,27 @@ class Ui {
     });
   }
 
+  expand() {
+    $('[data-expand]').on("click", function(event) {
+      event.preventDefault();
+      const anchor = $(this);
+      const target = anchor.data("expand");
+      const item = $(`[data-expand-target=${target}]`);
+
+      if (anchor.hasClass("active")) {
+        anchor.removeClass("active");
+        item.hide();
+        anchor.find(".icon--right").removeClass("icon-chevron-down-gray").addClass("icon-chevron-right-gray");
+      } else {
+        anchor.addClass("active");
+        item.removeClass("hidden").show();
+        anchor.find(".icon--right").removeClass("icon-chevron-right-gray").addClass("icon-chevron-down-gray");
+      }
+    });
+  }
+
   stickyAds() {
+
     const sidebarAds = $(".sidebar-prmo");
     const offset = sidebarAds.data("sticky-offset") ? parseInt(sidebarAds.data("sticky-offset"), 10) : 0;
     const sidebarAdsClone = sidebarAds.clone();

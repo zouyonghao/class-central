@@ -113,3 +113,5 @@ parameters:
     react_server: ~
     urlbox_api_key: ~
     urlbox_api_secret: ~
+
+    help_guides_writers: [1]

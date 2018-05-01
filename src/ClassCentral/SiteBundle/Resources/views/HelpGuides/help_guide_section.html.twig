@@ -1,0 +1,79 @@
+{% set footer = "full" %}
+{% set sectionStyles = "help-guides" %}
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{% block headmeta -%}
+     <title>{{ section.name }} | Class Central Help Center</title>
+     <meta name="description"
+           content="{{ section.name }} Frequently Asked Questions (FAQ)"/>
+     <meta property="og:title" content="{{ section.name  }} | Class Central Help Center" />
+     <meta property="og:url" content="{{ path('help_guides_section', { 'slug': section.slug }) }}" />
+     <meta property="og:image" content="https://www.class-central.com/bundles/classcentralsite/images/social-help.png">
+
+     <link rel="canonical" href="{{ path('help_guides_section', { 'slug': section.slug }) }}">
+
+     <meta name="twitter:card" content="summary_large_image">
+     <meta name="twitter:site" content="@classcentral">
+     <meta name="twitter:title" content="{{ section.name }} | Class Central Help Center">
+     <meta name="twitter:description" content="{{ section.name }} Frequently Asked Questions (FAQ)">
+     <meta name="twitter:domain" content="www.class-central.com">
+     <meta property="twitter:image:src" content="https://www.class-central.com/bundles/classcentralsite/images/social-help.png">
+
+
+{% endblock %}
+
+{% block content -%}
+
+  {% set slug = app.request.attributes.get("slug") %}
+  <div class="classcentral-style">
+    {{ include ('ClassCentralSiteBundle:HelpGuides:_header.html.twig') }}
+    <div class="relative row width-centered padding-bottom-xlarge padding-horz-medium medium-up-padding-horz-large" style="max-width: 1000px;">
+      <aside class="xsmall-only-hidden small-only-hidden medium-only-hidden col width-1-4 padding-top-xxlarge">
+        {{ include ('ClassCentralSiteBundle:HelpGuides:_sidebar.html.twig') }}
+      </aside>
+      <div class="col width-100 large-up-width-3-4 large-up-padding-left-xxlarge">
+        {# Links for admin #}
+        {% if is_granted('ROLE_ADMIN') %}
+          <section class="width-centered margin-top-large padding-medium radius margin-bottom-large" style="border: 4px solid #E6F4FF; max-width: 1250px;">
+            <h1 class="head-3 text--blue text--bold margin-bottom-medium">Links for Admin</h1>
+            <div class="margin-top-medium">
+              <a
+                class="btn-white text--charcoal icon-pencil icon--xsmall icon--left margin-right-xsmall"
+                href="{{ path('help-guide-section_edit', { 'id': section.id }) }}"
+                >Edit Section</a>
+            </div>
+          </section>
+        {% endif %}
+        {% include 'ClassCentralSiteBundle:HelpGuides:_breadcrumbs.html.twig' with {
+          page: { title: "Providers" },
+        } %}
+
+        <header class="padding-top-large">
+          <h1 class="head-1 unit-horz margin-bottom-medium">
+            <span class="unit-block">
+              <i class="icon-{{ slug|lower }} icon--xlarge"></i>
+            </span>
+            <span class="unit-block unit-fill">
+              {{ section.name }}
+            </span>
+          </h1>
+
+          <div class="wysiwyg text-1">
+            {{ section.description|raw }}
+          </div>
+        </header>
+
+        <section>
+          <h2 class="head-2 margin-top-xxlarge margin-bottom-large">Help Articles</h2>
+          <ul>
+            {% for article in sectionArticles %}
+            <li class="margin-vert-small">
+              <a class="text--blue text-1 text--bold" href="{{ path('help_guides_article',{slug: article.slug}) }}">{{ article.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+{% endblock %}

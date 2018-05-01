@@ -1031,4 +1031,15 @@ class User implements UserInterface, \Serializable
 
         return $hours;
     }
+
+    public function __toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'displayName' => $this->getDisplayName(),
+            'handle' => $this->getHandle(),
+
+        ];
+    }
 }

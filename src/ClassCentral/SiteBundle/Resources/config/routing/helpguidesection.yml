@@ -1,0 +1,30 @@
+help-guide-section:
+    path:     /
+    defaults: { _controller: "ClassCentralSiteBundle:HelpGuideSection:index" }
+
+help-guide-section_show:
+    path:     /{id}/show
+    defaults: { _controller: "ClassCentralSiteBundle:HelpGuideSection:show" }
+
+help-guide-section_new:
+    path:     /new
+    defaults: { _controller: "ClassCentralSiteBundle:HelpGuideSection:new" }
+
+help-guide-section_create:
+    path:     /create
+    defaults: { _controller: "ClassCentralSiteBundle:HelpGuideSection:create" }
+    methods:  POST
+
+help-guide-section_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ClassCentralSiteBundle:HelpGuideSection:edit" }
+
+help-guide-section_update:
+    path:     /{id}/update
+    defaults: { _controller: "ClassCentralSiteBundle:HelpGuideSection:update" }
+    methods:  [POST, PUT]
+
+help-guide-section_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ClassCentralSiteBundle:HelpGuideSection:delete" }
+    methods:  [POST, DELETE]

@@ -60,6 +60,7 @@ class CourseReportCommand extends ContainerAwareCommand
         $courseraSkipped = 0;
         $selfPacedSkipped = 0;
         $coursesAlreadyAdded = [];
+        $universities = [];
         foreach($offerings as $offering)
         {
             if($offering->getInitiative() == null)
@@ -107,7 +108,7 @@ class CourseReportCommand extends ContainerAwareCommand
                 if(!$newCourse)
                 {
                     $selfPacedSkipped++;
-                    //continue;
+                    continue;
                 }
             }
 
@@ -126,13 +127,29 @@ class CourseReportCommand extends ContainerAwareCommand
             $coursesAlreadyAdded[$courseId] = 1;
             $totalCourses++;
 
+            if($offering->getCourse()->getInstitutions())
+            {
+                foreach ($offering->getCourse()->getInstitutions() as $ins)
+                {
+                    if($ins->getIsUniversity())
+                    {
+                        if(!isset($universities[$ins->getName()]))
+                        {
+                            $universities[$ins->getName()] = 0;
+                        }
+                        $universities[$ins->getName()]++;
+                    }
+                }
+            }
+
+
             // Check if its a Coursera course.
             if($offering->getCourse()->getInitiative() && $offering->getCourse()->getInitiative()->getName() == 'Coursera')
             {
                 if(count($offering->getCourse()->getOfferings()) > 6)
                 {
                     $courseraSkipped++;
-                    //continue;
+                    continue;
                 }
             }
 
@@ -317,6 +334,7 @@ class CourseReportCommand extends ContainerAwareCommand
         echo "<br/> Total Courses: " . $totalCourses;
         echo "<br/>" . $courseraSkipped;
         echo "<br/>" . $selfPacedSkipped;
+        echo "<br/>" . count($universities);
 
 //        arsort($coursesByCount);
 //

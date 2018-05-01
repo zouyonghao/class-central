@@ -1,7 +1,10 @@
 {
   "cc.js": "cc.dev.js",
   "cc-search.js": "cc-search.dev.js",
+  "cc-admin.js": "cc-admin.dev.js",
   "analytics.js": "analytics.dev.js",
   "cc-style.css": "cc-style.dev.css",
-  "cc-legacy.css": "cc-legacy.dev.css"
+  "cc-admin-style.css": "cc-admin-style.dev.css",
+  "cc-legacy.css": "cc-legacy.dev.css",
+  "section-help-guides.css": "section-help-guides.dev.css"
 }

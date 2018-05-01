@@ -1,0 +1,76 @@
+{% extends 'ClassCentralSiteBundle:Layouts:Admin/standard.html.twig' %}
+
+{% block content -%}
+<div class="relative">
+  <ul class="absolute top right padding-right-small medium-up-padding-right-xlarge">
+    <li class="inline-block margin-right-xxsmall">
+      <a class="btn-blue icon--left icon-plus-white" href="{{ path('help-guide-article_new') }}">Create Article</a>
+    </li>
+    <li class="inline-block">
+      <a class="btn-blue icon--left icon-plus-white" href="{{ path('help-guide-section_new') }}">Create Section</a>
+    </li>
+  </ul>
+
+
+  <div class="margin-bottom-large padding-horz-medium padding-vert-small inline-block">
+    {#
+    border-all border--thin border--gray
+    <ul>
+      <li class="padding-horz-small inline-block text-center text--green">
+        <p class="head-2 text--bold">X<p>
+        <span class="head-5">Published</span>
+      </li>
+      <li class="padding-horz-small inline-block text-center text--yellow">
+        <p class="head-2 text--bold">X<p>
+        <span class="head-5">Drafts</span>
+      </li>
+      <li class="padding-horz-small inline-block text-center">
+        <p class="head-2 text--bold">X<p>
+        <span class="head-5">Total Views</span>
+      </li>
+    </ul>
+    #}
+  </div>
+
+
+  <table class="table table--small">
+      <thead>
+      <tr>
+          <th class="text--gray text-4 text-left width-2-16">Author</th>
+          <th class="text--gray text-4 text-left width-8-16">Title</th>
+          <th class="text--gray text-4 text-center width-2-16">Created</th>
+          <th class="text--gray text-4 text-center width-2-16">Status</th>
+          <th class="text--gray text-4 text-center width-2-16">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for entity in entities %}
+          <tr>
+              <td>
+                {% if entity.author is defined %}
+                <span
+                  class="bg-cover bg-gray inline-block"
+                  style="background-image: url({{ user_service.getProfilePicThumbnail(entity.author.id) }}); width: 40px; height: 40px; border-radius: 50%;">
+                </span>
+                {% endif %}
+              </td>
+              <td class="text-1 line--small">
+                <a class="block text--charcoal" href="{{ path('help_guides_article', { 'slug': entity.slug }) }}">
+                  {{ entity.title }}
+                </a>
+              </td>
+              <td class="text-2 text-center line--small">
+                {{ entity.created|date('Y/m/d') }}
+              </td>
+              <td class="text-2 line--small text-center">
+                <span class="{{ entity.status < 100 ? "text--green" : "text--yellow text--italic" }}">{{ articleStatuses[entity.status]}}</span>
+              </td>
+              <td class="text-center">
+                <a class="btn-white padding-horz-medium icon--xsmall icon--center icon-pencil-charcoal" href="{{ path('help-guide-article_edit', { 'id': entity.id }) }}">Edit</a>
+              </td>
+          </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+{% endblock %}

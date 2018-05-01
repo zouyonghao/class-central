@@ -1,5 +1,4 @@
 ClassCentralSiteBundle_instructor:
-ClassCentralSiteBundle_instructor:
     resource: "@ClassCentralSiteBundle/Resources/config/routing/instructor.yml"
     prefix: /instructor
     
@@ -34,6 +33,26 @@ ClassCentralSiteBundle_language:
 ClassCentralSiteBundle_spotlight:
   resource: "@ClassCentralSiteBundle/Resources/config/routing/spotlight.yml"
   prefix: /spotlight
+
+help_guides_admin_article_index:
+  pattern: /help-guides
+  defaults: { _controller: ClassCentralSiteBundle:HelpGuidesAdmin:index }
+
+help_guides_admin_sections:
+  pattern: /help-guides/sections
+  defaults: { _controller: ClassCentralSiteBundle:HelpGuidesAdmin:sections }
+
+help_guides_get_image_upload_url:
+  pattern: /help-guides/get-image-upload-url
+  defaults: { _controller: ClassCentralSiteBundle:HelpGuidesAdmin:getImageUploadUrl }
+
+class_central_site_help-guide-section:
+    resource: "@ClassCentralSiteBundle/Resources/config/routing/helpguidesection.yml"
+    prefix:   /help-guides/section
+
+class_central_site_help-guide-article:
+    resource: "@ClassCentralSiteBundle/Resources/config/routing/helpguidearticle.yml"
+    prefix:   /help-guides/article
 
 ClassCentralSiteBundle_clearcache:
   pattern: /clearcache

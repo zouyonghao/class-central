@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="en" class="sticky-footer">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{ include ('ClassCentralSiteBundle:Layouts:_icons.html.twig') }}
+    <link rel="search" type="application/opensearchdescription+xml" href="{{ asset('bundles/classcentralsite/xml/opensearch.xml') }}" title="Class Central MOOC search" />
+
+    <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-style.css') }}" />
+    <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-admin-style.css') }}" />
+
+    {{ include ('ClassCentralSiteBundle:Layouts/Tracking:head.html.twig') }}
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
+
+    <script>
+      (function(d) {
+        var config = {
+          kitId: 'gdf6zoz',
+          scriptTimeout: 3000,
+          async: true
+        },
+        h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+      })(document);
+    </script>
+</head>
+
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
+<body>
+  <div class="contain-body">
+    <div class="contain-page">
+
+      {% include 'ClassCentralSiteBundle:Layouts:header.html.twig' %}
+
+
+      <div id="header-admin" class="classcentral-style">
+        <div class="bg-slate">
+          <h2 class="margin-left-large border-all border--thin border--white radius head-6 inline-block padding-vert-xxsmall padding-horz-xsmall text--white">
+            <strong class="text--bold">CC</strong>ADMIN
+          </h2>
+          <ul class="inline-block margin-left-large">
+            <li class="inline-block">
+              <a
+                href="{{ path('help_guides_admin_article_index') }}"
+                class="btn-block text--bold text--white head-4 inline-block padding-horz-medium padding-vert-small {% if currentPath matches '{help-guides}' %}active{% endif %}"
+              >
+                Help Guides
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-slate-light padding-left-xxlarge" style="overflow: hidden;">
+          <ul style="left: 125px;" class="relative">
+            {% if currentPath matches '{help-guides}' %}
+              <li class="inline-block">
+                <a
+                  href="{{ path('help_guides_admin_article_index') }}"
+                  class="text--bold {% if currentPath matches '{article}' or currentPath == "/admin/help-guides" %}text--navy border--navy{% else %}text--slate border--slate-light{% endif %} border-bottom border--thick head-4 inline-block padding-xsmall"
+                >
+                  Articles
+                </a>
+              </li>
+              <li class="inline-block">
+                <a
+                  href="{{ path('help_guides_admin_sections') }}"
+                  class="text--bold {% if currentPath matches '{section}' %}text--navy border--navy{% else %}text--slate border--slate-light{% endif %} border-bottom border--thick head-4 inline-block padding-xsmall"
+                >
+                  Sections
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+
+      <section class="classcentral-style">
+        <div class="width-centered padding-small medium-up-padding-vert-large medium-up-padding-horz-xlarge relative" style="max-width: 1200px">
+          {% if adminBreadCrumbs is defined  %}
+            {% include 'ClassCentralSiteBundle:Layouts:Admin/admin_breadcrumbs.html.twig' with {'adminBreadCrumbs': adminBreadCrumbs }%}
+          {% endif %}
+          {%  block content %}
+          {% endblock %}
+        </div>
+      </section>
+    </div>
+    {# Footer #}
+    {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "basic" } %}
+  </div>
+
+  {# Footer scripts #}
+  {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
+  {% include 'ClassCentralSiteBundle:Layouts:Admin/_scripts.html.twig' %}
+  {# Modals #}
+  {% include 'ClassCentralSiteBundle:Layouts:_modal.html.twig' %}
+
+  <script type="text/javascript">
+      {% block customJS %}
+      {% endblock %}
+  </script>
+
+  {# Tracking / Analytics #}
+  {% include 'ClassCentralSiteBundle:Layouts/Tracking:footer.html.twig' %}
+
+  {% block beforeClosingBody %}
+  {% endblock %}
+</body>
+</html>

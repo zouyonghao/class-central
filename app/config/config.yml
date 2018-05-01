@@ -46,6 +46,7 @@ twig:
       credService   : @credential
       followService  : @follow
       cc_ads        : @advertising
+      help_guides   : @help_guides
       swiftype_engine_key : %swiftype_engine_key%
       clicky_site_id: %clicky_site_id%
       sumo_site_id  : %sumo_site_id%
@@ -243,6 +244,9 @@ services:
         arguments: ['@service_container']
   advertising:
         class: ClassCentral\SiteBundle\Services\Advertising
+        arguments: ['@service_container']
+  help_guides:
+        class: ClassCentral\SiteBundle\Services\HelpGuides
         arguments: ['@service_container']
   session.memcached:
     class: Memcached

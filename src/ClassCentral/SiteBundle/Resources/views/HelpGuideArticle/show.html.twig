@@ -1,0 +1,60 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content -%}
+    <h1>HelpGuideArticle</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ entity.title }}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ entity.text }}</td>
+            </tr>
+            <tr>
+                <th>Summary</th>
+                <td>{{ entity.summary }}</td>
+            </tr>
+            <tr>
+                <th>Orderid</th>
+                <td>{{ entity.orderId }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ entity.slug }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Modified</th>
+                <td>{{ entity.modified|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ entity.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('help-guide-article') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('help-guide-article_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

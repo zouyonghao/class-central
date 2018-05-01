@@ -7,8 +7,10 @@
  */
 
 namespace ClassCentral\SiteBundle\Services;
+use Aws\S3\Model\PostObject;
 use Aws\S3\S3Client;
 use ClassCentral\SiteBundle\Entity\File;
+use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -53,6 +55,7 @@ class Kuber {
             $this->s3Client = S3Client::factory(array(
                 'key' => $this->awsAccessKey,
                 'secret' => $this->awsAccessSecret,
+                'region' => 'us-west-2'
             ));
         }
 
@@ -216,7 +219,6 @@ class Kuber {
      */
     public function getFile($entity,$type,$entity_id)
     {
-        $client = $this->getS3Client();
         $em = $this->container->get('doctrine')->getManager();
 
         return $em->getRepository('ClassCentralSiteBundle:File')->findOneBy(array(
@@ -289,4 +291,26 @@ class Kuber {
     private function generateRandomString($length = 10) {
         return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
     }
-} 
+
+    /**
+     * @param $contentType
+     * @param $ext
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getImageUploadUrlForHelpGuides($contentType, $ext)
+    {
+        $client = $this->getS3Client();
+
+        $key = $this->generateRandomString() . "." . $ext;
+        $imageUrl = "{$this->s3Bucket}/help-guides/$key";
+
+        $request = $client->put($imageUrl,["Content-Type" => $contentType]);
+
+        $signedUrl = $client->createPresignedUrl($request, '+4 minutes');
+
+        return array(
+          'signedUrl' => $signedUrl,
+          'imageUrl' => 'https://s3-us-west-2.amazonaws.com/' . $imageUrl,
+        );
+    }
+}

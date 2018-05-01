@@ -29,6 +29,9 @@
     <![endif]-->
 
     <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName('cc-style.css') }}" />
+    {% if sectionStyles is defined %}
+      <link rel="stylesheet" href="{{ assetService.getBundledAssetFileName("section-" ~ sectionStyles ~ ".css") }}" />
+    {% endif %}
 
     <!-- Google+ Direct connect -->
     <link href="https://plus.google.com/{{plusPageUrl}}" rel="publisher" />
@@ -40,9 +43,6 @@
     </script>
 
     {{ include ('ClassCentralSiteBundle:Layouts/Tracking:head.html.twig') }}
-
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="{{ asset('bundles/classcentralsite/slashpixel/images/favicon.ico') }}"  />
 
     <script>
         (function(d) {

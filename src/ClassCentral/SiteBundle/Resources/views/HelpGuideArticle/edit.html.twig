@@ -1,0 +1,89 @@
+{% extends 'ClassCentralSiteBundle:Layouts:Admin/standard.html.twig' %}
+
+{% block content -%}
+  <section class="classcentral-style">
+    <div class="width-centered padding-small medium-up-padding-bottom-large padding-horz-xlarge relative" style="max-width: 750px">
+
+        {{ form_start(edit_form, { attr: { class: "width-centered width-100 form margin-top-large" }}) }}
+
+          <header class="margin-bottom-medium row" data-show-target>
+            <div class="col width-3-4 border-right border--thin">
+              <h1 class="head-1">{{ entity.title }}</h1>
+              <p class="text-3 text--charcoal">
+                <span style="top: -11px;" class="relative margin-right-xxsmall inline-block line--small">by </span>
+                <span
+                  class="bg-cover bg-gray inline-block"
+                  style="background-image: url({{ user_service.getProfilePicThumbnail(entity.author.id) }}); width: 35px; height: 35px; border-radius: 50%;">
+                </span>
+                <span style="top: -11px;" class=" margin-left-xxsmall relative inline-block line--small">
+                  <span class="text-2 inline-block margin-right-xsmall">{{ entity.author.name }}</span>
+                  in
+                  <span class="text-2">{{ entity.section.name }}</span>
+                </span>
+              </p>
+            </div>
+            <div class="col width-1-4 text-center padding-horz-xlarge">
+              <a href="#" data-show="details" data-inactive-state data-active-state class="margin-top-small btn-blue-outline width-100">
+                <span class="head-5 text--bold">Edit</span>
+              </a>
+            </div>
+          </header>
+
+          <div class="hidden" data-show-target="details">
+            {{ form_label(edit_form.title, "Article title", {"label_attr": {"class": "block text--gray text-4"}}) }}
+            {{ form_widget(edit_form.title, {'attr': {'class': "width-100 input--text input--large"}}) }}
+
+            {{ form_label(edit_form.slug, "Slug", {"label_attr": {"class": "margin-top-medium block text--gray text-4 input--large"}}) }}
+            {{ form_widget(edit_form.slug, {'attr': {'class': "width-100 input--text input--large"}}) }}
+
+            <div class="row">
+              <div class="col width-1-2 padding-right-xsmall">
+                {{ form_label(edit_form.author, "Author", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
+                {{ form_widget(edit_form.author, {'attr': {'class': "width-100 btn-white btn--large text--charcoal icon-chevron-down-charcoal icon--right icon--xsmall"}}) }}
+              </div>
+              <div class="col width-1-2 padding-left-xsmall">
+                {{ form_label(edit_form.section, "Section", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
+                {{ form_widget(edit_form.section, {'attr': {'class': "width-100 btn-white btn--large text--charcoal icon-chevron-down-charcoal icon--right icon--xsmall"}}) }}
+              </div>
+            </div>
+          </div>
+
+          {{ form_errors(edit_form) }}
+
+          {{ form_label(edit_form.summary, "Summary", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
+          {{ form_widget(edit_form.summary, {'attr': {'class': "width-100 input--text input--large"}}) }}
+
+          {{ form_label(edit_form.text, "Body", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
+          <div id="editor" class="padding-large" style="min-height: 500px">
+              {{ entity.text|raw }}
+          </div>
+
+          <div class="margin-vert-medium text-center row">
+            <div class="col width-100 medium-up-width-3-4 text-left padding-right-medium">
+              {{ form_label(edit_form.status, "Status", {"label_attr": {"class": "block text--gray text-4"}}) }}
+              {{ form_widget(edit_form.status, {'attr': {'class': "width-100 btn-white btn--large text--charcoal icon-chevron-down-charcoal icon--right icon--xsmall"}}) }}
+            </div>
+            <div class="col width-100 medium-up-width-1-4">
+              <label class="block text-4 invisible">Save</label>
+              {{ form_row(edit_form.submit, { "label": "Save", "attr": { "class": "width-100 btn-blue btn--large" }}) }}
+            </div>
+          </div>
+
+          <div class="hidden">
+              {{ form_rest(edit_form) }}
+          </div>
+
+        {{ form_end(edit_form) }}
+    </div>
+  </section>
+{% endblock %}
+
+{%  block beforeClosingBody %}
+
+<!-- Main Quill library -->
+<script src="//cdn.quilljs.com/1.3.5/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.5/quill.snow.css" rel="stylesheet" />
+
+{% endblock %}
