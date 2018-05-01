@@ -1,5 +1,6 @@
 @import "~classcentral-style/dist/icon-thumbsup.css";
 @import "~classcentral-style/dist/png-top-50.css";
+@import "~classcentral-style/dist/icon-link.css";
 
 #page-course {
   .container {
@@ -10,6 +11,19 @@
     @media (min-width: 641px) {
       padding-left: 30px;
       padding-right: 30px;
+    }
+  }
+  .hr-vert {
+    position: relative;
+    &:before {
+      content: " ";
+      display: block;
+      height: 100%;
+      background-color: #F2F2F2;
+      width: 1px;
+      left: 50%;
+      position: absolute;
+      top: 0;
     }
   }
   .bg-banner--purple {

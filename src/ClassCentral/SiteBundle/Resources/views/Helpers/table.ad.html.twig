@@ -121,37 +121,33 @@
       >
         AD
       </span>
-        <a href="{{ courseUrl }}" rel="nofollow" target="_blank" class="padding-right-large inline-block text--bold text--charcoal"
-          onmousedown='
-            CC.track("{{ ts.event('AD_CLICK') }}", {
-              ad: {
-                provider: "{{ providerName }}",
-                unit: "Course Page Text Ad",
-                title: "{{ courseName }}",
-                position: "{% if adPosition is defined %}{{ adPosition }}{% endif %}"
-              }
-            });ga("send", "event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'
-        >{{ courseName }}
-        </a>
-        <div>
-            {% if institutionName is not empty %} {{ institutionName }}{% endif %} via
-            <a
-              href="{{ courseUrl }}"
-              rel="nofollow"
-              target="_blank"
-              class="text--charcoal"
-              onmousedown='
-                CC.track("{{ ts.event('AD_CLICK') }}", {
-                  ad: {
-                    provider: "{{ providerName }}",
-                    unit: "Course Page Text Ad",
-                    title: "{{ courseName }}",
-                    position: "{% if adPosition is defined %}{{ adPosition }}{% endif %}"
-                  }
-                }
-              });ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>{{ providerName }}
-          </a>
-        </div>
+      <a
+        href="{{ courseUrl }}"
+        rel="nofollow"
+        target="_blank"
+        class="unit-horz cursor-pointer"
+        onmousedown='
+          CC.track("{{ ts.event('AD_CLICK') }}", {
+            ad: {
+              provider: "{{ providerName }}",
+              unit: "Course Page Text Ad",
+              title: "{{ courseName }}",
+              position: "{% if adPosition is defined %}{{ adPosition }}{% endif %}"
+            }
+          }
+        });ga("send","event", "Course Page Ad", "{{ providerName }}", "{{ courseName }}");'>
+        <span class="unit-block padding-right-xxsmall" style="vertical-align: top;">
+          <i class="icon-link-blue icon--xsmall" style="height: 20px;"></i>
+        </span>
+        <span class="unit-block unit-fill text--charcoal padding-right-large">
+          <strong class="inline-block text--bold text--blue text-2">
+            {{ courseName }}
+          </strong>
+          <span class="block text--charcoal">
+            {% if institutionName is not empty %} {{ institutionName }}{% endif %} via {{ providerName }}
+          </span>
+        </span>
+      </a>
     </div>
   {% endif %}
 
