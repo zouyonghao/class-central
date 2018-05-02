@@ -217,7 +217,7 @@ class CourseFormatter {
     public function emailFormat (CourseEntity $course)
     {
         $router = $this->container->get('router');
-        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'newsletter_april_2018','utm_medium' =>'email','utm_campaign'=>'cc_newsletter'));
+        $url = 'https://www.class-central.com' . $router->generate('ClassCentralSiteBundle_mooc', array('id' => $course->getId(), 'slug' => $course->getSlug(),'utm_source'=>'newsletter_may_2018','utm_medium' =>'email','utm_campaign'=>'cc_newsletter'));
         return sprintf("<li style=\"margin-bottom: 4px;\"><a href='%s' style=\"color: #5074E9; text-decoration: none;\">%s</a></li> ", $url, $course->getName());
     }
 
