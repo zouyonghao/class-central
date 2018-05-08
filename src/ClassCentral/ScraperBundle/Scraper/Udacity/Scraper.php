@@ -43,6 +43,7 @@ class Scraper extends ScraperAbstractInterface{
         'udacity_react-native--ud126',
         'udacity_react-fundamentals--ud124',
         'udacity_ab-testing--ud979', # name keeps changing, should be A/B Testing for Business Analysts
+        'udacity_kotlin-bootcamp-for-programmers--ud9011',
     );
 
     public $skipNewCourse = array(
