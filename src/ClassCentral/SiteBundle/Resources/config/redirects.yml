@@ -351,3 +351,12 @@ old_subject_civil-environmental-engineering:
      permanent: true # this is for 301
      slug: civil-engineering
 
+pakman:
+  pattern: /pakman
+  defaults:
+    _controller: FrameworkBundle:Redirect:redirect
+    route: ClassCentralSiteBundle_homepage
+    permanent: true
+    utm_source: pakman
+    utm_medium: youtube
+    utm_campaign: pakman

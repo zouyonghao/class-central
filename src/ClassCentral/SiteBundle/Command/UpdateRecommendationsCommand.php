@@ -10,8 +10,6 @@ namespace ClassCentral\SiteBundle\Command;
 
 
 use ClassCentral\SiteBundle\Entity\CourseRecommendation;
-use ClassCentral\SiteBundle\Entity\CourseStatus;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,59 +21,67 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UpdateRecommendationsCommand extends ContainerAwareCommand {
 
-    private $courses = array();
-    const RECOMMENDATIONS_SCORE = 0.5;
-
     protected function configure()
     {
         $this
             ->setName('classcentral:recommender:update')
-            ->setDescription('Updates the recommendations from extras/recommendations.csv');
+            ->setDescription('Updates the recommendations from extras/course_clusters.csv');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')
-            ->getManager();
+        gc_enable();
+        $recCSV = fopen('extras/course_clusters.csv', 'r');
+        $em = $this->getContainer()->get('doctrine')->getManager();
 
-       // Truncate the recommendations table
-//        $conn = $em->getConnection()
-//                ->exec("TRUNCATE courses_recommendations");
+        $em->getConnection()->exec("TRUNCATE TABLE courses_recommendations");
+        // clear table of all data before running script
+        $output->writeln("DELETING ALL TABLE DATA");
 
-        $courses = $em->getRepository('ClassCentralSiteBundle:Course')->findAll();
-
-        foreach($courses as $course)
+        $numCourses = 0;
+        $start = microtime(true);
+        while ($row = fgetcsv($recCSV))
         {
-            if($course->getStatus() == CourseStatus::NOT_AVAILABLE) continue;
 
-            // Delete previous recommendations
-            $em->getConnection()->exec("DELETE FROM courses_recommendations WHERE course_id=" . $course->getId());
+            $mainId = $row[0];
+            $mainCourse = $em->getRepository('ClassCentralSiteBundle:Course')->find($mainId);
 
-            // Check if recommendations already exist
-            // $recos = $em->getRepository('ClassCentralSiteBundle:CourseRecommendation')->findBy(array('course'=>$course));
-            // if($recos) continue; // recommendations already exists
-
-            $output->writeln($course->getName());
-            // 1. Get all the users interested in the course
-            // 2. Get the most popular courses for the interested courses
-            $rsm = new ResultSetMapping();
-            $rsm->addScalarResult('course_id','course_id');
-            $results = $em->createNativeQuery("SELECT course_id, count(*) FROM users_courses WHERE user_id IN(SELECT user_id FROM users_courses WHERE course_id = {$course->getId()}) GROUP BY course_id ORDER BY count(*) DESC LIMIT 10;", $rsm)->getResult();
-            $position = 1;
-            array_shift($results); // Remove the first element which is the course itself
-            foreach($results as $result)
+            for ($position = 1; $position <= 10; $position++)
             {
-                $rc =  $em->getRepository('ClassCentralSiteBundle:Course')->find($result['course_id']);
-                if(!$rc || $rc->getStatus() == CourseStatus::NOT_AVAILABLE) continue;
-                $r = new CourseRecommendation();
-                $r->setCourse($course);
-                $r->setRecommendedCourse($rc);
-                $r->setPosition( $position );
-                $em->persist($r);
-                $position++;
-            }
-            $em->flush();
-        }
 
+                $recId = $row[$position];
+
+                $recCourse = $em->getRepository('ClassCentralSiteBundle:Course')->find($recId);
+
+                if($mainCourse || $recCourse)
+                {
+                    $rec = new CourseRecommendation();
+                    $rec->setCourse($mainCourse);
+                    $rec->setPosition($position);
+                    $rec->setRecommendedCourse($recCourse);
+                    $em->persist($rec);
+                }
+                $recCourse = null;
+                $rec = null;
+            }
+            $mainCourse = null;
+
+            $numCourses++;
+
+            if($numCourses%200==0)
+            {
+                $em->flush();
+                $em->clear();
+                gc_collect_cycles();
+                $output->writeln("Flushing at - " . $numCourses);
+                $time_elapsed_secs = microtime(true) - $start;
+                $output->writeln("Elasped time to flush: $time_elapsed_secs" );
+                $start = microtime(true);
+            }
+
+        }
+        $em->flush();
+        $output->writeln("Flushing at - " . $numCourses);
     }
+
 } 
