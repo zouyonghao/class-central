@@ -57,9 +57,9 @@
           </span>
           <span style="top: -11px;" class="margin-left-xxsmall relative inline-block line--small">
             {% set profileUrl = user_service.getProfileUrl( article.author.id, article.author.handle ) %}
-            Written by <a href="{{ profileUrl }}" class="text--charcoal hover-text--underline">
-              <strong class="text--bold">{{ article.author.name }}</strong>
-            </a>
+            Written by <a href="{{ profileUrl }}" class="text--charcoal hover-text--underline"><strong class="text--bold">{{ article.author.name }}</strong></a>
+            <span class="text--gray inline-block margin-horz-xsmall">|</span>
+            <em class="text--italic inline-block">last updated on {{ article.modified|date("F dS, Y") }}</em>
           </span>
         </p>
       </header>
