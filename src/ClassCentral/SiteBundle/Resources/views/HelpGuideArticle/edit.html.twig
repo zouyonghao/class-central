@@ -33,8 +33,16 @@
             {{ form_label(edit_form.title, "Article title", {"label_attr": {"class": "block text--gray text-4"}}) }}
             {{ form_widget(edit_form.title, {'attr': {'class': "width-100 input--text input--large"}}) }}
 
-            {{ form_label(edit_form.slug, "Slug", {"label_attr": {"class": "margin-top-medium block text--gray text-4 input--large"}}) }}
-            {{ form_widget(edit_form.slug, {'attr': {'class': "width-100 input--text input--large"}}) }}
+            <div class="row">
+              <div class="col width-1-2 padding-right-xsmall">
+                {{ form_label(edit_form.slug, "Slug", {"label_attr": {"class": "margin-top-medium block text--gray text-4 input--large"}}) }}
+                {{ form_widget(edit_form.slug, {'attr': {'class': "width-100 input--text input--large"}}) }}
+              </div>
+              <div class="col width-1-2 padding-left-xsmall">
+                {{ form_label(edit_form.orderId, "Order", {"label_attr": {"class": "margin-top-medium block text--gray text-4 input--large"}}) }}
+                {{ form_widget(edit_form.orderId, {'attr': {'class': "width-100 input--text input--large"}}) }}
+              </div>
+            </div>
 
             <div class="row">
               <div class="col width-1-2 padding-right-xsmall">
