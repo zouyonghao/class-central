@@ -55,6 +55,7 @@ twig:
       keen_write_key:  %keen_write_key%
       segment_write_key: %segment_write_key%
       coursera_url: %coursera_url%
+      coursera_url: %futurelearn_url%
       edx_url: %edx_url%
       kadenze_url: %kadenze_url%
       udemy_url: %udemy_url%

@@ -101,6 +101,7 @@ parameters:
     edx_url: ~
     udemy_url: ~
     kadenze_url: ~
+    futurelearn_url: ~
     udemy_client_id: ~
     udemy_client_secret: ~
     google_auth_client_id: ~

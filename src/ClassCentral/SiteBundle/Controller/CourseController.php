@@ -605,6 +605,10 @@ class CourseController extends Controller
         {
             $goToClassUrl = $this->getParameter('kadenze_url') . urlencode( $goToClassUrl );
         }
+        if($course['initiative']['name'] == 'FutureLearn')
+        {
+            $goToClassUrl = $this->getParameter('coursera_url') . urlencode( $goToClassUrl );
+        }
 
         $contextBar = [
             'type' => 'course',
