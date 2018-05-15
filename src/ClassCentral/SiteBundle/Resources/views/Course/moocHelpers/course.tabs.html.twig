@@ -59,7 +59,7 @@
                 </a>
             </p>
           {% endif %}
-          <div class="relative {% if course.desc|length > 1500 %}fade-bottom{% endif %}" data-expand-article-target="overview">
+          <div class="relative {% if course.desc|length > 1500 %}fade-bottom fade-hidden{% endif %}" data-expand-article-target="overview">
             {{ course.desc|raw }}
           </div>
           {% if course.desc|length > 1500 %}
