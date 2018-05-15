@@ -13,6 +13,11 @@
   ],
   "rows": [
     {
+      "title": "Introduction to Psychology",
+      "subtitle": "Monash University",
+      "price": "$564 for courses, £499.00 assessment fee"
+    },
+    {
       "title": "Exploring Culture and Heritage",
       "subtitle": "European University Institute",
       "price": "$192"
@@ -20,7 +25,7 @@
     {
       "title": "Foundations of University Learning and Teaching",
       "subtitle": "UNSW Sydney",
-      "price": "$1740.52"
+      "price": "$282 for courses, £1035.00 assessment fee"
     },
     {
       "title": "Genomics in Healthcare",
@@ -30,17 +35,17 @@
     {
       "title": "Global Studies: International Relations and World Politics",
       "subtitle": "Grenoble Ecole de Management",
-      "price": "$440.83"
+      "price": "$252 for courses, £134.00 assessment fee"
     },
     {
       "title": "Management and Leadership, Personal Development",
       "subtitle": "Open University",
-      "price": "$540.30"
+      "price": "$188 for courses, £250.00 assessment fee"
     },
     {
       "title": "Understanding the Body",
       "subtitle": "University of Aberdeen",
-      "price": "$721.76"
+      "price": "$237 for courses, £344.00 assessment fee"
     },
     {
       "title": "Teaching for Success: Practices for English Language Teaching",
@@ -75,12 +80,12 @@
     {
       "title": "Mergers and Acquisitions",
       "subtitle": "New York Institute of Finance",
-      "price": "$1,781.77"
+      "price": "$1260 for courses, £388.00 assessment fee"
     },
     {
       "title": "Business and Finance Fundamentals",
       "subtitle": "Open University",
-      "price": "$1,617"
+      "price": "$632 for courses, £699.00 assessment fee"
     },
     {
       "title": "Business Fundamentals",
@@ -100,7 +105,7 @@
     {
       "title": "Management and Leadership, Essentials",
       "subtitle": "Open University",
-      "price": "$540.30"
+      "price": "$188 for courses, £250.00 assessment fee"
     },
     {
       "title": "Spanish for Beginners",
@@ -110,7 +115,7 @@
     {
       "title": "The Digital Economy",
       "subtitle": "Open University",
-      "price": "$1,098.92"
+      "price": "$376 for courses, £513.00 assessment fee"
     },
     {
       "title": "Introducing Robotics",
@@ -130,27 +135,27 @@
     {
       "title": "Unleash Your Potential",
       "subtitle": "University of Bristol",
-      "price": "$147"
+      "price": "Not Currently Available"
     },
     {
       "title": "Causes of Human Disease",
       "subtitle": "University of Leeds",
-      "price": "$826.84"
+      "price": "$545 for courses, £200.00 assessment fee"
     },
     {
       "title": "Discovering Science",
       "subtitle": "University of Leeds",
-      "price": "$826.84"
+      "price": "$545 for courses, £200.00 assessment fee"
     },
     {
       "title": "Environmental Challenges",
       "subtitle": "University of Leeds",
-      "price": "$826.84"
+      "price": "$545 for courses, £200.00 assessment fee"
     },
     {
       "title": "Writing in English for University Study",
       "subtitle": "University of Reading",
-      "price": "$187.19"
+      "price": "$128 for courses, £42.00 assessment fee"
     },
     {
       "title": "Practical Data Mining",
