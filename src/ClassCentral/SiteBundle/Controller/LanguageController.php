@@ -112,7 +112,9 @@ class LanguageController extends Controller
             throw $this->createNotFoundException('Unable to find Language entity.');
         }
 
-        $editForm = $this->createForm(new LanguageType(), $entity);
+        $editForm = $this->createForm(new LanguageType(), $entity, array(
+            'is_edit' => true,
+        ));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ClassCentralSiteBundle:Language:edit.html.twig', array(

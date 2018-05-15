@@ -4,6 +4,7 @@ namespace ClassCentral\SiteBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LanguageType extends AbstractType
 {
@@ -12,7 +13,7 @@ class LanguageType extends AbstractType
         $builder
             ->add('name')
             ->add('slug', null, array(
-                'read_only' => true,
+                'read_only' => $options['is_edit'],
                 'attr' => array('style' => 'color: #a8a8a8')
             ))
             ->add('code')
@@ -24,5 +25,12 @@ class LanguageType extends AbstractType
     public function getName()
     {
         return 'classcentral_sitebundle_languagetype';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'is_edit' => false
+        ));
     }
 }

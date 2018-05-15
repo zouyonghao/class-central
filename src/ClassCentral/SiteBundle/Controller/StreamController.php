@@ -113,7 +113,9 @@ class StreamController extends Controller
             throw $this->createNotFoundException('Unable to find Stream entity.');
         }
 
-        $editForm = $this->createForm(new StreamType(), $entity);
+        $editForm = $this->createForm(new StreamType(), $entity, array(
+            'is_edit' => true,
+        ));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ClassCentralSiteBundle:Stream:edit.html.twig', array(

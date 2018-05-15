@@ -113,7 +113,9 @@ class InstitutionController extends Controller
             throw $this->createNotFoundException('Unable to find Institution entity.');
         }
 
-        $editForm = $this->createForm(new InstitutionType(), $entity);
+        $editForm = $this->createForm(new InstitutionType(), $entity, array(
+            'is_edit' => true,
+        ));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ClassCentralSiteBundle:Institution:edit.html.twig', array(
