@@ -78,7 +78,7 @@
       <div data-tab-family="course-summary" data-tab-target="syllabus" class="hidden">
         <div id="syllabus-full">
           <article class="wysiwyg text-2 medium-up-text-1">
-            <div class="relative {% if course.syllabus|length > 1500 %}fade-bottom{% endif %}" data-expand-article-target="syllabus">
+            <div class="relative {% if course.syllabus|length > 1500 %}fade-bottom fade-hidden{% endif %}" data-expand-article-target="syllabus">
               {{ course.syllabus|raw }}
             </div>
           </article>
