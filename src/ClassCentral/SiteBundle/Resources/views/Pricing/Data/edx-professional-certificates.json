@@ -13,6 +13,36 @@
   ],
   "rows": [
     {
+      "title": "Fintech",
+      "subtitle": "University of Hong Kong",
+      "price": "$357.30"
+    },
+    {
+      "title": "Diseño de software para la toma de decisiones organizacionales",
+      "subtitle": "Universidad del Rosario",
+      "price": "$88.20"
+    },
+    {
+      "title": "Leading Innovation with Vijay Govindarajan",
+      "subtitle": "Dartmouth College",
+      "price": "$178.20"
+    },
+    {
+      "title": "Mandarin for Business",
+      "subtitle": "MandarinX",
+      "price": "$445.50"
+    },
+    {
+      "title": "Electric Cars",
+      "subtitle": "Delft University of Technology (TU Delft)",
+      "price": "$180"
+    },
+    {
+      "title": "Entrepreneurial Mindset and Leadership",
+      "subtitle": "Babson College",
+      "price": "$356.40"
+    },
+    {
       "title": "Microsoft Professional Program in Artificial Intelligence",
       "subtitle": "Microsoft",
       "price": "$990"
@@ -150,7 +180,7 @@
     {
       "title": "Data Analysis & Visualization with Excel",
       "subtitle": "Delft University of Technology (TU Delft)",
-      "price": "$198"
+      "price": "$178.20"
     },
     {
       "title": "Management of Engineering Projects; Dealing with Complexity",
@@ -275,7 +305,7 @@
     {
       "title": "Front-End Web Developer",
       "subtitle": "The World Wide Web Consortium (W3C)",
-      "price": "445.50"
+      "price": "$472.50"
     },
     {
       "title": "Virtual Reality (VR) App Development",
@@ -284,6 +314,11 @@
     },
     {
       "title": "Introduction to Java Programming",
+      "subtitle": "Universidad Carlos III de Madrid",
+      "price": "$267.30"
+    },
+    {
+      "title": "Introducción a la programación en Java",
       "subtitle": "Universidad Carlos III de Madrid",
       "price": "$267.30"
     },
