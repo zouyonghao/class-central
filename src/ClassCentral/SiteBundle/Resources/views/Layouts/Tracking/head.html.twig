@@ -1,3 +1,8 @@
+{# set user details #}
+{% if app.user %}
+    {% set userInfo = user_service.getUserMetaDataForAnalyticsJsonNonStatic(app.user) %}
+{% endif %}
+
 <!-- Page Hiding snippet for Google Optimize -->
 {% if app.environment =='prod' %}
 <style>.async-hide { opacity: 0 !important} </style>
