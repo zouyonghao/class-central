@@ -1042,4 +1042,11 @@ class User implements UserInterface, \Serializable
 
         ];
     }
+
+    public function getAnonId()
+    {
+       return password_hash($this->getEmail(),PASSWORD_BCRYPT, [
+           'salt' => $this->getCreated()->getTimestamp(). $this->getCreated()->getTimestamp() . $this->getCreated()->getTimestamp()
+       ]);
+    }
 }

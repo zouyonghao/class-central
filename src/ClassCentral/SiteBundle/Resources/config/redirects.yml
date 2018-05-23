@@ -360,3 +360,10 @@ pakman:
     utm_source: pakman
     utm_medium: youtube
     utm_campaign: pakman
+
+old_privacy_policy:
+    pattern: /privacy-policy
+    defaults:
+      _controller: FrameworkBundle:Redirect:redirect
+      route: about_privacy
+      permanent: true

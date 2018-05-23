@@ -968,7 +968,8 @@ class UserController extends Controller
             'newsletterIds' => $newsletterIds,
             'userPrefs' => $user->getUserPreferencesByTypeMap(),
             'mtCoursePrefId' => UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
-            'mtSearchTermsPrefId' => UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM,
+            'updatesPrefId' => UserPreference::USER_PREFERENCE_FOLLOW_UP_EMAILs,
+            'recommendationsPrefId' => UserPreference::USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS,
             'page' => 'preferences'
         ));
     }

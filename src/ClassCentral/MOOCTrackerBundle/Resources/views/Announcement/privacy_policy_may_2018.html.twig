@@ -1,0 +1,22 @@
+{% extends 'ClassCentralSiteBundle::Mail/layout/borderless.html.twig' %}
+
+{%  block content %}
+    <tr>
+        <td valign="top" class="bodyContentMiddle">
+            <div style="background: #ffffff; padding: 20px 30px 0px 30px;">
+                <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
+                    Hello {{user.displayName}},
+                    <br><br>
+                    We’ve recently made updates to our <a href="{{ baseUrl }}{{ path('about_privacy',{autoLogin:loginToken }) }}">Privacy Policy</a>  and the site to comply with European Union’s General Data Protection Regulation (GDPR). The new Privacy Policy comes into effect on May 23rd, 2018. We encourage you to read the privacy policy in full and if you have any questions send us an email at <a href="mailto:privacy@class-central.com">privacy@class-central.com</a>.
+                    <br><br>
+                    As part of the changes, we have further simplified and clarified email preferences. You can update your preferences <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken, redirect: 'https://www.class-central.com/user/preferences'}) }}">here</a>.
+
+                    <br/><br/>
+                    Regards,<br/>
+                    The Class Central Team
+                </p>
+            </div>
+        </td>
+    </tr>
+
+{% endblock %}

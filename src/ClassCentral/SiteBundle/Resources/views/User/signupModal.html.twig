@@ -129,6 +129,10 @@
         {{ form_row(signupForm.save, { attr: { "data-save": true, class: 'btn-blue padding-horz-xxlarge btn--large btn-cc-user-signup'} }) }}
       </fieldset>
 
+      <p class="margin-small text--gray text-center">
+        By signing up to create an account I accept Class Central's <a href="{{ path('about_privacy')}}" class="text--blue">Privacy Policy</a>.
+      </p>
+
       <input type="hidden" name="signupFormModal" value="true">
 
     {{ form_end(signupForm) }}

@@ -26,8 +26,7 @@
   {% if app.user %}
   var clicky_custom = clicky_custom || {};
   clicky_custom.visitor = {
-      user_id: '{{ app.user.id }}',
-      email: '{{ app.user.email }}'
+      user_id: '{{ app.user.anonId }}'
   };
   {% endif %}
 

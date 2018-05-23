@@ -138,7 +138,7 @@ class SearchTermJob extends SchedulerJobAbstract {
             'coursesHidden' => ($count > 40),
             'counts' => $this->getCounts(),
             'unsubscribeToken' => CryptUtility::getUnsubscribeToken( $user,
-                    UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM,
+                    UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES,
                     $this->getContainer()->getParameter('secret')
                 ),
             'utm' => array(

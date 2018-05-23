@@ -3,15 +3,6 @@
     {% set userInfo = user_service.getUserMetaDataForAnalyticsJsonNonStatic(app.user) %}
 {% endif %}
 
-<!-- Page Hiding snippet for Google Optimize -->
-{% if app.environment =='prod' %}
-<style>.async-hide { opacity: 0 !important} </style>
-<script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-    })(window,document.documentElement,'async-hide','dataLayer',4000,
-        {'{{ ga_optimize_id }}':true});</script>
-{% endif %}
 
 <!-- Including google analytics. The parameter ganalytics_id must be set in parameters.ini -->
 <script type="text/javascript">
@@ -23,13 +14,12 @@
 
   {# Dont count the admin users in user stats #}
   {% if app.user and not is_granted('ROLE_ADMIN')   %}
-      ga('create', '{{ ganalytics_id }}', {'userId':'{{ app.user.id }}'});
+      ga('create', '{{ ganalytics_id }}', {'userId':'{{ app.user.anonId }}'});
   {% else %}
       ga('create', '{{ ganalytics_id }}', 'auto');
   {% endif %}
-  {% if app.environment =='prod' %}
-      ga('require', '{{ ga_optimize_id }}');
-  {% endif %}
+  ga('create', '{{ ganalytics_id }}', 'auto');
+  ga('set', 'anonymizeIp', true);
   ga('send', 'pageview');
 
   function recordOutboundLink(link, initiative, coursename, stream) {

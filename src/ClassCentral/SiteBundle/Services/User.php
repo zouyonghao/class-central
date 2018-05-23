@@ -773,6 +773,20 @@ class User {
             }
         }
 
+        $newsletterService = $this->container->get('newsletter');
+        foreach($user->getNewsletters() as $newsletter)
+        {
+            $newsletterService->unSubscribeUser($newsletter, $user);
+        }
+
+        // Delete profile picture
+        $kuber = $this->container->get('kuber');
+        $profilePicFile = $kuber->getFile(Kuber::KUBER_ENTITY_USER,Kuber::KUBER_TYPE_USER_PROFILE_PIC,$user->getId());
+        if($profilePicFile)
+        {
+            $kuber->delete($profilePicFile);
+        }
+
         $tables = array(
             'reviews', 'users_courses','users_fb','users_google', 'newsletters_subscriptions','profiles','mooc_tracker_courses','mooc_tracker_search_terms','reviews_feedback','user_preferences','follows','credentials_reviews'
         );
@@ -884,7 +898,7 @@ class User {
     public static function getUserMetaDataForAnalytics(\ClassCentral\SiteBundle\Entity\User $user)
     {
         $userInfo = [
-            'user_id' => $user->getId(),
+            'user_id' => $user->getAnonId(),
             'hours_since_signup' => $user->getHoursSinceSignup()
         ];
 

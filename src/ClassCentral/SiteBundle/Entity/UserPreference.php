@@ -41,8 +41,8 @@ class UserPreference
 
 
     const USER_PREFERENCE_MOOC_TRACKER_COURSES = 100;
-    const USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM = 101;
-    const USER_PREFERENCE_REVIEW_SOLICITATION = 102;
+    const USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM = 101; // Deprecated. Combined with 100
+    const USER_PREFERENCE_REVIEW_SOLICITATION = 102; // Deprecated
     const USER_PREFERENCE_FOLLOW_UP_EMAILs = 103;
     const USER_PREFERENCE_PERSONALIZED_COURSE_RECOMMENDATIONS = 104;
     const USER_PROFILE_UPDATE_EMAIL = 1000; // Stores the email address and token until the verification happens

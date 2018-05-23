@@ -57,7 +57,7 @@ class SearchNotificationJobSchedulerCommand extends ContainerAwareCommand {
 
         // Get a list of all users with search terms
         $qb = $em->createQueryBuilder();
-        $mtUserPreference = UserPreference::USER_PREFERENCE_MOOC_TRACKER_SEARCH_TERM;
+        $mtUserPreference = UserPreference::USER_PREFERENCE_MOOC_TRACKER_COURSES;
         $qb
             ->add('select','u')
             ->add('from', 'ClassCentralSiteBundle:User u')

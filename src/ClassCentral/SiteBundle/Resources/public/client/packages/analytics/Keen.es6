@@ -21,13 +21,6 @@ export const addOns = () => [
     output: "page_url",
   },
   {
-    name: "keen:ip_to_geo",
-    input: {
-      ip: "ip_address",
-    },
-    output: "ip_geo_info",
-  },
-  {
     name: "keen:ua_parser",
     input: {
       ua_string: "raw_user_agent",

@@ -5,29 +5,87 @@
 {% endblock %}
 
 {% block content %}
-    <div class="user-prefs">
-        <div class="mooc-tracker-preferences">
-            <h2>MOOC Tracker</h2>
-            <div>
-                {% set mtCoursePref = userPrefs[mtCoursePrefId].value %}
-                <input type="checkbox" {% if mtCoursePref == "1" %}checked="checked"{% endif %} value="{{ mtCoursePrefId }}" class="mooc-tracker-checkbox">Courses</input>
-                <p>Receive notifications when "Interested" courses are offered again, about to start, the dates change, etc</p>
+    <div class="classcentral-style user-prefs">
+      <div class="width-centered width-100" style="max-width: 600px;">
+        <h2 class="head-2">Email notification preferences</h2>
+        <ul class="margin-vert-large">
+          <li class="row margin-bottom-medium">
+            <div class="col width-1-16 text-center">
+              <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                <input class="user-newsletter-checkbox" {% if 1 in newsletterIds %}checked="checked"{% endif %} type="checkbox" id="newsletter" value="mooc-report">
+                <label for="newsletter">
+                  <span>
+                    <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                      <span class="icon icon-checkmark-white"></span>
+                    </span>
+                  </span>
+                </label>
+              </fieldset>
             </div>
-            <div>
-                {% set mtSearchTermPref = userPrefs[mtSearchTermsPrefId].value %}
-                <input type="checkbox" {% if mtSearchTermPref == "1" %}checked="checked"{% endif %} value="{{ mtSearchTermsPrefId }}" class="mooc-tracker-checkbox">Search Terms</input>
-                <p>Receive new course notifications for search terms added to MOOC Tracker</p>
+            <div class="col width-15-16 padding-left-medium">
+              <h3 class="text-1 text--bold">MOOC Report Newsletter</h3>
+              <p class="text-2">Sent at the beginning of each month and with a readership of over 600k learners, this newsletter helps you keep up with the online education space. It contains the latest trends, news, analysis, as well as a comprehensive list of courses starting in that month and the most popular courses.</p>
+              <p class="text-2">Examples of previous newsletters:   <a href="{{ path('newsletter_mooc_report',{month:'may2018'}) }}">May 2018</a> , <a href="{{ path('newsletter_mooc_report',{month:'april2018'}) }}">April 2018</a></p>
             </div>
-        </div>
-        <div class="user-newsletter-checkbox-wrapper">
-            <h2>Newsletter Subscriptions</h2>
-            {% for newsletter in newsletters %}
-                <div >
-                    <input type="checkbox" {% if newsletter.id in newsletterIds %}checked="checked"{% endif %} class="user-newsletter-checkbox" value="{{ newsletter.code }}">{{ newsletter.name }}</input>
-                    <p>{{ newsletter.description }}</p>
-                </div>
-            {% endfor %}
-        </div>
+          </li>
+          <li class="row margin-bottom-medium">
+            <div class="col width-1-16 text-center">
+              {% set recommendationsPref = userPrefs[recommendationsPrefId].value %}
+              <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                <input id="recommendations" class="mooc-tracker-checkbox" type="checkbox" {% if recommendationsPref == "1" %}checked="checked"{% endif %} value="{{ recommendationsPrefId }}">
+                <label for="recommendations">
+                  <span>
+                    <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                      <span class="icon icon-checkmark-white"></span>
+                    </span>
+                  </span>
+                </label>
+              </fieldset>
+            </div>
+            <div class="col width-15-16 padding-left-medium">
+              <h3 class="text-1 text--bold">Follow Button Updates: Recommendations and New Courses</h3>
+              <p class="text-2">Never Miss a Course! Two emails every month based on your <a href="{{ path('user_follows') }}">Follows</a>: Personalized course recommendations that you can take in that month and new courses added in the last month.</p>
+            </div>
+          </li>
+          <li class="row margin-bottom-medium">
+            <div class="col width-1-16 text-center">
+              {% set mtCoursePref = userPrefs[mtCoursePrefId].value %}
+              <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                <input id="tracker" class="mooc-tracker-checkbox" type="checkbox" {% if mtCoursePref == "1" %}checked="checked"{% endif %} value="{{ mtCoursePrefId }}">
+                <label for="tracker">
+                  <span>
+                    <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                      <span class="icon icon-checkmark-white"></span>
+                    </span>
+                  </span>
+                </label>
+              </fieldset>
+            </div>
+            <div class="col width-15-16 padding-left-medium">
+              <h3 class="text-1 text--bold">MOOC Tracker Reminders and Notification</h3>
+              <p class="text-2">Never Miss a Course! Course start dates reminders, new sessions notifications based on <a href="{{ path('user_library') }}">courses you are interested in and search terms</a>  you are tracking.</p>
+            </div>
+          </li>
+          <li class="row margin-bottom-medium">
+            <div class="col width-1-16 text-center">
+              {% set updatesPref = userPrefs[updatesPrefId].value %}
+              <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                <input id="updates" class="mooc-tracker-checkbox" type="checkbox" {% if updatesPref == "1" %}checked="checked"{% endif %} value="{{ updatesPrefId }}">
+                <label for="updates">
+                  <span>
+                    <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                      <span class="icon icon-checkmark-white"></span>
+                    </span>
+                  </span>
+                </label>
+              </fieldset>
+            </div>
+            <div class="col width-15-16 padding-left-medium">
+                <h3 class="text-1 text--bold">Product Updates and Announcements</h3>
+              <p class="text-2">Occasional emails containing information about Class Central's newest features, articles, or major happenings in the MOOC space.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-
 {% endblock %}

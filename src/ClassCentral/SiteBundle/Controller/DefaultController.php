@@ -28,6 +28,7 @@ class DefaultController extends Controller {
         'https://www.class-central.com/report/coursera-free-online-courses/',
         'https://www.class-central.com/report/coursera-free-online-courses',
         'https://www.class-central.com/report/best-free-online-courses-2017',
+        'https://www.class-central.com/user/preferences',
     );
 
     public function indexAction(Request $request) {

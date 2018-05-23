@@ -9,12 +9,6 @@ ClassCentralSiteBundle_faq:
     pattern:  /faq
     defaults: { _controller: ClassCentralSiteBundle:Default:faq }
 
-
-ClassCentralSiteBundle_privacy:
-    pattern:  /privacy-policy
-    defaults: { _controller: ClassCentralSiteBundle:Default:privacyPolicy }
-
-
 ClassCentralSiteBundle_courses:
     pattern:  /courses/{type}
     defaults: { _controller: ClassCentralSiteBundle:Default:courses }
@@ -607,3 +601,15 @@ help_guides_section:
   pattern: /help/section/{slug}
   defaults: { _controller: ClassCentralSiteBundle:HelpGuides:Section }
 
+# About
+about_privacy:
+    pattern:  /about/privacy-policy
+    defaults: { _controller: ClassCentralSiteBundle:About:privacy }
+
+about_cookies_policy:
+    pattern:  /about/cookies-policy
+    defaults: { _controller: ClassCentralSiteBundle:About:cookies }
+
+about_third_party:
+    pattern:  /about/third-party-service-providers-and-cookies
+    defaults: { _controller: ClassCentralSiteBundle:About:thirdParty }

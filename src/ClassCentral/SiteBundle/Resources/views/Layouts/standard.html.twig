@@ -91,7 +91,8 @@
     </div>
 
     {# Footer #}
-    {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: "full" } %}
+    {% set footerStyle = footerStyle is defined ? footerStyle : "full" %}
+    {% include 'ClassCentralSiteBundle:Layouts:_footer.html.twig' with { style: footerStyle } %}
   </div>
 
   {# Footer scripts #}
