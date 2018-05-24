@@ -5,6 +5,10 @@ cd ../
 env=$1
 echo "Running Class Central daily cron for $env environment"
 
+
+today=`date +%F`
+yesterday=`date +%F --date="-1 day"`
+
 # Update user activity stats in slack
 php5.6 app/console classcentral:dailyuseractivity $yesterday --env=$env
 
@@ -73,11 +77,6 @@ php5.6 app/console classcentral:elasticsearch:indexer --courses=Yes --offset=150
 php5.6 app/console classcentral:elasticsearch:indexer --courses=Yes --offset=16000 --env=$env --no-debug
 php5.6 app/console classcentral:elasticsearch:indexer --courses=Yes --offset=17000 --env=$env --no-debug
 php5.6 app/console classcentral:elasticsearch:indexer --courses=No --env=$env --no-debug
-
-
-today=`date +%F`
-yesterday=`date +%F --date="-1 day"`
-
 
 #sleep for 60 seconds
 echo "Indexing done. Going to sleep for a while"
