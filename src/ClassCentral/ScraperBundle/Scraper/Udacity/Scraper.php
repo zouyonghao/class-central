@@ -15,21 +15,23 @@ use ClassCentral\SiteBundle\Entity\Course;
 use ClassCentral\SiteBundle\Entity\Offering;
 use ClassCentral\SiteBundle\Services\Kuber;
 
-class Scraper extends ScraperAbstractInterface{
+class Scraper extends ScraperAbstractInterface
+{
 
-    const COURSES_API_ENDPOINT = 'https://www.udacity.com/public-api/v0/courses';
+    const COURSES_API_ENDPOINT = 'https://catalog-api.udacity.com/v1/catalog?locale=en-us';
+    //const OLD_COURSES_API_ENDPOINT = ’https://www.udacity.com/public-api/v0/courses'
 
     private $courseFields = array(
-        'Url', 'Description', 'DurationMin','DurationMax', 'Name','LongDescription','Certificate','VideoIntro', 'Syllabus',
-        'WorkloadMin','WorkloadMax','WorkloadType'
+        'Url', 'Description', 'DurationMin', 'DurationMax', 'Name', 'LongDescription', 'Certificate', 'VideoIntro', 'Syllabus',
+        'WorkloadMin', 'WorkloadMax', 'WorkloadType'
     );
 
     private $credentialFields = array(
-        'Url','Description','Name', 'SubTitle'
+        'Url', 'Description', 'Name', 'SubTitle'
     );
 
     private $offeringFields = array(
-       'Url'
+        'Url'
     );
 
     public static $credentialSlugs = array(
@@ -37,215 +39,184 @@ class Scraper extends ScraperAbstractInterface{
         'beginning-ios-app-development-nanodegree--nd006' => 'beginning-ios-app-development--nd006'
     );
 
-    public $skipUpdate = array(
-        'udacity_kotlin-for-android-developers--ud888',
-        'udacity_react-redux--ud125',
-        'udacity_react-native--ud126',
-        'udacity_react-fundamentals--ud124',
-        'udacity_ab-testing--ud979', # name keeps changing, should be A/B Testing for Business Analysts
-        'udacity_kotlin-bootcamp-for-programmers--ud9011',
-    );
-
-    public $skipNewCourse = array(
-        'sql-for-data-analysis-by-mode--ud198', # dupe of sql for data analysis
-        'front-end-engineer-nanodegree-preview--nd001-preview', # not a course
-        'intro-to-html-and-css--ud304', # dupe of intro to html and css course
-    );
-
     public function scrape()
     {
-        if($this->isCredential)
-        {
+        if ($this->isCredential) {
             $this->scrapeCredentials();
             return;
         }
 
         $em = $this->getManager();
-        $udacityCourses = json_decode( file_get_contents(self::COURSES_API_ENDPOINT), true );
+        $udacityCourses = json_decode(file_get_contents(self::COURSES_API_ENDPOINT), true);
         $courseService = $this->container->get('course');
         $coursesChanged = array();
         $courseChanged = false;
 
         foreach ($udacityCourses['courses'] as $udacityCourse) {
 
-            if (in_array($udacityCourse['slug'], $this->skipNewCourse)) {
-                continue; // ignoring preview courses and dupes in API
+            $course = $this->getCourseEntity($udacityCourse);
+            $offering = null;
+            $dbCourse = $this->dbHelper->getCourseByShortName($course->getShortName());
+
+            if (!$dbCourse) {
+
+                // Course does not exist create it.
+                if ($this->doCreate()) {
+                    $this->out("NEW COURSE - " . $course->getName());
+
+                    // NEW COURSE
+                    if ($this->doModify()) {
+                        $em->persist($course);
+                        $em->flush();
+
+                        $this->dbHelper->sendNewCourseToSlack($course, $this->initiative);
+
+                        if ($udacityCourse['banner_image']) {
+                            $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
+                        }
+
+
+                        // Create new offering
+                        $offering = new Offering();
+                        $offering->setCourse($course);
+                        $offering->setUrl($course->getUrl());
+
+                        $startDate = new \DateTime();
+                        $offering->setStartDate($startDate);
+
+                        $endDate = new \DateTime();
+                        $endDate->add(new \DateInterval('P30D'));
+                        $offering->setEndDate($endDate);
+
+                        $offering->setStatus(Offering::COURSE_OPEN);
+
+                        $em->persist($offering);
+                        $em->flush();
+                    }
+                    $courseChanged = true;
+                }
+
             } else {
+                // Check if any fields are modified
 
-                $course = $this->getCourseEntity($udacityCourse);
-                $offering = null;
-                $dbCourse = $this->dbHelper->getCourseByShortName($course->getShortName());
+                $courseModified = false;
+                $changedFields = array(); // To keep track of fields that have changed
+                foreach ($this->courseFields as $field) {
+                    $getter = 'get' . $field;
+                    $setter = 'set' . $field;
+                    if ($course->$getter() != $dbCourse->$getter()) {
+                        $courseModified = true;
 
-                if (!$dbCourse) {
+                        // Add the changed field to the changedFields array
+                        $changed = array();
+                        $changed['field'] = $field;
+                        $changed['old'] = $dbCourse->$getter();
+                        $changed['new'] = $course->$getter();
+                        $changedFields[] = $changed;
 
-                    // Course does not exist create it.
-                    if ($this->doCreate()) {
-                        $this->out("NEW COURSE - " . $course->getName());
-
-                        // NEW COURSE
-                        if ($this->doModify()) {
-                            $em->persist($course);
-                            $em->flush();
-
-                            $this->dbHelper->sendNewCourseToSlack($course, $this->initiative);
-
-                            if ($udacityCourse['banner_image']) {
-                                $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
-                            }
-
-
-                            // Create new offering
-                            $offering = new Offering();
-                            $offering->setCourse($course);
-                            $offering->setUrl($course->getUrl());
-
-                            $startDate = new \DateTime();
-                            $offering->setStartDate($startDate);
-
-                            $endDate = new \DateTime();
-                            $endDate->add(new \DateInterval('P30D'));
-                            $offering->setEndDate($endDate);
-
-                            $offering->setStatus(Offering::COURSE_OPEN);
-
-                            $em->persist($offering);
-                            $em->flush();
-                        }
-                        $courseChanged = true;
+                        $dbCourse->$setter($course->$getter());
                     }
-
-                } else {
-                    // Check if any fields are modified
-                    if (in_array($course->getShortName(), $this->skipUpdate)) {
-                        continue; // ignoring and skipping react, kotlin courses as udacity API has broken info
-                    } else {
-
-                        $courseModified = false;
-                        $changedFields = array(); // To keep track of fields that have changed
-                        foreach ($this->courseFields as $field) {
-                            $getter = 'get' . $field;
-                            $setter = 'set' . $field;
-                            if ($course->$getter() != $dbCourse->$getter()) {
-                                $courseModified = true;
-
-                                // Add the changed field to the changedFields array
-                                $changed = array();
-                                $changed['field'] = $field;
-                                $changed['old'] = $dbCourse->$getter();
-                                $changed['new'] = $course->$getter();
-                                $changedFields[] = $changed;
-
-                                $dbCourse->$setter($course->$getter());
-                            }
-
-                        }
-
-                        if ($courseModified && $this->doUpdate()) {
-                            //$this->out( "Database course changed " . $dbCourse->getName());
-                            // Course has been modified
-                            $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
-                            $this->outputChangedFields($changedFields);
-                            if ($this->doModify()) {
-                                $em->persist($dbCourse);
-                                $em->flush();
-
-                                if ($udacityCourse['banner_image']) {
-                                    $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
-                                }
-                            }
-                            $courseChanged = true;
-                        }
-                    }
-                    // Check if offering has been modified
-                    if (in_array($dbCourse->getShortName(), $this->skipUpdate)) {
-                        continue; // ignoring and skipping react, kotlin courses as udacity API has broken info
-                    } else {
-
-                        $offering = $dbCourse->getNextOffering();
-                        if ($offering->getUrl() != $course->getUrl() && $this->doUpdate()) {
-                            $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
-                            // Offering modified
-                            $this->outputChangedFields(array(array(
-                                'field' => 'offering Url',
-                                'old' => $offering->getUrl(),
-                                'new' => $course->getUrl()
-
-                            )));
-
-                            if ($this->doModify()) {
-                                $offering->setUrl($course->getUrl());
-                                $em->persist($offering);
-                                $em->flush();
-                            }
-                            $courseChanged = true;
-                        }
-                    }
-
-                    $course = $dbCourse;
 
                 }
+
+                if ($courseModified && $this->doUpdate()) {
+                    //$this->out( "Database course changed " . $dbCourse->getName());
+                    // Course has been modified
+                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
+                    $this->outputChangedFields($changedFields);
+                    if ($this->doModify()) {
+                        $em->persist($dbCourse);
+                        $em->flush();
+
+                        if ($udacityCourse['banner_image']) {
+                            $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
+                        }
+                    }
+                    $courseChanged = true;
+                }
+
+                // Check if offering has been modified
+
+                $offering = $dbCourse->getNextOffering();
+                if ($offering->getUrl() != $course->getUrl() && $this->doUpdate()) {
+                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
+                    // Offering modified
+                    $this->outputChangedFields(array(array(
+                        'field' => 'offering Url',
+                        'old' => $offering->getUrl(),
+                        'new' => $course->getUrl()
+
+                    )));
+
+                    if ($this->doModify()) {
+                        $offering->setUrl($course->getUrl());
+                        $em->persist($offering);
+                        $em->flush();
+                    }
+                    $courseChanged = true;
+                }
+
+                $course = $dbCourse;
+
             }
         }
-        if( $courseChanged )
-        {
+        if ($courseChanged) {
+
             $coursesChanged[] = $course;
         }
 
         return $coursesChanged;
     }
 
-    private function getCourseEntity( $udacityCourse = array() )
+    private function getCourseEntity($udacityCourse = array())
     {
+
         $defaultStream = $this->dbHelper->getStreamBySlug('cs');
         $langMap = $this->dbHelper->getLanguageMap();
-        $defaultLanguage = $langMap[ 'English' ];
+        $defaultLanguage = $langMap['English'];
 
         $course = new Course();
         $course->setShortName('udacity_' . $udacityCourse['slug']);
-        $course->setInitiative( $this->initiative );
-        $course->setName( $udacityCourse['title'] );
-        $course->setDescription( $udacityCourse['short_summary'] );
-        $course->setLanguage( $defaultLanguage);
+        $course->setInitiative($this->initiative);
+        $course->setName($udacityCourse['title']);
+        $course->setDescription($udacityCourse['short_summary']);
+        $course->setLanguage($defaultLanguage);
         $course->setStream($defaultStream); // Default to Computer Science
-        $course->setCertificate( false );
-        $course->setUrl( $udacityCourse['homepage'] );
-        $course->setSyllabus( nl2br($udacityCourse['syllabus']) );
-        $course->setWorkloadMin( 6 ) ;
-        $course->setWorkloadMax( 6 ) ;
-        $course->setWorkloadType(Course::WORKLOAD_TYPE_HOURS_PER_WEEK);
-        ;
+        $course->setCertificate(false);
+        $course->setUrl('https://www.udacity.com/course/' . $udacityCourse['slug']);
+        $course->setSyllabus(nl2br($udacityCourse['syllabus']));
+        $course->setDurationMin(''); // get rid of old dummy data
+        $course->setDurationMax(''); // get rid of old dummy data
 
         // Calculate length
         $length = null;
         $expectedDuration = $udacityCourse['expected_duration'];
-        if( $udacityCourse['expected_duration_unit'] == 'months')
-        {
+        if ($udacityCourse['expected_duration_unit'] == 'months') {
+
             $length = $expectedDuration * 4;
-        }
-        elseif ($udacityCourse['expected_duration_unit'] == 'weeks')
-        {
+        } elseif ($udacityCourse['expected_duration_unit'] == 'weeks') {
+
             $length = $expectedDuration;
         }
         $course->setDurationMin($length);
         $course->setDurationMax($length);
 
         // Calculate Description
-        $course->setLongDescription( nl2br($udacityCourse['summary'] . '<br/><br/><b>Why Take This Course?</b><br/>' .  $udacityCourse['expected_learning']));
+        $course->setLongDescription(nl2br($udacityCourse['summary'] . '<br/><br/><b>Why Take This Course?</b><br/>' . $udacityCourse['expected_learning']));
 
         // Intro Video
-        if( !empty($udacityCourse['teaser_video']['youtube_url']) )
-        {
-            $course->setVideoIntro( $udacityCourse['teaser_video']['youtube_url'] );
-        }
+        if (!empty($udacityCourse['teaser_video']['youtube_url'])) {
 
+            $course->setVideoIntro($udacityCourse['teaser_video']['youtube_url']);
+        }
 
         return $course;
     }
 
     private function outputChangedFields($changedFields)
     {
-        foreach($changedFields as $changed)
-        {
+        foreach ($changedFields as $changed) {
+
             $field = $changed['field'];
             $old = is_a($changed['old'], 'DateTime') ? $changed['old']->format('jS M, Y') : $changed['old'];
             $new = is_a($changed['new'], 'DateTime') ? $changed['new']->format('jS M, Y') : $changed['new'];
@@ -254,37 +225,36 @@ class Scraper extends ScraperAbstractInterface{
         }
     }
 
+    // have not tested if this still works
     public function scrapeCredentials()
     {
-        $data = json_decode( file_get_contents(self::COURSES_API_ENDPOINT), true );
-        foreach($data['degrees'] as $nanodegree)
-        {
-            $credential = $this->getCredentialFromNanodegree( $nanodegree );
-            $this->saveOrUpdateCredential( $credential, $nanodegree['image'] );
+        $data = json_decode(file_get_contents(self::COURSES_API_ENDPOINT), true);
+        foreach ($data['degrees'] as $nanodegree) {
+
+            $credential = $this->getCredentialFromNanodegree($nanodegree);
+            $this->saveOrUpdateCredential($credential, $nanodegree['image']);
         }
     }
 
-    public function getCredentialFromNanodegree( $nanodegree )
+    // have not tested if this still works
+    public function getCredentialFromNanodegree($nanodegree)
     {
         $credential = new Credential();
 
-        $credential->setName( $nanodegree['title'] );
-        $credential->setPricePeriod( Credential::CREDENTIAL_PRICE_PERIOD_MONTHLY);
+        $credential->setName($nanodegree['title']);
+        $credential->setPricePeriod(Credential::CREDENTIAL_PRICE_PERIOD_MONTHLY);
         $credential->setPrice(200);
-        if (isset(self::$credentialSlugs[ $nanodegree['slug']]))
-        {
-            $nanodegree['slug'] = self::$credentialSlugs[ $nanodegree['slug']];
+        if (isset(self::$credentialSlugs[$nanodegree['slug']])) {
+
+            $nanodegree['slug'] = self::$credentialSlugs[$nanodegree['slug']];
         }
-        $credential->setSlug( $nanodegree['slug'] );
-        $credential->setInitiative( $this->initiative );
-        $credential->setUrl( $nanodegree['homepage'] );
-        $credential->setOneLiner( $nanodegree['short_summary'] );
-        $credential->setSubTitle( $nanodegree['subtitle'] );
-        $credential->setWorkloadMax(10);
-        $credential->setWorkloadMin(10);
-        $credential->setWorkloadType(Credential::CREDENTIAL_WORKLOAD_TYPE_HOURS_PER_WEEK);
-        $credential->setDurationMax( $nanodegree['expected_duration'] );
-        $credential->setDurationMin( $nanodegree['expected_duration'] );
+        $credential->setSlug($nanodegree['slug']);
+        $credential->setInitiative($this->initiative);
+        $credential->setUrl('https://www.udacity.com/course/' . $nanodegree['slug']);
+        $credential->setOneLiner($nanodegree['short_summary']);
+        $credential->setSubTitle($nanodegree['subtitle']);
+        $credential->setDurationMax($nanodegree['expected_duration']);
+        $credential->setDurationMin($nanodegree['expected_duration']);
 
         // Collect the description
         $summary = $nanodegree['summary'];
@@ -293,9 +263,9 @@ class Scraper extends ScraperAbstractInterface{
 
         $credential->setDescription(
             "<p>$summary</p>" .
-            "<h3 class='table-tab-content__title'>Why Take This Nanodegree?</h3>".
-            "<p>$expectedLearning</p>".
-            "<h3 class='table-tab-content__title'>Required Knowledge</h3>".
+            "<h3 class='table-tab-content__title'>Why Take This Nanodegree?</h3>" .
+            "<p>$expectedLearning</p>" .
+            "<h3 class='table-tab-content__title'>Required Knowledge</h3>" .
             "<p>$requiredKnowledge</p>"
         );
 
@@ -305,39 +275,33 @@ class Scraper extends ScraperAbstractInterface{
     /**
      * @param Credential $credential
      */
+    // Have not tested if this still works
     private function saveOrUpdateCredential(Credential $credential, $imageUrl)
     {
-        $dbCredential = $this->dbHelper->getCredentialBySlug( $credential->getSlug() ) ;
+        $dbCredential = $this->dbHelper->getCredentialBySlug($credential->getSlug());
         $em = $this->getManager();
-        if( !$dbCredential )
-        {
-            if($this->doCreate())
-            {
-                $this->out("New Credential - " . $credential->getName() );
-                if ($this->doModify())
-                {
-                    $em->persist( $credential );
+        if (!$dbCredential) {
+            if ($this->doCreate()) {
+                $this->out("New Credential - " . $credential->getName());
+                if ($this->doModify()) {
+                    $em->persist($credential);
                     $em->flush();
 
-                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$credential,'png');
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl, $credential, 'png');
                 }
             }
-        }
-        else
-        {
+        } else {
             // Update the credential
-            $changedFields = $this->dbHelper->changedFields($this->credentialFields,$credential,$dbCredential);
-            if(!empty($changedFields) && $this->doUpdate())
-            {
-                $this->out("UPDATE CREDENTIAL - " . $dbCredential->getName() );
-                $this->outputChangedFields( $changedFields );
+            $changedFields = $this->dbHelper->changedFields($this->credentialFields, $credential, $dbCredential);
+            if (!empty($changedFields) && $this->doUpdate()) {
+                $this->out("UPDATE CREDENTIAL - " . $dbCredential->getName());
+                $this->outputChangedFields($changedFields);
                 // Update the credential
-                if ($this->doModify())
-                {
+                if ($this->doModify()) {
                     $em->persist($dbCredential);
                     $em->flush();
 
-                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl,$dbCredential,'png');
+                    $this->dbHelper->uploadCredentialImageIfNecessary($imageUrl, $dbCredential, 'png');
                 }
             }
 
