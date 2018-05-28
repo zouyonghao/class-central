@@ -102,7 +102,8 @@ class HelpGuidesController extends Controller
         return $this->render('ClassCentralSiteBundle:HelpGuides:help_guide_article.html.twig',
             [
                 'article' => $article,
-                'page' => 'help_guides_article'
+                'page' => 'help_guides_article',
+                'current_section' => $article['section']['slug']
             ]
         );
     }

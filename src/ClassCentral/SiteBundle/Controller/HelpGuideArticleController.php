@@ -185,6 +185,9 @@ class HelpGuideArticleController extends Controller
 
         if ($editForm->isValid()) {
             $this->get('cache')->deleteCache('help_guides_article_' . $entity->getSlug());
+            $this->get('cache')->deleteCache('help_guides_section_articles_' . $entity->getSection()->getSlug());
+            $this->get('cache')->deleteCache('help_guides_sidebar');
+
             $em->flush();
 
             return $this->redirect($this->generateUrl('help-guide-article_edit', array('id' => $id)));

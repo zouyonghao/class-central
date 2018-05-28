@@ -16,7 +16,8 @@ class Ui {
       this.mediaImages();
       this.checkboxToggle();
       this.pulseTooltips();
-
+      this.expand();
+      
       if ($(".sidebar-prmo").length) {
         this.stickyAds();
       }

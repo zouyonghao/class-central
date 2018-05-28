@@ -59,7 +59,7 @@
               </h3>
 
               <ul class="padding-horz-large padding-vert-large">
-                {% for article in articles %}
+                {% for article in articles[0:3] %}
                   <li class="margin-vert-xxsmall">
                     <a class="text-2 text--charcoal hover-text--underline" href="{{ path('help_guides_article',{slug:article.slug}) }}">{{ article.title }}</a>
                   </li>

@@ -184,6 +184,7 @@ class HelpGuideSectionController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $this->get('cache')->deleteCache('help_guides_section_articles_' . $entity->getSlug());
             $em->flush();
 
             return $this->redirect($this->generateUrl('help-guide-section_edit', array('id' => $id)));

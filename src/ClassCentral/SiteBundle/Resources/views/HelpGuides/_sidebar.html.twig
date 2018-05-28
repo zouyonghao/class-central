@@ -1,5 +1,9 @@
 {% set sidebar = help_guides.getSideBarLinks() %}
+{% if current_section is not defined %}
+    {% set current_section = '' %}
+{% endif %}
 <nav id="help-nav">
+  <a href="{{ path("help_guides_index") }}" class="text-2 icon-chevron-left-blue icon--left text--blue block margin-bottom-xlarge">Help Center Home</a>
   {% for division in sidebar['divisions'] %}
   <h3 class="head-3 margin-bottom-medium">{{ division.name }}</h3>
   <ul class="border-top border--thin margin-right-large">
@@ -7,7 +11,7 @@
     <li>
       <a
         href="{{ path('help_guides_section',{slug: section.slug}) }}"
-        class="head-5 unit-horz padding-vert-xsmall border-bottom border--thin"
+        class="{% if current_section == section.slug %}active{% endif %} head-5 unit-horz padding-vert-xsmall border-bottom border--thin"
         data-expand="list-{{ section.slug }}"
       >
         <span class="unit-block padding-right-xsmall">
@@ -19,7 +23,7 @@
           </span>
         </span>
       </a>
-      <ul class="hidden" data-expand-target="list-{{ section.slug }}" style="list-style: circle;">
+      <ul class="{% if current_section != section.slug %}hidden{% else %}active{% endif %}" data-expand-target="list-{{ section.slug }}" style="list-style: circle;">
         {% for article in section.articles %}
           <li class="margin-vert-xsmall margin-left-large">
             <a class="text-2 text--charcoal" href="{{ path('help_guides_article',{slug: article.slug}) }}">{{ article.title }}</a>

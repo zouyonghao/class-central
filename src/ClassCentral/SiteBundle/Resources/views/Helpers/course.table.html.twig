@@ -141,7 +141,7 @@
     {% for result in results.hits.hits if result._source.nextSession is not empty %}
         {% set course = result._source %}
 
-        {% if loop.index is divisibleby(15) and not hideTableAd %}
+        {% if loop.index is divisibleby(11) and not hideTableAd %}
           {% if not app.request.cookies.get('ads_hidden') %}
             {{ cc_ads.renderTextRowAd('table',{
                 'tableId': tableId,
