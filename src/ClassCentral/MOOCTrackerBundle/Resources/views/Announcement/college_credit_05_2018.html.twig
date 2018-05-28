@@ -1,0 +1,32 @@
+{% extends 'ClassCentralSiteBundle::Mail/layout/borderless.html.twig' %}
+
+{%  block content %}
+    <tr>
+        <td valign="top" class="bodyContentMiddle">
+            <img width="700" style="max-width: 100%;" src="https://d3r3mog6nu8pt4.cloudfront.net/mooc-report/college-credit-courses-2-18-05.jpg" alt="370 Free to Access Courses with College Credit" />
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" class="bodyContentMiddle">
+            <div style="background: #ffffff; padding: 20px 30px 0px 30px;">
+                <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
+                    Hello {{user.displayName}},
+                    <br><br>
+                    These days, more and more universities are offering for-credit programs via MOOCs or Massive Open Online Courses. What started with a small number of degree programs, such as the iMBA from the University of Illinois (Coursera) and Georgia Tech’s Online Master of Science in Computer Science (Udacity), has given way to dozens of MOOC-based programs that can confer university credit.
+                    <br><br>
+                    Class Central recently made a list of all the courses we could find that are part of for-credit programs and are still free to access. Our search turned up at least 370 courses from 49 different universities, on topics spanning technology, business, the arts, and engineering.
+                </p>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="center" class="bodyContentCTA">
+            <div style="background: #ffffff; padding: 10px 0px 10px 0px; text-align: center;">
+                <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_homepage',{autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign,
+                    redirect: 'https://www.class-central.com/report/free-for-credit-moocs/'}) }}" class="btn-blue" style="background: #0E4DF1; border-radius: 10px; padding: 15px 20px 15px 20px; color: #ffffff; text-decoration: none; display: inline-block;">
+                    <span style="color: #ffffff; text-decoration: none;">View Courses</span>
+                </a>
+            </div>
+        </td>
+    </tr>
+{% endblock %}
