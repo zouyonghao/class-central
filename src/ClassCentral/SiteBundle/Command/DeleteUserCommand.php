@@ -22,7 +22,8 @@ class DeleteUserCommand extends ContainerAwareCommand {
         $this
             ->setName("classcentral:deleteuser")
             ->setDescription("Given a user id, deletes it")
-            ->addArgument('uid', InputArgument::REQUIRED,"Which user id? i.e 1");
+            ->addArgument('uid', InputArgument::REQUIRED,"Which user id or email address? i.e 1 or name@example.com");
+
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -46,16 +47,26 @@ class DeleteUserCommand extends ContainerAwareCommand {
         }
         else
         {
-            $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $uid );
-            if( !$user )
+            if(is_numeric($uid))
+            {
+                $user = $em->getRepository('ClassCentralSiteBundle:User')->find( $uid );
+            }
+            else
+            {
+                $user = $em->getRepository('ClassCentralSiteBundle:User')->findOneByEmail( $uid );
+            }
+
+            if( $user )
+            {
+                $output->writeln( "Deleting user with name " . $user->getDisplayName() );
+                // Delete the user
+                $userService->deleteUser($user);
+                $output->writeLn("User $uid deleted");
+            }
+            else
             {
                 $output->writeln("User $uid does not exist");
-                return;
             }
-            $output->writeln( "Deleting user with name " . $user->getDisplayName() );
-            // Delete the user
-            $userService->deleteUser($user);
-            $output->writeLn("User $uid deleted");
         }
     }
 
