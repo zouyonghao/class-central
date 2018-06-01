@@ -39,18 +39,18 @@
               {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
             </div>
           </li>
-          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-moocwatch-17.png" %}
-          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-moocwatch-17-mobile.png" %}
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-college-credit.jpg" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-college-credit-mobile.jpg" %}
           {% if app.environment == 'prod' %}
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
               {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
           {% endif %}
-          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "bg-white" }' class="next absolute top left width-100">
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "bg-charcoal-dark" }' class="next absolute top left width-100">
             <h2>
               <img
                 class="width-100"
                 src="{% if isMobile %}{{ homePageBannerImageMobile }}{% else %}{{ homePageBannerImage }}{% endif %}"
-                alt="MOOCWatch No. 17 - MOOCs Become Big Business"
+                alt="370 Online Courses With Real College Credit That You Can Access For Free"
                 data-media-switch="802"
                 data-large="{{ homePageBannerImage }}"
                 data-small="{{ homePageBannerImageMobile }}"
@@ -59,11 +59,11 @@
             <div class="absolute width-100 text-center inline-block">
               <a
                 data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-                data-track-props='{ "type": "Banner", "title": "MOOCWatch No. 17 - MOOCs Become Big Business" }'
-                href="https://www.class-central.com/report/moocs-become-big-business/"
+                data-track-props='{ "type": "Banner", "title": "370 Online Courses With Real College Credit" }'
+                href="https://www.class-central.com/report/free-for-credit-moocs/"
                 class="btn-blue btn--large xsmall-only-btn--medium large-only-btn--medium"
               >
-                Read <span class="xsmall-only-hidden text--bold">Latest MOOCWatch</span> Article
+                Read Article
               </a>
             </div>
           </li>
