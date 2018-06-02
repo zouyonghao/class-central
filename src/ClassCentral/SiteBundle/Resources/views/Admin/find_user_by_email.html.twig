@@ -1,0 +1,31 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>Find user by email or id</h1>
+    <p>Enter the users email or id and if the account exists, details and actions will be shown below</p>
+    {% if msg is not empty %}
+        <h3>{{ msg }}</h3>
+    {% endif %}
+    <form id="merge-course-form" class="clearfix" method="post">
+        <label>Email</label>
+        <input type="text" name="email"/>
+    </form>
+
+    {% if user is not empty %}
+        <h2>User Details</h2>
+        {{ user.email }} <br/>
+        {{ user.displayName }} <br/>
+        {{ user.id }} <br/>
+        Num follows: {{ user.follows | length }}  <br/>
+        Num courses: {{ user.userCourses| length }}  <br/>
+        Num reviews: {{ user.reviews | length }}  <br/>
+        Account created: {{ user.created | date('Y-m-d') }}<br/>
+        Last login: {{ user.lastLogin | date('Y-m-d') }}<br/>
+        {{user. isPrivate ? "Private profile" : "Public Profile" }}
+        User Profile Signup Type: {{ userSignupType[user.signupType] }} <br/>
+        {{ user.isverified ? "Email Verified" : "Email not verified" }} <br/>
+        {{  user.anonId }} <br/>
+        <a href="{{ path('admin_delete_user',{userId: user.id}) }}" target="_blank">Request User Deletion on next page</a>
+    {% endif %}
+
+{% endblock %}

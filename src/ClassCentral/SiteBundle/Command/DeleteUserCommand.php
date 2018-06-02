@@ -41,8 +41,10 @@ class DeleteUserCommand extends ContainerAwareCommand {
             foreach($userPreferences as $userPreference)
             {
                 $user = $userPreference->getUser();
+                $userEmail = $user->getEmail();
                 $output->writeln( "Deleting user {$user->getId()} with name " . $user->getDisplayName() );
                 $userService->deleteUser($user);
+                $userService->sendDeleteEmail($userEmail);
             }
         }
         else
@@ -58,10 +60,14 @@ class DeleteUserCommand extends ContainerAwareCommand {
 
             if( $user )
             {
-                $output->writeln( "Deleting user with name " . $user->getDisplayName() );
+                $userId = $user->getId();
+                $userEmail = $user->getEmail();
+                $output->writeln( "Deleting user with name " . $user->getDisplayName() . " ($userId)" );
                 // Delete the user
                 $userService->deleteUser($user);
-                $output->writeLn("User $uid deleted");
+                $output->writeLn("User $userId  deleted");
+                $userService->sendDeleteEmail($userEmail);
+
             }
             else
             {

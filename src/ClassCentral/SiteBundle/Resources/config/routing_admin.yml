@@ -150,3 +150,11 @@ mail_preview:
 mail_preview_list:
     pattern: /mail/preview
     defaults: { _controller: "ClassCentralSiteBundle:Mail:preview" }
+
+admin_find_user:
+    pattern: /user/find
+    defaults: { _controller: "ClassCentralSiteBundle:Admin:findUserByEmail" }
+
+admin_delete_user:
+    pattern: /user/delete/{userId}
+    defaults: { _controller: ClassCentralSiteBundle:Admin:deleteUser}

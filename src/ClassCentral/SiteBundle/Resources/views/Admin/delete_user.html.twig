@@ -1,0 +1,18 @@
+{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>Delete user</h1>
+    {% if msg is not empty %}
+        <h3>{{ msg }}</h3>
+    {% endif %}
+    {% if user is not empty %}
+        <div>{{ user.displayName }} with email {{ user.email }}</div> <br/>
+        <form method="post" name="delete-user">
+            {% if toBeDeleted %}
+                <input type="submit" value="Remove user from the deletion queue" name="do-not-delete-user">
+            {% else %}
+                <input type="submit" value="Mark user to be deleted" name="delete-user">
+            {% endif %}
+        </form>
+    {% endif %}
+{% endblock %}

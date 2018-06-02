@@ -3,6 +3,12 @@
 {% block content %}
     <div style="margin-top: 50px">
         <div>
+            <h2>Users</h2>
+            <ul>
+                <li><a href="{{ path('admin_find_user') }}">Locate user account by email or user id</a></li>
+            </ul>
+        </div>
+        <div>
             <h2>Instructors</h2>
             <ul>
                 <li><a href="{{ path('instructor_new') }}">New</a></li>

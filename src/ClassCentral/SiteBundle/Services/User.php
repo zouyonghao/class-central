@@ -485,6 +485,25 @@ class User {
         return true;
     }
 
+    public function deletePreference(\ClassCentral\SiteBundle\Entity\User $user, $type)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        if(!in_array($type, UserPreference::$validPrefs))
+        {
+            throw new \Exception("Preference $type is not a valid preference");
+        }
+
+        $prefMap = $user->getUserPreferencesByTypeMap();
+        if(in_array($type,array_keys($prefMap))) {
+            $up = $prefMap[$type];
+            $em->remove($up);
+            $em->flush();
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Initializes preferences for a particular user
      * @param \ClassCentral\SiteBundle\Entity\User $user
@@ -938,6 +957,26 @@ class User {
 
             ];
         }
+    }
+
+    public function sendDeleteEmail($email)
+    {
+        $mailgun = $this->container->get('mailgun');
+        $env = $this->container->getParameter('kernel.environment');
+        if($env !== 'prod')
+        {
+            $email = $this->container->getParameter('test_email');
+        }
+
+        $mailText = <<< EOD
+Hello, 
+        
+This email is a confirmation that your Class Central account as well as any data we have on you has been deleted. 
+         
+- Class Central Team
+EOD;
+        return $mailgun->sendSimpleText($email,"no-reply@class-central.com","Class Central account deleted",$mailText);
+
     }
 
 }
