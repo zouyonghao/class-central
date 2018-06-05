@@ -9,7 +9,7 @@
   {% set userData = apiService.getUserInfo() %}
   <!-- banner -->
   <div class="classcentral-style">
-    <section data-slideshow="homepage" class="cc-gradient-orange-green border-bottom border--thin border--gray">
+    <section data-slideshow="homepage" class="bg-white border-bottom border--thin border--gray">
       <div class="relative width-100 width-centered" style="max-width: 1400px;">
         <nav class="absolute">
           <button data-slideshow-target="0" class="bg-blue inline-block">1</button>
@@ -18,34 +18,43 @@
           <button data-slideshow-target="3" class="bg-blue transparent inline-block">4</button>
         </nav>
         <ul>
-          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png" %}
-          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png" %}
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-moochype.png" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-moochype-mobile.png" %}
           {% if app.environment == 'prod' %}
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
               {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
           {% endif %}
-          <li id="ss-1" data-slideshow-item='{ "index": 0, "bg": "cc-gradient-orange-green" }' class="active absolute top left width-100">
+          <li id="ss-1" data-slideshow-item='{ "index": 0,  "bg": "bg-white" }' class="active absolute top left width-100">
             <h2>
               <img
                 class="width-100"
-                src="{% if isMobile %}{{ homePageBannerImageMobile }}{% else %}{{homePageBannerImage}}{% endif %}"
-                alt="Find the Best Online Courses from Top Universities"
+                src="{% if isMobile %}{{ homePageBannerImageMobile }}{% else %}{{ homePageBannerImage }}{% endif %}"
+                alt="The Second Wave of MOOC Hype"
                 data-media-switch="802"
                 data-large="{{ homePageBannerImage }}"
                 data-small="{{ homePageBannerImageMobile }}"
               />
             </h2>
             <div class="absolute width-100 text-center inline-block">
-              {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
+              <a
+                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
+                data-track-props='{ "type": "Banner", "title": "The Second Wave of MOOC Hype" }'
+                href="https://www.class-central.com/report/second-wave-of-mooc-hype/"
+                class="btn-blue btn--large xsmall-only-btn--medium large-only-btn--medium"
+              >
+                Read Article
+              </a>
             </div>
           </li>
-          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-college-credit.jpg" %}
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-college-credit.png" %}
+          {% set homePageBannerBg = "/bundles/classcentralsite/images/banner-college-credit-bg.jpg" %}
           {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-college-credit-mobile.jpg" %}
           {% if app.environment == 'prod' %}
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
               {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
+              {% set homePageBannerBg = imageService.cropImage(baseurl~homePageBannerBg) %}
           {% endif %}
-          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": "bg-charcoal-dark" }' class="next absolute top left width-100">
+          <li id="ss-2" data-slideshow-item='{ "index": 1, "bg": { "src": "{{ homePageBannerBg }}" } }' class="next absolute top left width-100">
             <h2>
               <img
                 class="width-100"
@@ -67,13 +76,34 @@
               </a>
             </div>
           </li>
+          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities.png" %}
+          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-find-the-best-online-courses-from-top-universities-mobile.png" %}
+          {% if app.environment == 'prod' %}
+              {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
+              {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
+          {% endif %}
+          <li id="ss-3" data-slideshow-item='{ "index": 2, "bg": "cc-gradient-orange-green" }' class="absolute top left width-100">
+            <h2>
+              <img
+                class="width-100"
+                src="{% if isMobile %}{{ homePageBannerImageMobile }}{% else %}{{homePageBannerImage}}{% endif %}"
+                alt="Find the Best Online Courses from Top Universities"
+                data-media-switch="802"
+                data-large="{{ homePageBannerImage }}"
+                data-small="{{ homePageBannerImageMobile }}"
+              />
+            </h2>
+            <div class="absolute width-100 text-center inline-block">
+              {% include 'ClassCentralSiteBundle:Default:recommendations.html.twig' with { mobile: false } %}
+            </div>
+          </li>
           {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools.png" %}
           {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-discover-free-online-courses-from-ivy-league-schools-mobile.png" %}
           {% if app.environment == 'prod' %}
               {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
               {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
           {% endif %}
-          <li id="ss-3" data-slideshow-item='{ "index": 2,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
+          <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "cc-gradient-purple-blue" }' class="absolute top left width-100">
             <h2>
               <img
                 class="width-100"
@@ -95,35 +125,6 @@
               </a>
             </div>
           </li>
-
-          {% set homePageBannerImage = "/bundles/classcentralsite/images/banner-alltime-best-courses.png" %}
-          {% set homePageBannerImageMobile = "/bundles/classcentralsite/images/banner-alltime-best-courses-mobile.png" %}
-          {% if app.environment == 'prod' %}
-              {% set homePageBannerImage = imageService.cropImage(baseurl~homePageBannerImage) %}
-              {% set homePageBannerImageMobile = imageService.cropImage(baseurl~homePageBannerImageMobile) %}
-          {% endif %}
-          <li id="ss-4" data-slideshow-item='{ "index": 3,  "bg": "bg-charcoal-dark" }' class="absolute top left width-100">
-            <h2>
-              <img
-                class="width-100"
-                src="{% if isMobile %}{{ homePageBannerImageMobile }}{% else %}{{ homePageBannerImage }}{% endif %}"
-                alt="Best Courses of All-Time (2017 Edition)"
-                data-media-switch="802"
-                data-large="{{ homePageBannerImage }}"
-                data-small="{{ homePageBannerImageMobile }}"
-              />
-            </h2>
-            <div class="absolute width-100 text-center inline-block">
-              <a
-                data-track-click="{{ ts.event('HOMEPAGE_CLICK') }}"
-                data-track-props='{ "type": "Banner", "title": "Best Courses of All-Time" }'
-                href="https://www.class-central.com/report/top-50-moocs-2017-edition/"
-                class="btn-blue btn--large xsmall-only-btn--medium large-only-btn--medium"
-              >
-                Browse Courses
-              </a>
-            </div>
-          </li>
         </ul>
       </div>
     </section>
@@ -134,7 +135,7 @@
             {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: 'Edx to Move Away from “Offering Virtually Everything for Free”, Begins Testing a Support Fee', url: "https://www.class-central.com/report/edx-support-fee/" }  %}
         </li>
         <li class="xsmall-only-hidden small-only-hidden medium-only-hidden col width-100 {{ (newItems == 1) ? "large-up-width-2-3 width-centered" : "large-up-width-1-2" }} large-up-padding-right-medium margin-top-small">
-          {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "370 Online Courses With Real College Credit That You Can Access For Free", url: "https://www.class-central.com/report/free-for-credit-moocs/" }  %}
+          {% include 'ClassCentralSiteBundle:Default:new.html.twig' with { title: "Ten Most Popular MOOCs Starting in June 2018", url: "https://www.class-central.com/report/ten-most-popular-june-2018/" }  %}
         </li>
       </ul>
     </section>

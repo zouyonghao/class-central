@@ -17,7 +17,7 @@ class Ui {
       this.checkboxToggle();
       this.pulseTooltips();
       this.expand();
-      
+
       if ($(".sidebar-prmo").length) {
         this.stickyAds();
       }
@@ -332,12 +332,25 @@ class Ui {
       const $items = $slideshow.find("[data-slideshow-item]");
       const $navItems = $slideshow.find("nav button");
       const $next = $items.eq(index);
-      const bgColor = $next.data("slideshow-item").bg;
+      const bgData = $next.data("slideshow-item").bg;
+
       let $upcoming;
 
       $slideshow.removeClass("bg-charcoal-dark bg-white cc-gradient-2017 cc-gradient-gold cc-gradient-purple-blue cc-gradient-orange-green")
+      $slideshow.removeAttr("style");
       $navItems.addClass("transparent").eq(index).removeClass("transparent");
-      $slideshow.addClass(bgColor);
+
+      if (bgData.src) {
+        $slideshow.css({
+          backgroundSize: "contain",
+          backgroundImage: `url(${bgData.src})`,
+          backgroundRepeat: "repeat-x",
+        });
+      } else {
+        const bgColor = $next.data("slideshow-item").bg;
+        $slideshow.addClass(bgColor);
+      }
+
       $active.removeClass('active');
       $next.addClass('active').removeClass('next');
 
