@@ -26,7 +26,7 @@ class Keen
         try
         {
             $this->keenClient->addEvent('logins', array(
-                'user_id' => $user->getId(),
+                'user_id' => $user->getAnonId(),
                 'type' => $type
             ));
         } catch(\Exception $e) {
@@ -42,13 +42,107 @@ class Keen
     {
         try {
             $this->keenClient->addEvent('signups', array(
-                'user_id' => $user->getId(),
+                'user_id' => $user->getAnonId(),
                 'type' => $user->getSignupTypeString(),
                 'src' => $src
             ));
         } catch(\Exception $e) {
 
         }
-
     }
+
+    public function getAdImpressions($timeFrame, $groups)
+    {
+        return $this->keenClient->count("ad_impression",[
+            "group_by" => $groups,
+            "timeframe" => $timeFrame
+        ]);
+    }
+
+    public function getAdClicks($timeFrame, $groups)
+    {
+        return $this->keenClient->count("ad_click",[
+            "group_by" => $groups,
+            "timeframe" => $timeFrame
+        ]);
+    }
+
+    public function getAdStatsGroupedByAds($timeFrame)
+    {
+
+        $groups = ["ad.provider","ad.title"];
+        $adImpressions = $this->getAdImpressions($timeFrame, $groups);
+        $adClicks = $this->getAdClicks($timeFrame, $groups);
+        $adStats = [];
+        foreach ($adImpressions['result'] as $result)
+        {
+            $advName = $result['ad.provider'];
+            $adTitle = $result['ad.title'];
+            if(!isset($adStats[$advName]))
+            {
+                $adStats[$advName] = [];
+            }
+
+            $adStats[$advName][$adTitle] = [
+                'title' => $adTitle,
+                'impressions' => $result['result'],
+                'clicks' => 0
+            ];
+        }
+
+        foreach ($adClicks['result'] as $result)
+        {
+            $advName = $result['ad.provider'];
+            $adTitle = $result['ad.title'];
+
+            if(!isset($adStats[$advName][$adTitle]))
+            {
+                $adStats[$advName][$adTitle] = [
+                    'title' => $adTitle,
+                    'impressions' => 0
+                ];
+            }
+
+            $adStats[$advName][$adTitle]['clicks'] = $result['result'];
+        }
+
+        return $adStats;
+    }
+
+    public function getAdStatsGroupedByAdvertiser($timeFrame)
+    {
+        $groups = ["ad.provider"];
+
+        $adImpressions = $this->getAdImpressions($timeFrame, $groups);
+        $adClicks = $this->getAdClicks($timeFrame, $groups);
+        $adStats = [];
+        foreach ($adImpressions['result'] as $result)
+        {
+            $advName = $result['ad.provider'];
+            $adStats[$advName] = [
+                'name' => $advName,
+                'impressions' => $result['result'],
+                'clicks' => 0
+            ];
+        }
+
+        foreach ($adClicks['result'] as $result)
+        {
+            $advName = $result['ad.provider'];
+
+
+            if(!isset($adStats[$advName]))
+            {
+                $adStats[$advName] = [
+                    'name' => $advName,
+                    'impressions' => 0
+                ];
+            }
+
+            $adStats[$advName]['clicks'] = $result['result'];
+        }
+        return $adStats;
+    }
+
+
 }
