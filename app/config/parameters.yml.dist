@@ -52,6 +52,9 @@ parameters:
     session_memcached_port: 11211
     session_memcached_expire: 2592000
 
+    cache_memcached_host: localhost
+    cache_memcached_port: 11211
+
     #fb app details
     fb_app_id: ~
     fb_secret: ~

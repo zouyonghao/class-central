@@ -175,7 +175,7 @@ services:
   doctrine_cache:
     class: Doctrine\Common\Cache\MemcachedCache
     calls:
-      - [setMemcached,[ @session.memcached ] ]
+      - [setMemcached,[ @cache.memcached ] ]
   cache:
     class: ClassCentral\SiteBundle\Services\Cache
     calls:
@@ -250,11 +250,17 @@ services:
         class: ClassCentral\SiteBundle\Services\HelpGuides
         arguments: ['@service_container']
   session.memcached:
-    class: Memcached
+    class: ClassCentral\SiteBundle\Services\MemcachedWrapper
     arguments:
-    persistent_id: %baseurl%
+    persistent_id: %baseurl%session
     calls:
       - [ addServer, [ %session_memcached_host%, %session_memcached_port% ]]
+  cache.memcached:
+    class: ClassCentral\SiteBundle\Services\MemcachedWrapper
+    arguments:
+    persistent_id: %baseurl%cache
+    calls:
+      - [ addServer, [ %cache_memcached_host%, %cache_memcached_port% ]]
   session.handler.memcached:
     class: Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler
     arguments: [@session.memcached, { prefix: %baseurl%, expiretime: %session_memcached_expire% }]
