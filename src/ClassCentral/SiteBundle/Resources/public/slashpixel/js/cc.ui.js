@@ -16,6 +16,7 @@ class Ui {
       this.mediaImages();
       this.checkboxToggle();
       this.pulseTooltips();
+      this.slideTo();
       this.expand();
 
       if ($(".sidebar-prmo").length) {
@@ -258,8 +259,27 @@ class Ui {
   tabs() {
     $("[data-tab]").on("click", function(event) {
       const tab = $(this).data("tab");
+
+      if ($(this).data("tab-mobile-clickthrough") && window.innerWidth <= 768) {
+        return;
+      }
+
+      event.preventDefault();
+      const activeState = $(this).data("tab-active-state");
+      const inactiveState = $(this).data("tab-inactive-state");
       const family = $(this).data("tab-family");
-      $("[data-tab-target]").filter(`[data-tab-family=${family}]`).addClass("hidden");
+      const triggerChildren = family ? $("[data-tab]").filter(`[data-tab-family=${family}]`) : $("[data-tab]");
+      const targetChildren = family ? $("[data-tab-target]").filter(`[data-tab-family=${family}]`).addClass("hidden") : $("[data-tab-target]");
+
+      triggerChildren
+        .data("active", false)
+        .removeClass(activeState ? activeState : "bg-white")
+        .addClass(inactiveState ? inactiveState : "bg-gray");
+      targetChildren.addClass("hidden");
+
+      $(this).data("active", true)
+        .addClass(activeState ? activeState : "bg-white")
+        .removeClass(inactiveState ? inactiveState : "bg-gray");
       $(`[data-tab-target=${tab}]`).removeClass('hidden');
     });
   }
@@ -372,6 +392,13 @@ class Ui {
           slideshowInterval = startInterval(item);
         }, false);
       });
+    });
+  }
+
+  slideTo() {
+    $(document).on("click", "[data-slideto]", function() {
+      const target = $(this).data("slideto");
+      $.scrollTo(`#${target}`,{ duration: 1000 });
     });
   }
 }

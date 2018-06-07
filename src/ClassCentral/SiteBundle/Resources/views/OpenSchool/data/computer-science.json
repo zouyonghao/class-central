@@ -1,0 +1,95 @@
+{
+  "title": "Computer Science",
+  "description": "Learn CS from the world’s best universities. We’ve created a comprehensive listing of MOOCs on CS to help you find your next course. Read reviews to decide if a course is right for you.",
+  "illustration": "illustration-cs.png",
+  "palette": {
+    "color": "#E04C3D",
+    "colorDark": "#b83c2b",
+    "bgColor": "#f6e2e0"
+  },
+  "sections": [
+    {
+      "title": "Core Curriculum",
+      "slug": "core",
+      "tags": [
+        {
+          "slug": "algorithms core",
+          "name": "Algorithms"
+        },
+        {
+          "slug": "programming core",
+          "name": "Programming"
+        },
+        {
+          "slug": "databases core",
+          "name": "Databases"
+        },
+        {
+          "slug": "software design core",
+          "name": "Software Design"
+        },
+        {
+          "slug": "operating systems core",
+          "name": "Operating Systems"
+        },
+        {
+          "slug": "computer graphics core",
+          "name": "Computer Graphics"
+        },
+        {
+          "slug": "computer networks core",
+          "name": "Computer Networks"
+        },
+        {
+          "slug": "computer security core",
+          "name": "Computer Security"
+        }
+      ]
+    },
+    {
+      "title": "Supporting",
+      "slug": "supporting",
+      "tags": [
+        {
+          "slug": "cs ee core",
+          "name": "Electrical Engineering for CS"
+        },
+        {
+          "slug": "cs math core",
+          "name": "Math for CS"
+        }
+      ]
+    },
+    {
+      "title": "Tools",
+      "slug": "tools",
+      "tags": [
+        {
+          "slug": "c core",
+          "name": "C"
+        },
+        {
+          "slug": "c++ core",
+          "name": "C++"
+        },
+        {
+          "slug": "java core",
+          "name": "Java"
+        },
+        {
+          "slug": "sql core",
+          "name": "SQL"
+        },
+        {
+          "slug": "windows core",
+          "name": "Windows"
+        },
+        {
+          "slug": "linux core",
+          "name": "Linux / Unix"
+        }
+
+      ]
+    }
+  ]
+}

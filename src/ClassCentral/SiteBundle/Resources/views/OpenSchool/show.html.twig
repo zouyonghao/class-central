@@ -1,0 +1,130 @@
+{% set illus = "/bundles/classcentralsite/images/open-school/" ~ illustration %}
+{% if app.environment == 'prod' %}
+  {% set illus = imageService.cropImage(baseurl~illus) %}
+{% endif %}
+
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{% block headmeta %}
+  <title>Open School of {{ title  }} | Class Central</title>
+  <meta name="description" content="{{ description }}" />
+  <meta property="og:title" content="Open School of {{ title }} | by Class Central" />
+  <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), { school: school }) }}" />
+  <link rel="canonical" href="{{ url(app.request.attributes.get('_route'), { school: school }) }}">
+
+  <meta property="og:image" content="{{ illus }}">
+  <meta property="og:site_name" content="Class Central"/>
+  <meta property="og:description" content="{{ description }}" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@classcentral" />
+  <meta name="twitter:title" content="Open School of {{ title }} | by Class Central" />
+  <meta name="twitter:description" content="{{ description }}" />
+  <meta name="twitter:image" content="{{ illus }}" />
+
+  {% include 'ClassCentralSiteBundle:OpenSchool:_styles.html.twig' %}
+{% endblock %}
+
+{% block content %}
+  <div class="classcentral-style" id="open-landing-page">
+    <div class="relative width-100 width-centered padding-horz-small xlarge-up-padding-horz-large border-box" style="max-width: 1250px;">
+      <header class="width-centered width-13-16 xlarge-up-width-4-5 margin-vert-medium xlarge-up-margin-top-xxlarge row">
+        <div class="width-100 xlarge-up-margin-top-xxlarge xlarge-up-width-7-16 col xlarge-up-padding-right-xxlarge">
+          <h1 class="margin-bottom-small">
+            <span class="head-4 medium-up-head-3 block">Open School of </span>
+            <strong class="head-2 medium-up-head-1 text--bold block">{{ title }}</strong>
+          </h1>
+          <img class="xlarge-up-hidden width-100" src="{{ illus }}" />
+          <p class="text-2 medium-up-text-1">{{ description }}</p>
+        </div>
+        <div class="hidden xlarge-up-block width-9-16 col">
+          <img class="width-100" src="{{ illus }}" />
+        </div>
+      </header>
+
+
+      <nav class="text-center width-100 border-box padding-horz-medium xlarge-up-width-3-4 width-centered large-up-margin-top-medium">
+        <h4 class="text--upper head-6 text--bold bg-white relative inline-block padding-horz-medium" style="top: 12px;">Jump to</h4>
+        <ul class="row border-all border--gray-dark border--thin text-center block padding-vert-small padding-horz-xxlarge">
+          {% for section in sections %}
+            <li class="col width-100 large-up-width-1-3 padding-vert-small medium-up-padding-vert-medium">
+              <button data-slideto="{{ section.slug }}">
+                <div class="text-center">
+                  <svg width="36.986" height="42.706" viewBox="0 0 36.986 42.706">
+                    <use href="#icon-{{ section.slug }}"></use>
+                  </svg>
+                </div>
+                <strong class="inline-block text-center text--bold head-4 medium-up-head-3 text--color">
+                  {{ section.title }}
+                </strong>
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      {% for section in sections %}
+        <section id="{{ section.slug }}" class="padding-vert-large">
+          <h2 class="text--bold head-3 medium-up-head-2 padding-left-medium margin-bottom-small">
+            <svg class="icon-color--left" width="36.986" height="42.706" viewBox="0 0 36.986 42.706">
+              <use href="#icon-{{ section.slug }}"></use>
+            </svg>
+            {{ section.title }}
+          </h2>
+          <div class="row">
+            <ul class="col width-100 large-up-width-2-5 xxlarge-up-width-1-2 row">
+              {% for tag in section.tags %}
+                <li class="col width-100 small-up-width-1-2 large-up-width-100 xxlarge-up-width-1-2 padding-small text-center">
+                  <a href="{{ path('tag_courses', { tag: tag.slug }) }}"
+                    data-tab-active-state="active"
+                    data-tab-inactive-state="inactive"
+                    data-tab-family="{{ section.slug }}-section"
+                    data-tab-mobile-clickthrough="true"
+                    data-tab="{{ section.slug }}-{{ tag.key }}"
+                    class="{% if loop.first %}active{% endif %} relative hover-grow border-box radius shadow block width-100 padding-medium padding-vert-xxlarge"
+                  >
+                    <span class="btn-color text-center border-box absolute top radius left width-100 height-100 block text--bold text--charcoal text-1 padding-medium padding-top-xlarge">
+                      {{ tag.name }}
+                    </span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+            <div class="col hidden large-up-block width-3-5 xxlarge-up-width-1-2 padding-left-medium xxlarge-up-padding-left-xxlarge padding-right-small" style="min-height: 625px;">
+              {% include 'ClassCentralSiteBundle:OpenSchool:_tabs.html.twig' with { section: section.slug } %}
+              {% for tag in section.tags %}
+                <div data-tab-family="{{ section.slug }}" data-tab-target="{{section.slug}}-courses">
+                  <div data-tab-family="{{ section.slug }}-section" data-tab-target="{{section.slug}}-{{ tag.key }}" {% if not loop.first %}class="hidden"{% endif %}>
+                    {% include 'ClassCentralSiteBundle:OpenSchool:_table.courses.html.twig' with {
+                      tableId: section.slug ~ "-" ~ tag.key,
+                      section: section.slug ~ "-" ~ tag.key,
+                      slug: tag.slug,
+                      active: loop.first,
+                      stream: tag.data.courses
+                    }%}
+                  </div>
+                </div>
+                {% if tag.data.numCredentials is defined %}
+                  {# for the future, when tags have credentials #}
+                  <div data-tab-family="{{ section.slug }}" data-tab-target="{{section.slug}}-credentials" class="hidden">
+                    <div data-tab-family="{{ section.slug }}-section" data-tab-target="{{section.slug}}-{{ tag.key }}" {% if not loop.first %}class="hidden"{% endif %}>
+                      {% include 'ClassCentralSiteBundle:OpenSchool:_table.credentials.html.twig' with {
+                      tableId: section.slug ~ "-" ~ tag.key,
+                      section: section.slug ~ "-" ~ tag.key,
+                        active: loop.first,
+                        slug: tag.slug,
+                        count: tag.data.numCredentials,
+                        stream: tag.data.credentials
+                      }%}
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+      {% endfor %}
+
+    </div>
+  </div>
+{% endblock %}

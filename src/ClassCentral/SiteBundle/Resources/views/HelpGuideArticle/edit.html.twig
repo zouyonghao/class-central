@@ -62,8 +62,11 @@
           {{ form_widget(edit_form.summary, {'attr': {'class': "width-100 input--text input--large"}}) }}
 
           {{ form_label(edit_form.text, "Body", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
-          <div id="editor" class="padding-large" style="min-height: 500px">
+
+          <div class="wysiwyg">
+            <div id="editor" class="padding-large" style="min-height: 500px">
               {{ entity.text|raw }}
+            </div>
           </div>
 
           <div class="margin-vert-medium text-center row">

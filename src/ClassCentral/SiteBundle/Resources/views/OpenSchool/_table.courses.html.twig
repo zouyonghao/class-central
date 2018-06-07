@@ -1,0 +1,196 @@
+{% if stream.hits.total > 0 %}
+  <table
+    class="table table--block"
+  >
+    <tbody>
+      {% for result in stream.hits.hits if result._source.nextSession is not empty %}
+        {% if loop.index <= 5 %}
+          {% set course = result._source %}
+          <tr itemscope itemtype="http://schema.org/Event">
+            {# add to profile column #}
+            <td class="text-center width-2-16">
+              {# filter information #}
+              <div class="dropdown" data-dropdown>
+                {% set userListIds = user_session.getCourseListIds(course.id) %}
+                {# span id is same as the name of the input checkbox#}
+                <a
+                  class="
+                  icon--center inline-block
+                  {% if userListIds is empty %}icon--medium icon-list-add-blue{% else %}icon--small icon-pencil-charcoal{% endif %}
+                  add-button dropdown-toggle"
+                  href="#"
+                  style="height: 25px;"
+                  data-dropdown-anchor
+                  id="check-{{ tableId }}-{{ course.id }}"
+                  data-toggle="dropdown">
+                    <span id="check-{{ tableId }}-{{ course.id }}"></span>
+                </a>
+                <div data-dropdown-menu class="z-top dropdown-menu radius bg-white absolute padding-bottom-small border-all border--thin border--gray-xlight" style="width: 200px; display: none;">
+                  <ul class="text-left">
+                    <li class="dropdown-list-header bg-gray padding-xsmall padding-left-medium margin-bottom-small">My Courses</li>
+                      <ul>
+                        {% for listId, list in listTypes %}
+                        <li class="padding-horz-small">
+                          <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                            <input
+                              type="checkbox"
+                              name="check-{{ tableId }}-{{ course.id }}"
+                              class="course-list-checkbox"
+                              id="check-{{ listId }}-{{ course.id }}"
+                              value="{{ listId }}"
+                              data-course-id = "{{ course.id }}"
+                              {% if listId in userListIds %}checked="checked"{% endif %}
+                              data-course-name="{{ course.name }}"
+                              data-source="{{ tableId }}"
+                              data-track-click="{{ ts.event('OS_CLICK') }}"
+                              data-track-props='{ "type": "Dropdown Item", "title": "{{ list.desc }}", "courseName": "{{ course.name }}", "courseId": "{{ course.id }}" }'
+                            >
+                            <label for="check-{{ listId }}-{{ course.id }}" class="filter-dropdown-toggle sub-category">
+                              <span>
+                                <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                                  <span class="icon icon-checkmark-white"></span>
+                                </span>
+                                <span class="checkbox--label checkbox--label-solid inline-block">{{ list.desc }}</span>
+                              </span>
+                            </label>
+                          </fieldset>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                  </ul>
+                  {% if ts.device() != "desktop" %}
+                    <a
+                      data-dropdown-close
+                      href="#"
+                      class="icon--center icon-x-charcoal icon--xsmall absolute top right padding-top-xsmall margin-right-xxsmall">
+                      Close
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </td>
+            {% set institutionName = "" %}
+            {% set institutionId = "" %}
+            {% set courseTitle = course.name %}
+            {% set providerName = "" %}
+            {% set providerId = "" %}
+
+            {% if course.institutions |length > 0 %}
+              {% set institutionName = course.institutions[0].name %}
+              {% set institutionId = course.institutions[0].id %}
+            {% endif %}
+            {% if course['provider'] %}
+              {% set providerName = course.provider.name %}
+              {% set providerId = course.provider.id %}
+            {% endif %}
+            <td class="course-name-column width-9-16 relative">
+              {# showing institutions and universities #}
+              <ul class="table-uni-list text-3 block">
+                {% if course.institutions|length > 0 and showInstitution is not defined  %}
+                  {% for institution in course['institutions'] %}
+                    {% set route = 'ClassCentralSiteBundle_university' %}
+                    {% if not institution['isUniversity'] %}
+                        {% set route = 'ClassCentralSiteBundle_institution' %}
+                    {% endif %}
+                    <li class="inline">
+                      <a
+                        class="uni-name text--charcoal hover-text--underline"
+                        href="{{ path(route,{'slug' : institution['slug']|lower })}}"
+                        title="List of {{institution['name']}} MOOCs"
+                        onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')"
+                        data-track-click="{{ ts.event('OS_CLICK') }}"
+                        data-track-props='{ "type": "Institution", "clickMetadata": {
+                          "institution": "{{ institution['name'] }}",
+                          "institutionId": "{{ institution['id'] }}",
+                          "tableId": "{{ tableId }}",
+                          "course": "{{ courseTitle }}",
+                          "provider": "{{ providerName }}",
+                          "providerId": "{{ providerId }}",
+                          "courseId": "{{ course.id }}"
+                        }}'
+                      >
+                        {{institution['name']}}
+                      </a>
+                    </li>
+                  {% endfor %}
+                {% endif %}
+              </ul>
+                <a class="text--charcoal text-2 medium-up-text-1 block course-name" itemprop='url' href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}"
+                 onmousedown='recordInboundLink(
+                  "{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}",
+                  "{{course.provider.name}}","{{course.name}}","{{ tableId }}");return false'
+                 data-track-click="{{ ts.event('OS_CLICK') }}"
+                 data-track-props='{ "type": "Course", "clickMetadata": {
+                  "institution": "{{ institutionName }}",
+                  "institutionId": "{{ institutionId }}",
+                  "tableId": "{{ tableId }}",
+                  "course": "{{ courseTitle }}",
+                  "provider": "{{ providerName }}",
+                  "providerId": "{{ providerId }}",
+                  "courseId": "{{ course.id }}"
+                 }}'
+                  title="{{ course.name }}"><span itemprop="name" class="course-name-text text--bold">{{ course.name }}</span>
+                </a>
+
+                {% if (course['provider']) or course.durationDisplay or course.workloadDisplay %}
+                  <span class="block">
+                    {% if (course['provider']) %}
+                      via
+                      <a
+                        href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"
+                        class="initiativelinks text--charcoal text--italic hover-text--underline"
+                        title="List of {{ course['provider']['tooltip'] }} MOOCs"
+                        onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
+                        data-track-click="{{ ts.event('OS_CLICK') }}"
+                        data-track-props='{ "type": "Provider", "clickMetadata": {
+                          "institution": "{{ institutionName }}",
+                          "institutionId": "{{ institutionId }}",
+                          "tableId": "{{ tableId }}",
+                          "course": "{{ courseTitle }}",
+                          "provider": "{{ providerName }}",
+                          "providerId": "{{ providerId }}",
+                          "courseId": "{{ course.id }}"
+                        }}'
+                      >{{ course.provider.name }}
+                      </a>
+                    {% endif %}
+                    <span class="block large-up-inline-block icon--left text-4 small-up-text-3 {% if (course['provider']) %} large-up-margin-left-xxsmall {% endif %} icon-clock-charcoal">{{ course.workloadDisplay }}
+                      {% if course.durationDisplay and course.workloadDisplay %},{% endif %}
+                      {{ course.durationDisplay }}
+                    </span>
+                  </span>
+                {% endif %}
+            </td>
+            <td class="text-center text-left large-up-text-right">
+              <div class="large-only-padding-left-xlarge">
+                {% if course.reviewsCount > 0 %}
+                  {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: course.rating } %}
+                   <a
+                    class="xsmall-only-hidden small-only-hidden block margin-top-xxsmall text-4 text--gray"
+                    href="{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug} ) }}#course-all-reviews"
+                    data-track-click="{{ ts.event('OS_CLICK') }}"
+                    data-track-props='{ "type": "Reviews", "courseName": "{{ course.name }}", "courseId": "{{ course.id }}" }'
+                  >
+                    {{ course.reviewsCount }} Reviews
+                  </a>
+                {% else %}
+                  <span class="xsmall-only-hidden small-only-hidden text-4 text--gray text--italic">No reviews yet.</span>
+                  <span class="medium-up-hidden"><i class="icon-star-gray-light icon--xsmall"></i></span>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if stream.hits.total > 5 %}
+    <div class="text-center margin-vert-medium">
+      <a href="{{ path('tag_courses', { tag: slug }) }}" class="btn-color btn-blue-outline padding-horz-xlarge btn--large">Show More</a>
+    </div>
+  {% endif %}
+{% else %}
+  <div class="padding-vert-xxlarge margin-vert-xxlarge text-1 text-center text--charcoal">No courses available for this subject</div>
+{% endif %}

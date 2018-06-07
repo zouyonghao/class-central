@@ -16,10 +16,11 @@
         {{ form_widget(edit_form.slug, {'attr': {'class': "width-100 input--text input--large"}}) }}
 
         {{ form_label(edit_form.description, "Description", {"label_attr": {"class": "margin-top-medium block text--gray text-4"}}) }}
-        <div id="editor" class="padding-large" style="min-height: 300px">
+        <div class="wysiwyg">
+          <div id="editor" class="padding-large" style="min-height: 300px">          
             {{ entity.description|raw }}
+          </div>
         </div>
-
         <div class="margin-vert-large text-center">
           {{ form_row(edit_form.submit, { "label": "Save", "attr": { "class": "btn-blue btn--large" }}) }}
         </div>

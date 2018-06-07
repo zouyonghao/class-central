@@ -601,6 +601,12 @@ help_guides_section:
   pattern: /help/section/{slug}
   defaults: { _controller: ClassCentralSiteBundle:HelpGuides:Section }
 
+
+# open school
+open_school:
+    pattern:  /open-school/{school}
+    defaults: { _controller: ClassCentralSiteBundle:OpenSchool:show }
+
 # About
 about_privacy:
     pattern:  /about/privacy-policy

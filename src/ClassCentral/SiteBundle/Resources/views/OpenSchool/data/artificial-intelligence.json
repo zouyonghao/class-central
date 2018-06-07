@@ -1,0 +1,79 @@
+{
+  "title": "Artificial Intelligence",
+  "description": "Learn AI from the world’s best universities. We’ve created a comprehensive listing of MOOCs on AI to help you find your next course. Read reviews to decide if a course is right for you.",
+  "illustration": "illustration-ai.png",
+  "palette": {
+    "color": "#72d2a1",
+    "colorDark": "#33a86c",
+    "bgColor": "#e5fff2"
+  },
+  "sections": [
+    {
+      "title": "Core Curriculum",
+      "slug": "core",
+      "tags": [
+        {
+          "slug": "machine learning core",
+          "name": "Machine Learning"
+        },
+        {
+          "slug": "deep learning core",
+          "name": "Deep Learning"
+        },
+        {
+          "slug": "neural networks core",
+          "name": "Neural Networks"
+        },
+        {
+          "slug": "robotics core",
+          "name": "Robotics"
+        },
+        {
+          "slug": "computer vision core",
+          "name": "Computer Vision"
+        },
+        {
+          "slug": "nlp core",
+          "name": "Natural Language Processing"
+        }
+
+      ]
+    },
+    {
+      "title": "Supporting",
+      "slug": "supporting",
+      "tags": [
+        {
+          "slug": "math for ai core",
+          "name": "Math for AI"
+        }
+      ]
+    },
+    {
+      "title": "Tools",
+      "slug": "tools",
+      "tags": [
+        {
+          "slug": "tensorflow core",
+          "name": "TensorFlow"
+        },
+        {
+          "slug": "r core",
+          "name": "R"
+        },
+        {
+          "slug": "python core",
+          "name": "Python"
+        },
+        {
+          "slug": "autonomous vehicles core",
+          "name": "Autonomous Vehicles"
+        },
+        {
+          "slug": "recommendation core",
+          "name": "Recommendation Systems"
+        }
+      ]
+    }
+  ]
+}

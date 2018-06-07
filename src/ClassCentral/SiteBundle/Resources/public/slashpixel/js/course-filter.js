@@ -39,14 +39,12 @@ jQuery(function($) {
     });
 
     $("[data-tab]").on("click", function(event) {
-      event.preventDefault();
       const tab = $(this).data("tab");
-      $("[data-tab]").data("active", false).removeClass("bg-white").addClass("bg-gray");
-      $(this).data("active", true).addClass("bg-white").removeClass("bg-gray");
-
-      if (tab.match(/credentials|courses/)) {
-        filterCourses();
-      }
+      setTimeout(function() {
+        if (tab.match(/credentials|courses/)) {
+          filterCourses();
+        }
+      }, 0);
     });
 
     $(".mobile-filter-btn").click(function(event) {
