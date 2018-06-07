@@ -20,8 +20,8 @@
 
                 {% for ad in ads %}
                     {% set CTR = 0 %}
-                    {% if ad.impressions != 0 %}
-                        {% set ctr = ad.clicks*1000/ad.impressions %}
+                    {% if ad.impressions > 0 %}
+                        {% set CTR = ad.clicks*1000/ad.impressions %}
                     {% endif %}
                     {{ ad.title }}, {{ ad.impressions }}, {{ ad.clicks }}, {{ CTR }} <br/>
                 {% endfor %}
