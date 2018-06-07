@@ -16,7 +16,7 @@
                 {% if  advertiserStats.impressions > 0 %}
                     {% set advertiserCTR = advertiserStats.clicks*1000/advertiserStats.impressions %}
                 {% endif %}
-                {{ advertiserStats.name }}, {{ advertiserStats.impressions }}, {{ advertiserStats.clicks }}<br/><br/>
+                {{ advertiserStats.name }}, {{ advertiserStats.impressions }}, {{ advertiserStats.clicks }}, {{ advertiserCTR }}<br/><br/>
 
                 {% for ad in ads %}
                     {% set CTR = 0 %}
