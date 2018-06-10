@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCourseListCommand extends ContainerAwareCommand
 {
-    private $types = ['standard', 'biz-tech-english'];
+    private $types = ['standard', 'biz-tech-english','full'];
 
     protected function configure()
     {
@@ -51,6 +51,11 @@ class GenerateCourseListCommand extends ContainerAwareCommand
         if($type == 'biz-tech-english')
         {
             $this->generateCourseListBizTechEnglish($fileName);
+        }
+
+        if($type == 'full')
+        {
+            $this->generateCourseListFull($fileName);
         }
 
         $this->logToSlack("$fileName generated");
@@ -353,6 +358,156 @@ class GenerateCourseListCommand extends ContainerAwareCommand
         }
         fclose($fp);
     }
+
+    private function generateCourseListFull($fileName)
+    {
+        $courses = $this->getContainer()->get('doctrine')->getManager()
+            ->getRepository('ClassCentralSiteBundle:Course')
+            ->findAll();
+
+
+        $fp = fopen("tmp/$fileName", "w");
+        $rs = $this->getContainer()->get('review');
+
+        // Add a title line to the CSV
+        $title = array(
+            'Course Id',
+            'Course Name',
+            'Provider',
+            'Universities/Institutions',
+            'Parent Subject',
+            'Child Subject',
+            'Category',
+            'Url',
+            'Next Session Date',
+            'Duration',
+            'Workload',
+            'Length',
+            'Language',
+            'Video(Url)',
+            'Course Description',
+            'Syllabus',
+            'Credential Name',
+            'Created',
+            'Status',
+            'Rating',
+            'Number of Ratings',
+        );
+        fputcsv($fp,$title);
+        $dt = new \DateTime('2016-07-31');
+        foreach($courses as $course)
+        {
+            $formatter = $course->getFormatter();
+
+            if($course->getStatus() != CourseStatus::AVAILABLE )
+            {
+                continue;
+            }
+            if($course->getCreated() > $dt)
+            {
+                //continue;
+            }
+
+            if(!$course->getIsMooc())
+            {
+                continue;
+            }
+            $provider = $course->getInitiative() ? $course->getInitiative()->getName() : "Independent" ;
+            $ins = array();
+            foreach($course->getInstitutions() as $institution)
+            {
+                $ins[] = $institution->getName();
+            }
+
+            $nextSession = $course->getNextOffering();
+            $date = "";
+            $url = $course->getUrl();
+            if($nextSession)
+            {
+                $url = $nextSession->getUrl();
+                $date = $nextSession->getDisplayDate();
+            }
+
+            $subject = $course->getStream();
+            if($subject->getParentStream())
+            {
+                $parent = $subject->getParentStream()->getName();
+                $subject = $subject->getName();
+            }
+            else
+            {
+                $parent = $subject->getName();
+                $subject = "";
+            }
+
+            $language = 'English';
+            if($course->getLanguage())
+            {
+                $language = $course->getLanguage()->getName();
+            }
+
+            $credential = '';
+            if ( !$course->getCredentials()->isEmpty() )
+            {
+                $cred = $course->getCredentials()->first();
+                $credential = $cred->getName();
+            }
+
+            $created = null;
+            if ($course->getCreated())
+            {
+                $created = $course->getCreated()->format('Y-m-d');
+            }
+
+            $description = $course->getLongDescription();
+            if(!$description)
+            {
+                $description = $course->getDescription();
+            }
+
+            $status = '';
+            if( $course->getNextOffering() )
+            {
+                $states = array_intersect( array('past','ongoing','selfpaced','upcoming'), CourseUtility::getStates( $course->getNextOffering() ));
+                if(!empty($states))
+                {
+                    $status = array_pop($states);
+                }
+            }
+
+            $rating = $rs->getRatings($course->getId());
+            $rArray = $rs->getRatingsSummary($course->getId());
+            $numRatings = $rArray['count'];
+
+            $line = array(
+                $course->getId(),
+                $course->getName(),
+                $provider,
+                implode($ins,"|||"),
+                $parent,
+                $subject,
+                $course->getStream()->getName(),
+                $url,
+                $date,
+                $formatter->getDuration(),
+                $formatter->getWorkload(),
+                $language,
+                $course->getVideoIntro(),
+                $description,
+                $course->getSyllabus(),
+                $credential,
+                $created,
+                $status,
+                $rating,
+                $numRatings
+
+            );
+
+            fputcsv($fp,$line);
+        }
+        fclose($fp);
+    }
+
 
     public function logToSlack( $message )
     {
