@@ -1,9 +1,37 @@
+import { formatNumber } from "../../client/packages/utils/format";
+
 class Trailer {
   constructor() {
     document.addEventListener("DOMContentLoaded", () => {
       const _this = this;
       $(document).on("click", "[data-trailer]", function() {
-        _this.handlePlay($(this).data("trailer"));
+        const trailerData = $(this).data("trailer");
+        if (trailerData.target === "overlay") {
+          if (!CC.Class.Modal.isOpen()) {
+            CC.Class.Modal.open();
+            $.ajax({
+              url: `/maestro/overlay/trailer/${trailerData.courseId}`,
+              method: "get",
+              dataType: "json",
+              success: function(data) {
+                CC.Class.Modal.content({ body: data.html, closeButton: "Close" }, () => {
+                  _this.handlePlay(trailerData);
+
+                  var trackEl = $("[data-modal]").find("[data-track-event]");
+                  CC.track(trackEl.data("track-event"), trackEl.data("track-props"));
+                });
+
+                $('[data-modal] [data-format-number]').each(function() {
+                  $(this).html(formatNumber(parseInt($(this).html(), 10)).shortHand);
+                })
+              },
+              error: function() {
+              }
+            })
+          }
+        } else {
+          _this.handlePlay($(this).data("trailer"));
+        }
       })
     });
   }

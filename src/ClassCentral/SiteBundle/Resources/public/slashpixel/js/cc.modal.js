@@ -4,6 +4,7 @@ class Modal {
       this.el = $("[data-modal]");
       this.body = $("body");
       this.elContent = this.el.find("[data-content]");
+      this.elCloseButton = this.el.find("[data-modal-close] button");
       this.bindEvents();
       $(document).trigger("modal:ready");
     });
@@ -44,11 +45,16 @@ class Modal {
   }
 
   content(content, callback) {
-    this.elContent.html(content);
-    if (callback) {
-      setTimeout(() => {
-        callback();
-      }, 0);
+    if (content.closeButton) {
+      this.elCloseButton.html(content.closeButton);
+    }
+    if (content.body) {
+      this.elContent.html(content.body);
+      if (callback) {
+        setTimeout(() => {
+          callback();
+        }, 0);
+      }
     }
   }
 

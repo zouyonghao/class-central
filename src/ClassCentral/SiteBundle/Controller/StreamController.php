@@ -349,6 +349,41 @@ class StreamController extends Controller
         return array('parent'=>$parentSubjects,'children'=>$childSubjects);
     }
 
+    public function getSubjectsListWithCounts($container)
+    {
+        $cache = $container->get('cache');
+        $data = $cache->get('subjects_with_count_single_list',function ($container){
+            // counts
+            $em = $container->get('doctrine')->getManager();
+            $esCourses = $container->get('es_courses');
+
+            $count = $esCourses->getCounts();
+            $subjectsCount = $count['subjects'];
+
+            $allSubjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findBy(
+                array(), array('displayOrder' => 'DESC')
+            // fixing stream order to DESC
+            );
+
+            $subjects = [];
+            foreach($allSubjects as $subject)
+            {
+                if(!isset($subjectsCount[$subject->getId()]))
+                {
+                    continue; // no count exists. Do not show the subject
+                }
+                $count = $subjectsCount[$subject->getId()];
+                $subject->setCourseCount($count);
+
+                $subjects[$subject->getSlug()] =  $subject->getArray();
+            }
+
+            return compact('subjects');
+        },[$container]);
+
+        return $data;
+    }
+
     public function textViewAction(Request $request,$slug)
     {
         $em = $this->getDoctrine()->getManager();

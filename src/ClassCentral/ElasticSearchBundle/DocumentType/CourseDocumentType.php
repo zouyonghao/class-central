@@ -108,6 +108,7 @@ class CourseDocumentType extends DocumentType {
         $body['isMOOC'] = $c->getIsMOOC();
         $body['id'] = $c->getId();
         $body['videoIntro'] = $c->getVideoIntro();
+        $body['videoEmbedUrl'] = $this->getVideoEmbedUrl($c->getVideoIntro());
         $body['oneLiner']= $c->getOneliner();
         $body['length'] = $c->getLength();
         $body['workloadType'] = $c->getWorkloadType();
@@ -330,4 +331,30 @@ class CourseDocumentType extends DocumentType {
     }
 
 
-} 
+    /**
+     * Generates the url to embed video for youtube videos
+     * TODO: Should not be here. Move to an appropriate place
+     * @param $videoIntro
+     * @return null
+     */
+    private function  getVideoEmbedUrl($videoIntro)
+    {
+        if(empty($videoIntro))
+        {
+            return null;
+        }
+
+        $parsedUrl = parse_url($videoIntro);
+        if (!isset($parsedUrl['query']))
+        {
+            return null;
+        }
+        parse_str($parsedUrl['query'], $getParams);
+        if(isset($getParams['v']))
+        {
+            return 'https://www.youtube.com/embed/' .  $getParams['v'] . '?wmode=transparent';
+        }
+
+        return null;
+    }
+}

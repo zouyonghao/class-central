@@ -328,12 +328,18 @@ class Stream
 
     public function getArray()
     {
+        $parentStreamSlug = [];
+        if($this->getParentStream())
+        {
+            $parentStreamSlug = $this->getParentStream()->getSlug();
+        }
+
         return array(
             'id' => $this->getId(),
             'slug' => $this->getSlug(),
             'name' => $this->getName(),
             'courseCount' => $this->getCourseCount(),
-
+            'parentStreamSlug' => $parentStreamSlug,
         );
     }
 

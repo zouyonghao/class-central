@@ -93,6 +93,7 @@
         <strong class="text-3 text--upper text--bold width-1-3 col">Provider</strong>
         <a
           class="text-2 text--charcoal hover-text--underline width-2-3 block col"
+          data-overlay-trigger='{"id": "{{ course.initiative.code }}", "type": "provider"}'
           href="{{ path('ClassCentralSiteBundle_initiative', {'type': course['initiative']['code'] }) }}"
           title="List of {{ course['initiative']['name'] }} MOOCs"
           onClick="ga('send','event', 'Course - Inbound Clicks - Initiative', '{{course['initiative']['name']}}', '{{course['name']}}')"
@@ -107,6 +108,7 @@
         <strong class="text-3 text--upper text--bold width-1-3 col">Subject</strong>
         <a
           class="text-2 text--charcoal hover-text--underline width-2-3 block col"
+          data-overlay-trigger='{"id": "{{ course.stream.slug }}", "type": "stream"}'
           href="{{ path('ClassCentralSiteBundle_stream',{'slug' : course['stream']['slug']}) }}"
           title="List of {{ course['stream']['name'] }} MOOCs/free online courses"
           onClick="ga('send','event', 'Course - Inbound Clicks - Stream', '{{course['stream']['name']}}', '{{course['name']}}')"

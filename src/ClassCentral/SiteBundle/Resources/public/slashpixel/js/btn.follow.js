@@ -169,4 +169,6 @@
     $('[data-button-follow]').each(function() {
         new FollowButton($(this));
     });
+
+    window.CC.Class.FollowBtn = FollowButton;
 })(jQuery);

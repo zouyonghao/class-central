@@ -8,9 +8,10 @@
 
 namespace ClassCentral\SiteBundle\Controller;
 
-
 use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\UserCourse;
+use ClassCentral\SiteBundle\Entity\Course;
+use ClassCentral\SiteBundle\Entity\Institution;
 use ClassCentral\SiteBundle\Services\Filter;
 use ClassCentral\SiteBundle\Utility\UniversalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,6 +19,124 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MaestroController extends Controller {
+
+    public function overlayAction(Request $request, $resource, $id)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $overlayType = "info";
+      $data = [];
+      switch ($resource) {
+        case "stream":
+            $streamController = new StreamController();
+            $subjectsWithCounts = $streamController->getSubjectsListWithCounts($this->container);
+
+            if(isset($subjectsWithCounts['subjects'][$id]))
+            {
+                $subject = $subjectsWithCounts['subjects'][$id];
+                $data = [
+                    'type' => 'stream',
+                    'followItem' => Item::ITEM_TYPE_SUBJECT,
+                    'followItemId' => $subject['id'],
+                    'followItemName' => $subject['name'],
+                    'name' => $subject['name'],
+                    'courseCount' => $subject['courseCount'],
+                    'description' => '',
+                    'parentStreamSlug' => $subject['parentStreamSlug']
+                ];
+            }
+
+          break;
+        case "institution":
+            $institutionController = new InstitutionController();
+            $institutionWithCounts = $institutionController->getInstitutions($this->container);
+            $universityWithCounts = $institutionController->getInstitutions($this->container,true);
+            $ins = null;
+              if(isset($institutionWithCounts['institutions'][$id]))
+              {
+                  $ins = $institutionWithCounts['institutions'][$id];
+              }
+            if(isset($universityWithCounts['institutions'][$id]))
+            {
+                $ins = $universityWithCounts['institutions'][$id];
+            }
+            if($ins)
+            {
+                $data = array(
+                    'type' => 'institution',
+                    'followItem' => Item::ITEM_TYPE_INSTITUTION,
+                    'followItemId' => $ins['id'],
+                    'followItemName' => $ins['name'],
+                    'name' => $ins['name'],
+                    'courseCount' => $ins['count'],
+                    'imageUrl' => $ins['imageUrl'],
+                    'description' => $ins['description']
+                );
+            }
+
+          break;
+        case "provider":
+            $initiativeController = new InitiativeController();
+            $providerWithCounts = $initiativeController->getProvidersList($this->container);
+            if(isset($providerWithCounts['providers'][$id]))
+            {
+                $provider = $providerWithCounts['providers'][$id];
+                $data = [
+                    'type' => 'provider',
+                    'followItem' => Item::ITEM_TYPE_PROVIDER,
+                    'followItemId' => $provider['id'],
+                    'followItemName' => $provider['name'],
+                    'name' => $provider['name'],
+                    'courseCount' => $provider['count'],
+                    'imageUrl' => $provider['imageUrl'],
+                    'description' => $provider['description']
+                ];
+            }
+
+            break;
+        case "trailer":
+          $overlayType = "trailer";
+          $cache = $this->get('Cache');
+          $courseId = intval($id);
+          $data = $cache->get('course_trailer_details_' . $courseId, function ($courseId){
+              $esCourses = $this->container->get('es_courses');
+              $course = $esCourses->findById($courseId);
+              $data = [];
+              if ($course) {
+                  $interestedUsers = $this->get('Cache')->get('course_interested_users_' . $courseId, function ($courseId){
+                      return $this->getDoctrine()->getManager()->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers($courseId);
+                  }, array($courseId));
+
+                  $data = array(
+                      'type' => 'trailer',
+                      'top50Course' => false,
+                      'interestedUsers' => $interestedUsers,
+                      'course' => $course
+                  );
+
+                  $top50Courses = $this->get('course')->getCollection('top-free-online-courses');
+                  if (in_array($courseId, $top50Courses['courses'])) {
+                      $data["top50Course"] = true;
+                  }
+              }
+              return $data;
+          }, [$courseId]);
+          break;
+        default:
+          break;
+      }
+
+      if ( empty($data) ) {
+        throw $this->createNotFoundException('Overlay does not exist');
+      }
+
+      $html = $this->render('ClassCentralSiteBundle:Overlays:' . $overlayType . '.html.twig', array(
+        'data' => $data,
+      ))->getContent();
+
+      return new Response(json_encode(array(
+        "html" => $html
+      )));
+    }
 
     public function providerAction(Request $request, $slug)
     {

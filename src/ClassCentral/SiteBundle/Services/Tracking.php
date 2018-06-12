@@ -12,6 +12,8 @@ class Tracking {
     const PAGEVIEW_SUBJECT = 'pageview_subject';
     const AD_CLICK = 'ad_click';
     const AD_IMPRESSION = 'ad_impression';
+    const OVERLAY_IMPRESSION = 'overlay_impression';
+    const TRAILER_IMPRESSION = 'trailer_impression';
     const TIP_CLICK = 'tip_click';
     const GO_TO_CLASS_CLICK = 'go_to_class_click';
     const HOMEPAGE_CLICK = 'homepage_click';

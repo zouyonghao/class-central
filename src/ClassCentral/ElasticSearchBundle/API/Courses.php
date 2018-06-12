@@ -191,6 +191,49 @@ class Courses {
         return $this->formatResults($results);
     }
 
+    public function findById( $courseId )
+    {
+        $params = array();
+        $qValues = $this->getDefaultQueryValues();
+
+        $params['index'] = $this->indexName;
+        $params['type'] = 'course';
+        $params['body']['size'] = 1000;
+
+        $query = array(
+            'filtered' => array(
+                // Remove courses that ar not valid
+                'filter' => array(
+                    'and' => array(
+                        array(
+                            "terms" => array(
+                                'id' => [$courseId]
+                            )
+                        ),
+                        array(
+                            'range' => $qValues['filter']['range']
+                        )
+
+                    )
+                )
+            )
+        );
+
+        $params['body']['sort'] = $qValues['sort'];
+        $params['body']['query'] = $query;
+        $params['body']['facets'] = $qValues['facets'];
+
+        //var_dump( json_encode($params['body'])); exit();
+
+        $results = $this->esClient->search($params);
+        if($results['hits']['total'] == 1)
+        {
+            return $results['hits']['hits'][0]['_source'];
+        }
+
+        return null;
+    }
+
     /**
      * Searches the term
      * @param $q

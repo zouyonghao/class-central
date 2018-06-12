@@ -82,7 +82,7 @@
 
       <div class="cc-page">
           {# Content pages go here #}
-          <div class="classcentral-style">            
+          <div class="classcentral-style">
             {% if breadcrumbs is defined and showDefaultBreadcrumb is not defined %}
               {% include 'ClassCentralSiteBundle:Helpers:breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs }%}
             {% endif %}
@@ -109,6 +109,8 @@
 {% include 'ClassCentralSiteBundle:Layouts:_scripts.html.twig' %}
 {# Modals #}
 {% include 'ClassCentralSiteBundle:Layouts:_modal.html.twig' %}
+{# Overlay #}
+{% include 'ClassCentralSiteBundle:Layouts:_overlay.html.twig' %}
 
 <script type="text/javascript">
     {% block customJS %}

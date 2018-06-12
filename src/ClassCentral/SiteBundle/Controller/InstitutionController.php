@@ -399,6 +399,8 @@ class InstitutionController extends Controller
                     $institution['courseCount'] = $count;
                     $institution['slug'] = $slug;
                     $institution['name'] = $entity->getName();
+                    $institution['description'] = $entity->getDescription();
+                    $institution['imageUrl'] = $entity->getImageUrl();
                     $institutions[ $slug ] = $institution;
                 }
             }

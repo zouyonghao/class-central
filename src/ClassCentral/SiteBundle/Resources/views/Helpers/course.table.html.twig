@@ -285,6 +285,7 @@
                               <li class="inline">
                                   <a
                                     class="uni-name text--charcoal hover-text--underline"
+                                    data-overlay-trigger='{"id": "{{ institution['slug']|lower }}", "type": "institution"}'
                                     href="{{ path(route,{'slug' : institution['slug']|lower })}}"
                                     title="List of {{institution['name']}} MOOCs"
                                     onClick="ga('send','event', 'Inbound Clicks - University', '{{institution['name']}}', '{{course['name']}}')"
@@ -338,6 +339,7 @@
                               href="{{ path('ClassCentralSiteBundle_initiative', {'type': course.provider.code }) }}"
                               class="initiativelinks text--charcoal text--italic hover-text--underline"
                               title="List of {{ course['provider']['tooltip'] }} MOOCs"
+                              data-overlay-trigger='{"id": "{{ course.provider['code'] }}", "type": "provider"}'
                               onClick="ga('send','event', 'Inbound Clicks - Initiative', '{{ course.provider.name }}', '{{course.name}}')"
                               data-track-click="{{ ts.event('LISTING_CLICK') }}"
                               data-track-props='{ "type": "Provider", "clickMetadata": {
@@ -356,6 +358,32 @@
                           {% if course.durationDisplay and course.workloadDisplay %},{% endif %}
                           {{ course.durationDisplay }}
                         </span>
+
+                        {% set hasTrailer = false %}
+
+                        {# coursera trailer #}
+                        {% if course.videoIntro is not null and course.provider.name|lower == 'coursera' %}
+                          {% set hasTrailer = true %}
+                          {% set trailerType = "coursera" %}
+                          {% set trailerUrl = course.videoIntro|split('|||')[0] %}
+                        {% endif %}
+                        {# youtube trailer #}
+                        {% if course['videoEmbedUrl'] is defined and course['videoEmbedUrl'] is not null %}
+                          {% set hasTrailer = true %}
+                          {% set trailerType = "youtube" %}
+                          {% set trailerUrl = course['videoEmbedUrl'] %}
+                        {% endif %}
+
+                        {% if hasTrailer %}
+                          <button
+                            class="block medium-up-inline-block text--blue icon--left icon-play text-4 medium-up-margin-left-xxsmall xsmall-only-margin-top-xxsmall small-only-margin-top-xxsmall"
+                            data-trailer='{ "target": "overlay", "type": "{{ trailerType }}", "url": "{{ trailerUrl }}", "courseId": {{ course.id }} }'
+                            data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                            data-track-props='{ "type": "Trailer Video Play", "title": "{{ course.name }}" }'
+                          >
+                            Watch Trailer
+                          </button>
+                        {% endif %}
                       </span>
                       {% endif %}
 

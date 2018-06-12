@@ -338,6 +338,8 @@ class InitiativeController extends Controller
                 $provider['count'] = $count;
                 $provider['code'] = $code;
                 $provider['name'] = $entity->getName();
+                $provider['imageUrl'] = $entity->getImageUrl();
+                $provider['description'] = $entity->getDescription();
                 $providers[ $code ] = $provider;
             }
 

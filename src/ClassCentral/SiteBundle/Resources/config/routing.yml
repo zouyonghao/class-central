@@ -443,6 +443,10 @@ maestro_course_reviews:
   pattern: /maestro/course-reviews/{courseId}-{start}
   defaults: {_controller: ClassCentralSiteBundle:Maestro:courseReviews}
 
+maestro_overlay:
+  pattern: /maestro/overlay/{resource}/{id}
+  defaults: {_controller: ClassCentralSiteBundle:Maestro:overlay}
+
 user_profile_dummy:
   pattern: /profile
   defaults: {_controller: ClassCentralSiteBundle:User:profile }

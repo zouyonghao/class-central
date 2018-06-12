@@ -10,3 +10,4 @@ window.CC.Class.Ui = require("./cc.ui.js").default;
 window.CC.Class.Trailer = require("./cc.trailer.js").default;
 window.CC.Class.Pagination = require("./cc.pagination.js").default;
 window.CC.Class.Onboarding = require("./cc.onboarding.js").default;
+window.CC.Class.Overlays = require("./cc.overlays").default;

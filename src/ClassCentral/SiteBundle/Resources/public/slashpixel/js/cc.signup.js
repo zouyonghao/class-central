@@ -49,18 +49,18 @@ const Signup = (function(){
     function showSignupModal(src) {
       if (!CC.Class.Modal.isOpen()) {
         CC.Class.Modal.open();
+        Cookies.set(promptShownCookie, 1, { expires: 30 });
+        $.ajax({
+          url: "/ajax/isLoggedIn",
+          cache: true,
+          dataType: "json",
+        })
+        .done(function(result) {
+          if ( !result.loggedIn) {
+            requestSignupModal(src);
+          }
+        });
       }
-      Cookies.set(promptShownCookie, 1, { expires: 30 });
-      $.ajax({
-        url: "/ajax/isLoggedIn",
-        cache: true,
-        dataType: "json",
-      })
-      .done(function(result) {
-        if ( !result.loggedIn) {
-          requestSignupModal(src);
-        }
-      });
     }
 
     function requestSignupModal(src, params) {
@@ -74,7 +74,7 @@ const Signup = (function(){
         dataType: "json",
         cache: false,
         success: function(response) {
-          CC.Class.Modal.content(response.modal, () => {
+          CC.Class.Modal.content({ body: response.modal, closeButton: "Not right now, thanks." }, () => {
             CC.Class.Ui.slideShow();
           });
           $('form[name="classcentral_sitebundle_signuptype"]').submit(signupFormSubmit);

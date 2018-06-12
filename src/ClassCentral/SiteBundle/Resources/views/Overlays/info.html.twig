@@ -1,0 +1,46 @@
+<div class="classcentral-style">
+  <div
+    data-track-event="{{ ts.event('OVERLAY_IMPRESSION') }}"
+    data-track-props='{
+      "type": "{{ data.type }}",
+      "title": "{{ data.name }}"
+    }'
+    class="text-left text--charcoal"
+    style="width: 400px"
+  >
+    <header class="unit-horz padding-horz-large padding-vert-medium border-bottom border--thin border--gray-light">
+      {% if data.type == "provider" or data.type == "institution" %}
+        {% if data.imageUrl is defined and data.imageUrl is not null %}
+          <div class="unit-block padding-right-small" style="height: 55px;">
+            <img src="{{ rackspace_cdn_base_url }}{{data.type}}s/{{ data.imageUrl }}" style="width: 55px;">
+          </div>
+        {% endif %}
+      {% endif %}
+      {% if data.type == "Stream" and entity.isParentStream %}
+      <div class="unit-block padding-right-small">
+        <img src="/bundles/classcentralsite/images/icon-business.png" style="width: 55px;">
+      </div>
+      {% endif %}
+      <div class="unit-block unit-fill">
+        <h3><strong class="head-2 text--bold">{{data.name}}</strong></h3>
+        {% if data.courseCount is defined and data.courseCount > 0 %}
+        <h4 class="head-5">{{ data.courseCount }} courses</h4>
+        {% endif %}
+      </div>
+    </header>
+
+    <div class="margin-bottom-large margin-top-medium">
+      <p class="text-2 padding-horz-large">{{ data.description }}</p>
+      <div class="padding-horz-large margin-vert-medium">
+      {% include 'ClassCentralSiteBundle:Follow:btn.follow.html.twig' with {
+          item : data.followItem,
+          item_id : data.followItemId,
+          itemName: data.followItemName,
+          followed: user_session.isItemFollowed(data.followItem, data.followItemId),
+          followButtonWithCount: true,
+          followers:followService.getNumFollowers(data.followItem, data.followItemId)
+      } %}
+      </div>
+    </div>
+  </div>
+</div>

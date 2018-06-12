@@ -129,7 +129,7 @@ const Onboarding = (function() {
           if (window.localStorage) {
             window.localStorage.setItem("nextcourse", true);
           }
-          CC.Class.Modal.content(response.modal);
+          CC.Class.Modal.content({ body: response.modal, closeButton: "Not right now, thanks." });
           Follow.init();
           if (name === "profile") {
             bindProfileEvents();
@@ -197,7 +197,7 @@ const Onboarding = (function() {
         cache: false,
         dataType: "json",
         success: function(response) {
-          CC.Class.Modal.content(response.modal);
+          CC.Class.Modal.content({ body: response.modal, closeButton: "Not right now, thanks." });
 
           const $modalEl = $("[data-modal]");
           const $meterBarEl = $modalEl.find("[data-ob-meterbar] span");
