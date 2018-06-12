@@ -190,7 +190,7 @@ class Keen
                     $adStats[$advertiser] = [];
                 }
 
-                $adClicks[$advertiser][$monthYear] = [
+                $adStats[$advertiser][$monthYear] = [
                     'clicks' => $value['result'],
                     'impressions' => 0
                 ];
@@ -252,7 +252,7 @@ class Keen
                     $adStats[$advertiser][$unit] = [];
                 }
 
-                $adClicks[$advertiser][$unit][$monthYear] = [
+                $adStats[$advertiser][$unit][$monthYear] = [
                     'clicks' => $value['result'],
                     'impressions' => 0
                 ];
