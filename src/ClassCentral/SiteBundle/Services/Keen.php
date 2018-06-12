@@ -144,5 +144,47 @@ class Keen
         return $adStats;
     }
 
+    public function getAdStatsGroupedByAdvertiserAndUnit($timeFrame)
+    {
+        $groups = ["ad.provider","ad.unit"];
+
+        $adImpressions = $this->getAdImpressions($timeFrame, $groups);
+        $adClicks = $this->getAdClicks($timeFrame, $groups);
+        $adStats = [];
+        foreach ($adImpressions['result'] as $result)
+        {
+            $advName = $result['ad.provider'];
+            $adUnit = $result['ad.unit'];
+            if(!isset($adStats[$advName]))
+            {
+                $adStats[$advName] = [];
+            }
+
+            $adStats[$advName][$adUnit] = [
+                'unit' => $adUnit,
+                'impressions' => $result['result'],
+                'clicks' => 0
+            ];
+        }
+
+        foreach ($adClicks['result'] as $result)
+        {
+            $advName = $result['ad.provider'];
+            $adUnit = $result['ad.unit'];
+
+            if(!isset($adStats[$advName][$adUnit]))
+            {
+                $adStats[$advName][$adUnit] = [
+                    'unit' => $adUnit,
+                    'impressions' => 0
+                ];
+            }
+
+            $adStats[$advName][$adUnit]['clicks'] = $result['result'];
+        }
+
+        return $adStats;
+    }
+
 
 }

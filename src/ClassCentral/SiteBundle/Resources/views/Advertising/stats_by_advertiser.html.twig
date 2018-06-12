@@ -7,32 +7,30 @@
 {% block content %}
     <div class="classcentral-style">
         <div class="row width-centered padding-horz-small medium-up-padding-horz-medium xlarge-up-padding-horz-large" style="max-width: 1250px;">
+            <h3>{{ advertiser }} - stats by months</h3>
+            {% for month,advertiserStats in adStatsByMonth %}
 
-            {% for advertiser,ads in adStats %}
-                <h3>{{ advertiser }}</h3>
-
-                {% set advertiserStats = adStatsByAdvertisers[advertiser]  %}
                 {% set advertiserCTR = 0 %}
                 {% if  advertiserStats.impressions > 0 %}
                     {% set advertiserCTR = advertiserStats.clicks*1000/advertiserStats.impressions %}
                 {% endif %}
-                {{ advertiserStats.name }}, {{ advertiserStats.impressions }}, {{ advertiserStats.clicks }}, {{ advertiserCTR }}<br/><br/>
+                {{ month }}, {{ advertiserStats.impressions }}, {{ advertiserStats.clicks }}, {{ advertiserCTR }}<br/>
 
-                {% for ad in ads %}
-                    {% set CTR = 0 %}
-                    {% if ad.impressions > 0 %}
-                        {% set CTR = ad.clicks*1000/ad.impressions %}
+            {% endfor %}
+            </ul>
+            <h3>{{ advertiser }} - stats by ad unit</h3>
+            {% for adunit,advertiserStatsByUnit in  adStatsByUnit %}
+                <h4>{{ adunit }}</h4>
+                {% for month,advertiserStats in advertiserStatsByUnit %}
+                    {% set advertiserCTR = 0 %}
+                    {% if  advertiserStats.impressions > 0 %}
+                        {% set advertiserCTR = advertiserStats.clicks*1000/advertiserStats.impressions %}
                     {% endif %}
-                    {{ ad.title }}, {{ ad.impressions }}, {{ ad.clicks }}, {{ CTR }} <br/>
+                    {{ month }}, {{ advertiserStats.impressions }}, {{ advertiserStats.clicks }}, {{ advertiserCTR }}<br/>
                 {% endfor %}
+                <br/>
             {% endfor %}
 
-            <h2>Other Timeframes</h2>
-            <ul>
-                {% for month,timeFrame in timeFrames %}
-                <li><a href="{{ path('advertising_stats',{start: timeFrame.start, end: timeFrame.end}) }}">{{ month }}</a> </li>
-                {% endfor %}
-            </ul>
         </div>
     </div>
 {% endblock %}

@@ -162,3 +162,7 @@ admin_delete_user:
 advertising_stats:
     pattern: /advertising-stats/
     defaults: { _controller: ClassCentralSiteBundle:Advertising:stats }
+
+advertising_stats_by_advertiser:
+    pattern: /advertising-stats/{advertiser}
+    defaults: { _controller: ClassCentralSiteBundle:Advertising:statsByAdvertiser }

@@ -14,8 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdvertisingController extends Controller
 {
+    private $adUnits = [
+        'Course Page Text Ad', 'PageHeader Image Ad', 'Sidebar Text Ad', 'Table Text Ad'
+    ];
+
     /**
-     * Show a list of all the ads for this particular Advertiser. Show CTRS for the advertiser and all individual ads
+     * Show a list of all the ads for all Advertiser. Show CTRS for the advertiser and all individual ads
      * @param Request $request
      * @param $advertiser
      */
@@ -40,11 +44,60 @@ class AdvertisingController extends Controller
         $adStats = $keenClient->getAdStatsGroupedByAds($timeFrame);
         $adStatsByAdvertisers = $keenClient->getAdStatsGroupedByAdvertiser($timeFrame);
 
-        return $this->render('ClassCentralSiteBundle:Advertising:stats_by_advertiser.html.twig', [
+        return $this->render('ClassCentralSiteBundle:Advertising:advertiser_stats_summary.html.twig', [
             'adStats' => $adStats,
             'adStatsByAdvertisers' => $adStatsByAdvertisers,
             'timeFrames' => $this->generateMonthlyTimeFrames(),
             'timeFrame' => $timeFrame
+        ]);
+    }
+
+    /**
+     * Show ad stats for a particular advertiser
+     * @param Request $request
+     * @param $advertiser
+     */
+    public function statsByAdvertiserAction(Request $request, $advertiser)
+    {
+        $keenClient = $this->get('keen');
+        $adStatsByMonth = [];
+        foreach ($this->generateMonthlyTimeFrames() as $month => $timeFrame)
+        {
+            $monthlyStats = $keenClient->getAdStatsGroupedByAdvertiser($timeFrame);
+            if(isset($monthlyStats[$advertiser]))
+            {
+                $adStatsByMonth[$month] = $monthlyStats[$advertiser];
+            }
+        }
+
+        $adStatsByUnit = [];
+        foreach ($this->generateMonthlyTimeFrames() as $month => $timeFrame)
+        {
+            $monthlyStats = $keenClient->getAdStatsGroupedByAdvertiserAndUnit($timeFrame);
+            if(isset($monthlyStats[$advertiser]))
+            {
+                foreach ($this->adUnits as $adUnit)
+                {
+                    $adStatsByUnit[$adUnit][$month] = [
+                        'clicks' => 0,
+                        'impressions' => 0,
+                        'unit' => $adUnit
+                    ];
+                }
+
+                foreach ($monthlyStats[$advertiser] as $msAdunit => $msAdStats)
+                {
+                    $adStatsByUnit[$msAdunit][$month] = $msAdStats;
+                }
+            }
+        }
+
+
+        return $this->render('ClassCentralSiteBundle:Advertising:stats_by_advertiser.html.twig', [
+            'adStatsByMonth' => $adStatsByMonth,
+            'advertiser' => $advertiser,
+            'adUnits' => $this->adUnits,
+            'adStatsByUnit' => $adStatsByUnit
         ]);
     }
 
