@@ -975,57 +975,59 @@ EOD;
     {
         $em = $this->getDoctrine()->getManager();
         $subjects = $em->getRepository('ClassCentralSiteBundle:Stream')->findAll();
+        $tags = $em->getRepository('ClassCentralSiteBundle:Tag')->findAll();
+        $tagService = $this->get('tag');
 
         $postFields = $request->request->all();
         $succeeded = array();
         $failed = array();
 
         $primarySubject = null;
-        if(isset($postFields["primary-subject"]))
-        {
+        if (isset($postFields["primary-subject"])) {
             $primarySubject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('id' => $postFields['primary-subject']));
         }
         $secondarySubject = null;
-        if(isset($postFields["secondary-subject"]))
-        {
+        if (isset($postFields["secondary-subject"])) {
             $secondarySubject = $em->getRepository('ClassCentralSiteBundle:Stream')->findOneBy(array('id' => $postFields['secondary-subject']));
         }
 
-        if(($primarySubject || $secondarySubject) && isset($postFields["courses"]))
-        {
+        $tag = array();
+        if (isset($postFields["tag"])) {
+
+            $tag[] = strtolower($postFields['tag']);
+        }
+
+        if (($primarySubject || $secondarySubject || $tag) && isset($postFields["courses"])) {
 
             // Form has been posted. Update the subject
-            if($postFields["courses"] )
-            {
+            if ($postFields["courses"]) {
                 $courses = explode(PHP_EOL, $postFields["courses"]);
-                foreach($courses as $courseRow)
-                {
+                foreach ($courses as $courseRow) {
                     $courseParts = explode('|||', $courseRow);
                     $courseId = $courseParts[0];
                     $course = $em->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
-                    if($course)
-                    {
-                        if($primarySubject)
-                        {
+                    if ($course) {
+                        if ($primarySubject) {
                             $course->setStream($primarySubject);
-                            $succeeded[ $courseId ] = $courseParts[1];
+                            $succeeded[$courseId] = $courseParts[1];
                         }
 
-                        if($secondarySubject && !$course->getSubjects()->contains($secondarySubject))
-                        {
+                        if ($secondarySubject && !$course->getSubjects()->contains($secondarySubject)) {
                             $course->addSubject($secondarySubject);
-                            $succeeded[ $courseId ] = $courseParts[1];
+                            $succeeded[$courseId] = $courseParts[1];
                         }
-                        else
-                        {
-                            $failed[ $courseId ] = $courseParts[1];
+                        if ($tag) {
+                            $tagService->addCourseTags($course, $tag);
+                            $succeeded[$courseId] = $courseParts[1];
+                        } else {
+                            $failed[$courseId] = $courseParts[1];
                         }
-                        $em->persist( $course );
-                        $this->get('cache')->deleteCache( 'course_'.$courseId );
-                    }
-                    else
-                    {
-                        $failed[ $courseId ] = $courseParts[1];
+
+                        $em->persist($course);
+                        $this->get('cache')->deleteCache('course_' . $courseId);
+
+                    } else {
+                        $failed[$courseId] = $courseParts[1];
                     }
                 }
                 $em->flush();
@@ -1034,6 +1036,7 @@ EOD;
 
         return $this->render('ClassCentralSiteBundle:Course:bulkUpdate.html.twig', array(
             'subjects' => $subjects,
+            'tags' => $tags,
             'succeeded' => $succeeded,
             'failed' => $failed
         ));

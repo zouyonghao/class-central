@@ -44,6 +44,14 @@
         </select>
         <br/><br/>
 
+        <label>Pick a Tag</label>
+        <select name="tag">
+            <option disabled selected value> -- select an option -- </option>
+            {% for tag in tags %}
+                <option value="{{ tag.name }}">{{ tag.name  }}</option>
+            {% endfor %}
+        </select>
+        <br/><br/>
         <label>Paste courses with ids</label>
         <textarea name="courses" rows="25" cols="100"></textarea>
         <br/><br/>
