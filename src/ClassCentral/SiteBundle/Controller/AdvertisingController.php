@@ -60,16 +60,10 @@ class AdvertisingController extends Controller
     public function statsByAdvertiserAction(Request $request, $advertiser)
     {
         $keenClient = $this->get('keen');
-        $adStatsByMonth = [];
-        foreach ($this->generateMonthlyTimeFrames() as $month => $timeFrame)
-        {
-            $monthlyStats = $keenClient->getAdStatsGroupedByAdvertiser($timeFrame);
-            if(isset($monthlyStats[$advertiser]))
-            {
-                $adStatsByMonth[$month] = $monthlyStats[$advertiser];
-            }
-        }
+        $adStatsByMonth = $keenClient->getAdStatsGroupedByAdvertiserAndMonthly();
 
+
+        /*
         $adStatsByUnit = [];
         foreach ($this->generateMonthlyTimeFrames() as $month => $timeFrame)
         {
@@ -91,12 +85,12 @@ class AdvertisingController extends Controller
                 }
             }
         }
-
+        */
+        $adStatsByUnit = $keenClient->getAdStatsGroupedByAdvertiserAndUnit();
 
         return $this->render('ClassCentralSiteBundle:Advertising:stats_by_advertiser.html.twig', [
             'adStatsByMonth' => $adStatsByMonth,
             'advertiser' => $advertiser,
-            'adUnits' => $this->adUnits,
             'adStatsByUnit' => $adStatsByUnit
         ]);
     }

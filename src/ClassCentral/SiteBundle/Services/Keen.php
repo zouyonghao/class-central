@@ -15,6 +15,9 @@ class Keen
     private $container;
     private $keenClient;
 
+    private $adAnalyticsStartMonth = 7;
+    private $adAnalyticsStartYear = 2017;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -51,20 +54,34 @@ class Keen
         }
     }
 
-    public function getAdImpressions($timeFrame, $groups)
+    public function getAdImpressions($timeFrame, $groups, $interval = null)
     {
-        return $this->keenClient->count("ad_impression",[
+        $params = [
             "group_by" => $groups,
-            "timeframe" => $timeFrame
-        ]);
+            "timeframe" => $timeFrame,
+        ];
+
+        if($interval)
+        {
+            $params['interval'] = $interval;
+        }
+
+        return $this->keenClient->count("ad_impression", $params);
     }
 
-    public function getAdClicks($timeFrame, $groups)
+    public function getAdClicks($timeFrame, $groups,$interval = null)
     {
-        return $this->keenClient->count("ad_click",[
+        $params = [
             "group_by" => $groups,
-            "timeframe" => $timeFrame
-        ]);
+            "timeframe" => $timeFrame,
+        ];
+
+        if($interval)
+        {
+            $params['interval'] = $interval;
+        }
+
+        return $this->keenClient->count("ad_click",$params);
     }
 
     public function getAdStatsGroupedByAds($timeFrame)
@@ -144,44 +161,124 @@ class Keen
         return $adStats;
     }
 
-    public function getAdStatsGroupedByAdvertiserAndUnit($timeFrame)
+    public function getAdStatsGroupedByAdvertiserAndMonthly()
     {
-        $groups = ["ad.provider","ad.unit"];
+        $groups = ["ad.provider"];
+        $startDate = new \DateTime("{$this->adAnalyticsStartYear}-{$this->adAnalyticsStartMonth}-1");
+        $endDate = new \DateTime();
+        $timeFrame = [
+            'start' => $startDate->format(\DateTime::ISO8601),
+            'end' => $endDate->format(\DateTime::ISO8601)
+        ];
 
-        $adImpressions = $this->getAdImpressions($timeFrame, $groups);
-        $adClicks = $this->getAdClicks($timeFrame, $groups);
+        $interval = 'monthly';
+        $adImpressions = $this->getAdImpressions($timeFrame, $groups, $interval);
+        $adClicks = $this->getAdClicks($timeFrame, $groups, $interval);
+
         $adStats = [];
-        foreach ($adImpressions['result'] as $result)
-        {
-            $advName = $result['ad.provider'];
-            $adUnit = $result['ad.unit'];
-            if(!isset($adStats[$advName]))
-            {
-                $adStats[$advName] = [];
-            }
-
-            $adStats[$advName][$adUnit] = [
-                'unit' => $adUnit,
-                'impressions' => $result['result'],
-                'clicks' => 0
-            ];
-        }
 
         foreach ($adClicks['result'] as $result)
         {
-            $advName = $result['ad.provider'];
-            $adUnit = $result['ad.unit'];
+            $timeFrameStart = new \DateTime($result['timeframe']['start']);
+            $monthYear = $timeFrameStart->format("M, Y");
 
-            if(!isset($adStats[$advName][$adUnit]))
+            foreach ($result['value'] as $value)
             {
-                $adStats[$advName][$adUnit] = [
-                    'unit' => $adUnit,
+                $advertiser = $value['ad.provider'];
+                if(!isset($adStats[$advertiser]))
+                {
+                    $adStats[$advertiser] = [];
+                }
+
+                $adClicks[$advertiser][$monthYear] = [
+                    'clicks' => $value['result'],
                     'impressions' => 0
                 ];
             }
-
-            $adStats[$advName][$adUnit]['clicks'] = $result['result'];
         }
+
+        foreach ($adImpressions['result'] as $result)
+        {
+            $timeFrameStart = new \DateTime($result['timeframe']['start']);
+            $monthYear = $timeFrameStart->format("M, Y");
+
+            foreach ($result['value'] as $value)
+            {
+                $advertiser = $value['ad.provider'];
+                if(!isset($adStats[$advertiser][$monthYear]))
+                {
+                    $adStats[$advertiser][$monthYear] = [
+                        'clicks' => 0
+                    ];
+                }
+                $adStats[$advertiser][$monthYear]['impressions'] = $value['result'];
+
+            }
+        }
+
+        return $adStats;
+    }
+
+
+
+    public function getAdStatsGroupedByAdvertiserAndUnit()
+    {
+        $groups = ["ad.provider","ad.unit"];
+
+        $startDate = new \DateTime("{$this->adAnalyticsStartYear}-{$this->adAnalyticsStartMonth}-1");
+        $endDate = new \DateTime();
+        $timeFrame = [
+            'start' => $startDate->format(\DateTime::ISO8601),
+            'end' => $endDate->format(\DateTime::ISO8601)
+        ];
+
+        $interval = 'monthly';
+        $adImpressions = $this->getAdImpressions($timeFrame, $groups, $interval);
+        $adClicks = $this->getAdClicks($timeFrame, $groups, $interval);
+
+        $adStats = [];
+
+        foreach ($adClicks['result'] as $result)
+        {
+            $timeFrameStart = new \DateTime($result['timeframe']['start']);
+            $monthYear = $timeFrameStart->format("M, Y");
+
+            foreach ($result['value'] as $value)
+            {
+                $advertiser = $value['ad.provider'];
+                $unit = $value['ad.unit'];
+                if(!isset($adStats[$advertiser][$unit]))
+                {
+                    $adStats[$advertiser][$unit] = [];
+                }
+
+                $adClicks[$advertiser][$unit][$monthYear] = [
+                    'clicks' => $value['result'],
+                    'impressions' => 0
+                ];
+            }
+        }
+
+        foreach ($adImpressions['result'] as $result)
+        {
+            $timeFrameStart = new \DateTime($result['timeframe']['start']);
+            $monthYear = $timeFrameStart->format("M, Y");
+
+            foreach ($result['value'] as $value)
+            {
+                $advertiser = $value['ad.provider'];
+                $unit = $value['ad.unit'];
+                if(!isset($adStats[$advertiser][$unit][$monthYear]))
+                {
+                    $adStats[$advertiser][$unit][$monthYear] = [
+                        'clicks' => 0
+                    ];
+                }
+                $adStats[$advertiser][$unit][$monthYear]['impressions'] = $value['result'];
+
+            }
+        }
+
 
         return $adStats;
     }

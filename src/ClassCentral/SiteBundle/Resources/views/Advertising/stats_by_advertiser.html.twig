@@ -8,7 +8,7 @@
     <div class="classcentral-style">
         <div class="row width-centered padding-horz-small medium-up-padding-horz-medium xlarge-up-padding-horz-large" style="max-width: 1250px;">
             <h3>{{ advertiser }} - stats by months</h3>
-            {% for month,advertiserStats in adStatsByMonth %}
+            {% for month,advertiserStats in adStatsByMonth[advertiser] %}
 
                 {% set advertiserCTR = 0 %}
                 {% if  advertiserStats.impressions > 0 %}
@@ -19,7 +19,8 @@
             {% endfor %}
             </ul>
             <h3>{{ advertiser }} - stats by ad unit</h3>
-            {% for adunit,advertiserStatsByUnit in  adStatsByUnit %}
+
+            {% for adunit,advertiserStatsByUnit in  adStatsByUnit[advertiser] %}
                 <h4>{{ adunit }}</h4>
                 {% for month,advertiserStats in advertiserStatsByUnit %}
                     {% set advertiserCTR = 0 %}
