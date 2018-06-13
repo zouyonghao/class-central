@@ -98,66 +98,72 @@ class Scraper extends ScraperAbstractInterface
 
             } else {
                 // Check if any fields are modified
+                if ($course->getShortName() == 'udacity_deep-learning--ud730') {
+                    // this is course is broken in Udacity's catalog / API
+                    continue;
+                } else {
 
-                $courseModified = false;
-                $changedFields = array(); // To keep track of fields that have changed
-                foreach ($this->courseFields as $field) {
-                    $getter = 'get' . $field;
-                    $setter = 'set' . $field;
-                    if ($course->$getter() != $dbCourse->$getter()) {
-                        $courseModified = true;
+                    $courseModified = false;
+                    $changedFields = array(); // To keep track of fields that have changed
+                    foreach ($this->courseFields as $field) {
+                        $getter = 'get' . $field;
+                        $setter = 'set' . $field;
+                        if ($course->$getter() != $dbCourse->$getter()) {
+                            $courseModified = true;
 
-                        // Add the changed field to the changedFields array
-                        $changed = array();
-                        $changed['field'] = $field;
-                        $changed['old'] = $dbCourse->$getter();
-                        $changed['new'] = $course->$getter();
-                        $changedFields[] = $changed;
+                            // Add the changed field to the changedFields array
+                            $changed = array();
+                            $changed['field'] = $field;
+                            $changed['old'] = $dbCourse->$getter();
+                            $changed['new'] = $course->$getter();
+                            $changedFields[] = $changed;
 
-                        $dbCourse->$setter($course->$getter());
-                    }
-
-                }
-
-                if ($courseModified && $this->doUpdate()) {
-                    //$this->out( "Database course changed " . $dbCourse->getName());
-                    // Course has been modified
-                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
-                    $this->outputChangedFields($changedFields);
-                    if ($this->doModify()) {
-                        $em->persist($dbCourse);
-                        $em->flush();
-
-                        if ($udacityCourse['banner_image']) {
-                            $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
+                            $dbCourse->$setter($course->$getter());
                         }
+
                     }
-                    $courseChanged = true;
-                }
 
-                // Check if offering has been modified
+                    if ($courseModified && $this->doUpdate()) {
 
-                $offering = $dbCourse->getNextOffering();
-                if ($offering->getUrl() != $course->getUrl() && $this->doUpdate()) {
-                    $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
-                    // Offering modified
-                    $this->outputChangedFields(array(array(
-                        'field' => 'offering Url',
-                        'old' => $offering->getUrl(),
-                        'new' => $course->getUrl()
+                        //$this->out( "Database course changed " . $dbCourse->getName());
+                        // Course has been modified
+                        $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
+                        $this->outputChangedFields($changedFields);
+                        if ($this->doModify()) {
+                            $em->persist($dbCourse);
+                            $em->flush();
 
-                    )));
-
-                    if ($this->doModify()) {
-                        $offering->setUrl($course->getUrl());
-                        $em->persist($offering);
-                        $em->flush();
+                            if ($udacityCourse['banner_image']) {
+                                $courseService->uploadImageIfNecessary($udacityCourse['banner_image'], $course);
+                            }
+                        }
+                        $courseChanged = true;
                     }
-                    $courseChanged = true;
+
+                    // Check if offering has been modified
+
+                    $offering = $dbCourse->getNextOffering();
+                    if ($offering->getUrl() != $course->getUrl() && $this->doUpdate()) {
+                        $this->out("UPDATE COURSE - " . $dbCourse->getName() . " - " . $dbCourse->getId());
+                        // Offering modified
+                        $this->outputChangedFields(array(array(
+                            'field' => 'offering Url',
+                            'old' => $offering->getUrl(),
+                            'new' => $course->getUrl()
+
+                        )));
+
+                        if ($this->doModify()) {
+                            $offering->setUrl($course->getUrl());
+                            $em->persist($offering);
+                            $em->flush();
+                        }
+                        $courseChanged = true;
+                    }
+
+                    $course = $dbCourse;
+
                 }
-
-                $course = $dbCourse;
-
             }
         }
         if ($courseChanged) {
