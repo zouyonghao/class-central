@@ -217,6 +217,14 @@
               </li>
               <li class="margin-right-xsmall inline-block">
                 <a
+                  data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                  data-track-props='{"type": "More", "title": "Help Center"}'
+                  class="text-2 text--blue"
+                  href="{{ path('help_guides_index') }}"
+                >Help Center</a>
+              </li>
+              <li class="margin-right-xsmall inline-block">
+                <a
                   class="text-2 text--blue"
                   href="{{ path('ClassCentralSiteBundle_faq') }}"
                   title="Frequently asked questions about MOOCs"
@@ -240,8 +248,8 @@
             </ul>
           </div>
           <div id="footer-copyright" class="col width-100 margin-vert-large text-left">
-            <span class="symbol-classcentral-gray symbol--small inline-block"></span>
-            <span class="text-3 text--gray">&copy; Copyright 2011-{{ "now"|date("Y") }}</span>
+            <span class="symbol-classcentral-gray symbol--small inline-block relative" style="top: 2px;"></span>
+            <span class="text-3 text--gray inline-block padding-left-small">&copy; Copyright 2011-{{ "now"|date("Y") }}</span>
             <a
               data-track-click="{{ ts.event('FOOTER_CLICK') }}"
               data-track-props='{"type": "More", "title": "Privacy Policy"}'
@@ -255,6 +263,17 @@
         <div class="text-center medium-up-margin-vert-xxlarge padding-xlarge">
           <span class="text-3 text--charcoal">&copy; <span class="small-only-hidden">Class Central</span> 2011-{{ "now"|date("Y") }}</span>
           <ul class="inline-block margin-left-medium">
+            <li class="inline-block medium-up-padding-horz-medium small-only-padding-horz-xsmall xsmall-only-padding-horz-xsmall">
+              <a
+                class="text-3 text--charcoal"
+                href="{{ path('help_guides_index') }}"
+                title="Help Center"
+                data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                data-track-props='{"type": "More", "title": "Help Center"}'
+              >
+                Help Center
+              </a>
+            </li>
             <li class="inline-block medium-up-padding-horz-medium small-only-padding-horz-xsmall xsmall-only-padding-horz-xsmall">
               <a
                 class="text-3 text--charcoal"
@@ -286,6 +305,17 @@
           </span>
           <span class="text-3 text--gray">&copy; <span class="small-only-hidden">Copyright</span> 2011-{{ "now"|date("Y") }}</span>
           <ul class="inline-block margin-left-medium">
+            <li class="inline-block medium-up-padding-horz-medium small-only-padding-horz-xsmall xsmall-only-padding-horz-xsmall">
+              <a
+                class="text-3 text--gray"
+                href="{{ path('help_guides_index') }}"
+                title="Help Center"
+                data-track-click="{{ ts.event('FOOTER_CLICK') }}"
+                data-track-props='{"type": "More", "title": "Help Center"}'
+              >
+                Help Center
+              </a>
+            </li>
             <li class="inline-block medium-up-padding-horz-medium small-only-padding-horz-xsmall xsmall-only-padding-horz-xsmall">
               <a
                 class="text-3 text--gray"

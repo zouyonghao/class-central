@@ -30,7 +30,11 @@ class Analytics {
     const methodName = camelCase(eventName);
 
     if (this[methodName]) {
-      this[methodName](trackingProps);
+      try {
+        this[methodName](trackingProps);
+      } catch (e) {
+        this.track(`${methodName}_ERROR`, trackingProps);
+      }
     }
 
     if (this.Client) {
@@ -121,6 +125,22 @@ class Analytics {
       "Ad Clicks - By Ad Unit",
       trackingProps.ad.unit,
       trackingProps.ad.title,
+    );
+  }
+
+  overlayImpression(trackingProps) {
+    window.ga("send", "event",
+      "Overlay Impression",
+      trackingProps.type,
+      trackingProps.title,
+    );
+  }
+
+  trailerImpression(trackingProps) {
+    window.ga("send", "event",
+      "Trailer Impression",
+      trackingProps.courseId,
+      trackingProps.courseTitle,
     );
   }
 

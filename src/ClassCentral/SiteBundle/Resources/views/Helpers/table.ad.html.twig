@@ -1,15 +1,15 @@
 {% if format == 'table' %}
   {% if showSubjectInTable %}
-    {% set addCol = "large-up-width-2-16 xlarge-up-width-1-16" %}
-    {% set titleCol = "large-up-width-5-16 xlarge-up-width-8-16" %}
-    {% set subjectCol = "large-up-width-3-16" %}
-    {% set dateCol = "large-up-width-3-16 xlarge-up-width-2-16" %}
-    {% set ratingCol = "width-2-16 medium-up-width-3-16 xlarge-up-width-2-16" %}
-  {% else %}
-    {% set addCol = "large-up-width-2-16 xlarge-up-width-1-16" %}
-    {% set titleCol = "large-up-width-8-16 xlarge-up-width-9-16" %}
+    {% set subjectCol = "large-up-width-2-16" %}
+    {% set addCol = "medium-up-width-2-16 xlarge-up-width-1-16" %}
+    {% set titleCol = "width-10-16 small-up-width-11-16 medium-up-width-10-16 large-up-width-6-16 xlarge-up-width-7-16" %}
     {% set dateCol = "large-up-width-3-16" %}
-    {% set ratingCol = "width-2-16 medium-up-width-3-16" %}
+    {% set ratingCol = "width-3-16 small-up-width-2-16 medium-up-width-4-16 large-up-width-3-16" %}
+  {% else %}
+    {% set addCol = "medium-up-width-2-16 xlarge-up-width-1-16" %}
+    {% set titleCol = "width-10-16 small-up-width-11-16 medium-up-width-10-16 large-up-width-8-16 xlarge-up-width-9-16" %}
+    {% set dateCol = "large-up-width-3-16" %}
+    {% set ratingCol = "width-3-16 small-up-width-2-16 medium-up-width-4-16 large-up-width-3-16" %}
   {% endif %}
 
 <tr>
@@ -21,7 +21,7 @@
         AD
       </span>
     </td>
-    <td class="course-name-column width-11-16 relative {{ titleCol }}"
+    <td class="course-name-column relative {{ titleCol }}"
       data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
       data-track-props='{
         "ad": {
@@ -75,7 +75,7 @@
 
     <td class="start-date text-right text-2 xsmall-only-hidden small-only-hidden medium-only-hidden {{ dateCol }}"></td>
 
-    <td data-timestamp="5" class="course-rating-column text-center large-up-text-right {{ ratingCol }}">
+    <td data-timestamp="5" class="course-rating-column text-center medium-up-text-right {{ ratingCol }}">
       {# include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: 5 } #}
     </td>
 
