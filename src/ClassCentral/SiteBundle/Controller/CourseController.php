@@ -607,7 +607,7 @@ class CourseController extends Controller
         }
         if($course['initiative']['name'] == 'FutureLearn')
         {
-            $goToClassUrl = $this->getParameter('coursera_url') . urlencode( $goToClassUrl );
+            $goToClassUrl = $this->getParameter('futurelearn_url') . urlencode( $goToClassUrl );
         }
 
         $contextBar = [
