@@ -84,6 +84,7 @@ parameters:
     # Slack Webhook
     slack_webhook: ~
     slack_review_channel: ~
+    slack_data_channel: ~
 
     # Elasticsearch
     es_host: 'http://localhost'

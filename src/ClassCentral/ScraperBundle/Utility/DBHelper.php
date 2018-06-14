@@ -230,7 +230,7 @@ class DBHelper
         $message ="[New Course] *{$course->getName()}*\n" .$coursePageUrl ;
         $this->scraper->getContainer()
             ->get('slack_client')
-            ->to('cc-activity-data')
+            ->to($this->getSlackDataChannel())
             ->from( $initiative->getName() )
             ->withIcon( $logo )
             ->send( $message );
@@ -238,6 +238,30 @@ class DBHelper
         catch(\Exception $e)
         {
 
+        }
+    }
+
+    public function sendErrorMessageToSlack( Course $course, Initiative $initiative, $message)
+    {
+        try
+        {
+            $providerInfo = PageHeaderFactory::get( $initiative );
+            $logo = $this->scraper->getContainer()->getParameter('rackspace_cdn_base_url') . $providerInfo->getImageUrl() ;
+            $this->scraper->getContainer()
+                ->get('slack_client')
+                ->to($this->getSlackDataChannel())
+                ->from( $initiative->getName() )
+                ->withIcon( $logo )
+                ->attach([
+                    'fallback' => $message,
+                    'text' => $message,
+                    'color' => 'danger'
+                ])
+                ->send( $course->getName() );
+        }
+    catch(\Exception $e)
+        {
+            var_dump($e->getMessage());
         }
     }
 
@@ -255,7 +279,7 @@ class DBHelper
             $message ="[New Session] *{$course->getName()}* -  {$offering->getDisplayDate()}\n" .$coursePageUrl ;
             $this->scraper->getContainer()
                 ->get('slack_client')
-                ->to('cc-activity-data')
+                ->to($this->getSlackDataChannel())
                 ->from( $initiative->getName() )
                 ->withIcon( $logo )
                 ->send( $message );
@@ -333,5 +357,10 @@ class DBHelper
 
             $this->scraper->out("$field changed from - '$old' to '$new'");
         }
+    }
+
+    private function getSlackDataChannel()
+    {
+        return $this->scraper->getContainer()->getParameter('slack_data_channel');
     }
 }

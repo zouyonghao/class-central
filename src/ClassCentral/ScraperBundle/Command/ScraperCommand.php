@@ -85,7 +85,7 @@ class ScraperCommand extends ContainerAwareCommand
 
         $this->getContainer()
             ->get('slack_client')
-            ->to('#cc-activity-data')
+            ->to($this->getContainer()->getParameter('slack_data_channel'))
             ->from( $provider->getName() )
             ->withIcon( $logo )
             ->send( $msg );

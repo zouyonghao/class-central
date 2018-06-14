@@ -45,6 +45,7 @@ class Scraper extends ScraperAbstractInterface {
     protected static $languageMap = array(
         'en' => "English",
         'en,pt' => "English",
+        'uk' => "English",
         'fr' => "French",
         "de" => "German",
         "es" => "Spanish",
@@ -64,15 +65,17 @@ class Scraper extends ScraperAbstractInterface {
         'pt-BR' => 'Portuguese',
         'pt' => 'Portuguese',
         'pt-PT' => 'Portuguese',
+        'ja' => 'Japanese',
+        'ko' => 'Korean'
     );
 
     private $courseFields = array(
-        'Url', 'SearchDesc', 'Description', 'Name', 'Language','LongDescription','Syllabus', 'WorkloadMin', 'WorkloadMax','WorkloadType',
+        'Url', 'SearchDesc', 'Description', 'Name', 'Language','LongDescription', 'WorkloadMin', 'WorkloadMax','WorkloadType',
         'Certificate','CertificatePrice' ,'VideoIntro','DurationMin','DurationMax'
     );
 
     private $onDemandCourseFields = array(
-        'Url', 'Description', 'Name', 'Language','LongDescription','Syllabus',
+        'Url', 'Description', 'Name', 'Language','LongDescription',
         'Certificate','CertificatePrice','DurationMin','DurationMax'
     );
 
@@ -184,70 +187,19 @@ class Scraper extends ScraperAbstractInterface {
                     $sessionDetails = $onDemandCourse['sessionDetails'];
                     if(empty($sessionDetails['elements']))
                     {
-                        // Create an offering
-                        $offering = new Offering();
-                        $offering->setShortName( $dbCourse->getShortName() );
-                        $offering->setUrl( $dbCourse->getUrl() );
-                        $offering->setCourse( $dbCourse );
+                        $errorMessageLine1 = "Session details not found";
 
                         if( isset($onDemandCourse['elements'][0]['plannedLaunchDate']))
                         {
-                            try
-                            {
-                                // Self paced Not Started - But will Start in the future
-                                $this->out("SELF PACED FUTURE COURSE : " . $dbCourse->getName() );
-                                $startDate = new \DateTime( $onDemandCourse['elements'][0]['plannedLaunchDate'] );
-                                $endDate =  new \DateTime(  $onDemandCourse['elements'][0]['plannedLaunchDate']  );
-                                $endDate->add( new \DateInterval("P30D") );
-                                $offering->setStatus( Offering::START_DATES_KNOWN );
-                            }
-                            catch(\Exception $e)
-                            {
-                                continue;
-                            }
+                            $errorMessageLine2 = "The course has a potential planned launched date in the future";
                         }
                         else
                         {
-                            // Self paced course that can be accessed right now
-                            $this->out("SELF PACED COURSE : " . $dbCourse->getName() );
-                            $startDate = new \DateTime();
-                            $offering->setStatus( Offering::COURSE_OPEN );
-                            $endDate =  new \DateTime( );
-                            $endDate->add( new \DateInterval("P30D") );
 
-                            if($dbCourse->getNextOffering()->getStatus() == Offering::COURSE_OPEN )
-                            {
-                                // Already self paced nothing to be done here
-                                continue;
-                            }
+                            $errorMessageLine2 = "The course doesn't have any upcoming sessions";
                         }
+                        $this->dbHelper->sendErrorMessageToSlack($dbCourse,$this->initiative,"{$errorMessageLine1}\n{$errorMessageLine2}");
 
-                        $offering->setStartDate( $startDate );
-                        $offering->setEndDate( $endDate );
-
-                        // Check if offering exists
-                        $dbOffering = $this->dbHelper->getOfferingByShortName( $dbCourse->getShortName() );
-
-                        if($dbOffering)
-                        {
-                            // Check if the dates and other details are right
-                            $this->offeringChangedFields($offering,$dbOffering);
-                        }
-                        else
-                        {
-                            // Save and Create the offering
-                            if($this->doCreate())
-                            {
-                                $this->out("NEW OFFERING - " . $offering->getName() );
-                                if ($this->doModify())
-                                {
-                                    $em->persist($offering);
-                                    $em->flush();
-                                    $this->dbHelper->sendNewOfferingToSlack( $offering);
-                                }
-
-                            }
-                        }
                     }
                     else
                     {
@@ -390,6 +342,8 @@ class Scraper extends ScraperAbstractInterface {
             $course->setLanguage( $dbLanguageMap[$lang] );
         } else {
             $this->out("Language not found " . $data['elements']['0']['primaryLanguageCodes'][0] );
+            $this->dbHelper->sendErrorMessageToSlack($course,$this->initiative,
+                "Language not found " . $data['elements']['0']['primaryLanguageCodes'][0]);
             $course->setLanguage($dbLanguageMap['English']); // Use default language english
         }
 
@@ -731,8 +685,10 @@ class Scraper extends ScraperAbstractInterface {
                     // Session details
                     $onDemandCourse['sessionDetails'] =  json_decode( $this->file_get_contents_wrapper( sprintf(self::ONDEMAND_SESSION_IDS,$courseId) ),true);
 
-                    // Get Course Details like Syllabus and length
-                    $onDemandCourse['courseDetails'] =  json_decode($this->file_get_contents_wrapper( sprintf(self::ONDEMAND_OPENCOURSE_API, $onDemandCourse['elements'][0]['slug']) ),true);
+                    // Get Course Details like Syllabus and length.
+                    // June 14th, 2018: Not working atm
+                    //$onDemandCourse['courseDetails'] =  json_decode($this->file_get_contents_wrapper( sprintf(self::ONDEMAND_OPENCOURSE_API, $onDemandCourse['elements'][0]['slug']) ),true);
+                    $onDemandCourse['courseDetails'] = [];
 
                     // Calculate the length of the course
                     $onDemandCourse['schedule'] = json_decode($this->file_get_contents_wrapper( sprintf(self::ONDEMAND_COURSE_SCHEDULE, $onDemandCourse['elements'][0]['id']) ),true);
