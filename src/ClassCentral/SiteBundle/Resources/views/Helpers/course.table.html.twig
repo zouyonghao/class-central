@@ -26,7 +26,7 @@
 {% endif %}
 {% if pageNo == 1 or showHeader %}
 <table class="table table--block" id='{{ tableId }}list'>
-  <thead class="xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
+  <thead class="xsmall-only-hidden small-only-hidden medium-only-hidden">
     <tr>
       <th class="text-middle width-3-16 {{ addCol }}"></th>
       {% set nameSortClass = '' %}
@@ -42,14 +42,22 @@
       >
         {% if sorting and sortField is defined %}
           {% if sortField == 'name' and sortClass == 'headerSortUp' %}
-            <span class="head-5 icon--right icon-sort-asc">Course Name</span>
+            <span class="head-5 icon--right icon-sort-asc">
+              Course Name
+            </span>
           {% elseif sortField == 'name' and sortClass == 'headerSortDown' %}
-            <span class="head-5 icon--right icon-sort-des">Course Name</span>
+            <span class="head-5 icon--right icon-sort-des">
+              Course Name
+            </span>
           {% else %}
-            <span class="head-5 icon--right icon-sort">Course Name</span>
+            <span class="head-5 icon--right icon-sort">
+              Course Name
+            </span>
           {% endif %}
         {% else %}
-        <span class="head-5">Course Name</span>
+        <span class="head-5">
+          Course Name
+        </span>
         {% endif %}
       </th>
       {% if showSubjectInTable %}
@@ -90,14 +98,22 @@
       >
         {% if  sorting and sortField is defined %}
           {% if sortField == 'date' and sortClass == 'headerSortUp' %}
-            <span class="head-5 icon--right icon-sort-asc">Start Date</span>
+            <span class="head-5 icon--right icon-sort-asc">
+              <span class="large-only-hidden">Start</span> Date
+            </span>
           {% elseif sortField == 'date' and sortClass == 'headerSortDown' %}
-            <span class="head-5 icon--right icon-sort-des">Start Date</span>
+            <span class="head-5 icon--right icon-sort-des">
+              <span class="large-only-hidden">Start</span> Date
+            </span>
           {% else %}
-            <span class="head-5 icon--right icon-sort">Start Date</span>
+            <span class="head-5 icon--right icon-sort">
+              <span class="large-only-hidden">Start</span> Date
+            </span>
           {% endif %}
         {% else %}
-        <span class="head-5">Start Date</span>
+        <span class="head-5">
+          <span class="large-only-hidden">Start</span> Date
+        </span>
         {% endif %}
       </th>
       {% set ratingSortClass = '' %}
