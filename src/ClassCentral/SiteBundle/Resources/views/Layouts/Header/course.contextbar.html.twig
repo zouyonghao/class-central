@@ -49,6 +49,10 @@
     </a>
     <div class="inline-block margin-left-xsmall xlarge-up-margin-left-small">
       <a data-track-props='{ "type": "Course CTA", "title": "{{ cb.data.courseInfo.title }}", "trigger": "goToClassClick" }'
+        onclick="
+          ga('send','event', 'Go to Class', '{{cb.data.courseInfo.title}}', 'context_bar');
+          CC.track('{{ ts.event('GO_TO_CLASS_CLICK') }}', { 'src': 'context_bar' });
+        "
         href="{{ cb.data.courseInfo.url }}"
         target="_blank" class="btn-green xsmall-only-btn--small small-only-btn--small medium-only-btn--small large-only-btn--small">
         <span class="xsmall-only-hidden icon-arrow-right-white icon--right text--bold">Go to class</span>

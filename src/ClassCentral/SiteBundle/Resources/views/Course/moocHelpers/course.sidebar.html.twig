@@ -76,7 +76,8 @@
           class="btn--large btn-green width-100"
           href="{{ goToClassUrl }}" id="btnProviderCoursePage"
           onclick="recordOutboundLinkWithoutRedirect('{{course['initiative']['name']}}','{{ course['name'] }}','{{ course['stream']['name'] }}');
-                    CC.track('{{ ts.event('GO_TO_CLASS_CLICK') }}');"
+                    ga('send','event', 'Go to Class', '{{course.name}}', 'course_page')
+                    CC.track('{{ ts.event('GO_TO_CLASS_CLICK') }}', { 'src': 'course_page' });"
           target="_blank"
         >
           <span class="text-1 text--bold" style="font-size: 20px;">Go to class</span>
