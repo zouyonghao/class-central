@@ -1,0 +1,32 @@
+{% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
+
+{% block headmeta %}
+<title>Go To Class clicks</title>
+{% endblock %}
+
+{% block content %}
+<div class="classcentral-style">
+    <div class="row width-centered padding-horz-small medium-up-padding-horz-medium xlarge-up-padding-horz-large" style="max-width: 1250px;">
+        <table>
+            <tr>
+                <th>Course Id</th>
+                <th>Course Name</th>
+                <th>Pageviews</th>
+                <th>Go To Class Clicks</th>
+                <th>GTC rate</th>
+            </tr>
+
+            {% for courseId, courseStats in gtcRate %}
+                <tr>
+                <td>{{ courseId }}</td>
+                <td>{{ courseStats.name }}</td>
+                <td>{{ courseStats.pageviews }}</td>
+                <td>{{ courseStats.gtc }}</td>
+                <td>{{ courseStats.gtcRate }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</div>
+{% endblock %}

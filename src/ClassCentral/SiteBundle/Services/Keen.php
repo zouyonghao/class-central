@@ -24,6 +24,11 @@ class Keen
         $this->keenClient = $container->get('keen_io');
     }
 
+    public function getClient()
+    {
+        return $this->keenClient;
+    }
+
     public function recordLogins(\ClassCentral\SiteBundle\Entity\User $user, $type)
     {
         try
@@ -282,6 +287,5 @@ class Keen
 
         return $adStats;
     }
-
 
 }

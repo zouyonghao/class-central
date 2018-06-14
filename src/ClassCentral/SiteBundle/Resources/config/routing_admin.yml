@@ -166,3 +166,7 @@ advertising_stats:
 advertising_stats_by_advertiser:
     pattern: /advertising-stats/{advertiser}
     defaults: { _controller: ClassCentralSiteBundle:Advertising:statsByAdvertiser }
+
+gtc_rate:
+    pattern: /analytics/gtc
+    defaults: {_controller: ClassCentralSiteBundle:Analytics:coursePageGTCRate }

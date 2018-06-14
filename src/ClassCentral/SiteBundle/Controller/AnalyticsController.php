@@ -90,4 +90,73 @@ class AnalyticsController extends Controller
     {
         return new Response($message,$statusCode);
     }
+
+    /**
+     * Generate CTRS for course pages
+     * @param Request $request
+     */
+    public function coursePageGTCRateAction(Request $request)
+    {
+        $timeFrame = "this_28_days";
+        $kc = $this->get('keen')->getClient();
+        $courseRepo = $this->getDoctrine()->getEntityManager()->getRepository('ClassCentralSiteBundle:Course');
+        $gtcRate = [];
+
+        if($request->query->get('relative'))
+        {
+            $timeFrame = $request->query->get('relative');
+        }
+
+        if($request->query->get('start') && $request->query->get('end'))
+        {
+            $timeFrame = [
+                'start' => $request->query->get('start'),
+                'end' => $request->query->get('end')
+            ];
+        }
+
+        // Get Go To Class Clicks
+        $gtc = [];
+        $gtcFromKeen = $kc->count('go_to_class_click', [
+            'group_by' => ['metadata.course_id'],
+            'timeframe' => $timeFrame
+        ]);
+        foreach ($gtcFromKeen['result'] as $click)
+        {
+            $gtc[$click['metadata.course_id']] = $click['result'];
+        }
+
+        // Get pageviews
+        $pageviewsFromKeen = $kc->count('pageview',[
+            'group_by' => ['metadata.course_id'],
+            'timeframe' => $timeFrame,
+            'filters' =>  [["operator"=>"eq","property_name" => "page","property_value"=> "course"]],
+        ]);
+
+        foreach ($pageviewsFromKeen['result'] as $pv)
+        {
+            $courseId = $pv['metadata.course_id'];
+            $pageviews = $pv['result'];
+            if(isset($gtc[$courseId]) && $pageviews > 300)
+            {
+                $clicks = $gtc[$courseId];
+                $course = $courseRepo->find($courseId);
+                $gtcRate[$courseId] = [
+                    'gtc' => $clicks,
+                    'pageviews' => $pageviews,
+                    'gtcRate' => $clicks*100/$pageviews,
+                    'name' => $course->getName()
+                ];
+            }
+
+        }
+
+        uasort($gtcRate,function($course1, $course2){
+            return $course1['pageviews'] < $course2['pageviews'];
+        });
+
+        return $this->render('ClassCentralSiteBundle:Analytics:gtc_rate.html.twig',[
+            'gtcRate' => $gtcRate
+        ]);
+    }
 }
