@@ -14,6 +14,7 @@
                     data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
                     data-track-props='{
                       "ad": {
+                        "layout": "{{ adType is defined ? adType : 'a'}}",
                         "provider": "{{ spotlight.provider }}",
                         "unit": "Homepage Spotlight",
                         "title": "{{ spotlight.title }}"

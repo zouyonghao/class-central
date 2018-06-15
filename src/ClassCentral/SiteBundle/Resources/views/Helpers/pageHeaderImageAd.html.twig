@@ -7,6 +7,7 @@
     data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
     data-track-props='{
       "ad": {
+        "layout": "{{ adType is defined ? adType : 'a'}}",
         "provider": "{{ provider}}",
         "unit": "PageHeader Image Ad",
         "title": "{{ desc }}"
@@ -26,7 +27,16 @@
         <img src="{{ imageUrl }}" alt="">
       </span>
       <span class="unit-block text-3 unit-fill text--charcoal">
-        <span class="text-3 text--bold margin-bottom-xsmall block" style="color: #FF8E6C;">AD</span>
+        {% if adType is defined and adType == "x" %}
+          <span
+            class="text-4 text--blue text--bold relative border-all border--blue radius border--thin inline-block"
+            style="padding: 1px 2px 0px 2px; margin-right: 2px;"
+          >
+              AD
+          </span>
+        {% else %}
+          <span class="text-3 text--bold margin-bottom-xsmall block" style="color: #FF8E6C;">AD</span>
+        {% endif %}
         {{ desc }}
       </span>
     </span>

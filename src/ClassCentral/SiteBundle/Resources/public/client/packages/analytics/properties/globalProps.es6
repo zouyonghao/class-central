@@ -14,8 +14,8 @@ const globalProps = () => ({
   permanent_id: Cookies.get("permanentId"),
   raw_page_url: window.location.href,
   raw_user_agent: "${keen.user_agent}",
-  ip_address: "${keen.ip}",
   referrer_url: document.referrer,
+  abTests: null
 });
 /* eslint-enable */
 

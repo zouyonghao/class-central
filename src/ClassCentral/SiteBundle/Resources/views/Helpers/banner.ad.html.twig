@@ -2,6 +2,7 @@
   data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
   data-track-props='{
     "ad": {
+      "layout": "{{ adType is defined ? adType : 'a'}}",
       "provider": "Canvas Network",
       "unit": "Banner Ads",
       "title": "{{ desc }}"

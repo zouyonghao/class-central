@@ -46,6 +46,7 @@ twig:
       credService   : @credential
       followService  : @follow
       cc_ads        : @advertising
+      abTesting     : @abTesting
       help_guides   : @help_guides
       swiftype_engine_key : %swiftype_engine_key%
       clicky_site_id: %clicky_site_id%
@@ -266,6 +267,9 @@ services:
     arguments: [@session.memcached, { prefix: %baseurl%, expiretime: %session_memcached_expire% }]
   keen:
      class: ClassCentral\SiteBundle\Services\Keen
+     arguments: [ '@service_container' ]
+  abTesting:
+     class: ClassCentral\SiteBundle\Services\ABTesting
      arguments: [ '@service_container' ]
   session.handler.pdo:
      class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler

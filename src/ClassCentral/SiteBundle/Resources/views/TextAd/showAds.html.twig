@@ -9,6 +9,7 @@
         data-track-impression="{{ ts.event('AD_IMPRESSION') }}"
         data-track-props='{
           "ad": {
+            "layout": "{{ adType is defined ? adType : 'a'}}",
             "provider": "{{ ad.providerName }}",
             "unit": "Sidebar Text Ad",
             "title": "{{ ad.title }}"
@@ -24,7 +25,17 @@
          });ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}");'
       >
         <p class="text-3 text--charcoal margin-bottom-xxsmall">
-          <span class="text--bold block">{{ ad.title }}</span>
+          <span class="text--bold block">
+            {% if adType is defined and adType == "x" %}
+              <span
+                class="text-4 text--blue text--bold relative border-all border--blue radius border--thin inline-block"
+                style="padding: 1px 2px 0px 2px; margin-right: 2px;"
+              >
+                  AD
+              </span>
+            {% endif %}
+            {{ ad.title }}
+          </span>
           <span class="text--italic">{{ ad.displayUrl }}</span>
         </p>
         <p class="text-3 text--charcoal block">{{ ad.description }}</p>
