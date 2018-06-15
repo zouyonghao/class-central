@@ -351,6 +351,14 @@ old_subject_civil-environmental-engineering:
      permanent: true # this is for 301
      slug: civil-engineering
 
+old_institution_sdsnedu:
+   pattern: /institution/sdsnedu
+   defaults:
+     _controller: FrameworkBundle:Redirect:redirect
+     route: ClassCentralSiteBundle_institution
+     permanent: true # this is for 301
+     slug: sdg-academy
+
 pakman:
   pattern: /pakman
   defaults:
