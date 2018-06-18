@@ -360,7 +360,7 @@ class Ui {
       $slideshow.removeAttr("style");
       $navItems.addClass("transparent").eq(index).removeClass("transparent");
 
-      if (bgData.src) {
+      if (bgData && bgData.src) {
         $slideshow.css({
           backgroundSize: "contain",
           backgroundImage: `url(${bgData.src})`,
