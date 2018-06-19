@@ -304,6 +304,7 @@ class StreamController extends Controller
         $breadcrumbs = array(
             Breadcrumb::getBreadCrumb('Subjects')
         );
+
         return $this->render('ClassCentralSiteBundle:Stream:subjects.html.twig',array(
                 'page' => 'subjects',
                 'subjects' => $subjects,

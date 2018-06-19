@@ -15,7 +15,7 @@
 
   <div class="padding-vert-large">
     <h2 id="overview" class="head-1 margin-bottom-small">Overview</h2>
-    <article class="wysiwyg text-2 medium-up-text-1">
+    <article class="wysiwyg text-2 medium-up-text-1 margin-bottom-large">
       {% if course.initiative.code == 'coursera' %}
         <p class="margin-bottom-medium text-center large-up-text-left">
             <span class="text-2 text--bold margin-right-small">Sign up to Coursera courses for free</span>
@@ -46,7 +46,7 @@
 
     {% if course.syllabus %}
       <h2 id="syllabus" class="head-1 margin-bottom-small">Syllabus</h2>
-      <article class="wysiwyg text-2 medium-up-text-1">
+      <article class="wysiwyg text-2 medium-up-text-1 margin-bottom-large">
         <div class="relative {% if course.syllabus|length > 1500 %}fade-bottom fade-hidden{% endif %}" data-expand-article-target="syllabus">
           {{ course.syllabus|raw }}
         </div>

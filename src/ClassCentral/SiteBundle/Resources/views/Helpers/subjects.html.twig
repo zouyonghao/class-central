@@ -1,29 +1,44 @@
-<div data-equalize='{ "height": 200}' class="row border-wrap">
+<ul data-equalize='{ "rowOptions": { "mediumUp": 2, "xlargeUp": 3 } }' class="row">
+  {% set i = 0 %}
+  {% set closeRow = 0 %}
+  {% set closeBlock = 0 %}
+  {% for parent in subjects.parent %}
+      {# Actual subject information #}
+      <li data-equalize-child class="width-100 medium-up-width-1-2 xlarge-up-width-1-3 col margin-vert-medium medium-up-margin-vert-xlarge medium-up-padding-right-large xlarge-up-padding-right-xlarge">
+        <h3 class="unit-horz margin-vert-small">
+          <div class="unit-block padding-right-small">
+            <a class="block" href="{{ path('ClassCentralSiteBundle_stream', {'slug': parent.slug } ) }}" title="List of {{ parent.name }} MOOCs" onmousedown="ga('send','event', 'Inbound Clicks - Stream', '{{parent.name}}', 'Subjects')">
+              <img src="/bundles/classcentralsite/images/icon-{{ parent.slug}}.png" style="height: 55px; width: 55px">
+            </a>
+          </div>
+          <div class="unit-block unit-fill">
+            <a class="text--blue" href="{{ path('ClassCentralSiteBundle_stream', {'slug': parent.slug } ) }}" title="List of {{ parent.name }} MOOCs" onmousedown="ga('send','event', 'Inbound Clicks - Stream', '{{parent.name}}', 'Subjects')">
+              <span class="head-3 large-up-head-2 text--bold block">{{ parent.name }}</span>
+              <span class="text-2 text--italic">
+                {{ parent.courseCount }} courses
+              </span>
+            </a>
+          </div>
+        </h3>
 
-    {% set i = 0 %}
-    {% set closeRow = 0 %}
-    {% set closeBlock = 0 %}
-    {% for parent in subjects.parent %}
-        {# Actual subject information #}
-        <div data-equalize-child class="single-category col-xs-6 col-md-4">
-            <div class="category-header">
-                <div class="course-count">
-                    <span class="count">{{ parent.courseCount }}</span>
-                    <span class="count-title">courses</span>
-                </div>
-                <a class="show-all-subjects view-all-courses" href="{{ path('ClassCentralSiteBundle_stream', {'slug': parent.slug } ) }}" title="List of {{ parent.name }} MOOCs" onmousedown="ga('send','event', 'Inbound Clicks - Stream', '{{parent.name}}', 'Subjects')">
-                    <span class="category-title">{{ parent.name }}</span>
+        {% if subjects.children[parent.id] is defined %}
+          <ul class="margin-vert-xxsmall">
+            {% for child in subjects.children[parent.id] %}
+              <li class="inline-block padding-right-xsmall padding-bottom-xxsmall">
+                <a class="text-2 text--charcoal border-bottom border--thin" href="{{ path('ClassCentralSiteBundle_stream', {'slug': child.slug } ) }}" title="List of {{ child.name }} MOOCs" onmousedown="ga('send','event', 'Inbound Clicks - Stream', '{{child.name}}', 'Subjects')">
+                  {{ child.name }}
                 </a>
-            </div>
-            {% if subjects.children[parent.id] is defined %}
-                <ul class="subject-list" >
-                    {% for child in subjects.children[parent.id] %}
-                        <li><a href="{{ path('ClassCentralSiteBundle_stream', {'slug': child.slug } ) }}" title="List of {{ child.name }} MOOCs" onmousedown="ga('send','event', 'Inbound Clicks - Stream', '{{child.name}}', 'Subjects')"><span>{{ child.name }}</span></a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    {% endfor %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+  {% endfor %}
+</ul>
+
+<div class="margin-top-xxlarge width-centered width-100 large-up-width-1-2 text-center">
+  <p class="padding-vert-large head-2">
+    Based on an open sourced taxonomy for online courses created by Class Central.
+  </p>
+  <a class="btn-white text--blue btn--large" target="_blank" href="https://github.com/classcentral/online-course-taxonomy">Find it on Github</a>
 </div>
-<br/>
-<div>Based on an open sourced taxonomy for online courses created by Class Central. <a href="https://github.com/classcentral/online-course-taxonomy">Find it on Github</a> </div>

@@ -1,4 +1,4 @@
-{% extends 'ClassCentralSiteBundle::base.html.twig' %}
+{% extends 'ClassCentralSiteBundle::Layouts/standard.html.twig' %}
 
 {% block headmeta %}
     <title>Subjects - Browse free online courses and MOOCs by Subjects | Class Central</title>
@@ -22,15 +22,13 @@
 
 {% block content %}
 
-    <div class="subjects">
-        <div class="intro-wrap">
-            <div class="description-wrap">
-                <h1 class='cc-page-header'>Subjects</h1>
-            </div>
-        </div>
+    <section class="subjects classcentral-style">
+      <div class="width-centered padding-horz-medium medium-up-padding-horz-large large-up-padding-horz-xlarge" style="max-width: 1250px;">
+        <header class="padding-vert-medium border-bottom border--gray-light border--thin">
+          <h1 class="head-1 text--bold">Subjects</h1>
+        </header>
         {% include 'ClassCentralSiteBundle:Helpers:subjects.html.twig' with { 'subjects' : subjects } %}
-    </div>
-
-
+      </div>
+    </section>
 
 {% endblock %}

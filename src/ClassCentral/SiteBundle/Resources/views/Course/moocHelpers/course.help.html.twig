@@ -24,4 +24,14 @@
       </li>
     {% endfor %}
   </ul>
+
+  <div class="text-left margin-top-medium margin-bottom-xlarge">
+    <a
+      class="xsmall-only-width-100 small-only-width-100 btn-blue-outline btn--large"
+      href="{{ path('help_guides_section',{ slug: helpCenter.section.slug }) }}"
+      title="{{ helpCenter.section.name }} Help Center"
+    >
+      <span class="xsmall-only-hidden text--bold">Browse </span> More <span>{{ helpCenter.section.name }} Articles</span>
+    </a>
+  </div>
 </section>

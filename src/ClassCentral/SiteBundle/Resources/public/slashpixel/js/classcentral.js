@@ -1,5 +1,6 @@
 require('typeahead.js');
 
+const chunk = require("lodash/chunk");
 const PNotify = require('pnotify');
 const Handlebars = require("handlebars");
 const Bloodhound = require('typeahead.js/dist/bloodhound.js');
@@ -1369,6 +1370,7 @@ jQuery(function($) {
         _this.items = el.find('[data-equalize-child]');
         _this.defaultHeight = options.height || 0;
         _this.rows;
+        _this.rowOptions = options.rowOptions || null;
 
         _this.init();
 
@@ -1382,12 +1384,39 @@ jQuery(function($) {
             })
             _this.el.addClass('is-active');
         });
+
+        $(window).trigger('resize');
     };
 
     Equalize.prototype.getRows = function() {
       var _this = this;
       _this.rows = null;
-      if (_this.items.eq(0).height() > 0 ) {
+
+
+      const small = 481;
+      const medium = 641;
+      const large = 769;
+      const xlarge = 1025;
+      const xxlarge = 1200;
+
+      let size;
+      if (_this.rowOptions) {
+        _this.rows = _this.rows || {};
+        if (_this.getMediaSize() >= medium) {
+          size = "mediumUp";
+        }
+        if (_this.getMediaSize() >= xlarge) {
+          size = "xlargeUp";
+        }
+        let items = chunk(_this.items, size ? _this.rowOptions[size] : null);
+        items.forEach((chunk, index) => {
+          _this.rows[index] = {
+            height: null,
+            items: chunk,
+          }
+        });
+      }
+      else if (_this.items.eq(0).height() > 0 ) {
         _this.items.each(function(index, item) {
             _this.rows = _this.rows || {};
             const offset = $(item).offset().top;
@@ -1438,6 +1467,13 @@ jQuery(function($) {
       Object.keys(_this.rows).map((key) => {
         _this.rows[key].height = _this.defaultHeight;
       });
+    };
+
+    Equalize.prototype.getMediaSize = () => {
+      if (typeof window !== "undefined") {
+        return window.innerWidth;
+      }
+      return false;
     };
 
     Equalize.prototype.activate = function(row, forceActivate) {
