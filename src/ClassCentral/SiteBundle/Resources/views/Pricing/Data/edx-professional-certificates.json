@@ -13,6 +13,16 @@
   ],
   "rows": [
     {
+      "title": "C Programming with Linux",
+      "subtitle": "Dartmouth College",
+      "price": "$308.70"
+    },
+    {
+      "title": "Blockchain Fundamentals",
+      "subtitle": "University of California, Berkeley",
+      "price": "$178.20"
+    },
+    {
       "title": "Fintech",
       "subtitle": "University of Hong Kong",
       "price": "$357.30"

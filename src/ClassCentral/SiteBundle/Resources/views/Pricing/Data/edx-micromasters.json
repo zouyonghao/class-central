@@ -13,6 +13,16 @@
   ],
   "rows": [
     {
+      "title": "Healthcare Administration",
+      "subtitle": "Doane University",
+      "price": "$1253.70"
+    },
+    {
+      "title": "Statistics and Data Science",
+      "subtitle": "Massachusetts Institute of Technology",
+      "price": "$1350"
+    },
+    {
       "title": "Algorithms and Data Structures",
       "subtitle": "The University of California, San Diego",
       "price": "$1080"

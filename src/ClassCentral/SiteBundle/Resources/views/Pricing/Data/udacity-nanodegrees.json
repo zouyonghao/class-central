@@ -18,9 +18,14 @@
   "footer": "udacity",
   "rows": [
     {
+      "title": "Data Scientist",
+      "duration": "7 months",
+      "price": "$1500"
+    },
+    {
       "title": "Natural Language Processing",
       "duration": "3 months",
-      "price": "$799"
+      "price": "$999"
     },
     {
       "title": "Computer Vision",
@@ -53,16 +58,6 @@
       "price": "$800"
     },
     {
-      "title": "Learn ARKit Using Unity",
-      "duration": "1 month",
-      "price": "$199"
-    },
-    {
-      "title": "Learn ARKit Using Swift",
-      "duration": "1 month",
-      "price": "$199"
-    },
-    {
       "title": "Data Foundations",
       "duration": "3 months",
       "price": "$499"
@@ -75,22 +70,22 @@
     {
       "title": "React",
       "duration": "4 months",
-      "price": "$499"
+      "price": "$999"
     },
     {
       "title": "Design Sprint Foundations",
       "duration": "1 month",
-      "price": "$299"
+      "price": "$599"
     },
     {
-      "title": "Google Adwords Nanodegree",
+      "title": "Google Adwords",
       "duration": "3 month",
-      "price": "$699 or $399 self study"
+      "price": "$999"
     },
     {
       "title": "Intro to Programming",
-      "duration": "5 months",
-      "price": "$399 or $99/mo"
+      "duration": "3 months",
+      "price": "$599"
     },
     {
       "title": "VR Developer",
@@ -105,7 +100,7 @@
     {
       "title": "Digital Marketing",
       "duration": "3 months",
-      "price": "$999 or $599 self study"
+      "price": "$999"
     },
     {
       "title": "Deep Learning",
@@ -123,14 +118,14 @@
       "price": "$2400"
     },
     {
-      "title": "Business Analyst",
-      "duration": "160 hours",
-      "price": "$200/month"
+      "title": "Predictive Analytics for Business",
+      "duration": "3 months",
+      "price": "NA"
     },
     {
       "title": "Android Basics",
-      "duration": "4 months",
-      "price": "$199/month"
+      "duration": "3 months",
+      "price": "$599"
     },
     {
       "title": "Machine Learning Engineer",
@@ -139,23 +134,23 @@
     },
     {
       "title": "Front-End Web Developer",
-      "duration": "6 months",
-      "price": "$199/month"
+      "duration": "4 months",
+      "price": "$999"
     },
     {
       "title": "Full Stack Web Developer",
-      "duration": "6 months",
-      "price": "$199/month"
+      "duration": "4 months",
+      "price": "$999"
     },
     {
       "title": "Android Developer",
-      "duration": "8 months",
-      "price": "$1199 or $199/month"
+      "duration": "4 months",
+      "price": "$999"
     },
     {
       "title": "Become an iOS Developer",
-      "duration": "6 months",
-      "price": "$199/month"
+      "duration": "7 months",
+      "price": "$999"
     }
   ]
 }
