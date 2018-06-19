@@ -6,5 +6,6 @@
   "cc-style.css": "cc-style.dev.css",
   "cc-admin-style.css": "cc-admin-style.dev.css",
   "cc-legacy.css": "cc-legacy.dev.css",
-  "section-help-guides.css": "section-help-guides.dev.css"
+  "section-help-guides.css": "section-help-guides.dev.css",
+  "section-course.css": "section-course.dev.css"
 }

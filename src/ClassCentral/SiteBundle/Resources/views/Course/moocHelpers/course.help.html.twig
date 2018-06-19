@@ -1,0 +1,27 @@
+<section class="border-top border--gray-dark border--thin margin-vert-medium">
+  <h2 id="help" class="head-1 margin-top-medium">Help Center</h2>
+  <p class="text-1 margin-top-medium">
+    Most commonly asked questions about
+    <i class="xsmall-only-hidden small-only-hidden icon-{{ helpCenter.section.slug }} icon--large"></i>
+    <a
+      class="xsmall-only-hidden small-only-hidden head-3 text--bold text--charcoal relative"
+      style="left: -5px; top: 2px;"
+      href="{{ path('help_guides_section',{ slug: helpCenter.section.slug }) }}"
+    >
+      {{ helpCenter.section.name }}
+    </a>
+    <a
+      class="medium-up-hidden text--bold text--blue relative"
+      href="{{ path('help_guides_section',{ slug: helpCenter.section.slug }) }}"
+    >
+      {{ helpCenter.section.name }}
+    </a>
+  </p>
+  <ul class="margin-bottom-large">
+    {% for article in helpCenter.articles[0:3] %}
+      <li class="margin-vert-xsmall">
+        <a class="text--blue text-1" href="{{ path('help_guides_article',{ slug: article.slug }) }}">{{ article.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

@@ -1,8 +1,28 @@
 @import "~classcentral-style/dist/icon-thumbsup.css";
 @import "~classcentral-style/dist/png-top-50.css";
 @import "~classcentral-style/dist/icon-link.css";
+@import "~classcentral-style/dist/png-coursera.css";
+@import "~classcentral-style/dist/png-futurelearn.css";
+@import "~classcentral-style/dist/png-edx.css";
+@import "~classcentral-style/dist/png-udacity.css";
 
 #page-course {
+  #course-nav {
+    margin-top: 30px;
+  }
+  #course-nav.fixed {
+    position: fixed;
+    top: -60px;
+    left: 0px;
+    width: 100%;
+    z-index: 1000;
+    margin-top: 0px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    transition: top 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    &.active {
+      top: 61px;
+    }
+  }
   .container {
     width: 100% !important;
     max-width: 1250px !important;

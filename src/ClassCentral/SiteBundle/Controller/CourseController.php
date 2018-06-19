@@ -587,7 +587,6 @@ class CourseController extends Controller
 
         ];
 
-
         $goToClassUrl = $course['url'];
         if(isset($course['nextOffering']['url']))
         {
@@ -610,6 +609,12 @@ class CourseController extends Controller
             $goToClassUrl = $this->getParameter('futurelearn_url') . urlencode( $goToClassUrl );
         }
 
+        $helpCenter = null;
+        if( in_array($course['initiative']['code'], ['coursera','udacity','edx','futurelearn']))
+        {
+            $helpCenter = $this->getHelpGuides($course['initiative']['code']);
+        }
+
         $contextBar = [
             'type' => 'course',
             'data' => [
@@ -625,10 +630,14 @@ class CourseController extends Controller
             ]
         ];
 
+
+
+
         return $this->render(
            'ClassCentralSiteBundle:Course:mooc.html.twig',
            array('page' => 'course',
                  'course'=>$course,
+                 'helpCenter' => $helpCenter,
                  'offeringTypes' => Offering::$types,
                  'offeringTypesOrder' => array('upcoming','ongoing','selfpaced','past'),
                  'nextSession' => $nextSession,
@@ -666,7 +675,25 @@ class CourseController extends Controller
       }
       return null;
     }
-    
+
+    private function getHelpGuides($slug)
+    {
+      $details = $this->get('cache')->get('help_guides_section_articles_' . $slug,function ($slug){
+          $em = $this->getDoctrine()->getManager();
+          $section = $em->getRepository('ClassCentralSiteBundle:HelpGuideSection')->findOneBy( ['slug'=> $slug] );
+          if($section)
+          {
+            $articles = $this->get('help_guides')->getArticlesBySection($section);
+            return [
+                'section' => $section->__toArray(),
+                'articles' => $articles,
+            ];
+          }
+      },[$slug]);
+
+      return $details;
+    }
+
     private function getTwitterShareUrl($course)
     {
 

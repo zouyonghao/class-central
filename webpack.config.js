@@ -11,6 +11,7 @@ module.exports = {
     'cc-admin': './Admin.js',
     'cc-admin-style': './AdminStyle.less',
     'section-help-guides': './styles/help-guides.less',
+    'section-course': './styles/course.less',
   },
   resolve: {
     alias: {

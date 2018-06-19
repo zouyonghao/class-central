@@ -11,86 +11,53 @@
     </div>
   </div>
 
-  <nav class="text-center margin-top-medium medium-up-margin-top-reset large-up-text-left border-bottom border--thin border--gray-dark">
-    <div style="top: 1px" class="relative medium-up-padding-left-small">
-        <a
-          data-tab="overview"
-          data-tab-family="course-summary"
-          href="#"
-          data-track-click="{{ ts.event('COURSE_CLICK') }}"
-          data-track-props='{ "type": "Course Overview Tab" }'
-          class="head-4 bg-white medium-up-head-3 text--charcoal text--bold inline-block border--thin border-top border-left border-right border--gray-dark padding-vert-xsmall padding-horz-small large-up-padding-horz-xxlarge margin-right-xsmall"
-        >
-          <span>About</span>
-          <span class="xsmall-only-hidden small-only-hidden"> this course</span>
-        </a>
-      {% if course.syllabus %}
-        <a
-          data-tab="syllabus"
-          data-tab-family="course-summary"
-          href="#"
-          data-track-click="{{ ts.event('COURSE_CLICK') }}"
-          data-track-props='{ "type": "Course Syllabus Tab" }'
-          class="head-4 bg-gray medium-up-head-3 text--charcoal inline-block border--thin border-top border-left border-right border--gray-dark padding-vert-xsmall padding-horz-small large-up-padding-horz-xxlarge"
-        >
-          Syllabus
-        </a>
+  {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.nav.html.twig' %}
+
+  <div class="padding-vert-large">
+    <h2 id="overview" class="head-1 margin-bottom-small">Overview</h2>
+    <article class="wysiwyg text-2 medium-up-text-1">
+      {% if course.initiative.code == 'coursera' %}
+        <p class="margin-bottom-medium text-center large-up-text-left">
+            <span class="text-2 text--bold margin-right-small">Sign up to Coursera courses for free</span>
+            <a
+              target="_blank"
+              href="https://www.class-central.com/report/coursera-signup-for-free/"
+              onmousedown='CC.track("{{ ts.event('TIP_CLICK') }}", {
+                tip_key: "coursera-signup-free-learn-how",
+                tip_link: "https://www.class-central.com/report/coursera-signup-for-free/"
+              });'
+              class="btn-white icon--left icon-lightbulb-skyblue"
+            >
+              Learn how
+            </a>
+        </p>
       {% endif %}
-    </div>
-  </nav>
-
-  <div id="course-tabs" class="padding-vert-large">
-    <div data-tab-family="course-summary" data-tab-target="overview">
-      <div>
-        <article class="wysiwyg text-2 medium-up-text-1">
-          {% if course.initiative.code == 'coursera' %}
-            <p class="margin-bottom-medium text-center large-up-text-left">
-                <span class="text-2 text--bold margin-right-small">Sign up to Coursera courses for free</span>
-                <a
-                  target="_blank"
-                  href="https://www.class-central.com/report/coursera-signup-for-free/"
-                  onmousedown='CC.track("{{ ts.event('TIP_CLICK') }}", {
-                    tip_key: "coursera-signup-free-learn-how",
-                    tip_link: "https://www.class-central.com/report/coursera-signup-for-free/"
-                  });'
-                  class="btn-white icon--left icon-lightbulb-skyblue"
-                >
-                  Learn how
-                </a>
-            </p>
-          {% endif %}
-          <div class="relative {% if course.desc|length > 1500 %}fade-bottom fade-hidden{% endif %}" data-expand-article-target="overview">
-            {{ course.desc|raw }}
-          </div>
-          {% if course.desc|length > 1500 %}
-            <p class="margin-vert-small text-left">
-              <button data-expand-article="overview" class="xsmall-only-width-100 small-only-width-100 btn--large btn-blue-outline icon--right icon--small icon-chevron-down-blue margin-bottom-large">
-                Read more
-              </button>
-            </p>
-          {% endif %}
-        </article>
-
+      <div class="relative {% if course.desc|length > 1500 %}fade-bottom fade-hidden{% endif %}" data-expand-article-target="overview">
+        {{ course.desc|raw }}
       </div>
-    </div>
+      {% if course.desc|length > 1500 %}
+        <p class="margin-vert-small text-left">
+          <button data-expand-article="overview" class="xsmall-only-width-100 small-only-width-100 btn--large btn-blue-outline icon--right icon--small icon-chevron-down-blue margin-bottom-large">
+            Read more
+          </button>
+        </p>
+      {% endif %}
+    </article>
 
     {% if course.syllabus %}
-      <div data-tab-family="course-summary" data-tab-target="syllabus" class="hidden">
-        <div id="syllabus-full">
-          <article class="wysiwyg text-2 medium-up-text-1">
-            <div class="relative {% if course.syllabus|length > 1500 %}fade-bottom fade-hidden{% endif %}" data-expand-article-target="syllabus">
-              {{ course.syllabus|raw }}
-            </div>
-          </article>
-          {% if course.syllabus|length > 1500 %}
-            <p class="margin-vert-small text-left">
-              <button data-expand-article="syllabus" class="xsmall-only-width-100 small-only-width-100 btn--large btn-blue-outline icon--right icon--small icon-chevron-down-blue margin-bottom-large">
-                Read more
-              </button>
-            </p>
-          {% endif %}
+      <h2 id="syllabus" class="head-1 margin-bottom-small">Syllabus</h2>
+      <article class="wysiwyg text-2 medium-up-text-1">
+        <div class="relative {% if course.syllabus|length > 1500 %}fade-bottom fade-hidden{% endif %}" data-expand-article-target="syllabus">
+          {{ course.syllabus|raw }}
         </div>
-      </div>
+      </article>
+      {% if course.syllabus|length > 1500 %}
+        <p class="margin-vert-small text-left">
+          <button data-expand-article="syllabus" class="xsmall-only-width-100 small-only-width-100 btn--large btn-blue-outline icon--right icon--small icon-chevron-down-blue margin-bottom-large">
+            Read more
+          </button>
+        </p>
+      {% endif %}
     {% endif %}
 
     {% if course['instructorsSingleLineDisplay'] %}

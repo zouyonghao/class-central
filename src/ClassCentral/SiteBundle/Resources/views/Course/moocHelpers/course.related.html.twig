@@ -7,8 +7,8 @@
 {% endif %}
 
 {% if recommendations|length > 0 %}
-  <section class="border-top border--gray-dark border--thin margin-vert-medium">
-    <h3 class="text-1 text--bold margin-top-medium margin-bottom-small">{{ coursesBoxTitle }}</h3>
+  <section class="border-top border--gray-dark border--thin margin-vert-medium" id="related">
+    <h3 class="head-1 margin-top-large margin-bottom-small">{{ coursesBoxTitle }}</h3>
     <ul>
       {% for course in recommendations %}
         <li class="row width-100 block padding-vert-xsmall width-100 {% if loop.last != true %}border-bottom border--thin border--gray-xlight{% endif %}">

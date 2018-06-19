@@ -1,0 +1,39 @@
+$( document ).ready(function() {
+  var navItems = [];
+  var activeNavTime = null;
+  var courseNavfromTop = $("#course-nav").position().top;
+  var navClone = $("#course-nav").clone();
+  navClone.addClass("fixed nav-clone");
+
+  navClone.find("[data-container]")
+    .addClass("row width-centered padding-horz-small medium-up-padding-horz-medium xlarge-up-padding-horz-large")
+    .css("maxWidth", "1250px");
+
+  navClone.find("[data-sub-container]").addClass("border-box width-100 xlarge-up-width-2-3 xlarge-up-padding-right-xxlarge")
+  $("body").append(navClone);
+
+  var setNavItems = function() {
+    courseNavfromTop = $("#course-nav").position().top;
+    $(window).trigger("scroll");
+  }
+
+  $(window).on("resize", function() {
+    setNavItems();
+  });
+
+  var prevScroll = 0;
+
+  $(window).on("scroll", function() {
+    var currentScroll = $(window).scrollTop();
+    var active = null;
+    var clone = $("body").find(".nav-clone");
+    var direction = currentScroll > prevScroll ? "down" : "up";
+
+    if (direction === "up" && ($(window).scrollTop() >= courseNavfromTop)) {
+      $("body").find(".nav-clone").addClass("active")
+    } else {
+      $("body").find(".nav-clone").removeClass("active")
+    }
+    prevScroll = currentScroll;
+  });
+});

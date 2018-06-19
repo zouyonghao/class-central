@@ -398,7 +398,11 @@ class Ui {
   slideTo() {
     $(document).on("click", "[data-slideto]", function() {
       const target = $(this).data("slideto");
-      $.scrollTo(`#${target}`,{ duration: 1000 });
+      const offset = $(this).data("slideto-offset") || 0;
+      $.scrollTo(`#${target}`, {
+        duration: 1000,
+        offset,
+      });
     });
   }
 }

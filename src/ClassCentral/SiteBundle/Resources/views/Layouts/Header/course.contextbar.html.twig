@@ -7,12 +7,12 @@
   </h2>
   <div class="padding-left-small xlarge-up-hidden" style="max-width: 70%;">
     <div class="row col width-3-5 padding-right-small" style="max-width: none;">
-      <span class="line--large head-4 truncate">{{ cb.data.courseInfo.title }}</span>
+      <span class="line--large head-3 truncate">{{ cb.data.courseInfo.title }}</span>
     </div>
   </div>
   <div class="width-2-3 pull inline-block padding-horz-xsmall xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden" style="padding-left: 170px;">
     <div class="row col width-3-5 padding-right-small cc-sticky-nav-course-text">
-      <span class="line--large head-4 truncate">{{ cb.data.courseInfo.title }}</span>
+      <span class="line--large head-3 truncate">{{ cb.data.courseInfo.title }}</span>
     </div>
     <div class="margin-top-medium width-1-3 col text-left">
       <a href="#reviews" id="read-reviews" class="read-reviews-btn review-rating text-5 text--charcoal width-text-right" data-track-click="{{ ts.event('NAV_CLICK') }}"
@@ -30,17 +30,6 @@
     </div>
   </div>
   <div class="animate-fade-entered push padding-xsmall">
-    <div class="inline-block xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden">
-      <p class="head-5 inline-block margin-right-xsmall">
-        Share <span class="xsmall-only-hidden small-only-hidden medium-only-hidden large-only-hidden"  data-responsive='{"xlargeOnly": "hidden"}'>this course</span>
-      </p>
-      <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Twitter" }'
-        href="{{ cb.data.twitterUrl }}"
-        target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-twitter margin-horz-xxsmall">Twitter</a>
-      <a data-track-click="{{ ts.event('CONTEXTBAR_CLICK') }}" data-track-props='{ "type": "Social", "title": "Facebook" }'
-        href="{{ cb.data.twitterUrl }}"
-        target="_blank" class="btn-white btn-circle btn--small icon--small icon--center icon-facebook">Facebook</a>
-    </div>
     <a href="#reviews" id="read-reviews" class="read-reviews-btn xlarge-up-hidden" data-track-click="{{ ts.event('NAV_CLICK') }}" data-track-props='{ "type": "Contextbar Reviews", "title": "{{ cb.data.courseInfo.title }}" }'>
       {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with {
         rating: cb.data.courseInfo.rating,

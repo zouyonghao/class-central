@@ -1,3 +1,5 @@
+{% set footer = "full" %}
+{% set sectionStyles = "course" %}
 {% extends 'ClassCentralSiteBundle:Layouts:standard.html.twig' %}
 
 {# logged out user finished writing a review and has been redirected here. Show the user a signup form#}
@@ -185,6 +187,10 @@
       <div class="col pull width-100 xlarge-up-width-2-3 xlarge-up-padding-right-xxlarge">
         {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.tabs.html.twig' %}
 
+        {% if helpCenter is defined and helpCenter is not empty %}
+          {% include 'ClassCentralSiteBundle:Course:moocHelpers/course.help.html.twig' %}
+        {% endif %}
+
         {% if is_granted('ROLE_ADMIN') %}
           <section class="padding-medium radius" style="border: 4px solid #E6F4FF;">
           {% if potentialDuplicates['courses']['hits']['total'] > 0 %}
@@ -213,52 +219,51 @@
           twitter: 'Check out this free online course "{{ course.name }}" via @classcentral \{\{url}} ',
       }
   };
+
   $( document ).ready(function() {
-  if(!window.location.hash)
-  {
+    if(!window.location.hash) {
       $.scrollTo('.section-heading',{ duration: 500    });
-  }
-  $(document).on('click', '.read-reviews-btn', function(e){
+    }
+
+    $(document).on('click', '.read-reviews-btn', function(e){
       e.preventDefault();
       $.scrollTo('#reviews',{ duration: 1000    });
       var url = window.location.href.toString().split(window.location.host)[1];
       if(url.indexOf('#reviews') == -1) {
       history.replaceState( null, null, url + '#reviews');
       }
-  }
-  );
+    });
 
-  $("#share-course-form-submit").click(function(){
+    $("#share-course-form-submit").click(function(){
 
-  ga('send','event', 'Course - Share', 'Mail Sent', '{{ course['name'] }}')
+    ga('send','event', 'Course - Share', 'Mail Sent', '{{ course['name'] }}')
 
-  var to = $("input[name='toEmail']").val();
-  var from = $("input[name='fromEmail']").val();
-  var fromName = $("input[name='fromName']").val();
-  var dataString = 'name='+ fromName + '&to=' + to + '&from=' + from;
+    var to = $("input[name='toEmail']").val();
+    var from = $("input[name='fromEmail']").val();
+    var fromName = $("input[name='fromName']").val();
+    var dataString = 'name='+ fromName + '&to=' + to + '&from=' + from;
 
-  // Validations
-  if(to == "" || from == "" || fromName == "" )
-  {
-  $('#share-course-form-error').show().text("All fields are required");
-  return false;
-  }
+    // Validations
+    if(to == "" || from == "" || fromName == "" ) {
+      $('#share-course-form-error').show().text("All fields are required");
+      return false;
+    }
 
-  $('#share-course-form-error').hide().text("");
+    $('#share-course-form-error').hide().text("");
 
-  $.ajax({
-  type:"POST",
-  url: "{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}",
-  data: dataString,
-  success:function(response){
-  if(response.success) {
-  $("#sendMailModal").modal('hide');
-  $("input[name='toEmail']").val("");
-  } else {
-  $('#share-course-form-error').show().text(response.errors[0]);
-  }
-  }
-  });
+    $.ajax({
+      type:"POST",
+      url: "{{ path('ClassCentralSiteBundle_mooc_share',{'id' : course['id']}) }}",
+      data: dataString,
+      success:function(response){
+        if(response.success) {
+          $("#sendMailModal").modal('hide');
+          $("input[name='toEmail']").val("");
+        } else {
+          $('#share-course-form-error').show().text(response.errors[0]);
+        }
+      }
+    });
   });
 
   {% if  showAddToMTModal %}
@@ -282,4 +287,6 @@
         });
       {% endif %}
   });
+
+  {% include 'ClassCentralSiteBundle:Course:moocHelpers/navScroll.html.twig' %}
 {% endblock %}

@@ -1,0 +1,73 @@
+<div class="classcentral-style" id="course-nav">
+  <nav class="bg-white border-bottom border--gray-light border--thin text-center width-100">
+    <div data-container>
+      <ul data-sub-container>
+        <li class="inline-block">
+          <button
+            class="padding-horz-xsmall large-up-padding-horz-medium padding-vert-xsmall inline-block text--bold head-6 medium-up-head-4 text--charcoal"
+            data-slideto="overview"
+            data-slideto-offset="-106"
+            data-track-click="{{ ts.event('COURSE_CLICK') }}"
+            data-track-props='{ "type": "Nav Section", "Overview" }'
+          >
+            Overview
+          </button>
+        </li>
+        {% if course.syllabus %}
+          <li class="inline-block">
+            <button
+              class="padding-horz-xsmall large-up-padding-horz-medium padding-vert-xsmall inline-block text--bold head-6 medium-up-head-4 text--charcoal"
+              data-slideto="syllabus"
+              data-slideto-offset="-106"
+              data-track-click="{{ ts.event('COURSE_CLICK') }}"
+              data-track-props='{ "type": "Nav Section", "Syllabus" }'
+            >
+              Syllabus
+            </button>
+          </li>
+        {% endif %}
+        {% if helpCenter is defined and helpCenter is not empty %}
+          <li class="inline-block">
+            <button
+              class="padding-horz-xsmall large-up-padding-horz-medium padding-vert-xsmall inline-block"
+              data-slideto="help"
+              data-slideto-offset="-106"
+              data-track-click="{{ ts.event('COURSE_CLICK') }}"
+              data-track-props='{ "type": "Nav Section", "Help" }'
+            >
+            <span class="xsmall-only-hidden small-only-hidden text--bold head-6 medium-up-head-4 text--charcoal">Help Center</span>
+            <span class="text--bold head-6 medium-up-head-4 text--charcoal medium-up-hidden">Help</span>
+            </button>
+          </li>
+        {% endif %}
+        {% if recommendations|length == 0 %}
+          {% set recommendations =  highlyRatedCourses %}
+        {% endif %}
+        {% if recommendations|length > 0 %}
+          <li class="medium-up-inline-block xsmall-only-hidden small-only-hidden">
+            <button
+              class="padding-horz-xsmall large-up-padding-horz-medium padding-vert-xsmall inline-block text--bold head-6 medium-up-head-4 text--charcoal"
+              data-slideto="related"
+              data-slideto-offset="-106"
+              data-track-click="{{ ts.event('COURSE_CLICK') }}"
+              data-track-props='{ "type": "Nav Section", "Related" }'
+            >
+              Related Courses
+            </button>
+          </li>
+        {% endif %}
+        <li class="inline-block">
+          <button
+            class="padding-horz-xsmall large-up-padding-horz-medium padding-vert-xsmall inline-block text--bold head-6 medium-up-head-4 text--charcoal"
+            data-slideto="reviews"
+            data-slideto-offset="-106"
+            data-track-click="{{ ts.event('COURSE_CLICK') }}"
+            data-track-props='{ "type": "Nav Section", "Reviews" }'
+          >
+            Reviews
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
