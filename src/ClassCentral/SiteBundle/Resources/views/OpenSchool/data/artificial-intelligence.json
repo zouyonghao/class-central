@@ -1,6 +1,6 @@
 {
   "title": "Artificial Intelligence",
-  "description": "Learn AI from the world’s best universities. We’ve created a comprehensive listing of MOOCs on AI to help you find your next course. Read reviews to decide if a course is right for you.",
+  "description": "Want to train neural networks? Program a self-driving car? Teach Cortana, Siri or Alexa what to say next? The Open School of AI is a collection of courses curated from top universities and companies to help learners master all of the skills necessary in the field of Artificial Intelligence.",
   "illustration": "illustration-ai.png",
   "palette": {
     "color": "#72d2a1",
@@ -11,6 +11,7 @@
     {
       "title": "Core Curriculum",
       "slug": "core",
+      "description": "The Core Curriculum is where you will find the fundamental skills needed to be successful in AI. Whether it's taking a deep dive into Reinforcement Learning or brushing up on your Linear Algebra your journey begins here!  ",
       "tags": [
         {
           "slug": "machine learning core",
@@ -35,14 +36,7 @@
         {
           "slug": "nlp core",
           "name": "Natural Language Processing"
-        }
-
-      ]
-    },
-    {
-      "title": "Supporting",
-      "slug": "supporting",
-      "tags": [
+        },
         {
           "slug": "math for ai core",
           "name": "Math for AI"
@@ -50,8 +44,9 @@
       ]
     },
     {
-      "title": "Tools",
+      "title": "Tools and Applications",
       "slug": "tools",
+      "description": "Ready to put all of those hours of studying to use? Here you will find real world practical applications to expand on everything learned in the Core Curriculum. If you are ready to get your hands dirty with TensorFlow or scikit-learn, you've come to the right place!",
       "tags": [
         {
           "slug": "tensorflow core",

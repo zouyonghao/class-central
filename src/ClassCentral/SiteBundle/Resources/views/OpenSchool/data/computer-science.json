@@ -1,6 +1,6 @@
 {
   "title": "Computer Science",
-  "description": "Learn CS from the world’s best universities. We’ve created a comprehensive listing of MOOCs on CS to help you find your next course. Read reviews to decide if a course is right for you.",
+  "description": "Want to build the next Blockchain? Implement your own Binary Search Tree? Finally solve the mystery of the Big O Notation? The Open School of CS is a collection of courses curated from top universities and companies to help learners master all of the skills necessary in the field of Computer Science.",
   "illustration": "illustration-cs.png",
   "palette": {
     "color": "#E04C3D",
@@ -11,6 +11,7 @@
     {
       "title": "Core Curriculum",
       "slug": "core",
+      "description": "The Core Curriculum is where you will find the fundamental skills needed to be successful in Computer Science. Whether it's taking a deep dive into data structures or brushing up on your Assembly and compiler skills, your journey begins here!",
       "tags": [
         {
           "slug": "algorithms core",
@@ -43,13 +44,7 @@
         {
           "slug": "computer security core",
           "name": "Computer Security"
-        }
-      ]
-    },
-    {
-      "title": "Supporting",
-      "slug": "supporting",
-      "tags": [
+        },
         {
           "slug": "cs ee core",
           "name": "Electrical Engineering for CS"
@@ -63,6 +58,7 @@
     {
       "title": "Tools",
       "slug": "tools",
+      "description": "Ready to put all of those hours of studying to use? Here you will find real world practical applications to expand on everything learned in the Core Curriculum. If you are ready to get your hands dirty building a Java Jeopardy game or a C++ card sorting app, you've come to the right place!",
       "tags": [
         {
           "slug": "c core",
@@ -81,14 +77,9 @@
           "name": "SQL"
         },
         {
-          "slug": "windows core",
-          "name": "Windows"
-        },
-        {
           "slug": "linux core",
           "name": "Linux / Unix"
         }
-
       ]
     }
   ]

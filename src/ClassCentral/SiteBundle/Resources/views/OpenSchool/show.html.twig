@@ -42,26 +42,27 @@
         </div>
       </header>
 
-
-      <nav class="text-center width-100 border-box padding-horz-medium xlarge-up-width-3-4 width-centered large-up-margin-top-medium">
-        <h4 class="text--upper head-6 text--bold bg-white relative inline-block padding-horz-medium" style="top: 12px;">Jump to</h4>
-        <ul class="row border-all border--gray-dark border--thin text-center block padding-vert-small padding-horz-xxlarge">
-          {% for section in sections %}
-            <li class="col width-100 large-up-width-1-3 padding-vert-small medium-up-padding-vert-medium">
-              <button data-slideto="{{ section.slug }}">
-                <div class="text-center">
-                  <svg width="36.986" height="42.706" viewBox="0 0 36.986 42.706">
-                    <use href="#icon-{{ section.slug }}"></use>
-                  </svg>
-                </div>
-                <strong class="inline-block text-center text--bold head-4 medium-up-head-3 text--color">
-                  {{ section.title }}
-                </strong>
-              </button>
-            </li>
-          {% endfor %}
-        </ul>
-      </nav>
+      <div class="text-center">
+        <nav class="inline-block border-box padding-horz-medium width-centered large-up-margin-top-medium">
+          <h4 class="text--upper head-6 text--bold bg-white relative inline-block padding-horz-medium" style="top: 12px;">Jump to</h4>
+          <ul class="row border-all border--gray-dark border--thin text-center block padding-vert-small padding-horz-xxlarge">
+            {% for section in sections %}
+              <li class="inline-block padding-horz-large padding-horz-xlarge padding-vert-small medium-up-padding-vert-medium">
+                <button data-slideto="{{ section.slug }}">
+                  <div class="text-center">
+                    <svg width="36.986" height="42.706" viewBox="0 0 36.986 42.706">
+                      <use href="#icon-{{ section.slug }}"></use>
+                    </svg>
+                  </div>
+                  <strong class="inline-block text-center text--bold head-4 medium-up-head-3 text--color">
+                    {{ section.title }}
+                  </strong>
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
 
       {% for section in sections %}
         <section id="{{ section.slug }}" class="padding-vert-large">
@@ -72,7 +73,11 @@
             {{ section.title }}
           </h2>
           <div class="row">
-            <ul class="col width-100 large-up-width-2-5 xxlarge-up-width-1-2 row">
+            <div class="col width-100 large-up-width-2-5 xxlarge-up-width-1-2 row">
+              <p class="text-2 padding-medium width-100">
+                {{ section.description }}
+              </p>
+              <ul>
               {% for tag in section.tags %}
                 <li class="col width-100 small-up-width-1-2 large-up-width-100 xxlarge-up-width-1-2 padding-small text-center">
                   <a href="{{ path('tag_courses', { tag: tag.slug }) }}"
@@ -89,7 +94,8 @@
                   </a>
                 </li>
               {% endfor %}
-            </ul>
+              </ul>
+            </div>
             <div class="col hidden large-up-block width-3-5 xxlarge-up-width-1-2 padding-left-medium xxlarge-up-padding-left-xxlarge padding-right-small" style="min-height: 625px;">
               {% include 'ClassCentralSiteBundle:OpenSchool:_tabs.html.twig' with { section: section.slug } %}
               {% for tag in section.tags %}
