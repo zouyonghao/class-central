@@ -72,7 +72,7 @@ class UniversalHelper {
         return round( $bayesian_average, 4);
     }
 
-    public function getTwitterShareUrl($url, $text)
+    public static function getTwitterShareUrl($url, $text)
     {
         return 'https://twitter.com/intent/tweet?' . http_build_query([
                 'url' => $url,

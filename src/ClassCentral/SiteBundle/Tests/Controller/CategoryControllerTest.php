@@ -6,7 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CategoryControllerTest extends WebTestCase
 {
-    /*
+    protected function setUp()
+    {
+        $this->markTestSkipped('must be revisited.');
+    }
+
     public function testCompleteScenario()
     {
         // Create a new client to browse the application
@@ -51,5 +55,5 @@ class CategoryControllerTest extends WebTestCase
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
 
-    */
+
 }

@@ -12,7 +12,6 @@ class DefaultControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /");
-        $this->assertTrue($crawler->filter('table[id=statustablelist] tr')->count() > 0);
-
+        $this->assertTrue($crawler->filter('div.classcentral-style')->count() > 0);
     }
 }

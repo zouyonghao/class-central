@@ -10,6 +10,9 @@ vendor/*
 web/uploads/*
 web/bundles/*
 
+# PHPUnit config
+app/phpunit.xml
+
 # Configuration files
 app/config/parameters.yml
 !/app/logs/.gitkeep
