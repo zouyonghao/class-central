@@ -12,6 +12,18 @@
     .btn-blue:hover {
       background-color: #1639a8 !important;
     }
+    .wrap {
+      padding: 0px 20px 0px 20px;
+    }
+    #templateContainer {
+      padding: 20px 0px 0px 0px;
+    }
+    #templateBody {
+      box-shadow: 0 0 10px 0 #c3d7f3;
+      border-radius: 10px;
+      border: 1px solid #c3d7f3;
+      padding: 25px 0px;
+    }
     @media only screen and (max-width: 700px) {
       .bodyContentMiddle img {
         height: auto !important;
@@ -20,6 +32,17 @@
       }
     }
     @media only screen and (max-width: 600px) {
+      #templateContainer {
+        padding: 0px 0px 0px 0px;
+      }
+      #templateBody {
+        box-shadow: none;
+        border-radius: 0px;
+        border: none;
+      }
+      .wrap {
+        padding: 0px 0px 0px 0px;
+      }
       .small-text-center {
         text-align: center !important;
       }
@@ -42,10 +65,10 @@
         <table border="0" cellspacing="0" height="100%" width="100%">
           <tr>
             <td align="center" valign="top">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 20px 0px 0px 0px;" id="templateContainer">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateContainer">
                 <tr>
-                  <td align="center" valign="top" style="padding: 0px 20px 0px 20px;">
-                    <table style="text-align: center; font-family: 'Helvetica', sans-serif; font-size: 14px; box-shadow: 0 0 10px 0 #c3d7f3; border-radius: 10px; border: 1px solid #c3d7f3; padding: 25px 0px; background-color: #ffffff;" border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
+                  <td class="wrap" align="center" valign="top">
+                    <table style="text-align: center; font-family: 'Helvetica', sans-serif; font-size: 14px; background-color: #ffffff;" border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
                       <tr>
                         <td valign="top" align="center" style="text-align: center;" class="bodyHeader">
                           <div style="border-bottom: 1px solid #E2E3E4; padding: 10px 0px 20px 0px;">

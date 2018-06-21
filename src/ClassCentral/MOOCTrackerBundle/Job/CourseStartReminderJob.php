@@ -182,7 +182,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
         $courseArray['reviewsCount'] = $rArray['count'];
 
         $templating = $this->getContainer()->get('templating');
-        return $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:single.course.inlined.html', array(
+        return $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:single.course.html.twig', array(
             'course' => $courseArray,
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
             'loginToken' => $this->getContainer()->get('user_service')->getLoginToken($user, false),
@@ -206,7 +206,7 @@ class CourseStartReminderJob extends SchedulerJobAbstract{
     public function getMultipleCouresEmail( $courses, User $user, $counts )
     {
         $templating = $this->getContainer()->get('templating');
-        $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.inlined.html', array(
+        $html = $templating->renderResponse('ClassCentralMOOCTrackerBundle:Reminder:multiple.courses.html.twig', array(
             'courses' => $courses,
             'baseUrl' => $this->getContainer()->getParameter('baseurl'),
             'user' => $user,

@@ -1,0 +1,135 @@
+{% extends 'ClassCentralSiteBundle::Mail/layout/standard.html.twig' %}
+
+{%  block content %}
+<tr>
+  <td valign="top" class="bodyContentTop">
+    <div style="background: #ffffff; padding: 20px 0px 0px 0px">
+      {% set redirect_url = path('user_library',{utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) %}
+      <h3 style="color: #454545; font-size: 18px; margin: 0px 0px 0px 0px;">{{ courses|length }} courses added to your <a style="color: #454545; text-decoration: underline;" href="{{ baseUrl }}{{ path('auto_login_secure', {autoLogin:loginToken, redirect_url : redirect_url,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign }) }}">My Courses</a> list is {% if jobType=='email_reminder_course_start_1day' %}
+        starting tomorrow{% else %}starting soon{% endif %}.</h3>
+      <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px; margin: 0px 0px 0px 0px; padding: 20px 20px 20px 20px;">
+        Note: Class Central is a directory and does not directly operate courses. Click on 'Go to Class' to go to the providers course page. Content might not be available until the course start date. You can see our <a href="{{baseUrl}}/faq" style="color: #5074E9; text-decoration: none;">general FAQ about MOOCs here</a>.
+      </p>
+    </div>
+  </td>
+</tr>
+
+{# courses block start #}
+{% for c in courses %}
+  {% set course = c.course %}
+  <tr>
+    <td valign="top" class="bodyContentBullets" style="padding-bottom: 20px;">
+      <table style="border-radius: 10px; padding: 15px; border: solid 2px #F3F6F9;" border="0" cellpadding="10" cellspacing="0" width="100%">
+        <tr>
+          <td valign="top">
+            <div style="margin: 0px 0px 0px 0px;">
+              {% if course.institutions|length %}
+                {% set institution = course.institutions[0] %}
+                {% set route = 'ClassCentralSiteBundle_university' %}
+
+                {% if not institution['isUniversity'] %}
+                  {% set route = 'ClassCentralSiteBundle_institution' %}
+                {% endif %}
+                <p style="text-align: left; margin: 0px 0px 0px; padding: 0px 0px 0px 0px;" align="left">
+                  {% set institution = course.institutions[0] %}
+                  <a href="{{ baseUrl }}{{ path(route,{'slug' : institution['slug']})}}" style="text-decoration: none; color: #454545; font-size: 11px;">{{ institution.name }}</span>
+                </p>
+              {% endif %}
+              <p style="text-align: left; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
+                <a href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug': course.slug, autoLogin: loginToken, utm_medium : utm.medium, utm_source: utm.source, utm_campaign: utm.campaign}) }}" style="color: #5074E9; text-decoration: none; font-weight: bold;">
+                  {{ course.name }}
+                </a>
+              </p>
+
+              {% set rating = ((course.rating * 2)|round) / 2 %}
+              {% if rating > 0 %}
+              <p style="text-align: left; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
+                <a style="font-size: 12px; color: #454545; text-decoration: none;" href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_mooc',{'id': course.id, 'slug':course.slug, autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign}) }}#reviews">
+                  {% if rating > 0 %}
+                    {% for i in range(1, rating|round(0, 'floor')) %}
+                      <img width="18" style="vertical-align: middle; width: 18px;" src="https://d3r3mog6nu8pt4.cloudfront.net/star-filled-white-bg.png" />
+                      {% endfor %}
+                  {% endif %}
+                  {% if rating matches '/\.5/' %}
+                    <img width="18" style="vertical-align: middle; width: 18px;" src="https://d3r3mog6nu8pt4.cloudfront.net/star-half-white-bg.png" />
+                  {% endif %}
+                  {% if 5 - rating|round > 0 %}
+                    {% for i in range(1, 5 - rating|round) %}
+                      <img width="18" style="vertical-align: middle; width: 18px;" src="https://d3r3mog6nu8pt4.cloudfront.net/star-empty-white-bg.png" />
+                    {% endfor %}
+                  {% endif %}
+                  ({{ course.reviewsCount }} {% if course.reviewsCount == 1 %}rating{% else %}ratings{% endif %}) <span style="text-decoration: underline;">Read reviews</span>
+                </a>
+              </p>
+              {% endif %}
+              <p style="text-align: left; margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
+                {% if course.initiative %}
+                <span style="color: #454545; font-size: 12px; font-weight: 400;">via</span>
+                <a style="font-style: italic; font-size: 12px; color: #454545; text-decoration: none;" href="{{ baseUrl }}{{ path('ClassCentralSiteBundle_initiative', {'type': course.initiative.code,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign }) }}">
+                  {{ course.initiative.name }}
+                </a>
+                {% endif %}
+              </p>
+              <p style="font-size: 14px; text-align: left; font-weight: bold; margin: 5px 0px 0px 0px; padding: 0px 0px 0px 0px;">
+                Starts {{ course.nextOffering.displayDate }}
+              </p>
+              <div style="border-top: 1px solid #E2E3E4; margin-top: 10px; padding-top: 5px;">
+                <p style="color: #454545; text-align: left; font-size: 14px; line-height: 18px;">
+                  {{ course.shortDesc|striptags }}
+                </p>
+              </div>
+              <p style="text-align: left; margin-bottom: 0px;">
+                {% set go_to_class_url =  course.nextOffering.url %}
+                {% if course.initiative is not null %}
+                  {% set initiative=course.initiative.name %}
+                {% else %}
+                  {% set initiative='Others' %}
+                {% endif %}
+
+                {% if initiative == 'Coursera'  %}
+                  {% set go_to_class_url = coursera_url~go_to_class_url|url_encode ~ '&u1=mooc_tracker_reminder' %}
+                {% endif %}
+
+                {% if initiative == 'edX'  %}
+                  {% set go_to_class_url = edx_url~go_to_class_url|url_encode %}
+                {% endif %}
+
+                {% if initiative == 'FutureLearn'  %}
+                    {% set go_to_class_url = futurelearn_url~go_to_class_url|url_encode %}
+                {% endif %}
+
+                <a href="{{ go_to_class_url }}" style="background: #6add92; border-radius: 10px; padding: 15px 30px 15px 30px; color: #ffffff; text-decoration: none; display: inline-block;">Go to Class</a>
+                <br>
+
+                <p style="margin: 0px 0px; padding: 7px 0px 0px 0px; text-align: left; font-size: 12px;">
+                  <a style="text-decoration: none; color: #5074E9;" href="{{ baseUrl }}{{ path('review_new', { courseId: course.id, autoLogin:loginToken, utm_medium: utm.medium, utm_source: utm.source, utm_campaign: utm.campaign}) }}">
+                    <img width="12" style="vertical-align: middle;" src="https://d3r3mog6nu8pt4.cloudfront.net/star-blue.png" />
+                    Write a review
+                  </a> for this course
+                </p>
+              </p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+{% endfor %}
+<tr>
+  <td valign="top" class="bodyContentBottom">
+    <div style="background: #ffffff; margin: 0px 0px 0px 0px; padding: 10px 20px 10px 20px; text-align: left;">
+      <h3 style="font-size: 14px; color: #454545; font-weight: bold; margin-bottom: 5px">More courses you can start right now</h3>
+      <p style="color: #222222; font-family: 'Helvetica', 'Arial', sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0 0 10px; padding: 0;" align="left">
+      <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'recent',autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}" style="color: #5074E9; text-decoration: none;">
+        <b>{{ counts.offeringCount.recent }}</b> courses recently started or starting soon
+      </a>
+      <br>
+      <a href="{{ baseUrl}}{{ path('ClassCentralSiteBundle_courses',{'type' : 'selfpaced', autoLogin:loginToken,utm_medium : utm.medium,utm_source: utm.source, utm_campaign: utm.campaign})}}" style="color: #5074E9; text-decoration: none;">
+        <b>{{ counts.offeringCount.selfpaced }}</b> self paced courses that you can start any time
+      </a>
+      </p>
+    </div>
+  </td>
+</tr>
+
+{% endblock %}
