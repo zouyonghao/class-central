@@ -7,12 +7,12 @@
 
   {% if rating >= 1 %}
     {% for i in range(1, rating|round(0, 'floor')) %}
-      <i class="icon-star icon--xxsmall"></i>
+      <i class="icon-star{% if color is defined %}-{{ color }}{% endif %} icon--xxsmall"></i>
     {% endfor %}
     {% if modulo >= 0.75 %}
-      <i class="icon-star icon--xxsmall"></i>
+  <i class="icon-star{% if color is defined %}-{{ color }}{% endif %} icon--xxsmall"></i>
     {% elseif modulo >= 0.25 %}
-      <i class="icon-star-half icon--xxsmall"></i>
+  <i class="icon-star-half{% if color is defined %}-{{ color }}{% endif %} icon--xxsmall"></i>
     {% endif %}
   {% endif %}
 
@@ -31,7 +31,7 @@
 <span class="review-rating {{ mobilize ? "medium-up-hidden" : "hidden"}} text--charcoal">
   {% if rating >= 1 %}
     <span class="{{ mobileClassName is defined ? mobileClassName : "" }}">{{ rating|number_format(1, '.') }}</span>
-    <i class="icon-star icon--xxsmall relative" style="top: -2px;"></i>
+  <i class="icon-star{% if color is defined %}-{{ color }}{% endif %} icon--xxsmall relative" style="top: -2px;"></i>
   {% else %}
     <i class="icon-star-gray-light icon--xxsmall"></i>
   {% endif %}

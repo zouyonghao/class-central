@@ -1,3 +1,5 @@
+{% set variation = abTesting.getTestVariation("table_text_ad_june_21_2018") %}
+
 {% if format == 'table' %}
     {% if showSubjectInTable %}
         {% set subjectCol = "large-up-width-2-16" %}
@@ -79,7 +81,23 @@
             <td class="start-date text-right text-2 xsmall-only-hidden small-only-hidden medium-only-hidden {{ dateCol }}">Flexible</td>
 
             <td data-timestamp="5" class="course-rating-column text-center medium-up-text-right {{ ratingCol }}">
+              {% if variation == "blue_button" %}
+                <a rel="nofollow" href="{{ courseUrl }}" target="_blank" class="initiativelinks btn-blue-outline btn--small xlarge-up-btn--medium" title="{{ courseName }}" onclick='
+                        CC.track("{{ ts.event('AD_CLICK') }}", {
+                        ad: {
+                        provider: "{{ providerName }}",
+                        unit: "Table Text Ad",
+                        title: "{{ courseName }}"
+                        }
+                      });'>
+                      <span class="hidden xlarge-up-block text--bold">Visit course</span>
+                      <span class="block xlarge-up-hidden text--bold">Visit</span>
+                </a>
+              {% elseif variation == "blue_stars" %}
+                {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: 5, color: "blue" }  %}
+              {% else %}
                 {% include 'ClassCentralSiteBundle:Helpers:review.rating.html.twig' with { rating: 5 }  %}
+              {% endif %}
             </td>
 
         </tr>

@@ -1,4 +1,5 @@
-{% set variation = abTesting.getTestVariation("sidebar_ad_june_2018") %}
+{% set variation = abTesting.getTestVariation("sidebar_ad_june_21_2018") %}
+
 {% if not app.request.cookies.get('ads_hidden') %}
   {% for ad in ads %}
     {%  if ad.visible %}
@@ -25,26 +26,23 @@
            }
          });ga("send","event", "Text Ad", "{{ ad.title }}", "{{ pageName }}");'
       >
-        <p class="text-3 text--charcoal margin-bottom-xxsmall">
-          {% if variation is defined and variation == "blue_ad" %}
-            <span class="text--bold block text--blue">
-              <span
-                class="text-4 text--blue text--bold relative border-all border--blue radius border--thin inline-block"
-                style="padding: 1px 2px 0px 2px; margin-right: 2px;"
-              >
-                AD
-              </span>
+        {% if variation == "red_bold" %}
+          <p class="text-2 text--charcoal margin-bottom-xxsmall">
+            <span class="text--bold block" style="color: #FF8E6C;">
               {{ ad.title }}
             </span>
-          {% else %}
+            <span class="text--italic">{{ ad.displayUrl }}</span>
+          </p>
+          <p class="text-3 text--charcoal block">{{ ad.description }}</p>
+          <span class="text-3 border-all border--thin padding-horz-xxsmall padding-top-xxsmall radius text--bold absolute top right margin-top-small" style="border-color: #FF8E6C; color: #FF8E6C;">AD</span>
+        {% else %}
+          <p class="text-3 text--charcoal margin-bottom-xxsmall">
             <span class="text--bold block">
               {{ ad.title }}
             </span>
-          {% endif %}
-          <span class="text--italic">{{ ad.displayUrl }}</span>
-        </p>
-        <p class="text-3 text--charcoal block">{{ ad.description }}</p>
-        {% if variation is defined and variation == "simplified_current" %}
+            <span class="text--italic">{{ ad.displayUrl }}</span>
+          </p>
+          <p class="text-3 text--charcoal block">{{ ad.description }}</p>
           <span class="text-3 text--bold absolute top right padding-top-small" style="color: #FF8E6C;">AD</span>
         {% endif %}
       </a>
