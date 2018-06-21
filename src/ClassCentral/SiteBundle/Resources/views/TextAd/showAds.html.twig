@@ -1,6 +1,4 @@
-{{ abTesting.initializeTest("sidebar_text_ad_june_2018",["simplified_current","blue_ad"])  }}
-{% set variation = abTesting.getTestVariation("sidebar_text_ad_june_2018") %}
-
+{% set variation = abTesting.getTestVariation("sidebar_ad_june_2018") %}
 {% if not app.request.cookies.get('ads_hidden') %}
   {% for ad in ads %}
     {%  if ad.visible %}

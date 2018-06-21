@@ -36,12 +36,21 @@ class ABTesting
 
     /**
      * @param $test name of the test
-     * @param array $varations list of test variations
+     * @param array $varations list of test variations and their frequencies
      */
     public function initializeTest($test, $varations = [])
     {
+        $varationsBasedOnFrequency = [];
+        foreach ($varations as $variation => $frequency)
+        {
+            do {
+                $varationsBasedOnFrequency[] = $variation;
+                $frequency--;
+            } while ($frequency > 0);
+        }
+
         // Initializes the test.
-        $this->tests[$test] = $varations;
+        $this->tests[$test] = $varationsBasedOnFrequency;
     }
 
     /**
