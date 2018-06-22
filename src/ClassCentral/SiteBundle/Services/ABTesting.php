@@ -51,6 +51,9 @@ class ABTesting
 
         // Initializes the test.
         $this->tests[$test] = $varationsBasedOnFrequency;
+
+        // Set the variation for this user
+        $this->getTestVariation($test);
     }
 
     /**
