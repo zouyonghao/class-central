@@ -648,9 +648,9 @@ class UserSession
            {
                // Get the domain from the url
                $urlParts = parse_url($request->getUri());
-               if(isset($urlParts['path']))
+               if(isset($urlParts['host']))
                {
-                   $referer = $urlParts['path'];
+                   $referer = $urlParts['host'];
                }
                else
                {
