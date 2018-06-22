@@ -592,13 +592,17 @@ class CourseController extends Controller
         {
             $goToClassUrl = $course['nextOffering']['url'];
         }
+
+        $referer = $userSession->getAndSetReferrer();
+        $gtcAttribution = 'gtc_' . $referer;
+        $urlAttribution =  urlencode( $goToClassUrl) . '&u1='.urlencode($gtcAttribution) ;
         if($course['initiative']['name'] == 'edX')
         {
-            $goToClassUrl = $this->getParameter('edx_url') . urlencode( $goToClassUrl );
+            $goToClassUrl = $this->getParameter('edx_url') .urlencode( $goToClassUrl) . '&clickref='.urlencode($gtcAttribution);
         }
         if($course['initiative']['name'] == 'Coursera')
         {
-            $goToClassUrl = $this->getParameter('coursera_url') . urlencode( $goToClassUrl );
+            $goToClassUrl = $this->getParameter('coursera_url') . $urlAttribution;
         }
         if($course['initiative']['name'] == 'Kadenze')
         {
@@ -606,7 +610,7 @@ class CourseController extends Controller
         }
         if($course['initiative']['name'] == 'FutureLearn')
         {
-            $goToClassUrl = $this->getParameter('futurelearn_url') . urlencode( $goToClassUrl );
+            $goToClassUrl = $this->getParameter('futurelearn_url') . $urlAttribution;
         }
 
         $helpCenter = null;

@@ -15,7 +15,8 @@ const globalProps = () => ({
   raw_page_url: window.location.href,
   raw_user_agent: "${keen.user_agent}",
   referrer_url: document.referrer,
-  abTests: null
+  abTests: null,
+  original_referer: null
 });
 /* eslint-enable */
 

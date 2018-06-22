@@ -55,13 +55,18 @@
 {# Section to initialize tests and generate variations. This has to be done for analytics to be tracked properly #}
 {#
 Example. Do not uncomment.
-{{ abTesting.initializeTest("table_row_text_ad_june_2018",["simplified_current","blue_ad_with_ratings"])  }}
-{% set variation = abTesting.getTestVariation("table_row_text_ad_june_2018") %}
+{% set tableTextTestVariations = {"blue_current": 9, "blue_stars": 1, "blue_button": 1, } %}
+{{ abTesting.initializeTest("sidebar_ad_june_21_2018",  sideBarTestVariations )}}
+{% set variation = abTesting.getTestVariation("sidebar_ad_june_21_2018") %}
 #}
 {% set tableTextTestVariations = {"blue_current": 9, "blue_stars": 1, "blue_button": 1, } %}
 {% set sideBarTestVariations = { "red_current": 1, "red_bold": 1 } %}
 {{ abTesting.initializeTest("sidebar_ad_june_21_2018",  sideBarTestVariations )}}
 {{ abTesting.initializeTest("table_text_ad_june_21_2018",  tableTextTestVariations )}}
+
+
+{# initializing the referer #}
+{% set referer = user_session.getAndSetReferrer() %}
 
 <!-- Keen.io JS SDK -->
 <script type="text/javascript">
@@ -87,7 +92,8 @@ Example. Do not uncomment.
       {% endif %}
       session_id: "{{ app.session.getId() }}",
       deviceType: "{{ ts.device() }}",
-      abTests: {{ abTesting.variations|json_encode()|raw }}
+      abTests: {{ abTesting.variations|json_encode()|raw }},
+      original_referer:  "{{ referer }}"
     }
   });
 

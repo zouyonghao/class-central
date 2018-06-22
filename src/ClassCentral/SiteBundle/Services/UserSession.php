@@ -4,7 +4,10 @@ namespace  ClassCentral\SiteBundle\Services;
 
 use ClassCentral\SiteBundle\Entity\Item;
 use ClassCentral\SiteBundle\Entity\User;
+use Snowplow\RefererParser\Parser;
+use Snowplow\RefererParser\Referer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -21,6 +24,8 @@ class UserSession
 
     private $container;
 
+    private $requestStack;
+
     const MT_COURSE_KEY = 'mooc_tracker_courses';
     const MT_SEARCH_TERM_KEY = 'mooc_tracker_search_terms';
     const MT_REFERRAL_KEY = 'mooc_tracker_referral';
@@ -35,6 +40,7 @@ class UserSession
     const PASSWORDLESS_LOGIN = 'passwordless_login';
     const ANONYMOUS_USER_ACTIVITY_KEY = 'anonymous_user_activity_key';
     const NEXT_COURSE_WIZARD_FOLLOWS = 'next_course_wizard_follows';
+    const REFERER = 'user_referer';
 
     // Flash message types
     const FLASH_TYPE_NOTICE = 'notice';
@@ -58,12 +64,13 @@ class UserSession
 
     private static $flashTypes = array(self::FLASH_TYPE_NOTICE, self::FLASH_TYPE_INFO, self::FLASH_TYPE_SUCCESS, self::FLASH_TYPE_ERROR);
 
-    public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session, ContainerInterface $container)
+    public function __construct(SecurityContext $securityContext, Doctrine $doctrine, Session $session, ContainerInterface $container, RequestStack $requestStack)
     {
         $this->securityContext = $securityContext;
         $this->em              = $doctrine->getManager();
         $this->session         = $session;
         $this->container       = $container;
+        $this->requestStack    = $requestStack;
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
@@ -612,6 +619,56 @@ class UserSession
         }
 
         $this->session->set(self::NEXT_COURSE_WIZARD_FOLLOWS, $follows);
+    }
+
+    /**
+     * Tries to figure out the first refer through which the user entered the site.
+     * @return bool|string
+     */
+    public function getAndSetReferrer()
+    {
+        if( $this->session->has(self::REFERER) )
+        {
+            return $this->session->get(self::REFERER);
+        }
+
+        // Referer does not exist. Get it and set it.
+        $referer = 'direct';
+        $request = $this->requestStack->getCurrentRequest();
+        $refererUrl = $request->headers->get('referer');
+        if($refererUrl)
+        {
+           $parser = new Parser();
+           $ref = $parser->parse($refererUrl,$request->getUri());
+           if($ref->isKnown())
+           {
+               $referer = $ref->getMedium();
+           }
+           else
+           {
+               // Get the domain from the url
+               $urlParts = parse_url($request->getUri());
+               if(isset($urlParts['path']))
+               {
+                   $referer = $urlParts['path'];
+               }
+               else
+               {
+                   $referer = 'unknown';
+               }
+           }
+
+        }
+        $referer = strtolower($referer);
+        $referer = str_replace(' ', '_',$referer);
+        $referer = str_replace('.', '_',$referer);
+        $referer = str_replace('-', '_',$referer);
+        $referer = preg_replace("/[^a-zA-Z0-9_]+/", "", $referer);
+        $referer = substr($referer,0,44);
+
+        $this->session->set(self::REFERER, $referer);
+
+        return $referer;
     }
 
 }
