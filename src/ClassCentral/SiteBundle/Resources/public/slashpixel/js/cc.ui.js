@@ -211,6 +211,9 @@ class Ui {
           });
         }
       }
+
+        $(window).trigger("resize");
+      
     }, false);
   }
 

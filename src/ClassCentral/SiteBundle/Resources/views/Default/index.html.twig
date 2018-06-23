@@ -255,7 +255,7 @@
       </header>
 
       {% for courseType in spotlightInfo %}
-        <ul class="popular-course-list row">
+        <ul data-equalize='{ "rowOptions": { "largeUp": 2, "xlargeUp": 3 } }' class="popular-course-list row">
           {% for courseId in courseType["courseIds"] %}
             {% if spotlightCourses[courseId] is defined %}
               <li data-show-target="{{courseType["title"]}}" class="width-100 large-up-width-1-2 xlarge-up-width-1-3 col padding-medium {% if courseType["title"] != "All" %}hidden{% endif %}">

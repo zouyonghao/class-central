@@ -15,7 +15,7 @@
 {# youtube trailer #}
 {% if course['videoEmbedUrl'] is not null and isYoutube %}
   {% set hasTrailer = true %}
-  {% set courseImageThumbnail = "https://img.youtube.com/vi/" ~ youTubeId ~ "/mqdefault.jpg" %}
+  {% set courseImageThumbnail = "https://img.youtube.com/vi/" ~ youTubeId ~ "/hqdefault.jpg" %}
   {% set trailerType = "youtube" %}
   {% set trailerUrl = course['videoEmbedUrl'] %}
 {% endif %}

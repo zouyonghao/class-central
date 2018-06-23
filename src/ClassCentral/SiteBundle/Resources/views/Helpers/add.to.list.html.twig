@@ -1,0 +1,57 @@
+<div class="dropdown" data-dropdown>
+    {% set userListIds = user_session.getCourseListIds(course.id) %}
+    {# span id is same as the name of the input checkbox#}
+    <button
+      class="
+      icon--center inline-block
+      {% if userListIds is empty %}icon--medium icon-list-add-blue{% else %}icon--small icon-pencil-charcoal{% endif %}
+      add-button dropdown-toggle"
+      style="height: 25px;"
+      data-dropdown-anchor
+      id="check-{{ "x" }}-{{ course.id }}"
+      data-toggle="dropdown">
+        <span id="check-{{ "x" }}-{{ course.id }}"></span>
+    </button>
+    <div data-dropdown-menu class="z-top dropdown-menu radius bg-white absolute padding-bottom-small border-all border--thin border--gray-xlight" style="width: 200px; display: none;">
+      <ul class="text-left">
+        <li class="dropdown-list-header bg-gray padding-xsmall padding-left-medium margin-bottom-small">My Courses
+          <ul>
+            {% for listId, list in listTypes %}
+            <li class="padding-horz-small">
+              <fieldset class="checkbox checkbox--medium checkbox--standard padding-xxsmall relative">
+                <input
+                  type="checkbox"
+                  name="check-{{ "x" }}-{{ course.id }}"
+                  class="course-list-checkbox"
+                  id="check-{{ listId }}-{{ course.id }}"
+                  value="{{ listId }}"
+                  data-course-id = "{{ course.id }}"
+                  {% if listId in userListIds %}checked="checked"{% endif %}
+                  data-course-name="{{ course.name }}"
+                  data-source="{{ "x" }}"
+                  data-track-click="{{ ts.event('LISTING_CLICK') }}"
+                  data-track-props='{ "type": "Dropdown Item", "title": "{{ list.desc }}", "courseName": "{{ course.name }}", "courseId": "{{ course.id }}" }'
+                >
+                <label for="check-{{ listId }}-{{ course.id }}" class="filter-dropdown-toggle sub-category">
+                  <span>
+                    <span class="checkbox--icon margin-xxsmall checkbox--icon-solid">
+                      <span class="icon icon-checkmark-white"></span>
+                    </span>
+                    <span class="checkbox--label checkbox--label-solid inline-block">{{ list.desc }}</span>
+                  </span>
+                </label>
+              </fieldset>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+      {% if ts.device() != "desktop" %}
+        <button
+          data-dropdown-close
+          class="icon--center icon-x-charcoal icon--xsmall absolute top right padding-top-xsmall margin-right-xxsmall">
+          Close
+        </button>
+      {% endif %}
+    </div>
+</div>

@@ -1369,7 +1369,6 @@ jQuery(function($) {
         _this.timeout = 2000;
         _this.items = el.find('[data-equalize-child]');
         _this.defaultHeight = options.height || 0;
-        _this.rows;
         _this.rowOptions = options.rowOptions || null;
 
         _this.init();
@@ -1392,7 +1391,6 @@ jQuery(function($) {
       var _this = this;
       _this.rows = null;
 
-
       const small = 481;
       const medium = 641;
       const large = 769;
@@ -1405,9 +1403,13 @@ jQuery(function($) {
         if (_this.getMediaSize() >= medium) {
           size = "mediumUp";
         }
+        if (_this.getMediaSize() >= large) {
+          size = "largeUp";
+        }
         if (_this.getMediaSize() >= xlarge) {
           size = "xlargeUp";
         }
+
         let items = chunk(_this.items, size ? _this.rowOptions[size] : null);
         items.forEach((chunk, index) => {
           _this.rows[index] = {
