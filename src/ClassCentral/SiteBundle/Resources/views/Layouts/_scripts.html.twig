@@ -3,6 +3,14 @@
 {% endif %}
 
 <script type="text/javascript">
+  window.TOUCHSCREEN = false;
+  window.addEventListener("touchstart", () => {
+    document.body.classList.add("touch");
+    window.TOUCHSCREEN = true;
+  });
+</script>
+
+<script type="text/javascript">
   var NEWS_BANNER = "{{ news_banner_id }}";
 </script>
 

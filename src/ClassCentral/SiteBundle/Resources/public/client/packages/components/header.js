@@ -139,6 +139,12 @@ const subMenuTabs = wrapper => {
     render(state);
   });
 
+  $element.TAB_NAV_BUTTON.click(function (event) {
+    if (window.TOUCHSCREEN) {
+      event.preventDefault();
+    }
+  });
+
   // initial render
   render(state);
 }
