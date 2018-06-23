@@ -14,9 +14,18 @@
             <td>{{ entity.name }}</td>
         </tr>
 
-
         </tbody>
     </table>
+
+    <ul class="record_actions">
+
+        <li>
+            <form action="{{ path('tags_delete', { 'id': entity.id }) }}" method="post">
+                {{ form_widget(delete_form) }}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
 
     {% include 'ClassCentralSiteBundle:Helpers:admin.links.html.twig' %}
 {% endblock %}
