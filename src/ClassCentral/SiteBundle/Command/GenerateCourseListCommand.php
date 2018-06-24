@@ -382,7 +382,6 @@ class GenerateCourseListCommand extends ContainerAwareCommand
             'Next Session Date',
             'Duration',
             'Workload',
-            'Length',
             'Language',
             'Video(Url)',
             'Course Description',
