@@ -118,7 +118,7 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
             }
             if ($timesOffered <1 )
             {
-                $coursesByCount[$course->getId()] = $timesAdded;
+                $coursesByCount[$course->getId()] = count($timesAdded);
             }
         }
 
