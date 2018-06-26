@@ -73,7 +73,7 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
                     return $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
                 }, array($courseId));
 
-                $coursesByCount[$courseId] = $timesAdded;
+                $coursesByCount[$courseId] = count($timesAdded);
             }
         }
 
