@@ -69,11 +69,12 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
             if($recentCourse->getInitiative() && $recentCourse->getInitiative()->getName() == 'Coursera')
             {
                 $courseId = $recentCourse->getId();
-                $timesAdded = $this->getContainer()->get('Cache')->get('course_interested_users_' . $courseId, function ($courseId){
-                    return $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
+                $timesAdded = $this->getContainer()->get('Cache')->get('course_listed_count_' . $courseId, function ($courseId){
+                    $course = $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+                    return $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->getListedCount( $course );
                 }, array($courseId));
 
-                $coursesByCount[$courseId] = count($timesAdded);
+                $coursesByCount[$courseId] = $timesAdded;
             }
         }
 
@@ -104,8 +105,9 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
             }
 
             $courseId = $course->getId();
-            $timesAdded = $this->getContainer()->get('Cache')->get('course_interested_users_' . $courseId, function ($courseId){
-                return $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->getInterestedUsers( $courseId );
+            $timesAdded = $this->getContainer()->get('Cache')->get('course_listed_count_' . $courseId, function ($courseId){
+                $course = $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->find($courseId);
+                return $this->getContainer()->get('doctrine')->getManager()->getRepository('ClassCentralSiteBundle:Course')->getListedCount( $course );
             }, array($courseId));
             $timesOffered = 0;
             foreach($course->getOfferings() as $o)
@@ -118,7 +120,7 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
             }
             if ($timesOffered <1 )
             {
-                $coursesByCount[$course->getId()] = count($timesAdded);
+                $coursesByCount[$course->getId()] = $timesAdded;
             }
         }
 
@@ -130,6 +132,8 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
 
         foreach($coursesByCount as $courseId => $count)
         {
+            echo $courseId. " - " . $count."\n";
+            continue;
             $c = $repo->find($courseId );
             echo $formatter->blogFormat( $c ) . "\n";
             $i++;
