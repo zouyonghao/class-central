@@ -132,8 +132,6 @@ class GenerateMostPopularCommand extends ContainerAwareCommand
 
         foreach($coursesByCount as $courseId => $count)
         {
-            echo $courseId. " - " . $count."\n";
-            continue;
             $c = $repo->find($courseId );
             echo $formatter->blogFormat( $c ) . "\n";
             $i++;
